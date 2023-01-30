@@ -17,8 +17,10 @@ def reminder():
     msg["content"] = default_content
 
 def add_alert_to_msg(title: str, chap: str, publisher: List[Publishers]):
+    publishers_to_look = f"- {[Publishers(pub).name for pub in publisher]}"
+    update_msg = f"\t\n{title}, ch {chap} {publishers_to_look}"
+    print(update_msg)
     msg["alert"] += 1
-    msg["content"] += f"\t\n{title}, ch {chap}"
-    msg["content"] += f" - {[Publishers(pub).name for pub in publisher]}"
+    msg["content"] += update_msg
     if msg["alert"] == 4:
         reminder()
