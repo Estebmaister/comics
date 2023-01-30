@@ -93,10 +93,12 @@ def register_comic(loaded_comics: list[ComicJSON], chap: str, title: str,
                 add_alert_to_msg(title,chap,db_comics[0].get_published_in())
             
         ## Update cover for ManhuaPlus comics
-        if publisher != Publishers.ManhuaPlus or not db_comics[0].cover:
-            db_comics[0].cover = cover
-            comics[0]["cover"] = cover
-            # print(title, "cover updated")
+        if not db_comics[0].cover or (publisher != Publishers.ManhuaPlus and 
+            Publishers.ManhuaPlus in db_comics[0].get_published_in()):
+            if db_comics[0].cover != cover:
+                db_comics[0].cover = cover
+                comics[0]["cover"] = cover
+                print(title, "cover updated")
         
         session.commit()
     else:
