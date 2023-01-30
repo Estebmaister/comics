@@ -14,6 +14,10 @@ query = ''' UPDATE comics SET id = 325 WHERE id = 330 '''
 query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 query = ''' DELETE FROM comics WHERE id = 321 '''
 
+# page = request.args.get('page', 1, type=int)
+#     pagination = Employee.query.order_by(Employee.firstname).paginate(
+#         page, per_page=2)
+
 exec = c.execute(query)
 print(exec.fetchall())
 
