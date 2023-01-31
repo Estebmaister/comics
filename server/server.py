@@ -1,4 +1,4 @@
-from db.models import ComicDB, Types, load_comics, save_comics_file
+from db.models import ComicDB, Types, Statuses, load_comics, save_comics_file
 from db.comics_repo import all_comics, comics_by_title, comic_by_id, comics_by_title_no_case
 from flask import Flask, jsonify, request
 
@@ -20,9 +20,8 @@ def get_comics():
 
 @server.route('/comics/<int:comic_id>/', methods=['GET'])
 def get_comic(comic_id):
-    comic = comic_by_id(comic_id)
-    if comic is None:
-        return not_found()
+    comic, _ = comic_by_id(comic_id)
+    if comic is None: return not_found()
     return jsonify({'comic': comic.toJSON()})
 
 @server.route('/comics/<string:title>/', methods=['GET'])
@@ -77,13 +76,17 @@ def update_comic(comic_id):
     if comic is None: return not_found()
     json_comic = [comic for comic in load_comics if comic_id == comic["id"]][0]
 
-    if not request.json: return bad_request()
+    if not request.json: return bad_request('Impossible to read json body')
 
     if 'titles' in request.json and (type(request.json['titles']) != list or
         '' in request.json['titles']):
         return bad_request('titles should be a non-empty list')
     if 'author' in request.json and type(request.json['author']) is not str:
         return bad_request('author type different from string')
+    if ('cover' in request.json 
+        and (type(request.json['cover']) is not str 
+        or "http" not in request.json['cover'])):
+            return bad_request('cover should be a correct http link')
     if ('description' in request.json and 
         type(request.json['description']) is not str):
         return bad_request('description type different from string')
@@ -91,12 +94,10 @@ def update_comic(comic_id):
         return bad_request('track type different from boolean')
     if 'viewed_chap' in request.json: int(request.json['track'])
     if 'com_type'    in request.json: int(request.json['com_type'])
-    
-    # com_type
+    if 'status'      in request.json: int(request.json['status'])
+
     # genres
-    # status
     # published_in
-    # cover
 
     titles = request.json.get('titles')
     if titles != None:
@@ -104,16 +105,20 @@ def update_comic(comic_id):
         json_comic["titles"] = titles
     
     comic.author = request.json.get('author', comic.author)
+    comic.cover =  request.json.get('cover', comic.cover)
     comic.description = request.json.get('description', comic.description)
     comic.track       = int(request.json.get('track', comic.track))
     comic.viewed_chap = int(request.json.get('viewed_chap', comic.viewed_chap))
     comic.com_type    = int(request.json.get('com_type', comic.com_type))
+    comic.status      = int(request.json.get('status', comic.status))
 
     json_comic["author"] = comic.author
+    json_comic["cover"]  = comic.cover
     json_comic["description"] = comic.description
     json_comic["track"]       = bool(comic.track)
     json_comic["viewed_chap"] = comic.viewed_chap
     json_comic["com_type"]    = Types(comic.com_type)
+    json_comic["status"]      = Statuses(comic.status)
 
     session.commit()
     save_comics_file(load_comics)
@@ -122,10 +127,12 @@ def update_comic(comic_id):
 @server.route('/comics/<int:comic_id>/', methods=['DELETE'])
 def delete_comic(comic_id):
     comic, session = comic_by_id(comic_id)
-    if comic is None:
-        return not_found()
+    if comic is None: return not_found()
+    dj_comic = [com for com in load_comics if comic.id == com["id"]][0]
     session.delete(comic)
     session.commit()
+    load_comics.remove(dj_comic)
+    save_comics_file(load_comics)
     return accepted()
 
 @server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', 
@@ -133,8 +140,12 @@ def delete_comic(comic_id):
 def merge_comics(comic_id, comic_merging_id):
     comic, session = comic_by_id(comic_id)
     if comic is None: return not_found(f'id {comic_id} not found')
-    d_comic = session.query(ComicDB).filter_by(id=comic_merging_id).first()
-    if d_comic is None: return not_found(f'id {d_comic} not found')
+    d_comic = session.query(ComicDB).get(comic_merging_id)
+    if d_comic is None: return not_found(f'id {comic_merging_id} not found')
+    if comic.com_type != d_comic.com_type:
+        return bad_request(f'comics to merge should be of the same type')
+    json_comic = [com for com in load_comics if comic.id == com["id"]][0]
+    dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
 
     titles = list(set(comic.get_titles() + d_comic.get_titles()))
     comic.set_titles(titles)
@@ -145,8 +156,15 @@ def merge_comics(comic_id, comic_merging_id):
     if comic.current_chap < d_comic.current_chap:
         comic.current_chap = d_comic.current_chap
     
+    json_comic["titles"] = titles
+    json_comic["genres"] = genres
+    json_comic["published_in"] = publishers
+    json_comic["com_type"]    = Types(comic.com_type)
+
     session.delete(d_comic)
     session.commit()
+    load_comics.remove(dj_comic)
+    save_comics_file(load_comics)
     return accepted()
 
 # API Error handling
@@ -156,7 +174,8 @@ def handle_bad_request(e):
     return bad_request('Check the URL used')
 
 @server.errorhandler(ValueError)        
-def value_error(e):        
+def value_error(e):
+    server.logger.error(e)
     return bad_request('Bad request, check the data format')
 @server.errorhandler(ZeroDivisionError)
 def zero_division_error(e):
