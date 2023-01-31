@@ -38,6 +38,7 @@ class Statuses(IntEnum):
     Completed:  int = 1
     OnAir:      int = 2
     Break:      int = 3
+    Dropped:    int = 4
 
 @unique
 class Genres(IntEnum):
@@ -145,12 +146,12 @@ class ComicDB(Base):
     def get_published_in(self):
         return [Publishers(int(p)) for p in self.published_in.split("|")]
     def set_published_in(self, pubs: list[Publishers]):
-        self.published_in = "|".join([str(p) for p in pubs])
+        self.published_in = "|".join([str(int(p)) for p in pubs])
 
     def get_genres(self):
         return [Genres(int(g)) for g in self.genres.split("|")]
     def set_genres(self, genres: list[Genres]):
-        self.genres = "|".join([str(g) for g in genres])
+        self.genres = "|".join([str(int(g)) for g in genres])
 
     def toJSON(self):
         return ComicJSON(
