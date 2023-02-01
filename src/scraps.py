@@ -14,6 +14,7 @@ urls = {"asura":    "https://www.asurascans.com/",
     "manhuaplus":   "https://manhuaplus.com/",
     "flamescans":   "https://flamescans.org/",
     "luminousscans":"https://luminousscans.com/",
+    "resetscans":   "https://reset-scans.com/",
     "isekaiscan":  "https://isekaiscan.com/",
     "drakescans":  "https://drakescans.com/",
     "realmscans":  "https://realmscans.com/",
@@ -22,7 +23,6 @@ urls = {"asura":    "https://www.asurascans.com/",
     "mangagreat":  "https://mangagreat.com/",
     "mangageko":   "https://mangageko.com/",
     "mangarolls":  "https://mangarolls.com/rolls/",
-    "reset-scans": "https://reset-scans.com/",
     "manganato":   "https://manganato.com/"}
 
 chaps_file = os.path.join(os.path.dirname(__file__), "../db/chaps.html")
@@ -126,14 +126,14 @@ def scrap(url: str, str_to_file: str = ' '):
 
 def scrap_luminousscans(loaded_comics: list[ComicJSON]):
     soup = scrap(urls["luminousscans"])
-    # Locating divs used for chapters
+    # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
     for comic in chaps:
         # Locating comic type
         com_type = Types[comic.ul["class"][0]]
         # Locating cover
         cover = comic.div.a.img["src"]
-        # Locating div used title and chapter
+        # Locating div used for title and chapter
         comic_int = comic.select("div.luf")[0]
         title = comic_int.a.h4.text
         chap = comic_int.li.a.text
@@ -143,14 +143,14 @@ def scrap_luminousscans(loaded_comics: list[ComicJSON]):
 
 def scrap_flamescans(loaded_comics: list[ComicJSON]):
     soup = scrap(urls["flamescans"])
-    # Locating divs used for chapters
+    # Locating divs used for comics
     chaps = soup.find_all(class_="bsx")
     for comic in chaps:
         # Default comic type for publisher
         com_type = Types.Manhwa
         # Locating cover
         cover = comic.a.div.img["src"]
-        # Locating div used title
+        # Locating div used for title
         comic_int = comic.select("div.bigor")[0]
         title = comic_int.select("div.tt")[0].text
         # Locating div used chapter
@@ -164,14 +164,14 @@ def scrap_flamescans(loaded_comics: list[ComicJSON]):
 
 def scrap_manhuaplus(loaded_comics: list[ComicJSON]):
     soup = scrap(urls["manhuaplus"])
-    # Locating divs used for chapters
+    # Locating divs used for comics
     chaps = soup.select("div.col-6.col-md-3.badge-pos-2")
     for comic in chaps:
         # Default comic type for publisher
         com_type = Types.Manhua
         # Locating cover
         cover = comic.div.div.a.img["data-src"]
-        # Locating div used title and chapter
+        # Locating div used for title and chapter
         comic_int = comic.select("div.item-summary")[0]
         title = comic_int.div.h3.a.text
         chap = comic_int.select("div.list-chapter")[0].div.span.a.text
@@ -181,7 +181,7 @@ def scrap_manhuaplus(loaded_comics: list[ComicJSON]):
 
 def scrap_reaper(loaded_comics: list[ComicJSON]):
     soup = scrap(urls["reaper"])
-    # Locating divs used for chapters/novels
+    # Locating divs used for comics/novels
     chaps = soup.select("div.relative.flex.space-x-2.rounded.bg-white.p-2")
     # Flag to separate comics and novels
     comics_per_page = 8
@@ -193,7 +193,7 @@ def scrap_reaper(loaded_comics: list[ComicJSON]):
             com_type = Types.Novel
         # Locating cover
         cover = comic.div.a.img["src"]
-        # Locating div used title and chapter
+        # Locating div used for title and chapter
         comic_int = comic.select("div.min-w-0.flex-1")[0]
         title = comic_int.div.p.a.text
         chap = comic_int.div.div.a.text
@@ -203,14 +203,14 @@ def scrap_reaper(loaded_comics: list[ComicJSON]):
 
 def scrap_asura(loaded_comics: list[ComicJSON]):
     soup = scrap(urls["asura"])
-    # Locating divs used for chapters
+    # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
     for comic in chaps:
         # Locating comic type
         com_type = Types[comic.ul["class"][0]]
         # Locating cover
         cover = comic.div.a.img["src"]
-        # Locating div used title and chapter
+        # Locating div used for title and chapter
         comic_int = comic.find(class_="luf")
         title = comic_int.h4.text
         chap = comic_int.li.a.text
@@ -221,10 +221,51 @@ def scrap_asura(loaded_comics: list[ComicJSON]):
         title = title[:27] + '...' if len(title) > 30 else '{:30}'.format(title)
         # print(f"{title} ch {chap}")
 
+def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
+    # Locating comic type
+    try:
+        com_type = comic.div.a.span.text
+        com_type = Types[com_type.replace("NEW ", "").capitalize()]
+    except (KeyError, AttributeError):
+        com_type = Types["Unknown"]
+    # Locating cover
+    cover = comic.div.a.img["data-src"]
+    # Locating div used for title and chapter
+    comic_int = comic.select(int_path)[0]
+    title = comic_int.select(title_path)[0].h3.a.text
+    chap = comic_int.select(chap_path)[0].a.text
+
+    return chap, title, com_type, cover
+
+def scrap_resetscans(loaded_comics: list[ComicJSON]):
+    soup = scrap(urls["resetscans"])
+    # Locating divs used for comics
+    chaps = soup.select("div.page-item-detail.manga")
+    for comic in chaps:
+        chap, title, com_type, cover = scrap_chapter(comic, "div.item-summary",
+            "div.post-title.font-title", "span.chapter.font-meta")
+
+        register_comic(loaded_comics, chap, title, com_type, cover,
+            Statuses.OnAir, Publishers.ResetScans)
+
+def scrap_isekaiscan(loaded_comics: list[ComicJSON]):
+    soup = scrap(urls["isekaiscan"])
+    # Locating divs used for comics
+    chaps = soup.select("div.page-item-detail.manga")
+    for comic in chaps:
+        chap, title, com_type, cover = scrap_chapter(comic, "div.item-summary",
+            "div.post-title.font-title", "span.chapter.font-meta")
+
+        register_comic(loaded_comics, chap, title, com_type, cover,
+            Statuses.OnAir, Publishers.IsekaiScan)
+        # print(f"{title} ch {chap}, {com_type}, {cover}")
+
 def scraps(loaded_comics: list[ComicJSON]):
     scrap_manhuaplus(loaded_comics)
     scrap_asura(loaded_comics)
     scrap_reaper(loaded_comics)
     scrap_flamescans(loaded_comics)
     scrap_luminousscans(loaded_comics)
-    scrap(urls["isekaiscan"], "ise")
+    scrap_resetscans(loaded_comics)
+    scrap_isekaiscan(loaded_comics)
+    # scrap(urls["isekaiscan"], "ise")

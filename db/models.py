@@ -60,6 +60,8 @@ class Publishers(IntEnum):
     ManhuaPlus:     int = 3
     FlameScans:     int = 4
     LuminousScans:  int = 5
+    ResetScans:     int = 6
+    IsekaiScan:     int = 7
 
 class ComicJSON(dict):
     def __init__(self,
