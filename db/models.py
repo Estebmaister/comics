@@ -51,6 +51,10 @@ class Genres(IntEnum):
     Drama:       int = 6
     SchoolLife:  int = 7
     System:      int = 8
+    Supernatural:int = 9
+    MartialArts: int = 10
+    Romance:     int = 11
+    Shounen:     int = 12
 
 @unique
 class Publishers(IntEnum):
@@ -62,6 +66,7 @@ class Publishers(IntEnum):
     LuminousScans:  int = 5
     ResetScans:     int = 6
     IsekaiScan:     int = 7
+    RealmScans:     int = 8
 
 class ComicJSON(dict):
     def __init__(self,

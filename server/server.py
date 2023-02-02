@@ -49,7 +49,7 @@ def create_comic():
     if 'viewed_chap' in request.json: int(request.json['track'])
 
     comic = ComicDB(
-        id     = None,
+        id     = request.json.get('id'),
         titles = None,
         current_chap = request.json.get('current_chap', 0),
         cover        = request.json.get('cover', ''),
@@ -79,25 +79,28 @@ def update_comic(comic_id):
     if not request.json: return bad_request('Impossible to read json body')
 
     if 'titles' in request.json and (type(request.json['titles']) != list or
-        '' in request.json['titles']):
-        return bad_request('titles should be a non-empty list')
+        '' in request.json['titles'] or 0 == len(request.json['titles'])):
+        return bad_request('titles: if set should be a non-empty list')
     if 'author' in request.json and type(request.json['author']) is not str:
-        return bad_request('author type different from string')
+        return bad_request('author: if set should be a string')
     if ('cover' in request.json 
         and (type(request.json['cover']) is not str 
         or "http" not in request.json['cover'])):
-            return bad_request('cover should be a correct http link')
+            return bad_request('cover: if set should be a correct http link')
     if ('description' in request.json and 
         type(request.json['description']) is not str):
-        return bad_request('description type different from string')
+        return bad_request('description: if set should be a string')
     if 'track' in request.json and type(request.json['track']) is not bool:
-        return bad_request('track type different from boolean')
+        return bad_request('track: if set should be a boolean')
     if 'viewed_chap' in request.json: int(request.json['track'])
     if 'com_type'    in request.json: int(request.json['com_type'])
     if 'status'      in request.json: int(request.json['status'])
-
-    # genres
-    # published_in
+    if 'genres' in request.json and (type(request.json['genres']) != list or
+        '' in request.json['genres'] or 0 == len(request.json['genres'])):
+        return bad_request('genres: if set should be a non-empty list')
+    if 'published_in' in request.json and (type(request.json['published_in']) != list or
+        '' in request.json['published_in'] or 0 == len(request.json['published_in'])):
+        return bad_request('published_in: if set should be a non-empty list')
 
     titles = request.json.get('titles')
     if titles != None:
@@ -111,6 +114,16 @@ def update_comic(comic_id):
     comic.viewed_chap = int(request.json.get('viewed_chap', comic.viewed_chap))
     comic.com_type    = int(request.json.get('com_type', comic.com_type))
     comic.status      = int(request.json.get('status', comic.status))
+    genres = request.json.get('genres')
+    if genres != None:
+        genres = list(set([int(g) for g in request.json.get('genres', 0)]))
+        comic.set_genres(genres)
+        json_comic["genres"] = genres
+    publishers = request.json.get('published_in')
+    if publishers != None:
+        publishers = list(set([int(g) for g in request.json.get('published_in', 0)]))
+        comic.set_published_in(publishers)
+        json_comic["published_in"] = publishers
 
     json_comic["author"] = comic.author
     json_comic["cover"]  = comic.cover
@@ -142,7 +155,7 @@ def merge_comics(comic_id, comic_merging_id):
     if comic is None: return not_found(f'id {comic_id} not found')
     d_comic = session.query(ComicDB).get(comic_merging_id)
     if d_comic is None: return not_found(f'id {comic_merging_id} not found')
-    if comic.com_type != d_comic.com_type:
+    if d_comic.com_type and comic.com_type != d_comic.com_type:
         return bad_request(f'comics to merge should be of the same type')
     json_comic = [com for com in load_comics if comic.id == com["id"]][0]
     dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]

@@ -49,7 +49,7 @@ def register_comic(loaded_comics: list[ComicJSON], chap: str, title: str,
     db_comics, session = comics_by_title(title)
     comics = [comic for comic in loaded_comics if title in comic["titles"]]
     ## Check for multiple responses
-    db_comics = manage_multi_finds(db_comics, com_type, title)
+    db_comics, title = manage_multi_finds(db_comics, com_type, title)
     if len(db_comics) == 0:
         print(f'{title} Not Found in DB, creating new entry')
         db_comic_to_load = ComicDB(None, title, chap, cover, 
@@ -61,22 +61,6 @@ def register_comic(loaded_comics: list[ComicJSON], chap: str, title: str,
         
         print(json.dumps(db_comic_to_load.toJSON()))
     elif len(db_comics) == 1:
-        ## Handling novels with the same title as the comic
-        if com_type == Types.Novel and \
-            db_comics[0].com_type != com_type:
-            title += " - novel"
-            db_comics, session = comics_by_title(title)
-            comics = [comic for comic in loaded_comics if title in comic["titles"]]
-        # Check if after the name change the novel exists
-        if len(db_comics) == 0:
-            db_comic_to_load = ComicDB(None, title, chap, cover, 
-                int(time.time()), com_type, status, publisher)
-            session.add(db_comic_to_load)
-            session.commit()
-            loaded_comics.append(db_comic_to_load.toJSON())
-            print(title, "added")
-            return
-        
         ## Checking for more than one publisher
         if publisher not in db_comics[0].get_published_in():
             db_comics[0].published_in += f"|{publisher}"
@@ -221,6 +205,23 @@ def scrap_asura(loaded_comics: list[ComicJSON]):
         title = title[:27] + '...' if len(title) > 30 else '{:30}'.format(title)
         # print(f"{title} ch {chap}")
 
+def scrap_realmscans(loaded_comics: list[ComicJSON]):
+    soup = scrap(urls["realmscans"])
+    # Locating divs used for comics
+    chaps = soup.find_all(class_="uta")
+    for comic in chaps:
+        # Locating comic type
+        com_type = Types[comic.ul["class"][0]]
+        # Locating cover
+        cover = comic.div.a.img["src"]
+        # Locating div used for title and chapter
+        comic_int = comic.find(class_="luf")
+        title = comic_int.h4.text
+        chap = comic_int.li.a.text
+
+        register_comic(loaded_comics, chap, title, com_type, cover,
+            Statuses.OnAir, Publishers.RealmScans)
+
 def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
     # Locating comic type
     try:
@@ -268,4 +269,5 @@ def scraps(loaded_comics: list[ComicJSON]):
     scrap_luminousscans(loaded_comics)
     scrap_resetscans(loaded_comics)
     scrap_isekaiscan(loaded_comics)
+    scrap_realmscans(loaded_comics)
     # scrap(urls["isekaiscan"], "ise")
