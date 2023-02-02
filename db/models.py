@@ -1,6 +1,7 @@
 import os, json, time
 from enum import IntEnum, unique
 from sqlalchemy import create_engine
+from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import create_engine, Column, Integer, String
 
@@ -42,19 +43,20 @@ class Statuses(IntEnum):
 
 @unique
 class Genres(IntEnum):
-    Unknown:     int = 0
-    Action:      int = 1
-    Adventure:   int = 2
-    Fantasy:     int = 3
-    Overpowered: int = 4
-    Comedy:      int = 5
-    Drama:       int = 6
-    SchoolLife:  int = 7
-    System:      int = 8
-    Supernatural:int = 9
-    MartialArts: int = 10
-    Romance:     int = 11
-    Shounen:     int = 12
+    Unknown:        int = 0
+    Action:         int = 1
+    Adventure:      int = 2
+    Fantasy:        int = 3
+    Overpowered:    int = 4
+    Comedy:         int = 5
+    Drama:          int = 6
+    SchoolLife:     int = 7
+    System:         int = 8
+    Supernatural:   int = 9
+    MartialArts:    int = 10
+    Romance:        int = 11
+    Shounen:        int = 12
+    Reincarnation:  int = 13
 
 @unique
 class Publishers(IntEnum):
@@ -180,4 +182,4 @@ class ComicDB(Base):
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind = engine)
 session = Session()
-session.execute('PRAGMA case_sensitive_like = true')
+session.execute(text('PRAGMA case_sensitive_like = true'))

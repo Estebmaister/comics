@@ -11,9 +11,9 @@ like = "Boundless necromancer"
 query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 query = ''' UPDATE comics SET titles = 'Relife player|Re:life player|Re: life player' WHERE id IN ('9') '''
 query = ''' UPDATE comics SET id = 325 WHERE id = 330 '''
-query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 query = ''' DELETE FROM comics WHERE id = 321 '''
 query = ''' UPDATE comics SET genres = "0" WHERE id = 83 '''
+query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 
 # page = request.args.get('page', 1, type=int)
 #     pagination = Employee.query.order_by(Employee.firstname).paginate(
