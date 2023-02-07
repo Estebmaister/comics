@@ -28,7 +28,7 @@
     "titles": [
       "Apotheosis"
     ],
-    "current_chap": 1035,
+    "current_chap": 1036,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/apotheosis-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -41,7 +41,7 @@
     "id": 2,
     "author": "",
     "description": "",
-    "last_update": 1675257196,
+    "last_update": 1675434129,
     "genres": [
       3
     ]
@@ -419,7 +419,7 @@
     "titles": [
       "Super evolution"
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/07/super-e1633947550578.png",
     "status": 2,
@@ -427,11 +427,11 @@
       1
     ],
     "com_type": 3,
-    "current_chap": 88,
+    "current_chap": 89,
     "id": 20,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -462,7 +462,7 @@
     "titles": [
       "Reincarnation of the strongest sword god"
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/08/SwordGodCover01.png",
     "status": 2,
@@ -470,11 +470,11 @@
       1
     ],
     "com_type": 3,
-    "current_chap": 25,
+    "current_chap": 26,
     "id": 22,
     "author": "",
     "description": "",
-    "last_update": 1674761778,
+    "last_update": 1675434130,
     "genres": [
       0
     ]
@@ -507,16 +507,17 @@
     ],
     "track": true,
     "viewed_chap": 50,
-    "current_chap": 51,
+    "current_chap": 52,
     "id": 24,
     "author": "",
     "description": "",
-    "last_update": 1674746038,
+    "last_update": 1675396635,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/06/overpoweredswordCover01.png",
     "status": 2,
     "com_type": 2,
     "published_in": [
-      1
+      1,
+      7
     ],
     "genres": [
       0
@@ -555,11 +556,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/09/Starting-Today-Im-a-Player.png",
     "com_type": 3,
-    "current_chap": 73,
+    "current_chap": 74,
     "id": 26,
     "author": "",
     "description": "",
-    "last_update": 1674836284,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -571,7 +572,7 @@
     ],
     "track": true,
     "viewed_chap": 28,
-    "current_chap": 29,
+    "current_chap": 30,
     "status": 2,
     "published_in": [
       1,
@@ -580,7 +581,7 @@
     "id": 27,
     "author": "",
     "description": "",
-    "last_update": 1674836284,
+    "last_update": 1675449102,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/11/DemonLordCover02.png",
     "com_type": 2,
     "genres": [
@@ -616,16 +617,17 @@
     ],
     "track": true,
     "viewed_chap": 138,
-    "current_chap": 140,
+    "current_chap": 142,
     "id": 29,
     "author": "",
     "description": "",
-    "last_update": 1674574493,
+    "last_update": 1675700545,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/04/LoginMoorimCover05.png",
     "status": 2,
     "com_type": 2,
     "published_in": [
-      1
+      1,
+      7
     ],
     "genres": [
       0
@@ -729,13 +731,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 46,
+    "current_chap": 47,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/06/swordprodigyCover02.png",
     "com_type": 3,
     "id": 34,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -775,11 +777,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/02/TutorialAdvancedCover01.png",
     "com_type": 3,
-    "current_chap": 149,
+    "current_chap": 150,
     "id": 36,
     "author": "",
     "description": "",
-    "last_update": 1675048810,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -795,13 +797,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 31,
+    "current_chap": 32,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/08/geniusLineageCover01.png",
     "com_type": 3,
     "id": 37,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -817,13 +819,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 38,
+    "current_chap": 39,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/08/ShadowlessNightCover03-1.png",
     "com_type": 3,
     "id": 38,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -889,13 +891,13 @@
       1,
       2
     ],
-    "current_chap": 79,
+    "current_chap": 80,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/05/cover9.jpg",
     "com_type": 3,
     "id": 41,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675698709,
     "genres": [
       0
     ]
@@ -979,11 +981,11 @@
       1
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2020/11/cover-worn.jpg",
-    "current_chap": 128,
+    "current_chap": 129,
     "id": 45,
     "author": "",
     "description": "",
-    "last_update": 1675035646,
+    "last_update": 1675733929,
     "com_type": 2,
     "genres": [
       0
@@ -1001,12 +1003,12 @@
       1
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/04/TransmigratingtotheOtherworldOnceMoreCover02_copy2.png",
-    "current_chap": 46,
+    "current_chap": 47,
     "com_type": 3,
     "id": 46,
     "author": "",
     "description": "",
-    "last_update": 1674837458,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -1046,12 +1048,12 @@
       1
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/12/boundlessNecroCover01.png",
-    "current_chap": 17,
+    "current_chap": 107,
     "com_type": 3,
     "id": 48,
     "author": "",
     "description": "",
-    "last_update": 1675022147,
+    "last_update": 1675434132,
     "genres": [
       0
     ]
@@ -1093,11 +1095,11 @@
     ],
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/c3f5d481-520d-4b63-901e-46fb209062d5/M1hcIkSlDgmGJoq7ilIMO8tX6DNtb2jdvLRr5Sd2.png",
     "com_type": 3,
-    "current_chap": 180,
+    "current_chap": 181,
     "id": 50,
     "author": "",
     "description": "",
-    "last_update": 1675109345,
+    "last_update": 1675465340,
     "genres": [
       0
     ]
@@ -1106,7 +1108,7 @@
     "titles": [
       "The tutorial is too hard"
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "status": 2,
     "type": 3,
@@ -1138,12 +1140,12 @@
       7
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/12/heavenlydemoninstructor-1.jpg",
-    "current_chap": 81,
+    "current_chap": 82,
     "com_type": 3,
     "id": 52,
     "author": "",
     "description": "",
-    "last_update": 1675310595,
+    "last_update": 1675699907,
     "genres": [
       0
     ]
@@ -1205,11 +1207,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/09/dungeonOdyCover03.png",
     "com_type": 3,
-    "current_chap": 35,
+    "current_chap": 36,
     "id": 55,
     "author": "",
     "description": "",
-    "last_update": 1675199209,
+    "last_update": 1675699907,
     "genres": [
       0
     ]
@@ -1218,7 +1220,7 @@
     "titles": [
       "The max level hero has returned!"
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 110,
     "status": 2,
     "type": 3,
@@ -1227,11 +1229,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2020/10/maxlevelheroCover01.png",
     "com_type": 3,
-    "current_chap": 116,
+    "current_chap": 117,
     "id": 56,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -1273,11 +1275,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/10/youngestScionCover01.png",
     "com_type": 3,
-    "current_chap": 37,
+    "current_chap": 38,
     "id": 58,
     "author": "",
     "description": "",
-    "last_update": 1675091156,
+    "last_update": 1675698709,
     "genres": [
       0
     ]
@@ -1365,11 +1367,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2020/10/Screenshot-2022-10-29-205433.png",
     "com_type": 3,
-    "current_chap": 112,
+    "current_chap": 113,
     "id": 62,
     "author": "",
     "description": "",
-    "last_update": 1674349950,
+    "last_update": 1675733929,
     "viewed_chap": 0,
     "genres": [
       0
@@ -1388,11 +1390,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/04/rise.jpg",
     "com_type": 3,
-    "current_chap": 149,
+    "current_chap": 151,
     "id": 63,
     "author": "",
     "description": "",
-    "last_update": 1675048810,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -1411,11 +1413,11 @@
     ],
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/1afc219c-9839-4b09-acf5-e273dc035253/aYJL8UJBA1nyHvOSD2nFyhVhEoIlPckJWkeUOKwk.png",
     "com_type": 3,
-    "current_chap": 54,
+    "current_chap": 55,
     "id": 64,
     "author": "",
     "description": "",
-    "last_update": 1675310597,
+    "last_update": 1675434132,
     "genres": [
       0
     ]
@@ -1569,11 +1571,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2020/11/TamingMasterCover08.png",
     "com_type": 3,
-    "current_chap": 91,
+    "current_chap": 92,
     "id": 71,
     "author": "",
     "description": "",
-    "last_update": 1675286451,
+    "last_update": 1675733929,
     "genres": [
       0
     ]
@@ -1672,21 +1674,22 @@
     "titles": [
       "Regressor instruction manual"
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
-      2
+      2,
+      7
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/10/regressor-cover.jpg",
     "com_type": 3,
-    "current_chap": 73,
+    "current_chap": 74,
     "id": 76,
     "author": "",
     "description": "",
-    "last_update": 1674620360,
+    "last_update": 1675396635,
     "genres": [
       0
     ]
@@ -1801,11 +1804,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/10/WarriorHighSchoolCover04.png",
     "com_type": 3,
-    "current_chap": 31,
+    "current_chap": 32,
     "id": 81,
     "author": "",
     "description": "",
-    "last_update": 1674671237,
+    "last_update": 1675698709,
     "genres": [
       0
     ]
@@ -2097,7 +2100,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -2241,11 +2244,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 47,
+    "current_chap": 48,
     "id": 101,
     "author": "",
     "description": "",
-    "last_update": 1674793325,
+    "last_update": 1675465340,
     "genres": [
       0
     ]
@@ -2283,11 +2286,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 174,
+    "current_chap": 175,
     "id": 103,
     "author": "",
     "description": "",
-    "last_update": 1675109345,
+    "last_update": 1675465340,
     "genres": [
       0
     ]
@@ -2325,11 +2328,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 130,
+    "current_chap": 142,
     "id": 105,
     "author": "",
     "description": "",
-    "last_update": 1675349100,
+    "last_update": 1675779163,
     "genres": [
       0
     ]
@@ -2346,11 +2349,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 369,
+    "current_chap": 374,
     "id": 106,
     "author": "",
     "description": "",
-    "last_update": 1675310597,
+    "last_update": 1675779163,
     "genres": [
       0
     ]
@@ -2445,7 +2448,7 @@
     "titles": [
       "Transcension academy"
     ],
-    "current_chap": 39,
+    "current_chap": 40,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/f0b2bafd-d64f-4309-b089-a511ef6e2f3a/s2AEltA1ZhP9xMDhAHpBZb3e0aIqprOkGlM5oiVz.jpg",
     "com_type": 3,
     "status": 2,
@@ -2457,7 +2460,7 @@
     "id": 111,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675449103,
     "genres": [
       0
     ]
@@ -2466,7 +2469,7 @@
     "titles": [
       "I'm not a regressor"
     ],
-    "current_chap": 188,
+    "current_chap": 189,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/a3e9ddce-a0e9-4565-a1d5-6cf68bdfe67d/xRqAwGzj2prA7jlbwJJFPTQ24BTBxilqlVb7pwf8.jpg",
     "com_type": 4,
     "status": 2,
@@ -2478,7 +2481,7 @@
     "id": 112,
     "author": "",
     "description": "",
-    "last_update": 1674744828,
+    "last_update": 1675465340,
     "genres": [
       0
     ]
@@ -2508,7 +2511,7 @@
     "titles": [
       "Martial peak"
     ],
-    "current_chap": 3019,
+    "current_chap": 3033,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/MPC-2-193x278-1-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2521,7 +2524,7 @@
     "id": 114,
     "author": "",
     "description": "",
-    "last_update": 1675377751,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2551,7 +2554,7 @@
     "titles": [
       "Versatile mage"
     ],
-    "current_chap": 988,
+    "current_chap": 989,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/05/versatile-mage-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2564,7 +2567,7 @@
     "id": 116,
     "author": "",
     "description": "",
-    "last_update": 1675263901,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -2573,7 +2576,7 @@
     "titles": [
       "My disciples are all big villains"
     ],
-    "current_chap": 26,
+    "current_chap": 28,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/12/V-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2585,7 +2588,7 @@
     "id": 117,
     "author": "",
     "description": "",
-    "last_update": 1675377751,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2661,7 +2664,7 @@
     "titles": [
       "The great ruler"
     ],
-    "current_chap": 388,
+    "current_chap": 390,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/08/thumb-1-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2673,7 +2676,7 @@
     "id": 121,
     "author": "",
     "description": "",
-    "last_update": 1675196077,
+    "last_update": 1675696597,
     "genres": [
       0
     ]
@@ -2683,7 +2686,7 @@
       "Soul land iv \u2013 the ultimate combat",
       "Soul land iv"
     ],
-    "current_chap": 380,
+    "current_chap": 381,
     "cover": "https://manhuaplus.com/wp-content/uploads/2021/01/Soul-Land-IV-Ultimate-Fighting-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2696,7 +2699,7 @@
     "id": 122,
     "author": "",
     "description": "",
-    "last_update": 1675196077,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -2705,7 +2708,7 @@
     "titles": [
       "The heavenly path is not stupid"
     ],
-    "current_chap": 23,
+    "current_chap": 24,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/08/thumb-3-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2717,7 +2720,7 @@
     "id": 123,
     "author": "",
     "description": "",
-    "last_update": 1675196077,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2747,19 +2750,20 @@
     "titles": [
       "Tales of demons and gods"
     ],
-    "current_chap": 415,
-    "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/Tales-Of-Demons-And-Gods-175x238.jpg",
+    "current_chap": 416,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/tales-of-demons-and-gods-110x150.jpg",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      3
+      3,
+      7
     ],
     "track": true,
     "viewed_chap": 414,
     "id": 125,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -2790,7 +2794,7 @@
     "titles": [
       "Great sage of humanity"
     ],
-    "current_chap": 89,
+    "current_chap": 91,
     "cover": "https://isekaiscan.com/wp-content/uploads/2022/07/great-sage-of-humanity-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2803,7 +2807,7 @@
     "id": 127,
     "author": "",
     "description": "",
-    "last_update": 1675349098,
+    "last_update": 1675779799,
     "genres": [
       0
     ]
@@ -2812,7 +2816,7 @@
     "titles": [
       "I have to be a monster"
     ],
-    "current_chap": 29,
+    "current_chap": 30,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/07/M_titlecover_2-175x238.png",
     "com_type": 2,
     "status": 2,
@@ -2824,7 +2828,7 @@
     "id": 128,
     "author": "",
     "description": "",
-    "last_update": 1674785602,
+    "last_update": 1675434129,
     "genres": [
       0
     ]
@@ -2834,7 +2838,7 @@
       "Soul land 2",
       "Soul land ii"
     ],
-    "current_chap": 425,
+    "current_chap": 428,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/soul-land-2-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2847,7 +2851,7 @@
     "id": 129,
     "author": "",
     "description": "",
-    "last_update": 1675254987,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2877,7 +2881,7 @@
     "titles": [
       "Soul land v"
     ],
-    "current_chap": 93,
+    "current_chap": 94,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/01/douluodalu5zhongshengtangsan-shenmanjun-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2889,7 +2893,7 @@
     "id": 131,
     "author": "",
     "description": "",
-    "last_update": 1674775439,
+    "last_update": 1675434129,
     "genres": [
       0
     ]
@@ -2898,7 +2902,7 @@
     "titles": [
       "Peerless battle spirit"
     ],
-    "current_chap": 545,
+    "current_chap": 546,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/07/38918-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2911,7 +2915,7 @@
     "id": 132,
     "author": "",
     "description": "",
-    "last_update": 1675266337,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2920,7 +2924,7 @@
     "titles": [
       "I\u2019m the great immortal"
     ],
-    "current_chap": 488,
+    "current_chap": 489,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/Im-The-Great-Immortal-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2932,7 +2936,7 @@
     "id": 133,
     "author": "",
     "description": "",
-    "last_update": 1675349098,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -2963,19 +2967,20 @@
     "titles": [
       "I\u2019m just an immortal"
     ],
-    "current_chap": 223,
-    "cover": "https://manhuaplus.com/wp-content/uploads/2021/03/420-175x238.jpg",
+    "current_chap": 225,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/04/47042_-110x150.jpg",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      3
+      3,
+      7
     ],
     "track": false,
     "viewed_chap": 0,
     "id": 135,
     "author": "",
     "description": "",
-    "last_update": 1675048810,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -3047,7 +3052,7 @@
     "titles": [
       "Paladin dad"
     ],
-    "current_chap": 8,
+    "current_chap": 9,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/12/thumb-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -3059,7 +3064,7 @@
     "id": 139,
     "author": "",
     "description": "",
-    "last_update": 1674871071,
+    "last_update": 1675779161,
     "genres": [
       0
     ]
@@ -3195,7 +3200,7 @@
     "titles": [
       "The demon prince goes to the academy"
     ],
-    "current_chap": 253,
+    "current_chap": 254,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/c54ebefb-549a-45df-9ee5-62ecb54f7377/555nDg4v8xjCSsh9dYKTpHR1sfhqY1vy7Om6VZGh.jpg",
     "com_type": 4,
     "status": 2,
@@ -3207,7 +3212,7 @@
     "id": 146,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675465340,
     "genres": [
       0
     ]
@@ -3258,7 +3263,7 @@
     "titles": [
       "Max talent player"
     ],
-    "current_chap": 278,
+    "current_chap": 279,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/a3ad4390-5004-4a7d-a204-8fd4586cee5e/7BPdLZCtZHyletL54axNTzqdvqCJEyQjFAeK0iG1.jpg",
     "com_type": 4,
     "status": 2,
@@ -3270,7 +3275,7 @@
     "id": 149,
     "author": "",
     "description": "",
-    "last_update": 1675223309,
+    "last_update": 1675396636,
     "genres": [
       0
     ]
@@ -3301,7 +3306,7 @@
     "titles": [
       "Cultivator against hero society"
     ],
-    "current_chap": 240,
+    "current_chap": 242,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/11/Bia-ngoai-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -3313,7 +3318,7 @@
     "id": 151,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675396634,
     "genres": [
       0
     ]
@@ -3365,7 +3370,7 @@
     "titles": [
       "I became the tyrant of a defense game"
     ],
-    "current_chap": 45,
+    "current_chap": 46,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/db7cd231-d81e-47da-94ab-d944ffc58268/5IXMG1QEkEqOREBmNJmzeh3rZOKta5J66PMcYaJo.png",
     "com_type": 4,
     "status": 2,
@@ -3377,7 +3382,7 @@
     "id": 154,
     "author": "",
     "description": "",
-    "last_update": 1675377753,
+    "last_update": 1675733930,
     "genres": [
       0
     ]
@@ -3475,7 +3480,7 @@
       "Leveling with the gods",
       "Leveling up with the gods"
     ],
-    "current_chap": 151,
+    "current_chap": 152,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/f041e11f-6351-4927-b321-d8d7eadd6a0c/bIDbziAneQ6agzb8mhBerd8OBtlEEzyODfdNHtm0.png",
     "com_type": 3,
     "status": 2,
@@ -3488,7 +3493,7 @@
     "id": 159,
     "author": "",
     "description": "",
-    "last_update": 1675314966,
+    "last_update": 1675779163,
     "genres": [
       0
     ]
@@ -3497,7 +3502,7 @@
     "titles": [
       "Magic academy survival guide"
     ],
-    "current_chap": 26,
+    "current_chap": 27,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/92e822a8-b6e9-40e8-beef-4e9519adfd11/sgjmmD1QTgMdQsSwVrO66n2iIooM1p9jSp0vS1Sf.jpg",
     "com_type": 3,
     "status": 2,
@@ -3509,7 +3514,7 @@
     "id": 160,
     "author": "",
     "description": "",
-    "last_update": 1675196079,
+    "last_update": 1675779800,
     "genres": [
       0
     ]
@@ -3602,7 +3607,7 @@
     "titles": [
       "Global martial arts"
     ],
-    "current_chap": 185,
+    "current_chap": 186,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/10/46623-175x238.png",
     "com_type": 2,
     "status": 2,
@@ -3614,7 +3619,7 @@
     "id": 165,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675449102,
     "genres": [
       0
     ]
@@ -3630,7 +3635,7 @@
     "published_in": [
       2
     ],
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "id": 166,
     "author": "",
@@ -3728,7 +3733,7 @@
     "titles": [
       "Star-slaying swordsman"
     ],
-    "current_chap": 61,
+    "current_chap": 62,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/badbda7e-50a4-449f-978b-c3f27c66fcfd/6umCFhtTGtFSgoh2J2Dtnb2L9HsqugoY29JF2evU.png",
     "com_type": 4,
     "status": 2,
@@ -3740,7 +3745,7 @@
     "id": 171,
     "author": "",
     "description": "",
-    "last_update": 1674242944,
+    "last_update": 1675733930,
     "genres": [
       0
     ]
@@ -3876,14 +3881,14 @@
     "titles": [
       "Demons' crest"
     ],
-    "current_chap": 13,
+    "current_chap": 15,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/bc5c4784-4c49-4454-9d11-fe9d4fc541e6/ilDnWxJdVD4nHzz7TJEdIMpI5dsWRvGp9tJYHHI8.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
       2
     ],
-    "last_update": 1674252815,
+    "last_update": 1675698566,
     "description": "",
     "author": "",
     "track": false,
@@ -4052,14 +4057,14 @@
     "titles": [
       "The breaker 3 \u2013 eternal force"
     ],
-    "current_chap": 44,
+    "current_chap": 45,
     "cover": "https://flamescans.org/wp-content/uploads/2022/05/12A_Ai_CAo_690x1000-242x350.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1674746039,
+    "last_update": 1675434134,
     "description": "",
     "author": "",
     "track": false,
@@ -4074,9 +4079,9 @@
     "titles": [
       "Level 1 player"
     ],
-    "current_chap": 45,
+    "current_chap": 46,
     "cover": "https://flamescans.org/wp-content/uploads/2022/01/low_quality_time_to_slee-copy-259x350.jpg",
-    "last_update": 1675196079,
+    "last_update": 1675779164,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4159,14 +4164,15 @@
     "titles": [
       "I\u2019ll become the mother of the hero"
     ],
-    "current_chap": 26,
+    "current_chap": 34,
     "cover": "https://flamescans.org/wp-content/uploads/2022/08/IBHMCOVER-1.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      4
+      4,
+      7
     ],
-    "last_update": 1674256732,
+    "last_update": 1675449108,
     "description": "",
     "author": "",
     "track": false,
@@ -4370,7 +4376,7 @@
     "titles": [
       "The newbie is too strong"
     ],
-    "current_chap": 43,
+    "current_chap": 44,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/06/Popoi-copy.jpg",
     "com_type": 3,
     "status": 2,
@@ -4378,7 +4384,7 @@
       1,
       7
     ],
-    "last_update": 1675286451,
+    "last_update": 1675733929,
     "description": "",
     "author": "",
     "track": false,
@@ -4499,9 +4505,9 @@
     "titles": [
       "Volcanic age"
     ],
-    "current_chap": 238,
+    "current_chap": 239,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/06/volcanicagecover-222x300.png",
-    "last_update": 1675022410,
+    "last_update": 1675465342,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4541,9 +4547,9 @@
     "titles": [
       "Tomb raider king"
     ],
-    "current_chap": 388,
+    "current_chap": 395,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/07/20220626_010010-210x300.jpg",
-    "last_update": 1674415958,
+    "last_update": 1675779165,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4688,9 +4694,9 @@
     "titles": [
       "I stole the number one ranker\u2019s soul"
     ],
-    "current_chap": 35,
+    "current_chap": 36,
     "cover": "https://flamescans.org/wp-content/uploads/2022/09/RankerSoulNewCover.png",
-    "last_update": 1674844983,
+    "last_update": 1675465342,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4984,9 +4990,9 @@
     "titles": [
       "Fff-class trash hero"
     ],
-    "current_chap": 137,
+    "current_chap": 138,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/06/FFF-Class-Trash-Hero-Cover-copy-1-222x300.jpg",
-    "last_update": 1674679109,
+    "last_update": 1675465342,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5647,7 +5653,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "genres": [
       0
@@ -5689,7 +5695,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0,
     "genres": [
       0
@@ -7491,9 +7497,9 @@
     "titles": [
       "No place for the fake princess"
     ],
-    "current_chap": 7,
+    "current_chap": 10,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/c1b7dbfb-a457-4128-9bfb-e754f31956dc/cHK53lbT5Zwjihz9EGFd08vFeJ9387ud3aTSt7Sm.png",
-    "last_update": 1675285843,
+    "last_update": 1675434132,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7513,9 +7519,9 @@
     "titles": [
       "Seoul station necromancer"
     ],
-    "current_chap": 76,
+    "current_chap": 78,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/4bfa9cd1-1fa5-42e7-96ff-33e78f39ded6/sFbi2J9laHpBd46YJ4TAhVFydczaoZDJyqMZtpdB.png",
-    "last_update": 1675349100,
+    "last_update": 1675713992,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7534,9 +7540,9 @@
     "titles": [
       "Moon-shadow sword emperor"
     ],
-    "current_chap": 12,
+    "current_chap": 18,
     "cover": "https://flamescans.org/wp-content/uploads/2023/01/FnzYKDoacAEuCvU.jpg",
-    "last_update": 1675349101,
+    "last_update": 1675465341,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7556,9 +7562,9 @@
     "titles": [
       "Book eater"
     ],
-    "current_chap": 80,
+    "current_chap": 81,
     "cover": "https://reset-scans.com/wp-content/uploads/2021/07/asdasd-175x238.png",
-    "last_update": 1675210014,
+    "last_update": 1675703104,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7682,9 +7688,9 @@
     "titles": [
       "Jobless, yet invincible"
     ],
-    "current_chap": 35,
+    "current_chap": 36,
     "cover": "https://reset-scans.com/wp-content/uploads/2022/09/JYI-175x238.jpg",
-    "last_update": 1675210014,
+    "last_update": 1675434136,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -7829,9 +7835,9 @@
     "titles": [
       "Martial star ocean"
     ],
-    "current_chap": 30,
+    "current_chap": 31,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/123_-3-110x150.jpg",
-    "last_update": 1675310602,
+    "last_update": 1675396640,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -7850,9 +7856,9 @@
     "titles": [
       "Supreme saint\u2019s love debts"
     ],
-    "current_chap": 24,
+    "current_chap": 25,
     "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/supreme-saints-love-debts-110x150.jpeg",
-    "last_update": 1675224652,
+    "last_update": 1675434137,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -7955,9 +7961,9 @@
     "titles": [
       "I\u2019m a tycoon in the other world"
     ],
-    "current_chap": 80,
+    "current_chap": 81,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/im-a-tycoon-in-the-other-world_-1-110x150.jpg",
-    "last_update": 1675310602,
+    "last_update": 1675399977,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -7976,9 +7982,9 @@
     "titles": [
       "I randomly have a new career every week"
     ],
-    "current_chap": 335,
+    "current_chap": 336,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/12/i-randomly-have-a-new-career-every-week-1-110x150.jpg",
-    "last_update": 1675310602,
+    "last_update": 1675396640,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -8333,9 +8339,9 @@
     "titles": [
       "Return of the avenger"
     ],
-    "current_chap": 28,
+    "current_chap": 29,
     "cover": "https://isekaiscan.com/wp-content/uploads/2020/01/8_320_447-110x150.jpg",
-    "last_update": 1675310602,
+    "last_update": 1675396640,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -8522,9 +8528,9 @@
     "titles": [
       "King of the eternal night"
     ],
-    "current_chap": 21,
+    "current_chap": 22,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/123_-4-110x150.jpg",
-    "last_update": 1675349105,
+    "last_update": 1675396640,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -8585,9 +8591,9 @@
     "titles": [
       "I am a cultivation bigshot"
     ],
-    "current_chap": 187,
+    "current_chap": 190,
     "cover": "https://realmscans.com/wp-content/uploads/2022/01/i-am-cultivation-bigshot-thumb.webp",
-    "last_update": 1675377760,
+    "last_update": 1675434139,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8606,9 +8612,9 @@
     "titles": [
       "It starts with a mountain"
     ],
-    "current_chap": 486,
+    "current_chap": 489,
     "cover": "https://realmscans.com/wp-content/uploads/2021/08/it-starts-with-a-mountain-thumb-161222-220x300.webp",
-    "last_update": 1675349105,
+    "last_update": 1675708023,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8712,9 +8718,9 @@
     "titles": [
       "Auto hunting with my clones"
     ],
-    "current_chap": 29,
+    "current_chap": 30,
     "cover": "https://realmscans.com/wp-content/uploads/2022/09/auto-hunting-with-my-clones.webp",
-    "last_update": 1675225480,
+    "last_update": 1675696634,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8733,9 +8739,9 @@
     "titles": [
       "Top tier providence"
     ],
-    "current_chap": 78,
+    "current_chap": 79,
     "cover": "https://realmscans.com/wp-content/uploads/2022/06/tttttttt-219x300.webp",
-    "last_update": 1675377760,
+    "last_update": 1675696634,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8754,13 +8760,14 @@
     "titles": [
       "Infinite level up in murim"
     ],
-    "current_chap": 134,
+    "current_chap": 135,
     "cover": "https://realmscans.com/wp-content/uploads/2022/01/ezgif.com-gif-maker-1.webp",
-    "last_update": 1675225480,
+    "last_update": 1675434138,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      8,
+      7
     ],
     "genres": [
       0
@@ -8775,9 +8782,9 @@
     "titles": [
       "Pure love operation"
     ],
-    "current_chap": 48,
+    "current_chap": 49,
     "cover": "https://realmscans.com/wp-content/uploads/2022/11/plo-220x300.webp",
-    "last_update": 1675225480,
+    "last_update": 1675449109,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8796,9 +8803,9 @@
     "titles": [
       "I picked a hammer to save the world"
     ],
-    "current_chap": 13,
+    "current_chap": 14,
     "cover": "https://realmscans.com/wp-content/uploads/2022/12/I-Picked-A-Hammer-To-Save-The-World-thumb-220x300.webp",
-    "last_update": 1675225480,
+    "last_update": 1675696634,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8916,7 +8923,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -8945,9 +8952,9 @@
     "titles": [
       "World\u2019s greatest senior disciple"
     ],
-    "current_chap": 16,
+    "current_chap": 17,
     "cover": "https://realmscans.com/wp-content/uploads/2022/11/wgsd-207x300.webp",
-    "last_update": 1675225480,
+    "last_update": 1675449109,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9617,9 +9624,9 @@
     "titles": [
       "Mad detective"
     ],
-    "current_chap": 14,
+    "current_chap": 16,
     "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/mad-detective_-110x150.jpg",
-    "last_update": 1675255985,
+    "last_update": 1675434138,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -9638,9 +9645,9 @@
     "titles": [
       "Astral pet store"
     ],
-    "current_chap": 56,
+    "current_chap": 57,
     "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/astral-pet-store-110x150.jpg",
-    "last_update": 1675349105,
+    "last_update": 1675434138,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -10029,7 +10036,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -10520,9 +10527,9 @@
     "titles": [
       "Grand duke, i can\u2019t do it because it\u2019s too cold in the north"
     ],
-    "current_chap": 4,
+    "current_chap": 5,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/grand-duke-i-cant-do-it-because-its-too-cold-in-the-north-110x150.jpeg",
-    "last_update": 1675349105,
+    "last_update": 1675449108,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -10680,7 +10687,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -11016,7 +11023,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -11247,7 +11254,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -11562,7 +11569,7 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
+    "track": true,
     "viewed_chap": 0
   },
   {
@@ -12305,9 +12312,9 @@
     "titles": [
       "The lady and the beast"
     ],
-    "current_chap": 105,
+    "current_chap": 106,
     "cover": "https://isekaiscan.com/wp-content/uploads/2020/09/54218-110x150.jpg",
-    "last_update": 1675377758,
+    "last_update": 1675396640,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12620,9 +12627,9 @@
     "titles": [
       "The precious sister of the villainous grand duke"
     ],
-    "current_chap": 86,
+    "current_chap": 87,
     "cover": "https://isekaiscan.com/wp-content/uploads/2020/04/807_1199_-110x150.jpg",
-    "last_update": 1675377759,
+    "last_update": 1675399977,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12697,6 +12704,1603 @@
     "description": "",
     "author": "",
     "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 602,
+    "titles": [
+      "Governess of a tyrant"
+    ],
+    "current_chap": 37,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/governess-of-a-tyrant-110x150.jpeg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 603,
+    "titles": [
+      "Nightly taming of the werewolf duke"
+    ],
+    "current_chap": 18,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/123-25-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 604,
+    "titles": [
+      "Martial inverse"
+    ],
+    "current_chap": 288,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/07/martial-inverse-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 605,
+    "titles": [
+      "The supreme master"
+    ],
+    "current_chap": 34,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/10/supreme-master-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 606,
+    "titles": [
+      "Otherworldly evil monarch"
+    ],
+    "current_chap": 212,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2019/12/wtjhkhkjl_-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 607,
+    "titles": [
+      "Spare me, great lord! comics"
+    ],
+    "current_chap": 573,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/01/3173-iv921766-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 608,
+    "titles": [
+      "Starting with the transmigration (beginning from passing through the calamity)"
+    ],
+    "current_chap": 58,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/09/Starting-with-thefghbjkl-Transmigratin-193x278-1-110x150.jpg",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 609,
+    "titles": [
+      "I\u2019m trapped in this day for one thousand years (i\u2019m stuck on the same day for a thousand years)"
+    ],
+    "current_chap": 12,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/11/im-trapped-in-this-day-for-one-thousand-years-1-110x150.png",
+    "last_update": 1675396640,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 610,
+    "titles": [
+      "Don\u2019t look back, seisia!"
+    ],
+    "current_chap": 32,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/09/dont-look-back-seisia-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 611,
+    "titles": [
+      "I am a daughter loved by the devil"
+    ],
+    "current_chap": 33,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/10/i-am-a-daughter-loved-by-the-devil-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 612,
+    "titles": [
+      "Next door boyfriend"
+    ],
+    "current_chap": 30,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/10/next-door-boyfriend-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 613,
+    "titles": [
+      "99 ways to become heroes by beauty masters"
+    ],
+    "current_chap": 180,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/01/58713-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 614,
+    "titles": [
+      "My wife is from a thousand years ago"
+    ],
+    "current_chap": 139,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/03/my-wife-is-from-a-thousand-years-ago-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 615,
+    "titles": [
+      "Deep purple"
+    ],
+    "current_chap": 28,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/123-18-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 616,
+    "titles": [
+      "The wicked girl is arriving tonight"
+    ],
+    "current_chap": 79,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/12/the-wicked-girl-is-arriving-tonight-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 617,
+    "titles": [
+      "Sultry wedding"
+    ],
+    "current_chap": 86,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/sultry-wedding-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 618,
+    "titles": [
+      "Starting from today, i\u2019m a princess?!"
+    ],
+    "current_chap": 72,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/08/starting-from-today-i-m-a-princess-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 619,
+    "titles": [
+      "I became the secretary of the tyrant"
+    ],
+    "current_chap": 80,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/05/1cf9673c266_117871_600_810-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 620,
+    "titles": [
+      "An extra in the family is the first to be abandoned"
+    ],
+    "current_chap": 40,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/an-extra-in-the-family-is-the-first-to-be-abandoned-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 621,
+    "titles": [
+      "The maid wants to quit within the reverse harem game"
+    ],
+    "current_chap": 21,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/the-maid-wants-to-quit-within-the-reverse-harem-game-110x150.jpg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 622,
+    "titles": [
+      "When the count\u2019s illegitimate daughter gets married"
+    ],
+    "current_chap": 45,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/03/when-the-counts-illegitimate-daughter-gets-married-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 623,
+    "titles": [
+      "Her royal highness the princess returns to full level"
+    ],
+    "current_chap": 46,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/07/her-royal-highness-the-princess-returns-to-full-level-110x150.jpeg",
+    "last_update": 1675399977,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 624,
+    "titles": [
+      "I\u2019m actually a cultivation bigshot"
+    ],
+    "current_chap": 190,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/12/im-actually-a-cultivation-bigshot-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 625,
+    "titles": [
+      "I must seduce the count\u2019s daughter\u2019s lover"
+    ],
+    "current_chap": 31,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/09/i-must-seduce-the-counts-daughters-lover-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 626,
+    "titles": [
+      "The villain discovered my identity"
+    ],
+    "current_chap": 100,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/08/58832_720_972_-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 627,
+    "titles": [
+      "The mail order life of a man around 40 in another world"
+    ],
+    "current_chap": 25,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/03/the-mail-order-life-of-a-man-around-40-in-another-world-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 628,
+    "titles": [
+      "This star"
+    ],
+    "current_chap": 21,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/this-star-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 629,
+    "titles": [
+      "Cat system the emperor is a cat lover"
+    ],
+    "current_chap": 62,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/12/2d8_358754_601_801_-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 630,
+    "titles": [
+      "Time and reason"
+    ],
+    "current_chap": 37,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/07/time-and-reason-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 631,
+    "titles": [
+      "I will change the genre"
+    ],
+    "current_chap": 72,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/I-Will-Change-The-Genre-1-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 632,
+    "titles": [
+      "Agatha"
+    ],
+    "current_chap": 80,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/7760dce_195120_1184_618-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 633,
+    "titles": [
+      "18-year-old villainess\u2019s target"
+    ],
+    "current_chap": 46,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/01/18-year-old-villainesss-target-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 634,
+    "titles": [
+      "When a thousand moons rise"
+    ],
+    "current_chap": 53,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/03/when-a-thousand-moons-rise-110x150.jpeg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 635,
+    "titles": [
+      "Kill my husband"
+    ],
+    "current_chap": 26,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/07/kill-my-husband-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 636,
+    "titles": [
+      "I became the sacrificial princess"
+    ],
+    "current_chap": 86,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/i-became-the-sacrificial-princess-110x150.jpg",
+    "last_update": 1675449108,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 637,
+    "titles": [
+      "Upgrading the frivolous emperor"
+    ],
+    "current_chap": 88,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/09/54800-110x150.jpg",
+    "last_update": 1675434137,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 638,
+    "titles": [
+      "I learn to cultivate to be immortal in the world of superpowers"
+    ],
+    "current_chap": 90,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/12/be-immortal-in-th-110x150.jpeg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 639,
+    "titles": [
+      "Assistant teacher in a magical girls school"
+    ],
+    "current_chap": 14,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/06/assistant-teacher-in-a-magical-girls-school-110x150.jpeg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 640,
+    "titles": [
+      "Rebirth of the earth immortal venerable"
+    ],
+    "current_chap": 185,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/01/59908-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 641,
+    "titles": [
+      "Divine perspective"
+    ],
+    "current_chap": 204,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2020/04/divine-perspective-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 642,
+    "titles": [
+      "Treacherous subject saves the country"
+    ],
+    "current_chap": 40,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/04/treacherous-subject-saves-the-country-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 643,
+    "titles": [
+      "Master of x-ray vision"
+    ],
+    "current_chap": 259,
+    "cover": "https://isekaiscan.com/wp-content/uploads/Master-of-X-RAY-Vision-67426-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 644,
+    "titles": [
+      "System trusteeship"
+    ],
+    "current_chap": 36,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/01/system-trusteeship-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 645,
+    "titles": [
+      "Akutou ikka no mana musume, tensei saki mo otome game no gokudou reijou deshita."
+    ],
+    "current_chap": 2,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/akutou-ikka-no-mana-musume-tensei-saki-mo-otome-game-no-gokudou-reijou-deshita-110x150.jpg",
+    "last_update": 1675434138,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 646,
+    "titles": [
+      "The seventh prince: a reincarnated magic nerd"
+    ],
+    "current_chap": 116,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/01/seventh-prince-magic-nerd.webp",
+    "last_update": 1675434139,
+    "com_type": 1,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 647,
+    "titles": [
+      "Ex and ash"
+    ],
+    "current_chap": 68,
+    "cover": "https://flamescans.org/wp-content/uploads/2021/11/EXACOVER-242x350.jpg",
+    "last_update": 1675449104,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      4
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 648,
+    "titles": [
+      "Why the king needs a secretary"
+    ],
+    "current_chap": 85,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/03/62401-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 649,
+    "titles": [
+      "Gachi koi nenchakujuu: net haishinsha no kanojo ni naritakute"
+    ],
+    "current_chap": 14,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/gachi-koi-nenchakujuu-net-haishinsha-no-kanojo-ni-naritakute-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 650,
+    "titles": [
+      "There\u2019s also a hole in the student council"
+    ],
+    "current_chap": 12,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/07/seitokai-ni-mo-ana-wa-aru-1-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 651,
+    "titles": [
+      "Neta chara tensei toka anmarida!"
+    ],
+    "current_chap": 14,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/01/478__59-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 652,
+    "titles": [
+      "Princess\u2019 dangerous brothers"
+    ],
+    "current_chap": 52,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/01/Princess-Dangerous-Brothers-193x278-1-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 653,
+    "titles": [
+      "I became the male lead\u2019s adopted daughter"
+    ],
+    "current_chap": 68,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/08/770b862b32faae576df9aef43c75e500e364406a_720_972_887702-110x150.jpeg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 654,
+    "titles": [
+      "I\u2019ll just live on as a villainess"
+    ],
+    "current_chap": 53,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/02/62484-1-110x150.jpeg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 655,
+    "titles": [
+      "Legend reboot"
+    ],
+    "current_chap": 118,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/18-1583499114-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 656,
+    "titles": [
+      "Me and my gangster neighbour"
+    ],
+    "current_chap": 10,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/12/me-and-my-gangster-neighbour-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 657,
+    "titles": [
+      "Naruto: konoha\u2019s story\u2014the steam ninja scrolls: the manga"
+    ],
+    "current_chap": 8,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/10/naruto-konohas-story-the-steam-ninja-scrolls-the-manga-110x150.jpeg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 658,
+    "titles": [
+      "Aren\u2019t you too sweet salt-god sato-san?"
+    ],
+    "current_chap": 25,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/04/arent-you-too-sweet-salt-god-sato-san-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 659,
+    "titles": [
+      "Release that witch"
+    ],
+    "current_chap": 470,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2019/02/cover-1-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 0
+  },
+  {
+    "id": 660,
+    "titles": [
+      "The great wish"
+    ],
+    "current_chap": 139,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2019/09/41039_-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 661,
+    "titles": [
+      "Nito no taidana isekai shoukougun sai jakushoku \u201chealer\u201d nano ni saikyou wa desu ka?"
+    ],
+    "current_chap": 28,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2019/11/42750-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 662,
+    "titles": [
+      "Survive on a deserted island with beautiful girls"
+    ],
+    "current_chap": 186,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/03/survive-on-a-deserted-island-with-beautiful-girls-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 663,
+    "titles": [
+      "I got lucky and pulled a 10th rank summon"
+    ],
+    "current_chap": 17,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/10/i-got-lucky-and-pulled-a-10th-rank-summon_-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7,
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 664,
+    "titles": [
+      "Demon lord\u2019s martial arts ascension (martial demon king)"
+    ],
+    "current_chap": 30,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/11/demon-lords-martial-arts-ascension-martial-demon-king_-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 665,
+    "titles": [
+      "Did yuanbao make money today?"
+    ],
+    "current_chap": 11,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/03/did-yuanbao-make-money-today-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 666,
+    "titles": [
+      "The real daughter is back"
+    ],
+    "current_chap": 46,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/the-real-daughter-is-back-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 667,
+    "titles": [
+      "Flowers of worship"
+    ],
+    "current_chap": 3,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/11/123-13-110x150.jpg",
+    "last_update": 1675449107,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 668,
+    "titles": [
+      "The tainted half"
+    ],
+    "current_chap": 34,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2022/08/the-tainted-half-110x150.jpeg",
+    "last_update": 1675449108,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 669,
+    "titles": [
+      "The forgotten princess wants to live in peace"
+    ],
+    "current_chap": 46,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/07/The-Forgotten-Princess-Wants-To-Live-In-Peace-193x278-1-110x150.jpg",
+    "last_update": 1675449108,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 670,
+    "titles": [
+      "Olgami"
+    ],
+    "current_chap": 156,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/covERZtxfhy45678er-110x150.jpg",
+    "last_update": 1675449108,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 671,
+    "titles": [
+      "The strongest characters in the world are obsessed with me"
+    ],
+    "current_chap": 74,
+    "cover": "https://isekaiscan.com/wp-content/uploads/2021/10/the-strongest-characters-in-the-world-are-obsessed-with-me-manhwa-110x150.jpeg",
+    "last_update": 1675449108,
+    "com_type": 0,
+    "status": 2,
+    "published_in": [
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 672,
+    "titles": [
+      "One step for the dark lord"
+    ],
+    "current_chap": 62,
+    "cover": "https://flamescans.org/wp-content/uploads/2022/09/OSDL-264x350.png",
+    "last_update": 1675696867,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      4
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 673,
+    "titles": [
+      "I became the despised granddaughter of the murim family"
+    ],
+    "current_chap": 22,
+    "cover": "https://luminousscans.com/wp-content/uploads/2023/02/resource-210x300.jpg",
+    "last_update": 1675779165,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      5
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 674,
+    "titles": [
+      "Nostalgic warrior"
+    ],
+    "current_chap": 31,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/12/nwnwnwn-220x300.webp",
+    "last_update": 1675696902,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 675,
+    "titles": [
+      "I became invincible after descending"
+    ],
+    "current_chap": 36,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/01/invincible.webp",
+    "last_update": 1675696902,
+    "com_type": 2,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 676,
+    "titles": [
+      "Tenohira pioneer village"
+    ],
+    "current_chap": 40,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/01/tenohira-thumb.webp",
+    "last_update": 1675696902,
+    "com_type": 1,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 677,
+    "titles": [
+      "Reborn ranker \u2013 gravity user"
+    ],
+    "current_chap": 33,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/01/Reborn-Ranker-Gravity-User.webp",
+    "last_update": 1675698746,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
     "viewed_chap": 0
   }
 ]

@@ -28,7 +28,7 @@ def scrapping():
 
 def run_server():
     if __name__ == '__main__':
-        server.run(debug=True, host='localhost')
+        server.run(port=5000,debug=True, host='localhost')
 
 if 'server' in sys.argv:
     run_server()

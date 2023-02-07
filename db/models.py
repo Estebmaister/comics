@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import create_engine, Column, Integer, String
+from flask_restx import fields as sf
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
 engine = create_engine(
@@ -178,6 +179,22 @@ class ComicDB(Base):
             bool(self.track),
             self.viewed_chap
         )
+
+swagger_model = {
+    'id':           sf.Integer(readonly=True, description='The comic unique identifier'),
+    'titles':       sf.List(sf.String(),required=True, description='The comic titles'),
+    'current_chap': sf.Integer(required=True, description='The comic current_chap'),
+    'cover':        sf.String(required=True, description='The comic cover img'),
+    'published_in': sf.List(sf.Integer(),description='The comic published_in'),
+    'author':       sf.String(description='The comic author' ,default=''),
+    'description':  sf.String(description='The comic details',default=''),
+    'com_type':     sf.Integer(description='The comic com_type'),
+    'status':       sf.Integer(description='The comic status'),
+    'last_update':  sf.Integer(description='The comic last_update'),
+    'genres':       sf.List(sf.Integer(),description='The comic genres'),
+    'track':        sf.Boolean(description='The comic track'),
+    'viewed_chap':  sf.Integer(description='The comic viewed_chap')
+}
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind = engine)

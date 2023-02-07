@@ -27,7 +27,7 @@ ul {
   text-shadow: 2px 2px black;
 }
 
-.comicCard {
+.comic-card {
   color: #DDD;
   font-family: sans-serif;
   display: block;
@@ -49,11 +49,21 @@ ul {
   border-radius: 3px;
 }
 
+.track-button {
+  height: 2em;
+  width: 5em;
+  float: right;
+  border: 1px solid rgb(58, 62, 65);
+  border-radius: 3px;
+  background-color: #004daa;
+  color: #e8e6e3;
+}
+
 h3 {
   margin: 0px;
 }
 
-.movieYear {
+.comic-year {
   color: red;
 }
 

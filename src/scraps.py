@@ -211,8 +211,8 @@ def scrap_realmscans(loaded_comics: list[ComicJSON]):
     # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
     for comic in chaps:
-        # Locating comic type
-        com_type = Types[comic.ul["class"][0]]
+        # Locating and parsing comic type
+        com_type = com_type_parse(comic.ul["class"][0])
         # Locating cover
         cover = comic.div.a.img["src"]
         # Locating div used for title and chapter
@@ -223,13 +223,22 @@ def scrap_realmscans(loaded_comics: list[ComicJSON]):
         register_comic(loaded_comics, chap, title, com_type, cover,
             Statuses.OnAir, Publishers.RealmScans)
 
-def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
-    # Locating comic type
+def com_type_parse(com_type_txt: str):
+    com_type = com_type_txt.replace("NEW ", "").capitalize()
     try:
-        com_type = comic.div.a.span.text
-        com_type = Types[com_type.replace("NEW ", "").capitalize()]
-    except (KeyError, AttributeError):
-        com_type = Types["Unknown"]
+        com_type = Types[com_type]
+    except KeyError as ke:
+        if str(ke) == "'Comic'":
+            com_type = Types["Manhwa"]
+        else:
+            com_type = Types["Unknown"]
+    except AttributeError:
+            com_type = Types["Unknown"]
+    return com_type
+
+def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
+    # Locating and parsing comic type
+    com_type = com_type_parse(comic.div.a.span.text)
     # Locating cover
     cover = comic.div.a.img["data-src"]
     # Locating div used for title and chapter
