@@ -2,7 +2,7 @@
 
 import subprocess, sys
 from typing import List
-from db.models import Publishers
+from db import Publishers
 
 default_content = "Update found"
 msg = dict( title = "Scrap alert", content = default_content, alert = 0 )

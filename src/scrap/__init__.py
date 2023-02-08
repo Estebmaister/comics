@@ -1,12 +1,13 @@
-## Scraping webs to shw latest comics
+# scrap/__init__.py
+## Scraping webs to show latest comics
 
-from db.helpers import manage_multi_finds
-from db.comics_repo import comics_by_title
-from db.models import Types, Statuses, Genres, Publishers, ComicJSON, ComicDB
-from helpers.alert import add_alert_to_msg
 import time, os, re, json
 import cloudscraper
 from bs4 import BeautifulSoup as beauty
+from helpers.alert import add_alert_to_msg
+from db import Types, Statuses, Publishers, ComicJSON, ComicDB
+from db.helpers import manage_multi_finds
+from db.comics_repo import comics_by_title
 
 scraper = cloudscraper.create_scraper(browser='chrome')
 urls = {"asura":    "https://www.asurascans.com/",

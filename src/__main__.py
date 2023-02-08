@@ -1,13 +1,14 @@
-## Scraping webs to shw latest comics
+# src/__main__.py
 
-from db.models import load_comics, session, save_comics_file
+import time, signal, sys
+from scrap import scraps
+from server import server
 from helpers.alert import reminder
-from src.scraps import scraps
-from server.server import server
-import json, time, signal, sys
+from db import load_comics, session, save_comics_file
 
 def signal_handler(sig, frame):
     session.close()
+    save_comics_file(load_comics)
     print(' Closing gracefully...')
     sys.exit(0)
 
@@ -27,8 +28,7 @@ def scrapping():
         time.sleep(recurrence)
 
 def run_server():
-    if __name__ == '__main__':
-        server.run(port=5000,debug=True, host='localhost')
+    server.run(port=5000, debug=True, host='localhost')
 
 if 'server' in sys.argv:
     run_server()

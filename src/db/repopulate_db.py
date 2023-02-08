@@ -1,6 +1,6 @@
 # python db/repopulate_db.py
 ## Repopulates the DB with the json file as backup
-from models import load_comics, ComicDB, save_comics_file, session
+from db import load_comics, ComicDB, save_comics_file, session
 from helpers import manage_multi_finds
 
 counter = 1

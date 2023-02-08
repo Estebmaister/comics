@@ -1,4 +1,4 @@
-from db.models import ComicDB, session
+from db import ComicDB, session
 
 def all_comics(_from: int = 0, _limit: int = 20, full: bool = False):
     if full:

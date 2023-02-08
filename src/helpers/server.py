@@ -1,4 +1,4 @@
-# server/helpers.py
+# helpers/server.py
 
 def titles_parser(body: dict) -> str:
     err_msg: str = ''
