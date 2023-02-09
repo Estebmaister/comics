@@ -21,3 +21,27 @@ source test_env/bin/activate
 # Deactivate
 deactivate
 ```
+
+## Running scrapper
+
+```sh
+python src
+```
+
+## Running tests
+
+```sh
+python tests
+```
+
+## Running server
+
+```sh
+python src/__main__.py server
+```
+
+## Running frontend
+
+```sh
+cd frontend && npm start
+```

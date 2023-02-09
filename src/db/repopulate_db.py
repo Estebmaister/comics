@@ -1,6 +1,6 @@
 # python db/repopulate_db.py
 ## Repopulates the DB with the json file as backup
-from db import load_comics, ComicDB, save_comics_file, session
+from db import load_comics, ComicDB, Types, save_comics_file, session
 from helpers import manage_multi_finds
 
 counter = 1
@@ -33,7 +33,9 @@ for comic in load_comics:
         ComicDB.titles.like(f"%{first_title}%")
     ).all()
     ## Check for multiple responses
-    db_comic, _ = manage_multi_finds(db_comic, comic['com_type'], first_title)
+    db_comic, _ = manage_multi_finds(
+        db_comic, Types[comic['com_type']], first_title
+    )
     
     if len(db_comic) == 0:
         new_db_comic = ComicDB(comic['id'], 
