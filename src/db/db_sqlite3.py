@@ -1,4 +1,4 @@
-# python db/db_sqlite3.py
+# python src/db/db_sqlite3.py
 import sqlite3, os
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
@@ -11,7 +11,7 @@ like = "Boundless necromancer"
 query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 query = ''' UPDATE comics SET titles = 'Relife player|Re:life player|Re: life player' WHERE id IN ('9') '''
 query = ''' UPDATE comics SET id = 325 WHERE id = 330 '''
-query = ''' DELETE FROM comics WHERE id = 677 '''
+query = ''' DELETE FROM comics WHERE id > 680 '''
 query = ''' UPDATE comics SET genres = "0" WHERE id = 83 '''
 query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 

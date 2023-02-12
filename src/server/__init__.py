@@ -2,7 +2,8 @@
 
 from db import swagger_model, load_comics, save_comics_file
 from db import ComicDB, Types, Statuses
-from db.comics_repo import all_comics, comics_by_title, comic_by_id, comics_by_title_no_case
+from db.repo import all_comics, comics_by_title, comic_by_id
+from db.repo import comics_by_title_no_case, merge_comics
 from helpers.server import put_body_parser
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -10,6 +11,7 @@ from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 server = Flask(__name__)
+server.config["RESTX_MASK_SWAGGER"]=False
 server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
     description='A Comic API capable enough to provide all CRUD ops and more',
@@ -17,14 +19,6 @@ api = Api(server, version='1.0', title='ComicMVC API',
 CORS(server, resources={r'/*': {'origins': '*'}})
 ns = api.namespace('comics', description='Comic operations')
 comic_rest_model = api.model('Comic', swagger_model)
-
-def accepted(): 
-    ''' accepted() -> str, int
-    >>> accepted(msg)
-    {'message': 'Accepted'}, 202 '''
-    return jsonify({'message': 'Accepted'}), 202
-def not_found(msg = 'Not Found'): return (jsonify({'message': msg}), 404)
-def bad_request(msg = 'Bad Request'): return (jsonify({'message': msg}), 400)
 
 # RESTful API routes
 
@@ -45,6 +39,8 @@ class ComicList(Resource):
         try:
             int(offset), int(limit)
         except ValueError:
+            ns.logger.info('Pagination parameters type different from int. '+
+                f'[offset: {offset}, limit: {limit}]')
             api.abort(400, 'Pagination parameters type different from int')
         return [comic.toJSON() for comic in all_comics(offset, limit)]
 
@@ -95,18 +91,19 @@ class ComicList(Resource):
         save_comics_file(load_comics)
         return comic.toJSON()
 
-
-@ns.route('/<int:id>')
-@ns.response(404, 'Comic not found')
+COMIC_NOT_FOUND = 'Comic {} not found'
+@ns.route('/<int:id>/')
+@ns.response(404, COMIC_NOT_FOUND)
 @ns.param('id', 'The comic identifier')
 class ComicID(Resource):
-    '''Show a single comic item and lets you delete or update by ID'''
+    '''Shows a single comic item and lets you delete or update by ID'''
+
     @ns.doc('get_comic')
     @ns.marshal_with(comic_rest_model)
     def get(self, id):
         '''Fetch a comic by ID'''
         comic, _ = comic_by_id(id)
-        if comic is None: api.abort(404, 'Comic not found')
+        if comic is None: api.abort(404, COMIC_NOT_FOUND.format(id))
         return comic.toJSON()
     
     @ns.doc('delete_comic')
@@ -114,7 +111,7 @@ class ComicID(Resource):
     def delete(self, id):
         '''Delete a comic given its identifier'''
         comic, session = comic_by_id(id)
-        if comic is None:  api.abort(404, 'Comic not found')
+        if comic is None:  api.abort(404, COMIC_NOT_FOUND.format(id))
         dj_comic = [com for com in load_comics if comic.id == com["id"]][0]
         session.delete(comic)
         session.commit()
@@ -132,7 +129,7 @@ class ComicID(Resource):
         if err_reading_body != '': api.abort(400, err_reading_body)
 
         comic, session = comic_by_id(id)
-        if comic is None:  api.abort(404, 'Comic not found')
+        if comic is None:  api.abort(404, COMIC_NOT_FOUND.format(id))
         json_comic = [comic for comic in load_comics if id == comic["id"]][0]
 
         titles = request.json.get('titles')
@@ -170,12 +167,13 @@ class ComicID(Resource):
         save_comics_file(load_comics)
         return comic.toJSON()
 
-@ns.route('/<string:title>')
+@ns.route('/<string:title>/')
 @ns.response(400, 'Empty title cannot be resolved')
 @ns.param('title', 'The name of the comic')
 class ComicTitle(Resource):
     '''List comics by title'''
-    @ns.doc('get_comic')
+
+    @ns.doc('get_comic_by_title')
     @ns.marshal_list_with(comic_rest_model)
     def get(self, title):
         '''Fetch a list of comics by title'''
@@ -183,48 +181,43 @@ class ComicTitle(Resource):
         if title == '': api.abort(400, 'Empty title cannot be resolved')
         return [comic.toJSON() for comic in comics_by_title_no_case(title)]
 
-@server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', 
-    methods=['PUT', 'PATCH'])
-def merge_comics(comic_id, comic_merging_id):
-    comic, session = comic_by_id(comic_id)
-    if comic is None: return not_found(f'id {comic_id} not found')
-    d_comic = session.query(ComicDB).get(comic_merging_id)
-    if d_comic is None: return not_found(f'id {comic_merging_id} not found')
-    if d_comic.com_type and comic.com_type != d_comic.com_type:
-        return bad_request(f'comics to merge should be of the same type')
-    json_comic = [com for com in load_comics if comic.id == com["id"]][0]
-    dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
+@ns.route('/<int:base_id>/<int:merging_id>/')
+@ns.response(404, COMIC_NOT_FOUND)
+@ns.response(400, 'Comics should be of the same type')
+class ComicMerge(Resource):
+    '''Merge comics by id'''
 
-    titles = list(set(comic.get_titles() + d_comic.get_titles()))
-    comic.set_titles(titles)
-    genres = list(set(comic.get_genres() + d_comic.get_genres()))
-    comic.set_genres(genres)
-    publishers = list(set(comic.get_published_in() +d_comic.get_published_in()))
-    comic.set_published_in(publishers)
-    if comic.current_chap < d_comic.current_chap:
-        comic.current_chap = d_comic.current_chap
+    @ns.doc('merge_comics')
+    @ns.marshal_list_with(comic_rest_model)
+    def patch(self, base_id, merging_id):
+        '''Merge two comics by their respective id'''
+        comic, error = merge_comics(base_id, merging_id)
+        if error != None:
+            if 'Comics' in error:
+                return api.abort(400, error)
+            return api.abort(404, error)
+        return comic
     
-    json_comic["titles"] = titles
-    json_comic["genres"] = genres
-    json_comic["published_in"] = publishers
-    json_comic["com_type"]    = Types(comic.com_type)
+    def put(self, base_id, merging_id):
+        '''Merge two comics by their respective id'''
+        return self.patch(base_id, merging_id)
 
-    session.delete(d_comic)
-    session.commit()
-    load_comics.remove(dj_comic)
-    save_comics_file(load_comics)
+@server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', methods=['PUT'])
+def merge_comics_by_id(comic_id, comic_merging_id):
+    comic, error = merge_comics(comic_id, comic_merging_id)
+    if error != None:
+        return error, 400
     return comic.toJSON()
 
 # API Error handling
 
 @server.errorhandler(404)
 def handle_bad_request(e):
-    return bad_request('Check the URL used')
-
+    return 'Check the URL used', 404
 @server.errorhandler(ValueError)        
 def value_error(e):
     server.logger.error(e)
-    return bad_request('Bad request, check the data format')
+    return 'Bad request, check the data format', 400
 @server.errorhandler(ZeroDivisionError)
 def zero_division_error(e):
     server.logger.error(e)

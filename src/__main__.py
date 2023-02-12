@@ -5,6 +5,14 @@ from scrap import scraps
 from server import server
 from helpers.alert import reminder
 from db import load_comics, session, save_comics_file
+import logging
+
+DEBUG = False
+logging.basicConfig(level=logging.INFO)
+if 'debug' in sys.argv:
+    # configure root logger
+    logging.basicConfig(level=logging.DEBUG)
+    DEBUG = True
 
 def signal_handler(sig, frame):
     session.close()
@@ -28,7 +36,7 @@ def scrapping():
         time.sleep(recurrence)
 
 def run_server():
-    server.run(port=5000, debug=True, host='localhost')
+    server.run(port=5000, debug=DEBUG, host='localhost')
 
 if 'server' in sys.argv:
     run_server()
