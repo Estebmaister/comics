@@ -1,0 +1,73 @@
+body {
+  background: #444;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+input[type=text]{
+  text-align: center;
+  font: inherit;
+  border: 6px solid #4e5757;
+  padding: 13px 12px;
+  font-size: 15px;
+  box-shadow: 0 1px 1px rgb(81, 81, 81);
+  width: 50%;
+  outline: none;
+  display: block;
+  color: #4f5757;
+  margin: 20px auto 20px;
+}
+
+ul {
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  text-shadow: 2px 2px black;
+}
+
+.comic-card {
+  color: #DDD;
+  font-family: sans-serif;
+  display: block;
+  background: linear-gradient(#222, #111);
+  padding: 20px;
+  width: 400px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 2px 2px 3px #111;
+}
+
+.poster {
+  margin-right: 20px;
+  height: 200px;
+  width: 135px;
+  float: left;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+}
+
+.track-button {
+  height: 2em;
+  width: 5em;
+  float: right;
+  border: 1px solid rgb(58, 62, 65);
+  border-radius: 3px;
+  background-color: #004daa;
+  color: #e8e6e3;
+}
+
+h3 {
+  margin: 0px;
+}
+
+.comic-year {
+  color: red;
+}
+
+p {
+  text-align: justify;
+  color: #888
+}
