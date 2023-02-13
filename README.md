@@ -1,12 +1,8 @@
-# Scrap and server deployment
+# Comics MVP: Server, Scrapper and Interface
 
-## Installing dependencies
+## Scrapper and Server deployment (Python)
 
-```sh
-pip install -r requirements.txt
-```
-
-## Virtual environments
+### Virtual environment (Optional)
 
 ```sh
 # Install pip env manager
@@ -22,26 +18,34 @@ source test_env/bin/activate
 deactivate
 ```
 
-## Running scrapper
+### Installing dependencies
+
+```sh
+pip install -r requirements.txt
+```
+
+### Running scrapper
 
 ```sh
 python src
 ```
 
-## Running tests
+### Running tests
 
 ```sh
 python tests
 ```
 
-## Running server
+### Running server
 
 ```sh
 python src/__main__.py server
 ```
+## Interface deployment (React)
 
-## Running frontend
+### Running frontend
 
 ```sh
-cd frontend && npm start
+npm install --prefix frontend
+npm start --prefix frontend
 ```
