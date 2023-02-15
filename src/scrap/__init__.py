@@ -5,7 +5,7 @@ import time, os, re, json
 import cloudscraper
 from bs4 import BeautifulSoup as beauty
 from helpers.alert import add_alert_to_msg
-from db import Types, Statuses, Publishers, ComicDB
+from db import Types, Statuses, Publishers, ComicDB, save_comics_file, load_comics
 from db.helpers import manage_multi_finds
 from db.repo import comics_by_title
 
@@ -46,12 +46,12 @@ def strip_parameters(chap, title, cover):
     title = title.replace("(novel)", " - novel")
     return (chap, title, cover)
 
-def register_comic(loaded_comics: list, chap: str, title: str, 
+def register_comic(chap: str, title: str, 
     com_type: Types, cover: str, status: Statuses, publisher: Publishers):
     (chap, title, cover) = strip_parameters(chap, title, cover)
 
     db_comics, session = comics_by_title(title)
-    comics = [comic for comic in loaded_comics if title in comic["titles"]]
+    comics = [comic for comic in load_comics if title in comic["titles"]]
     ## Check for multiple responses
     db_comics, title = manage_multi_finds(db_comics, com_type, title)
     if len(db_comics) == 0:
@@ -61,7 +61,8 @@ def register_comic(loaded_comics: list, chap: str, title: str,
         
         session.add(db_comic_to_load)
         session.commit()
-        loaded_comics.append(db_comic_to_load.toJSON())
+        load_comics.append(db_comic_to_load.toJSON())
+        save_comics_file(load_comics)
         
         print(json.dumps(db_comic_to_load.toJSON()))
     elif len(db_comics) == 1:
@@ -84,6 +85,7 @@ def register_comic(loaded_comics: list, chap: str, title: str,
         update_cover_manhuaplus(db_comics, comics, cover, publisher, title)
         
         session.commit()
+        save_comics_file(load_comics)
     else:
         print(f'Abnormal length in db query: {len(db_comics)}, '
             + f'[{title}] impossible to parse')
@@ -115,7 +117,7 @@ def scrap(url: str, str_to_file: str = ' '):
             # file.write(f'{divs}')
     return soup
 
-def scrap_luminousscans(loaded_comics: list):
+def scrap_luminousscans():
     soup = scrap(urls["luminousscans"])
     # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
@@ -129,10 +131,10 @@ def scrap_luminousscans(loaded_comics: list):
         title = comic_int.a.h4.text
         chap = comic_int.li.a.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.LuminousScans)
 
-def scrap_flamescans(loaded_comics: list):
+def scrap_flamescans():
     soup = scrap(urls["flamescans"])
     # Locating divs used for comics
     chaps = soup.find_all(class_="bsx")
@@ -150,10 +152,10 @@ def scrap_flamescans(loaded_comics: list):
             continue
         chap = chap_int[0].a.div.div.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.FlameScans)
 
-def scrap_manhuaplus(loaded_comics: list):
+def scrap_manhuaplus():
     soup = scrap(urls["manhuaplus"])
     # Locating divs used for comics
     chaps = soup.select("div.col-6.col-md-3.badge-pos-2")
@@ -167,10 +169,10 @@ def scrap_manhuaplus(loaded_comics: list):
         title = comic_int.div.h3.a.text
         chap = comic_int.select("div.list-chapter")[0].div.span.a.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ManhuaPlus)
 
-def scrap_reaper(loaded_comics: list):
+def scrap_reaper():
     soup = scrap(urls["reaper"])
     # Locating divs used for comics/novels
     chaps = soup.select("div.relative.flex.space-x-2.rounded.bg-white.p-2")
@@ -189,10 +191,10 @@ def scrap_reaper(loaded_comics: list):
         title = comic_int.div.p.a.text
         chap = comic_int.div.div.a.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ReaperScans)
 
-def scrap_asura(loaded_comics: list):
+def scrap_asura():
     soup = scrap(urls["asura"])
     # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
@@ -206,13 +208,13 @@ def scrap_asura(loaded_comics: list):
         title = comic_int.h4.text
         chap = comic_int.li.a.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.Asura)
 
         title = title[:27] + '...' if len(title) > 30 else '{:30}'.format(title)
         # print(f"{title} ch {chap}")
 
-def scrap_realmscans(loaded_comics: list):
+def scrap_realmscans():
     soup = scrap(urls["realmscans"])
     # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
@@ -226,7 +228,7 @@ def scrap_realmscans(loaded_comics: list):
         title = comic_int.h4.text
         chap = comic_int.li.a.text
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.RealmScans)
 
 def com_type_parse(com_type_txt: str):
@@ -254,7 +256,7 @@ def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
 
     return chap, title, com_type, cover
 
-def scrap_resetscans(loaded_comics: list):
+def scrap_resetscans():
     soup = scrap(urls["resetscans"])
     # Locating divs used for comics
     chaps = soup.select("div.page-item-detail.manga")
@@ -262,10 +264,10 @@ def scrap_resetscans(loaded_comics: list):
         chap, title, com_type, cover = scrap_chapter(comic, div_item_summary,
             "div.post-title.font-title", "span.chapter.font-meta")
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ResetScans)
 
-def scrap_isekaiscan(loaded_comics: list):
+def scrap_isekaiscan():
     soup = scrap(urls["isekaiscan"])
     # Locating divs used for comics
     chaps = soup.select("div.page-item-detail.manga")
@@ -273,17 +275,17 @@ def scrap_isekaiscan(loaded_comics: list):
         chap, title, com_type, cover = scrap_chapter(comic, div_item_summary,
             "div.post-title.font-title", "span.chapter.font-meta")
 
-        register_comic(loaded_comics, chap, title, com_type, cover,
+        register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.IsekaiScan)
         # print(f"{title} ch {chap}, {com_type}, {cover}")
 
-def scraps(loaded_comics: list):
-    scrap_manhuaplus(loaded_comics)
-    scrap_asura(loaded_comics)
-    scrap_reaper(loaded_comics)
-    scrap_flamescans(loaded_comics)
-    scrap_luminousscans(loaded_comics)
-    scrap_resetscans(loaded_comics)
-    scrap_isekaiscan(loaded_comics)
-    scrap_realmscans(loaded_comics)
+def scraps():
+    scrap_manhuaplus()
+    scrap_asura()
+    scrap_reaper()
+    scrap_flamescans()
+    scrap_luminousscans()
+    scrap_resetscans()
+    scrap_isekaiscan()
+    scrap_realmscans()
     # scrap(urls["isekaiscan"], "ise")

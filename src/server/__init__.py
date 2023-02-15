@@ -11,12 +11,13 @@ from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 server = Flask(__name__)
+# CORS(server)
+CORS(server, resources={r'/*': {'origins': '*'}})
 server.config["RESTX_MASK_SWAGGER"]=False
 server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
     description='A Comic API capable enough to provide all CRUD ops and more',
 )
-CORS(server, resources={r'/*': {'origins': '*'}})
 ns = api.namespace('comics', description='Comic operations')
 comic_rest_model = api.model('Comic', swagger_model)
 
