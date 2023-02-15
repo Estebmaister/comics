@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './frontend/index.css';
 import App from './frontend/App';
 import reportWebVitals from './frontend/reportWebVitals';
-import comics from './db/comics.json';
-
-comics.sort((a,b) => a.last_update - b.last_update)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App items={comics}/>
+    <App/>
   </React.StrictMode>
 );
 

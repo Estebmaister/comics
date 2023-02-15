@@ -12,7 +12,6 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 server = Flask(__name__)
 # CORS(server)
-CORS(server, resources={r'/*': {'origins': '*'}})
 server.config["RESTX_MASK_SWAGGER"]=False
 server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
@@ -93,7 +92,7 @@ class ComicList(Resource):
         return comic.toJSON()
 
 COMIC_NOT_FOUND = 'Comic {} not found'
-@ns.route('/<int:id>/')
+@ns.route('/<int:id>','/<int:id>/')
 @ns.response(404, COMIC_NOT_FOUND)
 @ns.param('id', 'The comic identifier')
 class ComicID(Resource):
@@ -168,7 +167,7 @@ class ComicID(Resource):
         save_comics_file(load_comics)
         return comic.toJSON()
 
-@ns.route('/<string:title>/')
+@ns.route('/<string:title>','/<string:title>/')
 @ns.response(400, 'Empty title cannot be resolved')
 @ns.param('title', 'The name of the comic')
 class ComicTitle(Resource):
@@ -182,7 +181,7 @@ class ComicTitle(Resource):
         if title == '': api.abort(400, 'Empty title cannot be resolved')
         return [comic.toJSON() for comic in comics_by_title_no_case(title)]
 
-@ns.route('/<int:base_id>/<int:merging_id>/')
+@ns.route('/<int:base_id>/<int:merging_id>','/<int:base_id>/<int:merging_id>/')
 @ns.response(404, COMIC_NOT_FOUND)
 @ns.response(400, 'Comics should be of the same type')
 class ComicMerge(Resource):
@@ -199,15 +198,18 @@ class ComicMerge(Resource):
             return api.abort(404, error)
         return comic
     
-    def put(self, base_id, merging_id):
-        '''Merge two comics by their respective id'''
-        return self.patch(base_id, merging_id)
+    # def put(self, base_id, merging_id):
+    #     '''Merge two comics by their respective id'''
+    #     return self.patch(base_id, merging_id)
 
+## Route put option exposed but not available in swagger
 @server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', methods=['PUT'])
 def merge_comics_by_id(comic_id, comic_merging_id):
     comic, error = merge_comics(comic_id, comic_merging_id)
     if error != None:
-        return error, 400
+        if 'Comics' in error:
+            return error, 400
+        return error, 404
     return comic.toJSON()
 
 # API Error handling

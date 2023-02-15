@@ -1,6 +1,8 @@
 # src/__main__.py
 
 import time, sys
+
+from flask_cors import CORS
 from scrap import scraps
 from server import server
 from helpers.alert import reminder
@@ -26,6 +28,9 @@ def scrapping():
         time.sleep(recurrence)
 
 def run_server():
+    CORS( server, 
+        resources={r'/comics/*': {'origins': ['http://localhost:3000']}}
+    )
     server.run(port=5000, debug=DEBUG, host='localhost')
 
 if 'server' in sys.argv:

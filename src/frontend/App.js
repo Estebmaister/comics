@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import comics from '../db/comics.json';
+
+comics.sort((a,b) => a.last_update - b.last_update)
 
 const Types = {
     0: 'Unknown',
@@ -63,18 +66,10 @@ const genres_handler = (genres) => {
 const server = "http://localhost:5000"
 
 const track = (tracked, id) => {
-  
-  console.log(JSON.stringify({
-    "track": !tracked
-  }))
-  fetch(server + '/comics/' + id, {
+  fetch(`${server}/comics/${id}`, {
     method: 'PUT',
-    body: JSON.stringify({
-      track: !tracked
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    body: JSON.stringify({ track: !tracked }),
+    headers: { 'Content-Type': 'application/json' },
   })
     .then((response) => response.json())
     .then((data) => {
@@ -111,23 +106,19 @@ class SearchDiv extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      searchString: ''
+      searchString: '',
+      f_comics: comics.slice(0, 8),
+      from: 0,
+      limit: 8
     };
   }
 
   handleChange(e) {
-    this.setState({searchString:e.target.value});
-  }
-
-  render() {
-    let f_comics = this.props.items,
-      searchString = this.state.searchString.trim().toLowerCase();
-
-    if (searchString.length > 0) {
-      // Filter the results
-      f_comics = f_comics.filter((com) => {
+    let filtered_comics = comics.slice(this.state.from, this.state.limit)
+    if (e.target.value.trim().length > 0) {
+      filtered_comics = comics.filter((com) => {
         for (const title of com.titles) {
-          if (title.toLowerCase().includes( searchString )) {
+          if (title.toLowerCase().includes( e.target.value.trim().toLowerCase() )) {
             return true;
           }
         }
@@ -135,19 +126,29 @@ class SearchDiv extends React.Component {
       });
     }
 
+    this.setState((state, _props) => ({
+      searchString: e.target.value,
+      f_comics: filtered_comics.slice(state.from, state.limit)
+    }));
+  }
+
+  render() {
+
     return <div>
-        <input  type="text"  value={this.state.searchString} 
-          onChange={this.handleChange}  placeholder="Search by comic name" />
-        <ul> 
-          {f_comics.map((item, i) => <ComicCard comic={item} key={item.id} />)}
-        </ul>
-      </div>;
+      <input type="text" value={this.state.searchString} 
+        onChange={this.handleChange}  placeholder="Search by comic name" />
+      <ul>
+        {this.state.f_comics.map((item, _i) => <ComicCard comic={item} key={item.id} />)}
+      </ul>
+      {this.state.from === 0 ? '' : <button>Prev</button>}
+      <button>Next</button>
+    </div>;
   }
 };
 
-const App = (props) => {
+const App = () => {
   return <>
-    <SearchDiv items={ props.items } />
+    <SearchDiv/>
   </>
 }
 
