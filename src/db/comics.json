@@ -8616,9 +8616,9 @@
     "titles": [
       "It starts with a mountain"
     ],
-    "current_chap": 493,
+    "current_chap": 494,
     "cover": "https://realmscans.com/wp-content/uploads/2021/08/it-starts-with-a-mountain-thumb-161222-220x300.webp",
-    "last_update": 1676384082,
+    "last_update": 1676492822,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8849,9 +8849,9 @@
     "titles": [
       "Pure villain"
     ],
-    "current_chap": 36,
+    "current_chap": 37,
     "cover": "https://realmscans.com/wp-content/uploads/2022/08/villain-pure-220x300.webp",
-    "last_update": 1675900562,
+    "last_update": 1676492823,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8871,9 +8871,9 @@
     "titles": [
       "After chopping wood for 10 years, all the immortals want to become my disciple"
     ],
-    "current_chap": 18,
+    "current_chap": 19,
     "cover": "https://realmscans.com/wp-content/uploads/2022/10/woodchopper.webp",
-    "last_update": 1675900562,
+    "last_update": 1676492822,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -14466,6 +14466,27 @@
     "status": 2,
     "published_in": [
       4
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 686,
+    "titles": [
+      "My wife is actually the future tyrant empress"
+    ],
+    "current_chap": 36,
+    "cover": "https://realmscans.com/wp-content/uploads/2022/06/tyrantempress1-11.webp",
+    "last_update": 1676492822,
+    "com_type": 2,
+    "status": 2,
+    "published_in": [
+      8
     ],
     "genres": [
       0
