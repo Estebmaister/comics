@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import {App, COMIC_SEARCH_PLACEHOLDER} from './App';
 
-test('renders learn react link', () => {
+test(`renders "${COMIC_SEARCH_PLACEHOLDER}"`, () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const inputElement = screen.getByPlaceholderText(COMIC_SEARCH_PLACEHOLDER);
+  expect(inputElement).toBeDefined();
 });

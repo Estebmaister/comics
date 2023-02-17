@@ -36,7 +36,7 @@ class TestScrapTitles(unittest.TestCase):
         self.assertEqual(len(db_comics),1)
         self.assertEqual(db_comics[0].titles,title_novel)
     def test_response_error(self):
-        title = 'No error, testing more than 2 comics for 1 title'
+        title = '"No Error", testing alert for more than 2 comics with 1 title'
         db_comics = [
             ComicDB(None, title      , 0),
             ComicDB(None, title + "1", 0),

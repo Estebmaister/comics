@@ -12,7 +12,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.5.1"
+    "@svgr/webpack": "^6.5.1",
+    "husky": "^8.0.3"
   },
   "overrides": {
     "@svgr/webpack": "6.5.1",
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [

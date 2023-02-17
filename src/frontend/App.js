@@ -80,6 +80,8 @@ const track = (tracked, id) => {
     });
 }
 
+export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
+
 const ComicCard = (props) => (
   <li key={props.comic.id} className="comic-card">
     <img className="poster" src={props.comic.cover} alt={props.comic.titles[0]}/>
@@ -136,7 +138,7 @@ class SearchDiv extends React.Component {
 
     return <div>
       <input type="text" value={this.state.searchString} 
-        onChange={this.handleChange}  placeholder="Search by comic name" />
+        onChange={this.handleChange}  placeholder={COMIC_SEARCH_PLACEHOLDER} />
       <ul>
         {this.state.f_comics.map((item, _i) => <ComicCard comic={item} key={item.id} />)}
       </ul>
@@ -146,10 +148,8 @@ class SearchDiv extends React.Component {
   }
 };
 
-const App = () => {
+export const App = () => {
   return <>
     <SearchDiv/>
   </>
 }
-
-export default App;
