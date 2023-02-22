@@ -21,9 +21,11 @@ def scrapping():
     scrap_cont = 1
     logging.info('Scraping started...')
     while True:
+        time_started = time.time()
         scraps()
         reminder()
-        print(scrap_cont, end = '. ', flush=True)
+        time_req = round((time.time() - time_started), 2)
+        print(f'{scrap_cont} ({time_req})', end = '. ', flush=True)
         scrap_cont += 1
         time.sleep(recurrence)
 
