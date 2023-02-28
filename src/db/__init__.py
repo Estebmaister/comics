@@ -68,6 +68,9 @@ class Publishers(IntEnum):
     ResetScans:     int = 6
     IsekaiScan:     int = 7
     RealmScans:     int = 8
+    LeviatanScans:  int = 9
+    NightScans:     int = 10
+    VoidScans:      int = 11
 
 class ComicDB(Base):
     __tablename__ = 'comics'

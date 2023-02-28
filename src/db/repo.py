@@ -1,4 +1,4 @@
-from db import ComicDB, session, load_comics, save_comics_file
+from db import ComicDB, Types, session, load_comics, save_comics_file
 
 def all_comics(_from: int = 0, _limit: int = 20, full: bool = False):
     if full:
@@ -26,7 +26,7 @@ def merge_comics(base_id: int, merging_id: int):
     if comic is None: return None, COMIC_NOT_FOUND.format(base_id)
     d_comic = session.query(ComicDB).get(merging_id)
     if d_comic is None: return None, COMIC_NOT_FOUND.format(merging_id)
-    if d_comic.com_type and comic.com_type != d_comic.com_type:
+    if d_comic.com_type != 0 and comic.com_type != d_comic.com_type:
         return None, 'Comics to merge should be of the same type'
     json_comic = [com for com in load_comics if comic.id == com["id"]][0]
     dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]

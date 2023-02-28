@@ -80,7 +80,23 @@ const track = (tracked, id) => {
     });
 }
 
+const checkout = (curr_chap, id) => {
+  fetch(`${server}/comics/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ viewed_chap: curr_chap }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err.message);
+    });
+}
+
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
+let TRACKED_ONES = false;
 
 const ComicCard = (props) => (
   <li key={props.comic.id} className="comic-card">
@@ -95,6 +111,12 @@ const ComicCard = (props) => (
     <p>Status: {Statuses[props.comic.status]}</p>
     <p>Genres: {genres_handler(props.comic.genres)}</p>
     <p>{publishers_handler(props.comic.published_in)}</p>
+    {props.comic.track ? 
+      <button className="track-button" 
+        onClick={() => checkout(props.comic.current_chap, props.comic.id)}>
+        Checkout
+      </button> : ''
+    }
     <button className="track-button" 
       onClick={() => track(props.comic.track, props.comic.id)}>
       {props.comic.track ? "Untrack":"Track"}
@@ -120,6 +142,9 @@ class SearchDiv extends React.Component {
     if (e.target.value.trim().length > 0) {
       filtered_comics = comics.filter((com) => {
         for (const title of com.titles) {
+          if (TRACKED_ONES && !com.track) {
+            return false;
+          }
           if (title.toLowerCase().includes( e.target.value.trim().toLowerCase() )) {
             return true;
           }
@@ -139,6 +164,7 @@ class SearchDiv extends React.Component {
     return <div>
       <input type="text" value={this.state.searchString} 
         onChange={this.handleChange}  placeholder={COMIC_SEARCH_PLACEHOLDER} />
+      <button>Tracked ones</button>
       <ul>
         {this.state.f_comics.map((item, _i) => <ComicCard comic={item} key={item.id} />)}
       </ul>
