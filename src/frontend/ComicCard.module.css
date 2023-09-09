@@ -1,0 +1,38 @@
+
+.comicCard {
+  color: #DDD;
+  font-family: sans-serif;
+  display: block;
+  background: linear-gradient(#222, #1e1c32);
+  padding: 20px;
+  width: 400px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 2px 2px 3px #111;
+  position: relative;
+}
+.poster {
+  margin-right: 20px;
+  height: 200px;
+  width: 135px;
+  float: left;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+}
+
+/* Text card related changes */
+
+.comicTitle {
+  margin: 0px;
+  height: 5em;
+  margin-bottom: 0.5em;
+}
+.comicChapter {
+  color: #DDD;
+  font-weight: bold;
+}
+.currentChapter {
+  color: #ba5f38;
+  font-weight: bold;
+}

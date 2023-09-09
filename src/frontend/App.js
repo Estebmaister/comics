@@ -1,175 +1,123 @@
 import React from 'react';
 import './App.css';
 import comics from '../db/comics.json';
+import { ComicCard } from './ComicCard';
 
-comics.sort((a,b) => a.last_update - b.last_update)
-
-const Types = {
-    0: 'Unknown',
-    1: 'Manga',
-    2: 'Manhua',
-    3: 'Manhwa', 
-    4: 'Novel'
-}
-
-const Statuses = {
-    0: 'Unknown',  
-    1: 'Completed',
-    2: 'OnAir',    
-    3: 'Break',    
-    4: 'Dropped',  
-}
-
-const Genres = {
-    0: 'Unknown',      
-    1: 'Action',       
-    2: 'Adventure',    
-    3: 'Fantasy',      
-    4: 'Overpowered',  
-    5: 'Comedy',       
-    6: 'Drama',        
-    7: 'SchoolLife',   
-    8: 'System',       
-    9: 'Supernatural', 
-    10:'MartialArts',  
-    11:'Romance',      
-    12:'Shounen',      
-    13:'Reincarnation',
-}
-
-const Publishers = {
-    0: 'Unknown',      
-    1: 'Asura',        
-    2: 'ReaperScans',  
-    3: 'ManhuaPlus',   
-    4: 'FlameScans',   
-    5: 'LuminousScans',
-    6: 'ResetScans',   
-    7: 'IsekaiScan',   
-    8: 'RealmScans',   
-}
-
-const publishers_handler = (publishers) => {
-  const return_array = [];
-  publishers.forEach( element => 
-    return_array.push(Publishers[+element]) )
-  return return_array.join(', ');
-}
-
-const genres_handler = (genres) => {
-  const return_array = [];
-  genres.forEach( element => 
-    return_array.push(Genres[+element]) )
-  return return_array.join(', ');
-}
-
-const server = "http://localhost:5000"
-
-const track = (tracked, id) => {
-  fetch(`${server}/comics/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ track: !tracked }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((err) => {
-        console.log(err.message);
-    });
-}
-
-const checkout = (curr_chap, id) => {
-  fetch(`${server}/comics/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ viewed_chap: curr_chap }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((err) => {
-        console.log(err.message);
-    });
-}
-
+comics.sort((a,b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
-let TRACKED_ONES = false;
 
-const ComicCard = (props) => (
-  <li key={props.comic.id} className="comic-card">
-    <img className="poster" src={props.comic.cover} alt={props.comic.titles[0]}/>
-    <h3>{props.comic.titles[0]}</h3>
-    <span className="comic-year">Current Chap {props.comic.current_chap}</span>
-    {props.comic.track ? 
-      <p className="comic-year">Viewed Chap {props.comic.viewed_chap}</p> 
-      : ''}
-    <p>{props.comic.author}</p>
-    <p>{Types[props.comic.com_type]}</p>
-    <p>Status: {Statuses[props.comic.status]}</p>
-    <p>Genres: {genres_handler(props.comic.genres)}</p>
-    <p>{publishers_handler(props.comic.published_in)}</p>
-    {props.comic.track ? 
-      <button className="track-button" 
-        onClick={() => checkout(props.comic.current_chap, props.comic.id)}>
-        Checkout
-      </button> : ''
+const filter_comics = (comics, from, limit, filter_word, tracked_only) => 
+  comics.filter((com) => {
+    for (const title of com.titles) {
+      if (tracked_only && !com.track) {
+        return false;
+      }
+      if (title.toLowerCase().includes( filter_word.toLowerCase() )) {
+        return true;
+      }
     }
-    <button className="track-button" 
-      onClick={() => track(props.comic.track, props.comic.id)}>
-      {props.comic.track ? "Untrack":"Track"}
-    </button>
-  </li>)
-
+    return false;
+  }).slice( from, from + limit );
 
 class SearchDiv extends React.Component {
-
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
     this.state = {
-      searchString: '',
-      f_comics: comics.slice(0, 8),
-      from: 0,
+      username: '',
+      // A string with filtering words.
+      search_string: localStorage.getItem('search_string') || '',
+      // A slice with current 8 filtered comics.
+      f_comics: filter_comics(
+        comics, parseInt(localStorage.getItem('from')) || 0, 8, 
+        localStorage.getItem('search_string') || '', 
+        JSON.parse(localStorage.getItem('tracked_only'))
+      ),
+      // A flag for the tracked comics
+      tracked_only: JSON.parse(localStorage.getItem('tracked_only')),
+      // Pagination
+      from: parseInt(localStorage.getItem('from')) || 0,
       limit: 8
     };
   }
 
-  handleChange(e) {
-    let filtered_comics = comics.slice(this.state.from, this.state.limit)
-    if (e.target.value.trim().length > 0) {
-      filtered_comics = comics.filter((com) => {
-        for (const title of com.titles) {
-          if (TRACKED_ONES && !com.track) {
-            return false;
-          }
-          if (title.toLowerCase().includes( e.target.value.trim().toLowerCase() )) {
-            return true;
-          }
-        }
-        return false;
-      });
+  handleTrackedOnly() {
+    localStorage.setItem('tracked_only', !this.state.tracked_only);
+    this.setState((state, _props) => ({
+      tracked_only: !state.tracked_only,
+    }), () => this.handleInputChange());
+  }
+
+  handleInputChange(e) {
+    let filter_word = e?.target?.value === undefined ? 
+      this.state.search_string : e.target.value.trim();
+    localStorage.setItem('search_string', filter_word);
+
+    let filtered_comics;
+    if (filter_word !== '' || this.state.tracked_only === true) {
+      filtered_comics = filter_comics(comics, 
+        this.state.from, this.state.from + this.state.limit, 
+        filter_word, this.state.tracked_only);
+    } else {
+      filtered_comics = comics.slice(
+        this.state.from, this.state.from + this.state.limit
+        );
     }
 
+    this.setState((_state, _props) => ({
+      search_string: filter_word,
+      f_comics: filtered_comics
+    }), () => console.log(this.state));
+  }
+
+  handlePagination(direction) {
+    let moveFrom = 0
+    if (direction === 'next') {
+      moveFrom = +this.state.limit;
+    } else if (direction === 'prev') {
+      moveFrom = -this.state.limit;
+    } else {
+      console.log("Pagination called without valid argument: ", direction);
+      return;
+    }
+
+    localStorage.setItem('from', this.state.from + moveFrom);
     this.setState((state, _props) => ({
-      searchString: e.target.value,
-      f_comics: filtered_comics.slice(state.from, state.limit)
-    }));
+      from: state.from + moveFrom,
+    }), () => this.handleInputChange());
   }
 
   render() {
-
     return <div>
-      <input type="text" value={this.state.searchString} 
-        onChange={this.handleChange}  placeholder={COMIC_SEARCH_PLACEHOLDER} />
-      <button>Tracked ones</button>
-      <ul>
-        {this.state.f_comics.map((item, _i) => <ComicCard comic={item} key={item.id} />)}
-      </ul>
-      {this.state.from === 0 ? '' : <button>Prev</button>}
-      <button>Next</button>
+      <div className="nav-bar">
+        <button className="basic-button search-button" 
+          onClick={() => this.handleTrackedOnly()} > Tracked
+        </button>
+
+        <input className="search-box" type="text" 
+          placeholder={COMIC_SEARCH_PLACEHOLDER}
+          value={this.state.search_string} onChange={this.handleInputChange}
+        />
+
+        <div className='pagination-buttons'>
+          {this.state.from === 0 ? '' : 
+            <button className='basic-button search-button untrack-button' 
+              onClick={() => this.handlePagination('prev')}>Prev</button>
+          }
+          <button className='basic-button search-button' 
+            onClick={() => this.handlePagination('next')} >
+            Next
+          </button>
+        </div>
+      </div>
+
+      <ul className='comic-list'> {
+        this.state.f_comics.map( (item, _i) => 
+          <ComicCard comic={item} key={item.id} />
+        )
+      } </ul>
+    
     </div>;
   }
 };
