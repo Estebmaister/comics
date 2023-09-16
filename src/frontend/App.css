@@ -1,3 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 html, html[data-theme="light"] {
   --primary-color:  #000000;
   --secondary-color:lightgray;
@@ -13,17 +21,6 @@ html[data-theme="dark"] {
   --primary-color:  #e8e6e3;
   --secondary-color:#575757;
   --contrast-color: #162c46;
-}
-/* html {
-  height: 100%;
-} */
-* {
-  margin: 0;
-  padding: 0;
-}
-*, *::before, *::after {
-  /* TODO: Fix implementation */
-  /* box-sizing: border-box; */
 }
 
 body {
@@ -45,41 +42,51 @@ body {
   width: 5.5em;
   font-weight: bolder;
   font-size: 0.7em;
-  border: 1px solid rgb(58, 62, 65);
-  border-radius: 3px;
-  background-color: #2860a5;
+  border: 1px solid rgba(58, 62, 65, 0.82);
+  border-radius: 10px;
+  background-color: #2b5991cb;
   color: #e8e6e3;
   cursor: pointer;
+  line-height: 1.4em;
   opacity:0.8;
   transition: 200ms ease;
 }
-.basic-button:hover {
-  -webkit-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  transform: scale(1.2);
+.basic-button:hover,  .basic-button:focus{
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
   opacity:1;
 }
-.track-button {
-  position: absolute;
-  right: 0.5em;
-  bottom: 0.5em;
+.basic-button:focus {
+  opacity:0.8;
+  transition: 2000ms ease;
 }
-.untrack-button {
-  background-color: #a52828;
+.basic-button:disabled {
+  background-color: var(--shadow);
+  cursor: not-allowed;
 }
-.check-button {
-  background-color: #a54d28;
-  bottom: 3em;
+.reverse-button {
+  background-color: #953636d5;
 }
-.search-button {
-  height: 100%;
-  margin-right: 0.7em;
-  margin-left: 0.7em;
+.bar-button, .pag-button, .all-track-button {
+  margin: auto;
+  height: 85%;
+  width: 6em;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
 }
-.pagination-buttons {
-  width: 10em;
+.pag-button {
+  width: 3em;
+  height: 70%;
+  line-height: 0.95em;
+}
+.all-track-button {
+  width: 8em;
+}
+.div-pagination-buttons {
+  width: 23em;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 /* Navigation bar */
@@ -97,13 +104,14 @@ body {
 }
 .search-box {
   box-sizing: border-box;
-  height: 100%;
-  border: 0.2em solid #4e5757;
+  height: 80%;
+  border: 1px solid #4e5757bf;
+  border-radius: 5px;
   text-align: center;
   font: inherit;
-  padding: 1em;
-  font-size: 1.1em;
-  box-shadow: 0 1px 1px rgb(81, 81, 81);
+  padding: 0.8em;
+  font-size: 1em;
+  box-shadow: 0 1px 1px rgba(81, 81, 81, 0.754);
   outline: none;
   display: block;
   color: #4f5757;
@@ -127,7 +135,6 @@ body {
 }
 
 /* Text card related changes */
-
 .text {
   max-width: 350px;
   height: 1.2em;
@@ -144,6 +151,25 @@ p {
   margin-top: 100px;
   position: relative;
   display: inline-block;
+}
+
+/* Phone portrait view */
+@media only screen and (orientation: portrait) {
+  body {
+    font-size: 15px;
+  }
+  .all-track-button {
+    width: 9em;
+    height: 2.3em;
+    margin-left: 0.7em;
+  }
+  .div-pagination-buttons {
+    position:absolute; 
+    bottom: -25px;
+  }
+  .text {
+    max-width: 240px;
+  }
 }
 
 .tooltip_div .tooltip {

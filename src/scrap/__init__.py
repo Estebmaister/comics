@@ -20,10 +20,16 @@ def strip_parameters(chap, title, cover):
     try:
         chap = int(re.findall(r'\d+', chap)[0])
     except (ValueError, IndexError) as error:
-        print(f'{error}, {chap} impossible to parse from {title}')
+        print(f'ERROR: {error}, {chap} impossible to parse from {title}')
         return
-    # Replace cdn when encountered
+    # Replace cdn when found
+    if '/cdn-cgi' in cover:
+        # TODO: do not hardcode this
+        cover = "https://realmscans.to" + cover
     cover = cover[cover.find("http"):]
+    if len(cover) < 10:
+        print(f'ERROR: bad cover {cover}')
+        cover = ''
     # Striping and capitalizing title for uniformity
     title = title.strip().capitalize()
     # Replace for novel comics syntax in LuminousScans
@@ -39,7 +45,7 @@ async def register_comic(chap: str, title: str,
     ## Check for multiple responses
     db_comics, title = manage_multi_finds(db_comics, com_type, title)
     if len(db_comics) == 0:
-        print(f'{title} Not Found in DB, creating new entry')
+        print(f'INFO: {title} Not Found in DB, creating new entry')
         db_comic_to_load = ComicDB(None, title, chap, cover, 
             int(time.time()), com_type, status, publisher)
         
@@ -54,7 +60,7 @@ async def register_comic(chap: str, title: str,
         if publisher not in db_comics[0].get_published_in():
             db_comics[0].published_in += f"|{publisher}"
             comics[0]["published_in"].append(publisher)
-            print(title, "adding new publisher:", publisher)
+            print('INFO:', title, "adding new publisher:", publisher)
 
         ## Updating last chapter released
         if chap > db_comics[0].current_chap:
@@ -66,29 +72,36 @@ async def register_comic(chap: str, title: str,
                 add_alert_to_msg(title,chap,db_comics[0].get_published_in())
         
         ## Update cover for ManhuaPlus comics
-        await update_cover_manhuaplus(db_comics, comics, cover, publisher, title)
+        await update_cover_if_needed(db_comics, comics, cover, publisher, title)
         
         session.commit()
         save_comics_file(load_comics)
     else:
-        print(f'Abnormal length in db query: {len(db_comics)}, '
+        print(f'WARN: Abnormal length in db query: {len(db_comics)}, '
             + f'[{title}] impossible to parse')
 
-async def update_cover_manhuaplus(db_comics, comics, cover, publisher, title):
-    '''Update cover for ManhuaPlus comics due to load restriction'''
+async def update_cover_if_needed(db_comics, comics, cover, publisher, title):
+    if cover == '': return
+    # Update cover for ManhuaPlus and Reaper comics due to load restriction
     if not db_comics[0].cover or (publisher != Publishers.ManhuaPlus and 
-        Publishers.ManhuaPlus in db_comics[0].get_published_in()):
+        publisher != Publishers.ReaperScans and
+        (Publishers.ManhuaPlus in db_comics[0].get_published_in() or
+            Publishers.ReaperScans in db_comics[0].get_published_in())):
         if db_comics[0].cover != cover:
             db_comics[0].cover = cover
             comics[0]['cover'] = cover
-            print(title, 'cover updated')
+    # Update url for asura
+    if publisher == Publishers.Asura and db_comics[0].cover != cover:
+        db_comics[0].cover = cover
+        comics[0]['cover'] = cover
+        print('INFO:', title, 'cover updated')
 
-async def scrap(url: str, str_to_file: str = ' '):
+async def scrape(url: str, str_to_file: str = ' '):
     # Make a GET request to the website
     try:
         with scraper.get(url, timeout = TIME_OUT_LIMIT) as response:
             if response.status_code != 200:
-                print(f'WARN fetching {url} server {response.status_code}')
+                print(f'WARN: fetching {url} server {response.status_code}')
             # Parse the HTML content of the website
             soup = beauty(response.text, 'html.parser')
             # Printing scraped data
@@ -102,7 +115,7 @@ async def scrap(url: str, str_to_file: str = ' '):
                     # file.write(f'{divs}')
             return soup
     except Exception as err:
-        print(f'WARN fetching {url} timed out, {type(err)} {err}')
+        print(f'WARN: fetching {url} timed out, {type(err)} {err}')
         return beauty('', 'html.parser')
 
 def com_type_parse(com_type_txt: str):
@@ -116,10 +129,14 @@ def com_type_parse(com_type_txt: str):
             com_type = Types["Unknown"]
         else:
             com_type = Types["Unknown"]
-            print(f'Comic type -{error}- impossible to parse')
+            print(f'WARN: Comic type {error} impossible to parse')
     return com_type
 
-async def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
+def check_chapter_extraction(chapters: [], publisher: Publishers):
+    if len(chapters) < 1: 
+        print(f'WARN: {str(publisher)} needs remake for scrape func')
+
+async def scrape_chapter(comic, int_path: str, title_path: str, chap_path: str):
     # Locating div used for title and chapter
     comic_int = comic.select(int_path)[0]
     try:
@@ -145,13 +162,14 @@ async def scrap_chapter(comic, int_path: str, title_path: str, chap_path: str):
         cover = comic.div.a.img["src"]
     return chap, title, com_type, cover
 
-async def scrap_common_1(url: str, publisher: Publishers):
-    soup = await scrap(url)
+async def scrape_common_1(url: str, publisher: Publishers):
+    soup = await scrape(url)
     # Locating divs used for comics
     chaps = soup.select("div.page-item-detail.manga")
+    check_chapter_extraction(chaps, publisher)
     for comic in chaps:
         try:
-            chap, title, com_type, cover = await scrap_chapter(
+            chap, title, com_type, cover = await scrape_chapter(
                     comic, div_item_summary,
                     "div.post-title.font-title", 
                     "span.chapter.font-meta"
@@ -159,13 +177,16 @@ async def scrap_common_1(url: str, publisher: Publishers):
             await register_comic(chap, title, com_type, cover,
                 Statuses.OnAir, publisher)
         except (ValueError, IndexError, KeyError, AttributeError) as error:
-            print(f'ERROR scraping {str(Publishers(publisher))}: {error}')
+            print(f'ERROR: scraping {str(Publishers(publisher))}: {error}')
             continue
 
-async def scrap_common_2(url: str, publisher: Publishers):
-    soup = await scrap(url)
+
+
+async def scrape_common_2(url: str, publisher: Publishers):
+    soup = await scrape(url)
     # Locating divs used for comics
     chaps = soup.find_all(class_="uta")
+    check_chapter_extraction(chaps, publisher)
     for comic in chaps:
         # Locating div used for title and chapter
         comic_int = comic.find(class_="luf")
@@ -201,22 +222,23 @@ async def scrap_common_2(url: str, publisher: Publishers):
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, publisher)
 
-async def scrap_reset(url: str):
-    print(f'WARN {str(Publishers.ResetScans)} needs remake for scrap func')
-    # await scrap_common_1(url, Publishers.ResetScans)
+async def scrape_reset(url: str):
+    print(f'WARN: {str(Publishers.ResetScans)} needs remake for scrape func')
+    # await scrape_common_1(url, Publishers.ResetScans)
 
-async def scrap_asura(url: str):
-    await scrap_common_2(url, Publishers.Asura)
-def scrap_publisher(publisher: Publishers, scrap_ver: int):
-    if scrap_ver == 1:
-        return lambda url: scrap_common_1(url, publisher)
+async def scrape_asura(url: str):
+    await scrape_common_2(url, Publishers.Asura)
+def scrape_publisher(publisher: Publishers, scrape_ver: int):
+    if scrape_ver == 1:
+        return lambda url: scrape_common_1(url, publisher)
     else:
-        return lambda url: scrap_common_2(url, publisher)
+        return lambda url: scrape_common_2(url, publisher)
 
-async def scrap_flame(url: str):
-    soup = await scrap(url)
+async def scrape_flame(url: str):
+    soup = await scrape(url)
     # Locating divs used for comics
     chaps = soup.find_all(class_="bsx")
+    check_chapter_extraction(chaps, Publishers.FlameScans)
     for comic in chaps:
         # Default comic type for publisher
         com_type = Types.Manhwa
@@ -234,10 +256,33 @@ async def scrap_flame(url: str):
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.FlameScans)
 
-async def scrap_manhuaplus(url: str):
-    soup = await scrap(url)
+async def scrape_nightscans(url: str):
+    soup = await scrape(url)
+    # Locating divs used for comics
+    chaps = soup.find_all(class_="bsx")
+    check_chapter_extraction(chaps, Publishers.NightScans)
+    for comic in chaps:
+        # Default comic type for publisher
+        com_type = com_type_parse(comic.select("a")[0].div.span["class"][1])
+        # Locating cover
+        cover = comic.a.div.img["data-lazy-src"]
+        # Locating div used for title
+        comic_int = comic.select("div.bigor")[0]
+        title = comic_int.select("div.tt")[0].text
+        # Locating div used chapter
+        chap_int = comic_int.find_all('li')
+        if len(chap_int) == 0:
+            # These are the cases when a comic is portrayed as recommended
+            continue
+        chap = chap_int[0].span.a.text
+        await register_comic(chap, title, com_type, cover,
+            Statuses.OnAir, Publishers.NightScans)
+        
+async def scrape_manhuaplus(url: str):
+    soup = await scrape(url)
     # Locating divs used for comics
     chaps = soup.select("div.col-6.col-md-3.badge-pos-2")
+    check_chapter_extraction(chaps, Publishers.ManhuaPlus)
     for comic in chaps:
         # Default comic type for publisher
         com_type = Types.Manhua
@@ -250,10 +295,11 @@ async def scrap_manhuaplus(url: str):
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ManhuaPlus)
 
-async def scrap_reaper(url: str):
-    soup = await scrap(url)
+async def scrape_reaper(url: str):
+    soup = await scrape(url)
     # Locating divs used for comics/novels
     chaps = soup.select("div.relative.flex.space-x-2.rounded.bg-white.p-2")
+    check_chapter_extraction(chaps, Publishers.RealmScans)
     # Flag to separate comics and novels
     comics_per_page = 8
     for comic in chaps:
@@ -274,7 +320,7 @@ async def scrap_reaper(url: str):
             try:
                 cover = comic.div.a.img["data-cfsrc"]
             except KeyError:
-                print( f'ERROR scrapping {str(Publishers.ReaperScans)}: ' +
+                print( f'ERROR: scraping {str(Publishers.ReaperScans)}: ' +
                 f'-Cover- for {title}, html: [{comic.div.a.img}]')
         
         await register_comic(chap, title, com_type, cover,
@@ -283,29 +329,29 @@ async def scrap_reaper(url: str):
 async def func_pending(url: str):
     pass # await print(url, "not implemented")
 url_switch = {
-    "https://asurascans.com/"     :scrap_publisher(Publishers.Asura, 2),
-    "https://void-scans.com/"     :scrap_publisher(Publishers.VoidScans, 2),
-    "https://nightscans.org/"     :scrap_publisher(Publishers.NightScans, 2),
-    "https://realmscans.com/"     :scrap_publisher(Publishers.RealmScans, 2),
-    "https://luminousscans.com/"  :scrap_publisher(Publishers.LuminousScans, 2),
-    "https://isekaiscan.com/"     :scrap_publisher(Publishers.IsekaiScan, 1),
-    "https://en.leviatanscans.com":scrap_publisher(Publishers.LeviatanScans, 1),
-    "https://reaperscans.com/"    :scrap_reaper,
-    "https://manhuaplus.com/"     :scrap_manhuaplus,
-    "https://flamescans.org/"     :scrap_flame,
-    "https://reset-scans.com/"    :scrap_reset,
-    "https://drakescans.com/"     :func_pending,
-    "https://novelmic.com/"       :func_pending,
-    "https://mangagreat.com/"     :func_pending,
-    "https://mangageko.com/"      :func_pending,
-    "https://mangarolls.com/rolls":func_pending,
-    "https://manganato.com/"      :func_pending,
-    "https://1stkissmanga.me/"    :func_pending,
+    "https://asuracomics.com/"      :scrape_publisher(Publishers.Asura, 2),
+    "https://void-scans.com/"       :scrape_publisher(Publishers.VoidScans, 2),
+    "https://realmscans.to/"        :scrape_publisher(Publishers.RealmScans, 2),
+    "https://luminousscans.com/"    :scrape_publisher(Publishers.LuminousScans, 2),
+    "https://isekaiscan.com/"       :scrape_publisher(Publishers.IsekaiScan, 1),
+    "https://en.leviatanscans.com"  :scrape_publisher(Publishers.LeviatanScans, 1),
+    "https://nightscans.org/"       :scrape_nightscans,
+    "https://reaperscans.com/"      :scrape_reaper,
+    "https://manhuaplus.com/"       :scrape_manhuaplus,
+    "https://flamescans.org/"       :scrape_flame,
+    "https://reset-scans.com/"      :scrape_reset,
+    "https://drakescans.com/"       :func_pending,
+    "https://novelmic.com/"         :func_pending,
+    "https://mangagreat.com/"       :func_pending,
+    "https://mangageko.com/"        :func_pending,
+    "https://mangarolls.com/rolls"  :func_pending,
+    "https://manganato.com/"        :func_pending,
+    "https://1stkissmanga.me/"      :func_pending,
 }
-async def scrap_switch(url):
+async def scrape_switch(url):
     return await url_switch.get(url, func_pending)(url)
-async def async_scrap():
-    # await scrap("https://en.leviatanscans.com/", 'levi')
-    await asyncio.gather(*[scrap_switch(url) for url in url_switch.keys()])
+async def async_scrape():
+    # await scrape("https://en.leviatanscans.com/", 'levi')
+    await asyncio.gather(*[scrape_switch(url) for url in url_switch.keys()])
 def scraps():
-    asyncio.run(async_scrap())
+    asyncio.run(async_scrape())

@@ -3,12 +3,14 @@
   color: #DDD;
   font-family: sans-serif;
   display: block;
-  background: linear-gradient(#222, #1e1c32);
+  background: linear-gradient(#222222d2, #1e1c32e8);
   padding: 20px;
-  width: 400px;
+  width: 450px;
   overflow: hidden;
   border-radius: 4px;
-  margin: 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   box-shadow: 2px 2px 3px #111;
   position: relative;
 }
@@ -17,16 +19,24 @@
   height: 200px;
   width: 135px;
   float: left;
-  border: 1px solid #DDD;
-  border-radius: 3px;
+  border: 1px solid #ddddddd1;
+  border-radius: 2px;
 }
 
 /* Text card related changes */
 
 .comicTitle {
   margin: 0px;
-  height: 5em;
+  height: 4.9em;
   margin-bottom: 0.5em;
+  overflow: auto;
+}
+/* Phone portrait view */
+
+@media only screen and (orientation: portrait) {
+  .comicTitle {
+    font-size: 15px;
+  }
 }
 .comicChapter {
   color: #DDD;
@@ -35,4 +45,21 @@
 .currentChapter {
   color: #ba5f38;
   font-weight: bold;
+}
+
+.trackButton {
+  position: absolute;
+  right: 0.5em;
+  bottom: 0.5em;
+}
+.checkButton {
+  background-color: #a54d28;
+  bottom: 3em;
+}
+.delButton {
+  position: absolute;
+  left: 2.1em;
+  top: 2em;
+  background-color: #302c2b;
+  width: 2em;
 }
