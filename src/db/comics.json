@@ -8,15 +8,16 @@
     "status": 2,
     "published_in": [
       1,
-      7
+      7,
+      11
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/08/existenceCover01.png",
     "com_type": 3,
-    "current_chap": 60,
+    "current_chap": 61,
     "id": 1,
     "author": "Mapakam,SuperComix",
     "description": "One day, it was a herd of ants, and another day, it was a large dinosaur. \nThis was the last reincarnation of a being that had experienced tens of thousands of reincarnations and lives. \nHe was born as a human with the power of every single lifeform he had ever been. Why did he have such an ability? \nLee Jain finally came to understand. \nI exist to eradicate mankind.",
-    "last_update": 1694887571,
+    "last_update": 1695069270,
     "genres": [
       1,
       2,
@@ -28,7 +29,7 @@
     "titles": [
       "Apotheosis"
     ],
-    "current_chap": 1117,
+    "current_chap": 1118,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/apotheosis-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -41,7 +42,7 @@
     "id": 2,
     "author": "",
     "description": "",
-    "last_update": 1694807910,
+    "last_update": 1695223480,
     "genres": [
       3
     ]
@@ -79,11 +80,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/04/KK.jpg",
     "com_type": 3,
-    "current_chap": 98,
+    "current_chap": 99,
     "id": 4,
     "author": "",
     "description": "",
-    "last_update": 1694297069,
+    "last_update": 1695410013,
     "viewed_chap": 0,
     "genres": [
       0
@@ -115,18 +116,18 @@
       "Villain to kill"
     ],
     "track": true,
-    "viewed_chap": 113,
+    "viewed_chap": 114,
     "status": 2,
     "published_in": [
       1
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/02/villain.jpg",
     "com_type": 3,
-    "current_chap": 113,
+    "current_chap": 114,
     "id": 6,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -300,11 +301,11 @@
       7
     ],
     "com_type": 3,
-    "current_chap": 66,
+    "current_chap": 67,
     "id": 14,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -410,11 +411,11 @@
       10
     ],
     "com_type": 3,
-    "current_chap": 63,
+    "current_chap": 64,
     "id": 19,
     "author": "",
     "description": "",
-    "last_update": 1694755689,
+    "last_update": 1694976526,
     "genres": [
       0
     ]
@@ -445,8 +446,8 @@
       "Kill the dragon"
     ],
     "track": true,
-    "viewed_chap": 77,
-    "current_chap": 77,
+    "viewed_chap": 78,
+    "current_chap": 78,
     "status": 2,
     "published_in": [
       1,
@@ -457,7 +458,7 @@
     "id": 21,
     "author": "",
     "description": "",
-    "last_update": 1694297069,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -511,11 +512,11 @@
     ],
     "track": true,
     "viewed_chap": 50,
-    "current_chap": 81,
+    "current_chap": 82,
     "id": 24,
     "author": "",
     "description": "",
-    "last_update": 1694448288,
+    "last_update": 1695410013,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/overpoweredswordCover01.png",
     "status": 2,
     "com_type": 2,
@@ -575,8 +576,8 @@
       "Martial demon king"
     ],
     "track": true,
-    "viewed_chap": 49,
-    "current_chap": 49,
+    "viewed_chap": 50,
+    "current_chap": 50,
     "status": 2,
     "published_in": [
       1,
@@ -585,7 +586,7 @@
     "id": 27,
     "author": "",
     "description": "",
-    "last_update": 1694474419,
+    "last_update": 1695410013,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/11/DemonLordCover02.png",
     "com_type": 2,
     "genres": [
@@ -598,20 +599,20 @@
       "I\u2019m the max-level newbie"
     ],
     "track": true,
-    "viewed_chap": 118,
+    "viewed_chap": 119,
     "status": 2,
     "published_in": [
       1,
       2,
       9
     ],
-    "cover": "https://lscomic.com/wp-content/uploads/2023/09/coverOPN-175x238.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/07/solomaxlevelnewbie.jpg",
     "com_type": 3,
-    "current_chap": 118,
+    "current_chap": 119,
     "id": 28,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -643,13 +644,13 @@
       "Sleeping ranker"
     ],
     "track": true,
-    "viewed_chap": 87,
+    "viewed_chap": 88,
     "status": 2,
-    "current_chap": 87,
+    "current_chap": 88,
     "id": 30,
     "author": "",
     "description": "",
-    "last_update": 1694614365,
+    "last_update": 1695410013,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/03/resource-2-1.jpg",
     "com_type": 2,
     "published_in": [
@@ -730,19 +731,19 @@
       "I became a renowned family\u2019s sword prodigy"
     ],
     "track": true,
-    "viewed_chap": 43,
+    "viewed_chap": 79,
     "status": 1,
     "type": 2,
     "published_in": [
       1
     ],
-    "current_chap": 78,
+    "current_chap": 79,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/swordprodigyCover02.png",
     "com_type": 3,
     "id": 34,
     "author": "",
     "description": "",
-    "last_update": 1694614365,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -783,11 +784,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2021/02/TutorialAdvancedCover01.png",
     "com_type": 3,
-    "current_chap": 179,
+    "current_chap": 181,
     "id": 36,
     "author": "",
     "description": "",
-    "last_update": 1694448295,
+    "last_update": 1695410016,
     "genres": [
       0
     ]
@@ -873,13 +874,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 60,
+    "current_chap": 62,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/12/drPlayerCover02.png",
     "com_type": 3,
     "id": 40,
     "author": "",
     "description": "",
-    "last_update": 1694614365,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -890,20 +891,20 @@
       "Return of the legendary spear knight"
     ],
     "track": true,
-    "viewed_chap": 106,
+    "viewed_chap": 107,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       2
     ],
-    "current_chap": 106,
+    "current_chap": 107,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/10/cover.png",
     "com_type": 3,
     "id": 41,
     "author": "",
     "description": "",
-    "last_update": 1694475064,
+    "last_update": 1695250788,
     "genres": [
       0
     ]
@@ -920,13 +921,13 @@
       1,
       2
     ],
-    "current_chap": 75,
+    "current_chap": 76,
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/04/BarbQuest_hElookkindadumbaf-1.jpg",
     "com_type": 3,
     "id": 42,
     "author": "",
     "description": "",
-    "last_update": 1694540849,
+    "last_update": 1695304754,
     "genres": [
       0
     ]
@@ -936,20 +937,20 @@
       "Academy\u2019s undercover professor"
     ],
     "track": true,
-    "viewed_chap": 62,
+    "viewed_chap": 63,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       2
     ],
-    "current_chap": 62,
+    "current_chap": 63,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/Academys_Undercover_ProfessorCover_copy.png",
     "com_type": 3,
     "id": 43,
     "author": "",
     "description": "",
-    "last_update": 1694807853,
+    "last_update": 1694976485,
     "genres": [
       0
     ]
@@ -959,19 +960,19 @@
       "Reformation of the deadbeat noble"
     ],
     "track": true,
-    "viewed_chap": 86,
+    "viewed_chap": 88,
     "status": 2,
     "type": 3,
     "published_in": [
       1
     ],
-    "cover": "https://www.asurascans.com/wp-content/uploads/2021/05/Cover1-3.png",
-    "current_chap": 86,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/05/BD_C3_B8_AE_C1_EE__C7_A5_C1_F6_690x1000.jpg",
+    "current_chap": 88,
     "com_type": 3,
     "id": 44,
     "author": "",
     "description": "",
-    "last_update": 1678138826,
+    "last_update": 1695413507,
     "genres": [
       0
     ]
@@ -981,19 +982,19 @@
       "Worn and torn newbie"
     ],
     "track": true,
-    "viewed_chap": 142,
+    "viewed_chap": 152,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       9
     ],
-    "cover": "https://www.asurascans.com/wp-content/uploads/2020/11/cover-worn.jpg",
-    "current_chap": 142,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2020/11/CoverRD.jpg",
+    "current_chap": 152,
     "id": 45,
     "author": "",
     "description": "",
-    "last_update": 1683565830,
+    "last_update": 1695069309,
     "com_type": 2,
     "genres": [
       0
@@ -1072,7 +1073,7 @@
       "I obtained a mythic item"
     ],
     "track": true,
-    "viewed_chap": 71,
+    "viewed_chap": 72,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1080,12 +1081,12 @@
       2
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/IObtainedaMythicItemCover04.png",
-    "current_chap": 71,
+    "current_chap": 72,
     "com_type": 3,
     "id": 49,
     "author": "",
     "description": "",
-    "last_update": 1694614366,
+    "last_update": 1695223432,
     "genres": [
       0
     ]
@@ -1261,11 +1262,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/11/thesclassesthatiraisedcover.jpg",
     "com_type": 3,
-    "current_chap": 103,
+    "current_chap": 104,
     "id": 57,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695250788,
     "genres": [
       0
     ]
@@ -1310,11 +1311,11 @@
     ],
     "cover": "https://flamescans.org/wp-content/uploads/2022/02/Cover.png",
     "com_type": 3,
-    "current_chap": 74,
+    "current_chap": 75,
     "id": 59,
     "author": "Jee Gab Song",
     "description": "Billions of characters exist inside the single world of a novel. However, no one aside from the heroines and \u2018important supporting characters\u2019 receives a name. \u201cChundong, what is your standing?\u201d I don\u2019t know. I don\u2019t even know why my name is Chundong. This world is a novel I wrote. However, I ended up as a character I\u2019d never even written about. Other than getting accepted into the Agent Military Academy, this character isn\u2019t particularly extraordinary, has no interactions with anyone in the novel, and isn\u2019t even mentioned at all. Therefore, I became an extra in the novel. \u2026No. I became dust on the novel.",
-    "last_update": 1694448287,
+    "last_update": 1695069267,
     "genres": [
       1,
       2,
@@ -1415,7 +1416,7 @@
       "Infinite mage"
     ],
     "track": true,
-    "viewed_chap": 49,
+    "viewed_chap": 50,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1424,11 +1425,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/12/infiniteMageCover01.png",
     "com_type": 3,
-    "current_chap": 49,
+    "current_chap": 50,
     "id": 64,
     "author": "",
     "description": "",
-    "last_update": 1694540807,
+    "last_update": 1695154302,
     "genres": [
       0
     ]
@@ -1438,7 +1439,7 @@
       "Omniscient reader\u2019s viewpoint"
     ],
     "track": true,
-    "viewed_chap": 175,
+    "viewed_chap": 176,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1447,11 +1448,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2020/09/ORV03.png",
     "com_type": 3,
-    "current_chap": 175,
+    "current_chap": 176,
     "id": 65,
     "author": "",
     "description": "",
-    "last_update": 1694540807,
+    "last_update": 1695154305,
     "genres": [
       0
     ]
@@ -1469,11 +1470,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/11/cover3_28129_copy.png",
     "com_type": 3,
-    "current_chap": 95,
+    "current_chap": 96,
     "id": 66,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -1483,20 +1484,20 @@
       "Duke pendragon"
     ],
     "track": true,
-    "viewed_chap": 80,
+    "viewed_chap": 81,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       2
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/12/00Coverrrrrrrrr.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/12/dukepenCover02.png",
     "com_type": 3,
-    "current_chap": 80,
+    "current_chap": 81,
     "id": 67,
     "author": "",
     "description": "",
-    "last_update": 1694614366,
+    "last_update": 1695233650,
     "genres": [
       0
     ]
@@ -1506,7 +1507,7 @@
       "Life of a magic academy mage"
     ],
     "track": true,
-    "viewed_chap": 58,
+    "viewed_chap": 59,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1514,11 +1515,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/11/magicAcademyMageCover02.png",
     "com_type": 3,
-    "current_chap": 58,
+    "current_chap": 59,
     "id": 68,
     "author": "",
     "description": "",
-    "last_update": 1694540807,
+    "last_update": 1695223432,
     "genres": [
       0
     ]
@@ -1536,11 +1537,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/swordfanaticCover01.png",
     "com_type": 3,
-    "current_chap": 77,
+    "current_chap": 78,
     "id": 69,
     "author": "",
     "description": "",
-    "last_update": 1694540807,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -1605,11 +1606,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/11/liveasvillain.jpg",
     "com_type": 3,
-    "current_chap": 105,
+    "current_chap": 107,
     "id": 72,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -1628,11 +1629,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/11/thatkindoftalentCover01.png",
     "com_type": 3,
-    "current_chap": 50,
+    "current_chap": 51,
     "id": 73,
     "author": "",
     "description": "",
-    "last_update": 1694540807,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -1721,11 +1722,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/12/infiniteGachaCover03.png",
     "com_type": 3,
-    "current_chap": 59,
+    "current_chap": 60,
     "id": 77,
     "author": "Hermode,Cho Wooneh,Redice studio",
     "description": "The mobile gacha game \u2018Pick Me Up!\u2019 is known for being brutally difficult, and no one has been able to clear a dungeon. Loki, the fifth among all the world\u2019s masters, loses consciousness while trying to clear the dungeon. Upon waking up, Loki finds himself turned into a 1-star level 1 hero, \u2018Islat Han\u2019. \u201cIt\u2019s him! I\u2019m certain he\u2019s the one who brought me here!\u201d In order to return to Earth, he must lead novice masters and heroes and break through the 100th floor of the dungeon! \u201cYou messed with the wrong person.\u201d This is the story of master Loki who is forced to carry everyone to victory and cannot afford a single defeat.",
-    "last_update": 1694614413,
+    "last_update": 1695223431,
     "genres": [
       1,
       2,
@@ -1739,7 +1740,7 @@
       "Damn reincarnation"
     ],
     "track": true,
-    "viewed_chap": 67,
+    "viewed_chap": 68,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1748,11 +1749,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/Damn-ReincarnationCover005.png",
     "com_type": 3,
-    "current_chap": 67,
+    "current_chap": 68,
     "id": 78,
     "author": "",
     "description": "",
-    "last_update": 1694614365,
+    "last_update": 1695223431,
     "genres": [
       0
     ]
@@ -1830,7 +1831,7 @@
       "The heavenly demon can\u2019t live a normal life"
     ],
     "track": true,
-    "viewed_chap": 84,
+    "viewed_chap": 86,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -1839,11 +1840,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/07/HeavenlyDemonCover0222.png",
     "com_type": 3,
-    "current_chap": 84,
+    "current_chap": 86,
     "id": 82,
     "author": "",
     "description": "",
-    "last_update": 1694887571,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -1855,21 +1856,22 @@
       "World\u2019s strongest troll"
     ],
     "track": true,
-    "viewed_chap": 49,
+    "viewed_chap": 50,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       2,
-      7
+      7,
+      11
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/10/StrongestTrollCover01.png",
+    "cover": "https://void-scans.com/wp-content/uploads/StrongestTrollCover01.webp",
     "com_type": 3,
-    "current_chap": 49,
+    "current_chap": 50,
     "id": 83,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1694976487,
     "genres": [
       0
     ]
@@ -1889,11 +1891,11 @@
     ],
     "cover": "https://www.asurascans.com/wp-content/uploads/2022/02/bitchassmofo.jpg",
     "com_type": 3,
-    "current_chap": 68,
+    "current_chap": 70,
     "id": 84,
     "author": "",
     "description": "",
-    "last_update": 1694448329,
+    "last_update": 1695154302,
     "genres": [
       0
     ]
@@ -1932,11 +1934,11 @@
       1
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/09/unknown.jpg",
-    "current_chap": 108,
+    "current_chap": 109,
     "id": 86,
     "author": "",
     "description": "",
-    "last_update": 1693950901,
+    "last_update": 1694976485,
     "genres": [
       0
     ]
@@ -1957,11 +1959,11 @@
       7
     ],
     "cover": "https://flamescans.org/wp-content/uploads/2022/10/Cleaned.png",
-    "current_chap": 68,
+    "current_chap": 69,
     "id": 87,
     "author": "",
     "description": "",
-    "last_update": 1694755687,
+    "last_update": 1695250788,
     "genres": [
       0
     ]
@@ -2000,11 +2002,11 @@
     "com_type": 3,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 75,
+    "current_chap": 77,
     "id": 89,
     "author": "",
     "description": "",
-    "last_update": 1694305293,
+    "last_update": 1695410013,
     "genres": [
       0
     ]
@@ -2043,12 +2045,12 @@
     ],
     "com_type": 3,
     "status": 2,
-    "viewed_chap": 55,
-    "current_chap": 55,
+    "viewed_chap": 56,
+    "current_chap": 56,
     "id": 91,
     "author": "",
     "description": "",
-    "last_update": 1694297069,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -2085,12 +2087,12 @@
     ],
     "com_type": 3,
     "status": 2,
-    "viewed_chap": 81,
-    "current_chap": 81,
+    "viewed_chap": 94,
+    "current_chap": 94,
     "id": 93,
     "author": "",
     "description": "",
-    "last_update": 1683565837,
+    "last_update": 1695154302,
     "genres": [
       0
     ]
@@ -2194,11 +2196,11 @@
     "com_type": 3,
     "status": 2,
     "viewed_chap": 55,
-    "current_chap": 87,
+    "current_chap": 88,
     "id": 98,
     "author": "",
     "description": "",
-    "last_update": 1694755729,
+    "last_update": 1695223483,
     "genres": [
       0
     ]
@@ -2236,11 +2238,11 @@
     "com_type": 3,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 82,
+    "current_chap": 85,
     "id": 100,
     "author": "",
     "description": "",
-    "last_update": 1694755726,
+    "last_update": 1695069312,
     "genres": [
       0
     ]
@@ -2257,11 +2259,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 78,
+    "current_chap": 79,
     "id": 101,
     "author": "",
     "description": "",
-    "last_update": 1693605792,
+    "last_update": 1695069313,
     "genres": [
       0
     ]
@@ -2342,11 +2344,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 293,
-    "current_chap": 296,
+    "current_chap": 301,
     "id": 105,
     "author": "",
     "description": "",
-    "last_update": 1694755726,
+    "last_update": 1695304754,
     "genres": [
       0
     ]
@@ -2363,11 +2365,11 @@
     "com_type": 4,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 551,
+    "current_chap": 555,
     "id": 106,
     "author": "",
     "description": "",
-    "last_update": 1694887610,
+    "last_update": 1695223478,
     "genres": [
       0
     ]
@@ -2462,7 +2464,7 @@
     "titles": [
       "Transcension academy"
     ],
-    "current_chap": 75,
+    "current_chap": 76,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/41__transcension_academy-23-06-2023_11_44_12_PM.webp",
     "com_type": 3,
     "status": 2,
@@ -2475,7 +2477,7 @@
     "id": 111,
     "author": "",
     "description": "",
-    "last_update": 1694540814,
+    "last_update": 1695069273,
     "genres": [
       0
     ]
@@ -2526,7 +2528,7 @@
     "titles": [
       "Martial peak"
     ],
-    "current_chap": 3555,
+    "current_chap": 3559,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/MPC-2-193x278-1-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2539,7 +2541,7 @@
     "id": 114,
     "author": "",
     "description": "",
-    "last_update": 1694887611,
+    "last_update": 1695233652,
     "genres": [
       0
     ]
@@ -2548,7 +2550,7 @@
     "titles": [
       "Yuan zun"
     ],
-    "current_chap": 529,
+    "current_chap": 531,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/yuanzunthumb-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2560,7 +2562,7 @@
     "id": 115,
     "author": "",
     "description": "",
-    "last_update": 1694614415,
+    "last_update": 1695154304,
     "genres": [
       0
     ]
@@ -2569,7 +2571,7 @@
     "titles": [
       "Versatile mage"
     ],
-    "current_chap": 1091,
+    "current_chap": 1092,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/05/versatile-mage-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2578,11 +2580,11 @@
       7
     ],
     "track": true,
-    "viewed_chap": 1091,
+    "viewed_chap": 1092,
     "id": 116,
     "author": "",
     "description": "",
-    "last_update": 1694887611,
+    "last_update": 1695304755,
     "genres": [
       0
     ]
@@ -2591,7 +2593,7 @@
     "titles": [
       "My disciples are all big villains"
     ],
-    "current_chap": 129,
+    "current_chap": 131,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/12/V-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2603,7 +2605,7 @@
     "id": 117,
     "author": "",
     "description": "",
-    "last_update": 1694755728,
+    "last_update": 1695154304,
     "genres": [
       0
     ]
@@ -2634,7 +2636,7 @@
       "Soul land iii",
       "Soul land iii \u2013 the legend of the dragon king"
     ],
-    "current_chap": 494,
+    "current_chap": 495,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/04/19069-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2647,7 +2649,7 @@
     "id": 119,
     "author": "",
     "description": "",
-    "last_update": 1694614415,
+    "last_update": 1695154304,
     "genres": [
       0
     ]
@@ -2702,7 +2704,7 @@
       "Soul land iv \u2013 the ultimate combat",
       "Soul land iv"
     ],
-    "current_chap": 432,
+    "current_chap": 433,
     "cover": "https://manhuaplus.com/wp-content/uploads/2021/01/Soul-Land-IV-Ultimate-Fighting-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2715,7 +2717,7 @@
     "id": 122,
     "author": "",
     "description": "",
-    "last_update": 1694614415,
+    "last_update": 1695223480,
     "genres": [
       0
     ]
@@ -2789,7 +2791,7 @@
     "titles": [
       "Emperor\u2019s domination"
     ],
-    "current_chap": 98,
+    "current_chap": 102,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/03/thumb-1-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2802,7 +2804,7 @@
     "id": 126,
     "author": "",
     "description": "",
-    "last_update": 1684167040,
+    "last_update": 1695154304,
     "genres": [
       0
     ]
@@ -2856,7 +2858,7 @@
       "Soul land 2",
       "Soul land ii"
     ],
-    "current_chap": 496,
+    "current_chap": 498,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/soul-land-2-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2869,7 +2871,7 @@
     "id": 129,
     "author": "",
     "description": "",
-    "last_update": 1694755728,
+    "last_update": 1695304755,
     "genres": [
       0
     ]
@@ -2899,7 +2901,7 @@
     "titles": [
       "Soul land v"
     ],
-    "current_chap": 148,
+    "current_chap": 149,
     "cover": "https://manhuaplus.com/wp-content/uploads/2022/01/douluodalu5zhongshengtangsan-shenmanjun-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2911,7 +2913,7 @@
     "id": 131,
     "author": "",
     "description": "",
-    "last_update": 1694755728,
+    "last_update": 1695069314,
     "genres": [
       0
     ]
@@ -2920,7 +2922,7 @@
     "titles": [
       "Peerless battle spirit"
     ],
-    "current_chap": 603,
+    "current_chap": 604,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/07/38918-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2933,7 +2935,7 @@
     "id": 132,
     "author": "",
     "description": "",
-    "last_update": 1694807910,
+    "last_update": 1695154304,
     "genres": [
       0
     ]
@@ -2942,7 +2944,7 @@
     "titles": [
       "I\u2019m the great immortal"
     ],
-    "current_chap": 556,
+    "current_chap": 558,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/Im-The-Great-Immortal-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -2954,7 +2956,7 @@
     "id": 133,
     "author": "",
     "description": "",
-    "last_update": 1694887611,
+    "last_update": 1695304755,
     "genres": [
       0
     ]
@@ -2985,7 +2987,7 @@
     "titles": [
       "I\u2019m just an immortal"
     ],
-    "current_chap": 323,
+    "current_chap": 325,
     "cover": "https://isekaiscan.com/wp-content/uploads/2020/04/47042_-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -2998,7 +3000,7 @@
     "id": 135,
     "author": "",
     "description": "",
-    "last_update": 1694807910,
+    "last_update": 1695223480,
     "genres": [
       0
     ]
@@ -3198,7 +3200,7 @@
     "titles": [
       "Necromancer academy's genius summoner"
     ],
-    "current_chap": 196,
+    "current_chap": 199,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/fa495fe6-3f11-46e7-81d7-17318d7a7159/nIHZ9mHvl994mSLk5DpJHkwMzX7r8HjklSvtPAtm.png",
     "com_type": 4,
     "status": 2,
@@ -3210,7 +3212,7 @@
     "id": 145,
     "author": "",
     "description": "",
-    "last_update": 1694887610,
+    "last_update": 1695410052,
     "genres": [
       0
     ]
@@ -3261,7 +3263,7 @@
     "titles": [
       "The great mage returns after 4000 years"
     ],
-    "current_chap": 186,
+    "current_chap": 187,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/682c332d-3a87-40df-ada3-6ae0e3a86ade/vkSsc4K2IQXEWJwinqLET42I4mWHw5RqjfUSIttd.jpg",
     "com_type": 3,
     "status": 2,
@@ -3273,7 +3275,7 @@
     "id": 148,
     "author": "",
     "description": "",
-    "last_update": 1694887609,
+    "last_update": 1695304754,
     "genres": [
       0
     ]
@@ -3325,7 +3327,7 @@
     "titles": [
       "Cultivator against hero society"
     ],
-    "current_chap": 283,
+    "current_chap": 286,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/11/Bia-ngoai-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -3337,7 +3339,7 @@
     "id": 151,
     "author": "",
     "description": "",
-    "last_update": 1693950945,
+    "last_update": 1695304755,
     "genres": [
       0
     ]
@@ -3367,7 +3369,7 @@
     "titles": [
       "Rebirth of the urban immortal cultivator"
     ],
-    "current_chap": 923,
+    "current_chap": 925,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/08/1-110x150.jpg",
     "com_type": 2,
     "status": 2,
@@ -3380,7 +3382,7 @@
     "id": 153,
     "author": "",
     "description": "",
-    "last_update": 1694755728,
+    "last_update": 1695304755,
     "genres": [
       0
     ]
@@ -3453,7 +3455,7 @@
       "The world after the fall",
       "The world after the end"
     ],
-    "current_chap": 91,
+    "current_chap": 92,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/02/the-world-after-the-end-cover.jpg",
     "com_type": 3,
     "status": 2,
@@ -3463,11 +3465,11 @@
       4
     ],
     "track": true,
-    "viewed_chap": 91,
+    "viewed_chap": 92,
     "id": 157,
     "author": "S-Cynaan, Sing-Shong",
     "description": "Humans were suddenly summoned to become \u201cWalkers\u201d, and they needed to clear the tower to save the world... Floor 77: The \u201cStone of Regression\u201d was discovered. Walkers could now \u201creturn\u201d to the past. Slowly, everyone left... Humanity\u2019s last hope, \u201cCarpe Diem\u201d, was formed, made up of people who refused to abandon the world... The last Walker reached floor 100. He no longer knew what to believe.",
-    "last_update": 1694540807,
+    "last_update": 1695223432,
     "genres": [
       0
     ]
@@ -3499,7 +3501,7 @@
       "Leveling with the gods",
       "Leveling up with the gods"
     ],
-    "current_chap": 90,
+    "current_chap": 91,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/07/COVER-LWG-copy-222x300.png",
     "com_type": 3,
     "status": 2,
@@ -3508,11 +3510,11 @@
       5
     ],
     "track": true,
-    "viewed_chap": 90,
+    "viewed_chap": 91,
     "id": 159,
     "author": "",
     "description": "",
-    "last_update": 1694540815,
+    "last_update": 1695154268,
     "genres": [
       0
     ]
@@ -3521,7 +3523,7 @@
     "titles": [
       "Magic academy survival guide"
     ],
-    "current_chap": 58,
+    "current_chap": 59,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/92e822a8-b6e9-40e8-beef-4e9519adfd11/sgjmmD1QTgMdQsSwVrO66n2iIooM1p9jSp0vS1Sf.jpg",
     "com_type": 3,
     "status": 2,
@@ -3529,11 +3531,11 @@
       2
     ],
     "track": true,
-    "viewed_chap": 57,
+    "viewed_chap": 59,
     "id": 160,
     "author": "",
     "description": "",
-    "last_update": 1694540849,
+    "last_update": 1695154302,
     "genres": [
       0
     ]
@@ -3627,7 +3629,7 @@
     "titles": [
       "Global martial arts"
     ],
-    "current_chap": 219,
+    "current_chap": 220,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/10/46623-175x238.png",
     "com_type": 2,
     "status": 2,
@@ -3639,7 +3641,7 @@
     "id": 165,
     "author": "",
     "description": "",
-    "last_update": 1694540851,
+    "last_update": 1694976529,
     "genres": [
       0
     ]
@@ -3838,7 +3840,7 @@
       "Logging 10,000 years into the future",
       "Awakening 10,000 years into the future"
     ],
-    "current_chap": 53,
+    "current_chap": 54,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/01/Logging10000YearsCover01.png",
     "com_type": 1,
     "status": 2,
@@ -3846,11 +3848,11 @@
       1
     ],
     "track": true,
-    "viewed_chap": 53,
+    "viewed_chap": 54,
     "id": 175,
     "author": "",
     "description": "At the dawn of a revolution in the era of martial arts, hordes of terrifying monsters start invading the world, defeating humanity\u2019s warriors one after another. One day, Lu Sheng finds himself dreaming about the world ten thousand years into the future, where even basic physical training techniques have been modified and become several thousand times more effective! Breathing techniques, body strengthening remedies, martial arts scriptures, and so on\u2026 But with humanity being extinct in the future world, these once great martial arts have no one left to carry on their legacy. No one, except for Lu Sheng!",
-    "last_update": 1694614365,
+    "last_update": 1695154264,
     "genres": [
       0
     ]
@@ -3947,7 +3949,7 @@
       "The ancient one",
       "The eternal supreme"
     ],
-    "current_chap": 223,
+    "current_chap": 226,
     "cover": "https://flamescans.org/wp-content/uploads/2021/06/anceint-sovereign-of-eternity-v2-1070x1676-1-223x350.png",
     "com_type": 2,
     "status": 2,
@@ -3955,11 +3957,11 @@
       4,
       6
     ],
-    "last_update": 1694195251,
+    "last_update": 1694976530,
     "description": "In the past, one of the Ten Great Martial Sovereigns, Gu Feiyang, tragically met his end in the Tiandang mountain range. Fifteen years later, Gu Feiyang crosses through the cycle of rebirth, into the body of a Tianshui prince, Li Yunxiao. Embarking on a heaven-defying journey against the innumerable geniuses of the current generation. The nine ranks of Martial Arts; the ten realms of the Gods. The world has been plunged into turmoil once more!",
     "author": "jack norway, Tai yi shui sheng",
     "track": true,
-    "viewed_chap": 223,
+    "viewed_chap": 226,
     "id": 180,
     "genres": [
       1,
@@ -4036,14 +4038,14 @@
     "titles": [
       "Bj archmage"
     ],
-    "current_chap": 79,
+    "current_chap": 81,
     "cover": "https://flamescans.org/wp-content/uploads/2022/01/BJA.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1694099708,
+    "last_update": 1695154305,
     "description": "",
     "author": "",
     "track": false,
@@ -4078,14 +4080,14 @@
     "titles": [
       "The breaker 3 \u2013 eternal force"
     ],
-    "current_chap": 77,
+    "current_chap": 78,
     "cover": "https://flamescans.org/wp-content/uploads/2022/05/12A_Ai_CAo_690x1000-242x350.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1694755729,
+    "last_update": 1695410056,
     "description": "",
     "author": "",
     "track": false,
@@ -4166,14 +4168,14 @@
     "titles": [
       "Irl quest"
     ],
-    "current_chap": 102,
+    "current_chap": 103,
     "cover": "https://flamescans.org/wp-content/uploads/2021/06/IRLQcover-241x350.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1694755729,
+    "last_update": 1695410056,
     "description": "",
     "author": "",
     "track": true,
@@ -4230,14 +4232,14 @@
     "titles": [
       "In the night consumed by blades, i walk"
     ],
-    "current_chap": 77,
+    "current_chap": 78,
     "cover": "https://flamescans.org/wp-content/uploads/2022/06/cover-242x350.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1694540852,
+    "last_update": 1695154305,
     "description": "",
     "author": "",
     "track": false,
@@ -4356,7 +4358,7 @@
     "titles": [
       "Superhuman battlefield"
     ],
-    "current_chap": 70,
+    "current_chap": 72,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/02/superhumanCover02.png",
     "com_type": 3,
     "status": 2,
@@ -4364,7 +4366,7 @@
       2,
       1
     ],
-    "last_update": 1694297069,
+    "last_update": 1695154264,
     "description": "",
     "author": "",
     "track": true,
@@ -4486,9 +4488,9 @@
     "titles": [
       "Mercenary enrollment"
     ],
-    "current_chap": 152,
+    "current_chap": 154,
     "cover": "https://luminousscans.com/wp-content/uploads/2022/02/690x100_cover-207x300.jpg",
-    "last_update": 1694195214,
+    "last_update": 1694976491,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -4635,9 +4637,9 @@
     "titles": [
       "Tale of a scribe who retires to the countryside"
     ],
-    "current_chap": 173,
+    "current_chap": 174,
     "cover": "https://luminousscans.com/wp-content/uploads/2022/11/Scribe-Cover-Page-1-206x300.jpg",
-    "last_update": 1694755725,
+    "last_update": 1695410051,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4720,9 +4722,9 @@
     "titles": [
       "I stole the number one ranker\u2019s soul"
     ],
-    "current_chap": 53,
+    "current_chap": 54,
     "cover": "https://flamescans.org/wp-content/uploads/2022/09/RankerSoulNewCover.png",
-    "last_update": 1694887612,
+    "last_update": 1695410056,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4806,9 +4808,9 @@
     "titles": [
       "Survival story of a sword king in a fantasy world"
     ],
-    "current_chap": 183,
+    "current_chap": 184,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/07/Sword_King-222x300.png",
-    "last_update": 1694099670,
+    "last_update": 1695154300,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4818,7 +4820,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 183,
+    "viewed_chap": 184,
     "genres": [
       0
     ]
@@ -5187,9 +5189,9 @@
     "titles": [
       "Trash of the count\u2019s family"
     ],
-    "current_chap": 101,
+    "current_chap": 102,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/04/TrashoftheCountsFamilyCover01.png",
-    "last_update": 1694195205,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5526,9 +5528,9 @@
     "titles": [
       "Return of the shattered constellation"
     ],
-    "current_chap": 82,
+    "current_chap": 83,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/11/00-cover.jpg",
-    "last_update": 1694448287,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5537,7 +5539,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 82,
+    "viewed_chap": 83,
     "genres": [
       0
     ]
@@ -6268,9 +6270,9 @@
     "titles": [
       "Hoarding in hell"
     ],
-    "current_chap": 45,
+    "current_chap": 47,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/05/cover2.jpg",
-    "last_update": 1694755687,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6373,9 +6375,9 @@
     "titles": [
       "I reincarnated as the crazed heir"
     ],
-    "current_chap": 101,
+    "current_chap": 103,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/07/Title-Cover-kopya.png",
-    "last_update": 1694540807,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6502,9 +6504,9 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 48,
+    "current_chap": 49,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/06/swordsenseCover03.png",
-    "last_update": 1694807853,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6544,9 +6546,9 @@
     "titles": [
       "Reincarnation of the suicidal battle god"
     ],
-    "current_chap": 90,
+    "current_chap": 91,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2021/06/battleGodCover03.png",
-    "last_update": 1694287655,
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6555,7 +6557,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 90,
+    "viewed_chap": 91,
     "genres": [
       0
     ]
@@ -6565,9 +6567,9 @@
     "titles": [
       "Chronicles of the martial god\u2019s return"
     ],
-    "current_chap": 67,
+    "current_chap": 68,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/05/martialreturnCover02.png",
-    "last_update": 1694540807,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6588,9 +6590,9 @@
     "titles": [
       "To hell with being a saint, i\u2019m a doctor"
     ],
-    "current_chap": 64,
+    "current_chap": 65,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2022/05/saintdoctorCover07.png",
-    "last_update": 1694448288,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7431,9 +7433,9 @@
     "titles": [
       "Estio"
     ],
-    "current_chap": 92,
+    "current_chap": 93,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/41e62a1e-8c7c-4801-a679-6f02d065dcfa/hE6XY7wcT7OTGXwNl1ITeFoJuUp4li3kTd05Cc6U.png",
-    "last_update": 1694195249,
+    "last_update": 1695304754,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7473,9 +7475,9 @@
     "titles": [
       "Auto-hunting with clones"
     ],
-    "current_chap": 59,
+    "current_chap": 61,
     "cover": "https://flamescans.org/wp-content/uploads/2022/09/AHWC_Title_upscale.png",
-    "last_update": 1694540852,
+    "last_update": 1695410056,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7559,9 +7561,9 @@
     "titles": [
       "Moon-shadow sword emperor"
     ],
-    "current_chap": 51,
+    "current_chap": 52,
     "cover": "https://flamescans.org/wp-content/uploads/2023/01/FnzYKDoacAEuCvU.jpg",
-    "last_update": 1694887612,
+    "last_update": 1695223483,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7939,13 +7941,14 @@
     "titles": [
       "Banished disciple\u2019s counterattack"
     ],
-    "current_chap": 393,
+    "current_chap": 422,
     "cover": "https://isekaiscan.com/wp-content/uploads/2020/02/0_299705_742_990-110x150.jpg",
-    "last_update": 1675224652,
+    "last_update": 1695154304,
     "com_type": 0,
     "status": 2,
     "published_in": [
-      7
+      7,
+      3
     ],
     "genres": [
       0
@@ -8613,9 +8616,9 @@
     "titles": [
       "I am a cultivation bigshot"
     ],
-    "current_chap": 302,
+    "current_chap": 306,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/47__bigshot-23-06-2023_11_43_51_PM.webp",
-    "last_update": 1694540814,
+    "last_update": 1695410016,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8634,9 +8637,9 @@
     "titles": [
       "It starts with a mountain"
     ],
-    "current_chap": 565,
+    "current_chap": 567,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/iswm-1-24-06-2023_12_47_14_AM.webp",
-    "last_update": 1694755691,
+    "last_update": 1695413509,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8656,9 +8659,9 @@
     "titles": [
       "Legends of the swordsman scholar"
     ],
-    "current_chap": 85,
+    "current_chap": 86,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/16__legends_of_swordsman_scholar-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1694887573,
+    "last_update": 1695069273,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8698,9 +8701,9 @@
     "titles": [
       "All hail the sect leader"
     ],
-    "current_chap": 268,
+    "current_chap": 270,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/ahtsl.webp",
-    "last_update": 1694448294,
+    "last_update": 1695304718,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8719,9 +8722,9 @@
     "titles": [
       "I\u2019ll resign and have a fresh start in this world"
     ],
-    "current_chap": 55,
+    "current_chap": 56,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/38__ill_resign-23-06-2023_11_44_24_PM.webp",
-    "last_update": 1694448294,
+    "last_update": 1694976490,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8761,9 +8764,9 @@
     "titles": [
       "Top tier providence"
     ],
-    "current_chap": 127,
+    "current_chap": 128,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/29__top_tier-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1694887573,
+    "last_update": 1695410015,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8775,7 +8778,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 127
+    "viewed_chap": 128
   },
   {
     "id": 411,
@@ -8804,9 +8807,9 @@
     "titles": [
       "Pure love operation"
     ],
-    "current_chap": 78,
+    "current_chap": 79,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/plo2.webp",
-    "last_update": 1694807855,
+    "last_update": 1695410015,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8825,9 +8828,9 @@
     "titles": [
       "I picked a hammer to save the world"
     ],
-    "current_chap": 46,
+    "current_chap": 47,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/12__hammer-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1694807855,
+    "last_update": 1695410015,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8846,9 +8849,9 @@
     "titles": [
       "Eternal club"
     ],
-    "current_chap": 221,
+    "current_chap": 223,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/8__eternal_club_(1)-23-06-2023_11_44_02_PM.webp",
-    "last_update": 1694755691,
+    "last_update": 1695410016,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -8889,9 +8892,9 @@
     "titles": [
       "After chopping wood for 10 years, all the immortals want to become my disciple"
     ],
-    "current_chap": 46,
+    "current_chap": 47,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/36__woodchop-23-06-2023_11_44_29_PM.webp",
-    "last_update": 1694287663,
+    "last_update": 1695233614,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -9669,9 +9672,9 @@
     "titles": [
       "Astral pet store"
     ],
-    "current_chap": 116,
+    "current_chap": 117,
     "cover": "https://nightscans.org/wp-content/uploads/2023/03/astral-pet-store-thumbnail-webp-smaller.webp",
-    "last_update": 1694552637,
+    "last_update": 1694976526,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -10112,9 +10115,9 @@
     "titles": [
       "Manager kim"
     ],
-    "current_chap": 101,
+    "current_chap": 104,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/manager-kimz-110x150.png",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -10680,9 +10683,9 @@
     "titles": [
       "Nano machine"
     ],
-    "current_chap": 171,
+    "current_chap": 172,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/02/nanoMashineCover02.png",
-    "last_update": 1694755687,
+    "last_update": 1695223431,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -11273,9 +11276,9 @@
     "titles": [
       "The lazy swordmaster"
     ],
-    "current_chap": 89,
+    "current_chap": 92,
     "cover": "https://isekaiscan.com/wp-content/uploads/2022/05/the-lazy-swordmaster-110x150.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12072,9 +12075,9 @@
     "titles": [
       "Lookism"
     ],
-    "current_chap": 464,
+    "current_chap": 466,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/lookism-110x150.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12263,9 +12266,9 @@
     "titles": [
       "Baek xx"
     ],
-    "current_chap": 38,
+    "current_chap": 41,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/baek-xx-110x150.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -14454,9 +14457,9 @@
     "titles": [
       "How to live at the max level"
     ],
-    "current_chap": 56,
+    "current_chap": 58,
     "cover": "https://flamescans.org/wp-content/uploads/2022/05/resource-2-259x350.jpg",
-    "last_update": 1693950947,
+    "last_update": 1694976530,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -14517,13 +14520,14 @@
     "titles": [
       "Return to player"
     ],
-    "current_chap": 138,
+    "current_chap": 140,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/02/returntoplayerCover01.png",
-    "last_update": 1694614366,
+    "last_update": 1695154267,
     "com_type": 0,
     "status": 2,
     "published_in": [
-      1
+      1,
+      8
     ],
     "genres": [
       0
@@ -14538,9 +14542,9 @@
     "titles": [
       "To not die"
     ],
-    "current_chap": 102,
+    "current_chap": 103,
     "cover": "https://flamescans.org/wp-content/uploads/2021/06/to-not-die-cover-size-cleanPhotonoise_scaleLevel3x2.000000-243x350.jpg",
-    "last_update": 1694755729,
+    "last_update": 1695410056,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -14833,9 +14837,9 @@
     "titles": [
       "I tamed a tyrant and ran away"
     ],
-    "current_chap": 90,
+    "current_chap": 91,
     "cover": "https://en.leviatanscans.com/wp-content/uploads/2022/08/4-175x238.png",
-    "last_update": 1694755725,
+    "last_update": 1695069309,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -14854,9 +14858,9 @@
     "titles": [
       "I\u2019m the stepmother, but my daughter is too cute"
     ],
-    "current_chap": 97,
+    "current_chap": 98,
     "cover": "https://en.leviatanscans.com/wp-content/uploads/2022/08/3-175x238.jpg",
-    "last_update": 1694755725,
+    "last_update": 1695410051,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -14980,9 +14984,9 @@
     "titles": [
       "Not just anybody can become a villainess"
     ],
-    "current_chap": 102,
+    "current_chap": 103,
     "cover": "https://en.leviatanscans.com/wp-content/uploads/2022/08/04-175x238.jpg",
-    "last_update": 1694540848,
+    "last_update": 1694976524,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -15106,9 +15110,9 @@
     "titles": [
       "Evolution from a tree"
     ],
-    "current_chap": 107,
+    "current_chap": 108,
     "cover": "https://nightscans.org/wp-content/uploads/2023/03/EVO-FROM-A-TREE-cover.webp",
-    "last_update": 1694887608,
+    "last_update": 1694976526,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -15169,9 +15173,9 @@
     "titles": [
       "Eleceed"
     ],
-    "current_chap": 263,
+    "current_chap": 264,
     "cover": "https://nightscans.org/wp-content/uploads/2023/03/1679405464-7024-i348071.png",
-    "last_update": 1694552637,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15191,9 +15195,9 @@
     "titles": [
       "I will just stick to the protagonist"
     ],
-    "current_chap": 47,
+    "current_chap": 48,
     "cover": "https://nightscans.org/wp-content/uploads/2023/03/IWJSTTP-Cover.webp",
-    "last_update": 1694553295,
+    "last_update": 1694976526,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15275,9 +15279,9 @@
     "titles": [
       "Guard pass"
     ],
-    "current_chap": 98,
+    "current_chap": 105,
     "cover": "https://void-scans.com/wp-content/uploads/resource.png",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15296,9 +15300,9 @@
     "titles": [
       "Questism"
     ],
-    "current_chap": 101,
+    "current_chap": 104,
     "cover": "https://void-scans.com/wp-content/uploads/2022/05/\u00bdA\u00b8\u00aeAi_C\u00a5Ao-207x300.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15317,9 +15321,9 @@
     "titles": [
       "How to fight"
     ],
-    "current_chap": 196,
+    "current_chap": 199,
     "cover": "https://void-scans.com/wp-content/uploads/2022/07/690-1000-207x300.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15338,9 +15342,9 @@
     "titles": [
       "Weak hero"
     ],
-    "current_chap": 260,
+    "current_chap": 263,
     "cover": "https://void-scans.com/wp-content/uploads/XL.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15380,9 +15384,9 @@
     "titles": [
       "Past life regressor (2022)"
     ],
-    "current_chap": 48,
+    "current_chap": 49,
     "cover": "https://void-scans.com/wp-content/uploads/resource-16.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15401,9 +15405,9 @@
     "titles": [
       "Hero the maximum"
     ],
-    "current_chap": 37,
+    "current_chap": 38,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-16.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15422,9 +15426,9 @@
     "titles": [
       "Reborn rich \u2013 the youngest son of a conglomerate"
     ],
-    "current_chap": 62,
+    "current_chap": 64,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-9.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15443,9 +15447,9 @@
     "titles": [
       "Be the actor"
     ],
-    "current_chap": 51,
+    "current_chap": 54,
     "cover": "https://void-scans.com/wp-content/uploads/xxlarge-5.webp",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15464,9 +15468,9 @@
     "titles": [
       "The bully in-charge"
     ],
-    "current_chap": 59,
+    "current_chap": 64,
     "cover": "https://void-scans.com/wp-content/uploads/2022/07/300_430-209x300.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15569,9 +15573,9 @@
     "titles": [
       "Limitless"
     ],
-    "current_chap": 36,
+    "current_chap": 38,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-15-1.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15759,9 +15763,9 @@
     "titles": [
       "Return of the legend"
     ],
-    "current_chap": 105,
+    "current_chap": 106,
     "cover": "https://void-scans.com/wp-content/uploads/xxlarge-4-1.webp",
-    "last_update": 1693605743,
+    "last_update": 1695069270,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15780,9 +15784,9 @@
     "titles": [
       "Hanlim gym"
     ],
-    "current_chap": 143,
+    "current_chap": 146,
     "cover": "https://void-scans.com/wp-content/uploads/2022/05/600x860-209x300.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15907,9 +15911,9 @@
     "titles": [
       "Reincarnation of the veteran soldier"
     ],
-    "current_chap": 87,
+    "current_chap": 89,
     "cover": "https://void-scans.com/wp-content/uploads/2022/06/690x1000-207x300.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -16096,9 +16100,9 @@
     "titles": [
       "True education"
     ],
-    "current_chap": 123,
+    "current_chap": 125,
     "cover": "https://void-scans.com/wp-content/uploads/690X1000.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -17818,9 +17822,9 @@
     "titles": [
       "Past life returner"
     ],
-    "current_chap": 50,
+    "current_chap": 51,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/37b7f384-890c-4895-8e00-c42299c7d786/HdJmJaCwD4ccKGhw20wE1cTsG8Tef12ucWxn7rzL.jpg",
-    "last_update": 1694755726,
+    "last_update": 1695410052,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -17881,9 +17885,9 @@
     "titles": [
       "Re-entering another world"
     ],
-    "current_chap": 68,
+    "current_chap": 69,
     "cover": "https://en.leviatanscans.com/wp-content/uploads/2022/08/06-110x150.jpg",
-    "last_update": 1694887607,
+    "last_update": 1695223475,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -17944,9 +17948,9 @@
     "titles": [
       "Han dae sung returned from hell"
     ],
-    "current_chap": 48,
+    "current_chap": 51,
     "cover": "https://void-scans.com/wp-content/uploads/resource-15-2.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18007,9 +18011,9 @@
     "titles": [
       "Return of the broken constellation"
     ],
-    "current_chap": 82,
+    "current_chap": 83,
     "cover": "https://flamescans.org/wp-content/uploads/2021/11/BCS-Cover.png",
-    "last_update": 1694448331,
+    "last_update": 1695069316,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18029,9 +18033,9 @@
     "titles": [
       "Level-up doctor"
     ],
-    "current_chap": 80,
+    "current_chap": 82,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/076b66f8-ffe9-44e5-9bc5-cad0925fbeeb/GyhKXlv7sQCPi3eXmpP8KoTPRtDgdOGos4yXL6hT.png",
-    "last_update": 1694448329,
+    "last_update": 1695154302,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18176,9 +18180,9 @@
     "titles": [
       "Chronicles of the demon faction"
     ],
-    "current_chap": 33,
+    "current_chap": 35,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/03/DemonFactionCover02.png",
-    "last_update": 1694195204,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18260,9 +18264,9 @@
     "titles": [
       "Revenge of the iron-blooded sword hound"
     ],
-    "current_chap": 42,
+    "current_chap": 43,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/04/IronBloodSwordHound05-1.png",
-    "last_update": 1694474419,
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18281,9 +18285,9 @@
     "titles": [
       "I returned as an fff-class witch doctor"
     ],
-    "current_chap": 42,
+    "current_chap": 43,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/04/FFFclassWitchCover01.png",
-    "last_update": 1694755687,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18295,7 +18299,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 42
+    "viewed_chap": 43
   },
   {
     "id": 873,
@@ -18344,9 +18348,9 @@
     "titles": [
       "I\u2019m going to steal again today"
     ],
-    "current_chap": 46,
+    "current_chap": 47,
     "cover": "https://nightscans.org/wp-content/uploads/2023/04/immastealtoday.jpg",
-    "last_update": 1694552637,
+    "last_update": 1694976526,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18365,9 +18369,9 @@
     "titles": [
       "Solo farming in the tower"
     ],
-    "current_chap": 27,
+    "current_chap": 28,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/25__solofarming-20-06-2023_11_40_10_PM.webp",
-    "last_update": 1694755691,
+    "last_update": 1695410016,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -18407,9 +18411,9 @@
     "titles": [
       "How to live as an unlicensed healer"
     ],
-    "current_chap": 26,
+    "current_chap": 27,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/33__unlicensed_healer-23-06-2023_11_44_37_PM.webp",
-    "last_update": 1694807855,
+    "last_update": 1695410015,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18428,14 +18432,15 @@
     "titles": [
       "Devil returns to school days"
     ],
-    "current_chap": 29,
-    "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/6__devil_returns_to_school_days-20-06-2023_11_40_10_PM.webp",
-    "last_update": 1694540814,
+    "current_chap": 30,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/09/output-3.png",
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
       8,
-      11
+      11,
+      1
     ],
     "genres": [
       0
@@ -18471,9 +18476,9 @@
     "titles": [
       "Revenge of the sword clan's hound"
     ],
-    "current_chap": 42,
+    "current_chap": 43,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/8b5f124b-700f-419e-a23d-19c6cf25f84e/Oker5exmwOPBAeimzh6kEsv7wbwtEKoT3WlFVr7b.png",
-    "last_update": 1694448329,
+    "last_update": 1694976527,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18492,9 +18497,9 @@
     "titles": [
       "Above ten thousand people"
     ],
-    "current_chap": 257,
+    "current_chap": 258,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/04/420.webp",
-    "last_update": 1694887611,
+    "last_update": 1695154304,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -18513,9 +18518,9 @@
     "titles": [
       "World defying dan god"
     ],
-    "current_chap": 50,
+    "current_chap": 51,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/03/thumbbbbb-175x238.jpg",
-    "last_update": 1694887611,
+    "last_update": 1695223480,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -18597,9 +18602,9 @@
     "titles": [
       "F-class destiny hunter"
     ],
-    "current_chap": 39,
+    "current_chap": 40,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/04/DestinyHunterCover01.png",
-    "last_update": 1694540807,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18611,7 +18616,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 39
+    "viewed_chap": 40
   },
   {
     "id": 888,
@@ -18702,9 +18707,9 @@
     "titles": [
       "Hyper luck"
     ],
-    "current_chap": 50,
+    "current_chap": 52,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/2e81a266-c389-4e13-92e6-698ebb26309b/g3dSuTh5ivAPXlepbV3F8REcLXPd4pmBY0hrQL5l.png",
-    "last_update": 1693246825,
+    "last_update": 1695410052,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18723,9 +18728,9 @@
     "titles": [
       "The knight king who returned with a god"
     ],
-    "current_chap": 24,
+    "current_chap": 25,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/05/theknightkingCover01.png",
-    "last_update": 1694305293,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18737,16 +18742,16 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 24
+    "viewed_chap": 25
   },
   {
     "id": 894,
     "titles": [
       "Terminally-ill genius dark knight"
     ],
-    "current_chap": 24,
+    "current_chap": 25,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/05/terminallyilldarkknightCover01.png",
-    "last_update": 1694755687,
+    "last_update": 1695233612,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18765,9 +18770,9 @@
     "titles": [
       "Superstar from age 0"
     ],
-    "current_chap": 21,
+    "current_chap": 22,
     "cover": "https://void-scans.com/wp-content/uploads/resource-13.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18786,9 +18791,9 @@
     "titles": [
       "Juvenile offender"
     ],
-    "current_chap": 27,
+    "current_chap": 29,
     "cover": "https://void-scans.com/wp-content/uploads/donehoUpRGBnoiseLevel3.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18807,9 +18812,9 @@
     "titles": [
       "How to live as a bootleg healer"
     ],
-    "current_chap": 24,
+    "current_chap": 26,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-18-1.jpg",
-    "last_update": 1693605742,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18828,13 +18833,14 @@
     "titles": [
       "Return of the bloodthirsty police"
     ],
-    "current_chap": 26,
-    "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-18.jpg",
-    "last_update": 1693605742,
+    "current_chap": 28,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/09/output-1-1.png",
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      11
+      11,
+      1
     ],
     "genres": [
       0
@@ -18996,9 +19002,9 @@
     "titles": [
       "Heir of mythical heroes"
     ],
-    "current_chap": 32,
+    "current_chap": 33,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/9__heir_of_mythical_heroes-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1694195213,
+    "last_update": 1695233614,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19059,9 +19065,9 @@
     "titles": [
       "The player hides his past"
     ],
-    "current_chap": 20,
+    "current_chap": 21,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/06/thePlayerHideHisPastCover01Photoauto_scaleLevel3width-1400.jpg",
-    "last_update": 1694807853,
+    "last_update": 1695410013,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19101,9 +19107,9 @@
     "titles": [
       "Martial god regressed to level 2"
     ],
-    "current_chap": 26,
+    "current_chap": 27,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/07/replicate-prediction-racly3rbhmzlnnex2krwvuaada.png",
-    "last_update": 1694448287,
+    "last_update": 1695069267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19143,9 +19149,9 @@
     "titles": [
       "The extra is too strong"
     ],
-    "current_chap": 30,
+    "current_chap": 31,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/06/TheExtraIsTooStrongCover01.png",
-    "last_update": 1694287655,
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19165,7 +19171,7 @@
       "Academy\u2019s genius swordmaster"
     ],
     "current_chap": 14,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/07/replicate-prediction-vl2hajjbgudda4cvzc7qwxj3iy.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/07/AcademyGeniusSwordmasterCover01.png",
     "last_update": 1694887571,
     "com_type": 3,
     "status": 2,
@@ -19186,7 +19192,7 @@
       "Dragon-devouring mage"
     ],
     "current_chap": 26,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/08/resourcePhotoauto_scaleLevel3width-2000.jpg",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/08/DragonDevouringMageCover01.png",
     "last_update": 1694887571,
     "com_type": 3,
     "status": 2,
@@ -19207,9 +19213,9 @@
     "titles": [
       "Weak teacher"
     ],
-    "current_chap": 100,
+    "current_chap": 101,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/weakteacher-1-24-06-2023_1_58_46_AM.webp",
-    "last_update": 1693246773,
+    "last_update": 1695154267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19228,9 +19234,9 @@
     "titles": [
       "The little brother is the academy's hotshot"
     ],
-    "current_chap": 48,
+    "current_chap": 49,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/42__little_brother_is_academy_hotsh-23-06-2023_11_44_11_PM.webp",
-    "last_update": 1694448294,
+    "last_update": 1695154267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19249,9 +19255,9 @@
     "titles": [
       "The emperor's sword"
     ],
-    "current_chap": 15,
+    "current_chap": 17,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/realm_imperial_swordman.webp",
-    "last_update": 1694448294,
+    "last_update": 1695304718,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19291,9 +19297,9 @@
     "titles": [
       "I became a terminally-ill knight"
     ],
-    "current_chap": 10,
+    "current_chap": 11,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/terminally_ill.webp",
-    "last_update": 1694807855,
+    "last_update": 1695410016,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19375,9 +19381,9 @@
     "titles": [
       "The martial god who regressed back to level 2"
     ],
-    "current_chap": 76,
+    "current_chap": 82,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/ab58b43f-1e99-41db-8761-613781694191/Ux79HBNJLwuZvnpUKShlBJXglfiwclOIyFnsQmck.png",
-    "last_update": 1694887610,
+    "last_update": 1695410052,
     "com_type": 4,
     "status": 2,
     "published_in": [
@@ -19396,9 +19402,9 @@
     "titles": [
       "The 31st piece turns the tables"
     ],
-    "current_chap": 31,
+    "current_chap": 34,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/3526bc64-802c-47af-a4d7-c2903c3cf73c/6Ggrf1MNy6rU5nIEycV9Q7TarPWYiFzbYVWmCrP5.png",
-    "last_update": 1694887610,
+    "last_update": 1695410052,
     "com_type": 4,
     "status": 2,
     "published_in": [
@@ -19417,9 +19423,9 @@
     "titles": [
       "Master: this villainous disciple is not the holy child"
     ],
-    "current_chap": 7,
+    "current_chap": 8,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/08/zafvAkPSF-175x238.jpg",
-    "last_update": 1694614415,
+    "last_update": 1695223480,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -19438,9 +19444,9 @@
     "titles": [
       "Different kings"
     ],
-    "current_chap": 295,
+    "current_chap": 296,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/06/coverr-175x238.jpg",
-    "last_update": 1694807910,
+    "last_update": 1695223480,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -19459,9 +19465,9 @@
     "titles": [
       "Dragon master"
     ],
-    "current_chap": 226,
+    "current_chap": 227,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/06/a1-2-175x238.jpg",
-    "last_update": 1694807910,
+    "last_update": 1695069314,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -19480,9 +19486,9 @@
     "titles": [
       "Disastrous necromancer"
     ],
-    "current_chap": 20,
+    "current_chap": 21,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/06/xyqDckuiv-175x238.jpg",
-    "last_update": 1694887611,
+    "last_update": 1694976529,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -19494,7 +19500,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 20
+    "viewed_chap": 21
   },
   {
     "id": 930,
@@ -19522,9 +19528,9 @@
     "titles": [
       "Jungle juice"
     ],
-    "current_chap": 95,
+    "current_chap": 96,
     "cover": "https://flamescans.org/wp-content/uploads/2021/06/JJ_S2_COVER.png",
-    "last_update": 1694755729,
+    "last_update": 1695233654,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19543,9 +19549,9 @@
     "titles": [
       "The god of war who regressed to level 2"
     ],
-    "current_chap": 26,
+    "current_chap": 27,
     "cover": "https://flamescans.org/wp-content/uploads/2023/07/resource-1.jpg",
-    "last_update": 1694448331,
+    "last_update": 1695069316,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19606,9 +19612,9 @@
     "titles": [
       "Golden mage"
     ],
-    "current_chap": 25,
-    "cover": "https://asura.nacm.xyz/wp-content/uploads/2023/07/1-S3ceLSeKeH90hR0yKinXq0filenameo1.jpg",
-    "last_update": 1693605739,
+    "current_chap": 27,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/07/1-S3ceLSeKeH90hR0yKinXq0filenameo1.jpg",
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19648,9 +19654,9 @@
     "titles": [
       "Level up with skills"
     ],
-    "current_chap": 31,
+    "current_chap": 35,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/fedb6192-4a27-4baa-87d1-82380ee468b4/ev0YMRC363plEGU1sYlWnPBtROv3WZMwqTdmaiWd.png",
-    "last_update": 1693150589,
+    "last_update": 1695223478,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19669,9 +19675,9 @@
     "titles": [
       "The 31st piece overturns the board"
     ],
-    "current_chap": 29,
+    "current_chap": 30,
     "cover": "https://flamescans.org/wp-content/uploads/2023/07/snowman_guy.jpg",
-    "last_update": 1694807911,
+    "last_update": 1695410056,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19711,9 +19717,9 @@
     "titles": [
       "The terminally ill young master of the baek clan"
     ],
-    "current_chap": 8,
+    "current_chap": 9,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/08/TheTerminallyIllYoungMasteroftheBaekClanCover01.png",
-    "last_update": 1694474419,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19732,9 +19738,9 @@
     "titles": [
       "World's greatest senior disciple"
     ],
-    "current_chap": 47,
+    "current_chap": 49,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/31__worlds_greatest_senior_disciple-20-06-2023_11_40_12_PM.webp",
-    "last_update": 1694887573,
+    "last_update": 1695233614,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19753,9 +19759,9 @@
     "titles": [
       "Baek clan\u2019s terminally ill young master"
     ],
-    "current_chap": 8,
+    "current_chap": 9,
     "cover": "https://flamescans.org/wp-content/uploads/2023/08/image.jpg",
-    "last_update": 1694474463,
+    "last_update": 1695069316,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19816,9 +19822,9 @@
     "titles": [
       "Steel-eating player"
     ],
-    "current_chap": 5,
+    "current_chap": 6,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/08/SteelEatingPlayerCover01.png",
-    "last_update": 1694448288,
+    "last_update": 1695154264,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19837,9 +19843,9 @@
     "titles": [
       "I was more overpowered than the hero, so i hid my power!"
     ],
-    "current_chap": 7,
+    "current_chap": 9,
     "cover": "https://void-scans.com/wp-content/uploads/fdfsff.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19858,9 +19864,9 @@
     "titles": [
       "Records of the demonic path\u2019s return"
     ],
-    "current_chap": 12,
+    "current_chap": 14,
     "cover": "https://void-scans.com/wp-content/uploads/cover_2A\u00f7_370E_oIAI_AIAEa_371-1.jpg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19879,9 +19885,9 @@
     "titles": [
       "Legend of the holy sword"
     ],
-    "current_chap": 6,
+    "current_chap": 9,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-2.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19900,9 +19906,9 @@
     "titles": [
       "Logging in as a monster"
     ],
-    "current_chap": 28,
+    "current_chap": 31,
     "cover": "https://void-scans.com/wp-content/uploads/resource-7.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19921,9 +19927,9 @@
     "titles": [
       "Ulzzang generation"
     ],
-    "current_chap": 11,
+    "current_chap": 13,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000.jpg",
-    "last_update": 1693605743,
+    "last_update": 1695223434,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -19942,9 +19948,9 @@
     "titles": [
       "I\u2019ll be a villain in this life"
     ],
-    "current_chap": 23,
+    "current_chap": 27,
     "cover": "https://void-scans.com/wp-content/uploads/resource-2-2.jpeg",
-    "last_update": 1693605743,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19963,9 +19969,9 @@
     "titles": [
       "Hand over the money!"
     ],
-    "current_chap": 11,
+    "current_chap": 14,
     "cover": "https://void-scans.com/wp-content/uploads/thumbnail_IMAG21_72.webp",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19984,9 +19990,9 @@
     "titles": [
       "Artifact reading appraiser"
     ],
-    "current_chap": 11,
+    "current_chap": 12,
     "cover": "https://void-scans.com/wp-content/uploads/artifactimage12.webp",
-    "last_update": 1693605743,
+    "last_update": 1694976488,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20047,9 +20053,9 @@
     "titles": [
       "The heavenly demon destroys the lich king\u2019s murim"
     ],
-    "current_chap": 67,
+    "current_chap": 69,
     "cover": "https://flamescans.org/wp-content/uploads/2021/06/cover_smth-1.png",
-    "last_update": 1694448331,
+    "last_update": 1695304757,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20089,9 +20095,9 @@
     "titles": [
       "Deity luo wu ji"
     ],
-    "current_chap": 236,
+    "current_chap": 238,
     "cover": "https://lscomic.com/wp-content/uploads/2023/08/cover-175x238.png",
-    "last_update": 1694474459,
+    "last_update": 1694976524,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -20110,13 +20116,14 @@
     "titles": [
       "Regressor\u2019s life after retirement"
     ],
-    "current_chap": 6,
+    "current_chap": 7,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/09/replicate-prediction-3kclwpzboe47av73o5j4d6ddri.png",
-    "last_update": 1694287655,
+    "last_update": 1694976487,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1
+      1,
+      11
     ],
     "genres": [
       0
@@ -20131,9 +20138,9 @@
     "titles": [
       "Dragon lady"
     ],
-    "current_chap": 32,
+    "current_chap": 33,
     "cover": "https://lscomic.com/wp-content/uploads/2023/08/coverDL-175x238.jpg",
-    "last_update": 1694807905,
+    "last_update": 1695410051,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -20173,9 +20180,9 @@
     "titles": [
       "Egrette"
     ],
-    "current_chap": 92,
+    "current_chap": 93,
     "cover": "https://lscomic.com/wp-content/uploads/2023/08/coverS3-175x238.jpg",
-    "last_update": 1694287697,
+    "last_update": 1695069309,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -20194,9 +20201,9 @@
     "titles": [
       "Insanely-talented player"
     ],
-    "current_chap": 7,
+    "current_chap": 8,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/09/output.png",
-    "last_update": 1694448288,
+    "last_update": 1694976485,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20215,9 +20222,9 @@
     "titles": [
       "Insanely talented player"
     ],
-    "current_chap": 7,
+    "current_chap": 8,
     "cover": "https://flamescans.org/wp-content/uploads/2023/09/cover.jpg",
-    "last_update": 1694448331,
+    "last_update": 1694976530,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20656,9 +20663,9 @@
     "titles": [
       "Dragon master of the olden days"
     ],
-    "current_chap": 36,
+    "current_chap": 44,
     "cover": "https://nightscans.org/wp-content/uploads/2023/08/Dmotod_Nightscans.webp",
-    "last_update": 1694553295,
+    "last_update": 1694976526,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -20726,6 +20733,111 @@
     "status": 2,
     "published_in": [
       1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 991,
+    "titles": [
+      "Killer peter"
+    ],
+    "current_chap": 4,
+    "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000.png",
+    "last_update": 1694976487,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 992,
+    "titles": [
+      "Star-embracing swordmaster"
+    ],
+    "current_chap": 8,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/09/replicate-prediction-a3ai4qjb7x7g4xoeyaxxzpau3u.png",
+    "last_update": 1695154264,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 993,
+    "titles": [
+      "Spare me, great lord!"
+    ],
+    "current_chap": 581,
+    "cover": "https://manhuaplus.com/wp-content/uploads/2023/09/002-1-175x238.jpg",
+    "last_update": 1695304755,
+    "com_type": 2,
+    "status": 2,
+    "published_in": [
+      3
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 994,
+    "titles": [
+      "Star-fostered swordmaster"
+    ],
+    "current_chap": 8,
+    "cover": "https://flamescans.org/wp-content/uploads/2023/09/\u00bdA\u00b8\u00aeAiC\u00a5Ao_690x1000.jpg",
+    "last_update": 1695154305,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      4
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 995,
+    "titles": [
+      "My lucky encounter from the game turned into reality"
+    ],
+    "current_chap": 13,
+    "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/dream_becomes_reality_2.png",
+    "last_update": 1695410015,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
     ],
     "genres": [
       0
