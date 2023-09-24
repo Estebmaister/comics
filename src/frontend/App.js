@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
 import comics from '../db/comics.json';
-import { ComicCard } from './ComicCard';
+import { ComicCard } from './modules/ComicCard';
 
 comics.sort((a,b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";

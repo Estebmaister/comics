@@ -1,9 +1,9 @@
-import { Types, Statuses, Genres, Publishers } from './Classes';
-import BrokenImage from './404.jpg'
+import { Types, Statuses, Genres, Publishers } from '../util/ComicClasses';
+import BrokenImage from '../assets/404.jpg'
 import styles from'./ComicCard.module.css'
-const server = 'http://localhost:5000'
+const SERVER = 'http://localhost:5000'
 
-const track = (tracked, id) => {
+const track = (tracked, id, server = SERVER) => {
   fetch(`${server}/comics/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ track: !tracked }),
@@ -18,7 +18,7 @@ const track = (tracked, id) => {
   });
 }
 
-const checkout = (curr_chap, id) => {
+const checkout = (curr_chap, id, server = SERVER) => {
   fetch(`${server}/comics/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ viewed_chap: curr_chap }),
@@ -33,7 +33,7 @@ const checkout = (curr_chap, id) => {
   });
 }
 
-const del_comic = (id) => {
+const del_comic = (id, server = SERVER) => {
   fetch(`${server}/comics/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
