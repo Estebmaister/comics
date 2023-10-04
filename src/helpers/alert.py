@@ -5,7 +5,7 @@ from typing import List
 from db import Publishers
 
 default_content = "Update found"
-msg = dict( title = "Scrap alert", content = default_content, alert = 0 )
+msg = dict( title = "Scrape alert", content = default_content, alert = 0 )
 alert_icon = "/usr/share/icons/Adwaita/scalable/"
 alert_icon += "status/software-update-urgent-symbolic.svg"
 

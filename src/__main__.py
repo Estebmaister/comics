@@ -3,7 +3,7 @@
 import time, sys
 
 from flask_cors import CORS
-from scrap import scraps
+from scrape import scrapes
 from server import server
 from helpers.alert import reminder
 import logging
@@ -22,7 +22,7 @@ def scrapping():
     logging.info('Scraping started...')
     while True:
         time_started = time.time()
-        scraps()
+        scrapes()
         reminder()
         time_req = round((time.time() - time_started), 2)
         print(f'{scrap_cont} ({time_req})', end = '. ', flush=True)

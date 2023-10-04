@@ -1,4 +1,4 @@
-# scrap/__init__.py
+# scrape/__init__.py
 ## Scraping webs to save latest comics
 
 import asyncio
@@ -15,7 +15,7 @@ chaps_file = os.path.join(os.path.dirname(__file__), "../db/chaps.html")
 TIME_OUT_LIMIT = 50
 div_item_summary = "div.item-summary"
 
-def strip_parameters(chap, title, cover):
+def strip_parameters(chap: str, title: str, cover: str):
     # Striping extra information from chapters like name and decimals
     try:
         chap = int(re.findall(r'\d+', chap)[0])
@@ -80,7 +80,8 @@ async def register_comic(chap: str, title: str,
         print(f'WARN: Abnormal length in db query: {len(db_comics)}, '
             + f'[{title}] impossible to parse')
 
-async def update_cover_if_needed(db_comics, comics, cover, publisher, title):
+async def update_cover_if_needed(db_comics: [], comics: [], cover: str, 
+    publisher: Publishers, title: str):
     if cover == '': return
     # Update cover for ManhuaPlus and Reaper comics due to load restriction
     if not db_comics[0].cover or (publisher != Publishers.ManhuaPlus and 
@@ -179,7 +180,6 @@ async def scrape_common_1(url: str, publisher: Publishers):
         except (ValueError, IndexError, KeyError, AttributeError) as error:
             print(f'ERROR: scraping {str(Publishers(publisher))}: {error}')
             continue
-
 
 
 async def scrape_common_2(url: str, publisher: Publishers):
@@ -326,8 +326,9 @@ async def scrape_reaper(url: str):
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ReaperScans)
 
+
 async def func_pending(url: str):
-    pass # await print(url, "not implemented")
+    pass # await print(url, "not implemented") #TODO
 url_switch = {
     "https://asuracomics.com/"      :scrape_publisher(Publishers.Asura, 2),
     "https://void-scans.com/"       :scrape_publisher(Publishers.VoidScans, 2),
@@ -348,10 +349,10 @@ url_switch = {
     "https://manganato.com/"        :func_pending,
     "https://1stkissmanga.me/"      :func_pending,
 }
-async def scrape_switch(url):
+async def scrape_switch(url: str):
     return await url_switch.get(url, func_pending)(url)
 async def async_scrape():
     # await scrape("https://en.leviatanscans.com/", 'levi')
     await asyncio.gather(*[scrape_switch(url) for url in url_switch.keys()])
-def scraps():
+def scrapes():
     asyncio.run(async_scrape())
