@@ -3,7 +3,7 @@
 import unittest
 import sys
 sys.path.append("./src")
-from scrap import com_type_parse
+from scrape import com_type_parse
 from db import Types, ComicDB
 from db.helpers import manage_multi_finds
 

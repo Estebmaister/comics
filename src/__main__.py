@@ -18,15 +18,15 @@ if 'debug' in sys.argv:
 
 recurrence = 600
 def scrapping():
-    scrap_cont = 1
+    scrape_cont = 1
     logging.info('Scraping started...')
     while True:
         time_started = time.time()
         scrapes()
         reminder()
         time_req = round((time.time() - time_started), 2)
-        print(f'{scrap_cont} ({time_req})', end = '. ', flush=True)
-        scrap_cont += 1
+        print(f'{scrape_cont} ({time_req})', end = '. ', flush=True)
+        scrape_cont += 1
         time.sleep(recurrence)
 
 def run_server():
