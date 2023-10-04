@@ -1,12 +1,12 @@
 # src/__main__.py
 
-import time, sys
-
+import logging
+import time, sys, os
 from flask_cors import CORS
+from gevent.pywsgi import WSGIServer
 from scrape import scrapes
 from server import server
 from helpers.alert import reminder
-import logging
 
 DEBUG = False
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +33,12 @@ def run_server():
     CORS( server, 
         resources={r'/comics/*': {'origins': ['http://localhost:3000']}}
     )
-    server.run(port=5000, debug=DEBUG, host='localhost')
+    port = int(os.getenv('PORT', 5000))
+    # Debug/Development
+    if DEBUG: server.run(port=port, host='localhost')
+    # Production
+    http_server = WSGIServer(('', port), server)
+    http_server.serve_forever()
 
 if 'server' in sys.argv:
     run_server()
