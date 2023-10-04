@@ -8,7 +8,7 @@ cloudscraper==1.2.68
 Flask==2.2.2
 Flask-Cors==3.0.10
 flask-restx==1.0.5
-greenlet==2.0.1
+greenlet==3.0rc3
 gevent==23.9.1
 idna==3.4
 itsdangerous==2.1.2
