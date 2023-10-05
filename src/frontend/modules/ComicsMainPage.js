@@ -1,44 +1,66 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../css/main.css';
-import comics from '../../db/comics.json';
 import { ComicCard } from './ComicCard';
 
-comics.sort((a,b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-const filterComics = (comics, filterWord, trackedOnly, uncheckedOnly) => 
-  comics.filter((comic) => {
-    for (const title of comic.titles) {
-      if (trackedOnly && !comic.track) {
-        return false;
-      }
-      if (uncheckedOnly && (comic.viewed_chap === comic.current_chap)) {
-        return false;
-      }
-      if (title.toLowerCase().includes( filterWord.toLowerCase() )) {
-        return true;
-      }
+const SERVER = process.env.REACT_APP_PY_SERVER || 
+  'https://comics-tracker-143003e10955.herokuapp.com';
+
+const dataFetch = (
+    setState, setPagination, from, limit, queryFilter, 
+    onlyTracked, onlyUnchecked, server = SERVER
+  ) => {
+  fetch(`${server}/comics/${queryFilter}?from=${from}&limit=${
+    limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`, {
+    method: 'GET',
+    headers: { 'accept': 'application/json' },
+  })
+  .then((response) => {
+    console.debug(response)
+    setPagination({
+      total: response.headers.get('total-comics', 0),
+      totalPages: response.headers.get('total-pages', 1),
+      currentPage: response.headers.get('current-page', 1)
+    });
+    return response.json()
+  })
+  .then((data) => {
+    if (data['message'] !== undefined) setState([]);
+    else {
+      console.debug("Success");
+      setState(data);
     }
-    return false;
-  }
-);
+    console.debug(data);
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}
 
 export function ComicsMainPage() {
-  const [searchParams, setSearchParams] = useSearchParams(
-    //{queryFilter:'', onlyTracked: false, from: 0, onlyUnchecked: false}
-  );
-  const queryFilter = searchParams.get('queryFilter') || '';
-  const onlyTracked = searchParams.get('onlyTracked') === "true";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [webComics, setWebComics] = useState([]);
+  const [paginationDict, setPaginationDict] = useState({});
+    // {from: 0, queryFilter:'', onlyTracked: false, onlyUnchecked: false}
   const onlyUnchecked = searchParams.get('onlyUnchecked') === "true";
+  const onlyTracked = searchParams.get('onlyTracked') === "true";
+  const queryFilter = searchParams.get('queryFilter') || '';
   const from = parseInt(searchParams.get('from')) || 0;
   const LIMIT = 8;
   
-  const FILTERED_COMICS = filterComics(comics, queryFilter, onlyTracked);
-  let total = FILTERED_COMICS.length;
-  
-  const totalPages = Math.ceil(total/LIMIT);
-  const currentPage = Math.ceil(from/LIMIT +1)
+  useEffect(() => {
+    dataFetch(
+      setWebComics, setPaginationDict,
+      from, LIMIT, queryFilter, 
+      onlyTracked, onlyUnchecked
+    );
+  }, [from, queryFilter, onlyTracked, onlyUnchecked]);
+
+  const total = paginationDict.total || 1;
+  const totalPages = paginationDict.totalPages || 1;
+  const currentPage = paginationDict.currentPage || 1;
 
   const handleOnlyTracked = () => {
     setSearchParams(prev => {
@@ -60,16 +82,6 @@ export function ComicsMainPage() {
       return prev;
     }, {replace: true});
   }
-
-  let filteredComics;
-  if (queryFilter !== '' || onlyTracked === true) {
-    filteredComics = filterComics(comics, queryFilter, onlyTracked, onlyUnchecked);
-    total = filteredComics.length;
-    filteredComics = filteredComics.slice(from, from + LIMIT);
-  } else {
-    total = comics.length;
-    filteredComics = comics.slice(from, from + LIMIT);
-  };
 
   const handleInputChange = (e) => {
     setSearchParams(prev => {
@@ -170,7 +182,7 @@ export function ComicsMainPage() {
     </div>
 
     <ul className='comic-list'> {
-      filteredComics.map( (item, _i) => 
+      webComics.map( (item, _i) => 
         <ComicCard comic={item} key={item.id} />
       )
     } </ul>

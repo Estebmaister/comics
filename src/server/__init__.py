@@ -5,13 +5,11 @@ from db import ComicDB, Types, Statuses
 from db.repo import all_comics, comics_by_title, comic_by_id
 from db.repo import comics_by_title_no_case, merge_comics
 from helpers.server import put_body_parser
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask import Flask, make_response, request
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 server = Flask(__name__)
-# CORS(server)
 server.config["RESTX_MASK_SWAGGER"]=False
 server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
@@ -29,20 +27,45 @@ class ComicList(Resource):
 
     @ns.doc('list_comics', params={
 	'from': {'default': '0', 'description': 'Offset for query', 'type': 'int'},
-	'limit': {'default': '20', 'description': 'Number of comics', 'type': 'int'}
+	'limit': {'default': '20', 'description': 'Number of comics', 'type': 'int'},
+    'only_tracked': {
+        'default': False, 
+        'description': 'Only comics tracked', 'type': 'bool'},
+	'only_unchecked': {
+        'default': False, 
+        'description': 'Only comics with new chapters', 'type': 'bool'},
+    'full': {
+        'default': False, 
+        'description': 'Full query results', 'type': 'bool'}
     })
-    @ns.marshal_list_with(comic_rest_model)
+    # Using make_response isn't compatible with marshal
+    # @ns.marshal_list_with(comic_rest_model)
     def get(self):
         '''List all comics with pagination'''
         offset = request.args.get("from", 0)
         limit = request.args.get("limit", 20)
+        only_tracked = request.args.get("only_tracked", "false").lower() == "true"
+        only_unchecked = request.args.get("only_unchecked", "false").lower() == "true"
+        full_query = request.args.get("full", "false").lower() == "true"
         try:
             int(offset), int(limit)
         except ValueError:
             ns.logger.info('Pagination parameters type different from int. '+
                 f'[offset: {offset}, limit: {limit}]')
             api.abort(400, 'Pagination parameters type different from int')
-        return [comic.toJSON() for comic in all_comics(offset, limit)]
+        
+        comics_list, pagination = all_comics(
+            int(offset), int(limit), 
+            only_tracked, only_unchecked, full_query
+        )
+        resp = make_response([comic.toJSON() for comic in comics_list])
+        resp.headers[
+                'access-control-expose-headers'
+            ] = 'total-comics,total-pages,current-page'
+        resp.headers['total-comics'] = pagination['total']
+        resp.headers['total-pages'] = pagination['total_pages']
+        resp.headers['current-page'] = pagination['current_page']
+        return resp
 
     @ns.doc('create_comic')
     @ns.expect(comic_rest_model)
@@ -92,7 +115,7 @@ class ComicList(Resource):
         return comic.toJSON()
 
 COMIC_NOT_FOUND = 'Comic {} not found'
-@ns.route('/<int:id>','/<int:id>/')
+@ns.route('/<int:id>')
 @ns.response(404, COMIC_NOT_FOUND)
 @ns.param('id', 'The comic identifier')
 class ComicID(Resource):
@@ -167,21 +190,57 @@ class ComicID(Resource):
         save_comics_file(load_comics)
         return comic.toJSON()
 
-@ns.route('/<string:title>','/<string:title>/')
+@ns.route('/<string:title>/')
 @ns.response(400, 'Empty title cannot be resolved')
 @ns.param('title', 'The name of the comic')
 class ComicTitle(Resource):
     '''List comics by title'''
 
+    @ns.doc('list_comics', params={
+	'from': {'default': '0', 'description': 'Offset for query', 'type': 'int'},
+	'limit': {'default': '20', 'description': 'Number of comics', 'type': 'int'},
+	'only_tracked': {
+        'default': False, 
+        'description': 'Only comics tracked', 'type': 'bool'},
+	'only_unchecked': {
+        'default': False, 
+        'description': 'Only comics with new chapters', 'type': 'bool'},
+	'full': {
+        'default': False, 
+        'description': 'Full query results', 'type': 'bool'}
+    })
     @ns.doc('get_comic_by_title')
-    @ns.marshal_list_with(comic_rest_model)
+    # Using make_response isn't compatible with marshal
+    # @ns.marshal_list_with(comic_rest_model)
     def get(self, title):
         '''Fetch a list of comics by title'''
+        offset = request.args.get("from", 0)
+        limit = request.args.get("limit", 20)
+        only_tracked = request.args.get("only_tracked", "false").lower() == "true"
+        only_unchecked = request.args.get("only_unchecked", "false").lower() == "true"
+        full_query = request.args.get("full", "false").lower() == "true"
+        try:
+            int(offset), int(limit)
+        except ValueError:
+            ns.logger.info('Pagination parameters type different from int. '+
+                f'[offset: {offset}, limit: {limit}]')
+            api.abort(400, 'Pagination parameters type different from int')
         title = title.strip()
         if title == '': api.abort(400, 'Empty title cannot be resolved')
-        return [comic.toJSON() for comic in comics_by_title_no_case(title)]
+        comics_list, pagination = comics_by_title_no_case(
+            title, int(offset), int(limit), 
+            only_tracked, only_unchecked, full_query
+        )
+        resp = make_response([comic.toJSON() for comic in comics_list])
+        resp.headers[
+                'access-control-expose-headers'
+            ] = 'total-comics,total-pages,current-page'
+        resp.headers['total-comics'] = pagination['total']
+        resp.headers['total-pages'] = pagination['total_pages']
+        resp.headers['current-page'] = pagination['current_page']
+        return resp
 
-@ns.route('/<int:base_id>/<int:merging_id>','/<int:base_id>/<int:merging_id>/')
+@ns.route('/<int:base_id>/<int:merging_id>')
 @ns.response(404, COMIC_NOT_FOUND)
 @ns.response(400, 'Comics should be of the same type')
 class ComicMerge(Resource):
@@ -216,20 +275,21 @@ def merge_comics_by_id(comic_id, comic_merging_id):
 
 @server.errorhandler(404)
 def handle_bad_request(e):
-    return 'Check the URL used', 404
+    server.logger.warning(e)
+    return {'message': 'Invalid route, check the URL used'}, 404
 @server.errorhandler(ValueError)        
 def value_error(e):
     server.logger.error(e)
-    return 'Bad request, check the data format', 400
+    return {'message': 'Bad request, check the data format'}, 400
 @server.errorhandler(ZeroDivisionError)
 def zero_division_error(e):
     server.logger.error(e)
-    return 'Internal division by zero, please report this error', 500      
+    return {'message': 'Internal division by zero, please report this err'}, 500
 @server.errorhandler(IndexError)
 def index_error(e):
     server.logger.error(e)
-    return 'Internal bad index access, please report this error', 500
+    return {'message': 'Internal bad index access, please report this err'}, 500
 @server.errorhandler(TypeError)
 def type_error(e):
     server.logger.error(e)
-    return 'Internal bad type creation, please report this error', 500
+    return {'message': 'Internal bad type creation, please report this err'},500

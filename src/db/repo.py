@@ -1,10 +1,33 @@
+import math
 from db import ComicDB, Types, session, load_comics, save_comics_file
 
-def all_comics(_from: int = 0, _limit: int = 20, full: bool = False):
-    if full:
+def all_comics(_from: int = 0, limit: int = 20, 
+        only_tracked: bool = False, only_unchecked: bool = False,
+        full_query: bool = False
+    ):
+    if full_query:
         return session.query(ComicDB).all()
-    else:
-        return session.query(ComicDB).order_by("id").offset(_from).limit(_limit)
+    
+    partial_result = session.query(ComicDB).order_by(
+        ComicDB.last_update.desc(), ComicDB.id
+    )
+    if only_tracked:
+        if only_unchecked:
+            partial_result = partial_result.filter(
+                ComicDB.track == True,
+                ComicDB.current_chap != ComicDB.viewed_chap
+            )
+        else:
+            partial_result = partial_result.filter(ComicDB.track == True)
+    total = partial_result.count()
+    total_pages = math.ceil(total/limit)
+    current_page = math.ceil(_from/limit +1)
+    pagination_data = {
+        'from': _from, 'limit': limit,
+        'total': total, 'total_pages': total_pages, 
+        'current_page': current_page
+    }
+    return partial_result.offset(_from).limit(limit), pagination_data
 
 def comic_by_id(id: int):
     return session.query(ComicDB).get(id), session
@@ -12,12 +35,40 @@ def comic_by_id(id: int):
 def comics_by_title(title: str):
     return session.query(ComicDB).filter(
             ComicDB.titles.like(f"%{title}%")
+        ).order_by(
+            ComicDB.last_update.desc(), ComicDB.id
         ).all(), session
 
-def comics_by_title_no_case(title: str):
-    return session.query(ComicDB).filter(
+def comics_by_title_no_case(
+        title: str, _from: int = 0, limit: int = 20,
+        only_tracked: bool = False, only_unchecked: bool = False,
+        full_query: bool = False
+    ):
+    partial_result = session.query(ComicDB).filter(
             ComicDB.titles.ilike(f"%{title.lower()}%")
-        ).all()
+        ).order_by(
+            ComicDB.last_update.desc(), ComicDB.id
+        )
+    if only_tracked:
+        if only_unchecked:
+            partial_result = partial_result.filter(
+                ComicDB.track == True,
+                ComicDB.current_chap != ComicDB.viewed_chap
+            )
+        else:
+            partial_result = partial_result.filter(ComicDB.track == True)
+    if full_query:
+        return partial_result.all()
+
+    total = partial_result.count()
+    total_pages = math.ceil(total/limit)
+    current_page = math.ceil(_from/limit +1)
+    pagination_data = {
+        'from': _from, 'limit': limit,
+        'total': total, 'total_pages': total_pages, 
+        'current_page': current_page
+    }
+    return partial_result.offset(_from).limit(limit), pagination_data
 
 COMIC_NOT_FOUND = 'Comic {} not found'
 def merge_comics(base_id: int, merging_id: int):
