@@ -88,6 +88,7 @@ export function ComicsMainPage() {
     setSearchParams(prev => {
       if (e?.target?.value !== undefined) 
         prev.set('queryFilter', e?.target?.value);
+      prev.set('from', 0);
       return prev;
     }, {replace: true});
   }
