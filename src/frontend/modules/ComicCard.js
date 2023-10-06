@@ -2,10 +2,8 @@ import { Types, Statuses, Genres, Publishers } from '../util/ComicClasses';
 import { useState } from 'react';
 import BrokenImage from '../assets/404.jpg'
 import styles from'./ComicCard.module.css'
-const SERVER = process.env.REACT_APP_PY_SERVER || 
-  'https://comics-tracker-143003e10955.herokuapp.com';
-// const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-// const CORS_PROXY = 'http://ww1.allorigins.me/';
+const SERVER = process.env.REACT_APP_PY_SERVER;
+// TODO: const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
 const trackFunc = (tracked, id, setTrack, server = SERVER) => {
   fetch(`${server}/comics/${id}`, {

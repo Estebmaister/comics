@@ -5,8 +5,7 @@ import { ComicCard } from './ComicCard';
 
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-const SERVER = process.env.REACT_APP_PY_SERVER || 
-  'https://comics-tracker-143003e10955.herokuapp.com';
+const SERVER = process.env.REACT_APP_PY_SERVER;
 
 const dataFetch = (
     setState, setPagination, from, limit, queryFilter, 
