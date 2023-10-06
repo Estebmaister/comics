@@ -8,6 +8,7 @@ from scrape import scrapes
 from server import server
 from helpers.alert import reminder
 
+DEFAULT_PORT = 5000
 DEBUG = False
 logging.basicConfig(level=logging.INFO)
 if 'debug' in sys.argv:
@@ -31,9 +32,12 @@ def scrapping():
 
 def run_server():
     CORS( server, 
-        resources={r'/comics/*': {'origins': ['http://localhost:3000']}}
+        resources={r'/comics/*': {'origins': [
+            'http://localhost:3000',
+            'https://estebmaister.github.io/*'
+            ]}}
     )
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.getenv('PORT', DEFAULT_PORT))
     # Debug/Development
     if DEBUG: server.run(port=port, host='localhost')
     # Production
