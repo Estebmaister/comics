@@ -10,33 +10,35 @@ const SERVER = process.env.REACT_APP_PY_SERVER ||
 
 const dataFetch = (
     setState, setPagination, from, limit, queryFilter, 
-    onlyTracked, onlyUnchecked, server = SERVER
+    onlyTracked, onlyUnchecked
   ) => {
-  fetch(`${server}/comics/${queryFilter}?from=${from}&limit=${
-    limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`, {
-    method: 'GET',
-    headers: { 'accept': 'application/json' },
-  })
-  .then((response) => {
-    console.debug(response)
-    setPagination({
-      total: response.headers.get('total-comics', 0),
-      totalPages: response.headers.get('total-pages', 1),
-      currentPage: response.headers.get('current-page', 1)
+  const URL = `${SERVER}/comics/${queryFilter}?from=${from}&limit=${
+    limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`;
+  console.debug(URL);
+  fetch(URL, {
+      method: 'GET',
+      headers: { 'accept': 'application/json' },
+    })
+    .then((response) => {
+      console.debug(response)
+      setPagination({
+        total: response.headers.get('total-comics', 0),
+        totalPages: response.headers.get('total-pages', 1),
+        currentPage: response.headers.get('current-page', 1)
+      });
+      return response.json()
+    })
+    .then((data) => {
+      if (data['message'] !== undefined) setState([]);
+      else {
+        console.debug("Success");
+        setState(data);
+      }
+      console.debug(data);
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
-    return response.json()
-  })
-  .then((data) => {
-    if (data['message'] !== undefined) setState([]);
-    else {
-      console.debug("Success");
-      setState(data);
-    }
-    console.debug(data);
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
 }
 
 export function ComicsMainPage() {
