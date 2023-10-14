@@ -1,5 +1,6 @@
 import math
-from db import ComicDB, Types, session, load_comics, save_comics_file
+from db import ComicDB, Types, session, load_comics, save_comics_file 
+# TODO: pagination object
 
 def all_comics(_from: int = 0, limit: int = 20, 
         only_tracked: bool = False, only_unchecked: bool = False,

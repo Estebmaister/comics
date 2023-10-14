@@ -56,6 +56,11 @@ async def register_comic(chap: str, title: str,
         
         print(json.dumps(db_comic_to_load.toJSON()))
     elif len(db_comics) == 1:
+        ## Check when fails fetching from JSON backup file
+        if len(comics) == 0:
+            print('WARN:', title, "wast'n found in JSON, pub:", publisher)
+            comics = [db_comics[0].toJSON()]
+
         ## Checking for more than one publisher
         if publisher not in db_comics[0].get_published_in():
             db_comics[0].published_in += f"|{publisher}"
