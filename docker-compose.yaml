@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres:
+    container_name: com-postgres
+    image: 'postgres:12.10'
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: esteb
+      POSTGRES_PASSWORD: My0therSelf
+      POSTGRES_DB: com
+      PGDATA: /var/lib/postgresql/data/pgdata
+      # Delete previous volumes to apply changes here
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+    driver: local

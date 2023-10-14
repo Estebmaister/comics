@@ -25,8 +25,13 @@
     }
   },
   "scripts": {
+    "dockerize": "docker build -t comic-tracker .", 
+    "docker": "docker run -p 5000:5000 comic-tracker",
+    "chokidar": "docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5000:5000 comic-tracker",
+    
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
+
     "start": "react-scripts start",
     "server": "python3 src/__main__.py server",
     "build": "react-scripts build",
