@@ -1,7 +1,6 @@
 # python helpers/alert.py alert
 
 import subprocess, sys
-from typing import List
 from db import Publishers
 
 default_content = "Update found"
@@ -12,13 +11,16 @@ alert_icon += "status/software-update-urgent-symbolic.svg"
 def reminder(_send: bool = False):
     if msg["alert"] == 0 and not _send:
         return
-    subprocess.Popen([ 'notify-send', "-i", alert_icon, "-u", "critical",
-        msg.get("title") + f" - ({ msg.get('alert') })", 
-        msg.get("content")])
+    try:
+        subprocess.Popen([ 'notify-send', "-i", alert_icon, "-u", "critical",
+            msg.get("title") + f" - ({ msg.get('alert') })", 
+            msg.get("content")])
+    except FileNotFoundError:
+        print('MSG:', 'Notifier not found - ', msg.get("content"))
     msg["alert"] = 0
     msg["content"] = default_content
 
-def add_alert_to_msg(title: str, chap: str, publisher: List[Publishers]):
+def add_alert_to_msg(title: str, chap: str, publisher: list[Publishers]):
     publishers_to_look = f"- {[Publishers(pub).name for pub in publisher]}"
     update_msg = f"\t\n{title}, ch <b>{chap}</b> {publishers_to_look}"
     print(title,chap,publishers_to_look)

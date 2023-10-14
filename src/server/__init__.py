@@ -2,12 +2,14 @@
 
 from db import swagger_model, load_comics, save_comics_file
 from db import ComicDB, Types, Statuses
-from db.repo import all_comics, comics_by_title, comic_by_id
-from db.repo import comics_by_title_no_case, merge_comics
+from db.repo import all_comics, comics_like_title, comic_by_id
+from db.repo import comics_by_title_no_case, merge_comics, sql_check
 from helpers.server import put_body_parser
 from flask import Flask, make_response, request
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
+from scrape import async_scrape
+import asyncio
 
 server = Flask(__name__)
 server.config["RESTX_MASK_SWAGGER"]=False
@@ -15,6 +17,27 @@ server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
     description='A Comic API capable enough to provide all CRUD ops and more',
 )
+health_ns = api.namespace('health', description='Service health')
+@health_ns.route('/')
+class Health(Resource):
+    '''Returns a 200 success code for monitoring purpose'''
+    def get(self):
+        return {'message': 'success'}
+@health_ns.route('/db')
+class HealthDB(Resource):
+    '''Returns a 200 success code when databases connections are OK'''
+    def get(self):
+        sql_check()
+        return {'message': 'success'}
+
+scrape_ns = api.namespace('scrape', description='Scrape operations')
+@scrape_ns.route('/')
+class Scrape(Resource):
+    '''Runs the scrapper worker'''
+    def get(self):
+        asyncio.run(async_scrape())
+        return {'message': 'success'}
+
 ns = api.namespace('comics', description='Comic operations')
 comic_rest_model = api.model('Comic', swagger_model)
 
@@ -79,7 +102,7 @@ class ComicList(Resource):
             '' in request.json['titles']):
             api.abort(400, 'titles should be a non-empty list of strings')
         first_title = request.json['titles'][0].capitalize()
-        db_comic, session = comics_by_title(first_title)
+        db_comic, session = comics_like_title(first_title)
         if db_comic != None:
             for comic in db_comic:
                 if first_title in comic.get_titles():
@@ -153,8 +176,11 @@ class ComicID(Resource):
 
         comic, session = comic_by_id(id)
         if comic is None:  api.abort(404, COMIC_NOT_FOUND.format(id))
-        json_comic = [comic for comic in load_comics if id == comic["id"]][0]
-
+        try:
+            json_comic = [comic for comic in load_comics if id == comic["id"]][0]
+        except IndexError:
+            load_comics.append(comic.toJSON())
+            json_comic = [com for com in load_comics if comic.id == com["id"]][0]
         titles = request.json.get('titles')
         if titles != None:
             comic.set_titles(titles)

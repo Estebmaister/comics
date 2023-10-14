@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as beauty
 from helpers.alert import add_alert_to_msg
 from db import Types, Statuses, Publishers, ComicDB, save_comics_file, load_comics
 from db.helpers import manage_multi_finds
-from db.repo import comics_by_title
+from db.repo import comics_like_title
 
 scraper = cloudscraper.create_scraper(browser='chrome')
 chaps_file = os.path.join(os.path.dirname(__file__), "../db/chaps.html")
@@ -40,7 +40,7 @@ async def register_comic(chap: str, title: str,
     com_type: Types, cover: str, status: Statuses, publisher: Publishers):
     (chap, title, cover) = strip_parameters(chap, title, cover)
 
-    db_comics, session = comics_by_title(title)
+    db_comics, session = comics_like_title(title)
     comics = [comic for comic in load_comics if title in comic["titles"]]
     ## Check for multiple responses
     db_comics, title = manage_multi_finds(db_comics, com_type, title)
@@ -58,7 +58,8 @@ async def register_comic(chap: str, title: str,
     elif len(db_comics) == 1:
         ## Check when fails fetching from JSON backup file
         if len(comics) == 0:
-            print('WARN:', title, "wast'n found in JSON, pub:", publisher)
+            print('WARN:', title, "wast'n found in JSON.", 
+                    publisher, chap, cover)
             comics = [db_comics[0].toJSON()]
 
         ## Checking for more than one publisher
@@ -270,7 +271,7 @@ async def scrape_nightscans(url: str):
         # Default comic type for publisher
         com_type = com_type_parse(comic.select("a")[0].div.span["class"][1])
         # Locating cover
-        cover = comic.a.div.img["data-lazy-src"]
+        cover = comic.a.div.img["src"]
         # Locating div used for title
         comic_int = comic.select("div.bigor")[0]
         title = comic_int.select("div.tt")[0].text

@@ -32,14 +32,16 @@ def scrapping():
 
 def run_server():
     CORS( server, 
-        resources={r'/comics/*': {'origins': [
-            'http://localhost:3000',
-            'https://estebmaister.github.io/*'
-            ]}}
+        resources={
+            r'/comics/*': {'origins': [
+                'http://localhost:3000',
+                'https://estebmaister.github.io/*'
+            ]}, 
+            '/health/': {'origins':'*'}}
     )
     port = int(os.getenv('PORT', DEFAULT_PORT))
     # Debug/Development
-    if DEBUG: server.run(port=port, host='localhost')
+    if DEBUG: server.run(port=port, host='', debug=DEBUG)
     # Production
     http_server = WSGIServer(('', port), server)
     http_server.serve_forever()

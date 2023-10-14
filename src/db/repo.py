@@ -1,6 +1,10 @@
 import math
-from db import ComicDB, Types, session, load_comics, save_comics_file 
-# TODO: pagination object
+from db import ComicDB, Types, session, load_comics, save_comics_file
+from sqlalchemy.sql import text
+# TODO: create pagination object
+
+def sql_check():
+    return session.execute(text('SELECT 1'))
 
 def all_comics(_from: int = 0, limit: int = 20, 
         only_tracked: bool = False, only_unchecked: bool = False,
@@ -33,7 +37,7 @@ def all_comics(_from: int = 0, limit: int = 20,
 def comic_by_id(id: int):
     return session.query(ComicDB).get(id), session
 
-def comics_by_title(title: str):
+def comics_like_title(title: str):
     return session.query(ComicDB).filter(
             ComicDB.titles.like(f"%{title}%")
         ).order_by(
@@ -73,14 +77,18 @@ def comics_by_title_no_case(
 
 COMIC_NOT_FOUND = 'Comic {} not found'
 def merge_comics(base_id: int, merging_id: int):
-    '''>>> merge_comics(10, 24) -> Comic.toJSON(), None '''
+    '''>>> merge_comics(10, 24) -> Comic.toJSON(), None - error msg '''
     comic, session = comic_by_id(base_id)
     if comic is None: return None, COMIC_NOT_FOUND.format(base_id)
     d_comic = session.query(ComicDB).get(merging_id)
     if d_comic is None: return None, COMIC_NOT_FOUND.format(merging_id)
     if d_comic.com_type != 0 and comic.com_type != d_comic.com_type:
         return None, 'Comics to merge should be of the same type'
-    json_comic = [com for com in load_comics if comic.id == com["id"]][0]
+    try:
+        json_comic = [com for com in load_comics if comic.id == com["id"]][0]
+    except IndexError:
+        load_comics.append(comic.toJSON())
+        json_comic = [com for com in load_comics if comic.id == com["id"]][0]
     dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
 
     titles = list(set(comic.get_titles() + d_comic.get_titles()))

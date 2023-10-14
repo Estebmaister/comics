@@ -170,9 +170,9 @@ Session = sessionmaker(bind = engine)
 session = Session()
 session.execute(text('PRAGMA case_sensitive_like = true'))
 
-def signal_handler(sig, frame):
+def close_signal_handler(sig, frame):
     session.close()
     print('\nDB connection closed...')
     sys.exit(0)
 
-signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGINT, close_signal_handler)
