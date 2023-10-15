@@ -1,15 +1,22 @@
 import math
 from db import ComicDB, Types, session, load_comics, save_comics_file
 from sqlalchemy.sql import text
-# TODO: create pagination object
 
-def sql_check():
+class Pagination:
+    def __init__(self, offset, limit, total_records, total_pages, current_page):
+        self.offset = offset
+        self.limit = limit
+        self.total_records = total_records
+        self.total_pages = total_pages
+        self.current_page = current_page
+
+def sql_check() -> any:
     return session.execute(text('SELECT 1'))
 
 def all_comics(_from: int = 0, limit: int = 20, 
         only_tracked: bool = False, only_unchecked: bool = False,
         full_query: bool = False
-    ):
+    ) -> (list[ComicDB], Pagination):
     if full_query:
         return session.query(ComicDB).all()
     
@@ -27,17 +34,13 @@ def all_comics(_from: int = 0, limit: int = 20,
     total = partial_result.count()
     total_pages = math.ceil(total/limit)
     current_page = math.ceil(_from/limit +1)
-    pagination_data = {
-        'from': _from, 'limit': limit,
-        'total': total, 'total_pages': total_pages, 
-        'current_page': current_page
-    }
+    pagination_data = Pagination(_from, limit, total, total_pages, current_page)
     return partial_result.offset(_from).limit(limit), pagination_data
 
-def comic_by_id(id: int):
+def comic_by_id(id: int) -> (ComicDB, any):
     return session.query(ComicDB).get(id), session
 
-def comics_like_title(title: str):
+def comics_like_title(title: str) -> (list[ComicDB], any):
     return session.query(ComicDB).filter(
             ComicDB.titles.like(f"%{title}%")
         ).order_by(
@@ -48,7 +51,7 @@ def comics_by_title_no_case(
         title: str, _from: int = 0, limit: int = 20,
         only_tracked: bool = False, only_unchecked: bool = False,
         full_query: bool = False
-    ):
+    ) -> (list[ComicDB], Pagination):
     partial_result = session.query(ComicDB).filter(
             ComicDB.titles.ilike(f"%{title.lower()}%")
         ).order_by(
@@ -68,15 +71,11 @@ def comics_by_title_no_case(
     total = partial_result.count()
     total_pages = math.ceil(total/limit)
     current_page = math.ceil(_from/limit +1)
-    pagination_data = {
-        'from': _from, 'limit': limit,
-        'total': total, 'total_pages': total_pages, 
-        'current_page': current_page
-    }
+    pagination_data = Pagination(_from, limit, total, total_pages, current_page)
     return partial_result.offset(_from).limit(limit), pagination_data
 
 COMIC_NOT_FOUND = 'Comic {} not found'
-def merge_comics(base_id: int, merging_id: int):
+def merge_comics(base_id: int, merging_id: int) -> (dict, str):
     '''>>> merge_comics(10, 24) -> Comic.toJSON(), None - error msg '''
     comic, session = comic_by_id(base_id)
     if comic is None: return None, COMIC_NOT_FOUND.format(base_id)

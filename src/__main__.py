@@ -5,20 +5,22 @@ import time, sys, os
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from scrape import scrapes
-from server import server
+from server import server as SERVER
 from helpers.alert import reminder
+from dotenv import load_dotenv
 
-DEFAULT_PORT = 5000
-DEBUG = False
+load_dotenv()
+PORT: int = os.getenv('PORT', 5000)
+DEBUG: bool = os.getenv('DEBUG', False)
+
 logging.basicConfig(level=logging.INFO)
-if 'debug' in sys.argv:
+if DEBUG:
     # configure root logger
-    logging.basicConfig(level=logging.DEBUG)
-    logging.getLogger('flask_cors').level = logging.DEBUG
-    DEBUG = True
+    logging.basicConfig( level=logging.DEBUG )
+    logging.getLogger( 'flask_cors' ).level = logging.DEBUG
 
-recurrence = 600
-def scrapping():
+recurrence = 600 # 10 minutes
+def scrapping() -> None:
     scrape_cont = 1
     logging.info('Scraping started...')
     while True:
@@ -30,8 +32,8 @@ def scrapping():
         scrape_cont += 1
         time.sleep(recurrence)
 
-def run_server():
-    CORS( server, 
+def run_server() -> None:
+    CORS( SERVER, 
         resources={
             r'/comics/*': {'origins': [
                 'http://localhost:3000',
@@ -39,11 +41,11 @@ def run_server():
             ]}, 
             '/health/': {'origins':'*'}}
     )
-    port = int(os.getenv('PORT', DEFAULT_PORT))
+    
     # Debug/Development
-    if DEBUG: server.run(port=port, host='', debug=DEBUG)
+    if DEBUG: SERVER.run(host='', port=PORT, debug=DEBUG)
     # Production
-    http_server = WSGIServer(('', port), server)
+    http_server = WSGIServer(('', PORT), SERVER)
     http_server.serve_forever()
 
 if 'server' in sys.argv:

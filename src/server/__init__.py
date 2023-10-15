@@ -50,7 +50,7 @@ class ComicList(Resource):
 
     @ns.doc('list_comics', params={
 	'from': {'default': '0', 'description': 'Offset for query', 'type': 'int'},
-	'limit': {'default': '20', 'description': 'Number of comics', 'type': 'int'},
+	'limit': {'default': '20', 'description': 'Number of comics','type':'int'},
     'only_tracked': {
         'default': False, 
         'description': 'Only comics tracked', 'type': 'bool'},
@@ -67,8 +67,8 @@ class ComicList(Resource):
         '''List all comics with pagination'''
         offset = request.args.get("from", 0)
         limit = request.args.get("limit", 20)
-        only_tracked = request.args.get("only_tracked", "false").lower() == "true"
-        only_unchecked = request.args.get("only_unchecked", "false").lower() == "true"
+        tracked = request.args.get("only_tracked", "false").lower() == "true"
+        unchecked = request.args.get("only_unchecked", "false").lower() =="true"
         full_query = request.args.get("full", "false").lower() == "true"
         try:
             int(offset), int(limit)
@@ -79,15 +79,15 @@ class ComicList(Resource):
         
         comics_list, pagination = all_comics(
             int(offset), int(limit), 
-            only_tracked, only_unchecked, full_query
+            tracked, unchecked, full_query
         )
         resp = make_response([comic.toJSON() for comic in comics_list])
         resp.headers[
                 'access-control-expose-headers'
             ] = 'total-comics,total-pages,current-page'
-        resp.headers['total-comics'] = pagination['total']
-        resp.headers['total-pages'] = pagination['total_pages']
-        resp.headers['current-page'] = pagination['current_page']
+        resp.headers['total-comics'] = pagination.total_records
+        resp.headers['total-pages'] = pagination.total_pages
+        resp.headers['current-page'] = pagination.current_page
         return resp
 
     @ns.doc('create_comic')
@@ -177,10 +177,10 @@ class ComicID(Resource):
         comic, session = comic_by_id(id)
         if comic is None:  api.abort(404, COMIC_NOT_FOUND.format(id))
         try:
-            json_comic = [comic for comic in load_comics if id == comic["id"]][0]
+            json_comic =[comic for comic in load_comics if id == comic["id"]][0]
         except IndexError:
             load_comics.append(comic.toJSON())
-            json_comic = [com for com in load_comics if comic.id == com["id"]][0]
+            json_comic =[com for com in load_comics if comic.id == com["id"]][0]
         titles = request.json.get('titles')
         if titles != None:
             comic.set_titles(titles)
@@ -188,11 +188,11 @@ class ComicID(Resource):
         
         comic.author = request.json.get('author', comic.author)
         comic.cover =  request.json.get('cover', comic.cover)
-        comic.description = request.json.get('description', comic.description)
-        comic.track       = int(request.json.get('track', comic.track))
-        comic.viewed_chap = int(request.json.get('viewed_chap', comic.viewed_chap))
-        comic.com_type    = int(request.json.get('com_type', comic.com_type))
-        comic.status      = int(request.json.get('status', comic.status))
+        comic.description= request.json.get('description', comic.description)
+        comic.track      = int(request.json.get('track', comic.track))
+        comic.viewed_chap=int(request.json.get('viewed_chap',comic.viewed_chap))
+        comic.com_type   = int(request.json.get('com_type', comic.com_type))
+        comic.status     = int(request.json.get('status', comic.status))
         genres = request.json.get('genres')
         if genres != None:
             genres = list(set([int(g) for g in request.json.get('genres', 0)]))
@@ -200,7 +200,9 @@ class ComicID(Resource):
             json_comic["genres"] = genres
         publishers = request.json.get('published_in')
         if publishers != None:
-            publishers = list(set([int(g) for g in request.json.get('published_in', 0)]))
+            publishers = list(set([int(g) for g in request.json.get(
+                'published_in', 0
+            )]))
             comic.set_published_in(publishers)
             json_comic["published_in"] = publishers
 
@@ -224,7 +226,7 @@ class ComicTitle(Resource):
 
     @ns.doc('list_comics', params={
 	'from': {'default': '0', 'description': 'Offset for query', 'type': 'int'},
-	'limit': {'default': '20', 'description': 'Number of comics', 'type': 'int'},
+	'limit': {'default': '20', 'description': 'Number of comics','type':'int'},
 	'only_tracked': {
         'default': False, 
         'description': 'Only comics tracked', 'type': 'bool'},
@@ -242,8 +244,8 @@ class ComicTitle(Resource):
         '''Fetch a list of comics by title'''
         offset = request.args.get("from", 0)
         limit = request.args.get("limit", 20)
-        only_tracked = request.args.get("only_tracked", "false").lower() == "true"
-        only_unchecked = request.args.get("only_unchecked", "false").lower() == "true"
+        tracked = request.args.get("only_tracked", "false").lower() == "true"
+        unchecked = request.args.get("only_unchecked","false").lower() == "true"
         full_query = request.args.get("full", "false").lower() == "true"
         try:
             int(offset), int(limit)
@@ -255,15 +257,15 @@ class ComicTitle(Resource):
         if title == '': api.abort(400, 'Empty title cannot be resolved')
         comics_list, pagination = comics_by_title_no_case(
             title, int(offset), int(limit), 
-            only_tracked, only_unchecked, full_query
+            tracked, unchecked, full_query
         )
         resp = make_response([comic.toJSON() for comic in comics_list])
         resp.headers[
                 'access-control-expose-headers'
             ] = 'total-comics,total-pages,current-page'
-        resp.headers['total-comics'] = pagination['total']
-        resp.headers['total-pages'] = pagination['total_pages']
-        resp.headers['current-page'] = pagination['current_page']
+        resp.headers['total-comics'] = pagination.total_records
+        resp.headers['total-pages'] = pagination.total_pages
+        resp.headers['current-page'] = pagination.current_page
         return resp
 
 @ns.route('/<int:base_id>/<int:merging_id>')
