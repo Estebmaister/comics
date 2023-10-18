@@ -1,0 +1,46 @@
+{
+  "com_type": [
+    "Unknown",
+    "Manga",
+    "Manhua",
+    "Manhwa",
+    "Novel"
+  ],
+  "status": [
+    "Unknown",
+    "Completed",
+    "OnAir",
+    "Break",
+    "Dropped"
+  ],
+  "genres": [
+    "Unknown",
+    "Action",
+    "Adventure",
+    "Fantasy",
+    "Overpowered",
+    "Comedy",
+    "Drama",
+    "SchoolLife",
+    "System",
+    "Supernatural",
+    "MartialArts",
+    "Romance",
+    "Shounen",
+    "Reincarnation"
+  ],
+  "published_in": [
+    "Unknown",
+    "Asura",
+    "ReaperScans",
+    "ManhuaPlus",
+    "FlameScans",
+    "LuminousScans",
+    "ResetScans",
+    "IsekaiScan",
+    "RealmScans",
+    "LeviatanScans",
+    "NightScans",
+    "VoidScans"
+  ]
+}

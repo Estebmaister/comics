@@ -2,7 +2,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import {BrowserRouter as Router} from 'react-router-dom';
 
-import {ComicsMainPage} from './frontend/modules/ComicsMainPage';
+import {ComicsMainPage} from './frontend/modules/Comics/MainPage';
 import reportWebVitals from './frontend/reportWebVitals';
 
 const rootElement = document.getElementById('root');

@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
+db_classes_file = os.path.join(os.path.dirname(__file__), "db_classes.json")
 engine = create_engine( f'sqlite:///{db_file}', 
     connect_args={'check_same_thread': False} )
 
@@ -46,6 +47,8 @@ class Types(IntEnum):
     Manhua: int = 2
     Manhwa: int = 3
     Novel:  int = 4
+    def save(self):
+        return {'com_type':[data.name for data in Types]}
 
 @unique
 class Statuses(IntEnum):
@@ -54,6 +57,8 @@ class Statuses(IntEnum):
     OnAir:      int = 2
     Break:      int = 3
     Dropped:    int = 4
+    def save(self):
+        return {'status':[data.name for data in Statuses]}
 
 @unique
 class Genres(IntEnum):
@@ -71,6 +76,8 @@ class Genres(IntEnum):
     Romance:        int = 11
     Shounen:        int = 12
     Reincarnation:  int = 13
+    def save(self):
+        return {'genres':[data.name for data in Genres]}
 
 @unique
 class Publishers(IntEnum):
@@ -86,6 +93,19 @@ class Publishers(IntEnum):
     LeviatanScans:  int = 9
     NightScans:     int = 10
     VoidScans:      int = 11
+    def save(self):
+        return {'published_in':[data.name for data in Publishers]}
+
+def save_db_classes_file():
+    with open(db_classes_file, "w") as js_file:
+        classes = {}
+        classes.update(Types.save(None))
+        classes.update(Statuses.save(None))
+        classes.update(Genres.save(None))
+        classes.update(Publishers.save(None))
+        js_file.write(json.dumps(classes, indent=2))
+
+save_db_classes_file()
 
 class ComicDB(Base):
     __tablename__ = 'comics'

@@ -1,0 +1,65 @@
+.msg-box {
+  position: absolute;
+  top: 6em;
+  left: 8%;
+  padding: 1em;
+  max-width: 400px;
+  border-radius: 0.5em;
+  border: 0.3em solid var(--success-border);
+  background: var(--success-color);
+  color: var(--success-border);
+}
+
+.msg-hide {
+  animation: fadeOut 1s;
+  visibility: hidden;
+  opacity: 0%;
+  transition: 2s;
+}
+
+
+.button-plus {
+  background: var(--secondary-color);
+  width: 4em;
+  height: 4em;
+  cursor: pointer;
+  border: 0.4em solid var(--basic-button);
+  border-radius: 100%;
+  position: fixed;
+  /* Mittig */
+  bottom: 4em;
+  right: 4em;
+}
+
+.button-plus:after {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 4px;
+  width: 50%;
+  background: var(--basic-button);
+  top: 50%;
+  left: 50%;
+}
+
+.button-plus:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--basic-button);
+  height: 50%;
+  width: 4px;
+}
+
+.button-plus:hover:before,
+.button-plus:hover:after {
+  background: var(--secondary-color);
+  transition: 0.2s;
+}
+
+.button-plus:hover {
+  background-color: var(--basic-button);
+  transition: 0.2s;
+}

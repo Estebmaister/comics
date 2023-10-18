@@ -1,6 +1,6 @@
-import { Types, Statuses, Genres, Publishers } from '../util/ComicClasses';
+import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
 import { useState } from 'react';
-import BrokenImage from '../assets/404.jpg'
+import BrokenImage from '../../../assets/404.jpg'
 import styles from'./ComicCard.module.css'
 const SERVER = process.env.REACT_APP_PY_SERVER;
 // TODO: const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';

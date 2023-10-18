@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import '../css/main.css';
-import { ComicCard } from './ComicCard';
+import '../../css/main.css';
+import { ComicCard } from './Card/ComicCard';
+import CreateComic from './Create/CreateComic';
 
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
@@ -188,5 +189,7 @@ export function ComicsMainPage() {
         <ComicCard comic={item} key={item.id} />
       )
     } </ul>
+
+    <CreateComic />
   </>);
 };
