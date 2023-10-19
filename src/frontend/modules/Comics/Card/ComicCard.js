@@ -3,7 +3,8 @@ import { useState } from 'react';
 import BrokenImage from '../../../assets/404.jpg'
 import styles from'./ComicCard.module.css'
 const SERVER = process.env.REACT_APP_PY_SERVER;
-// TODO: const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+// TODO: Find a solution for image source 
+// const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
 const trackFunc = (tracked, id, setTrack, server = SERVER) => {
   fetch(`${server}/comics/${id}`, {
@@ -53,6 +54,8 @@ const delComic = (id, setDelete, server = SERVER) => {
   });
 }
 
+const editComic = (_comic) => undefined;
+
 const publishersHandler = (publishers) => {
     const return_array = [];
     publishers.forEach( element => 
@@ -73,6 +76,11 @@ export const ComicCard = (props) => {
   const [track, setTrack] = useState(props.comic.track);
   const [check, setCheck] = useState(current_chap > viewedChap);
   const [del, setDel] = useState(false);
+
+  const [isHovering, setIsHovering] = useState(false);
+  const handleMouseOver = () => setIsHovering(true);;
+  const handleMouseOut = () => setIsHovering(false);
+
   if (del) return;
   return (
     <li key={id} className={styles.comicCard}>
@@ -80,9 +88,12 @@ export const ComicCard = (props) => {
         src={cover} 
         alt={props.comic.titles[0]}
         url={cover}
-        onError={(event) => event.currentTarget.src = BrokenImage} 
+        onError={(event) => event.currentTarget.src = BrokenImage}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
       />
-      {/* TODO: Show ID on hover */}
+      {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
+
       <h3 className={styles.comicTitle}>{props.comic.titles[0]}</h3>
       
       <p className={`${styles.comicChapter} text`}> Chapter 
@@ -113,6 +124,10 @@ export const ComicCard = (props) => {
       <button className={styles.delButton + ' basic-button reverse-button'} 
         onClick={() => delComic(props.comic.id, setDel)}>
         X
+      </button>
+      <button className={styles.editButton + ' basic-button reverse-button'} 
+        onClick={() => editComic(props.comic)}>
+        EDIT
       </button>
     </li>)
 };

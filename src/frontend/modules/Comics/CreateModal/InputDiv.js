@@ -5,7 +5,7 @@ const InputDiv = ({
   type, 
   field, 
   value, 
-  optDict, 
+  selectOptDict, 
   handleInputChange, 
   className = 'form-row'
 }) => {
@@ -13,14 +13,14 @@ const InputDiv = ({
   return (
     <div className={className}>
       <label htmlFor={field}> {fieldTitle} </label>
-      {type === "select" ?
+      {type === 'select' ?
         <select 
           id={field} 
           name={field} 
           value={value} 
           onChange={handleInputChange}
         >
-          {optDict[field].map((opt, i) => 
+          {selectOptDict[field].map((opt, i) => 
             <option value={i} key={opt}> {opt} </option>
           )}
         </select> :

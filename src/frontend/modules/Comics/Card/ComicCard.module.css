@@ -22,6 +22,18 @@
   border: 1px solid #ddddddd1;
   border-radius: 2px;
 }
+.hoverID {
+  position: absolute;
+  left: 20px;
+  top: 200px;
+  pointer-events: none;
+  font-size: 0.8em;
+
+  padding: 0.2em;
+  border-radius: 0.6em;
+  background-color: #302c2b;
+  border: 1px solid #dddddd97;
+}
 
 /* Text card related changes */
 .comicTitle {
@@ -56,10 +68,14 @@
   background-color: #a54d28;
   bottom: 3em;
 }
-.delButton {
+.delButton, .editButton {
   position: absolute;
   left: 2.1em;
   top: 2em;
   background-color: #302c2b;
   width: 2em;
+}
+.editButton {
+  width: 3em;
+  left: 115px
 }

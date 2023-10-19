@@ -72,14 +72,15 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
             value={value} 
             field={kField} 
             ref={focusInputRef}
-            optDict={db_classes}
+            selectOptDict={db_classes}
+            className={'form-row'}
             type={formType(kField)}
             handleInputChange={handleInputChange} 
           />
         )}
         
-        <div className="form-row">
-          <button className='basic-button' type="submit">CREATE</button>
+        <div className='form-row'>
+          <button className='basic-button' type='submit'>CREATE</button>
         </div>
       </form>
     </Modal>
