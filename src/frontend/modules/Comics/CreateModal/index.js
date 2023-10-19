@@ -9,13 +9,13 @@ const createComicEmpty = {
   track: false,
   current_chap: 0,
   viewed_chap: 0,
-  cover: '',
+  cover: 'https://',
   description: '',
   author: '',
 
+  com_type: 3,
+  status: 2,
   published_in: 0,
-  com_type: 0,
-  status: 0,
   genres: 0,
 };
 
@@ -49,17 +49,21 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, checked, type } = event.target;
+    let newEntry
+    if (type === 'select-one') newEntry = parseInt(value);
+    else if (type === 'checkbox') newEntry = checked;
+    else newEntry = value;
+    console.log(name, checked)
     setFormState((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: newEntry,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onSubmit(formState);
-    setFormState(createComicEmpty);
+    if (await onSubmit(formState)) setFormState(createComicEmpty);
   };
 
   return (
@@ -71,7 +75,7 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
             key={kField} 
             value={value} 
             field={kField} 
-            ref={focusInputRef}
+            focusInputRef={focusInputRef}
             selectOptDict={db_classes}
             className={'form-row'}
             type={formType(kField)}

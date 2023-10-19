@@ -42,6 +42,8 @@ html, html[data-theme="light"] {
   --reverse-button: #953636d5;
   --success-color:  lightgreen;
   --success-border: darkgreen;
+  --fail-color:  #da6f6f;
+  --fail-border: #953636d5;
 }
 html[data-theme="dark"] {
   --primary-color:  #e8e6e3;

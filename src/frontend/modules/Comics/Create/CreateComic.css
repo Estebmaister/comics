@@ -9,14 +9,17 @@
   background: var(--success-color);
   color: var(--success-border);
 }
-
+.msg-fail {
+  border: 0.3em solid var(--fail-border);
+  background: var(--fail-color);
+  color: var(--fail-border);
+}
 .msg-hide {
   animation: fadeOut 1s;
   visibility: hidden;
   opacity: 0%;
   transition: 2s;
 }
-
 
 .button-plus {
   background: var(--secondary-color);
@@ -30,7 +33,6 @@
   bottom: 4em;
   right: 4em;
 }
-
 .button-plus:after {
   content: '';
   position: absolute;
@@ -41,7 +43,6 @@
   top: 50%;
   left: 50%;
 }
-
 .button-plus:before {
   content: '';
   position: absolute;
@@ -52,13 +53,11 @@
   height: 50%;
   width: 4px;
 }
-
 .button-plus:hover:before,
 .button-plus:hover:after {
   background: var(--secondary-color);
   transition: 0.2s;
 }
-
 .button-plus:hover {
   background-color: var(--basic-button);
   transition: 0.2s;
