@@ -10,7 +10,7 @@ from helpers.alert import reminder
 from dotenv import load_dotenv
 
 load_dotenv()
-PORT: int = os.getenv('PORT', 5000)
+PORT: int = int(os.getenv('PORT', 5000))
 DEBUG: bool = os.getenv('DEBUG', False)
 
 logging.basicConfig(level=logging.INFO)
