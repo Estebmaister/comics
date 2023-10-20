@@ -1,6 +1,7 @@
 import math
 from db import ComicDB, Types, session, load_comics, save_comics_file
 from sqlalchemy.sql import text
+from typing import List
 
 class Pagination:
     def __init__(self, offset, limit, total_records, total_pages, current_page):
@@ -16,7 +17,7 @@ def sql_check() -> any:
 def all_comics(_from: int = 0, limit: int = 20, 
         only_tracked: bool = False, only_unchecked: bool = False,
         full_query: bool = False
-    ) -> (list[ComicDB], Pagination):
+    ) -> (List[ComicDB], Pagination):
     if full_query:
         return session.query(ComicDB).all()
     
@@ -40,7 +41,7 @@ def all_comics(_from: int = 0, limit: int = 20,
 def comic_by_id(id: int) -> (ComicDB, any):
     return session.query(ComicDB).get(id), session
 
-def comics_like_title(title: str) -> (list[ComicDB], any):
+def comics_like_title(title: str) -> (List[ComicDB], any):
     return session.query(ComicDB).filter(
             ComicDB.titles.like(f"%{title}%")
         ).order_by(
@@ -51,7 +52,7 @@ def comics_by_title_no_case(
         title: str, _from: int = 0, limit: int = 20,
         only_tracked: bool = False, only_unchecked: bool = False,
         full_query: bool = False
-    ) -> (list[ComicDB], Pagination):
+    ) -> (List[ComicDB], Pagination):
     partial_result = session.query(ComicDB).filter(
             ComicDB.titles.ilike(f"%{title.lower()}%")
         ).order_by(

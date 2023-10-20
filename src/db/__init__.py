@@ -1,5 +1,6 @@
 import os, json, time, signal, sys
 from enum import IntEnum, unique
+from typing import List
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -154,17 +155,17 @@ class ComicDB(Base):
 
     def get_titles(self):
         return self.titles.split("|")
-    def set_titles(self, titles: list[str]):
+    def set_titles(self, titles: List[str]):
         self.titles = "|".join(titles)
 
     def get_published_in(self):
         return [Publishers(int(p)) for p in self.published_in.split("|")]
-    def set_published_in(self, pubs: list[Publishers]):
+    def set_published_in(self, pubs: List[Publishers]):
         self.published_in = "|".join([str(int(p)) for p in pubs])
 
     def get_genres(self):
         return [Genres(int(g)) for g in self.genres.split("|")]
-    def set_genres(self, genres: list[Genres]):
+    def set_genres(self, genres: List[Genres]):
         self.genres = "|".join([str(int(g)) for g in genres])
 
     def toJSON(self):

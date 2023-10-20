@@ -2,6 +2,7 @@
 
 import subprocess, sys
 from db import Publishers
+from typing import List
 
 default_content = "Update found"
 msg = dict( title = "Scrape alert", content = default_content, alert = 0 )
@@ -20,7 +21,7 @@ def reminder(_send: bool = False):
     msg["alert"] = 0
     msg["content"] = default_content
 
-def add_alert_to_msg(title: str, chap: str, publisher: list[Publishers]):
+def add_alert_to_msg(title: str, chap: str, publisher: List[Publishers]):
     publishers_to_look = f"- {[Publishers(pub).name for pub in publisher]}"
     update_msg = f"\t\n{title}, ch <b>{chap}</b> {publishers_to_look}"
     print(title,chap,publishers_to_look)

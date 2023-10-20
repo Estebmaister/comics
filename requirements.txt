@@ -8,8 +8,8 @@ cloudscraper==1.2.68
 Flask==2.2.2
 Flask-Cors==3.0.10
 flask-restx==1.0.5
-greenlet==3.0rc3
 gevent==22.10.2
+greenlet==3.0.0rc3
 idna==3.4
 itsdangerous==2.1.2
 Jinja2==3.1.2
@@ -27,3 +27,5 @@ SQLAlchemy==2.0.1
 typing_extensions==4.4.0
 urllib3==1.26.14
 Werkzeug==2.2.2
+zope.event==5.0
+zope.interface==6.1
