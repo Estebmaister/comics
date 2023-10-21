@@ -18,14 +18,15 @@ engine = create_engine( f'sqlite:///{db_file}',
 DB_DRIVER: str = 'postgresql' # 'sqlite'
 DB_USER: str = 'esteb'
 DB_PASS: str = os.getenv('PGPASSWORD', 'My0therSelf')
+DB_NAME: str = os.getenv('PGDATABASE', 'comics')
+DB_PORT: int = int(os.getenv('PGPORT', '5432'))
 DB_HOST: str = os.getenv('PGHOST', '127.0.0.1')
-DB_PORT: int = os.getenv('PGPORT', '5432')
-DB_NAME: str = 'comics'
+if os.getenv('DEBUG', 'false') == 'true': DB_HOST = '127.0.0.1'
 DB_URL: str  = engine.url.create( drivername=DB_DRIVER, username=DB_USER,
     password=DB_PASS, host=DB_HOST, port=DB_PORT, database=DB_NAME )
 print(DB_URL)
 
-if os.getenv('PRODUCTION', False): engine = create_engine(DB_URL)
+if os.getenv('PRODUCTION', 'false') == 'true': engine = create_engine(DB_URL)
 
 Base = declarative_base()
 

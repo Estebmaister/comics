@@ -1,15 +1,15 @@
 version: '3'
 services:
   postgres:
-    container_name: com-postgres
+    container_name: comic-postgres
     image: 'postgres:12.10'
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: esteb
-      POSTGRES_PASSWORD: My0therSelf
-      POSTGRES_DB: com
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
       PGDATA: /var/lib/postgresql/data/pgdata
       # Delete previous volumes to apply changes here
     ports:

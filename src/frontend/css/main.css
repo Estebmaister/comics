@@ -62,7 +62,7 @@ body {
   font-family: 'Share Tech', sans-serif;
   font-size: 16px;
   line-height: 1.2;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   
   width: 100%;
   min-height: 100vh;
@@ -171,6 +171,10 @@ body {
   width: 70%;
 }
 
+.server {
+  margin-top: 2em;
+  text-align: center;
+}
 .comic-list {
   text-align: left;
   display: flex;

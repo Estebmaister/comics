@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 PORT: int = int(os.getenv('PORT', 5000))
-DEBUG: bool = os.getenv('DEBUG', False)
+DEBUG: bool = os.getenv('DEBUG', 'false') == 'true'
 
 logging.basicConfig(level=logging.INFO)
 if DEBUG:
