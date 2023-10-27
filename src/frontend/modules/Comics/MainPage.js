@@ -7,21 +7,30 @@ import PaginationButtons from './PaginationButtons';
 
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
 const SERVER = process.env.REACT_APP_PY_SERVER;
+const loadMsgs = {
+  network: 'Network error in attempt to connect the server',
+  server: 'Server internal error',
+  wait: 'Waking up server ...',
+  empty: (queryFilter) => `No comics found for title: ${queryFilter}`
+}
 
 const dataFetch = (
-    setState, setPagination, from, limit, queryFilter, 
+    setters, from, limit, queryFilter, 
     onlyTracked, onlyUnchecked
   ) => {
   const URL = `${SERVER}/comics/${queryFilter}?from=${from}&limit=${
     limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`;
+  const {setWebComics, setPaginationDict, setLoadMsg} = setters;
   console.debug(URL);
+  setLoadMsg(loadMsgs.wait);
   fetch(URL, {
       method: 'GET',
       headers: { 'accept': 'application/json' },
     })
     .then((response) => {
       console.debug(response)
-      setPagination({
+      setLoadMsg('');
+      setPaginationDict({
         total: response.headers.get('total-comics', 0),
         totalPages: response.headers.get('total-pages', 1),
         currentPage: response.headers.get('current-page', 1)
@@ -29,11 +38,14 @@ const dataFetch = (
       return response.json()
     })
     .then((data) => {
-      if (data['message'] !== undefined) setState([]);
-      else setState(data);
+      if (data['message'] !== undefined) {
+        setLoadMsg(loadMsgs.server);
+        setWebComics([]);
+      } else setWebComics(data);
       console.debug('Response succeed', data);
     })
     .catch((err) => {
+      setLoadMsg(loadMsgs.network);
       console.log(err.message);
     });
 }
@@ -63,9 +75,10 @@ const handleOnlyTracked = (setSearchParams, onlyTracked) =>
 
 export function ComicsMainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  // {from: 0, queryFilter:'', onlyTracked: false, onlyUnchecked: false}
   const [webComics, setWebComics] = useState([]);
   const [paginationDict, setPaginationDict] = useState({});
-    // {from: 0, queryFilter:'', onlyTracked: false, onlyUnchecked: false}
+  const [loadMsg, setLoadMsg] = useState('');
   const onlyUnchecked = searchParams.get('onlyUnchecked') === 'true';
   const onlyTracked = searchParams.get('onlyTracked') === 'true';
   const queryFilter = searchParams.get('queryFilter') || '';
@@ -74,7 +87,7 @@ export function ComicsMainPage() {
   
   useEffect(() => {
     dataFetch(
-      setWebComics, setPaginationDict,
+      {setWebComics, setPaginationDict, setLoadMsg},
       from, limit, queryFilter, 
       onlyTracked, onlyUnchecked
     );
@@ -122,9 +135,7 @@ export function ComicsMainPage() {
     </div>
 
     { webComics.length === 0 && 
-      <h1 className='server'> {queryFilter === '' ? 
-        'Waking up server ...' : `No comics found for title: ${queryFilter}`}
-      </h1>
+      <h1 className='server'> {loadMsg || loadMsgs.empty(queryFilter)} </h1>
     }
     <ul className='comic-list'> {
       webComics.map((item, _i) => <ComicCard comic={item} key={item.id} />)
