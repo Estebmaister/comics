@@ -15,6 +15,7 @@ itsdangerous==2.1.2
 Jinja2==3.1.2
 jsonschema==4.17.3
 MarkupSafe==2.1.2
+psycopg2-binary==2.9.9
 pyparsing==3.0.9
 pyrsistent==0.19.3
 python-dotenv==0.19.2

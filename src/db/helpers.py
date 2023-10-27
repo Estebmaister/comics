@@ -1,4 +1,4 @@
-## python db/repopulate_db.py
+## used in db/repopulate_db.py
 
 def manage_multi_finds(db_comics: list, com_type: int, title: str):
     ''' Takes a list of db_comics, if handles cases for 0, 1 and 2 items found.

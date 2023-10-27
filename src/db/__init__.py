@@ -1,14 +1,14 @@
 import os, json, time, signal, sys
 from enum import IntEnum, unique
 from typing import List
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, engine, Column, Integer, String, Sequence
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy import create_engine, engine, Column, Integer, String
 from flask_restx import fields as sf
 from dotenv import load_dotenv
 
 load_dotenv()
+PRODUCTION: bool = os.getenv('PRODUCTION', 'false') == 'true'
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
 db_classes_file = os.path.join(os.path.dirname(__file__), "db_classes.json")
@@ -24,9 +24,9 @@ DB_HOST: str = os.getenv('PGHOST', '127.0.0.1')
 if os.getenv('DEBUG', 'false') == 'true': DB_HOST = '127.0.0.1'
 DB_URL: str  = engine.url.create( drivername=DB_DRIVER, username=DB_USER,
     password=DB_PASS, host=DB_HOST, port=DB_PORT, database=DB_NAME )
-print(DB_URL)
 
-if os.getenv('PRODUCTION', 'false') == 'true': engine = create_engine(DB_URL)
+if PRODUCTION: engine = create_engine(DB_URL)
+print(engine)
 
 Base = declarative_base()
 
@@ -109,9 +109,11 @@ def save_db_classes_file():
 
 save_db_classes_file()
 
+seq = Sequence('comic_id_seq')
 class ComicDB(Base):
     __tablename__ = 'comics'
-    id            = Column(Integer, primary_key=True)
+    id            = Column(Integer, seq, server_default=seq.next_value(),
+                            primary_key=True)
     titles        = Column(String)
     current_chap  = Column(Integer)
     cover         = Column(String)
@@ -141,32 +143,39 @@ class ComicDB(Base):
         viewed_chap:  int = 0
     ):
         self.id           = id
-        self.titles       = titles
-        self.current_chap = current_chap
-        self.cover        = cover
-        self.last_update  = last_update
-        self.com_type     = com_type
-        self.status       = status
-        self.published_in = published_in
-        self.genres       = genres
-        self.description  = description
-        self.author       = author
-        self.track        = track
-        self.viewed_chap  = viewed_chap
+        self.titles       = str(titles)
+        self.current_chap = int(current_chap)
+        self.cover        = str(cover)
+        self.last_update  = int(last_update)
+        self.com_type     = Types(com_type)
+        self.status       = Statuses(status)
+        if isinstance(published_in, list):
+            self.set_published_in(published_in)
+        else:
+            self.published_in = str(int(published_in))
+        if isinstance(genres, list):
+            self.set_genres(genres)
+        else:
+            self.genres = str(int(genres))
+        self.description  = str(description)
+        self.author       = str(author)
+        self.track        = int(track)
+        self.viewed_chap  = int(viewed_chap)
 
-    def get_titles(self):
+    def get_titles(self) -> List[str]:
         return self.titles.split("|")
-    def set_titles(self, titles: List[str]):
+    def set_titles(self, titles: List[str]) -> None:
         self.titles = "|".join(titles)
 
-    def get_published_in(self):
-        return [Publishers(int(p)) for p in self.published_in.split("|")]
-    def set_published_in(self, pubs: List[Publishers]):
-        self.published_in = "|".join([str(int(p)) for p in pubs])
+    def get_published_in(self) -> List[Publishers]:
+        return [Publishers(int(p)) for p in str(self.published_in).split("|")]
 
-    def get_genres(self):
-        return [Genres(int(g)) for g in self.genres.split("|")]
-    def set_genres(self, genres: List[Genres]):
+    def set_published_in(self, pubs: List[Publishers]) -> None:
+        self.published_in = "|".join([str(int(p)) for p in pubs])
+        
+    def get_genres(self) -> List[Genres]:
+        return [Genres(int(g)) for g in str(self.genres).split("|")]
+    def set_genres(self, genres: List[Genres]) -> None:
         self.genres = "|".join([str(int(g)) for g in genres])
 
     def toJSON(self):
@@ -205,7 +214,12 @@ swagger_model = {
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind = engine)
 session = Session()
-session.execute(text('PRAGMA case_sensitive_like = true'))
+if not PRODUCTION: session.execute(text('PRAGMA case_sensitive_like = true'))
+
+if PRODUCTION:
+    seq.create(bind = engine)
+    last_id = session.query(ComicDB).order_by(ComicDB.id.desc()).first().id
+    session.execute(text(f"SELECT setval('comic_id_seq', {last_id})"))
 
 def close_signal_handler(sig, frame):
     session.close()

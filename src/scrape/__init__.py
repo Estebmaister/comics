@@ -6,7 +6,8 @@ import time, os, re, json
 import cloudscraper
 from bs4 import BeautifulSoup as beauty
 from helpers.alert import add_alert_to_msg
-from db import Types, Statuses, Publishers, ComicDB, save_comics_file, load_comics
+from db import Types, Statuses, Publishers, ComicDB
+from db import session, save_comics_file, load_comics
 from db.helpers import manage_multi_finds
 from db.repo import comics_like_title
 
@@ -48,13 +49,14 @@ async def register_comic(chap: str, title: str,
         print(f'INFO: {title} Not Found in DB, creating new entry')
         db_comic_to_load = ComicDB(None, title, chap, cover, 
             int(time.time()), com_type, status, publisher)
-        
+        db_comic_json_to_load = db_comic_to_load.toJSON()
+
+        print('NEW :', json.dumps(db_comic_json_to_load))
         session.add(db_comic_to_load)
-        session.commit()
-        load_comics.append(db_comic_to_load.toJSON())
+        session.flush()
+        load_comics.append(db_comic_json_to_load)
         save_comics_file(load_comics)
-        
-        print(json.dumps(db_comic_to_load.toJSON()))
+    
     elif len(db_comics) == 1:
         ## Check when fails fetching from JSON backup file
         if len(comics) == 0:
@@ -80,7 +82,7 @@ async def register_comic(chap: str, title: str,
         ## Update cover for ManhuaPlus comics
         await update_cover_if_needed(db_comics, comics, cover, publisher, title)
         
-        session.commit()
+        session.flush()
         save_comics_file(load_comics)
     else:
         print(f'WARN: Abnormal length in db query: {len(db_comics)}, '
@@ -184,7 +186,7 @@ async def scrape_common_1(url: str, publisher: Publishers):
             await register_comic(chap, title, com_type, cover,
                 Statuses.OnAir, publisher)
         except (ValueError, IndexError, KeyError, AttributeError) as error:
-            print(f'ERROR: scraping {str(Publishers(publisher))}: {error}')
+            print(f'ERROR: scraping {str(publisher)}:{title} {error}')
             continue
 
 
@@ -362,3 +364,4 @@ async def async_scrape():
     await asyncio.gather(*[scrape_switch(url) for url in url_switch.keys()])
 def scrapes():
     asyncio.run(async_scrape())
+    session.commit()

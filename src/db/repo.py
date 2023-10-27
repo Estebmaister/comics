@@ -27,11 +27,11 @@ def all_comics(_from: int = 0, limit: int = 20,
     if only_tracked:
         if only_unchecked:
             partial_result = partial_result.filter(
-                ComicDB.track == True,
+                ComicDB.track == 1,
                 ComicDB.current_chap != ComicDB.viewed_chap
             )
         else:
-            partial_result = partial_result.filter(ComicDB.track == True)
+            partial_result = partial_result.filter(ComicDB.track == 1)
     total = partial_result.count()
     total_pages = math.ceil(total/limit)
     current_page = math.ceil(_from/limit +1)
@@ -61,11 +61,11 @@ def comics_by_title_no_case(
     if only_tracked:
         if only_unchecked:
             partial_result = partial_result.filter(
-                ComicDB.track == True,
+                ComicDB.track == 1,
                 ComicDB.current_chap != ComicDB.viewed_chap
             )
         else:
-            partial_result = partial_result.filter(ComicDB.track == True)
+            partial_result = partial_result.filter(ComicDB.track == 1)
     if full_query:
         return partial_result.all()
 
