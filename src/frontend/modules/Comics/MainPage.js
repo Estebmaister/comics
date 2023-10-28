@@ -3,14 +3,18 @@ import { useSearchParams } from 'react-router-dom';
 import '../../css/main.css';
 import { ComicCard } from './Card/ComicCard';
 import CreateComic from './Create/CreateComic';
+import Loaders from '../Loaders';
 import PaginationButtons from './PaginationButtons';
 
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
 const SERVER = process.env.REACT_APP_PY_SERVER;
 const loadMsgs = {
-  network: 'Network error in attempt to connect the server',
+  network: <>
+    {'Network error in attempt to connect the server'} 
+    <Loaders selector='lamp' />
+  </>,
   server: 'Server internal error',
-  wait: 'Waking up server ...',
+  wait: <>{'Waking up server ...'} <Loaders selector='line-fw' /></>,
   empty: (queryFilter) => `No comics found for title: ${queryFilter}`
 }
 
@@ -134,8 +138,10 @@ export function ComicsMainPage() {
       <PaginationButtons pagD={pagD}/>
     </div>
 
-    { webComics.length === 0 && 
-      <h1 className='server'> {loadMsg || loadMsgs.empty(queryFilter)} </h1>
+    { webComics.length === 0 &&
+      <h1 className='server'> 
+        {loadMsg || loadMsgs.empty(queryFilter)} 
+      </h1>
     }
     <ul className='comic-list'> {
       webComics.map((item, _i) => <ComicCard comic={item} key={item.id} />)
