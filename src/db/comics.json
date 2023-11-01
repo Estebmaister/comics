@@ -21149,5 +21149,68 @@
     "author": "",
     "track": true,
     "viewed_chap": 100
+  },
+  {
+    "id": 1016,
+    "titles": [
+      "The roaring dragon\u2019s emblem"
+    ],
+    "current_chap": 5,
+    "cover": "http://www.w3.org/2000/svg'%20viewBox='0%200%20480%20623'%3E%3C/svg%3E",
+    "last_update": 1698809754,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1017,
+    "titles": [
+      "The max-level player\u2019s 100th regression"
+    ],
+    "current_chap": 11,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/10/replicate-prediction-2bi5y4rbt6ehm43abxiy5efrbi.png",
+    "last_update": 1698809708,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1018,
+    "titles": [
+      "The 100th regression of the max-level player"
+    ],
+    "current_chap": 25,
+    "cover": "https://media.reaperscans.com/file/4SRBHm/comics/717d1006-cad4-4c88-b15b-d3b6aace9db1/pkpV7FsgKq1tMCFnXwrlaPmHYvLEATk9ZIY0F9Dy.jpg",
+    "last_update": 1698809758,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
   }
 ]

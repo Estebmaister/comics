@@ -84,14 +84,18 @@ export const ComicCard = (props) => {
   if (del) return;
   return (
     <li key={id} className={styles.comicCard}>
-      <img className={styles.poster} 
-        src={cover} 
-        alt={props.comic.titles[0]}
-        url={cover}
-        onError={(event) => event.currentTarget.src = BrokenImage}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      />
+      <div className={styles.posterDiv} 
+        style={{backgroundImage: `url(${BrokenImage})`}} >
+        <img className={styles.poster} 
+          src={cover} 
+          alt={props.comic.titles[0]}
+          url={cover}
+          onError={(event) => event.currentTarget.src = BrokenImage}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        />
+      </div>
+
       {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
 
       <h3 className={styles.comicTitle}>{props.comic.titles[0]}</h3>

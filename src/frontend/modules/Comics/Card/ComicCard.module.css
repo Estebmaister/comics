@@ -14,11 +14,14 @@
   box-shadow: 2px 2px 3px #111;
   position: relative;
 }
-.poster {
+.poster, .posterDiv {
   margin-right: 20px;
-  height: 200px;
   width: 135px;
   float: left;
+  border-radius: 2px;
+}
+.poster {
+  height: 200px;
   border: 1px solid #ddddddd1;
   border-radius: 2px;
 }

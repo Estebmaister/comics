@@ -139,9 +139,7 @@ export function ComicsMainPage() {
     </div>
 
     { webComics.length === 0 &&
-      <h1 className='server'> 
-        {loadMsg || loadMsgs.empty(queryFilter)} 
-      </h1>
+      <h1 className='server'> {loadMsg || loadMsgs.empty(queryFilter)} </h1>
     }
     <ul className='comic-list'> {
       webComics.map((item, _i) => <ComicCard comic={item} key={item.id} />)

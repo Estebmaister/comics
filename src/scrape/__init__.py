@@ -53,7 +53,7 @@ async def register_comic(chap: str, title: str,
 
         print('NEW :', json.dumps(db_comic_json_to_load))
         session.add(db_comic_to_load)
-        session.flush()
+        session.commit()
         load_comics.append(db_comic_json_to_load)
         save_comics_file(load_comics)
     
@@ -63,6 +63,7 @@ async def register_comic(chap: str, title: str,
             print('WARN:', title, "wast'n found in JSON.", 
                     publisher, chap, cover)
             comics = [db_comics[0].toJSON()]
+            load_comics.append(comics[0])
 
         ## Checking for more than one publisher
         if publisher not in db_comics[0].get_published_in():
