@@ -13,7 +13,7 @@ const create = async (comic, server = SERVER) => {
   const data = {...comic, ...last_update, ...titles, ...genres, ...published_in}
   console.log(JSON.stringify(data))
   comic.track = comic.track === 'true';
-  await fetch(`${server}/comics/`, {
+  await fetch(`${server}/comics`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },

@@ -18,7 +18,7 @@ api = Api(server, version='1.0', title='ComicMVC API',
     description='A Comic API capable enough to provide all CRUD ops and more',
 )
 health_ns = api.namespace('health', description='Service health')
-@health_ns.route('/')
+@health_ns.route('')
 class Health(Resource):
     '''Returns a 200 success code for monitoring purpose'''
     def get(self):
@@ -31,7 +31,7 @@ class HealthDB(Resource):
         return {'message': 'success'}
 
 scrape_ns = api.namespace('scrape', description='Scrape operations')
-@scrape_ns.route('/')
+@scrape_ns.route('')
 class Scrape(Resource):
     '''Runs the scrapper worker'''
     def get(self):
@@ -43,7 +43,7 @@ comic_rest_model = api.model('Comic', swagger_model)
 
 # RESTful API routes
 
-@ns.route('/')
+@ns.route('')
 @ns.response(400, 'Bad request')
 class ComicList(Resource):
     '''Shows a list of all comics, and let you POST to add new comics'''
@@ -218,7 +218,7 @@ class ComicID(Resource):
         save_comics_file(load_comics)
         return comic.toJSON()
 
-@ns.route('/<string:title>/')
+@ns.route('/search/<string:title>')
 @ns.response(400, 'Empty title cannot be resolved')
 @ns.param('title', 'The name of the comic')
 class ComicTitle(Resource):

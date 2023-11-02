@@ -22,7 +22,9 @@ const dataFetch = (
     setters, from, limit, queryFilter, 
     onlyTracked, onlyUnchecked
   ) => {
-  const URL = `${SERVER}/comics/${queryFilter}?from=${from}&limit=${
+  let BASE_URL = `${SERVER}/comics`
+  if (queryFilter !== '') BASE_URL += `/search/${queryFilter}`
+  const URL = `${BASE_URL}?from=${from}&limit=${
     limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`;
   const {setWebComics, setPaginationDict, setLoadMsg} = setters;
   console.debug(URL);
