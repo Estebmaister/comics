@@ -191,6 +191,7 @@ class ComicID(Resource):
         comic.description= request.json.get('description', comic.description)
         comic.track      = int(request.json.get('track', comic.track))
         comic.viewed_chap=int(request.json.get('viewed_chap',comic.viewed_chap))
+        comic.current_chap=int(request.json.get('current_chap',comic.current_chap))
         comic.com_type   = int(request.json.get('com_type', comic.com_type))
         comic.status     = int(request.json.get('status', comic.status))
         genres = request.json.get('genres')
@@ -211,6 +212,7 @@ class ComicID(Resource):
         json_comic["description"] = comic.description
         json_comic["track"]       = bool(comic.track)
         json_comic["viewed_chap"] = comic.viewed_chap
+        json_comic["current_chap"] = comic.current_chap
         json_comic["com_type"]    = Types(comic.com_type)
         json_comic["status"]      = Statuses(comic.status)
 
