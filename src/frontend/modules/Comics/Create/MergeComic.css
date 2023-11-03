@@ -1,0 +1,76 @@
+.msg-box {
+  position: absolute;
+  top: 6em;
+  left: 8%;
+  padding: 1em;
+  max-width: 400px;
+  border-radius: 0.5em;
+  border: 0.3em solid var(--success-border);
+  background: var(--success-color);
+  color: var(--success-border);
+}
+.msg-fail {
+  border: 0.3em solid var(--fail-border);
+  background: var(--fail-color);
+  color: var(--fail-border);
+}
+.msg-hide {
+  animation: fadeOut 1s;
+  visibility: hidden;
+  opacity: 0%;
+  transition: 2s;
+}
+
+.button-merge {
+  background: var(--secondary-color);
+  width: 4em;
+  height: 4em;
+  cursor: pointer;
+  border: 0.4em solid var(--basic-button);
+  border-radius: 100%;
+  position: fixed;
+  /* Mittig */
+  bottom: 10em;
+  right: 4em;
+}
+.button-merge:after {
+  content: '';
+  position: absolute;
+  transform: translate(-75%, -75%) rotate(45deg);
+  height: 4px;
+  width: 25%;
+  background: var(--basic-button);
+  top: 45%;
+  left: 40%;
+  transition: 0.2s;
+}
+.button-merge:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translate(-75%, -25%) rotate(45deg);
+  background: var(--basic-button);
+  height: 25%;
+  width: 4px;
+  transition: 0.2s;
+}
+.button-merge:hover:after {
+  transform: translate(-25%, -25%) rotate(45deg);
+  top: 55%;
+  left: 60%;
+}
+.button-merge:hover:before {
+  top: 50%;
+  left: 65%;
+  transform: translate(-25%, -75%) rotate(45deg);
+}
+.button-merge:hover:before,
+.button-merge:hover:after {
+  background: var(--secondary-color);
+  transition: 0.2s;
+}
+.button-merge:hover {
+  background-color: var(--basic-button);
+  transition: 0.2s;
+}

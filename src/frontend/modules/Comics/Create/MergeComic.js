@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import CreateComicModal from '../Modals/CreateModal';
-import './CreateComic.css';
+import './MergeComic.css';
 import db_classes from '../../../../db/db_classes.json'
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
-const create = async (comic, server = SERVER) => {
+const mergeComic = async (baseID, mergingID, server = SERVER) => {
   let success = true;
-  const last_update = {last_update: new Date().getTime()}
-  const titles = {titles: [comic.title]};
-  const genres = {genres: [comic.genres]};
-  const published_in = {published_in: [comic.published_in]};
-  const data = {...comic, ...last_update, ...titles, ...genres, ...published_in}
-  console.log(JSON.stringify(data))
-  comic.track = comic.track === 'true';
-  await fetch(`${server}/comics`, {
-    method: 'POST',
-    body: JSON.stringify(data),
+  await fetch(`${server}/comics/${baseID}/${mergingID}`, {
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
   })
   .then((response) => response.json())
@@ -30,27 +22,27 @@ const create = async (comic, server = SERVER) => {
   return success;
 }
 
-const CreateComic = () => {
-  const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
+const MergeComic = () => {
+  const [isCreateComicModalOpen, setCreateComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState(null);
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
 
   const handleOpenCreateComicModal = () => {
-    setIsCreateComicModalOpen(true);
+    setCreateComicModalOpen(true);
     setShowMsg(false);
     setFailMsg(false);
   };
 
   const handleCloseCreateComicModal = () => {
-    setIsCreateComicModalOpen(false);
+    setCreateComicModalOpen(false);
   };
 
   const handleFormSubmit = async (data) => {
     setComicFormData(data);
 
-    if (await create(data)) handleCloseCreateComicModal();
+    if (await mergeComic(data)) handleCloseCreateComicModal();
     else {
       setHideMsg(false);
       setFailMsg(true);
@@ -70,7 +62,8 @@ const CreateComic = () => {
   }
 
   return (<>
-    <button className={'button-plus'} onClick={handleOpenCreateComicModal}>
+    <button className={'button-merge'} onClick={handleOpenCreateComicModal}>
+    
     </button>
 
     {(comicFormData?.title && showMsg && timerHide()) && (
@@ -90,4 +83,4 @@ const CreateComic = () => {
   </>);
 };
 
-export default CreateComic;
+export default MergeComic;

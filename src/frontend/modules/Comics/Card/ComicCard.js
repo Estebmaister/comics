@@ -1,58 +1,11 @@
-import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
 import { useState } from 'react';
-import BrokenImage from '../../../assets/404.jpg'
 import styles from'./ComicCard.module.css'
-const SERVER = process.env.REACT_APP_PY_SERVER;
+import BrokenImage from '../../../assets/404.jpg'
+import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
+import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
+
 // TODO: Find a solution for image source 
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-
-const trackFunc = (tracked, id, setTrack, server = SERVER) => {
-  fetch(`${server}/comics/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ track: !tracked }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    setTrack(!tracked)
-  })
-  .catch((err) => {
-    console.debug(err.message);
-  });
-}
-
-const checkout = (curr_chap, id, setCheck, setViewedChap, server = SERVER) => {
-  fetch(`${server}/comics/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ viewed_chap: curr_chap }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    setCheck(false);
-    setViewedChap(curr_chap);
-  })
-  .catch((err) => {
-    console.debug(err.message);
-  });
-}
-
-const delComic = (id, setDelete, server = SERVER) => {
-  fetch(`${server}/comics/${id}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    setDelete(true);
-  })
-  .catch((err) => {
-    console.debug(err.message);
-  });
-}
 
 const editComic = (_comic) => undefined;
 
@@ -116,13 +69,15 @@ export const ComicCard = (props) => {
       {track && check ? 
         <button 
           className={`${styles.trackButton} ${styles.checkButton} basic-button`} 
-          onClick={() => checkout(current_chap, id, setCheck, setViewedChap)}>
+          onClick={() => 
+            checkoutComic(current_chap, id, setCheck, setViewedChap)
+          }>
           Checkout
         </button> : ''
       }
       <button className={styles.trackButton + ' basic-button' + 
         (track ? ' reverse-button' : '')} 
-        onClick={() => trackFunc(track, props.comic.id, setTrack)}>
+        onClick={() => trackComic(track, props.comic.id, setTrack)}>
         {track ? 'Untrack':'Track'}
       </button>
       <button className={styles.delButton + ' basic-button reverse-button'} 

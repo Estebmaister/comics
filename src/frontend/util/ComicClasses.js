@@ -1,49 +1,30 @@
 // All these classes come from src/db/__init__.py
+import db_classes from '../../db/db_classes.json';
 
-export const Types = {
-    0: 'Unknown',
-    1: 'Manga',
-    2: 'Manhua',
-    3: 'Manhwa', 
-    4: 'Novel'
-}
+const assignArrayToDict = (array) => 
+  Object.assign({}, ...array.map(
+    (val, idx) => ({[idx]: val})
+  ));
 
-export const Statuses = {
-    0: 'Unknown',  
-    1: 'Completed',
-    2: 'OnAir',    
-    3: 'Break',    
-    4: 'Dropped',  
-}
+let Types, Statuses, Genres, Publishers;
+for (let key in db_classes) {
+  switch (key) {
+    case 'com_type':
+      Types = assignArrayToDict(db_classes[key]);
+      break;
+    case 'status':
+      Statuses = assignArrayToDict(db_classes[key]);
+      break;
+    case 'genres':
+      Genres = assignArrayToDict(db_classes[key]);
+      break;
+    case 'published_in':
+      Publishers = assignArrayToDict(db_classes[key]);
+      break;
 
-export const Genres = {
-    0: 'Unknown',      
-    1: 'Action',       
-    2: 'Adventure',    
-    3: 'Fantasy',      
-    4: 'Overpowered',  
-    5: 'Comedy',       
-    6: 'Drama',        
-    7: 'SchoolLife',   
-    8: 'System',       
-    9: 'Supernatural', 
-    10:'MartialArts',  
-    11:'Romance',      
-    12:'Shounen',      
-    13:'Reincarnation',
+    default:
+      console.error('Unexpected key in db_classes.json: ', key)
+      break;
+  }
 }
-
-export const Publishers = {
-    0: 'Unknown',      
-    1: 'Asura',        
-    2: 'ReaperScans',  
-    3: 'ManhuaPlus',   
-    4: 'FlameScans',   
-    5: 'LuminousScans',
-    6: 'ResetScans',   
-    7: 'IsekaiScan',   
-    8: 'RealmScans',
-    9: 'LeviatanScans',
-    10: 'NightScans',
-    11: 'VoidScans',
-}
+export {Types, Statuses, Genres, Publishers};

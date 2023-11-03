@@ -3,58 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import '../../css/main.css';
 import { ComicCard } from './Card/ComicCard';
 import CreateComic from './Create/CreateComic';
-import Loaders from '../Loaders';
+import MergeComic from './Create/MergeComic';
 import PaginationButtons from './PaginationButtons';
+import { dataFetch, loadMsgs } from '../../util/ServerHelpers';
 
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
-const SERVER = process.env.REACT_APP_PY_SERVER;
-const loadMsgs = {
-  network: <>
-    {'Network error in attempt to connect the server'} 
-    <Loaders selector='lamp' />
-  </>,
-  server: 'Server internal error',
-  wait: <>{'Waking up server ...'} <Loaders selector='line-fw' /></>,
-  empty: (queryFilter) => `No comics found for title: ${queryFilter}`
-}
-
-const dataFetch = (
-    setters, from, limit, queryFilter, 
-    onlyTracked, onlyUnchecked
-  ) => {
-  let BASE_URL = `${SERVER}/comics`
-  if (queryFilter !== '') BASE_URL += `/search/${queryFilter}`
-  const URL = `${BASE_URL}?from=${from}&limit=${
-    limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`;
-  const {setWebComics, setPaginationDict, setLoadMsg} = setters;
-  console.debug(URL);
-  setLoadMsg(loadMsgs.wait);
-  fetch(URL, {
-      method: 'GET',
-      headers: { 'accept': 'application/json' },
-    })
-    .then((response) => {
-      console.debug(response)
-      setLoadMsg('');
-      setPaginationDict({
-        total: response.headers.get('total-comics', 0),
-        totalPages: response.headers.get('total-pages', 1),
-        currentPage: response.headers.get('current-page', 1)
-      });
-      return response.json()
-    })
-    .then((data) => {
-      if (data['message'] !== undefined) {
-        setLoadMsg(loadMsgs.server);
-        setWebComics([]);
-      } else setWebComics(data);
-      console.debug('Response succeed', data);
-    })
-    .catch((err) => {
-      setLoadMsg(loadMsgs.network);
-      console.log(err.message);
-    });
-}
 
 const handleOnlyUnchecked = (setSearchParams, onlyUnchecked) => 
   () => {
@@ -147,6 +100,7 @@ export function ComicsMainPage() {
       webComics.map((item, _i) => <ComicCard comic={item} key={item.id} />)
     } </ul>
 
+    <MergeComic />
     <CreateComic />
   </>);
 };

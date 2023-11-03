@@ -1,3 +1,4 @@
+// Not in use
 
 export const filterComics = (comics, filterWord, trackedOnly, uncheckedOnly) => 
   comics.filter((comic) => {
