@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import CreateComicModal from '../Modals/CreateModal';
-import './MergeComic.css';
+import './CreateComic.css';
 import db_classes from '../../../../db/db_classes.json'
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
-const mergeComic = async (baseID, mergingID, server = SERVER) => {
+const create = async (comic, server = SERVER) => {
   let success = true;
-  await fetch(`${server}/comics/${baseID}/${mergingID}`, {
-    method: 'PATCH',
+  const last_update = {last_update: new Date().getTime()}
+  const titles = {titles: [comic.title]};
+  const genres = {genres: [comic.genres]};
+  const published_in = {published_in: [comic.published_in]};
+  const data = {...comic, ...last_update, ...titles, ...genres, ...published_in}
+  console.log(JSON.stringify(data))
+  comic.track = comic.track === 'true';
+  await fetch(`${server}/comics`, {
+    method: 'POST',
+    body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   })
   .then((response) => response.json())
@@ -22,38 +30,37 @@ const mergeComic = async (baseID, mergingID, server = SERVER) => {
   return success;
 }
 
-const MergeComic = () => {
-  const [isCreateComicModalOpen, setCreateComicModalOpen] = useState(false);
+const CreateComic = () => {
+  const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState(null);
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
 
   const handleOpenCreateComicModal = () => {
-    setCreateComicModalOpen(true);
+    setIsCreateComicModalOpen(true);
     setShowMsg(false);
     setFailMsg(false);
   };
 
   const handleCloseCreateComicModal = () => {
-    setCreateComicModalOpen(false);
+    setIsCreateComicModalOpen(false);
   };
 
   const handleFormSubmit = async (data) => {
     setComicFormData(data);
 
-    if (await mergeComic(data)) handleCloseCreateComicModal();
-    else {
+    if (await create(data)) {
+      handleCloseCreateComicModal();
+      setFailMsg(false);
       setHideMsg(false);
-      setFailMsg(true);
       setShowMsg(true);
-      return false;
+      return true;
     }
-    
-    setFailMsg(false);
     setHideMsg(false);
+    setFailMsg(true);
     setShowMsg(true);
-    return true;
+    return false;
   };
 
   const timerHide = () => {
@@ -62,8 +69,7 @@ const MergeComic = () => {
   }
 
   return (<>
-    <button className={'button-merge'} onClick={handleOpenCreateComicModal}>
-    
+    <button className={'button-plus'} onClick={handleOpenCreateComicModal}>
     </button>
 
     {(comicFormData?.title && showMsg && timerHide()) && (
@@ -83,4 +89,4 @@ const MergeComic = () => {
   </>);
 };
 
-export default MergeComic;
+export default CreateComic;

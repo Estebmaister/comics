@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../../css/main.css';
 import { ComicCard } from './Card/ComicCard';
-import CreateComic from './Create/CreateComic';
-import MergeComic from './Create/MergeComic';
+import CreateComic from './Edition/CreateComic';
+import MergeComic from './Edition/MergeComic';
 import PaginationButtons from './PaginationButtons';
 import { dataFetch, loadMsgs } from '../../util/ServerHelpers';
 

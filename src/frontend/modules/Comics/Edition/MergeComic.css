@@ -21,7 +21,7 @@
   transition: 2s;
 }
 
-.button-plus {
+.button-merge {
   background: var(--secondary-color);
   width: 4em;
   height: 4em;
@@ -30,35 +30,47 @@
   border-radius: 100%;
   position: fixed;
   /* Mittig */
-  bottom: 4em;
+  bottom: 10em;
   right: 4em;
 }
-.button-plus:after {
+.button-merge:after {
   content: '';
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-25%, -75%) rotate(45deg);
+  top: 35%;
+  left: 35%;
+  background: var(--basic-button);
   height: 4px;
-  width: 50%;
-  background: var(--basic-button);
-  top: 50%;
-  left: 50%;
+  width: 25%;
+  transition: 0.2s;
 }
-.button-plus:before {
+.button-merge:before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-25%, -25%) rotate(45deg);
+  top: 27%;
+  left: 55%;
   background: var(--basic-button);
-  height: 50%;
+  height: 25%;
   width: 4px;
+  transition: 0.2s;
 }
-.button-plus:hover:before,
-.button-plus:hover:after {
+.button-merge:hover:after {
+  transform: translate(-40%, -50%) rotate(45deg);
+  top: 60%;
+  left: 55%;
+}
+.button-merge:hover:before {
+  transform: translate(40%, -50%) rotate(45deg);
+  top: 60%;
+  left: 35%;
+}
+.button-merge:hover:before,
+.button-merge:hover:after {
   background: var(--secondary-color);
   transition: 0.2s;
 }
-.button-plus:hover {
+.button-merge:hover {
   background-color: var(--basic-button);
   transition: 0.2s;
 }

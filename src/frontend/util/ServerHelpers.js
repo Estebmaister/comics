@@ -93,7 +93,7 @@ const loadMsgs = {
     {'Network error in attempt to connect the server'} 
     <Loaders selector='lamp' />
   </>,
-  server: 'Server internal error',
+  server: <>{'Server internal error'} <Loaders selector='battery' /></>,
   wait: <>{'Waking up server ...'} <Loaders selector='line-fw' /></>,
   empty: (queryFilter) => `No comics found for title: ${queryFilter}`
 }

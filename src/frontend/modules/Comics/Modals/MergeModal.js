@@ -3,45 +3,15 @@ import './CreateModal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import PropTypes from 'prop-types';
-import db_classes from '../../../../db/db_classes.json'
 
-const createComicEmpty = {
-  title: '',
-  track: false,
-  current_chap: 0,
-  viewed_chap: 0,
-  cover: 'https://',
-  description: '',
-  author: '',
-
-  com_type: 3,
-  status: 2,
-  published_in: 0,
-  genres: 0,
+const mergeEmptyDict = {
+  baseID: 0,
+  mergingID: 0,
 };
 
-const formType = (field) => {
-  switch (field) {
-    case 'track':
-      return 'checkbox';
-    case 'viewed_chap':
-    case 'current_chap':
-      return 'number';
-    case 'cover':
-      return 'url';
-    case 'com_type':
-    case 'status':
-    case 'published_in':
-    case 'genres':
-      return 'select';
-    default:
-      return 'text';
-  }
-}
-
-const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
+const MergeComicModal = ({ onSubmit, isOpen, onClose }) => {
   const focusInputRef = useRef(null);
-  const [formState, setFormState] = useState(createComicEmpty);
+  const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
@@ -63,7 +33,7 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (await onSubmit(formState)) setFormState(createComicEmpty);
+    if (await onSubmit(formState)) setFormState(mergeEmptyDict);
   };
 
   return (
@@ -72,29 +42,28 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }) => {
 
         {Object.entries(formState).map( ([kField, value], _i) =>
           <InputDiv 
-            key={kField} 
-            value={value} 
-            field={kField} 
+            key={kField}
+            value={value}
+            field={kField}
             focusInputRef={focusInputRef}
-            selectOptDict={db_classes}
             className={'form-row'}
-            type={formType(kField)}
+            type={'number'}
             handleInputChange={handleInputChange} 
           />
         )}
         
         <div className='form-row'>
-          <button className='basic-button' type='submit'>CREATE</button>
+          <button className='basic-button' type='submit'>MERGE</button>
         </div>
       </form>
     </Modal>
   );
 };
 
-CreateComicModal.propTypes = {
+MergeComicModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default CreateComicModal;
+export default MergeComicModal;
