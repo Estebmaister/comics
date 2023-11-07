@@ -3,11 +3,10 @@ import styles from'./ComicCard.module.css'
 import BrokenImage from '../../../assets/404.jpg'
 import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
 import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
+import EditComic from '../Edition/EditComic';
 
 // TODO: Find a solution for image source 
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-
-const editComic = (_comic) => undefined;
 
 const publishersHandler = (publishers) => {
     const return_array = [];
@@ -24,9 +23,10 @@ const genresHandler = (genres) => {
 }
 
 export const ComicCard = (props) => {
-  const {id, cover, current_chap} = props.comic;
-  const [viewedChap, setViewedChap] = useState(props.comic.viewed_chap);
-  const [track, setTrack] = useState(props.comic.track);
+  const [comic, setComic] = useState(props.comic);
+  const {id, cover, current_chap} = comic;
+  const [viewedChap, setViewedChap] = useState(comic.viewed_chap);
+  const [track, setTrack] = useState(comic.track);
   const [check, setCheck] = useState(current_chap > viewedChap);
   const [del, setDel] = useState(false);
 
@@ -41,17 +41,19 @@ export const ComicCard = (props) => {
         style={{backgroundImage: `url(${BrokenImage})`}} >
         <img className={styles.poster} 
           src={cover} 
-          alt={props.comic.titles[0]}
+          alt={comic.titles[0]}
           url={cover}
           onError={(event) => event.currentTarget.src = BrokenImage}
           onMouseOver={handleMouseOver}
+          onFocus={handleMouseOver}
           onMouseOut={handleMouseOut}
+          onBlur={handleMouseOut}
         />
       </div>
 
       {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
 
-      <h3 className={styles.comicTitle}>{props.comic.titles[0]}</h3>
+      <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
       
       <p className={`${styles.comicChapter} text`}> Chapter 
         {track && current_chap !== viewedChap ?
@@ -59,12 +61,12 @@ export const ComicCard = (props) => {
         : ' '} {current_chap}
       </p>
       
-      <p className='text'> {props.comic.author} </p>
-      <p className='text'> Status: {Statuses[props.comic.status]} </p>
-      <p className='text'> Type:   {Types[props.comic.com_type]} </p>
-      <p className='text'> Genres: {genresHandler(props.comic.genres)} </p>
+      <p className='text'> {comic.author} </p>
+      <p className='text'> Status: {Statuses[comic.status]} </p>
+      <p className='text'> Type:   {Types[comic.com_type]} </p>
+      <p className='text'> Genres: {genresHandler(comic.genres)} </p>
       <p className='text'> Publishers: {publishersHandler(
-        props.comic.published_in)} </p>
+        comic.published_in)} </p>
 
       {track && check ? 
         <button 
@@ -77,16 +79,13 @@ export const ComicCard = (props) => {
       }
       <button className={styles.trackButton + ' basic-button' + 
         (track ? ' reverse-button' : '')} 
-        onClick={() => trackComic(track, props.comic.id, setTrack)}>
+        onClick={() => trackComic(track, comic.id, setTrack)}>
         {track ? 'Untrack':'Track'}
       </button>
       <button className={styles.delButton + ' basic-button reverse-button'} 
-        onClick={() => delComic(props.comic.id, setDel)}>
+        onClick={() => delComic(comic.id, setDel)}>
         X
       </button>
-      <button className={styles.editButton + ' basic-button reverse-button'} 
-        onClick={() => editComic(props.comic)}>
-        EDIT
-      </button>
+      <EditComic comic={comic} setComic={setComic} />
     </li>)
 };

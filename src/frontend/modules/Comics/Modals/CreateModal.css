@@ -15,6 +15,7 @@
   border-radius: 5px;
 }
 .form-row label {
+  text-shadow: none;
   font-size: 0.9em;
 }
 input[type=checkbox] + label,

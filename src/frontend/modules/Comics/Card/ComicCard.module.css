@@ -71,14 +71,10 @@
   background-color: #a54d28;
   bottom: 3em;
 }
-.delButton, .editButton {
+.delButton {
   position: absolute;
   left: 2.1em;
-  top: 2em;
+  top: 2.1em;
   background-color: #302c2b;
   width: 2em;
-}
-.editButton {
-  width: 3em;
-  left: 115px
 }

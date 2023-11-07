@@ -1,4 +1,12 @@
-.button-merge {
+.span-loader {
+  position: relative;
+  top: -4em;
+  left: -1em;
+  display: block;
+  width: 5em;
+}
+
+.button-scrape {
   background: var(--secondary-color);
   width: 4em;
   height: 4em;
@@ -7,58 +15,58 @@
   border-radius: 100%;
   /* positioning */
   position: fixed;
-  bottom: 10em;
+  bottom: 16em;
   right: 2em;
 }
-.button-merge:after {
+.button-scrape:after {
   content: '';
   position: absolute;
-  transform: translate(-25%, -75%) rotate(45deg);
-  top: 35%;
-  left: 35%;
+  transform: translate(-75%, -50%) rotate(90deg);
+  top: 50%;
+  left: 50%;
   background: var(--basic-button);
   height: 4px;
-  width: 25%;
+  width: 50%;
   transition: 0.2s;
 }
-.button-merge:before {
+.button-scrape:before {
   content: '';
   position: absolute;
-  transform: translate(-25%, -25%) rotate(45deg);
-  top: 27%;
-  left: 55%;
+  transform: translate(25%, -50%) rotate(0deg);
+  top: 50%;
+  left: 50%;
   background: var(--basic-button);
-  height: 25%;
+  height: 50%;
   width: 4px;
   transition: 0.2s;
 }
-.button-merge:hover:after {
-  transform: translate(-40%, -50%) rotate(45deg);
-  top: 60%;
-  left: 55%;
+.button-scrape:hover:after {
+  transform: translate(-50%, -150%) rotate(0deg);
 }
-.button-merge:hover:before {
-  transform: translate(40%, -50%) rotate(45deg);
-  top: 60%;
-  left: 35%;
+.button-scrape:hover:before {
+  transform: translate(-50%, -25%) rotate(90deg);
 }
-.button-merge:hover:before,
-.button-merge:hover:after {
+.button-scrape:hover:before,
+.button-scrape:hover:after {
   background: var(--secondary-color);
   transition: 0.2s;
 }
-.button-merge:hover {
+.button-scrape:hover {
   background-color: var(--basic-button);
   transition: 0.2s;
 }
 
 /* Phone portrait view */
 @media only screen and (orientation: portrait) {
-  .button-merge {
+  .span-loader {
+    top: -3.5em;
+    left: -1.5em;
+  }
+  .button-scrape {
     width: 3em;
     height: 3em;
     border: 0.3em solid var(--basic-button);
-    bottom: 8em;
+    bottom: 12em;
     right: 1em;
   }
 }

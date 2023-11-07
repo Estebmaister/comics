@@ -2,10 +2,11 @@ const capitalize = (string) => string[0].toUpperCase() + string.slice(1);
 
 const InputDiv = (
   { focusInputRef, type, field, value, selectOptDict, 
-  handleInputChange, className = 'form-row' }
+  handleInputChange, multiple, className = 'form-row' }
 ) => {
   const fieldTitle = capitalize(field).split('_').join(' ');
   
+  if (type === 'none') return;
   return (
     <div className={className}>
       <label htmlFor={field}> {fieldTitle} </label>
@@ -15,6 +16,7 @@ const InputDiv = (
           name={field} 
           value={value} 
           onChange={handleInputChange}
+          multiple={multiple}
         >
           {selectOptDict[field].map((opt, i) => 
             <option value={i} key={opt}> {opt} </option>

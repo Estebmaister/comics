@@ -6,6 +6,7 @@ import CreateComic from './Edition/CreateComic';
 import MergeComic from './Edition/MergeComic';
 import PaginationButtons from './PaginationButtons';
 import { dataFetch, loadMsgs } from '../../util/ServerHelpers';
+import ScrapeButton from './Edition/ScrapeButton';
 
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
 
@@ -102,6 +103,7 @@ export function ComicsMainPage() {
 
     <MergeComic />
     <CreateComic />
+    <ScrapeButton />
   </>);
 };
 

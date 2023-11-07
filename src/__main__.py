@@ -39,7 +39,12 @@ def run_server() -> None:
                 'http://localhost:3000',
                 'https://estebmaister.github.io/*'
             ]}, 
-            '/health/': {'origins':'*'}}
+            '/scrape': {'origins': [
+                'http://localhost:3000',
+                'https://estebmaister.github.io/*'
+            ]},
+            r'/health/*': {'origins':'*'},
+        }
     )
     
     # Debug/Development

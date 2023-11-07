@@ -1,5 +1,6 @@
 .msg-box {
-  position: absolute;
+  text-shadow: none;
+  position: fixed;
   top: 6em;
   left: 8%;
   padding: 1em;
@@ -28,10 +29,10 @@
   cursor: pointer;
   border: 0.4em solid var(--basic-button);
   border-radius: 100%;
-  position: fixed;
   /* Mittig */
+  position: fixed;
   bottom: 4em;
-  right: 4em;
+  right: 2em;
 }
 .button-plus:after {
   content: '';
@@ -62,4 +63,14 @@
 .button-plus:hover {
   background-color: var(--basic-button);
   transition: 0.2s;
+}
+
+/* Phone portrait view */
+@media only screen and (orientation: portrait) {
+  .button-plus {
+    width: 3em;
+    height: 3em;
+    border: 0.3em solid var(--basic-button);
+    right: 1em;
+  }
 }

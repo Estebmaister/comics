@@ -49,11 +49,11 @@ async def register_comic(chap: str, title: str,
         print(f'INFO: {title} Not Found in DB, creating new entry')
         db_comic_to_load = ComicDB(None, title, chap, cover, 
             int(time.time()), com_type, status, publisher)
-        db_comic_json_to_load = db_comic_to_load.toJSON()
-
-        print('NEW :', json.dumps(db_comic_json_to_load))
         session.add(db_comic_to_load)
         session.commit()
+        
+        db_comic_json_to_load = db_comic_to_load.toJSON()
+        print('NEW :', json.dumps(db_comic_json_to_load))
         load_comics.append(db_comic_json_to_load)
         save_comics_file(load_comics)
     

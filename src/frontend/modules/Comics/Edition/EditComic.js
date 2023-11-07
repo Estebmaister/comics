@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
-import CreateComicModal from '../Modals/CreateModal';
-import './CreateComic.css';
+import EditComicModal from '../Modals/EditModal';
+import './EditComic.css';
 import db_classes from '../../../../db/db_classes.json'
 
 const SERVER = process.env.REACT_APP_PY_SERVER;
-const create = async (comic, server = SERVER) => {
+const edit = async (comic, setComic, setComicFormData, server = SERVER) => {
   let success = true;
-  const last_update = {last_update: new Date().getTime()}
-  const titles = {titles: [comic.title]};
-  const genres = {genres: [comic.genres]};
-  const published_in = {published_in: [comic.published_in]};
-  const data = {...comic, ...last_update, ...titles, ...genres, ...published_in}
+  comic.last_update = new Date().getTime();
+  const data = {...comic};
   console.debug(JSON.stringify(data))
-  await fetch(`${server}/comics`, {
-    method: 'POST',
+  await fetch(`${server}/comics/${comic.id}`, {
+    method: 'PUT',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   })
   .then((response) => response.json())
   .then((data) => {
     console.debug(data);
-    if (data?.message === 'Internal Server Error') success = false;
+    if (data?.message !== undefined) success = false;
+    else {
+      setComic(data); 
+      setComicFormData(data);
+    }
   })
   .catch((err) => {
     console.debug(err.message);
@@ -29,28 +30,29 @@ const create = async (comic, server = SERVER) => {
   return success;
 };
 
-const CreateComic = () => {
-  const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState(null);
+const EditComic = (props) => {
+  const { comic, setComic } = props;
+  const [isEditComicModalOpen, setIsEditComicModalOpen] = useState(false);
+  const [comicFormData, setComicFormData] = useState(comic);
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
 
-  const handleOpenCreateComicModal = () => {
-    setIsCreateComicModalOpen(true);
+  const handleOpenEditComicModal = () => {
+    setIsEditComicModalOpen(true);
     setShowMsg(false);
     setFailMsg(false);
   };
 
-  const handleCloseCreateComicModal = () => {
-    setIsCreateComicModalOpen(false);
+  const handleCloseEditComicModal = () => {
+    setIsEditComicModalOpen(false);
   };
 
   const handleFormSubmit = async (data) => {
     setComicFormData(data);
-
-    if (await create(data)) {
-      handleCloseCreateComicModal();
+    
+    if (await edit(data, setComic, setComicFormData)) {
+      handleCloseEditComicModal();
       setFailMsg(false);
       setHideMsg(false);
       setShowMsg(true);
@@ -68,24 +70,29 @@ const CreateComic = () => {
   };
 
   return (<>
-    <button className={'button-plus'} onClick={handleOpenCreateComicModal}>
+    <button 
+      className={'edit-button basic-button reverse-button'} 
+      onClick={handleOpenEditComicModal}
+    >
+      EDIT
     </button>
 
-    {(comicFormData?.title && showMsg && timerHide()) && (
+    {(showMsg && timerHide()) && (
       <div className={
         `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
         }>
         <b>{db_classes?.com_type[comicFormData?.com_type]}</b> comic {' '}
-        <b>{comicFormData.title}</b> {failMsg ? 'failed' : 'created'}.
+        <b>{comicFormData.titles}</b> {failMsg ? 'failed' : 'created'}.
       </div>
     )}
 
-    <CreateComicModal
-      isOpen={isCreateComicModalOpen}
+    <EditComicModal
+      isOpen={isEditComicModalOpen}
       onSubmit={handleFormSubmit}
-      onClose={handleCloseCreateComicModal}
+      onClose={handleCloseEditComicModal}
+      comic={comic}
     />
   </>);
 };
 
-export default CreateComic;
+export default EditComic;
