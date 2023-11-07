@@ -39,11 +39,10 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }) => {
   const handleInputChange = (event) => {
     const { name, value, selectedOptions, checked, type } = event.target;
     let newEntry
-    console.debug(Object.values(selectedOptions).map((o)=> +o.value ))
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
     else if (type === 'select-multiple') newEntry = Object
-      .values(selectedOptions).map((options)=> +options.value);
+      .values(selectedOptions)?.map((options)=> +options.value);
     else newEntry = value;
     setFormState((prevFormData) => ({
       ...prevFormData,

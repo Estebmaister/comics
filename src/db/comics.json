@@ -19047,25 +19047,23 @@
   },
   {
     "id": 911,
-    "titles": [
-      "Martial god regressed to level 2"
-    ],
-    "current_chap": 32,
+    "titles": "Martial god regressed to level 2|The martial god who regressed back to level 2",
+    "current_chap": 33,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/07/replicate-prediction-racly3rbhmzlnnex2krwvuaada.png",
     "last_update": 1698076520,
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
-      1
+      2
     ],
     "genres": [
       0
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0
+    "track": true,
+    "viewed_chap": 33
   },
   {
     "id": 912,

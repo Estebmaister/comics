@@ -29,7 +29,7 @@ const InputDiv = (
           type={type} 
           id={field} 
           name={field}
-          value={value}
+          value={field === 'titles' ? value.join('|') : value}
           checked={type === 'checkbox' ? value : null}
           onChange={handleInputChange}
         />    

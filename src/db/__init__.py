@@ -166,9 +166,9 @@ class ComicDB(Base):
         return self.titles.split("|")
     def set_titles(self, titles: List[str]) -> None:
         if type(titles) is list: 
-            self.titles = titles
-        elif type(titles) is str: 
             self.titles = "|".join(titles)
+        elif type(titles) is str: 
+            self.titles = titles
 
     def get_published_in(self) -> List[Publishers]:
         return [Publishers(int(p)) for p in str(self.published_in).split("|")]

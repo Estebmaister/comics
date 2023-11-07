@@ -184,7 +184,7 @@ class ComicID(Resource):
         titles = request.json.get('titles')
         if titles != None:
             comic.set_titles(titles)
-            json_comic["titles"] = titles
+            json_comic["titles"] = comic.get_titles()
         
         comic.author = request.json.get('author', comic.author)
         comic.cover =  request.json.get('cover', comic.cover)
