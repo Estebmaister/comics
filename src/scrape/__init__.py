@@ -101,7 +101,8 @@ async def update_cover_if_needed(db_comics: [], comics: [], cover: str,
             db_comics[0].cover = cover
             comics[0]['cover'] = cover
     # Update url for asura
-    if publisher == Publishers.Asura and db_comics[0].cover != cover:
+    if (publisher == Publishers.Asura and db_comics[0].cover != cover) or (
+        publisher == Publishers.FlameScans and db_comics[0].cover != cover):
         db_comics[0].cover = cover
         comics[0]['cover'] = cover
         print('INFO:', title, 'cover updated')
@@ -347,8 +348,8 @@ url_switch = {
     "https://en.leviatanscans.com"  :scrape_publisher(Publishers.LeviatanScans, 1),
     "https://nightscans.org/"       :scrape_nightscans,
     "https://reaperscans.com/"      :scrape_reaper,
-    "https://manhuaplus.com/"       :scrape_manhuaplus,
-    "https://flamescans.org/"       :scrape_flame,
+    "https://manhuaplus.org/"       :scrape_manhuaplus,
+    "https://flamecomics.com/"      :scrape_flame,
     "https://reset-scans.com/"      :scrape_reset,
     "https://drakescans.com/"       :func_pending,
     "https://novelmic.com/"         :func_pending,

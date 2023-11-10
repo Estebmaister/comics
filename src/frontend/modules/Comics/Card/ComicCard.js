@@ -86,6 +86,6 @@ export const ComicCard = (props) => {
         onClick={() => delComic(comic.id, setDel)}>
         X
       </button>
-      <EditComic comic={comic} setComic={setComic} />
+      <EditComic comic={comic} setComic={setComic} setViewed={setViewedChap} />
     </li>)
 };

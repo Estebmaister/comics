@@ -5,7 +5,7 @@ const InputDiv = (
   handleInputChange, multiple, className = 'form-row' }
 ) => {
   const fieldTitle = capitalize(field).split('_').join(' ');
-  
+  if (field === 'titles' && typeof(value) === 'object') value = value.join('|');
   if (type === 'none') return;
   return (
     <div className={className}>
@@ -29,7 +29,7 @@ const InputDiv = (
           type={type} 
           id={field} 
           name={field}
-          value={field === 'titles' ? value.join('|') : value}
+          value={value}
           checked={type === 'checkbox' ? value : null}
           onChange={handleInputChange}
         />    

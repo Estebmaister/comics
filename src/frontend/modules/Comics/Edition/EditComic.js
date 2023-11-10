@@ -4,8 +4,8 @@ import './EditComic.css';
 import db_classes from '../../../../db/db_classes.json'
 
 const SERVER = process.env.REACT_APP_PY_SERVER;
-const edit = async (comic, setComic, setComicFormData, server = SERVER) => {
-  let success = true;
+const edit = async (comic, server = SERVER) => {
+  let newData;
   comic.last_update = new Date().getTime();
   const data = {...comic};
   console.debug(JSON.stringify(data))
@@ -17,21 +17,18 @@ const edit = async (comic, setComic, setComicFormData, server = SERVER) => {
   .then((response) => response.json())
   .then((data) => {
     console.debug(data);
-    if (data?.message !== undefined) success = false;
-    else {
-      setComic(data); 
-      setComicFormData(data);
-    }
+    if (data?.message !== undefined) newData = null;
+    else newData = data;
   })
   .catch((err) => {
     console.debug(err.message);
-    success = false;
+    newData = null;
   });
-  return success;
+  return newData;
 };
 
 const EditComic = (props) => {
-  const { comic, setComic } = props;
+  const { comic, setComic, setViewed } = props;
   const [isEditComicModalOpen, setIsEditComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState(comic);
   const [showMsg, setShowMsg] = useState(false);
@@ -51,7 +48,11 @@ const EditComic = (props) => {
   const handleFormSubmit = async (data) => {
     setComicFormData(data);
     
-    if (await edit(data, setComic, setComicFormData)) {
+    const newData = await edit(data);
+    if (newData != null) {
+      setComic(newData); 
+      setComicFormData(newData);
+      setViewed(newData?.viewed_chap);
       handleCloseEditComicModal();
       setFailMsg(false);
       setHideMsg(false);
