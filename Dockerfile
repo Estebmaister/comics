@@ -14,12 +14,24 @@ WORKDIR /code
 
 # copy only the dependencies installation from the 1st stage image
 COPY --from=builder /root/.local /root/.local
+
+# installing packages and removing cache afterwards
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    software-properties-common \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
 # copy the content of the local src directory to the working directory
 COPY src .
 
 # update PATH environment variable
 ENV PATH=/root/.local:$PATH
 
+EXPOSE 5000
+
+HEALTHCHECK CMD curl --fail http://localhost:5000/health/
+
 # command to run on container start
-# CMD [ "ls" ]
-CMD [ "python", ".", "server" ]
+ENTRYPOINT [ "python", ".", "server" ]
