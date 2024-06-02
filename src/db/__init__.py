@@ -1,7 +1,8 @@
 import os, json, time, signal, sys
 from enum import IntEnum, unique
 from typing import List
-from sqlalchemy import create_engine, engine, Column, Integer, String, Sequence
+from sqlalchemy import create_engine, engine
+from sqlalchemy import Column, Integer, String, Sequence
 from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from flask_restx import fields as sf

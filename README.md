@@ -9,10 +9,10 @@
 sudo apt install python3-venv
 
 # Create the env
-python -m venv test_env
+python -m venv comics_env
 
 # Activate the env
-source test_env/bin/activate
+source comics_env/bin/activate
 
 # Deactivate
 deactivate
@@ -36,7 +36,7 @@ python src
 ### Running tests
 
 ```sh
-python tests
+python test
 ```
 
 ### Running server
