@@ -71,6 +71,7 @@
     width: 3em;
     height: 3em;
     border: 0.3em solid var(--basic-button);
-    right: 1em;
+    bottom: 8em;
+    left: 0.5em;
   }
 }

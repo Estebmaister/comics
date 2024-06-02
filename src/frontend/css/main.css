@@ -136,6 +136,22 @@ body {
   display: flex;
   justify-content: space-between;
 }
+@media only screen and (orientation: portrait) {
+  .all-track-button {
+    width: 9em;
+    margin-left: 0.7em;
+  }
+  .div-pagination-buttons {
+    position:absolute;
+    bottom: -25px;
+    border-radius: 10px;
+    background-color: #0000004d;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
 
 /* Navigation bar */
 
@@ -172,7 +188,7 @@ body {
 }
 
 .server {
-  margin-top: 2em;
+  margin-top: 2.5em;
   text-align: center;
 }
 .comic-list {
@@ -209,21 +225,6 @@ p {
 @media only screen and (orientation: portrait) {
   body {
     font-size: 15px;
-  }
-  .all-track-button {
-    width: 9em;
-    /* height: 2.3em; */
-    margin-left: 0.7em;
-  }
-  .div-pagination-buttons {
-    position:absolute;
-    bottom: -25px;
-    border-radius: 10px;
-    background-color: #0000004d;
-    padding: 3px;
-    padding-right: 0;
-    padding-left: 0;
-    margin-left: 0.5em;
   }
   .text {
     max-width: 240px;
