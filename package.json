@@ -34,6 +34,7 @@
 
     "start": "react-scripts start",
     "server": "python3 src/__main__.py server",
+    "scrape": "python3 src/__main__.py",
     "build": "react-scripts build",
     "test": "CI=true react-scripts test && python3 test",
     "eject": "react-scripts eject"

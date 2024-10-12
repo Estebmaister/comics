@@ -340,7 +340,7 @@ async def scrape_reaper(url: str):
 async def func_pending(url: str):
     pass # await print(url, "not implemented") #TODO
 url_switch = {
-    "https://asuracomics.com/"      :scrape_publisher(Publishers.Asura, 2),
+    "https://asuracomic.net/"      :scrape_publisher(Publishers.Asura, 2),
     "https://void-scans.com/"       :scrape_publisher(Publishers.VoidScans, 2),
     "https://realmscans.to/"        :scrape_publisher(Publishers.RealmScans, 2),
     "https://luminousscans.com/"    :scrape_publisher(Publishers.LuminousScans, 2),
