@@ -1,0 +1,94 @@
+basePath: /
+definitions:
+  models.UserLogin:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: estebmaister@gmail.com
+    name: Estebmaister
+    url: http://www.github.com/estebmaister
+  description: Server documentation to query comics from the DB.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Comics API
+  version: "1.0"
+paths:
+  /public/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user with basic credentials to receive an auth 'token'
+        in the headers if successful
+      operationId: user-login
+      parameters:
+      - description: Token
+        in: header
+        name: Authorization
+        type: string
+      - description: Login user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: no ok
+          schema:
+            type: string
+      summary: Login user
+      tags:
+      - User login
+  /public/register:
+    post:
+      consumes:
+      - application/json
+      description: Function for registering a new user (for demonstration purposes),
+        receive a condirmation for success or failure
+      operationId: user-register
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: registered
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: not registered
+          schema:
+            type: integer
+        "404":
+          description: not registered
+          schema:
+            type: string
+      summary: Register new user
+      tags:
+      - User register
+swagger: "2.0"
