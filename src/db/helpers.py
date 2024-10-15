@@ -30,6 +30,10 @@ def manage_multi_finds(db_comics: list, com_type: int, title: str):
             if (com_type == 4 and # Types.Novel == 4
                 db_comics[0].com_type != com_type):
                 title += " - novel"
+            # Some titles are cut short by the websites
+            for title_db in db_comics[0].get_titles():
+                if title in title_db and "- novel" not in title_db:
+                    return db_comics, title
             # comics where previously retrieved with a stricter query from json
             # = [comic for comic in loaded_comics if title in comic["titles"]]
             # and then new check for the response to add or update register

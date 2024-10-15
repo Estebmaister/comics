@@ -7,6 +7,7 @@
 ```sh
 # Install pip env manager
 sudo apt install python3-venv
+# python -m pip install --upgrade pip
 
 # Create the env
 python -m venv comics_env
