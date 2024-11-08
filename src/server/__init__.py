@@ -5,12 +5,14 @@ from db import ComicDB, Types, Statuses
 from db.repo import all_comics, comics_like_title, comic_by_id
 from db.repo import comics_by_title_no_case, merge_comics, sql_check
 from helpers.server import put_body_parser
+from helpers.logger import logger
 from flask import Flask, make_response, request
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 from scrape import async_scrape
 import asyncio
 
+log = logger(__name__)
 server = Flask(__name__)
 server.config["RESTX_MASK_SWAGGER"]=False
 server.wsgi_app = ProxyFix(server.wsgi_app)
@@ -172,13 +174,18 @@ class ComicID(Resource):
         '''Update a comic given its identifier'''
         if not request.json:  api.abort(400, 'Body payload is necessary')
         err_reading_body: str = put_body_parser(request.json)
-        if err_reading_body != '': api.abort(400, err_reading_body)
-
+        if err_reading_body != '': 
+            log.error('updating comic %s, error(s) %s', id, err_reading_body)
+            api.abort(400, err_reading_body)
+        
         comic, session = comic_by_id(id)
-        if comic is None:  api.abort(404, COMIC_NOT_FOUND.format(id))
+        if comic is None:
+            log.info('No comic found by ID %s', id)
+            api.abort(404, COMIC_NOT_FOUND.format(id))
         try:
             json_comic =[comic for comic in load_comics if id == comic["id"]][0]
         except IndexError:
+            log.debug('Comic ID %s not found in JSON backup, adding it', id)
             load_comics.append(comic.toJSON())
             json_comic =[com for com in load_comics if comic.id == com["id"]][0]
         titles = request.json.get('titles')
@@ -186,8 +193,8 @@ class ComicID(Resource):
             comic.set_titles(titles)
             json_comic["titles"] = comic.get_titles()
         
-        comic.author = request.json.get('author', comic.author)
-        comic.cover =  request.json.get('cover', comic.cover)
+        comic.author     = request.json.get('author', comic.author)
+        comic.cover      =  request.json.get('cover', comic.cover)
         comic.description= request.json.get('description', comic.description)
         comic.track      = int(request.json.get('track', comic.track))
         comic.viewed_chap=int(request.json.get('viewed_chap',comic.viewed_chap))
