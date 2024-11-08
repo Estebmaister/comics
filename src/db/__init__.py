@@ -7,8 +7,10 @@ from sqlalchemy.sql import text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from flask_restx import fields as sf
 from dotenv import load_dotenv
+from helpers.logger import logger
 
 load_dotenv()
+log = logger(__name__)
 PRODUCTION: bool = os.getenv('PRODUCTION', 'false') == 'true'
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
@@ -22,12 +24,11 @@ DB_PASS: str = os.getenv('PGPASSWORD', 'My0therSelf')
 DB_NAME: str = os.getenv('PGDATABASE', 'comics')
 DB_PORT: int = int(os.getenv('PGPORT', '5432'))
 DB_HOST: str = os.getenv('PGHOST', '127.0.0.1')
-if os.getenv('DEBUG', 'false') == 'true': DB_HOST = '127.0.0.1'
 DB_URL: str  = engine.url.create( drivername=DB_DRIVER, username=DB_USER,
     password=DB_PASS, host=DB_HOST, port=DB_PORT, database=DB_NAME )
 
 if PRODUCTION: engine = create_engine(DB_URL)
-print(engine)
+log.debug(engine)
 
 Base = declarative_base()
 
@@ -96,6 +97,13 @@ class Publishers(IntEnum):
     LeviatanScans:  int = 9
     NightScans:     int = 10
     VoidScans:      int = 11
+    DrakeScans:     int = 12
+    NovelMic:       int = 13  
+    Mangagreat:     int = 14
+    Mangageko:      int = 15 
+    Mangarolls:     int = 16
+    Manganato:      int = 17 
+    FirstKiss:      int = 18 
     def save(self):
         return {'published_in':[data.name for data in Publishers]}
 
@@ -227,7 +235,8 @@ if PRODUCTION:
 
 def close_signal_handler(sig, frame):
     session.close()
-    print('\nDB connection closed...')
+    print('')
+    log.warning('DB connection closed...')
     sys.exit(0)
 
 signal.signal(signal.SIGINT, close_signal_handler)
