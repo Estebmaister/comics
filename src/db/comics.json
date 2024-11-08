@@ -165,12 +165,12 @@
       1
     ],
     "cover": "https://gg.asuracomic.net/storage/media/171/conversions/28bb0778-thumb-small.webp",
-    "current_chap": 172,
+    "current_chap": 176,
     "com_type": 3,
     "id": 8,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731005087,
     "genres": [
       0
     ]
@@ -213,11 +213,11 @@
       1
     ],
     "com_type": 3,
-    "current_chap": 194,
+    "current_chap": 200,
     "id": 10,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1730928558,
     "genres": [
       0
     ]
@@ -302,11 +302,11 @@
       7
     ],
     "com_type": 3,
-    "current_chap": 92,
+    "current_chap": 96,
     "id": 14,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731005094,
     "genres": [
       0
     ]
@@ -325,11 +325,11 @@
       7
     ],
     "com_type": 3,
-    "current_chap": 163,
+    "current_chap": 167,
     "id": 15,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731032294,
     "genres": [
       0
     ]
@@ -609,11 +609,11 @@
     ],
     "cover": "https://gg.asuracomic.net/storage/media/1/conversions/047bc0bb-thumb-small.webp",
     "com_type": 3,
-    "current_chap": 175,
+    "current_chap": 179,
     "id": 28,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731005085,
     "genres": [
       0
     ]
@@ -694,13 +694,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 69,
+    "current_chap": 91,
     "cover": "https://gg.asuracomic.net/storage/media/132/conversions/ca9d2633-thumb-small.webp",
     "com_type": 3,
     "id": 32,
     "author": "",
     "description": "",
-    "last_update": 1716863565,
+    "last_update": 1731084267,
     "genres": [
       0
     ]
@@ -805,13 +805,13 @@
     "published_in": [
       1
     ],
-    "current_chap": 89,
+    "current_chap": 93,
     "cover": "https://gg.asuracomic.net/storage/media/66/conversions/25b0739f-thumb-small.webp",
     "com_type": 3,
     "id": 37,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731084269,
     "genres": [
       0
     ]
@@ -911,6 +911,29 @@
     ]
   },
   {
+    "id": 41,
+    "titles": [
+      "Return of the unrivaled spear knight",
+      "Return of the legendary spear knight"
+    ],
+    "current_chap": 148,
+    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
+    "last_update": 1730771849,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 139
+  },
+  {
     "titles": [
       "Barbarian quest"
     ],
@@ -977,6 +1000,447 @@
     "genres": [
       0
     ]
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
+  },
+  {
+    "id": 44,
+    "titles": [
+      "Reformation of the deadbeat noble"
+    ],
+    "current_chap": 124,
+    "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
+    "last_update": 1730843631,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 124
   },
   {
     "titles": [
@@ -1534,6 +1998,28 @@
     "viewed_chap": 58
   },
   {
+    "id": 50,
+    "titles": [
+      "Player who returned 10,000 years later"
+    ],
+    "current_chap": 97,
+    "cover": "https://gg.asuracomic.net/storage/media/62/conversions/b39ded0b-thumb-small.webp",
+    "last_update": 1728953470,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 58
+  },
+  {
     "titles": [
       "The tutorial is too hard"
     ],
@@ -1614,12 +2100,12 @@
       1
     ],
     "cover": "https://gg.asuracomic.net/storage/media/38/conversions/b8682ff8-thumb-small.webp",
-    "current_chap": 113,
+    "current_chap": 116,
     "com_type": 3,
     "id": 54,
     "author": "",
     "description": "",
-    "last_update": 1728953470,
+    "last_update": 1731005086,
     "genres": [
       0
     ]
@@ -1728,7 +2214,7 @@
       2,
       4
     ],
-    "cover": "https://flamecomics.com/wp-content/uploads/2022/02/Cover.png",
+    "cover": "https://flamecomics.xyz/wp-content/uploads/2022/02/Cover.png",
     "com_type": 3,
     "current_chap": 99,
     "id": 59,
@@ -1865,7 +2351,7 @@
       1,
       4
     ],
-    "cover": "https://flamecomics.com/wp-content/uploads/2021/01/orv-webp.webp",
+    "cover": "https://flamecomics.xyz/wp-content/uploads/2021/01/orv-webp.webp",
     "com_type": 3,
     "current_chap": 230,
     "id": 65,
@@ -1936,11 +2422,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/11/magicAcademyMageCover02.png",
     "com_type": 3,
-    "current_chap": 87,
+    "current_chap": 118,
     "id": 68,
     "author": "",
     "description": "",
-    "last_update": 1712356522,
+    "last_update": 1730928561,
     "genres": [
       0
     ]
@@ -2143,11 +2629,11 @@
     ],
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/12/infiniteGachaCover03.png",
     "com_type": 3,
-    "current_chap": 89,
+    "current_chap": 121,
     "id": 77,
     "author": "Hermode,Cho Wooneh,Redice studio",
     "description": "The mobile gacha game \u2018Pick Me Up!\u2019 is known for being brutally difficult, and no one has been able to clear a dungeon. Loki, the fifth among all the world\u2019s masters, loses consciousness while trying to clear the dungeon. Upon waking up, Loki finds himself turned into a 1-star level 1 hero, \u2018Islat Han\u2019. \u201cIt\u2019s him! I\u2019m certain he\u2019s the one who brought me here!\u201d In order to return to Earth, he must lead novice masters and heroes and break through the 100th floor of the dungeon! \u201cYou messed with the wrong person.\u201d This is the story of master Loki who is forced to carry everyone to victory and cannot afford a single defeat.",
-    "last_update": 1712356518,
+    "last_update": 1730928559,
     "genres": [
       1,
       2,
@@ -2226,6 +2712,468 @@
     ]
   },
   {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 87,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1730843630,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
     "titles": [
       "Warrior high school \u2013 dungeon raid department"
     ],
@@ -2269,6 +3217,512 @@
     "genres": [
       0
     ]
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
+  },
+  {
+    "id": 82,
+    "titles": [
+      "The heavenly demon can\u2019t live a normal life",
+      "The heavenly demon can't live a normal life"
+    ],
+    "current_chap": 131,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1730843629,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      10
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 131
   },
   {
     "titles": [
@@ -2423,11 +3877,11 @@
     "com_type": 3,
     "status": 2,
     "viewed_chap": 0,
-    "current_chap": 94,
+    "current_chap": 130,
     "id": 89,
     "author": "",
     "description": "",
-    "last_update": 1709767073,
+    "last_update": 1730928558,
     "genres": [
       0
     ]
@@ -2775,6 +4229,28 @@
     ]
   },
   {
+    "id": 105,
+    "titles": [
+      "The reincarnated assassin is a genius swordsman"
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
+    "last_update": 1731083942,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "VOKE/GeulGaemi",
+    "track": true,
+    "viewed_chap": 36
+  },
+  {
     "titles": [
       "The divine hunter"
     ],
@@ -2886,7 +4362,7 @@
       "Transcension academy"
     ],
     "current_chap": 129,
-    "cover": "https://realmscans.to/cdn-cgi/image/format=auto/assets/images/41__transcension_academy-23-06-2023_11_44_12_PM.webp",
+    "cover": "h/assets/images/41__transcension_academy-23-06-2023_11_44_12_PM.webp",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -3876,7 +5352,7 @@
       "The world after the fall",
       "The world after the end"
     ],
-    "current_chap": 121,
+    "current_chap": 153,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/02/the-world-after-the-end-cover.jpg",
     "com_type": 3,
     "status": 2,
@@ -3890,7 +5366,7 @@
     "id": 157,
     "author": "S-Cynaan, Sing-Shong",
     "description": "Humans were suddenly summoned to become \u201cWalkers\u201d, and they needed to clear the tower to save the world... Floor 77: The \u201cStone of Regression\u201d was discovered. Walkers could now \u201creturn\u201d to the past. Slowly, everyone left... Humanity\u2019s last hope, \u201cCarpe Diem\u201d, was formed, made up of people who refused to abandon the world... The last Walker reached floor 100. He no longer knew what to believe.",
-    "last_update": 1712356520,
+    "last_update": 1731005086,
     "genres": [
       0
     ]
@@ -4349,7 +5825,7 @@
       "The ancient one",
       "The eternal supreme"
     ],
-    "current_chap": 338,
+    "current_chap": 349,
     "cover": "https://flamecomics.com/wp-content/uploads/2021/06/anceint-sovereign-of-eternity-v2-1070x1676-1-223x350.png",
     "com_type": 2,
     "status": 2,
@@ -4357,7 +5833,7 @@
       4,
       6
     ],
-    "last_update": 1727751890,
+    "last_update": 1731084275,
     "description": "In the past, one of the Ten Great Martial Sovereigns, Gu Feiyang, tragically met his end in the Tiandang mountain range. Fifteen years later, Gu Feiyang crosses through the cycle of rebirth, into the body of a Tianshui prince, Li Yunxiao. Embarking on a heaven-defying journey against the innumerable geniuses of the current generation. The nine ranks of Martial Arts; the ten realms of the Gods. The world has been plunged into turmoil once more!",
     "author": "jack norway, Tai yi shui sheng",
     "track": true,
@@ -4502,9 +5978,9 @@
     "titles": [
       "Level 1 player"
     ],
-    "current_chap": 80,
+    "current_chap": 86,
     "cover": "https://flamescans.org/wp-content/uploads/2022/01/low_quality_time_to_slee-copy-259x350.jpg",
-    "last_update": 1696393251,
+    "last_update": 1730928569,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4568,14 +6044,14 @@
     "titles": [
       "Irl quest"
     ],
-    "current_chap": 135,
+    "current_chap": 139,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2021/10/COVER.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1728954911,
+    "last_update": 1731005095,
     "description": "",
     "author": "",
     "track": true,
@@ -4611,14 +6087,14 @@
     "titles": [
       "Solo necromancy"
     ],
-    "current_chap": 150,
+    "current_chap": 154,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2021/09/SOLO_NECROMANCY_COVER.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1728954911,
+    "last_update": 1730928569,
     "description": "",
     "author": "",
     "track": true,
@@ -4758,7 +6234,7 @@
     "titles": [
       "Superhuman battlefield"
     ],
-    "current_chap": 108,
+    "current_chap": 130,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/02/superhumanCover02.png",
     "com_type": 3,
     "status": 2,
@@ -4766,7 +6242,7 @@
       2,
       1
     ],
-    "last_update": 1716863565,
+    "last_update": 1730928561,
     "description": "",
     "author": "",
     "track": true,
@@ -4889,7 +6365,7 @@
       "Mercenary enrollment"
     ],
     "current_chap": 189,
-    "cover": "https://lumitoon.com/wp-content/uploads/2022/02/690x100_cover-207x300.jpg",
+    "cover": "h/assets/images/mercenary11.webp",
     "last_update": 1716863585,
     "com_type": 1,
     "status": 2,
@@ -5192,9 +6668,9 @@
     "titles": [
       "The chronicles of heavenly demon"
     ],
-    "current_chap": 231,
+    "current_chap": 246,
     "cover": "https://luminousscans.com/wp-content/uploads/2021/05/chroCover02-222x300.png",
-    "last_update": 1712356542,
+    "last_update": 1731005107,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5202,8 +6678,8 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 246,
     "genres": [
       0
     ]
@@ -5300,7 +6776,7 @@
     "titles": [
       "A returner\u2019s magic should be special"
     ],
-    "current_chap": 255,
+    "current_chap": 269,
     "cover": "https://luminousscans.com/wp-content/uploads/2022/06/resource-222x300.png",
     "last_update": 1709659408,
     "com_type": 3,
@@ -5311,7 +6787,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 215,
+    "viewed_chap": 226,
     "genres": [
       0
     ]
@@ -6629,13 +8105,475 @@
     ]
   },
   {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
     "id": 287,
     "titles": [
       "Return of the mount hua sect"
     ],
-    "current_chap": 118,
+    "current_chap": 148,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2021/03/cover.jpg",
-    "last_update": 1712356519,
+    "last_update": 1730928562,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6801,9 +8739,9 @@
     "titles": [
       "The return of the crazy demon"
     ],
-    "current_chap": 116,
+    "current_chap": 128,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2021/07/CrazyDemonCover02-1.webp",
-    "last_update": 1712356516,
+    "last_update": 1731005085,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6909,9 +8847,9 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 103,
+    "current_chap": 107,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731005086,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7859,9 +9797,9 @@
     "titles": [
       "Heavenly demon cultivation simulation"
     ],
-    "current_chap": 137,
-    "cover": "https://flamecomics.com/wp-content/uploads/2021/10/Cover-1.jpg",
-    "last_update": 1728955074,
+    "current_chap": 105,
+    "cover": "https://flamecomics.xyz/wp-content/uploads/2021/10/Cover-1.jpg",
+    "last_update": 1731084275,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7882,9 +9820,9 @@
     "titles": [
       "Auto-hunting with clones"
     ],
-    "current_chap": 114,
+    "current_chap": 117,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2022/09/AHWC_Title_upscale.png",
-    "last_update": 1728954910,
+    "last_update": 1731005095,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9066,9 +11004,9 @@
     "titles": [
       "Legends of the swordsman scholar"
     ],
-    "current_chap": 139,
+    "current_chap": 141,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/16__legends_of_swordsman_scholar-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1728955097,
+    "last_update": 1731005106,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9235,9 +11173,9 @@
     "titles": [
       "I picked a hammer to save the world"
     ],
-    "current_chap": 97,
+    "current_chap": 101,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/12__hammer-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1728955098,
+    "last_update": 1731084284,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9406,9 +11344,9 @@
     "titles": [
       "I reincarnated as a legendary surgeon"
     ],
-    "current_chap": 128,
+    "current_chap": 132,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/13__surgeon-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1728955098,
+    "last_update": 1731005106,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -10523,9 +12461,9 @@
     "titles": [
       "Manager kim"
     ],
-    "current_chap": 159,
+    "current_chap": 163,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/11/manager-kimz-110x150.png",
-    "last_update": 1728955074,
+    "last_update": 1730928577,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -11091,9 +13029,9 @@
     "titles": [
       "Nano machine"
     ],
-    "current_chap": 200,
+    "current_chap": 232,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/02/nanoMashineCover02.png",
-    "last_update": 1712356519,
+    "last_update": 1730928559,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12483,9 +14421,9 @@
     "titles": [
       "Lookism"
     ],
-    "current_chap": 523,
+    "current_chap": 527,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/lookism-110x150.jpg",
-    "last_update": 1728955074,
+    "last_update": 1731005100,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -12674,9 +14612,9 @@
     "titles": [
       "Baek xx"
     ],
-    "current_chap": 96,
+    "current_chap": 100,
     "cover": "https://isekaiscan.com/wp-content/uploads/2023/01/baek-xx-110x150.jpg",
-    "last_update": 1728955074,
+    "last_update": 1731084279,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -14611,7 +16549,8 @@
   {
     "id": 673,
     "titles": [
-      "I became the despised granddaughter of the murim family"
+      "I became the despised granddaughter of the murim family",
+      "I became the despised granddaughter of a murim family"
     ],
     "current_chap": 48,
     "cover": "https://luminousscans.com/wp-content/uploads/2023/02/resource-210x300.jpg",
@@ -14619,6 +16558,7 @@
     "com_type": 3,
     "status": 2,
     "published_in": [
+      8,
       5
     ],
     "genres": [
@@ -15541,9 +17481,9 @@
     "titles": [
       "Eleceed"
     ],
-    "current_chap": 319,
+    "current_chap": 323,
     "cover": "https://nightscans.org/wp-content/uploads/2023/03/1679405464-7024-i348071.png",
-    "last_update": 1728955074,
+    "last_update": 1730928577,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15668,9 +17608,9 @@
     "titles": [
       "Questism"
     ],
-    "current_chap": 159,
+    "current_chap": 162,
     "cover": "https://void-scans.com/wp-content/uploads/2022/05/\u00bdA\u00b8\u00aeAi_C\u00a5Ao-207x300.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928578,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15731,9 +17671,9 @@
     "titles": [
       "Maybe meant to be"
     ],
-    "current_chap": 80,
+    "current_chap": 87,
     "cover": "https://void-scans.com/wp-content/uploads/2022/05/maybe-meant-to-be-1-285x400-1-214x300.webp",
-    "last_update": 1693605743,
+    "last_update": 1731005100,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15794,9 +17734,9 @@
     "titles": [
       "Reborn rich \u2013 the youngest son of a conglomerate"
     ],
-    "current_chap": 120,
+    "current_chap": 124,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-9.jpg",
-    "last_update": 1728955074,
+    "last_update": 1731005100,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15815,9 +17755,9 @@
     "titles": [
       "Be the actor"
     ],
-    "current_chap": 104,
+    "current_chap": 108,
     "cover": "https://void-scans.com/wp-content/uploads/xxlarge-5.webp",
-    "last_update": 1728955074,
+    "last_update": 1731005101,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -16153,9 +18093,9 @@
     "titles": [
       "Hanlim gym"
     ],
-    "current_chap": 199,
+    "current_chap": 203,
     "cover": "https://void-scans.com/wp-content/uploads/2022/05/600x860-209x300.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928578,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -16469,9 +18409,9 @@
     "titles": [
       "True education"
     ],
-    "current_chap": 165,
+    "current_chap": 169,
     "cover": "https://void-scans.com/wp-content/uploads/690X1000.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928578,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -16891,7 +18831,7 @@
     ],
     "current_chap": 187,
     "cover": "https://void-scans.com/wp-content/uploads/25-1638290924.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928579,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -17078,9 +19018,9 @@
     "titles": [
       "King game"
     ],
-    "current_chap": 98,
+    "current_chap": 105,
     "cover": "https://void-scans.com/wp-content/uploads/2022/08/\u00bfO\u00b0OAO_A\u00af\u00b7aE_C_5Ao-690x1000-1-207x300.jpg",
-    "last_update": 1728955074,
+    "last_update": 1731084279,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18065,9 +20005,9 @@
     "titles": [
       "The constellations are my disciples"
     ],
-    "current_chap": 89,
+    "current_chap": 92,
     "cover": "https://void-scans.com/wp-content/uploads/img.png",
-    "last_update": 1728955074,
+    "last_update": 1730928579,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18566,6 +20506,447 @@
     "viewed_chap": 0
   },
   {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730996293,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730997065,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730997324,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730997826,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730999395,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730999507,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1730999558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
     "id": 868,
     "titles": [
       "Rebirth: back to 1983 to be a millionaire"
@@ -18738,9 +21119,9 @@
     "titles": [
       "Solo farming in the tower"
     ],
-    "current_chap": 81,
+    "current_chap": 84,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/25__solofarming-20-06-2023_11_40_10_PM.webp",
-    "last_update": 1728955098,
+    "last_update": 1731005105,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -18950,8 +21331,8 @@
     "titles": [
       "Surviving the game as a barbarian"
     ],
-    "current_chap": 51,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/04/gameBarbarianCover01.png",
+    "current_chap": 79,
+    "cover": "https://gg.asuracomic.net/storage/media/125/conversions/ed5d5826-thumb-small.webp",
     "last_update": 1707603040,
     "com_type": 3,
     "status": 2,
@@ -18964,7 +21345,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 35
+    "viewed_chap": 79
   },
   {
     "id": 887,
@@ -19162,7 +21543,7 @@
     ],
     "current_chap": 82,
     "cover": "https://void-scans.com/wp-content/uploads/donehoUpRGBnoiseLevel3.jpg",
-    "last_update": 1728955074,
+    "last_update": 1731005104,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19517,9 +21898,9 @@
     "titles": [
       "The extra is too strong"
     ],
-    "current_chap": 46,
+    "current_chap": 66,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/06/TheExtraIsTooStrongCover01.png",
-    "last_update": 1706468458,
+    "last_update": 1731084268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19561,9 +21942,9 @@
     "titles": [
       "Dragon-devouring mage"
     ],
-    "current_chap": 57,
+    "current_chap": 80,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/08/DragonDevouringMageCover02.png",
-    "last_update": 1716863560,
+    "last_update": 1730928560,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -19940,9 +22321,9 @@
     "titles": [
       "The priest of corruption"
     ],
-    "current_chap": 43,
+    "current_chap": 61,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/06/ThePriestOfCorruptionCover02.png",
-    "last_update": 1707370020,
+    "last_update": 1731084266,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20024,9 +22405,9 @@
     "titles": [
       "The 31st piece overturns the board"
     ],
-    "current_chap": 66,
+    "current_chap": 70,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2023/07/snowman_guy-1.jpg",
-    "last_update": 1728954911,
+    "last_update": 1731084274,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20108,9 +22489,9 @@
     "titles": [
       "Reborn as the enemy prince"
     ],
-    "current_chap": 48,
+    "current_chap": 52,
     "cover": "https://gg.asuracomic.net/storage/media/208/conversions/41fd5c1b-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1730928562,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20194,7 +22575,7 @@
     ],
     "current_chap": 45,
     "cover": "https://void-scans.com/wp-content/uploads/cover_2A\u00f7_370E_oIAI_AIAEa_371-1.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928580,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -20255,9 +22636,9 @@
     "titles": [
       "Ulzzang generation"
     ],
-    "current_chap": 31,
+    "current_chap": 35,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000.jpg",
-    "last_update": 1728955074,
+    "last_update": 1730928575,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -21119,7 +23500,7 @@
       "Star-embracing swordmaster"
     ],
     "current_chap": 35,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/09/StarEmbracingSwordmasterCover01.png",
+    "cover": "https://gg.asuracomic.net/storage/media/155/conversions/e43c72fb-thumb-small.webp",
     "last_update": 1712356521,
     "com_type": 3,
     "status": 2,
@@ -21454,9 +23835,9 @@
     "titles": [
       "Holy emperor\u2019s grandson is a necromancer"
     ],
-    "current_chap": 56,
+    "current_chap": 61,
     "cover": "https://realmscans.to/cdn-cgi/image/format=auto/assets/images/--_(CUnet)(noise)(Level3)(FP32)1.jpg",
-    "last_update": 1728955098,
+    "last_update": 1731084284,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -21580,9 +23961,9 @@
     "titles": [
       "Regressing with the king\u2019s pow"
     ],
-    "current_chap": 60,
+    "current_chap": 63,
     "cover": "https://gg.asuracomic.net/storage/media/235/conversions/01J3BAM080HMDBP1MYBZZ8KK36-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1730928562,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -21855,12 +24236,13 @@
     "titles": [
       "King of violence"
     ],
-    "current_chap": 27,
+    "current_chap": 31,
     "cover": "https://hivetoon.com/wp-content/uploads/3fWqBuv-1.png",
-    "last_update": 1728865206,
+    "last_update": 1730928574,
     "com_type": 3,
     "status": 2,
     "published_in": [
+      11,
       11
     ],
     "genres": [
@@ -21897,12 +24279,13 @@
     "titles": [
       "The delivery man from murim"
     ],
-    "current_chap": 35,
+    "current_chap": 58,
     "cover": "https://luminousscans.gg/wp-content/uploads/2023/11/resource-210x300.png",
-    "last_update": 1709767091,
+    "last_update": 1731005106,
     "com_type": 3,
     "status": 2,
     "published_in": [
+      8,
       5
     ],
     "genres": [
@@ -21910,8 +24293,8 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0
+    "track": true,
+    "viewed_chap": 58
   },
   {
     "id": 1019,
@@ -21961,9 +24344,9 @@
     "titles": [
       "I killed an academy player"
     ],
-    "current_chap": 34,
+    "current_chap": 58,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/11/IKilledanAcademyPlayerCover01.png",
-    "last_update": 1716863559,
+    "last_update": 1731084266,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22129,9 +24512,9 @@
     "titles": [
       "My exclusive tower guide"
     ],
-    "current_chap": 36,
+    "current_chap": 40,
     "cover": "https://gg.asuracomic.net/storage/media/228/conversions/e97cd071-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22214,9 +24597,9 @@
     "titles": [
       "Light of arad: forerunner"
     ],
-    "current_chap": 20,
+    "current_chap": 23,
     "cover": "https://gg.asuracomic.net/storage/media/295/conversions/01J7T6W5AF99N3XWB7M10JKGVA-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1730928562,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22445,9 +24828,9 @@
     "titles": [
       "Solo leveling: ragnarok"
     ],
-    "current_chap": 23,
+    "current_chap": 27,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2024/07/image.png",
-    "last_update": 1728865262,
+    "last_update": 1730928559,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22592,9 +24975,9 @@
     "titles": [
       "Mr devourer, please act like a"
     ],
-    "current_chap": 61,
+    "current_chap": 64,
     "cover": "https://gg.asuracomic.net/storage/media/216/conversions/b5e288f8-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084266,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22781,9 +25164,9 @@
     "titles": [
       "The nebula's civilization"
     ],
-    "current_chap": 59,
+    "current_chap": 63,
     "cover": "https://gg.asuracomic.net/storage/media/110/conversions/3656ed0f-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22861,6 +25244,468 @@
     "viewed_chap": 0
   },
   {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
+  },
+  {
     "id": 1035,
     "titles": [
       "Strongest player returns after a thousand years"
@@ -22907,9 +25752,9 @@
     "titles": [
       "Genius martial arts trainer"
     ],
-    "current_chap": 30,
+    "current_chap": 35,
     "cover": "https://gg.asuracomic.net/storage/media/226/conversions/8786309e-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -22970,9 +25815,9 @@
     "titles": [
       "Death king karnak"
     ],
-    "current_chap": 31,
+    "current_chap": 35,
     "cover": "https://gg.asuracomic.net/storage/media/297/conversions/01J7T6XMM00XSZARXAFK7QP7PS-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731005085,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -23097,7 +25942,7 @@
       "Time slip of the fist king"
     ],
     "current_chap": 51,
-    "cover": "https://flamecomics.xyz/wp-content/uploads/2024/03/TSoFK-Cover.jpg",
+    "cover": "https://flamecomics.xyz/wp-content/uploads/2024/03/TSoFK-Cover.png",
     "last_update": 1728954910,
     "com_type": 3,
     "status": 2,
@@ -23624,9 +26469,9 @@
     "titles": [
       "Regressor of the fallen family"
     ],
-    "current_chap": 18,
+    "current_chap": 54,
     "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2024/01/RegressoroftheFallenFamilyCover01.png",
-    "last_update": 1709659391,
+    "last_update": 1731005087,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -23834,9 +26679,9 @@
     "titles": [
       "Surviving the game as a barbar"
     ],
-    "current_chap": 75,
+    "current_chap": 79,
     "cover": "https://gg.asuracomic.net/storage/media/125/conversions/ed5d5826-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731032295,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -23960,9 +26805,9 @@
     "titles": [
       "The dark magician transmigrate"
     ],
-    "current_chap": 136,
+    "current_chap": 140,
     "cover": "https://gg.asuracomic.net/storage/media/21/conversions/d0dc7fd1-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24023,9 +26868,9 @@
     "titles": [
       "The knight king who returned w"
     ],
-    "current_chap": 82,
+    "current_chap": 86,
     "cover": "https://gg.asuracomic.net/storage/media/133/conversions/361f2eab-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731084267,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24171,7 +27016,7 @@
       "Subscribing to the transcendent's channel"
     ],
     "current_chap": 38,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/new.webp",
     "last_update": 1728955097,
     "com_type": 3,
     "status": 2,
@@ -24275,9 +27120,9 @@
     "titles": [
       "Logging 10,000 years into the"
     ],
-    "current_chap": 159,
+    "current_chap": 166,
     "cover": "https://gg.asuracomic.net/storage/media/58/conversions/49ab5c70-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1730928558,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24296,9 +27141,9 @@
     "titles": [
       "Evolution: road to space monster"
     ],
-    "current_chap": 51,
-    "cover": "",
-    "last_update": 1728955098,
+    "current_chap": 55,
+    "cover": "https://rizzfables.com//assets/images/sm2.webp",
+    "last_update": 1731084284,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24360,7 +27205,7 @@
       "Snake immortal: the tale of a snake's cultivation to immortality"
     ],
     "current_chap": 9,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/snakeancestor_.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24401,9 +27246,9 @@
     "titles": [
       "Absolute dominion"
     ],
-    "current_chap": 10,
-    "cover": "",
-    "last_update": 1728955098,
+    "current_chap": 15,
+    "cover": "https://rizzfables.com//assets/images/abdom_1.webp",
+    "last_update": 1731084284,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24443,9 +27288,9 @@
     "titles": [
       "The masters are watching over me"
     ],
-    "current_chap": 11,
-    "cover": "",
-    "last_update": 1728955098,
+    "current_chap": 14,
+    "cover": "https://rizzfables.com//assets/images/Untitled-11.webp",
+    "last_update": 1731005106,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24486,7 +27331,7 @@
       "Healing life through camping in another world"
     ],
     "current_chap": 33,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/camp_new1.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24528,7 +27373,7 @@
       "The count's youngest son is a player"
     ],
     "current_chap": 77,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/player.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24569,9 +27414,9 @@
     "titles": [
       "Expelled hero is too strong"
     ],
-    "current_chap": 22,
-    "cover": "",
-    "last_update": 1728955098,
+    "current_chap": 26,
+    "cover": "https://rizzfables.com//assets/images/hero.jpg",
+    "last_update": 1731005106,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24591,7 +27436,7 @@
       "Reborn as the heavenly demon"
     ],
     "current_chap": 38,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/rhdddd.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24633,7 +27478,7 @@
       "All my alter egos are tycoons"
     ],
     "current_chap": 8,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/tycoonsz.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24675,7 +27520,7 @@
       "Duke's eldest son is a regressed hero"
     ],
     "current_chap": 42,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/duke-regress-son1.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -24717,7 +27562,7 @@
       "Black corporation: joseon"
     ],
     "current_chap": 59,
-    "cover": "",
+    "cover": "https://rizzfables.com//assets/images/bcj1.webp",
     "last_update": 1728955098,
     "com_type": 3,
     "status": 2,
@@ -25426,6 +28271,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1102,
+    "titles": [
+      "The executioner"
+    ],
+    "current_chap": 36,
+    "cover": "https://gg.asuracomic.net/storage/media/217/conversions/e0a69147-thumb-small.webp",
+    "last_update": 1730928559,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1103,
     "titles": [
       "Son\u2019s retribution"
@@ -25573,6 +28439,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1121,
+    "titles": [
+      "Genius archer\u2019s streaming"
+    ],
+    "current_chap": 49,
+    "cover": "https://gg.asuracomic.net/storage/media/225/conversions/68b6a264-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1128,
     "titles": [
       "Children of the rune"
@@ -25658,18 +28545,17 @@
     "viewed_chap": 0
   },
   {
-    "id": 50,
+    "id": 1150,
     "titles": [
-      "Player who returned 10,000 years later"
+      "Chronicles of the martial god'"
     ],
-    "current_chap": 97,
-    "cover": "https://gg.asuracomic.net/storage/media/62/conversions/b39ded0b-thumb-small.webp",
-    "last_update": 1728953470,
+    "current_chap": 106,
+    "cover": "https://gg.asuracomic.net/storage/media/94/conversions/a45e4a4a-thumb-small.webp",
+    "last_update": 1730843630,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1,
-      2
+      1
     ],
     "genres": [
       0
@@ -25677,6 +28563,1078 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 58
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1151,
+    "titles": [
+      "I'll retire after saving the world "
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/196/conversions/6dede2e4-thumb-small.webp",
+    "last_update": 1730771848,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1152,
+    "titles": [
+      "Trait hoarder"
+    ],
+    "current_chap": 12,
+    "cover": "https://gg.asuracomic.net/storage/media/242411/conversions/01J914W21A5HEKST4MP3GMH7MN-thumb-small.webp",
+    "last_update": 1731084268,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 11
+  },
+  {
+    "id": 1160,
+    "titles": [
+      "A returner's magic should be special"
+    ],
+    "current_chap": 269,
+    "cover": "https://avt.mkklcdnv6temp.com/19/m/17-1583495960.jpg",
+    "last_update": 1728999231,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 222
+  },
+  {
+    "id": 1173,
+    "titles": [
+      "The regressed mercenary's machinations"
+    ],
+    "current_chap": 12,
+    "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
+    "last_update": 1731083941,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 11
+  },
+  {
+    "id": 1174,
+    "titles": [
+      "Absolute regression"
+    ],
+    "current_chap": 21,
+    "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
+    "last_update": 1731005085,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 20
+  },
+  {
+    "id": 1175,
+    "titles": [
+      "The lord's coins aren't decrea"
+    ],
+    "current_chap": 139,
+    "cover": "https://gg.asuracomic.net/storage/media/39/conversions/83216485-thumb-small.webp",
+    "last_update": 1730928561,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1176,
+    "titles": [
+      "Magic academy's genius blinker"
+    ],
+    "current_chap": 42,
+    "cover": "https://gg.asuracomic.net/storage/media/233/conversions/01J3BAK5BWJ0STX2RPY2A94GY4-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 41
+  },
+  {
+    "id": 1177,
+    "titles": [
+      "Childhood friend of the zenith"
+    ],
+    "current_chap": 34,
+    "cover": "https://gg.asuracomic.net/storage/media/292/conversions/01J6AR9XJKAQHET3AJYG9YPZ57-thumb-small.webp",
+    "last_update": 1731032295,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 34
+  },
+  {
+    "id": 1178,
+    "titles": [
+      "Heavenly grand archive's young"
+    ],
+    "current_chap": 102,
+    "cover": "https://gg.asuracomic.net/storage/media/192/conversions/d0cea7ad-thumb-small.webp",
+    "last_update": 1731032294,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 15
+  },
+  {
+    "id": 1179,
+    "titles": [
+      "Necromancer's evolutionary traits"
+    ],
+    "current_chap": 74,
+    "cover": "https://gg.asuracomic.net/storage/media/73/conversions/bc3dbbf6-thumb-small.webp",
+    "last_update": 1730771851,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 74
+  },
+  {
+    "id": 1184,
+    "titles": [
+      "Entomologist in sichuan tang clan"
+    ],
+    "current_chap": 8,
+    "cover": "https://rizzfables.com//assets/images/Fabre_In_The_Sichuan_Tang_Clan_0311240930.webp",
+    "last_update": 1730771869,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1185,
+    "titles": [
+      "There are no bad heroes in this world"
+    ],
+    "current_chap": 6,
+    "cover": "https://rizzfables.com//assets/images/There_Are_No_Bad_Heroes_In_This_World_0111241031.webp",
+    "last_update": 1730771870,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1186,
+    "titles": [
+      "Genius grandson of the loan shark king"
+    ],
+    "current_chap": 26,
+    "cover": "https://hivetoon.com/wp-content/uploads/EsZ-pgUVkAAw2Kn.jpg",
+    "last_update": 1730928574,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1187,
+    "titles": [
+      "High class"
+    ],
+    "current_chap": 7,
+    "cover": "https://hivetoon.com/wp-content/uploads/BDC3B8AEC1EE_C6F7BDBAC5CD_BDE6B3D7C0CF_690x1000-2.png",
+    "last_update": 1730928575,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1188,
+    "titles": [
+      "The man living outside the law"
+    ],
+    "current_chap": 3,
+    "cover": "https://hivetoon.com/wp-content/uploads/upload_7305458958026880056.jpg",
+    "last_update": 1731084279,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1189,
+    "titles": [
+      "The genius actor who brings misfortune"
+    ],
+    "current_chap": 21,
+    "cover": "https://hivetoon.com/wp-content/uploads/MBAKj-ExaWCBk2CjtICu3VbfDqGXQ8qP4md3K9Km-bsxgxFKfEHnuE_iE56uSLLYyeBgIpf8zyBA6-5Wk6Z_8K_yErwsNE7iJ_QUfr5DVlufxjAeJ7ENKAnB1QSDVM5Cbmb901l8UFhuUEVw01kBIg.webp",
+    "last_update": 1730928576,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1190,
+    "titles": [
+      "The zenith"
+    ],
+    "current_chap": 6,
+    "cover": "https://hivetoon.com/wp-content/uploads/Zenith-image.png",
+    "last_update": 1730928576,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1191,
+    "titles": [
+      "Informer"
+    ],
+    "current_chap": 39,
+    "cover": "https://hivetoon.com/wp-content/uploads/Informer-cover-English-2.png",
+    "last_update": 1730928577,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1192,
+    "titles": [
+      "I was mistaken as a monstrous genius actor"
+    ],
+    "current_chap": 27,
+    "cover": "https://hivetoon.com/wp-content/uploads/I-Was-Mistaken-as-a-Monstrous-Genius-Actor.jpg",
+    "last_update": 1730928579,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1193,
+    "titles": [
+      "Tales of greed deep"
+    ],
+    "current_chap": 23,
+    "cover": "https://hivetoon.com/wp-content/uploads/TOG_Deep_cover_English.png",
+    "last_update": 1730928580,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1194,
+    "titles": [
+      "Laws of the good child"
+    ],
+    "current_chap": 24,
+    "cover": "https://hivetoon.com/wp-content/uploads/cover.jpg",
+    "last_update": 1730928580,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1195,
+    "titles": [
+      "Rust"
+    ],
+    "current_chap": 11,
+    "cover": "https://hivetoon.com/wp-content/uploads/RUST_copia.png",
+    "last_update": 1730928581,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1196,
+    "titles": [
+      "The great war"
+    ],
+    "current_chap": 16,
+    "cover": "https://hivetoon.com/wp-content/uploads/new.png",
+    "last_update": 1730928582,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1197,
+    "titles": [
+      "Unemployed gye baeksun"
+    ],
+    "current_chap": 15,
+    "cover": "https://hivetoon.com/wp-content/uploads/Unemployed-Gye-Baeksun.png",
+    "last_update": 1731084279,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1198,
+    "titles": [
+      "The childe"
+    ],
+    "current_chap": 12,
+    "cover": "https://hivetoon.com/wp-content/uploads/BDC3B8AEC1EE_C6F7BDBAC5CD_BDE6B3D7C0CF_690x1000-1.png",
+    "last_update": 1730928583,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1106,
+    "titles": [
+      "Eternally regressing knight"
+    ],
+    "current_chap": 30,
+    "cover": "https://gg.asuracomic.net/storage/media/219/conversions/6a016457-thumb-small.webp",
+    "last_update": 1731084265,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 29
+  },
+  {
+    "id": 1173,
+    "titles": [
+      "The regressed mercenary's machinations"
+    ],
+    "current_chap": 12,
+    "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
+    "last_update": 1731084265,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 11
+  },
+  {
+    "id": 105,
+    "titles": [
+      "The reincarnated assassin is a genius swordsman"
+    ],
+    "current_chap": 39,
+    "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
+    "last_update": 1731084266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "VOKE/GeulGaemi",
+    "track": true,
+    "viewed_chap": 36
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 91,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731005086,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 90
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 99,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1730928558,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 98
+  },
+  {
+    "id": 1034,
+    "titles": [
+      "The crown prince that sells medicine"
+    ],
+    "current_chap": 52,
+    "cover": "https://gg.asuracomic.net/storage/media/209/conversions/404773ce-thumb-small.webp",
+    "last_update": 1730928560,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 14
   }
 ]

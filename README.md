@@ -55,6 +55,11 @@ python src/__main__.py server debug
 git push heroku
 heroku logs --tail # debug
 ```
+
+### Deployment on Render
+
+Should be triggered with every commit to the main branch on github repo
+
 ## Interface deployment (React JS)
 
 ### Running frontend

@@ -29,9 +29,9 @@ COPY src .
 # update PATH environment variable
 ENV PATH=/root/.local:$PATH
 
-EXPOSE 5000
+EXPOSE 5001
 
-HEALTHCHECK CMD curl --fail http://localhost:5000/health/
+HEALTHCHECK CMD curl --fail http://localhost:5001/health/
 
 # command to run on container start
 ENTRYPOINT [ "python", ".", "server" ]
