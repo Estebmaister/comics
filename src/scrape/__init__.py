@@ -7,12 +7,15 @@ from db import session
 from scrape.scrapper import scrape_url, register_comic, com_type_parse
 from scrape.asura import scrape_asura
 from scrape.flame import scrape_flame
+from helpers.logger import logger
+from scrape.url_switch import publisher_url_pairs
 
+log = logger(__name__)
 div_item_summary = "div.item-summary"
 
-def check_chapter_extraction(chapters: [], publisher: Publishers):
-    if len(chapters) < 1: 
-        print(f'WARN: {str(publisher)} needs remake for scrape func')
+def check_chapter_extraction(chapters: [], publisher: Publishers): # type: ignore
+    if len(chapters) < 1:
+        log.warning('%s needs remake for scrape func',str(publisher))
 
 async def scrape_chapter(comic, int_path: str, title_path: str, chap_path: str):
     # Locating div used for title and chapter
@@ -49,7 +52,7 @@ async def scrape_common_1(url: str, publisher: Publishers):
         try:
             chap, title, com_type, cover = await scrape_chapter(
                     comic, div_item_summary,
-                    "div.post-title.font-title", 
+                    "div.post-title.font-title",
                     "span.chapter.font-meta"
                 )
             await register_comic(chap, title, com_type, cover,
@@ -126,7 +129,7 @@ async def scrape_nightscans(url: str):
         chap = chap_int[0].span.a.text
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.NightScans)
-        
+
 async def scrape_manhuaplus(url: str):
     soup = await scrape_url(url)
     # Locating divs used for comics
@@ -171,39 +174,41 @@ async def scrape_reaper(url: str):
             except KeyError:
                 print( f'ERROR: scraping {str(Publishers.ReaperScans)}: ' +
                 f'-Cover- for {title}, html: [{comic.div.a.img}]')
-        
+
         await register_comic(chap, title, com_type, cover,
             Statuses.OnAir, Publishers.ReaperScans)
 
 
 async def func_pending(url: str):
-    pass # await print(url, "not implemented") #TODO
+    pass
+async def site_closed(url: str):
+    pass
 
-url_switch = {
-    # "https://nightsup.net/"         :scrape_nightscans,
-    # "https://manhuaplus.org/"       :scrape_manhuaplus,
-    # "https://reaperscans.com/"      :scrape_reaper,
-    "https://asuracomic.net/"       :scrape_asura,
-    "https://flamecomics.com/"      :scrape_flame,
-    "https://void-scans.com/"       :scrape_publisher(Publishers.VoidScans, 2),
-    "https://rizzfables.com/"       :scrape_publisher(Publishers.RealmScans, 2),
-    "https://en.leviatanscans.com"  :scrape_publisher(Publishers.LeviatanScans, 1),
-    "https://luminousscans.com/"    :func_pending,
-    "https://isekaiscan.com/"       :func_pending,
-    "https://reset-scans.com/"      :func_pending,
-    "https://drakescans.com/"       :func_pending,
-    "https://novelmic.com/"         :func_pending,
-    "https://mangagreat.com/"       :func_pending,
-    "https://mangageko.com/"        :func_pending,
-    "https://mangarolls.com/rolls"  :func_pending,
-    "https://manganato.com/"        :func_pending,
-    "https://1stkissmanga.me/"      :func_pending,
+scrape_func_switch = {
+    # Publishers(Publishers.NightScans)         :scrape_nightscans,
+    # Publishers(Publishers.ManhuaPlus)       :scrape_manhuaplus,
+    # Publishers(Publishers.ReaperScans)      :scrape_reaper,
+    Publishers(Publishers.Asura         ).name  :scrape_asura,
+    Publishers(Publishers.FlameScans    ).name  :scrape_flame,
+    Publishers(Publishers.VoidScans     ).name  :scrape_publisher(Publishers.VoidScans, 2),
+    Publishers(Publishers.RealmScans    ).name  :scrape_publisher(Publishers.RealmScans, 2),
+    Publishers(Publishers.LeviatanScans ).name  :site_closed,
+    Publishers(Publishers.LuminousScans ).name  :func_pending,
+    Publishers(Publishers.IsekaiScan    ).name  :func_pending,
+    Publishers(Publishers.ResetScans    ).name  :func_pending,
+    Publishers(Publishers.DrakeScans    ).name  :func_pending,
+    Publishers(Publishers.NovelMic      ).name  :func_pending,
+    Publishers(Publishers.Mangagreat    ).name  :func_pending,
+    Publishers(Publishers.Mangageko     ).name  :func_pending,
+    Publishers(Publishers.Mangarolls    ).name  :func_pending,
+    Publishers(Publishers.Manganato     ).name  :func_pending,
+    Publishers(Publishers.FirstKiss     ).name  :func_pending,
 }
-async def scrape_switch(url: str):
-    return await url_switch.get(url, func_pending)(url)
+async def scrape_switch(pub: str, url: str):
+    return await scrape_func_switch.get(pub, func_pending)(url)
 async def async_scrape():
-    # await scrape("https://en.leviatanscans.com/", 'levi')
-    await asyncio.gather(*[scrape_switch(url) for url in url_switch.keys()])
+    await asyncio.gather(*[scrape_switch(pub, url) for pub, url in publisher_url_pairs])
+
 def scrapes():
     asyncio.run(async_scrape())
     session.commit()
