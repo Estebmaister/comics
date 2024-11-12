@@ -1,12 +1,17 @@
 // All these classes come from src/db/__init__.py
 import db_classes from '../../db/db_classes.json';
 
-const assignArrayToDict = (array) => 
+const assignArrayToDict = (array: string[]) => 
   Object.assign({}, ...array.map(
-    (val, idx) => ({[idx]: val})
-  ));
+    (val: string, idx: number) => ({[idx]: val})
+  )
+);
 
-let Types, Statuses, Genres, Publishers;
+type nToString = {
+  [key: number]: string
+}
+
+let Types: nToString, Statuses: nToString, Genres: nToString, Publishers: nToString;
 for (let key in db_classes) {
   switch (key) {
     case 'com_type':

@@ -1,11 +1,11 @@
 import React from 'react';
 import comics from '../db/comics.json';
-import { ComicCard } from './modules/ComicCard';
+import { ComicCard } from './modules/Comics/Card/ComicCard';
 
 comics.sort((a,b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-const filter_comics = (comics, filter_word, tracked_only) => 
+const filter_comics = (comics: any[], filter_word: string, tracked_only: any) => 
   comics.filter((com) => {
     for (const title of com.titles) {
       if (tracked_only && !com.track) {
@@ -18,29 +18,38 @@ const filter_comics = (comics, filter_word, tracked_only) =>
     return false;
   });
 
-class SearchDiv extends React.Component {
-  constructor(props) {
+interface searchState {
+  username: string,
+  search_string: string,
+  f_comics: any[], // A slice with current filtered comics.
+  tracked_only: boolean,
+  // Pagination
+  from: number,
+  limit: number,
+  total: number,
+  totalPages: number,
+  currentPage: number
+}
+
+class SearchDiv extends React.Component<{}, searchState> {
+  constructor(props: {}) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
     this.handleTrackedOnly = this.handleTrackedOnly.bind(this);
 
-    const FROM = parseInt(localStorage.getItem('from')) || 0;
+    const FROM = parseInt(localStorage.getItem('from') ?? '0') || 0;
     const LIMIT = 8;
     const SEARCH_STRING = localStorage.getItem('search_string') || '';
-    const TRACKED_ONLY = JSON.parse(localStorage.getItem('tracked_only'));
+    const TRACKED_ONLY = Boolean(localStorage.getItem('tracked_only'));
     const FILTERED_COMICS = filter_comics(comics, SEARCH_STRING, TRACKED_ONLY)
     const TOTAL = FILTERED_COMICS.length;
     
     this.state = {
       username: '',
-      // A string with filtering words.
       search_string: SEARCH_STRING,
-      // A slice with current 8 filtered comics.
       f_comics: FILTERED_COMICS.slice(FROM, FROM + LIMIT),
-      // A flag for the tracked comics
       tracked_only: TRACKED_ONLY,
-      // Pagination
       from: FROM,
       limit: LIMIT,
       total: TOTAL,
@@ -50,14 +59,14 @@ class SearchDiv extends React.Component {
   }
 
   handleTrackedOnly() {
-    localStorage.setItem('tracked_only', !this.state.tracked_only);
+    localStorage.setItem('tracked_only', String(!this.state.tracked_only));
     this.setState((state, _props) => ({
       tracked_only: !state.tracked_only,
       from: 0
-    }), () => this.handleInputChange());
+    }), () => this.handleInputChange);
   }
 
-  handleInputChange(e) {
+  handleInputChange(e: { target: { value: string | undefined; }; } | undefined) {
     let filter_word = e?.target?.value === undefined ? 
       this.state.search_string : e.target.value.trim();
     
@@ -93,8 +102,7 @@ class SearchDiv extends React.Component {
     }), () => console.debug(this.state));
   }
 
-  handlePagination(direction) {
-    /* TODO: Final page conditions from state */
+  handlePagination(direction: string) {
     const LAST_FROM = this.state.limit*(this.state.totalPages-1)
     let moveFrom = 0
     if (direction === 'next') {
@@ -116,10 +124,10 @@ class SearchDiv extends React.Component {
     } else if (this.state.from + moveFrom > LAST_FROM) {
       moveFrom = -this.state.from + LAST_FROM;
     }
-    localStorage.setItem('from', this.state.from + moveFrom);
+    localStorage.setItem('from', String(this.state.from + moveFrom));
     this.setState((state, _props) => ({
       from: state.from + moveFrom,
-    }), () => this.handleInputChange());
+    }), () => this.handleInputChange);
   }
 
   render() {
@@ -155,9 +163,7 @@ class SearchDiv extends React.Component {
               (this.state.from >= this.state.limit*(this.state.totalPages-1)
                 ? ' disabled-button' : '')}
             disabled={
-              this.state.from >= this.state.limit*(this.state.totalPages-1) ? 
-                ' disabled-button' : 
-                ''
+              this.state.from >= this.state.limit*(this.state.totalPages-1)
             }
             onClick={() => this.handlePagination('next')} >
               Next
@@ -166,9 +172,7 @@ class SearchDiv extends React.Component {
               (this.state.from >= this.state.limit*(this.state.totalPages-1)
               ? ' disabled-button' : '')}
             disabled={
-              this.state.from >= this.state.limit*(this.state.totalPages-1) ? 
-              ' disabled-button' : 
-              ''
+              this.state.from >= this.state.limit*(this.state.totalPages-1)
             }
             onClick={() => this.handlePagination('last')} >
               Last ({this.state.totalPages})
@@ -177,7 +181,7 @@ class SearchDiv extends React.Component {
       </div>
 
       <ul className='comic-list'> {
-        this.state.f_comics.map( (item, _i) => 
+        this.state.f_comics.map( (item: { id: any; }, _i: any) => 
           <ComicCard comic={item} key={item.id} />
         )
       } </ul>

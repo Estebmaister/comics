@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from'./ComicCard.module.css'
+import styles from './ComicCard.module.css'
 import BrokenImage from '../../../assets/404.jpg'
 import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
 import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
@@ -8,27 +8,27 @@ import EditComic from '../Edition/EditComic';
 // TODO: Find a solution for image source 
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
-const publishersHandler = (publishers) => {
-    const return_array = [];
-    publishers.forEach( element => 
+const publishersHandler = (publishers: string[]) => {
+    const return_array: string[] = [];
+    publishers.forEach( (element: string) => 
         return_array.push(Publishers[+element]) )
     return return_array.join(', ');
 }
 
-const genresHandler = (genres) => {
-    const return_array = [];
-    genres.forEach( element => 
+const genresHandler = (genres: string[]) => {
+    const return_array: string[] = [];
+    genres.forEach( (element: string) => 
         return_array.push(Genres[+element]) )
     return return_array.join(', ');
 }
 
-export const ComicCard = (props) => {
-  const [comic, setComic] = useState(props.comic);
-  const {id, cover, current_chap} = comic;
+export const ComicCard = (props: { comic: any; }) => {
+  const [comic, setComic]           = useState(props.comic);
+  const {id, cover, current_chap}   = comic;
   const [viewedChap, setViewedChap] = useState(comic.viewed_chap);
-  const [track, setTrack] = useState(comic.track);
-  const [check, setCheck] = useState(current_chap > viewedChap);
-  const [del, setDel] = useState(false);
+  const [track, setTrack]           = useState(comic.track);
+  const [check, setCheck]           = useState(current_chap > viewedChap);
+  const [del, setDel]               = useState(false);
 
   const [isHovering, setIsHovering] = useState(false);
   const handleMouseOver = () => setIsHovering(true);;
@@ -42,7 +42,7 @@ export const ComicCard = (props) => {
         <img className={styles.poster} 
           src={cover} 
           alt={comic.titles[0]}
-          url={cover}
+          srcSet={cover}
           onError={(event) => event.currentTarget.src = BrokenImage}
           onMouseOver={handleMouseOver}
           onFocus={handleMouseOver}

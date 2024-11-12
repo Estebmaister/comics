@@ -16,7 +16,11 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@svgr/webpack": "^8.1.0",
-    "react-scripts": "^5.0.1"
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "typescript": "^5.6.3"
   },
   "overrides": {
     "@svgr/webpack": "^8.1.0",
@@ -26,12 +30,10 @@
   },
   "scripts": {
     "dockerize": "docker build -t comic-tracker .",
-    "docker": "docker run -p 5000:5000 comic-tracker",
-    "chokidar": "docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5000:5000 comic-tracker",
-
+    "docker": "docker run -p 5001:5001 comic-tracker",
+    "chokidar": "docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5001:5001 comic-tracker",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-
     "start": "react-scripts start",
     "server": "python3 src/__main__.py server",
     "scrape": "python3 src/__main__.py",
