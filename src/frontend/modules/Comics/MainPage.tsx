@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import '../../css/main.css';
 import { ComicCard } from './Card/ComicCard';
 import CreateComic from './Edition/CreateComic';
@@ -10,20 +10,20 @@ import ScrapeButton from './Edition/ScrapeButton';
 
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
 
-const handleOnlyUnchecked = (setSearchParams, onlyUnchecked) => 
+const handleOnlyUnchecked = (setSearchParams: SetURLSearchParams, onlyUnchecked: boolean) => 
   () => {
     setSearchParams(prev => {
-      prev.set('onlyUnchecked', !onlyUnchecked);
+      prev.set('onlyUnchecked', String(!onlyUnchecked));
       prev.delete('from');
       if (onlyUnchecked) prev.delete('onlyUnchecked');
       return prev;
     }, {replace: true});
   };
 
-const handleOnlyTracked = (setSearchParams, onlyTracked) => 
+const handleOnlyTracked = (setSearchParams: SetURLSearchParams, onlyTracked: boolean) => 
   () => {
     setSearchParams(prev => {
-      prev.set('onlyTracked', !onlyTracked);
+      prev.set('onlyTracked', String(!onlyTracked));
       prev.delete('from');
       if (onlyTracked) {
         prev.delete('onlyTracked');
@@ -33,16 +33,18 @@ const handleOnlyTracked = (setSearchParams, onlyTracked) =>
     }, {replace: true});
   };
 
+type mainState = {[key: string]: number}
+
 export function ComicsMainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   // {from: 0, queryFilter:'', onlyTracked: false, onlyUnchecked: false}
   const [webComics, setWebComics] = useState([]);
-  const [paginationDict, setPaginationDict] = useState({});
+  const [paginationDict, setPaginationDict] = useState<mainState>({});
   const [loadMsg, setLoadMsg] = useState('');
   const onlyUnchecked = searchParams.get('onlyUnchecked') === 'true';
-  const onlyTracked = searchParams.get('onlyTracked') === 'true';
-  const queryFilter = searchParams.get('queryFilter') || '';
-  const from = parseInt(searchParams.get('from')) || 0;
+  const onlyTracked   = searchParams.get('onlyTracked') === 'true';
+  const queryFilter   = searchParams.get('queryFilter') || '';
+  const from = parseInt(searchParams.get('from') || '0') || 0;
   const limit = 8;
   
   useEffect(() => {
@@ -53,18 +55,18 @@ export function ComicsMainPage() {
     );
   }, [from, queryFilter, onlyTracked, onlyUnchecked]);
 
-  const total = paginationDict.total || 1;
-  const totalPages = paginationDict.totalPages || 1;
-  const currentPage = paginationDict.currentPage || 1;
+  const total       = paginationDict.total        || 1;
+  const totalPages  = paginationDict.totalPages   || 1;
+  const currentPage = paginationDict.currentPage  || 1;
 
   const onFirstPage = from <= 0;
-  const onLastPage = from >= limit*(totalPages-1);
+  const onLastPage  = from >= limit * (totalPages-1);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams(prev => {
       if (e?.target?.value !== undefined) 
         prev.set('queryFilter', e?.target?.value);
-      prev.set('from', 0);
+      prev.set('from', '0');
       return prev;
     }, {replace: true});
   };
@@ -98,7 +100,7 @@ export function ComicsMainPage() {
       <h1 className='server'> {loadMsg || loadMsgs.empty(queryFilter)} </h1>
     }
     <ul className='comic-list'> {
-      webComics.map((item, _i) => <ComicCard comic={item} key={item.id} />)
+      webComics.map((item: any, _i) => <ComicCard comic={item} key={item.id} />)
     } </ul>
 
     <MergeComic />
@@ -107,8 +109,9 @@ export function ComicsMainPage() {
   </>);
 };
 
-const ConditionalButton = ({ showFlag=true, onClick, condFlag, disabled,
-  positiveMsg, negativeMsg = positiveMsg, className, extraClass  }) => {
+
+const ConditionalButton = ({ showFlag=true, onClick, condFlag=false, disabled=false,
+  positiveMsg='', negativeMsg=positiveMsg, className='', extraClass=''  }: any) => {
 
   return <> { showFlag ?
     <button className={`${className}` + (condFlag ? ` ${extraClass}` : '')} 

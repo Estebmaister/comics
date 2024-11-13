@@ -1,11 +1,11 @@
-import React from 'react';
-import comics from '../db/comics.json';
+import { Component, ChangeEvent } from 'react';
+import comicsJSON from '../db/comics.json';
 import { ComicCard } from './modules/Comics/Card/ComicCard';
 
-comics.sort((a,b) => b.last_update - a.last_update)
+comicsJSON.sort((a,b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-const filter_comics = (comics: any[], filter_word: string, tracked_only: any) => 
+const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean) => 
   comics.filter((com) => {
     for (const title of com.titles) {
       if (tracked_only && !com.track) {
@@ -18,7 +18,7 @@ const filter_comics = (comics: any[], filter_word: string, tracked_only: any) =>
     return false;
   });
 
-interface searchState {
+type searchState = {
   username: string,
   search_string: string,
   f_comics: any[], // A slice with current filtered comics.
@@ -31,7 +31,7 @@ interface searchState {
   currentPage: number
 }
 
-class SearchDiv extends React.Component<{}, searchState> {
+class SearchDiv extends Component<{}, searchState> {
   constructor(props: {}) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,7 +42,7 @@ class SearchDiv extends React.Component<{}, searchState> {
     const LIMIT = 8;
     const SEARCH_STRING = localStorage.getItem('search_string') || '';
     const TRACKED_ONLY = Boolean(localStorage.getItem('tracked_only'));
-    const FILTERED_COMICS = filter_comics(comics, SEARCH_STRING, TRACKED_ONLY)
+    const FILTERED_COMICS = filter_comics(comicsJSON, SEARCH_STRING, TRACKED_ONLY)
     const TOTAL = FILTERED_COMICS.length;
     
     this.state = {
@@ -66,7 +66,7 @@ class SearchDiv extends React.Component<{}, searchState> {
     }), () => this.handleInputChange);
   }
 
-  handleInputChange(e: { target: { value: string | undefined; }; } | undefined) {
+  handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     let filter_word = e?.target?.value === undefined ? 
       this.state.search_string : e.target.value.trim();
     
@@ -83,13 +83,13 @@ class SearchDiv extends React.Component<{}, searchState> {
     
     if (filter_word !== '' || this.state.tracked_only === true) {
       filtered_comics = filter_comics(
-        comics, filter_word, this.state.tracked_only
+        comicsJSON, filter_word, this.state.tracked_only
       );
       new_total = filtered_comics.length;
       filtered_comics = filtered_comics.slice(FROM, FROM + LIMIT);
     } else {
-      filtered_comics = comics.slice(FROM, FROM + LIMIT);
-      new_total = comics.length;
+      filtered_comics = comicsJSON.slice(FROM, FROM + LIMIT);
+      new_total = comicsJSON.length;
     }
 
     this.setState((_state, _props) => ({
@@ -138,7 +138,6 @@ class SearchDiv extends React.Component<{}, searchState> {
           onClick={() => this.handleTrackedOnly()} > 
           {this.state.tracked_only ? 'All >' : 'Tracked <'} ({this.state.total})
         </button>
-        {/* TODO: New 'Unchecked button' and filter */}
 
         <input className='search-box' type="text" 
           placeholder={COMIC_SEARCH_PLACEHOLDER}
@@ -181,7 +180,7 @@ class SearchDiv extends React.Component<{}, searchState> {
       </div>
 
       <ul className='comic-list'> {
-        this.state.f_comics.map( (item: { id: any; }, _i: any) => 
+        this.state.f_comics.map( (item: { id: number; }, _i: number) => 
           <ComicCard comic={item} key={item.id} />
         )
       } </ul>

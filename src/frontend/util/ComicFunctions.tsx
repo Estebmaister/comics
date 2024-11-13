@@ -1,7 +1,12 @@
 // Not in use
 
-export const filterComics = (comics, filterWord, trackedOnly, uncheckedOnly) => 
-  comics.filter((comic) => {
+export const filterComics = (
+    comics: any[], 
+    filterWord: string, 
+    trackedOnly: boolean, 
+    uncheckedOnly: boolean
+  ) => 
+  comics.filter((comic: any) => {
     for (const title of comic.titles) {
       if (trackedOnly && !comic.track) {
         return false;

@@ -1,9 +1,11 @@
+import { SetStateAction } from 'react';
 import Loaders from '../modules/Loaders';
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
 const dataFetch = (
-    setters, from, limit, queryFilter, 
-    onlyTracked, onlyUnchecked
+    setters: { setWebComics: any; setPaginationDict: any; setLoadMsg: any; }, 
+    from: number, limit: number, queryFilter: string, 
+    onlyTracked: boolean, onlyUnchecked: boolean
   ) => {
   let BASE_URL = `${SERVER}/comics`;
   queryFilter = queryFilter.trim();
@@ -21,9 +23,9 @@ const dataFetch = (
       console.debug(response)
       setLoadMsg('');
       setPaginationDict({
-        total: response.headers.get('total-comics', 0),
-        totalPages: response.headers.get('total-pages', 1),
-        currentPage: response.headers.get('current-page', 1)
+        total: response.headers.get('total-comics') || 0,
+        totalPages: response.headers.get('total-pages') || 1,
+        currentPage: response.headers.get('current-page') || 1
       });
       return response.json()
     })
@@ -40,7 +42,12 @@ const dataFetch = (
     });
 };
 
-const trackComic = (tracked, id, setTrack, server = SERVER) => {
+const trackComic = (
+    tracked: boolean, 
+    id: number, 
+    setTrack: { (value: boolean): void; },
+    server = SERVER
+  ) => {
   fetch(`${server}/comics/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ track: !tracked }),
@@ -56,7 +63,13 @@ const trackComic = (tracked, id, setTrack, server = SERVER) => {
   });
 };
 
-const checkoutComic = (curr_chap, id, setCheck, setViewedChap, server = SERVER) => {
+const checkoutComic = (
+    curr_chap: number, 
+    id: number, 
+    setCheck: { (value: SetStateAction<boolean>): void; }, 
+    setViewedChap: { (value: SetStateAction<number>): void; }, 
+    server = SERVER
+  ) => {
   fetch(`${server}/comics/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ viewed_chap: curr_chap }),
@@ -73,7 +86,11 @@ const checkoutComic = (curr_chap, id, setCheck, setViewedChap, server = SERVER) 
   });
 };
 
-const delComic = (id, setDelete, server = SERVER) => {
+const delComic = (
+  id: number, 
+  setDelete: { (value: SetStateAction<boolean>): void; }, 
+  server = SERVER
+) => {
   fetch(`${server}/comics/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
@@ -95,7 +112,7 @@ const loadMsgs = {
   </>,
   server: <>{'Server internal error'} <Loaders selector='battery' /></>,
   wait: <>{'Waking up server ...'} <Loaders selector='line-fw' /></>,
-  empty: (queryFilter) => `No comics found for title: ${queryFilter}`
+  empty: (queryFilter: any) => `No comics found for title: ${queryFilter}`
 }
 
 export { dataFetch, trackComic, checkoutComic, delComic, loadMsgs };
