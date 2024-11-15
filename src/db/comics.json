@@ -165,12 +165,12 @@
       1
     ],
     "cover": "https://gg.asuracomic.net/storage/media/171/conversions/28bb0778-thumb-small.webp",
-    "current_chap": 176,
+    "current_chap": 177,
     "com_type": 3,
     "id": 8,
     "author": "",
     "description": "",
-    "last_update": 1731005087,
+    "last_update": 1731636247,
     "genres": [
       0
     ]
@@ -303,11 +303,11 @@
       7
     ],
     "com_type": 3,
-    "current_chap": 96,
+    "current_chap": 97,
     "id": 14,
     "author": "",
     "description": "",
-    "last_update": 1731005094,
+    "last_update": 1731636249,
     "genres": [
       0
     ]
@@ -601,20 +601,21 @@
       "I\u2019m the max-level newbie"
     ],
     "track": true,
-    "viewed_chap": 123,
+    "viewed_chap": 180,
     "status": 2,
     "published_in": [
       1,
       2,
-      9
+      9,
+      17
     ],
-    "cover": "https://gg.asuracomic.net/storage/media/1/conversions/047bc0bb-thumb-small.webp",
+    "cover": "https://avt.mkklcdnv6temp.com/28/y/24-1627649863.jpg",
     "com_type": 3,
-    "current_chap": 179,
+    "current_chap": 180,
     "id": 28,
-    "author": "",
+    "author": 180,
     "description": "",
-    "last_update": 1731005085,
+    "last_update": 1731636247,
     "genres": [
       0
     ]
@@ -624,7 +625,7 @@
       "Murim login"
     ],
     "track": true,
-    "viewed_chap": 173,
+    "viewed_chap": 198,
     "current_chap": 198,
     "id": 29,
     "author": "",
@@ -800,13 +801,13 @@
       "Genius of the unique lineage"
     ],
     "track": true,
-    "viewed_chap": 93,
+    "viewed_chap": 89,
     "status": 2,
     "type": 3,
     "published_in": [
       1
     ],
-    "current_chap": 93,
+    "current_chap": 89,
     "cover": "https://gg.asuracomic.net/storage/media/66/conversions/25b0739f-thumb-small.webp",
     "com_type": 3,
     "id": 37,
@@ -846,7 +847,7 @@
       "Youngest son of the renowned swordsmanship clan"
     ],
     "track": true,
-    "viewed_chap": 222,
+    "viewed_chap": 133,
     "status": 2,
     "type": 3,
     "published_in": [
@@ -900,8 +901,8 @@
       1,
       2
     ],
-    "current_chap": 139,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2021/10/cover.png",
+    "current_chap": 112,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2021/10/cover.png",
     "com_type": 3,
     "id": 41,
     "author": "",
@@ -920,6 +921,29 @@
     "current_chap": 148,
     "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
     "last_update": 1730771849,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 139
+  },
+  {
+    "id": 41,
+    "titles": [
+      "Return of the unrivaled spear knight",
+      "Return of the legendary spear knight"
+    ],
+    "current_chap": 149,
+    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
+    "last_update": 1731553064,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -969,8 +993,8 @@
       1,
       2
     ],
-    "current_chap": 93,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/06/Academys_Undercover_ProfessorCover_copy.png",
+    "current_chap": 70,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2022/06/Academys_Undercover_ProfessorCover_copy.png",
     "com_type": 3,
     "id": 43,
     "author": "",
@@ -1609,8 +1633,8 @@
       1,
       2
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/06/IObtainedaMythicItemCover04.png",
-    "current_chap": 98,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2022/06/IObtainedaMythicItemCover04.png",
+    "current_chap": 77,
     "com_type": 3,
     "id": 49,
     "author": "",
@@ -2154,13 +2178,13 @@
       "The tutorial is too hard"
     ],
     "track": true,
-    "viewed_chap": 0,
+    "viewed_chap": 78,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
-      7,
-      2
+      2,
+      7
     ],
     "cover": "https://gg.asuracomic.net/storage/media/145/conversions/af610648-thumb-small.webp",
     "current_chap": 186,
@@ -2283,6 +2307,29 @@
     "genres": [
       0
     ]
+  },
+  {
+    "id": 56,
+    "titles": [
+      "The max level hero has returned!",
+      "The max leveled hero will return!"
+    ],
+    "current_chap": 183,
+    "cover": "https://gg.asuracomic.net/storage/media/179/conversions/72e52cf5-thumb-small.webp",
+    "last_update": 1731636249,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      9
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 110
   },
   {
     "titles": [
@@ -2451,16 +2498,16 @@
       "Infinite mage"
     ],
     "track": true,
-    "viewed_chap": 92,
+    "viewed_chap": 54,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       2
     ],
-    "cover": "https://gg.asuracomic.net/storage/media/103/conversions/9ab6b724-thumb-small.webp",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2022/12/infiniteMageCover01.png",
     "com_type": 3,
-    "current_chap": 92,
+    "current_chap": 54,
     "id": 64,
     "author": "",
     "description": "",
@@ -2526,9 +2573,9 @@
       1,
       2
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2021/12/dukepenCover02.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2021/12/dukepenCover02.png",
     "com_type": 3,
-    "current_chap": 109,
+    "current_chap": 86,
     "id": 67,
     "author": "",
     "description": "",
@@ -2784,9 +2831,9 @@
       1,
       2
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/06/Damn-ReincarnationCover005.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2022/06/Damn-ReincarnationCover005.png",
     "com_type": 3,
-    "current_chap": 80,
+    "current_chap": 73,
     "id": 78,
     "author": "",
     "description": "",
@@ -2822,17 +2869,17 @@
     "titles": [
       "My school life pretending to be a worthless person"
     ],
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 88,
     "status": 2,
     "type": 3,
     "published_in": [
       1,
       7
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/08/myschoollifeCover02.png",
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
     "com_type": 3,
-    "current_chap": 53,
+    "current_chap": 88,
     "id": 80,
     "author": "",
     "description": "",
@@ -3304,6 +3351,28 @@
     "viewed_chap": 87
   },
   {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 88,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1731636247,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 87
+  },
+  {
     "titles": [
       "Warrior high school \u2013 dungeon raid department"
     ],
@@ -3337,9 +3406,9 @@
       1,
       10
     ],
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/07/HeavenlyDemonCover0222.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/07/HeavenlyDemonCover0222.png",
     "com_type": 3,
-    "current_chap": 116,
+    "current_chap": 91,
     "id": 82,
     "author": "",
     "description": "",
@@ -4044,14 +4113,14 @@
       "I regressed to my ruined family"
     ],
     "track": true,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/11/myruinedfamilyCover01.png",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2022/11/myruinedfamilyCover01.png",
     "published_in": [
       1
     ],
     "com_type": 3,
     "status": 2,
     "viewed_chap": 61,
-    "current_chap": 79,
+    "current_chap": 61,
     "id": 91,
     "author": "",
     "description": "",
@@ -4349,8 +4418,8 @@
     ],
     "com_type": 3,
     "status": 2,
-    "viewed_chap": 39,
-    "current_chap": 39,
+    "viewed_chap": 40,
+    "current_chap": 40,
     "id": 105,
     "author": "VOKE/GeulGaemi",
     "description": "",
@@ -4521,6 +4590,28 @@
     "current_chap": 39,
     "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
     "last_update": 1731108489,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "VOKE/GeulGaemi",
+    "track": true,
+    "viewed_chap": 39
+  },
+  {
+    "id": 105,
+    "titles": [
+      "The reincarnated assassin is a genius swordsman"
+    ],
+    "current_chap": 40,
+    "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
+    "last_update": 1731636249,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4864,7 +4955,7 @@
     "titles": [
       "The great ruler"
     ],
-    "current_chap": 488,
+    "current_chap": 489,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/08/thumb-1-175x238.jpg",
     "com_type": 2,
     "status": 2,
@@ -4876,7 +4967,7 @@
     "id": 121,
     "author": "",
     "description": "",
-    "last_update": 1731108340,
+    "last_update": 1731636256,
     "genres": [
       0
     ]
@@ -5638,21 +5729,22 @@
       "The world after the fall",
       "The world after the end"
     ],
-    "current_chap": 153,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/02/the-world-after-the-end-cover.jpg",
+    "current_chap": 154,
+    "cover": "https://avt.mkklcdnv6temp.com/27/u/25-1644927135.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
       2,
       1,
-      4
+      4,
+      17
     ],
     "track": true,
     "viewed_chap": 97,
     "id": 157,
-    "author": "S-Cynaan, Sing-Shong",
+    "author": 154,
     "description": "Humans were suddenly summoned to become \u201cWalkers\u201d, and they needed to clear the tower to save the world... Floor 77: The \u201cStone of Regression\u201d was discovered. Walkers could now \u201creturn\u201d to the past. Slowly, everyone left... Humanity\u2019s last hope, \u201cCarpe Diem\u201d, was formed, made up of people who refused to abandon the world... The last Walker reached floor 100. He no longer knew what to believe.",
-    "last_update": 1731005086,
+    "last_update": 1731636248,
     "genres": [
       0
     ]
@@ -5684,8 +5776,8 @@
       "Leveling with the gods",
       "Leveling up with the gods"
     ],
-    "current_chap": 110,
-    "cover": "https://lumitoon.com/wp-content/uploads/2021/07/COVER-LWG-copy-222x300.png",
+    "current_chap": 94,
+    "cover": "https://luminousscans.gg/wp-content/uploads/2021/07/COVER-LWG-copy-222x300.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6002,7 +6094,7 @@
       "Logging 10,000 years into the future",
       "Awakening 10,000 years into the future"
     ],
-    "current_chap": 168,
+    "current_chap": 159,
     "cover": "https://gg.asuracomic.net/storage/media/58/conversions/49ab5c70-thumb-small.webp",
     "com_type": 1,
     "status": 2,
@@ -6010,7 +6102,7 @@
       1
     ],
     "track": true,
-    "viewed_chap": 168,
+    "viewed_chap": 159,
     "id": 175,
     "author": "",
     "description": "At the dawn of a revolution in the era of martial arts, hordes of terrifying monsters start invading the world, defeating humanity\u2019s warriors one after another. One day, Lu Sheng finds himself dreaming about the world ten thousand years into the future, where even basic physical training techniques have been modified and become several thousand times more effective! Breathing techniques, body strengthening remedies, martial arts scriptures, and so on\u2026 But with humanity being extinct in the future world, these once great martial arts have no one left to carry on their legacy. No one, except for Lu Sheng!",
@@ -6112,7 +6204,7 @@
       "The ancient one",
       "The eternal supreme"
     ],
-    "current_chap": 349,
+    "current_chap": 350,
     "cover": "https://flamecomics.com/wp-content/uploads/2021/06/anceint-sovereign-of-eternity-v2-1070x1676-1-223x350.png",
     "com_type": 2,
     "status": 2,
@@ -6120,7 +6212,7 @@
       4,
       6
     ],
-    "last_update": 1731108507,
+    "last_update": 1731636263,
     "description": "In the past, one of the Ten Great Martial Sovereigns, Gu Feiyang, tragically met his end in the Tiandang mountain range. Fifteen years later, Gu Feiyang crosses through the cycle of rebirth, into the body of a Tianshui prince, Li Yunxiao. Embarking on a heaven-defying journey against the innumerable geniuses of the current generation. The nine ranks of Martial Arts; the ten realms of the Gods. The world has been plunged into turmoil once more!",
     "author": "jack norway, Tai yi shui sheng",
     "track": true,
@@ -6332,14 +6424,14 @@
     "titles": [
       "Irl quest"
     ],
-    "current_chap": 139,
+    "current_chap": 140,
     "cover": "https://flamecomics.xyz/wp-content/uploads/2021/10/COVER.png",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4
     ],
-    "last_update": 1731005095,
+    "last_update": 1731636262,
     "description": "",
     "author": "",
     "track": true,
@@ -8961,13 +9053,34 @@
     "viewed_chap": 98
   },
   {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 100,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1731553061,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 100
+  },
+  {
     "id": 287,
     "titles": [
       "Return of the mount hua sect"
     ],
-    "current_chap": 148,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2021/03/cover.jpg",
-    "last_update": 1730928562,
+    "current_chap": 149,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2021/03/cover.jpg",
+    "last_update": 1731636248,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9241,9 +9354,9 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 107,
+    "current_chap": 108,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
-    "last_update": 1731005086,
+    "last_update": 1731636247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9251,8 +9364,8 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 108,
     "genres": [
       0
     ]
@@ -11518,7 +11631,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 131
+    "viewed_chap": 184
   },
   {
     "id": 411,
@@ -14816,9 +14929,9 @@
     "titles": [
       "Lookism"
     ],
-    "current_chap": 527,
+    "current_chap": 528,
     "cover": "https://isekaiscan.com/wp-content/uploads/2021/04/lookism-110x150.jpg",
-    "last_update": 1731005100,
+    "last_update": 1731636268,
     "com_type": 0,
     "status": 2,
     "published_in": [
@@ -15218,19 +15331,20 @@
     "titles": [
       "God of martial arts"
     ],
-    "current_chap": 542,
+    "current_chap": 729,
     "cover": "https://isekaiscan.com/wp-content/uploads/2019/02/20540-110x150.jpg",
-    "last_update": 1675377758,
+    "last_update": 1731636291,
     "com_type": 0,
     "status": 2,
     "published_in": [
-      7
+      7,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": 729,
     "track": false,
     "viewed_chap": 0
   },
@@ -16926,9 +17040,9 @@
     "titles": [
       "One step for the dark lord"
     ],
-    "current_chap": 149,
+    "current_chap": 172,
     "cover": "https://flamecomics.com/wp-content/uploads/2022/09/5fe4f80db7816136UpRGBnoise_scaleLevel2width-800-1.jpg",
-    "last_update": 1716863603,
+    "last_update": 1731636263,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18132,9 +18246,9 @@
     "titles": [
       "Reborn rich \u2013 the youngest son of a conglomerate"
     ],
-    "current_chap": 124,
+    "current_chap": 125,
     "cover": "https://void-scans.com/wp-content/uploads/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-9.jpg",
-    "last_update": 1731005100,
+    "last_update": 1731636268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -21514,6 +21628,27 @@
     "viewed_chap": 92
   },
   {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 92,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 92
+  },
+  {
     "id": 868,
     "titles": [
       "Rebirth: back to 1983 to be a millionaire"
@@ -21602,8 +21737,8 @@
     "titles": [
       "I returned as an fff-class witch doctor"
     ],
-    "current_chap": 62,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/04/FFFclassWitchCover01.png",
+    "current_chap": 47,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/04/FFFclassWitchCover01.png",
     "last_update": 1707540035,
     "com_type": 3,
     "status": 2,
@@ -21686,9 +21821,9 @@
     "titles": [
       "Solo farming in the tower"
     ],
-    "current_chap": 84,
+    "current_chap": 85,
     "cover": "https://realmscans.to/cdn-cgi/image/width=137,height=205,format=auto,sharpen=1/assets/images/25__solofarming-20-06-2023_11_40_10_PM.webp",
-    "last_update": 1731005105,
+    "last_update": 1731636273,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -21898,7 +22033,7 @@
     "titles": [
       "Surviving the game as a barbarian"
     ],
-    "current_chap": 79,
+    "current_chap": 75,
     "cover": "https://gg.asuracomic.net/storage/media/125/conversions/ed5d5826-thumb-small.webp",
     "last_update": 1707603040,
     "com_type": 3,
@@ -21912,15 +22047,15 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 79
+    "viewed_chap": 75
   },
   {
     "id": 887,
     "titles": [
       "F-class destiny hunter"
     ],
-    "current_chap": 60,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/04/DestinyHunterCover01.png",
+    "current_chap": 45,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/04/DestinyHunterCover01.png",
     "last_update": 1709767070,
     "com_type": 3,
     "status": 2,
@@ -22867,9 +23002,9 @@
     "titles": [
       "Master: this villainous disciple is not the holy child"
     ],
-    "current_chap": 89,
+    "current_chap": 91,
     "cover": "https://manhuaplus.com/wp-content/uploads/2023/08/zafvAkPSF-175x238.jpg",
-    "last_update": 1731108341,
+    "last_update": 1731636256,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -22951,9 +23086,9 @@
     "titles": [
       "Magic emperor"
     ],
-    "current_chap": 618,
+    "current_chap": 621,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/unnamed-175x238.jpg",
-    "last_update": 1731108341,
+    "last_update": 1731636256,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -23007,7 +23142,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 31
+    "viewed_chap": 72
   },
   {
     "id": 933,
@@ -23136,6 +23271,27 @@
     "viewed_chap": 70
   },
   {
+    "id": 939,
+    "titles": [
+      "Academy\u2019s genius swordsman"
+    ],
+    "current_chap": 70,
+    "cover": "https://flamecomics.xyz/wp-content/uploads/2023/07/Resourve.jpg",
+    "last_update": 1728954910,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      4
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 70
+  },
+  {
     "id": 940,
     "titles": [
       "The terminally ill young master of the baek clan"
@@ -23224,8 +23380,8 @@
     "titles": [
       "Weapon maker"
     ],
-    "current_chap": 29,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/08/WeaponMakerBlackCover01.png",
+    "current_chap": 14,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/08/WeaponMakerBlackCover01.png",
     "last_update": 1707370020,
     "com_type": 3,
     "status": 2,
@@ -24171,9 +24327,9 @@
     "titles": [
       "Killer pietro"
     ],
-    "current_chap": 61,
+    "current_chap": 66,
     "cover": "https://gg.asuracomic.net/storage/media/156/conversions/dc88f32e-thumb-small.webp",
-    "last_update": 1728953470,
+    "last_update": 1731636247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24214,7 +24370,7 @@
       "Star-embracing swordmaster"
     ],
     "current_chap": 66,
-    "cover": "https://flamecomics.xyz/wp-content/uploads/2023/09/Cover_SFSUpRGBnoise_scaleLevel3width-800.jpg",
+    "cover": "https://gg.asuracomic.net/storage/media/155/conversions/e43c72fb-thumb-small.webp",
     "last_update": 1731457791,
     "com_type": 3,
     "status": 2,
@@ -24951,9 +25107,9 @@
     "titles": [
       "King of violence"
     ],
-    "current_chap": 31,
+    "current_chap": 32,
     "cover": "https://hivetoon.com/wp-content/uploads/3fWqBuv-1.png",
-    "last_update": 1730928574,
+    "last_update": 1731636269,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -25016,9 +25172,9 @@
     "titles": [
       "Informer"
     ],
-    "current_chap": 34,
+    "current_chap": 40,
     "cover": "https://hivetoon.com/wp-content/uploads/Informer-cover-English-2.png",
-    "last_update": 1728865206,
+    "last_update": 1731636269,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -25080,9 +25236,9 @@
     "titles": [
       "The great war"
     ],
-    "current_chap": 17,
+    "current_chap": 18,
     "cover": "https://hivetoon.com/wp-content/uploads/new.png",
-    "last_update": 1731108510,
+    "last_update": 1731636268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -26635,9 +26791,9 @@
     "titles": [
       "Death king karnak"
     ],
-    "current_chap": 35,
+    "current_chap": 36,
     "cover": "https://gg.asuracomic.net/storage/media/297/conversions/01J7T6XMM00XSZARXAFK7QP7PS-thumb-small.webp",
-    "last_update": 1731005085,
+    "last_update": 1731636248,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -29078,9 +29234,9 @@
     "titles": [
       "The executioner"
     ],
-    "current_chap": 36,
+    "current_chap": 37,
     "cover": "https://gg.asuracomic.net/storage/media/217/conversions/e0a69147-thumb-small.webp",
-    "last_update": 1730928559,
+    "last_update": 1731636249,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -29959,11 +30115,32 @@
     "viewed_chap": 82
   },
   {
+    "id": 1171,
+    "titles": [
+      "Duke's eldest son is a regressed hero"
+    ],
+    "current_chap": 47,
+    "cover": "https://rizzfables.com//assets/images/duke-regress-son1.webp",
+    "last_update": 1731457814,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 1
+  },
+  {
     "id": 1173,
     "titles": [
       "The regressed mercenary's machinations"
     ],
-    "current_chap": 12,
+    "current_chap": 13,
     "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
     "last_update": 1731083941,
     "com_type": 3,
@@ -29977,7 +30154,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 12
+    "viewed_chap": 13
   },
   {
     "id": 1173,
@@ -30127,13 +30304,13 @@
     "viewed_chap": 12
   },
   {
-    "id": 1174,
+    "id": 1173,
     "titles": [
-      "Absolute regression"
+      "The regressed mercenary's machinations"
     ],
-    "current_chap": 21,
-    "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
-    "last_update": 1731005085,
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
+    "last_update": 1731636248,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -30145,7 +30322,28 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 20
+    "viewed_chap": 12
+  },
+  {
+    "id": 1174,
+    "titles": [
+      "Absolute regression"
+    ],
+    "current_chap": 22,
+    "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
+    "last_update": 1731636248,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 22
   },
   {
     "id": 1175,
@@ -30275,6 +30473,27 @@
     "viewed_chap": 74
   },
   {
+    "id": 1179,
+    "titles": [
+      "Necromancer's evolutionary traits"
+    ],
+    "current_chap": 75,
+    "cover": "https://gg.asuracomic.net/storage/media/73/conversions/bc3dbbf6-thumb-small.webp",
+    "last_update": 1731457791,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 75
+  },
+  {
     "id": 1181,
     "titles": [
       "Surviving as a genius on borrowed time"
@@ -30405,6 +30624,28 @@
     "author": "",
     "track": true,
     "viewed_chap": 12
+  },
+  {
+    "id": 1181,
+    "titles": [
+      "Surviving as a genius on borrowed time"
+    ],
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/245477/conversions/01JA6F7WP3N7Q1QCQ0EWFVYNWY-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 13
   },
   {
     "id": 1181,
@@ -30496,9 +30737,9 @@
     "titles": [
       "High class"
     ],
-    "current_chap": 7,
+    "current_chap": 8,
     "cover": "https://hivetoon.com/wp-content/uploads/BDC3B8AEC1EE_C6F7BDBAC5CD_BDE6B3D7C0CF_690x1000-2.png",
-    "last_update": 1730928575,
+    "last_update": 1731636268,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -30538,9 +30779,9 @@
     "titles": [
       "The genius actor who brings misfortune"
     ],
-    "current_chap": 21,
+    "current_chap": 22,
     "cover": "https://hivetoon.com/wp-content/uploads/MBAKj-ExaWCBk2CjtICu3VbfDqGXQ8qP4md3K9Km-bsxgxFKfEHnuE_iE56uSLLYyeBgIpf8zyBA6-5Wk6Z_8K_yErwsNE7iJ_QUfr5DVlufxjAeJ7ENKAnB1QSDVM5Cbmb901l8UFhuUEVw01kBIg.webp",
-    "last_update": 1730928576,
+    "last_update": 1731636269,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -30811,9 +31052,9 @@
     "titles": [
       "A con artist but that\u2019s okay"
     ],
-    "current_chap": 66,
+    "current_chap": 67,
     "cover": "https://avt.mkklcdnv6temp.com/40/r/29-1681895345.jpg",
-    "last_update": 1731104273,
+    "last_update": 1731636300,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -30823,7 +31064,7 @@
       0
     ],
     "description": "",
-    "author": 66,
+    "author": 67,
     "track": false,
     "viewed_chap": 0
   },
@@ -31777,9 +32018,9 @@
     "titles": [
       "Crossed: badlands"
     ],
-    "current_chap": 12,
+    "current_chap": 18,
     "cover": "https://avt.mkklcdnv6temp.com/30/a/37-1729134067.jpg",
-    "last_update": 1731104298,
+    "last_update": 1731636287,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -31789,7 +32030,7 @@
       0
     ],
     "description": "",
-    "author": "Garth Ennis",
+    "author": 18,
     "track": false,
     "viewed_chap": 0
   },
@@ -31987,9 +32228,9 @@
     "titles": [
       "Traveling through time and space to become an unlucky npc: i have a wife to protect me"
     ],
-    "current_chap": 66,
+    "current_chap": 68,
     "cover": "https://avt.mkklcdnv6temp.com/4/q/35-1718272132.jpg",
-    "last_update": 1731108525,
+    "last_update": 1731636291,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -31999,7 +32240,7 @@
       0
     ],
     "description": "",
-    "author": 66,
+    "author": 68,
     "track": false,
     "viewed_chap": 0
   },
@@ -32084,6 +32325,27 @@
     ],
     "description": "",
     "author": 2,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1268,
+    "titles": [
+      "Hannamdong k-house"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/38/r/18-1583498595.jpg",
+    "last_update": 1731636302,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 5,
     "track": false,
     "viewed_chap": 0
   },
@@ -32193,6 +32455,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1326,
+    "titles": [
+      "Ore no ie no koakuma imouto"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/33/r/31-1695177339.jpg",
+    "last_update": 1731340381,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 2,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1333,
     "titles": [
       "Yankee-chan's matching"
@@ -32231,6 +32514,27 @@
     ],
     "description": "",
     "author": 176,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1379,
+    "titles": [
+      "The great villain senior brother and all of his yandere junior sisters"
+    ],
+    "current_chap": 61,
+    "cover": "https://avt.mkklcdnv6temp.com/38/k/31-1695701849.jpg",
+    "last_update": 1731636291,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 61,
     "track": false,
     "viewed_chap": 0
   },
@@ -34188,17 +34492,1005 @@
     "viewed_chap": 0
   },
   {
-    "id": 1171,
+    "id": 1501,
     "titles": [
-      "Duke's eldest son is a regressed hero"
+      "Bad born blood"
     ],
-    "current_chap": 47,
-    "cover": "https://rizzfables.com//assets/images/duke-regress-son1.webp",
-    "last_update": 1731457814,
+    "current_chap": 7,
+    "cover": "https://gg.asuracomic.net/storage/media/251689/conversions/01JCMDZ2FNEW41J1T1K2YQW5BB-thumb-small.webp",
+    "last_update": 1731553061,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1502,
+    "titles": [
+      "The heavenly demon can't live"
+    ],
+    "current_chap": 132,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1731553062,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1518,
+    "titles": [
+      "A remote island paradise"
+    ],
+    "current_chap": 33,
+    "cover": "https://avt.mkklcdnv6temp.com/49/j/36-1726761406.jpg",
+    "last_update": 1731636280,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 33,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1547,
+    "titles": [
+      "Baits"
+    ],
+    "current_chap": 56,
+    "cover": "https://avt.mkklcdnv6temp.com/38/x/28-1677125864.jpg",
+    "last_update": 1731636278,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 56,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1548,
+    "titles": [
+      "Killer pedro"
+    ],
+    "current_chap": 66,
+    "cover": "https://avt.mkklcdnv6temp.com/32/m/31-1695097664.jpg",
+    "last_update": 1731636278,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 66,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1549,
+    "titles": [
+      "Ignorant girl \u25ef\u25ef years later..."
+    ],
+    "current_chap": 28,
+    "cover": "https://avt.mkklcdnv6temp.com/21/v/30-1685334156.jpg",
+    "last_update": 1731636279,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 28,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1550,
+    "titles": [
+      "Myungtae, you little rascal!"
+    ],
+    "current_chap": 53,
+    "cover": "https://avt.mkklcdnv6temp.com/19/b/33-1704771663.jpg",
+    "last_update": 1731636279,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 53,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1551,
+    "titles": [
+      "Betrayed thief, the phantom thief as a demon king goes for world domination"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/39/i/35-1723653214.jpg",
+    "last_update": 1731636280,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 5,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1552,
+    "titles": [
+      "Dawn of the dragon"
+    ],
+    "current_chap": 72,
+    "cover": "https://avt.mkklcdnv6temp.com/18/p/27-1665027601.jpg",
+    "last_update": 1731636280,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 72,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1553,
+    "titles": [
+      "Cherry complex"
+    ],
+    "current_chap": 54,
+    "cover": "https://avt.mkklcdnv6temp.com/48/b/27-1673105723.jpg",
+    "last_update": 1731636281,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 54,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1554,
+    "titles": [
+      "Umi ga hashiru end roll"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/42/o/26-1653890255.jpg",
+    "last_update": 1731636281,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 5,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1555,
+    "titles": [
+      "Freak island in love"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/19/k/31-1692848645.jpg",
+    "last_update": 1731636282,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 2,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1556,
+    "titles": [
+      "Deadly class"
+    ],
+    "current_chap": 35,
+    "cover": "https://avt.mkklcdnv6temp.com/35/h/33-1706847164.jpg",
+    "last_update": 1731636282,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 35,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1557,
+    "titles": [
+      "Mezametara saikyou soubi to uchuusen-mochi datta no de, ikkodate mezashite youhei toshite jiyuu ni ikitai"
+    ],
+    "current_chap": 44,
+    "cover": "https://avt.mkklcdnv6temp.com/19/z/20-1583501793.jpg",
+    "last_update": 1731636283,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 44,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1558,
+    "titles": [
+      "Bad life"
+    ],
+    "current_chap": 6,
+    "cover": "https://avt.mkklcdnv6temp.com/9/n/37-1727324400.jpg",
+    "last_update": 1731636284,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 6,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1559,
+    "titles": [
+      "Happy merry ending"
+    ],
+    "current_chap": 35,
+    "cover": "https://avt.mkklcdnv6temp.com/21/i/26-1657169212.jpg",
+    "last_update": 1731636285,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 35,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1560,
+    "titles": [
+      "The devil is troubled by the suicidal heroine"
+    ],
+    "current_chap": 13,
+    "cover": "https://avt.mkklcdnv6temp.com/45/b/17-1583496885.jpg",
+    "last_update": 1731636285,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 13,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1561,
+    "titles": [
+      "The maou is troubled by the suicidal heroine"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/33/t/24-1628958253.jpg",
+    "last_update": 1731636286,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 2,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1562,
+    "titles": [
+      "A three-legged hero"
+    ],
+    "current_chap": 14,
+    "cover": "https://avt.mkklcdnv6temp.com/16/j/35-1722095703.jpg",
+    "last_update": 1731636286,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 14,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1563,
+    "titles": [
+      "Odoriba ni sukaato ga naru"
+    ],
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/29/d/22-1603099137.jpg",
+    "last_update": 1731636287,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 25,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1564,
+    "titles": [
+      "Neighbor's rice cake"
+    ],
+    "current_chap": 72,
+    "cover": "https://avt.mkklcdnv6temp.com/8/r/28-1674987009.jpg",
+    "last_update": 1731636288,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 72,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1565,
+    "titles": [
+      "Sangyang:the wanderer"
+    ],
+    "current_chap": 63,
+    "cover": "https://avt.mkklcdnv6temp.com/11/l/30-1683875986.jpg",
+    "last_update": 1731636288,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 63,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1566,
+    "titles": [
+      "Dragon making love"
+    ],
+    "current_chap": 42,
+    "cover": "https://avt.mkklcdnv6temp.com/2/i/36-1724600228.jpg",
+    "last_update": 1731636289,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 42,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1567,
+    "titles": [
+      "Devil (yuwon)"
+    ],
+    "current_chap": 21,
+    "cover": "https://avt.mkklcdnv6temp.com/44/x/34-1715836085.jpg",
+    "last_update": 1731636289,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 21,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1568,
+    "titles": [
+      "How to tame my beastly husband"
+    ],
+    "current_chap": 71,
+    "cover": "https://avt.mkklcdnv6temp.com/26/j/33-1705638611.jpg",
+    "last_update": 1731636290,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 71,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1569,
+    "titles": [
+      "Giant ojou-sama"
+    ],
+    "current_chap": 129,
+    "cover": "https://avt.mkklcdnv6temp.com/13/d/23-1611987986.jpg",
+    "last_update": 1731636290,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 129,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1570,
+    "titles": [
+      "Man's best boyfriend"
+    ],
+    "current_chap": 85,
+    "cover": "https://avt.mkklcdnv6temp.com/24/p/29-1680368969.jpg",
+    "last_update": 1731636291,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 85,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1571,
+    "titles": [
+      "Shinsujeon"
+    ],
+    "current_chap": 7,
+    "cover": "https://avt.mkklcdnv6temp.com/12/z/26-1655984134.jpg",
+    "last_update": 1731636292,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 7,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1572,
+    "titles": [
+      "Before this novel ends"
+    ],
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/27/u/35-1722830890.jpg",
+    "last_update": 1731636292,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 38,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1573,
+    "titles": [
+      "Sono bisque doll wa koi wo suru"
+    ],
+    "current_chap": 111,
+    "cover": "https://avt.mkklcdnv6temp.com/20/g/16-1583494198.jpg",
+    "last_update": 1731636293,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 111,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1574,
+    "titles": [
+      "Haiiro no onmyouji"
+    ],
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/47/f/32-1701847215.jpg",
+    "last_update": 1731636293,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 43,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1575,
+    "titles": [
+      "Cherry yuusha to \"sei\" naru tsurugi"
+    ],
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/41/f/37-1730991798.jpg",
+    "last_update": 1731636294,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 4,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1576,
+    "titles": [
+      "If this is the thread of fate, then i will cut it for you"
+    ],
+    "current_chap": 14,
+    "cover": "https://avt.mkklcdnv6temp.com/42/j/36-1726466591.jpg",
+    "last_update": 1731636294,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 14,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1577,
+    "titles": [
+      "Leveling up, by only eating!"
+    ],
+    "current_chap": 177,
+    "cover": "https://avt.mkklcdnv6temp.com/9/w/21-1588899602.jpg",
+    "last_update": 1731636295,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 177,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1578,
+    "titles": [
+      "Mookhyang - dark lady"
+    ],
+    "current_chap": 233,
+    "cover": "https://avt.mkklcdnv6temp.com/5/f/35-1718961472.jpg",
+    "last_update": 1731636295,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 233,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1579,
+    "titles": [
+      "My flamboyant boss made me his kinky bedroom pet"
+    ],
+    "current_chap": 20,
+    "cover": "https://avt.mkklcdnv6temp.com/2/g/36-1724599848.jpg",
+    "last_update": 1731636296,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 20,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1580,
+    "titles": [
+      "Even though we're adults"
+    ],
+    "current_chap": 41,
+    "cover": "https://avt.mkklcdnv6temp.com/36/k/18-1583498508.jpg",
+    "last_update": 1731636296,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 41,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1581,
+    "titles": [
+      "Snowball earth"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/40/s/27-1670894121.jpg",
+    "last_update": 1731636297,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 12,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1582,
+    "titles": [
+      "Kyoukai no nai sekai"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/3/d/8-1583478297.jpg",
+    "last_update": 1731636297,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 3,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1583,
+    "titles": [
+      "Kawaii joushi o komarasetai"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/4/d/16-1583493611.jpg",
+    "last_update": 1731636298,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 8,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1584,
+    "titles": [
+      "Honey, i\u2019m going on a strike"
+    ],
+    "current_chap": 121,
+    "cover": "https://avt.mkklcdnv6temp.com/49/f/24-1634358999.jpg",
+    "last_update": 1731636298,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 121,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1585,
+    "titles": [
+      "World end solte"
+    ],
+    "current_chap": 15,
+    "cover": "https://avt.mkklcdnv6temp.com/33/k/22-1604077183.jpg",
+    "last_update": 1731636299,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 15,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1586,
+    "titles": [
+      "Mad for love"
+    ],
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/32/s/37-1729783861.jpg",
+    "last_update": 1731636299,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 4,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1587,
+    "titles": [
+      "The secret of the depths"
+    ],
+    "current_chap": 19,
+    "cover": "https://avt.mkklcdnv6temp.com/47/v/36-1726678276.jpg",
+    "last_update": 1731636300,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 19,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1588,
+    "titles": [
+      "Unrequited love rendezvous"
+    ],
+    "current_chap": 7,
+    "cover": "https://avt.mkklcdnv6temp.com/19/s/36-1725548625.jpg",
+    "last_update": 1731636301,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 7,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1589,
+    "titles": [
+      "A cute girlfriend"
+    ],
+    "current_chap": 29,
+    "cover": "https://avt.mkklcdnv6temp.com/32/j/25-1648268818.jpg",
+    "last_update": 1731636301,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 29,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1590,
+    "titles": [
+      "Tonari no jii-san"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/22/y/37-1728277353.jpg",
+    "last_update": 1731636302,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": 12,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1107,
+    "titles": [
+      "King of violence"
+    ],
+    "current_chap": 32,
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuracomic.net/wp-content/uploads/2024/05/KingofViolenceCover01.png",
+    "last_update": 1731636269,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      11
     ],
     "genres": [
       0
@@ -34206,6 +35498,398 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 1
+    "viewed_chap": 32
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 88,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1731636247,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 88
+  },
+  {
+    "id": 1173,
+    "titles": [
+      "The regressed mercenary's machinations"
+    ],
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
+    "last_update": 1731636248,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 13
+  },
+  {
+    "id": 105,
+    "titles": [
+      "The reincarnated assassin is a genius swordsman"
+    ],
+    "current_chap": 40,
+    "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
+    "last_update": 1731636249,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "VOKE/GeulGaemi",
+    "track": true,
+    "viewed_chap": 40
+  },
+  {
+    "id": 56,
+    "titles": [
+      "The max level hero has returned!",
+      "The max leveled hero will return!"
+    ],
+    "current_chap": 183,
+    "cover": "https://gg.asuracomic.net/storage/media/179/conversions/72e52cf5-thumb-small.webp",
+    "last_update": 1731636249,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      9
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 110
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 100,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1731553061,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 100
+  },
+  {
+    "id": 41,
+    "titles": [
+      "Return of the unrivaled spear knight",
+      "Return of the legendary spear knight"
+    ],
+    "current_chap": 149,
+    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
+    "last_update": 1731553064,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 139
+  },
+  {
+    "id": 1179,
+    "titles": [
+      "Necromancer's evolutionary traits"
+    ],
+    "current_chap": 75,
+    "cover": "https://gg.asuracomic.net/storage/media/73/conversions/bc3dbbf6-thumb-small.webp",
+    "last_update": 1731457791,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 75
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 92,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 92
+  },
+  {
+    "id": 1181,
+    "titles": [
+      "Surviving as a genius on borrowed time"
+    ],
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/245477/conversions/01JA6F7WP3N7Q1QCQ0EWFVYNWY-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 13
+  },
+  {
+    "id": 80,
+    "titles": [
+      "My school life pretending to be a worthless person"
+    ],
+    "current_chap": 88,
+    "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
+    "last_update": 1731636247,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 88
+  },
+  {
+    "id": 1173,
+    "titles": [
+      "The regressed mercenary's machinations"
+    ],
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
+    "last_update": 1731636248,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 13
+  },
+  {
+    "id": 105,
+    "titles": [
+      "The reincarnated assassin is a genius swordsman"
+    ],
+    "current_chap": 40,
+    "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
+    "last_update": 1731636249,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "VOKE/GeulGaemi",
+    "track": true,
+    "viewed_chap": 40
+  },
+  {
+    "id": 56,
+    "titles": [
+      "The max level hero has returned!",
+      "The max leveled hero will return!"
+    ],
+    "current_chap": 183,
+    "cover": "https://gg.asuracomic.net/storage/media/179/conversions/72e52cf5-thumb-small.webp",
+    "last_update": 1731636249,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      9
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 110
+  },
+  {
+    "id": 286,
+    "titles": [
+      "Return of the disaster-class hero"
+    ],
+    "current_chap": 100,
+    "cover": "https://gg.asuracomic.net/storage/media/35/conversions/3bb6a54e-thumb-small.webp",
+    "last_update": 1731553061,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 100
+  },
+  {
+    "id": 41,
+    "titles": [
+      "Return of the unrivaled spear knight",
+      "Return of the legendary spear knight"
+    ],
+    "current_chap": 149,
+    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
+    "last_update": 1731553064,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 139
+  },
+  {
+    "id": 1179,
+    "titles": [
+      "Necromancer's evolutionary traits"
+    ],
+    "current_chap": 75,
+    "cover": "https://gg.asuracomic.net/storage/media/73/conversions/bc3dbbf6-thumb-small.webp",
+    "last_update": 1731457791,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 75
+  },
+  {
+    "id": 867,
+    "titles": [
+      "Chronicles of the demon faction"
+    ],
+    "current_chap": 92,
+    "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 92
+  },
+  {
+    "id": 1181,
+    "titles": [
+      "Surviving as a genius on borrowed time"
+    ],
+    "current_chap": 13,
+    "cover": "https://gg.asuracomic.net/storage/media/245477/conversions/01JA6F7WP3N7Q1QCQ0EWFVYNWY-thumb-small.webp",
+    "last_update": 1731340348,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 13
   }
 ]
