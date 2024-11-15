@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import './CreateModal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
@@ -9,8 +9,8 @@ const mergeEmptyDict = {
   mergingID: 0,
 };
 
-const MergeComicModal = ({ onSubmit, isOpen, onClose }) => {
-  const focusInputRef = useRef(null);
+const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
+  const focusInputRef = useRef<any>(null);
   const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = event.target;
     let newEntry
     if (type === 'select-one') newEntry = parseInt(value);
@@ -31,14 +31,14 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }) => {
     }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (await onSubmit(formState)) setFormState(mergeEmptyDict);
   };
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => handleSubmit}>
 
         {Object.entries(formState).map( ([kField, value], _i) =>
           <InputDiv 
@@ -48,8 +48,7 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }) => {
             focusInputRef={focusInputRef}
             className={'form-row'}
             type={'number'}
-            handleInputChange={handleInputChange} 
-          />
+            handleInputChange={handleInputChange} />
         )}
         
         <div className='form-row'>

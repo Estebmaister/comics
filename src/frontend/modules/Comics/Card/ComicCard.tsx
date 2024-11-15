@@ -5,21 +5,21 @@ import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses'
 import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
 import EditComic from '../Edition/EditComic';
 
-// TODO: Find a solution for image source 
+// TODO: Research a solution for image sourcing
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
 const publishersHandler = (publishers: string[]) => {
-    const return_array: string[] = [];
-    publishers.forEach( (element: string) => 
-        return_array.push(Publishers[+element]) )
-    return return_array.join(', ');
+  const return_array: string[] = [];
+  publishers.forEach( (element: string) => 
+    return_array.push(Publishers[+element]) )
+  return return_array.join(', ');
 }
 
 const genresHandler = (genres: string[]) => {
-    const return_array: string[] = [];
-    genres.forEach( (element: string) => 
-        return_array.push(Genres[+element]) )
-    return return_array.join(', ');
+  const return_array: string[] = [];
+  genres.forEach( (element: string) => 
+    return_array.push(Genres[+element]) )
+  return return_array.join(', ');
 }
 
 export const ComicCard = (props: { comic: any; }) => {
@@ -35,57 +35,58 @@ export const ComicCard = (props: { comic: any; }) => {
   const handleMouseOut = () => setIsHovering(false);
 
   if (del) return;
-  return (
-    <li key={id} className={styles.comicCard}>
-      <div className={styles.posterDiv} 
-        style={{backgroundImage: `url(${BrokenImage})`}} >
-        <img className={styles.poster} 
-          src={cover} 
-          alt={comic.titles[0]}
-          srcSet={cover}
-          onError={(event) => event.currentTarget.src = BrokenImage}
-          onMouseOver={handleMouseOver}
-          onFocus={handleMouseOver}
-          onMouseOut={handleMouseOut}
-          onBlur={handleMouseOut}
-        />
-      </div>
+  return (<li key={id} className={styles.comicCard}>
+    <div className={styles.posterDiv} 
+      style={{backgroundImage: `url(${BrokenImage})`}} >
+      <img className={styles.poster} 
+        src={cover} 
+        alt={comic.titles[0]}
+        srcSet={cover}
+        onError={(event) => event.currentTarget.src = BrokenImage}
+        onMouseOver={handleMouseOver}
+        onFocus={handleMouseOver}
+        onMouseOut={handleMouseOut}
+        onBlur={handleMouseOut}
+      />
+    </div>
 
-      {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
+    {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
 
-      <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
-      
-      <p className={`${styles.comicChapter} text`}> Chapter 
-        {track && current_chap !== viewedChap ?
-        (<span className={styles.currentChapter}> {viewedChap + '/ '} </span>) 
-        : ' '} {current_chap}
-      </p>
-      
-      <p className='text'> {comic.author} </p>
-      <p className='text'> Status: {Statuses[comic.status]} </p>
-      <p className='text'> Type:   {Types[comic.com_type]} </p>
-      <p className='text'> Genres: {genresHandler(comic.genres)} </p>
-      <p className='text'> Publishers: {publishersHandler(
-        comic.published_in)} </p>
+    <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
+    
+    <p className={`${styles.comicChapter} text`}> Chapter 
+      {track && current_chap !== viewedChap ?
+      (<span className={styles.currentChapter}> {viewedChap + '/ '} </span>) 
+      : ' '} {current_chap}
+    </p>
+    
+    <p className='text'> {comic.author} </p>
+    <p className='text'> Status: {Statuses[comic.status]} </p>
+    <p className='text'> Type:   {Types[comic.com_type]} </p>
+    <p className='text'> Genres: {genresHandler(comic.genres)} </p>
+    <p className='text'> Publishers: {publishersHandler(
+      comic.published_in)} </p>
 
-      {track && check ? 
-        <button 
-          className={`${styles.trackButton} ${styles.checkButton} basic-button`} 
-          onClick={() => 
-            checkoutComic(current_chap, id, setCheck, setViewedChap)
-          }>
-          Checkout
-        </button> : ''
-      }
-      <button className={styles.trackButton + ' basic-button' + 
+    {track && check ? 
+      <button 
+        className={`${styles.trackButton} ${styles.checkButton} basic-button`} 
+        onClick={() => 
+          checkoutComic(current_chap, id, setCheck, setViewedChap)
+        }>
+        Checkout
+      </button> : ''
+    }
+    <button 
+      className={styles.trackButton + ' basic-button' + 
         (track ? ' reverse-button' : '')} 
-        onClick={() => trackComic(track, comic.id, setTrack)}>
-        {track ? 'Untrack':'Track'}
-      </button>
-      <button className={styles.delButton + ' basic-button reverse-button'} 
-        onClick={() => delComic(comic.id, setDel)}>
-        X
-      </button>
-      <EditComic comic={comic} setComic={setComic} setViewed={setViewedChap} />
-    </li>)
+      onClick={() => trackComic(track, comic.id, setTrack)}>
+      {track ? 'Untrack':'Track'}
+    </button>
+    <button 
+      className={styles.delButton + ' basic-button reverse-button'} 
+      onClick={() => delComic(comic.id, setDel)}>
+      X
+    </button>
+    <EditComic comic={comic} setComic={setComic} setViewed={setViewedChap} />
+  </li>)
 };

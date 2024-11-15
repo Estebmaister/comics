@@ -4,7 +4,7 @@ import './MergeComic.css';
 
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
-const mergeComic = async (baseID, mergingID, server = SERVER) => {
+const mergeComic = async (baseID: number, mergingID: number, server = SERVER) => {
   let success = true;
   await fetch(`${server}/comics/${baseID}/${mergingID}`, {
     method: 'PATCH',
@@ -24,7 +24,7 @@ const mergeComic = async (baseID, mergingID, server = SERVER) => {
 
 const MergeComic = () => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState(null);
+  const [comicFormData, setComicFormData] = useState<any>(null);
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
@@ -41,7 +41,7 @@ const MergeComic = () => {
   };
 
   // Send information to the server and renders a msg from response
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = async (data: any) => {
     setComicFormData(data);
 
     if (await mergeComic(data?.baseID, data?.mergingID)) {

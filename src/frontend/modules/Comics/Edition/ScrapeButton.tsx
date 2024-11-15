@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, SetStateAction } from 'react';
 import Loaders from '../../Loaders';
 import './ScrapeButton.css';
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
-const scrape = async (setShowLoader, server = SERVER) => {
+const scrape = async (
+    setShowLoader: { (value: SetStateAction<boolean>): void; }, 
+    server = SERVER
+  ) => {
   let success = true;
   setShowLoader(true);
   await fetch(`${server}/scrape`, {

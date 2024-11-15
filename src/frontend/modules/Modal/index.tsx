@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, KeyboardEvent } from 'react';
 import './Modal.css';
 
-const Modal = ({ isOpen, hasCloseBtn = true, onClose, children }) => {
+const Modal = ({ isOpen, hasCloseBtn = true, onClose, children }: any) => {
   const [isModalOpen, setModalOpen] = useState(isOpen);
-  const modalRef = useRef(null);
+  const modalRef = useRef<any>(null);
   
   const handleCloseModal = () => {
     if (onClose) onClose();
     setModalOpen(false);
   };
   
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') handleCloseModal();
   };
   

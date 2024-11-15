@@ -1,12 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import './CreateModal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import PropTypes from 'prop-types';
 import db_classes from '../../../../db/db_classes.json'
 
-const formType = (field) => {
+const createComicEmpty = {
+  title: '',
+  track: false,
+  current_chap: 0,
+  viewed_chap: 0,
+  cover: 'https://',
+  description: '',
+  author: '',
+
+  com_type: 3,
+  status: 2,
+  published_in: 0,
+  genres: 0,
+};
+
+const formType = (field: string) => {
   switch (field) {
+    case 'track':
+      return 'checkbox';
     case 'viewed_chap':
     case 'current_chap':
       return 'number';
@@ -17,18 +34,14 @@ const formType = (field) => {
     case 'published_in':
     case 'genres':
       return 'select';
-    case 'id':
-    case 'last_update':
-    case 'track':
-      return 'none';
     default:
       return 'text';
   }
 }
 
-const EditComicModal = ({ onSubmit, isOpen, onClose, comic }) => {
-  const focusInputRef = useRef(null);
-  const [formState, setFormState] = useState(comic);
+const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
+  const focusInputRef = useRef<any>(null);
+  const [formState, setFormState] = useState(createComicEmpty);
 
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
@@ -36,13 +49,11 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }) => {
     }
   }, [isOpen]);
 
-  const handleInputChange = (event) => {
-    const { name, value, selectedOptions, checked, type } = event.target;
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked, type } = event.target;
     let newEntry
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
-    else if (type === 'select-multiple') newEntry = Object
-      .values(selectedOptions)?.map((options)=> +options.value);
     else newEntry = value;
     setFormState((prevFormData) => ({
       ...prevFormData,
@@ -50,14 +61,14 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }) => {
     }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    if (await onSubmit(formState)) setFormState(comic);
+    if (await onSubmit(formState)) setFormState(createComicEmpty);
   };
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => handleSubmit}>
 
         {Object.entries(formState).map( ([kField, value], _i) =>
           <InputDiv 
@@ -69,23 +80,21 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }) => {
             className={'form-row'}
             type={formType(kField)}
             handleInputChange={handleInputChange} 
-            multiple={kField === 'genres' || kField === 'published_in'}
           />
         )}
         
         <div className='form-row'>
-          <button className='basic-button' type='submit'>UPDATE</button>
+          <button className='basic-button' type='submit'>CREATE</button>
         </div>
       </form>
     </Modal>
   );
 };
 
-EditComicModal.propTypes = {
+CreateComicModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  comic: PropTypes.object.isRequired
+  onClose: PropTypes.func.isRequired
 };
 
-export default EditComicModal;
+export default CreateComicModal;

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, SetStateAction } from 'react';
 import EditComicModal from '../Modals/EditModal';
 import './EditComic.css';
 import db_classes from '../../../../db/db_classes.json'
 
 const SERVER = process.env.REACT_APP_PY_SERVER;
-const edit = async (comic, server = SERVER) => {
+const edit = async (comic: any, server = SERVER) => {
   let newData;
   comic.last_update = new Date().getTime();
   const data = {...comic};
@@ -27,7 +27,11 @@ const edit = async (comic, server = SERVER) => {
   return newData;
 };
 
-const EditComic = (props) => {
+const EditComic = (props: { 
+  comic: any,
+  setComic: { (value: SetStateAction<any>): void; },
+  setViewed: { (value: SetStateAction<boolean>): void; }, 
+}) => {
   const { comic, setComic, setViewed } = props;
   const [isEditComicModalOpen, setIsEditComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState(comic);
@@ -45,10 +49,10 @@ const EditComic = (props) => {
     setIsEditComicModalOpen(false);
   };
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = async (data: {}) => {
     setComicFormData(data);
     
-    const newData = await edit(data);
+    const newData: any = await edit(data);
     if (newData != null) {
       setComic(newData); 
       setComicFormData(newData);

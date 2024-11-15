@@ -1,8 +1,8 @@
-const capitalize = (string) => string[0].toUpperCase() + string.slice(1);
+const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 const InputDiv = (
-  { focusInputRef, type, field, value, selectOptDict, 
-  handleInputChange, multiple, className = 'form-row' }
+  { focusInputRef, type, field, value, handleInputChange, 
+  selectOptDict={}, multiple=undefined, className = 'form-row' }: any
 ) => {
   const fieldTitle = capitalize(field).split('_').join(' ');
   if (field === 'titles' && typeof(value) === 'object') value = value.join('|');
@@ -18,7 +18,7 @@ const InputDiv = (
           onChange={handleInputChange}
           multiple={multiple}
         >
-          {selectOptDict[field].map((opt, i) => 
+          {selectOptDict[field].map((opt: string, i: number) => 
             <option value={i} key={opt}> {opt} </option>
           )}
         </select> :

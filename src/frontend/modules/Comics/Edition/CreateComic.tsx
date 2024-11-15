@@ -4,7 +4,7 @@ import './CreateComic.css';
 import db_classes from '../../../../db/db_classes.json'
 
 const SERVER = process.env.REACT_APP_PY_SERVER;
-const create = async (comic, server = SERVER) => {
+const create = async (comic: any, server = SERVER) => {
   let success = true;
   const last_update = {last_update: new Date().getTime()}
   const titles = {titles: [comic.title]};
@@ -31,7 +31,7 @@ const create = async (comic, server = SERVER) => {
 
 const CreateComic = () => {
   const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState(null);
+  const [comicFormData, setComicFormData] = useState<any>(null);
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
@@ -46,7 +46,7 @@ const CreateComic = () => {
     setIsCreateComicModalOpen(false);
   };
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = async (data: {}) => {
     setComicFormData(data);
 
     if (await create(data)) {

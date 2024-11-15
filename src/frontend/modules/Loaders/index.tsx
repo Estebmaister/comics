@@ -1,6 +1,6 @@
 import './Loaders.css';
 
-const loaderSwitch = (selector) => {
+const loaderSwitch = (selector: string) => {
   switch (selector) {
     case 'lamp':
       return <span className="lamp"></span>;
