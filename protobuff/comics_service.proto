@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package comics;
+
+import "comics.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/comics/proto/service";
+option java_package = "com.comics.service";
+option java_multiple_files = true;
+option py_generic_services = true;
+option py_package = "comics.service.proto";
+
+// Comic Service definition
+// Provides operations for managing and retrieving comics
+service ComicService {
+  // Creates a new comic in the system
+  // Returns the created comic or error if validation fails
+  rpc CreateComic(CreateComicRequest) returns (ComicResponse) {}
+
+  // Soft deletes a comic by marking it as deleted
+  // Returns the updated comic or error if not found
+  rpc DeleteComic(DeleteComicRequest) returns (ComicResponse) {}
+
+  // Updates an existing comic's information
+  // Returns the updated comic or error if validation fails
+  rpc UpdateComic(UpdateComicRequest) returns (ComicResponse) {}
+
+  // Retrieves a comic by its unique identifier
+  // Returns the comic or error if not found
+  rpc GetComicById(GetComicByIdRequest) returns (ComicResponse) {}
+
+  // Retrieves a comic by its title (exact match)
+  // Returns the comic or error if not found
+  rpc GetComicByTitle(GetComicByTitleRequest) returns (ComicResponse) {}
+
+  // Retrieves a paginated list of all comics
+  // Returns the page of comics with total count information
+  rpc GetComics(GetComicsRequest) returns (ComicsResponse) {}
+
+  // Searches comics using fuzzy title matching
+  // Returns paginated results ordered by relevance
+  rpc SearchComics(SearchComicsRequest) returns (ComicsResponse) {}
+}
+
+// Request/Response messages
+message ComicResponse {
+  ResponseMetadata metadata = 1;
+  optional Comic comic = 2;  // Null when comic is not found
+  optional string error = 3; // Error message when operation fails
+}
+
+message ComicsResponse {
+  ResponseMetadata metadata = 1;
+  repeated Comic comics = 2;
+  optional int32 total_count = 3;
+  optional int32 total_pages = 4;
+  optional int32 current_page = 5;
+  optional string error = 6;     // Error message when operation fails
+}
+
+message GetComicByIdRequest {
+  RequestMetadata metadata = 1;
+  int32 id = 2 [(validate.rules).int32 = {gt: 0}];  // Must be positive
+}
+
+message GetComicByTitleRequest {
+  RequestMetadata metadata = 1;
+  string title = 2 [(validate.rules).string = {min_len: 1}];  // Non-empty title required
+}
+
+message DeleteComicRequest {
+  RequestMetadata metadata = 1;
+  int32 id = 2 [(validate.rules).int32 = {gt: 0}];  // Must be positive
+}
+
+message UpdateComicRequest {
+  RequestMetadata metadata = 1;
+  int32 id = 2 [(validate.rules).int32 = {gt: 0}];  // Must be positive
+  Comic comic = 3;  // Fields to update
+}
+
+message CreateComicRequest {
+  RequestMetadata metadata = 1;
+  Comic comic = 2;  // Comic to create
+}
+
+// Pagination configuration
+message PaginationRequest {
+  int32 page = 1 [(validate.rules).int32 = {gt: 0}];        // Must be positive
+  int32 page_size = 2 [(validate.rules).int32 = {
+    gt: 0,
+    lte: 100
+  }];  // Between 1 and 100
+}
+
+message GetComicsRequest {
+  RequestMetadata metadata = 1;
+  PaginationRequest pagination = 2;
+  optional ComicSortOrder sort_order = 3;  // How to sort the results
+  optional bool tracked_only = 4;          // Filter to only show tracked comics
+  optional bool unchecked_only = 5;        // Filter to only show tracked and unchecked comics
+}
+
+message SearchComicsRequest {
+  RequestMetadata metadata = 1;
+  string query = 2 [(validate.rules).string = {min_len: 2}];  // At least 2 chars for search
+  PaginationRequest pagination = 3;
+  optional ComicSortOrder sort_order = 4;  // How to sort the results
+  optional bool tracked_only = 5;          // Filter to only show tracked comics
+  optional bool unchecked_only = 6;        // Filter to only show tracked and unchecked comics
+}
+
+// Sort order for comic listings
+enum ComicSortOrder {
+  UNSPECIFIED = 0;
+  TITLE_ASC = 1;
+  TITLE_DESC = 2;
+  UPDATED_ASC = 3;
+  UPDATED_DESC = 4;
+  RELEVANCE = 5;  // Only valid for search results
+}
+
+// Metadata for request tracking and observability
+message RequestMetadata {
+  string request_id = 1;     // Unique identifier for request tracing
+  google.protobuf.Timestamp timestamp = 2;  // Request timestamp
+  string client_id = 3;      // Client identifier
+  string version = 4;        // API version
+  optional string trace_id = 5;  // For distributed tracing
+}
+
+message ResponseMetadata {
+  string request_id = 1;      // Matching request ID for tracing
+  google.protobuf.Timestamp start_time = 2;  // Request start timestamp
+  google.protobuf.Timestamp end_time = 3;    // Request end timestamp
+  int32 status_code = 4;      // Response status code
+  string status_message = 5;   // Status message or error details
+  map<string, string> metrics = 6;  // Performance metrics
+  optional string trace_id = 7;     // For distributed tracing
+  
+  // Reserved for future metrics
+  reserved 8 to 15;
+  reserved "cache_hit", "db_query_time";
+}
