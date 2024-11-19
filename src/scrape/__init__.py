@@ -198,3 +198,4 @@ async def async_scrape():
 def scrapes():
 	asyncio.run(async_scrape())
 	session.commit()
+	session.close()
