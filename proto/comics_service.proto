@@ -4,12 +4,10 @@ package comics;
 
 import "comics.proto";
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
-option go_package = "github.com/comics/proto/service";
-option java_package = "com.comics.service";
-option java_multiple_files = true;
+option go_package = "/pb";
 option py_generic_services = true;
-option py_package = "comics.service.proto";
 
 // Comic Service definition
 // Provides operations for managing and retrieving comics

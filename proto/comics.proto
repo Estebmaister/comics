@@ -3,12 +3,10 @@ syntax = "proto3";
 package comics;
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
-option go_package = "github.com/comics/proto";
-option java_package = "com.comics";
-option java_multiple_files = true;
+option go_package = "/pb";
 option py_generic_services = true;
-option py_package = "comics.proto";
 
 // Comics collection message
 message Comics {
@@ -55,7 +53,7 @@ message Comic {
 enum ComicType {
   option allow_alias = true;
 
-  UNKNOWN = 0;
+  TYPE_UNKNOWN = 0;
   MANGA = 1;
   MANHUA = 2;
   MANHWA = 3;
@@ -66,7 +64,7 @@ enum ComicType {
 // Comic status enum
 // Represents the current publication status of a comic
 enum Status {
-  UNKNOWN = 0;
+  STATUS_UNKNOWN = 0;
   COMPLETED = 1;
   ON_AIR = 2;
   BREAK = 3;
@@ -78,7 +76,7 @@ enum Status {
 enum Genre {
   option allow_alias = true;
 
-  UNKNOWN = 0;
+  GENRE_UNKNOWN = 0;
   ACTION = 1;
   ADVENTURE = 2;
   FANTASY = 3;
@@ -101,7 +99,7 @@ enum Genre {
 // Publishers enum
 // Represents different comic publishers/scan groups
 enum Publisher {
-  UNKNOWN = 0;
+  PUBLISHER_UNKNOWN = 0;
   ASURA = 1;
   REAPER_SCANS = 2;
   MANHUA_PLUS = 3;
