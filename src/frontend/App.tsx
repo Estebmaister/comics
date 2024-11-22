@@ -2,16 +2,16 @@ import { Component, ChangeEvent } from 'react';
 import comicsJSON from '../db/comics.json';
 import { ComicCard } from './modules/Comics/Card/ComicCard';
 
-comicsJSON.sort((a,b) => b.last_update - a.last_update)
+comicsJSON.sort((a, b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean) => 
+const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean) =>
   comics.filter((com) => {
     for (const title of com.titles) {
       if (tracked_only && !com.track) {
         return false;
       }
-      if (title.toLowerCase().includes( filter_word.toLowerCase() )) {
+      if (title.toLowerCase().includes(filter_word.toLowerCase())) {
         return true;
       }
     }
@@ -44,7 +44,7 @@ class SearchDiv extends Component<{}, searchState> {
     const TRACKED_ONLY = Boolean(localStorage.getItem('tracked_only'));
     const FILTERED_COMICS = filter_comics(comicsJSON, SEARCH_STRING, TRACKED_ONLY)
     const TOTAL = FILTERED_COMICS.length;
-    
+
     this.state = {
       username: '',
       search_string: SEARCH_STRING,
@@ -53,8 +53,8 @@ class SearchDiv extends Component<{}, searchState> {
       from: FROM,
       limit: LIMIT,
       total: TOTAL,
-      totalPages: Math.ceil(TOTAL/LIMIT),
-      currentPage: Math.ceil(FROM/LIMIT +1)
+      totalPages: Math.ceil(TOTAL / LIMIT),
+      currentPage: Math.ceil(FROM / LIMIT + 1)
     };
   }
 
@@ -67,20 +67,20 @@ class SearchDiv extends Component<{}, searchState> {
   }
 
   handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-    let filter_word = e?.target?.value === undefined ? 
+    let filter_word = e?.target?.value === undefined ?
       this.state.search_string : e.target.value.trim();
-    
+
     let reset_pag = false;
-    if (filter_word !== this.state.search_string && 
+    if (filter_word !== this.state.search_string &&
       this.state.from !== 0) reset_pag = true;
-    
+
     localStorage.setItem('search_string', filter_word);
-    
+
     const FROM = reset_pag ? 0 : this.state.from;
     const LIMIT = this.state.limit;
-    let filtered_comics;
-    let new_total;
-    
+    let filtered_comics: any[];
+    let new_total: number;
+
     if (filter_word !== '' || this.state.tracked_only === true) {
       filtered_comics = filter_comics(
         comicsJSON, filter_word, this.state.tracked_only
@@ -97,13 +97,13 @@ class SearchDiv extends Component<{}, searchState> {
       f_comics: filtered_comics,
       from: FROM,
       total: new_total,
-      totalPages: Math.ceil(new_total/LIMIT),
-      currentPage: Math.ceil(FROM/LIMIT +1)
+      totalPages: Math.ceil(new_total / LIMIT),
+      currentPage: Math.ceil(FROM / LIMIT + 1)
     }), () => console.debug(this.state));
   }
 
   handlePagination(direction: string) {
-    const LAST_FROM = this.state.limit*(this.state.totalPages-1)
+    const LAST_FROM = this.state.limit * (this.state.totalPages - 1)
     let moveFrom = 0
     if (direction === 'next') {
       moveFrom = +this.state.limit;
@@ -113,7 +113,7 @@ class SearchDiv extends Component<{}, searchState> {
       moveFrom = -this.state.from;
     } else if (direction === 'last') {
       moveFrom = -this.state.from + LAST_FROM;
-    }  else {
+    } else {
       console.error("Pagination called without valid argument: ", direction);
       return;
     }
@@ -133,54 +133,54 @@ class SearchDiv extends Component<{}, searchState> {
   render() {
     return <div>
       <div className='nav-bar'>
-        <button className={'basic-button all-track-button' + 
-          (this.state.tracked_only ? ' reverse-button' : '')} 
-          onClick={() => this.handleTrackedOnly()} > 
+        <button className={'basic-button all-track-button' +
+          (this.state.tracked_only ? ' reverse-button' : '')}
+          onClick={() => this.handleTrackedOnly()} >
           {this.state.tracked_only ? 'All >' : 'Tracked <'} ({this.state.total})
         </button>
 
-        <input className='search-box' type="text" 
+        <input className='search-box' type="text"
           placeholder={COMIC_SEARCH_PLACEHOLDER}
           value={this.state.search_string} onChange={this.handleInputChange}
         />
 
         <div className='div-pagination-buttons'>
-          <button className={'basic-button bar-button reverse-button' + 
-              (this.state.from <= 0 ? ' disabled-button' : '')}
+          <button className={'basic-button bar-button reverse-button' +
+            (this.state.from <= 0 ? ' disabled-button' : '')}
             disabled={this.state.from <= 0}
             onClick={() => this.handlePagination('first')}>
-              First
+            First
           </button>
-          <button className={'basic-button bar-button reverse-button' + 
-              (this.state.from <= 0 ? ' disabled-button' : '')} 
+          <button className={'basic-button bar-button reverse-button' +
+            (this.state.from <= 0 ? ' disabled-button' : '')}
             disabled={this.state.from <= 0}
             onClick={() => this.handlePagination('prev')}>
-              Prev
+            Prev
           </button>
           <button className={'pag-button'}>{this.state.currentPage}</button>
           <button className={'basic-button bar-button' +
-              (this.state.from >= this.state.limit*(this.state.totalPages-1)
-                ? ' disabled-button' : '')}
-            disabled={
-              this.state.from >= this.state.limit*(this.state.totalPages-1)
-            }
-            onClick={() => this.handlePagination('next')} >
-              Next
-          </button>
-          <button className={'basic-button bar-button' +
-              (this.state.from >= this.state.limit*(this.state.totalPages-1)
+            (this.state.from >= this.state.limit * (this.state.totalPages - 1)
               ? ' disabled-button' : '')}
             disabled={
-              this.state.from >= this.state.limit*(this.state.totalPages-1)
+              this.state.from >= this.state.limit * (this.state.totalPages - 1)
+            }
+            onClick={() => this.handlePagination('next')} >
+            Next
+          </button>
+          <button className={'basic-button bar-button' +
+            (this.state.from >= this.state.limit * (this.state.totalPages - 1)
+              ? ' disabled-button' : '')}
+            disabled={
+              this.state.from >= this.state.limit * (this.state.totalPages - 1)
             }
             onClick={() => this.handlePagination('last')} >
-              Last ({this.state.totalPages})
+            Last ({this.state.totalPages})
           </button>
         </div>
       </div>
 
       <ul className='comic-list'> {
-        this.state.f_comics.map( (item: { id: number; }, _i: number) => 
+        this.state.f_comics.map((item: { id: number; }, _i: number) =>
           <ComicCard comic={item} key={item.id} />
         )
       } </ul>
@@ -190,6 +190,6 @@ class SearchDiv extends Component<{}, searchState> {
 
 export const App = () => {
   return <>
-    <SearchDiv/>
+    <SearchDiv />
   </>
 }

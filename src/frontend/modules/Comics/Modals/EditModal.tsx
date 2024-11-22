@@ -40,11 +40,11 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
     event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement> | any
   ) => {
     const { name, value, selectedOptions, checked, type } = event.target;
-    let newEntry
+    let newEntry: any;
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
     else if (type === 'select-multiple') newEntry = Object
-      .values(selectedOptions)?.map((options: any)=> +options.value);
+      .values(selectedOptions)?.map((options: any) => +options.value);
     else newEntry = value;
     setFormState((prevFormData: any) => ({
       ...prevFormData,
@@ -61,20 +61,20 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
       <form onSubmit={() => handleSubmit}>
 
-        {Object.entries(formState).map( ([kField, value], _i) =>
-          <InputDiv 
-            key={kField} 
-            value={value} 
-            field={kField} 
+        {Object.entries(formState).map(([kField, value], _i) =>
+          <InputDiv
+            key={kField}
+            value={value}
+            field={kField}
             focusInputRef={focusInputRef}
             selectOptDict={db_classes}
             className={'form-row'}
             type={formType(kField)}
-            handleInputChange={handleInputChange} 
+            handleInputChange={handleInputChange}
             multiple={kField === 'genres' || kField === 'published_in'}
           />
         )}
-        
+
         <div className='form-row'>
           <button className='basic-button' type='submit'>UPDATE</button>
         </div>

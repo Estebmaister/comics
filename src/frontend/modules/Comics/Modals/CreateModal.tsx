@@ -51,7 +51,7 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = event.target;
-    let newEntry
+    let newEntry: any;
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
     else newEntry = value;
@@ -70,19 +70,19 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
       <form onSubmit={() => handleSubmit}>
 
-        {Object.entries(formState).map( ([kField, value], _i) =>
-          <InputDiv 
-            key={kField} 
-            value={value} 
-            field={kField} 
+        {Object.entries(formState).map(([kField, value], _i) =>
+          <InputDiv
+            key={kField}
+            value={value}
+            field={kField}
             focusInputRef={focusInputRef}
             selectOptDict={db_classes}
             className={'form-row'}
             type={formType(kField)}
-            handleInputChange={handleInputChange} 
+            handleInputChange={handleInputChange}
           />
         )}
-        
+
         <div className='form-row'>
           <button className='basic-button' type='submit'>CREATE</button>
         </div>

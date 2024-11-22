@@ -21,7 +21,7 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = event.target;
-    let newEntry
+    let newEntry: any;
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
     else newEntry = value;
@@ -40,8 +40,8 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
       <form onSubmit={() => handleSubmit}>
 
-        {Object.entries(formState).map( ([kField, value], _i) =>
-          <InputDiv 
+        {Object.entries(formState).map(([kField, value], _i) =>
+          <InputDiv
             key={kField}
             value={value}
             field={kField}
@@ -50,7 +50,7 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
             type={'number'}
             handleInputChange={handleInputChange} />
         )}
-        
+
         <div className='form-row'>
           <button className='basic-button' type='submit'>MERGE</button>
         </div>
