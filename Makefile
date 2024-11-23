@@ -1,12 +1,13 @@
 # Define phony targets (targets that don't represent actual files)
-.PHONY: setup proto-python proto-go clean migrate-up migrate-down test help
+.PHONY: activate venv venvclean start server scrape update-py \
+        setup proto-py proto-go clean migrate-up migrate-down test help
 
 # Enable running multiple commands in a recipe using a single shell
 .ONESHELL:
 
 # Virtual environment configuration
 VENV_DIR=comics_env
-ACTIVATE_VENV:=. $(VENV_DIR)/bin/activate
+ACTIVATE_VENV:=source $(VENV_DIR)/bin/activate
 
 # Colors for help text
 CYAN := \033[36m
@@ -30,8 +31,7 @@ help:
 ## venv          Create and setup Python virtual environment
 $(VENV_DIR)/touchfile: requirements.txt
 	test -d "$(VENV_DIR)" || python3 -m venv "$(VENV_DIR)"
-	$(ACTIVATE_VENV)
-	pip3 install --upgrade --requirement requirements.txt
+	$(ACTIVATE_VENV) && pip install --upgrade --requirement requirements.txt
 	touch "$(VENV_DIR)/touchfile"
 
 venv: $(VENV_DIR)/touchfile
@@ -48,13 +48,17 @@ activate:
 start:
 	npm run start
 
+## deploy        Deploy the frontend development server
+deploy:
+	npm run deploy
+
 ## server        Start the backend server
 server:
-	npm run server
+	$(ACTIVATE_VENV) && npm run server
 
 ## scrape        Run the web scraper
 scrape:
-	npm run scrape
+	$(ACTIVATE_VENV) && python3 src/__main__.py
 
 # Protobuf configuration
 # Directory containing .proto files
@@ -73,30 +77,31 @@ GO_SERVICE_OUT := $(GO_OUT)
 
 # Protobuf compiler and tools configuration
 PROTOC := protoc
-PYTHON_GRPC := python -m grpc_tools.protoc
+PYTHON_GRPC := python3 -m grpc_tools.protoc
 GO_GRPC := protoc-gen-go-grpc
 
 ## update-py     Update all Python dependencies to latest versions
 update-py:
-	cat requirements.txt | cut -f1 -d= | xargs pip3 install -U
-	pip3 freeze > requirements.txt
+	$(ACTIVATE_VENV) && \
+	cat requirements.txt | cut -f1 -d= | xargs pip install -U && \
+	pip freeze > requirements.txt
 
 ## setup-py      Initialize Python environment and dependencies
 setup-py:
-	@echo "Python setup..."
-	python3 -m venv comics_env
-	$(ACTIVATE_VENV)
-	pip3 install -r requirements.txt
+	@echo "\nPython setup..."
+	$(ACTIVATE_VENV) && pip install -r requirements.txt
 
 ## setup         Initialize both Go and Python environments
 setup:
 	@echo "Setting up the servers..."
 	(cd go_server && go mod tidy)
-	setup-py proto-py proto-go
+	$(MAKE) setup-py
+	$(MAKE) proto-py
+	$(MAKE) proto-go
 
 ## proto-py      Generate Python Protobuf files from definitions
 proto-py:
-	@echo "Generating Python Protobuf files..."
+	@echo "\nGenerating Python Protobuf files..."
 	$(ACTIVATE_VENV)
 	@mkdir -p $(PYTHON_PROTO_OUT)
 	@mkdir -p $(PYTHON_SERVICE_OUT)
@@ -110,7 +115,7 @@ proto-py:
 
 ## proto-go      Generate Go Protobuf files from definitions
 proto-go:
-	@echo "Generating Go Protobuf files..."
+	@echo "\nGenerating Go Protobuf files..."
 	@mkdir -p $(GO_PROTO_OUT)
 	@mkdir -p $(GO_SERVICE_OUT)
 	$(PROTOC) -I$(PROTO_DIR) \
