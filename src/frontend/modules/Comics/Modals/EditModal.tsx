@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
 import './CreateModal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
@@ -52,14 +52,14 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
     }));
   };
 
-  const handleSubmit = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (await onSubmit(formState)) setFormState(comic);
   };
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={() => handleSubmit}>
+      <form onSubmit={handleSubmit}>
 
         {Object.entries(formState).map(([kField, value], _i) =>
           <InputDiv

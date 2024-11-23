@@ -1,11 +1,11 @@
 // All these classes come from src/db/__init__.py
 import db_classes from '../../db/db_classes.json';
 
-const assignArrayToDict = (array: string[]) => 
+const assignArrayToDict = (array: string[]) =>
   Object.assign({}, ...array.map(
-    (val: string, idx: number) => ({[idx]: val})
+    (val: string, idx: number) => ({ [idx]: val })
   )
-);
+  );
 
 type nToString = {
   [key: number]: string
@@ -32,4 +32,4 @@ for (let key in db_classes) {
       break;
   }
 }
-export {Types, Statuses, Genres, Publishers};
+export { Types, Statuses, Genres, Publishers };

@@ -41,7 +41,7 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
       <img className={styles.poster}
         src={cover}
         alt={comic.titles[0]}
-        srcSet={cover}
+        datatype={cover}
         onError={(event) => event.currentTarget.src = BrokenImage}
         onMouseOver={handleMouseOver}
         onFocus={handleMouseOver}

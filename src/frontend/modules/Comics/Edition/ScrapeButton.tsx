@@ -4,24 +4,24 @@ import './ScrapeButton.css';
 const SERVER = process.env.REACT_APP_PY_SERVER;
 
 const scrape = async (
-    setShowLoader: { (value: SetStateAction<boolean>): void; }, 
-    server = SERVER
-  ) => {
+  setShowLoader: { (value: SetStateAction<boolean>): void; },
+  server = SERVER
+) => {
   let success = true;
   setShowLoader(true);
   await fetch(`${server}/scrape`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    if (data?.message === 'Internal Server Error') success = false;
-  })
-  .catch((err) => {
-    console.debug(err.message);
-    success = false;
-  });
+    .then((response) => response.json())
+    .then((data) => {
+      console.debug(data);
+      if (data?.message === 'Internal Server Error') success = false;
+    })
+    .catch((err) => {
+      console.debug(err.message);
+      success = false;
+    });
   setShowLoader(false);
   return success;
 }
@@ -55,22 +55,22 @@ const ScrapeButton = () => {
   }
 
   return (<>
-    <button 
-      className={'button-scrape'} 
+    <button
+      className={'button-scrape'}
       onClick={handleOpenScrapeButtonModal}
       disabled={showLoader}
     >
-    {showLoader && 
-      (<span className={'span-loader'}> <Loaders selector='battery' /> </span>)
-    }
+      {showLoader &&
+        (<span className={'span-loader'}> <Loaders selector='battery' /> </span>)
+      }
     </button>
 
     {(showMsg && timerHide()) && (
       <div className={
         `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-        }>
+      }>
         <b>Scrape</b> function trigger{' '}
-        <b>{failMsg ? 'failed' : 'succeeded'}.</b> 
+        <b>{failMsg ? 'failed' : 'succeeded'}.</b>
       </div>
     )}
 

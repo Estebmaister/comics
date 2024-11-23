@@ -1,11 +1,11 @@
 // Not in use
 
 export const filterComics = (
-    comics: any[], 
-    filterWord: string, 
-    trackedOnly: boolean, 
-    uncheckedOnly: boolean
-  ) => 
+  comics: any[],
+  filterWord: string,
+  trackedOnly: boolean,
+  uncheckedOnly: boolean
+) =>
   comics.filter((comic: any) => {
     for (const title of comic.titles) {
       if (trackedOnly && !comic.track) {
@@ -14,10 +14,10 @@ export const filterComics = (
       if (uncheckedOnly && (comic.viewed_chap === comic.current_chap)) {
         return false;
       }
-      if (title.toLowerCase().includes( filterWord.toLowerCase() )) {
+      if (title.toLowerCase().includes(filterWord.toLowerCase())) {
         return true;
       }
     }
     return false;
   }
-);
+  );

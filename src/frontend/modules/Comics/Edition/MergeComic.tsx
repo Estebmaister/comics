@@ -10,15 +10,15 @@ const mergeComic = async (baseID: number, mergingID: number, server = SERVER) =>
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    if (data?.message !== undefined) success = false;
-  })
-  .catch((err) => {
-    console.debug(err.message);
-    success = false;
-  });
+    .then((response) => response.json())
+    .then((data) => {
+      console.debug(data);
+      if (data?.message !== undefined) success = false;
+    })
+    .catch((err) => {
+      console.debug(err.message);
+      success = false;
+    });
   return success;
 }
 
@@ -69,9 +69,9 @@ const MergeComic = () => {
     {(showMsg && timerHide()) && (
       <div className={
         `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-        }>
+      }>
         comics <b>{comicFormData?.baseID}</b>{' '}
-        & <b>{comicFormData?.mergingID}</b> merging 
+        & <b>{comicFormData?.mergingID}</b> merging
         {failMsg ? ' failed, check that comics type match' : ' succeed'}.
       </div>
     )}

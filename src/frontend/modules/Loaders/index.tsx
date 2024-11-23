@@ -12,7 +12,7 @@ const loaderSwitch = (selector: string) => {
   }
 }
 
-const Loaders = ({selector = 'battery'}) => {
+const Loaders = ({ selector = 'battery' }) => {
   return <div className="div-load">
     {loaderSwitch(selector)}
   </div>

@@ -4,27 +4,27 @@ import './Modal.css';
 const Modal = ({ isOpen, hasCloseBtn = true, onClose, children }: any) => {
   const [isModalOpen, setModalOpen] = useState(isOpen);
   const modalRef = useRef<any>(null);
-  
+
   const handleCloseModal = () => {
     if (onClose) onClose();
     setModalOpen(false);
   };
-  
+
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') handleCloseModal();
   };
-  
+
   useEffect(() => { setModalOpen(isOpen) }, [isOpen]);
-  
+
   useEffect(() => {
     const modalElement = modalRef.current;
-    
+
     if (modalElement) {
       if (isModalOpen) modalElement.showModal();
       else modalElement.close();
     }
   }, [isModalOpen]);
-  
+
   return (
     <dialog ref={modalRef} onKeyDown={handleKeyDown} className="modal">
       {hasCloseBtn && (

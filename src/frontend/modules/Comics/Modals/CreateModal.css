@@ -1,4 +1,4 @@
-.form-row + .form-row {
+.form-row+.form-row {
   margin-top: 0.8rem;
 }
 
@@ -14,12 +14,14 @@
   border: 1px solid #4e5757bf;
   border-radius: 5px;
 }
+
 .form-row label {
   text-shadow: none;
   font-size: 0.9em;
 }
-input[type=checkbox] + label,
-label + input[type=checkbox] {
+
+input[type=checkbox]+label,
+label+input[type=checkbox] {
   width: 60%;
   height: 1em;
   display: inline-block;

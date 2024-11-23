@@ -6,26 +6,26 @@ import db_classes from '../../../../db/db_classes.json'
 const SERVER = process.env.REACT_APP_PY_SERVER;
 const create = async (comic: any, server = SERVER) => {
   let success = true;
-  const last_update = {last_update: new Date().getTime()}
-  const titles = {titles: [comic.title]};
-  const genres = {genres: [comic.genres]};
-  const published_in = {published_in: [comic.published_in]};
-  const data = {...comic, ...last_update, ...titles, ...genres, ...published_in}
+  const last_update = { last_update: new Date().getTime() }
+  const titles = { titles: [comic.title] };
+  const genres = { genres: [comic.genres] };
+  const published_in = { published_in: [comic.published_in] };
+  const data = { ...comic, ...last_update, ...titles, ...genres, ...published_in }
   console.debug(JSON.stringify(data))
   await fetch(`${server}/comics`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.debug(data);
-    if (data?.message === 'Internal Server Error') success = false;
-  })
-  .catch((err) => {
-    console.debug(err.message);
-    success = false;
-  });
+    .then((response) => response.json())
+    .then((data) => {
+      console.debug(data);
+      if (data?.message === 'Internal Server Error') success = false;
+    })
+    .catch((err) => {
+      console.debug(err.message);
+      success = false;
+    });
   return success;
 };
 
@@ -74,7 +74,7 @@ const CreateComic = () => {
     {(comicFormData?.title && showMsg && timerHide()) && (
       <div className={
         `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-        }>
+      }>
         <b>{db_classes?.com_type[comicFormData?.com_type]}</b> comic {' '}
         <b>{comicFormData.title}</b> {failMsg ? 'failed' : 'created'}.
       </div>

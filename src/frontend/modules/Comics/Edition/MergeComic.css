@@ -10,6 +10,7 @@
   bottom: 10em;
   right: 2em;
 }
+
 .button-merge:after {
   content: '';
   position: absolute;
@@ -21,6 +22,7 @@
   width: 25%;
   transition: 0.2s;
 }
+
 .button-merge:before {
   content: '';
   position: absolute;
@@ -32,21 +34,25 @@
   width: 4px;
   transition: 0.2s;
 }
+
 .button-merge:hover:after {
   transform: translate(-40%, -50%) rotate(45deg);
   top: 60%;
   left: 55%;
 }
+
 .button-merge:hover:before {
   transform: translate(40%, -50%) rotate(45deg);
   top: 60%;
   left: 35%;
 }
+
 .button-merge:hover:before,
 .button-merge:hover:after {
   background: var(--secondary-color);
   transition: 0.2s;
 }
+
 .button-merge:hover {
   background-color: var(--basic-button);
   transition: 0.2s;
