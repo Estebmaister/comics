@@ -1,40 +1,88 @@
-from scrape.scrapper import scrape_url, check_chapter_extraction, register_comic
+"""
+Asura scans scraper module.
+
+This module handles scraping comic information from Asura Scans website.
+It extracts chapter numbers, titles, cover images and other metadata.
+"""
+
+from typing import Optional
+
+from bs4 import BeautifulSoup, Tag
+
+from db import Publishers
 from helpers.logger import logger
-from db import Types, Statuses, Publishers
+from scrape.scrapper import ScrapedComic, register_comic, scrape_url
 
+# Configure logging
 log = logger(__name__)
-publisher = Publishers.Asura
-default_comic_type = Types.Manhwa
-default_status = Statuses.OnAir
+
+# Publisher-specific constants
+PUBLISHER = Publishers.Asura
+DEFAULT_COMIC_TYPE = 'manhwa'
+DEFAULT_STATUS = 'ongoing'
+COMIC_GRID_CLASS = 'grid grid-rows-1 grid-cols-12 m-2'
 
 
-async def scrape_asura(url: str):
-    soup = await scrape_url(url)
-    # Locating divs used for comics
-    chaps = soup.find_all(
-        'div', attrs={'class': 'grid grid-rows-1 grid-cols-12 m-2'})
-    check_chapter_extraction(chaps, publisher)
+def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
+    """
+    Extract comic information from a comic grid div.
+
+    Args:
+        comic_div: BeautifulSoup Tag containing comic information
+
+    Returns:
+        ScrapedComic object if extraction successful, None otherwise
+    """
     title = 'Unknown'
-    # Default comic type for publisher
-    com_type = default_comic_type
-    status = default_status
-    for comic in chaps:
-        try:
-            # Locating cover
-            cover = comic.div.div.a.img['src']
-            # Internal div with title and chapters
-            comic_int = comic.select('div')[2]
-            # Locating div used for title
-            title = comic_int.span.a.text
-            title = title.replace('...', '')
-            # Locating div used for chapters
-            chap_int = comic_int.find_all('span')
-            if len(chap_int) == 0:
-                # These are the cases when a comic is portrayed as recommended
-                continue
-            # Locating the chapter
-            chap = chap_int[1].div.div.a.span.div.p.text
-        except (ValueError, IndexError, KeyError, AttributeError) as error:
-            log.error('scraping %s:%s %s', publisher.name, title, error)
-            continue
-        await register_comic(chap, title, com_type, cover, status, publisher)
+    try:
+        # Extract cover image
+        cover = comic_div.div.div.a.img['src']
+
+        # Extract comic internal div with title and chapters
+        comic_int = comic_div.select('div')[2]
+
+        # Extract and clean title
+        title = comic_int.span.a.text.replace('...', '').strip()
+
+        # Extract chapter spans
+        chap_int = comic_int.find_all('span')
+        if not chap_int:
+            log.debug('Skipping recommended comic: %s', title)
+            return None
+
+        # Extract chapter number
+        chap = chap_int[1].div.div.a.span.div.p.text
+
+        return ScrapedComic(
+            chapter=chap,
+            title=title,
+            cover_url=cover,
+            com_type=DEFAULT_COMIC_TYPE,
+            status=DEFAULT_STATUS
+        )
+
+    except (ValueError, IndexError, KeyError, AttributeError) as error:
+        log.error('Failed to extract comic info for %s: %s', title, error)
+        return None
+
+
+async def scrape_asura(url: str) -> None:
+    """
+    Scrape comics from Asura Scans website.
+
+    Args:
+        url: URL of the Asura Scans page to scrape
+    """
+    soup = await scrape_url(url)
+
+    # Find all comic grid divs
+    comic_divs = soup.find_all('div', attrs={'class': COMIC_GRID_CLASS})
+    if not comic_divs:
+        log.error('No comics found on page: %s', url)
+        return
+
+    # Process each comic div
+    for comic_div in comic_divs:
+        comic = extract_comic_info(comic_div)
+        if comic:
+            await register_comic(comic, PUBLISHER)

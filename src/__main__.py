@@ -1,14 +1,16 @@
 # src/__main__.py
 
-import time
-import sys
 import os
+import sys
+import time
+
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
+
+from helpers.alert import send_reminder
+from helpers.logger import logger
 from scrape import scrapes
 from server import server as SERVER
-from helpers.alert import reminder
-from helpers.logger import logger
 
 log = logger(__name__)
 PORT: int = int(os.getenv('PORT', 5001))
@@ -23,7 +25,7 @@ def scrapping() -> None:
     while True:
         time_started = time.time()
         scrapes()
-        reminder()
+        send_reminder()
         time_req = round((time.time() - time_started), 2)
         print(f'{scrape_cont} ({time_req})', end='\n', flush=True)
         scrape_cont += 1

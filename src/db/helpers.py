@@ -1,41 +1,86 @@
-## used in db/repopulate_db.py
+# used in db/repopulate_db.py
+from typing import List, Optional, Tuple
 
-def manage_multi_finds(db_comics: list, com_type: int, title: str):
-	''' Takes a list of db_comics, if handles cases for 0, 1 and 2 items found.
+from db import ComicDB
 
-	It returns an empty list to create a new comic or a 1 item list if the 
-	comic match a register in the database '''
-	if len(db_comics) > 2:
-		print(f'Error, more than 2 comics found with title like: {title}')
-	elif len(db_comics) == 2:
-		# In case of two registers found, check if one is a novel
-		if (db_comics[0].com_type == com_type and 
-			db_comics[1].com_type != com_type):
-			db_comics = [db_comics[0]]
-		elif (db_comics[1].com_type == com_type and 
-			db_comics[0].com_type != com_type):
-			db_comics = [db_comics[1]]
-		
-		# If there is no novel, check inside the lists for exact match
-		elif (title in db_comics[0].get_titles()):
-			db_comics = [db_comics[0]]
-		elif (title in db_comics[1].get_titles()):
-			db_comics = [db_comics[1]]
-		# If after previous check there is no exact match, it means
-		# a new comic found
-		else:
-			db_comics = []
-	elif len(db_comics) == 1 and (title not in db_comics[0].get_titles()):
-		## Handling novels with the same title as the comic
-		if (com_type == 4 and # Types.Novel == 4
-			db_comics[0].com_type != com_type):
-			title += " - novel"
-		# Some titles are cut short by the websites
-		for title_db in db_comics[0].get_titles():
-			if title in title_db and "- novel" not in title_db:
-				return db_comics, title
-		# comics where previously retrieved with a stricter query from json
-		# = [comic for comic in loaded_comics if title in comic["titles"]]
-		# and then new check for the response to add or update register
-			db_comics = []
-	return db_comics, title
+
+def manage_multi_finds(db_comics: List[ComicDB], com_type: int, title: str) -> Tuple[List[ComicDB], str]:
+    """Handle multiple comic matches and return appropriate result.
+
+    Args:
+        db_comics: List of found comics from database
+        com_type: Type of comic being searched
+        title: Title being searched
+
+    Returns:
+        Tuple containing:
+        - List of matched comics (empty for no match, single item for match)
+        - Final title (may be modified for novels)
+    """
+    if not db_comics:
+        return [], title
+
+    # Handle single comic case
+    if len(db_comics) == 1:
+        return _handle_single_comic(db_comics[0], title, com_type)
+
+    # Handle exact title match for multiple comics
+    for comic in db_comics:
+        if title in comic.get_titles():
+            return [comic], title
+
+    # For exactly two comics, try type and title matching
+    if len(db_comics) == 2:
+        # Try matching by type
+        if matched_comic := _handle_type_match(db_comics, com_type):
+            return [matched_comic], title
+
+        # Try matching by exact title
+        if matched_comic := _handle_title_match(db_comics, title):
+            return [matched_comic], title
+
+    # No match found
+    return [], title
+
+
+def _handle_single_comic(db_comic: ComicDB, title: str, com_type: int) -> Tuple[List[ComicDB], str]:
+    """Handle case when only one comic is found."""
+    if title in db_comic.get_titles():
+        return [db_comic], title
+
+    title = _handle_novel_type(db_comic, title, com_type)
+    if _find_matching_title(db_comic, title):
+        return [db_comic], title
+
+    return [], title
+
+
+def _handle_novel_type(db_comic: ComicDB, title: str, com_type: int) -> str:
+    """Handle special case for novels with same title as comic."""
+    if com_type == 4 and db_comic.com_type != com_type:  # Types.Novel == 4
+        return title + " - novel"
+    return title
+
+
+def _find_matching_title(db_comic: ComicDB, title: str) -> bool:
+    """Check if title matches any in comic's titles."""
+    for title_db in db_comic.get_titles():
+        if title in title_db and "- novel" not in title_db:
+            return True
+    return False
+
+
+def _handle_type_match(comics: List[ComicDB], com_type: int) -> Optional[ComicDB]:
+    """Find comic with matching type from two comics."""
+    for comic in comics:
+        if comic.com_type == com_type:
+            return comic
+    return None
+
+
+def _handle_title_match(comics: List[ComicDB], title: str) -> Optional[ComicDB]:
+    """Find comic with exact title match from two comics."""
+    for comic in comics:
+        if title in comic.get_titles():
+            return comic
+    return None

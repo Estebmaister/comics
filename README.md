@@ -40,6 +40,10 @@ python src
 python test
 ```
 
+```sh
+env PYTHONPATH=src python3 -m pytest src/*/*_test.py -v
+```
+
 ### Running server
 
 ```sh

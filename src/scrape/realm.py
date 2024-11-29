@@ -1,36 +1,94 @@
-from scrape.scrapper import scrape_url, check_chapter_extraction, register_comic
-from scrape.scrapper import com_type_parse, com_status_parse
+"""
+Realm Scans scraper module.
+
+This module handles scraping comic information from Realm Scans website.
+It extracts chapter numbers, titles, cover images, status and other metadata.
+"""
+
+from typing import Optional
+
+from bs4 import BeautifulSoup, Tag
+
+from db import Publishers
 from helpers.logger import logger
-from db import Types, Statuses, Publishers
+from scrape.scrapper import ScrapedComic, register_comic, scrape_url
 
+# Configure logging
 log = logger(__name__)
-publisher = Publishers.RealmScans
-default_comic_type = Types.Manhwa
-default_status = Statuses.OnAir
 
-async def scrape_realm(url: str):
-  soup = await scrape_url(url)
-  # Locating divs used for comics
-  chaps = soup.find_all(class_='uta')
-  check_chapter_extraction(chaps, publisher)
-  title = 'Unknown'
-  for comic in chaps:
+# Publisher-specific constants
+PUBLISHER = Publishers.RealmScans
+DEFAULT_COMIC_TYPE = 'manhwa'
+DEFAULT_STATUS = 'ongoing'
+
+# CSS Selectors
+COMIC_CLASS = 'uta'
+COMIC_INFO_CLASS = 'luf'
+
+
+def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
+    """
+    Extract comic information from a comic box div.
+
+    Args:
+        comic_div: BeautifulSoup Tag containing comic information
+
+    Returns:
+        ScrapedComic object if extraction successful, None otherwise
+    """
+    title = 'Unknown'
     try:
-      # Locating cover
-      cover = comic.div.a.img['src']
-      # Locating div used for status
-      status = com_status_parse(comic.div.a.div.span.text)
-      # Locating div used for title
-      comic_int = comic.select('div.luf')[0]
-      title = comic_int.a.h4.text.strip()
-      # Locating div used chapter
-      chap_int = comic_int.select('ul')
-      if len(chap_int) == 0:
-        # These are the cases when a comic is portrayed as recommended
-        continue
-      com_type = com_type_parse(chap_int[0]['class'][0])
-      chap = chap_int[0].li.a.text.strip()
+        # Extract cover image and status
+        comic_link = comic_div.div.a
+        cover = comic_link.img['src']
+        status = comic_link.div.span.text.strip()
+
+        # Extract comic info div
+        comic_info = comic_div.select(f'div.{COMIC_INFO_CLASS}')[0]
+
+        # Extract title
+        title = comic_info.a.h4.text.strip()
+
+        # Extract chapter information
+        chapter_list = comic_info.select('ul')
+        if not chapter_list:
+            log.debug('Skipping recommended comic: %s', title)
+            return None
+
+        # Extract comic type and chapter
+        comic_type = chapter_list[0].get('class', [DEFAULT_COMIC_TYPE])[0]
+        chapter = chapter_list[0].li.a.text.strip()
+
+        return ScrapedComic(
+            chapter=chapter,
+            title=title,
+            cover_url=cover,
+            com_type=comic_type,
+            status=status
+        )
+
     except (ValueError, IndexError, KeyError, AttributeError) as error:
-      log.error('scraping %s:%s %s', publisher.name, title, error)
-      continue
-    await register_comic(chap, title, com_type, cover, status, publisher)
+        log.error('Failed to extract comic info for %s: %s', title, error)
+        return None
+
+
+async def scrape_realm(url: str) -> None:
+    """
+    Scrape comics from Realm Scans website.
+
+    Args:
+        url: URL of the Realm Scans page to scrape
+    """
+    soup = await scrape_url(url)
+
+    # Find all comic box divs
+    comic_divs = soup.find_all(class_=COMIC_CLASS)
+    if not comic_divs:
+        log.error('No comics found on page: %s', url)
+        return
+
+    # Process each comic div
+    for comic_div in comic_divs:
+        comic = extract_comic_info(comic_div)
+        if comic:
+            await register_comic(comic, PUBLISHER)
