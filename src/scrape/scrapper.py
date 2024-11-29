@@ -217,7 +217,7 @@ def _update_chapter_info(
     db_comic.last_update = timestamp
     json_comic['last_update'] = timestamp
 
-    if db_comic.track:
+    if db_comic.track and new_chap - 4 > db_comic.viewed_chap:
         add_alert(db_comic.titles, str(new_chap), db_comic.get_published_in())
 
 

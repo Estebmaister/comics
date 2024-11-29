@@ -1,7 +1,7 @@
 import os
 import smtplib
 import subprocess
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
 
 from db import Publishers
 from helpers.logger import logger
@@ -10,7 +10,6 @@ from helpers.logger import logger
 log = logger(__name__)
 
 # Constants
-DEFAULT_ALERT_MESSAGE = 'Update found'
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
 ALERT_ICON_PATH = '/usr/share/icons/Adwaita/scalable/status/software-update-urgent-symbolic.svg'
@@ -22,7 +21,7 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASS', '')
 # Global state
 alert_state: Dict[str, any] = {
     'title': 'Scrape alert',
-    'content': DEFAULT_ALERT_MESSAGE,
+    'content': '',
     'alert_count': 0
 }
 
@@ -30,7 +29,7 @@ alert_state: Dict[str, any] = {
 def send_desktop_notification(title: str, content: str) -> None:
     """
     Send a desktop notification using notify-send.
-    
+
     Args:
         title: The notification title
         content: The notification content/message
@@ -44,7 +43,8 @@ def send_desktop_notification(title: str, content: str) -> None:
             content
         ])
     except FileNotFoundError:
-        log.warning('Desktop notification system (notify-send) not found - %s', content)
+        log.warning(
+            'Desktop notification system (notify-send) not found - %s', content)
     except subprocess.SubprocessError as e:
         log.error('Failed to send desktop notification: %s', str(e))
 
@@ -52,11 +52,11 @@ def send_desktop_notification(title: str, content: str) -> None:
 def send_email(subject: str, body: str) -> None:
     """
     Send an email notification using Gmail SMTP.
-    
+
     Args:
         subject: Email subject line
         body: Email body content
-    
+
     Raises:
         smtplib.SMTPException: If email sending fails
     """
@@ -64,7 +64,7 @@ def send_email(subject: str, body: str) -> None:
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
             server.login(EMAIL, EMAIL_PASSWORD)
-            
+
             message = f"Subject: {subject}\n\n{body}"
             server.sendmail(EMAIL, EMAIL, message)
     except smtplib.SMTPException as e:
@@ -81,33 +81,32 @@ def send_reminder() -> None:
         return
 
     notification_title = f"{alert_state['title']} - ({alert_state['alert_count']})"
-    
+
     send_desktop_notification(notification_title, alert_state['content'])
     send_email(notification_title, alert_state['content'])
-    
+
     # Reset alert state
     alert_state['alert_count'] = 0
-    alert_state['content'] = DEFAULT_ALERT_MESSAGE
+    alert_state['content'] = ''
 
 
 def add_alert(title: str, chapter: str, publishers: List[Publishers]) -> None:
     """
     Add a new alert for a comic update.
-    
+
     Args:
         title: Comic title
         chapter: Chapter number or identifier
         publishers: List of publishers for this comic
     """
     publisher_names = [Publishers(pub).name for pub in publishers]
-    publishers_text = f"- {publisher_names}"
-    update_message = f'\n{title}, ch <b>{chapter}</b> {publishers_text}'
-    
-    print('[ UPDATE ]', title, chapter, publishers_text)
-    
+    update_message = f'\n{title}, ch {chapter} - {publisher_names}'
+
+    print('[ UPDATE ]', title, chapter, publishers_names)
+
     alert_state['alert_count'] += 1
     alert_state['content'] += update_message
-    
+
     # Send reminder if we've accumulated enough alerts
-    if alert_state['alert_count'] >= 4:
+    if alert_state['alert_count'] >= 5:
         send_reminder()
