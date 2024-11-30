@@ -102,7 +102,7 @@ def add_alert(title: str, chapter: str, publishers: List[Publishers]) -> None:
     publisher_names = [Publishers(pub).name for pub in publishers]
     update_message = f'\n{title}, ch {chapter} - {publisher_names}'
 
-    print('[ UPDATE ]', title, chapter, publishers_names)
+    print('[ UPDATE ]', title, chapter, publisher_names)
 
     alert_state['alert_count'] += 1
     alert_state['content'] += update_message
