@@ -40,13 +40,12 @@ const ScrapeButton = () => {
       setFailMsg(false);
       setHideMsg(false);
       setShowMsg(true);
-      return true;
-    } else {
-      setHideMsg(false);
-      setFailMsg(true);
-      setShowMsg(true);
-      return false;
+      setTimeout(() => window.location.reload(), 2000);
+      return;
     }
+    setHideMsg(false);
+    setFailMsg(true);
+    setShowMsg(true);
   };
 
   const timerHide = () => {

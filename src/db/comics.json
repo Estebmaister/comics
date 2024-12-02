@@ -206,19 +206,20 @@
       "I am the fated villain"
     ],
     "track": true,
-    "viewed_chap": 202,
-    "cover": "https://gg.asuracomic.net/storage/media/10/conversions/55ae5b78-thumb-small.webp",
+    "viewed_chap": 207,
+    "cover": "https://avt.mkklcdnv6temp.com/15/l/25-1639363011.jpg",
     "status": 2,
     "published_in": [
       1,
-      3
+      3,
+      17
     ],
     "com_type": 3,
-    "current_chap": 204,
+    "current_chap": 207,
     "id": 10,
-    "author": "",
+    "author": "\u5929\u547d\u53cd\u6d3e , \u7ed8\u672f\u52a8\u6f2b",
     "description": "",
-    "last_update": 1732032695,
+    "last_update": 1733168175,
     "genres": [
       0
     ]
@@ -2735,7 +2736,7 @@
       1,
       2
     ],
-    "cover": "https://gg.asuracomic.net/storage/media/106/conversions/830674ea-thumb-small.webp",
+    "cover": "https://avt.mkklcdnv6temp.com/43/v/27-1671682371.jpg",
     "com_type": 3,
     "current_chap": 64,
     "id": 58,
@@ -7221,7 +7222,7 @@
       "Superhuman battlefield"
     ],
     "current_chap": 133,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2023/02/superhumanCover02.png",
+    "cover": "https://avt.mkklcdnv6temp.com/6/e/26-1655340682.jpg",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -25967,7 +25968,7 @@
       "The indomitable martial king"
     ],
     "current_chap": 51,
-    "cover": "https://gg.asuracomic.net/storage/media/160/conversions/2cbad926-thumb-small.webp",
+    "cover": "https://avt.mkklcdnv6temp.com/28/x/34-1713758556.jpg",
     "last_update": 1728953470,
     "com_type": 3,
     "status": 2,
@@ -34435,6 +34436,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1327,
+    "titles": [
+      "Adopted by a murderous duke family"
+    ],
+    "current_chap": 53,
+    "cover": "https://avt.mkklcdnv6temp.com/30/t/35-1723088536.jpg",
+    "last_update": 1733167272,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Da-Woo, Rogang",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1333,
     "titles": [
       "Yankee-chan's matching"
@@ -34705,6 +34727,48 @@
     ],
     "description": "",
     "author": 144,
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1391,
+    "titles": [
+      "I become a legendary arch mage by reading a book"
+    ],
+    "current_chap": 34,
+    "cover": "https://avt.mkklcdnv6temp.com/5/g/37-1727067106.jpg",
+    "last_update": 1733167253,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Geumhon , Yang Galbi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1398,
+    "titles": [
+      "Maou to ryuuou ni sodaterareta shounen wa gakuen seikatsu wo musou suru you desu"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/33/u/37-1729912855.jpg",
+    "last_update": 1733167262,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kumano Genkotsu",
     "track": false,
     "viewed_chap": 0
   },
@@ -38069,6 +38133,48 @@
     "viewed_chap": 0
   },
   {
+    "id": 1638,
+    "titles": [
+      "Evolution begins with a big tree"
+    ],
+    "current_chap": 304,
+    "cover": "https://avt.mkklcdnv6temp.com/44/l/26-1661781134.jpg",
+    "last_update": 1733167250,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u7eef\u7ea2\u4e4b\u591c, \u9ed1\u9e1f\u793e",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1639,
+    "titles": [
+      "Kimi no love wo misetekure!"
+    ],
+    "current_chap": 24,
+    "cover": "https://avt.mkklcdnv6temp.com/8/l/30-1683620746.jpg",
+    "last_update": 1733167266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Rimukoro",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1650,
     "titles": [
       "Let\u2019s live together"
@@ -38153,6 +38259,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1697,
+    "titles": [
+      "Show me your love!"
+    ],
+    "current_chap": 24,
+    "cover": "https://avt.mkklcdnv6temp.com/43/l/30-1689312314.jpg",
+    "last_update": 1733167254,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Rimukoro",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1700,
     "titles": [
       "Battle armor academy"
@@ -38216,6 +38343,69 @@
     "viewed_chap": 0
   },
   {
+    "id": 1731,
+    "titles": [
+      "Jinruishoku"
+    ],
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/18/c/29-1679977989.jpg",
+    "last_update": 1733167276,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Mitsuchiyomaru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1733,
+    "titles": [
+      "Hanninmae no koibito"
+    ],
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/7/f/30-1683615182.jpg",
+    "last_update": 1733167277,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kawada Daichi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1746,
+    "titles": [
+      "The academy\u2019s genius tamer"
+    ],
+    "current_chap": 35,
+    "cover": "https://avt.mkklcdnv6temp.com/48/r/35-1724256446.jpg",
+    "last_update": 1733167264,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Saeyan , Iitaesan , Kang Seoul , \uac15\uc11c\uc6b8",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1748,
     "titles": [
       "Rivalry 1"
@@ -38233,6 +38423,27 @@
     ],
     "description": "",
     "author": "Oryu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1749,
+    "titles": [
+      "Salty lust"
+    ],
+    "current_chap": 75,
+    "cover": "https://avt.mkklcdnv6temp.com/12/z/29-1679414598.jpg",
+    "last_update": 1733167263,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tropicalarmpit",
     "track": false,
     "viewed_chap": 0
   },
@@ -39161,6 +39372,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1845,
+    "titles": [
+      "Delivery man from murim"
+    ],
+    "current_chap": 64,
+    "cover": "https://avt.mkklcdnv6temp.com/45/o/33-1708403586.jpg",
+    "last_update": 1733167252,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Studio Jilpung, Hyangran",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1851,
     "titles": [
       "A blank slate regression for the idol that lost his original mindset"
@@ -39493,6 +39725,27 @@
     ],
     "description": "",
     "author": "Purik, Winter Leaf",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1952,
+    "titles": [
+      "The sister of strength feats"
+    ],
+    "current_chap": 52,
+    "cover": "https://avt.mkklcdnv6temp.com/41/x/31-1695869679.jpg",
+    "last_update": 1733167258,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yamamoto Alfred",
     "track": false,
     "viewed_chap": 0
   },
@@ -41093,6 +41346,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2032,
+    "titles": [
+      "Amai seikatsu"
+    ],
+    "current_chap": 328,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/85/m/1-1732719853-nw.webp",
+    "last_update": 1733167259,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yuzuki Hikaru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2033,
     "titles": [
       "Isekai de mizu no dai seirei yattemasu"
@@ -41110,6 +41384,27 @@
     ],
     "description": "",
     "author": "Aoki Chihiro , Hotaka Inaho",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2040,
+    "titles": [
+      "The barbarian of seoul station"
+    ],
+    "current_chap": 11,
+    "cover": "https://avt.mkklcdnv6temp.com/39/r/37-1730693808.jpg",
+    "last_update": 1733167256,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jin Seol woo  (\uc9c4\uc124\uc6b0)",
     "track": false,
     "viewed_chap": 0
   },
@@ -41152,6 +41447,27 @@
     ],
     "description": "",
     "author": "Heo Il,Ereuhut",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2060,
+    "titles": [
+      "Night of the hunt"
+    ],
+    "current_chap": 9,
+    "cover": "https://avt.mkklcdnv6temp.com/9/s/31-1691643050.jpg",
+    "last_update": 1733167263,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Saeukkang",
     "track": false,
     "viewed_chap": 0
   },
@@ -46633,6 +46949,636 @@
     ],
     "description": "",
     "author": "Mewmimiu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2390,
+    "titles": [
+      "The ultimate shut-in"
+    ],
+    "current_chap": 7,
+    "cover": "https://gg.asuracomic.net/storage/media/254406/conversions/01JDW2FTNZ13M9JP358W39FR24-thumb-small.webp",
+    "last_update": 1732909663,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2401,
+    "titles": [
+      "Soseo: the beginning of summer"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/6/h/36-1724843193.jpg",
+    "last_update": 1733167264,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Han Somu , Jang Manul , Gyeongjak",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2417,
+    "titles": [
+      "Miyori no nai onnanoko"
+    ],
+    "current_chap": 95,
+    "cover": "https://avt.mkklcdnv6temp.com/12/h/27-1664100427.jpg",
+    "last_update": 1732909663,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Endo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2433,
+    "titles": [
+      "Gamblers parade"
+    ],
+    "current_chap": 26,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/18/w/9-1732793159-nw.webp",
+    "last_update": 1733167262,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kazutaka Kodaka, Atsushi Nakayama",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2459,
+    "titles": [
+      "Hell dogs"
+    ],
+    "current_chap": 10,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/53/h/11-1732806886-nw.webp",
+    "last_update": 1733105577,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Akio Fukamachi,Keita Iizuka",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2495,
+    "titles": [
+      "Juvenile law"
+    ],
+    "current_chap": 28,
+    "cover": "https://avt.mkklcdnv6temp.com/15/f/35-1722051969.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Byung Jan (Sgt.), park man-sa, Haetae",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2496,
+    "titles": [
+      "Shouraiteki ni shinde kure"
+    ],
+    "current_chap": 30,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/79/h/8-1732791431-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "TOGATO Chihiro",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2497,
+    "titles": [
+      "Quest supremacy"
+    ],
+    "current_chap": 165,
+    "cover": "https://avt.mkklcdnv6temp.com/19/a/25-1640150565.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Updating",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2498,
+    "titles": [
+      "Hero-kun won't set out!"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/46/a/28-1677733231.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ochi R",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2499,
+    "titles": [
+      "I became a tyrant\u2019s maid"
+    ],
+    "current_chap": 48,
+    "cover": "https://avt.mkklcdnv6temp.com/2/h/35-1717925627.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Joo Yeryeong , Penta , Inolle",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2500,
+    "titles": [
+      "Martial legacy"
+    ],
+    "current_chap": 223,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/14/r/9-1732792971-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "GK\u5de5\u574a, Blacksad\u9ed1\u732b",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2501,
+    "titles": [
+      "Saint seiya - episode g requiem"
+    ],
+    "current_chap": 53,
+    "cover": "https://avt.mkklcdnv6temp.com/2/g/30-1683266566.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kurumada Masami, Okada Megumu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2502,
+    "titles": [
+      "The devil\u2019s body temperature"
+    ],
+    "current_chap": 16,
+    "cover": "https://avt.mkklcdnv6temp.com/22/z/35-1722572473.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jinjiang Literature City, Yinxi, Tengluoweizhi, Boyi Animation , \u664b\u6c5f\u6587\u5b66\u57ce , \u85e4\u841d\u4e3a\u679d , \u535a\u6613\u52a8\u6f2b , \u9690\u66e6",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2503,
+    "titles": [
+      "Actually, i was the real one"
+    ],
+    "current_chap": 142,
+    "cover": "https://avt.mkklcdnv6temp.com/25/g/22-1601783763.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sam Woel",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2504,
+    "titles": [
+      "Rooming with a gamer gal"
+    ],
+    "current_chap": 73,
+    "cover": "https://avt.mkklcdnv6temp.com/20/b/34-1712114404.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Renjuro Kindaichi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2505,
+    "titles": [
+      "I rely on my invincibility to deal tons of damage passively!"
+    ],
+    "current_chap": 52,
+    "cover": "https://avt.mkklcdnv6temp.com/42/z/32-1701312016.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u4e0b\u5b50\u65e0\u6094, \u8702\u6f2b\u793e",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2506,
+    "titles": [
+      "Fever at midnight: my unforgettable cinderella"
+    ],
+    "current_chap": 26,
+    "cover": "https://avt.mkklcdnv6temp.com/22/o/34-1712293460.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "YUUKI Ruyu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2507,
+    "titles": [
+      "Moshi fanren"
+    ],
+    "current_chap": 594,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/5/f/9-1732792560-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Amazing Works",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2508,
+    "titles": [
+      "Planetary eyes"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/25/g/35-1722589953.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Anjeo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2509,
+    "titles": [
+      "Poisonous doctor: first wife's daughter"
+    ],
+    "current_chap": 322,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/35/c/11-1732805909-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u6781\u6f2b\u6587\u5316 \u6e90\u521b\u4f18\u52a0",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2510,
+    "titles": [
+      "Mone-san no majime sugiru tsukiaikata"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/14/o/10-1732798842-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Masaki Gotou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2511,
+    "titles": [
+      "The world of that otome game is tough for us"
+    ],
+    "current_chap": 14,
+    "cover": "https://avt.mkklcdnv6temp.com/10/j/33-1703650673.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Fukuhara Renji,Yomu Mishima",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2512,
+    "titles": [
+      "Kokoro no program"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/14/t/31-1692246607.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Nakamura Hinata",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2513,
+    "titles": [
+      "I became the childhood friend of the obsessive second male lead"
+    ],
+    "current_chap": 39,
+    "cover": "https://avt.mkklcdnv6temp.com/15/q/37-1727670320.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ryu Heeon , Next Level Studio",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2514,
+    "titles": [
+      "Koi no ghost"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/13/u/31-1692164827.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hot Naka",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2515,
+    "titles": [
+      "Because janitor-san is not a hero"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/21/j/35-1722527366.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Zinpei Tanaka , OSADA Kaoru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2516,
+    "titles": [
+      "The evil ring"
+    ],
+    "current_chap": 37,
+    "cover": "https://avt.mkklcdnv6temp.com/19/t/35-1722397726.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "NNNi , monkiko  , Snap studio",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2517,
+    "titles": [
+      "Defence mechanism"
+    ],
+    "current_chap": 56,
+    "cover": "https://avt.mkklcdnv6temp.com/33/p/26-1659068695.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "zed",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2518,
+    "titles": [
+      "My beloved emperor"
+    ],
+    "current_chap": 30,
+    "cover": "https://avt.mkklcdnv6temp.com/27/o/37-1728921908.jpg",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2519,
+    "titles": [
+      "The cursed sword master\u2019s harem life: by the sword, for the sword, cursed sword master"
+    ],
+    "current_chap": 31,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/y/9-1732796033-nw.webp",
+    "last_update": 1733166266,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Fukuryu,Saya Kojima",
     "track": false,
     "viewed_chap": 0
   }
