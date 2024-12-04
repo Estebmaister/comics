@@ -91,22 +91,20 @@ class ComicList(Resource):
             "only_unchecked", "false").lower() == "true"
         full_query = request.args.get("full", "false").lower() == "true"
 
-        log.debug("Received comics list request - offset: %s, limit: %s, tracked: %s, unchecked: %s, full: %s",
+        log.debug("Comics list request - offset: %s, limit: %s, tracked: %s, unchecked: %s, full: %s",
                   offset, limit, tracked, unchecked, full_query)
 
         try:
             int(offset), int(limit)
         except ValueError:
             log.warning(
-                'Invalid pagination parameters - offset: %s, limit: %s', offset, limit)
+                "Invalid pagination parameters - offset: %s, limit: %s", offset, limit)
             api.abort(400, 'Pagination parameters type different from int')
 
         comics_list, pagination = all_comics(
             int(offset), int(limit),
             tracked, unchecked, full_query
         )
-        log.info("Retrieved %d comics (total: %d)", len(
-            comics_list), pagination.total_records)
         resp = make_response([comic.toJSON() for comic in comics_list])
         resp.headers[
             'access-control-expose-headers'
@@ -319,12 +317,14 @@ class ComicTitle(Resource):
         try:
             int(offset), int(limit)
         except ValueError:
-            ns.logger.info('Pagination parameters type different from int. ' +
-                           f'[offset: {offset}, limit: {limit}]')
+            log.warning("Invalid pagination parameters in title search - offset: %s, limit: %s",
+                        offset, limit)
             api.abort(400, 'Pagination parameters type different from int')
+
         title = title.strip()
         if title == '':
-            api.abort(400, 'Empty title cannot be resolved')
+            log.warning("Empty title in search request")
+            api.abort(400, 'Title cannot be empty')
         comics_list, pagination = comics_by_title_no_case(
             title, int(offset), int(limit),
             tracked, unchecked, full_query

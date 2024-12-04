@@ -13223,19 +13223,20 @@
     "titles": [
       "I became the beastman\u2019s wife"
     ],
-    "current_chap": 58,
-    "cover": "https://isekaiscan.com/wp-content/uploads/2022/09/i-became-the-beastmans-wife-110x150.jpg",
-    "last_update": 1675377759,
-    "com_type": 0,
+    "current_chap": 279,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/61/o/13-1733296257-nw.webp",
+    "last_update": 1733297190,
+    "com_type": 3,
     "status": 2,
     "published_in": [
-      7
+      7,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "\u4e5d\u5ddd\u52a8\u6f2b",
     "track": false,
     "viewed_chap": 0
   },
@@ -29551,9 +29552,9 @@
     "titles": [
       "All my alter egos are tycoons"
     ],
-    "current_chap": 14,
+    "current_chap": 16,
     "cover": "https://rizzfables.com//assets/images/tycoonsz.webp",
-    "last_update": 1732032758,
+    "last_update": 1733297183,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -45762,9 +45763,9 @@
     "titles": [
       "Doberman"
     ],
-    "current_chap": 19,
+    "current_chap": 20,
     "cover": "https://avt.mkklcdnv6temp.com/36/h/37-1730217234.jpg",
-    "last_update": 1732839997,
+    "last_update": 1733297190,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -48682,7 +48683,7 @@
       "In the bleak midwinter"
     ],
     "current_chap": 104,
-    "cover": "https://avt.mkklcdnv6temp.com/10/m/27-1663734022.jpg",
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/q/13-1733296648-nw.webp",
     "last_update": 1733293277,
     "com_type": 3,
     "status": 2,
@@ -48906,5 +48907,362 @@
     "author": "PTJ COMICS, Baek Inhwi",
     "track": false,
     "viewed_chap": 0
+  },
+  {
+    "id": 2653,
+    "titles": [
+      "Rairairai"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/40/r/32-1701060585.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kei Yoshiaki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1360,
+    "titles": [
+      "Goshujin-sama to yuku isekai survival!"
+    ],
+    "current_chap": 44,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/u/12-1733289806-nw.webp",
+    "last_update": 1731340400,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ryuuto , SASAYUKi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2654,
+    "titles": [
+      "The ghostly doctor"
+    ],
+    "current_chap": 514,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/99/t/8-1732792326-nw.webp",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yuan man dongman",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2655,
+    "titles": [
+      "Goddess creation system"
+    ],
+    "current_chap": 509,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/50/z/8-1732790082-nw.webp",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "S\u0101n F\u00fa D\u00f2ngm\ufffd N",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2656,
+    "titles": [
+      "Tengu no daidokoro"
+    ],
+    "current_chap": 13,
+    "cover": "https://avt.mkklcdnv6temp.com/10/k/30-1683778278.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tanaka Ai",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2657,
+    "titles": [
+      "The war lord and his fake bride (official)"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/alb/3/t/1-1732463253.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2658,
+    "titles": [
+      "Fire emblem engage"
+    ],
+    "current_chap": 22,
+    "cover": "https://avt.mkklcdnv6temp.com/49/g/28-1678081792.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Nintendo, Kazuro Kyou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2659,
+    "titles": [
+      "Invincible territory"
+    ],
+    "current_chap": 36,
+    "cover": "https://avt.mkklcdnv6temp.com/4/i/37-1727022065.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jeong Hee-Woong , Park Joo-Yeon , LOCKWIN",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2660,
+    "titles": [
+      "Negative love"
+    ],
+    "current_chap": 9,
+    "cover": "https://avt.mkklcdnv6temp.com/8/p/37-1727262057.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jonggyeon",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2661,
+    "titles": [
+      "Futaribocchi no otacir no hime"
+    ],
+    "current_chap": 10,
+    "cover": "https://avt.mkklcdnv6temp.com/49/e/37-1731985742.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Cool-kyou Shinja",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2662,
+    "titles": [
+      "Seres\u2019s resolve: the battle for humanity"
+    ],
+    "current_chap": 30,
+    "cover": "https://avt.mkklcdnv6temp.com/28/r/37-1729054348.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Snap studio",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2663,
+    "titles": [
+      "Osananajimi no ijou kawaii imouto-chan"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/18/v/31-1692763193.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Fuyujima Kure",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2664,
+    "titles": [
+      "Special civil servant"
+    ],
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/4/d/35-1718270264.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kwon Sora, Seo Jaewon , Baesaem",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2665,
+    "titles": [
+      "Breaking into the body of the emperor's daughte"
+    ],
+    "current_chap": 18,
+    "cover": "https://avt.mkklcdnv6temp.com/31/d/35-1723091694.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u94c3\u97f3\u793e",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2666,
+    "titles": [
+      "Keys"
+    ],
+    "current_chap": 39,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/p/13-1733296645-nw.webp",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2667,
+    "titles": [
+      "Sounds like"
+    ],
+    "current_chap": 9,
+    "cover": "https://avt.mkklcdnv6temp.com/41/k/37-1730993736.jpg",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Soyeon",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2668,
+    "titles": [
+      "Surviving a restructuring"
+    ],
+    "current_chap": 20,
+    "cover": "https://wsrv.nl/?url=cdn.meowing.org/uploads/JUdlxxmB6EQ&w=350",
+    "last_update": 1733297149,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      1
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 20
   }
 ]
