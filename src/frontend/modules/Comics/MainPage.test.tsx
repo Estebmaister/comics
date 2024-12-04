@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ComicsMainPage, COMIC_SEARCH_PLACEHOLDER } from './MainPage';
+import { ComicsMainPage } from './MainPage';
+import { COMIC_SEARCH_PLACEHOLDER } from './constants';
 
 test(`renders "${COMIC_SEARCH_PLACEHOLDER}"`, () => {
   render(<Router> <ComicsMainPage /> </Router>);
