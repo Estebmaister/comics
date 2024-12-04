@@ -22,6 +22,7 @@ server.wsgi_app = ProxyFix(server.wsgi_app)
 api = Api(server, version='1.0', title='ComicMVC API',
           description='A Comic API capable enough to provide all CRUD ops and more',
           )
+api.logger = log
 health_ns = api.namespace('health', description='Service health')
 
 
@@ -89,17 +90,23 @@ class ComicList(Resource):
         unchecked = request.args.get(
             "only_unchecked", "false").lower() == "true"
         full_query = request.args.get("full", "false").lower() == "true"
+
+        log.debug("Received comics list request - offset: %s, limit: %s, tracked: %s, unchecked: %s, full: %s",
+                  offset, limit, tracked, unchecked, full_query)
+
         try:
             int(offset), int(limit)
         except ValueError:
-            ns.logger.info('Pagination parameters type different from int. ' +
-                           f'[offset: {offset}, limit: {limit}]')
+            log.warning(
+                'Invalid pagination parameters - offset: %s, limit: %s', offset, limit)
             api.abort(400, 'Pagination parameters type different from int')
 
         comics_list, pagination = all_comics(
             int(offset), int(limit),
             tracked, unchecked, full_query
         )
+        log.info("Retrieved %d comics (total: %d)", len(
+            comics_list), pagination.total_records)
         resp = make_response([comic.toJSON() for comic in comics_list])
         resp.headers[
             'access-control-expose-headers'
@@ -115,26 +122,44 @@ class ComicList(Resource):
     def post(self):
         '''Create a new comic'''
         if not request.json:
+            log.warning("No JSON body in create comic request")
             api.abort(400, 'Body payload is necessary')
+
         if 'titles' not in request.json:
+            log.warning("No titles field in create comic request")
             api.abort(400, 'titles is a necessary field to create a comic')
+
         if (type(request.json['titles']) != list or
                 '' in request.json['titles']):
+            log.warning(
+                "Invalid titles format in create comic request: %s", request.json['titles'])
             api.abort(400, 'titles should be a non-empty list of strings')
+
         first_title = request.json['titles'][0].capitalize()
         db_comic, session = comics_like_title(first_title)
         if db_comic != None:
             for comic in db_comic:
                 if first_title in comic.get_titles():
+                    log.warning(
+                        "Attempted to create duplicate comic: %s", first_title)
                     api.abort(400, 'Comic is already in the database')
 
         if ('description' in request.json and
                 type(request.json['description']) is not str):
+            log.warning("Invalid description type in create comic request")
             api.abort(400, 'description type different from string')
+
         if 'track' in request.json and type(request.json['track']) is not bool:
+            log.warning("Invalid track type in create comic request")
             api.abort(400, 'track type different from boolean')
+
         if 'viewed_chap' in request.json:
-            int(request.json['track'])
+            try:
+                int(request.json['viewed_chap'])
+            except ValueError:
+                log.warning(
+                    "Invalid viewed_chap value in create comic request: %s", request.json['viewed_chap'])
+                api.abort(400, 'viewed_chap must be an integer')
 
         comic = ComicDB(
             id=request.json.get('id', None),
@@ -156,6 +181,7 @@ class ComicList(Resource):
         session.commit()
         load_comics.append(comic.toJSON())
         save_comics_file(load_comics)
+        log.info("Created new comic: %s", first_title)
         return comic.toJSON()
 
 
