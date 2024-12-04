@@ -210,14 +210,18 @@ def _update_chapter_info(
     new_chap: int
 ) -> None:
     """Update chapter information and trigger alerts if needed."""
+    # Update current chapter
     db_comic.current_chap = new_chap
     json_comic['current_chap'] = new_chap
-
+    # Update last update
     timestamp = int(time.time())
     db_comic.last_update = timestamp
     json_comic['last_update'] = timestamp
-
-    if db_comic.track and new_chap - 4 > db_comic.viewed_chap:
+    # Trigger alerts only for tracked comics
+    if not db_comic.track:
+        return
+    # Only trigger alerts for new chapters within 4 chapters of last read
+    if db_comic.viewed_chap > new_chap - 4:
         add_alert(db_comic.titles, str(new_chap), db_comic.get_published_in())
 
 

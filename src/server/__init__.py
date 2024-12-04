@@ -10,6 +10,7 @@ from db import (ComicDB, Statuses, Types, load_comics, save_comics_file,
                 swagger_model)
 from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
                      comics_like_title, merge_comics, sql_check)
+from helpers.alert import send_reminder
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from scrape import async_scrape
@@ -50,6 +51,7 @@ class Scrape(Resource):
 
     def get(self):
         asyncio.run(async_scrape())
+        send_reminder()
         return {'message': 'success'}
 
 
@@ -135,20 +137,20 @@ class ComicList(Resource):
             int(request.json['track'])
 
         comic = ComicDB(
-            id     = request.json.get('id', None),
-            titles = None,
-            current_chap = request.json.get('current_chap', 0),
-            cover        = request.json.get('cover', ''),
-            com_type     = int(request.json.get('com_type', 0)),
-            status       = int(request.json.get('status', 0)),
-            description  = request.json.get('description', ''),
-            author       = request.json.get('author', ''),
-            track        = int(request.json.get('track', 0)),
-            viewed_chap  = int(request.json.get('viewed_chap', 0))
+            id=request.json.get('id', None),
+            titles=None,
+            current_chap=request.json.get('current_chap', 0),
+            cover=request.json.get('cover', ''),
+            com_type=int(request.json.get('com_type', 0)),
+            status=int(request.json.get('status', 0)),
+            description=request.json.get('description', ''),
+            author=request.json.get('author', ''),
+            track=int(request.json.get('track', 0)),
+            viewed_chap=int(request.json.get('viewed_chap', 0))
         )
-        comic.set_titles(       request.json.get('titles', ['']) )
-        comic.set_published_in( request.json.get('published_in', [0]) )
-        comic.set_genres(       request.json.get('genres', [0]) )
+        comic.set_titles(request.json.get('titles', ['']))
+        comic.set_published_in(request.json.get('published_in', [0]))
+        comic.set_genres(request.json.get('genres', [0]))
 
         session.add(comic)
         session.commit()
@@ -245,13 +247,13 @@ class ComicID(Resource):
             json_comic["published_in"] = publishers
 
         json_comic["author"] = comic.author
-        json_comic["cover"]  = comic.cover
+        json_comic["cover"] = comic.cover
         json_comic["description"] = comic.description
-        json_comic["track"]       = bool(comic.track)
+        json_comic["track"] = bool(comic.track)
         json_comic["viewed_chap"] = comic.viewed_chap
         json_comic["current_chap"] = comic.current_chap
-        json_comic["com_type"]    = Types(comic.com_type)
-        json_comic["status"]      = Statuses(comic.status)
+        json_comic["com_type"] = Types(comic.com_type)
+        json_comic["status"] = Statuses(comic.status)
 
         session.commit()
         save_comics_file(load_comics)

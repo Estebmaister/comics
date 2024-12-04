@@ -22,9 +22,9 @@ DEFAULT_COMIC_TYPE = 'manhua'
 DEFAULT_STATUS = 'ongoing'
 
 # CSS Selectors
-COMIC_CLASS = 'page-item-detail text'
+COMIC_CLASS = 'page-item-detail'
 COMIC_INFO_CLASS = 'item-summary'
-TITLE_CLASS = 'post-title font-title'
+TITLE_CLASS = 'post-title'
 CHAPTER_CLASS = 'chapter-item'
 
 
@@ -41,7 +41,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
     title = 'Unknown'
     try:
         # Extract cover image
-        cover = comic_div.div.a.img['src']
+        cover = comic_div.div.a.img['data-src']
 
         # Extract comic info div
         comic_info = comic_div.select(f"div.{COMIC_INFO_CLASS}")[0]
