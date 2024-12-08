@@ -5,7 +5,7 @@ package comics;
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
-option go_package = "/pb";
+option go_package = "/pb/comics";
 option py_generic_services = true;
 
 // Comics collection message
@@ -37,15 +37,16 @@ message Comic {
   // Classifications
   repeated Publisher publishers = 10;
   repeated Genre genres = 11;
+  Rating rating = 12;
   
   // User interaction fields
-  bool track = 12;
-  int32 viewed_chap = 13 [(validate.rules).int32 = {gte: 0}];  // Cannot be negative
-  bool deleted = 14;
+  bool track = 13;
+  int32 viewed_chap = 14 [(validate.rules).int32 = {gte: 0}];  // Cannot be negative
+  bool deleted = 15;
 
   // Reserved fields for future use
-  reserved 15 to 20;
-  reserved "rating", "views";
+  reserved 16 to 20;
+  reserved "views";
 }
 
 // Comic types enum
@@ -113,4 +114,37 @@ enum Publisher {
   VOID_SCANS = 11;
   DRAKE_SCANS = 12;
   NOVEL_MIC = 13;
+}
+
+// Rating enum
+// Represents user ratings for comics
+enum Rating {
+  option allow_alias = true;
+
+  RATING_UNKNOWN = 0;
+  F_RATED = 1;
+  E_RATED = 2;
+  D_RATED = 3;
+  C_RATED = 4;
+  B_RATED = 5;
+  A_RATED = 6;
+  S_RATED = 7;
+  SS_RATED = 8;
+  SSS_RATED = 9;
+
+  // Common aliases
+  F = 1;  // Alias for F_RATED
+  ONE_STAR = 1;  // Alias for F_RATED
+  E = 2;  // Alias for E_RATED
+  D = 3;  // Alias for D_RATED
+  TWO_STARS = 3;  // Alias for D_RATED
+  C = 4;  // Alias for C_RATED
+  B = 5;  // Alias for B_RATED
+  THREE_STARS = 5;  // Alias for B_RATED
+  A = 6;  // Alias for A_RATED
+  S = 7;  // Alias for S_RATED
+  FOUR_STARS = 7;  // Alias for S_RATED
+  SS = 8; // Alias for SS_RATED
+  SSS = 9; // Alias for SSS_RATED
+  FIVE_STARS = 9; // Alias for SSS_RATED
 }

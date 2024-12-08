@@ -6,7 +6,7 @@ import "comics.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
-option go_package = "/pb";
+option go_package = "/pb/comics";
 option py_generic_services = true;
 
 // Comic Service definition
