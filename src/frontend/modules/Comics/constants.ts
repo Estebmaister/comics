@@ -7,7 +7,7 @@ export const MAIN_PAGE_PADDING = 30;
 export const COMICS_PER_ROW = 3;
 
 // Time Constants (in milliseconds)
-export const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+export const REFRESH_INTERVAL = 3 * 60 * 1000; // 3 minutes
 
 // Button Text
 export const BUTTON_TEXT = {

@@ -34,24 +34,15 @@ export function ComicsMainPage() {
   const onLastPage = from >= limit * (totalPages - 1);
 
   const paginationData = {
-    from,
-    limit,
-    setSearchParams,
-    onFirstPage,
-    onLastPage,
-    currentPage,
-    totalPages
+    from, limit, setSearchParams,
+    onFirstPage, onLastPage, currentPage, totalPages
   };
 
   useEffect(() => {
     const fetchData = () => {
       dataFetch(
         { setWebComics, setPaginationDict, setLoadMsg },
-        from,
-        limit,
-        queryFilter,
-        onlyTracked,
-        onlyUnchecked
+        from, limit, queryFilter, onlyTracked, onlyUnchecked
       );
     };
 

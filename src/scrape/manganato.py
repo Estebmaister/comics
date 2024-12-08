@@ -54,7 +54,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         # Extract chapter information
         chap_elements = comic_int.find_all('p')
         if not chap_elements:
-            log.warning('No chapters found for comic: %s', title)
+            log.info('No chapters found for comic: %s', title)
             return None
 
         # Extract latest chapter number

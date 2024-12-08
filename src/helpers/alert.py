@@ -66,7 +66,7 @@ def send_email(subject: str, body: str) -> None:
             server.login(EMAIL, EMAIL_PASSWORD)
 
             message = f"Subject: {subject}\n\n{body}"
-            server.sendmail(EMAIL, EMAIL, message)
+            server.sendmail(EMAIL, EMAIL, message.encode('ascii', 'ignore'))
     except smtplib.SMTPException as e:
         log.error('Failed to send email: %s', str(e))
         raise
