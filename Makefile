@@ -60,6 +60,10 @@ server:
 scrape:
 	$(ACTIVATE_VENV) && python3 src/__main__.py
 
+## backup        Run the web backup
+backup:
+	$(ACTIVATE_VENV) && python3 -c 'from src.db.backup_db import backup_database; backup_database()'
+
 # Protobuf configuration
 # Directory containing .proto files
 PROTO_DIR := proto

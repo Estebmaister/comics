@@ -1,10 +1,11 @@
 # python tests/__main__.py
 
-from scrape import _parse_type
-from db.helpers import manage_multi_finds
-from db import ComicDB, Types
 import sys
 import unittest
+
+from db import ComicDB, Types
+from db.helpers import manage_multi_finds
+from scrape import _parse_type
 
 sys.path.append("./src")
 
