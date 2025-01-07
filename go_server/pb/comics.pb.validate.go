@@ -188,16 +188,7 @@ func (m *Comic) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetId() <= 0 {
-		err := ComicValidationError{
-			field:  "Id",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Id
 
 	if len(m.GetTitles()) < 1 {
 		err := ComicValidationError{
@@ -255,16 +246,7 @@ func (m *Comic) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.GetCurrentChap() < 0 {
-		err := ComicValidationError{
-			field:  "CurrentChap",
-			reason: "value must be greater than or equal to 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for CurrentChap
 
 	if all {
 		switch v := interface{}(m.GetLastUpdate()).(type) {
@@ -295,18 +277,11 @@ func (m *Comic) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Rating
+
 	// no validation rules for Track
 
-	if m.GetViewedChap() < 0 {
-		err := ComicValidationError{
-			field:  "ViewedChap",
-			reason: "value must be greater than or equal to 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for ViewedChap
 
 	// no validation rules for Deleted
 

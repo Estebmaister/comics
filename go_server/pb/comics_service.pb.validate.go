@@ -431,16 +431,7 @@ func (m *GetComicByIdRequest) validate(all bool) error {
 		}
 	}
 
-	if m.GetId() <= 0 {
-		err := GetComicByIdRequestValidationError{
-			field:  "Id",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return GetComicByIdRequestMultiError(errors)
@@ -715,16 +706,7 @@ func (m *DeleteComicRequest) validate(all bool) error {
 		}
 	}
 
-	if m.GetId() <= 0 {
-		err := DeleteComicRequestValidationError{
-			field:  "Id",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return DeleteComicRequestMultiError(errors)
@@ -857,16 +839,7 @@ func (m *UpdateComicRequest) validate(all bool) error {
 		}
 	}
 
-	if m.GetId() <= 0 {
-		err := UpdateComicRequestValidationError{
-			field:  "Id",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Id
 
 	if all {
 		switch v := interface{}(m.GetComic()).(type) {
@@ -1159,16 +1132,7 @@ func (m *PaginationRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetPage() <= 0 {
-		err := PaginationRequestValidationError{
-			field:  "Page",
-			reason: "value must be greater than 0",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Page
 
 	if val := m.GetPageSize(); val <= 0 || val > 100 {
 		err := PaginationRequestValidationError{
@@ -1482,10 +1446,10 @@ func (m *SearchComicsRequest) validate(all bool) error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetQuery()) < 2 {
+	if utf8.RuneCountInString(m.GetQuery()) < 1 {
 		err := SearchComicsRequestValidationError{
 			field:  "Query",
-			reason: "value length must be at least 2 runes",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err

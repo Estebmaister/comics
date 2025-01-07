@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth;
 
-option go_package = "/pb/auth";
+option go_package = "/pb";
 option py_generic_services = true;
 
 // User message containing basic user information
@@ -44,18 +44,16 @@ message ErrorResponse {
 service AuthService {
   // Register creates a new user account
   rpc Register(RegisterRequest) returns (AuthResponse);
-  
+
   // Login authenticates a user and returns a JWT token
   rpc Login(LoginRequest) returns (AuthResponse);
-  
+
   // ValidateToken checks if a token is valid and returns the associated user
   rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 }
 
 // Token validation request
-message ValidateTokenRequest {
-  string token = 1;
-}
+message ValidateTokenRequest { string token = 1; }
 
 // Token validation response
 message ValidateTokenResponse {
