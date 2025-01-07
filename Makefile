@@ -62,7 +62,17 @@ scrape:
 
 ## backup        Run the web backup
 backup:
-	$(ACTIVATE_VENV) && python3 -c 'from src.db.backup_db import backup_database; backup_database()'
+	$(ACTIVATE_VENV) && \
+	python3 -c 'from src.db.backup_db import backup_database; backup_database()'
+
+## repopulate    Run the web backup
+repopulate:
+	$(ACTIVATE_VENV) && \
+	python3 -c 'from src.db.repopulate_db import main; main()'
+
+## py-test       Run python tests
+test-py:
+	$(ACTIVATE_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
 
 # Protobuf configuration
 # Directory containing .proto files
@@ -106,9 +116,9 @@ setup:
 ## proto-py      Generate Python Protobuf files from definitions
 proto-py:
 	@echo "\nGenerating Python Protobuf files..."
-	$(ACTIVATE_VENV)
 	@mkdir -p $(PYTHON_PROTO_OUT)
 	@mkdir -p $(PYTHON_SERVICE_OUT)
+	$(ACTIVATE_VENV) && \
 	$(PYTHON_GRPC) -I$(PROTO_DIR) \
 		--python_out=$(PYTHON_OUT) \
 		--pyi_out=$(PYTHON_OUT) \

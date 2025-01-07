@@ -1,7 +1,7 @@
 # used in db/repopulate_db.py
 from typing import List, Optional, Tuple
 
-from db import ComicDB
+from . import ComicDB, Types
 
 
 def manage_multi_finds(db_comics: List[ComicDB], com_type: int, title: str) -> Tuple[List[ComicDB], str]:
@@ -27,17 +27,17 @@ def manage_multi_finds(db_comics: List[ComicDB], com_type: int, title: str) -> T
     # Handle exact title match for multiple comics
     for comic in db_comics:
         if title in comic.get_titles():
-            return [comic], title
+            return [comic], comic.titles
 
     # For exactly two comics, try type and title matching
     if len(db_comics) == 2:
         # Try matching by type
         if matched_comic := _handle_type_match(db_comics, com_type):
-            return [matched_comic], title
+            return [matched_comic], matched_comic.titles
 
         # Try matching by exact title
         if matched_comic := _handle_title_match(db_comics, title):
-            return [matched_comic], title
+            return [matched_comic], matched_comic.titles
 
     # No match found
     return [], title
@@ -46,18 +46,18 @@ def manage_multi_finds(db_comics: List[ComicDB], com_type: int, title: str) -> T
 def _handle_single_comic(db_comic: ComicDB, title: str, com_type: int) -> Tuple[List[ComicDB], str]:
     """Handle case when only one comic is found."""
     if title in db_comic.get_titles():
-        return [db_comic], title
+        return [db_comic], db_comic.titles
 
     title = _handle_novel_type(db_comic, title, com_type)
     if _find_matching_title(db_comic, title):
-        return [db_comic], title
+        return [db_comic], db_comic.titles
 
     return [], title
 
 
 def _handle_novel_type(db_comic: ComicDB, title: str, com_type: int) -> str:
     """Handle special case for novels with same title as comic."""
-    if com_type == 4 and db_comic.com_type != com_type:  # Types.Novel == 4
+    if com_type == Types.Novel.value and getattr(db_comic, "com_type") != com_type:
         return title + " - novel"
     return title
 
@@ -73,7 +73,7 @@ def _find_matching_title(db_comic: ComicDB, title: str) -> bool:
 def _handle_type_match(comics: List[ComicDB], com_type: int) -> Optional[ComicDB]:
     """Find comic with matching type from two comics."""
     for comic in comics:
-        if comic.com_type == com_type:
+        if getattr(comic, "com_type") == com_type:
             return comic
     return None
 

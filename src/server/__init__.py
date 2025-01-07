@@ -6,8 +6,8 @@ from flask import Flask, make_response, request
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from db import (ComicDB, Statuses, Types, load_comics, save_comics_file,
-                swagger_model)
+from db import (ComicDB, Statuses, Types, comic_swagger_model, load_comics,
+                save_comics_file)
 from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
                      comics_like_title, merge_comics, sql_check)
 from helpers.alert import send_reminder
@@ -57,7 +57,7 @@ class Scrape(Resource):
 
 
 ns = api.namespace('comics', description='Comic operations')
-comic_rest_model = api.model('Comic', swagger_model)
+api.add_model('Comic', comic_swagger_model)
 
 # RESTful API routes
 
@@ -81,7 +81,7 @@ class ComicList(Resource):
             'description': 'Full query results', 'type': 'bool'}
     })
     # Using make_response isn't compatible with marshal
-    # @ns.marshal_list_with(comic_rest_model)
+    # @ns.marshal_list_with(comic_swagger_model)
     def get(self):
         '''List all comics with pagination'''
         offset = request.args.get("from", 0)
@@ -115,8 +115,8 @@ class ComicList(Resource):
         return resp
 
     @ns.doc('create_comic')
-    @ns.expect(comic_rest_model)
-    @ns.marshal_with(comic_rest_model, code=201)
+    @ns.expect(comic_swagger_model)
+    @ns.marshal_with(comic_swagger_model, code=201)
     def post(self):
         '''Create a new comic'''
         if not request.json:
@@ -193,7 +193,7 @@ class ComicID(Resource):
     '''Shows a single comic item and lets you delete or update by ID'''
 
     @ns.doc('get_comic')
-    @ns.marshal_with(comic_rest_model)
+    @ns.marshal_with(comic_swagger_model)
     def get(self, id):
         '''Fetch a comic by ID'''
         comic, _ = comic_by_id(id)
@@ -219,8 +219,8 @@ class ComicID(Resource):
         return 202
 
     @ns.doc('update_comic')
-    @ns.expect(comic_rest_model)
-    @ns.marshal_with(comic_rest_model)
+    @ns.expect(comic_swagger_model)
+    @ns.marshal_with(comic_swagger_model)
     def put(self, id):
         '''Update a comic given its identifier'''
         if not request.json:
@@ -305,7 +305,7 @@ class ComicTitle(Resource):
     })
     @ns.doc('get_comic_by_title')
     # Using make_response isn't compatible with marshal
-    # @ns.marshal_list_with(comic_rest_model)
+    # @ns.marshal_list_with(comic_swagger_model)
     def get(self, title):
         '''Fetch a list of comics by title'''
         offset = request.args.get("from", 0)
@@ -346,7 +346,7 @@ class ComicMerge(Resource):
     '''Merge comics by id'''
 
     @ns.doc('merge_comics')
-    @ns.marshal_list_with(comic_rest_model)
+    @ns.marshal_list_with(comic_swagger_model)
     def patch(self, base_id, merging_id):
         '''Merge two comics by their respective id'''
         comic, error = merge_comics(base_id, merging_id)

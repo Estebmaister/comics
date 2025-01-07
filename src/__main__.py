@@ -7,6 +7,7 @@ import time
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 
+from db import session
 from helpers.alert import send_reminder
 from helpers.logger import logger
 from scrape import scrapes
@@ -24,7 +25,7 @@ def scrapping() -> None:
     log.info('Scraping started...')
     while True:
         time_started = time.time()
-        scrapes()
+        scrapes(session)
         send_reminder()
         time_req = round((time.time() - time_started), 2)
         print(f'{scrape_cont} ({time_req})', end='\n', flush=True)

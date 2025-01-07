@@ -1,4 +1,3 @@
-import os
 import smtplib
 import subprocess
 from unittest.mock import MagicMock, call, patch

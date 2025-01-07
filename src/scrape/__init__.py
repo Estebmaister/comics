@@ -6,18 +6,17 @@ It coordinates the scraping process across different publishers and manages the 
 """
 
 import asyncio
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Dict
 
-from bs4 import BeautifulSoup, Tag
+from sqlalchemy.orm import Session
 
-from db import Publishers, session
+from db import Publishers
 from helpers.logger import logger
 from scrape.asura import scrape_asura
 from scrape.flame import scrape_flame
 from scrape.manganato import scrape_manganato
 from scrape.manhuaplus import scrape_manhuaplus
 from scrape.realm import scrape_realm
-from scrape.scrapper import ScrapedComic, register_comic, scrape_url
 from scrape.url_switch import publisher_url_pairs
 
 # Configure logging
@@ -75,7 +74,7 @@ async def async_scrape() -> None:
     await asyncio.gather(*tasks)
 
 
-def scrapes() -> None:
+def scrapes(session: Session) -> None:
     """
     Main entry point for comic scraping.
 

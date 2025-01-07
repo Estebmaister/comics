@@ -12,7 +12,7 @@ import os
 import re
 import time
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional
 
 import cloudscraper
 from bs4 import BeautifulSoup
@@ -113,15 +113,15 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers) -> 
         return
 
     # Fetch existing records
-    db_comics, session = comics_like_title(normalized_comic.titles)
+    db_comics, session = comics_like_title(str(normalized_comic.titles))
     json_comics = [
-        comic for comic in load_comics if normalized_comic.titles in comic["titles"]
+        comic for comic in load_comics if str(normalized_comic.titles) in comic["titles"]
     ]
 
     # Handle multiple matches
     db_comics, final_title = manage_multi_finds(
-        db_comics, normalized_comic.com_type, normalized_comic.titles)
-    normalized_comic.titles = final_title
+        db_comics, int(normalized_comic.com_type), str(normalized_comic.titles))
+    normalized_comic.set_titles(final_title)
 
     if not db_comics:
         await _create_new_comic_entry(session, normalized_comic)
@@ -146,7 +146,6 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers) -> 
 
 async def _create_new_comic_entry(session, comic: ComicDB) -> None:
     """Create a new comic entry in both database and JSON storage."""
-
     session.add(comic)
     session.commit()
 
@@ -315,7 +314,7 @@ def _normalize_comic_data(scraped_comic: ScrapedComic, publisher: Publishers) ->
     status_parsed = _parse_status(scraped_comic.status)
 
     return ComicDB(
-        None,
+        id=None,
         titles=clean_title,
         current_chap=chapter_num,
         cover=cover_url,

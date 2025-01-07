@@ -2,15 +2,15 @@
   {
     "name": "asura",
     "websites": [
-      "https://asuratoon.com",
-      "https://asuratoon.com/manga/?page=1&order=update"
+      "https://asuracomic.net",
+      "https://asuracomic.net/page/2"
     ]
   },
   {
     "name": "reaper",
     "websites": [
       "https://reapercomics.com",
-      "https://reapercomics.com/latest/comics?page=1"
+      "https://reapercomics.com/latest/comics?page=2"
     ]
   },
   {
@@ -64,7 +64,7 @@
   {
     "name": "flame",
     "websites": [
-      "https://flamescans.org/"
+      "https://flamescans.xyz/"
     ]
   },
   {
