@@ -203,9 +203,9 @@
     "titles": [
       "Somebody stop the pope"
     ],
-    "current_chap": 22,
+    "current_chap": 23,
     "cover": "https://gg.asuracomic.net/storage/media/259666/conversions/01JFSWF40D64X6R18N89KRQTJK-thumb-small.webp",
-    "last_update": 1735094143,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -288,9 +288,9 @@
     "titles": [
       "Villain to kill"
     ],
-    "current_chap": 155,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuracomic.net/wp-content/uploads/2021/02/villain.jpg",
-    "last_update": 1720443183,
+    "current_chap": 163,
+    "cover": "https://gg.asuracomic.net/storage/media/173/conversions/ead70eb5-thumb-small.webp",
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -302,7 +302,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 155
+    "viewed_chap": 163
   },
   {
     "id": 6,
@@ -331,7 +331,7 @@
       "Regressor of the fallen family"
     ],
     "current_chap": 63,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/13/g/17-1733321967-nw.webp",
+    "cover": "https://gg.asuracomic.net/storage/media/261059/conversions/01JG6WNTBZ27PWXBTXT46SF92N-thumb-small.webp",
     "last_update": 1735934535,
     "com_type": 3,
     "status": 2,
@@ -393,9 +393,9 @@
     "titles": [
       "Regressor instruction manual"
     ],
-    "current_chap": 122,
+    "current_chap": 124,
     "cover": "https://gg.asuracomic.net/storage/media/276/conversions/01J4CG9ADBTWY617STXHGNTBKP-thumb-small.webp",
-    "last_update": 1734993226,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -458,7 +458,7 @@
       "Myst, might, mayhem"
     ],
     "current_chap": 55,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/96/r/16-1733320511-nw.webp",
+    "cover": "https://gg.asuracomic.net/storage/media/237/conversions/01J3BANTCGYVH30PHD7H3PP3VK-thumb-small.webp",
     "last_update": 1736192312,
     "com_type": 3,
     "status": 2,
@@ -564,7 +564,7 @@
     "description": "",
     "author": "\u5929\u547d\u53cd\u6d3e , \u7ed8\u672f\u52a8\u6f2b",
     "track": true,
-    "viewed_chap": 215
+    "viewed_chap": 216
   },
   {
     "id": 10,
@@ -782,9 +782,9 @@
     "titles": [
       "Steel-eating player"
     ],
-    "current_chap": 58,
+    "current_chap": 60,
     "cover": "https://gg.asuracomic.net/storage/media/121/conversions/28901aff-thumb-small.webp",
-    "last_update": 1734993226,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -1624,9 +1624,9 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 113,
+    "current_chap": 115,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
-    "last_update": 1734993226,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -2564,20 +2564,21 @@
       "Return of the unrivaled spear knight",
       "Return of the legendary spear knight"
     ],
-    "current_chap": 156,
-    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
-    "last_update": 1735868729,
+    "current_chap": 157,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/65/v/12-1733289749-nw.webp",
+    "last_update": 1736269246,
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
-      2
+      2,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Jo Huang,Studio Ignis,Teacher Jo",
     "track": true,
     "viewed_chap": 139
   },
@@ -3260,9 +3261,9 @@
     "titles": [
       "Battle through the heavens"
     ],
-    "current_chap": 460,
+    "current_chap": 461,
     "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/thumbbb-175x238.webp",
-    "last_update": 1734993226,
+    "last_update": 1736269249,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -3411,9 +3412,9 @@
     "titles": [
       "Standard of reincarnation"
     ],
-    "current_chap": 124,
+    "current_chap": 125,
     "cover": "https://gg.asuracomic.net/storage/media/38/conversions/b8682ff8-thumb-small.webp",
-    "last_update": 1735868728,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -3539,6 +3540,7 @@
   {
     "id": 56,
     "titles": [
+      "The max leveled hero will return!",
       "The max level hero strikes back",
       "The max level hero has returned!"
     ],
@@ -3549,7 +3551,8 @@
     "status": 2,
     "published_in": [
       1,
-      17
+      17,
+      9
     ],
     "genres": [
       0
@@ -3648,9 +3651,9 @@
     "titles": [
       "Soul land iv"
     ],
-    "current_chap": 524,
+    "current_chap": 525,
     "cover": "https://manhuaplus.com/wp-content/uploads/2021/01/Soul-Land-IV-Ultimate-Fighting-175x238.jpg",
-    "last_update": 1735868731,
+    "last_update": 1736269249,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -4061,9 +4064,9 @@
     "titles": [
       "Infinite mage"
     ],
-    "current_chap": 99,
+    "current_chap": 100,
     "cover": "https://gg.asuracomic.net/storage/media/103/conversions/9ab6b724-thumb-small.webp",
-    "last_update": 1735868729,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4078,7 +4081,7 @@
     "description": "",
     "author": "REDICE studio,Kimchi Woo,Themis",
     "track": true,
-    "viewed_chap": 99
+    "viewed_chap": 100
   },
   {
     "id": 64,
@@ -4127,9 +4130,9 @@
     "titles": [
       "Omniscient reader\u2019s viewpoint"
     ],
-    "current_chap": 243,
+    "current_chap": 244,
     "cover": "https://gg.asuracomic.net/storage/media/105/conversions/9b59fdec-thumb-small.webp",
-    "last_update": 1735868729,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4191,9 +4194,9 @@
     "titles": [
       "Star instructor, master baek"
     ],
-    "current_chap": 105,
+    "current_chap": 106,
     "cover": "https://gg.asuracomic.net/storage/media/131/conversions/5357f1a1-thumb-small.webp",
-    "last_update": 1735868728,
+    "last_update": 1736296364,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -4297,13 +4300,14 @@
     "titles": [
       "Soul land v"
     ],
-    "current_chap": 211,
-    "cover": "https://manhuaplus.com/wp-content/uploads/2022/01/douluodalu5zhongshengtangsan-shenmanjun-175x238.jpg",
-    "last_update": 1735868731,
+    "current_chap": 212,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/91/k/12-1733291302-nw.webp",
+    "last_update": 1736269249,
     "com_type": 2,
     "status": 2,
     "published_in": [
-      3
+      3,
+      17
     ],
     "genres": [
       0
@@ -5229,9 +5233,9 @@
       "The heavenly demon can\u2019t live a normal life",
       "The heavenly demon can't live"
     ],
-    "current_chap": 139,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuratoon.com/wp-content/uploads/2023/07/HeavenlyDemonCover0222.png",
-    "last_update": 1735868729,
+    "current_chap": 140,
+    "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5243,9 +5247,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "San Cheon,Zaino",
     "track": true,
-    "viewed_chap": 139
+    "viewed_chap": 140
   },
   {
     "id": 82,
@@ -5427,9 +5431,9 @@
     "titles": [
       "The game that i came from"
     ],
-    "current_chap": 324,
+    "current_chap": 329,
     "cover": "https://avt.mkklcdnv6temp.com/fld/36/g/12-1733287997-nw.webp",
-    "last_update": 1734215134,
+    "last_update": 1736294135,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5625,9 +5629,9 @@
       "Reincarnated into a warlock 66,666 years later",
       "The black mage who reincarnated after 66666 years"
     ],
-    "current_chap": 145,
-    "cover": "https://gg.asuracomic.net/storage/media/21/conversions/d0dc7fd1-thumb-small.webp",
-    "last_update": 1734987539,
+    "current_chap": 146,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/48/e/12-1733288697-nw.webp",
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5640,7 +5644,7 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Hwabong,Pasa,Taru",
     "track": true,
     "viewed_chap": 91
   },
@@ -6055,9 +6059,9 @@
     "titles": [
       "All hail the sect leader"
     ],
-    "current_chap": 386,
+    "current_chap": 388,
     "cover": "https://rizzfables.com//assets/images/ahtsl.webp",
-    "last_update": 1735868734,
+    "last_update": 1736269253,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6247,9 +6251,9 @@
     "titles": [
       "All my alter egos are tycoons"
     ],
-    "current_chap": 20,
+    "current_chap": 21,
     "cover": "https://rizzfables.com//assets/images/tycoonsz.webp",
-    "last_update": 1735868735,
+    "last_update": 1736269253,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6501,9 +6505,9 @@
     "titles": [
       "World's greatest senior disciple"
     ],
-    "current_chap": 112,
+    "current_chap": 114,
     "cover": "https://rizzfables.com//assets/images/wgsd1.webp",
-    "last_update": 1734993226,
+    "last_update": 1736269867,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6564,9 +6568,9 @@
     "titles": [
       "Legends of the swordsman scholar"
     ],
-    "current_chap": 148,
+    "current_chap": 149,
     "cover": "https://rizzfables.com//assets/images/16__legends_of_swordsman_scholar-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1735868735,
+    "last_update": 1736269867,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -8810,9 +8814,9 @@
     "titles": [
       "Superhuman battlefield"
     ],
-    "current_chap": 138,
-    "cover": "https://gg.asuracomic.net/storage/media/68/conversions/7942ca76-thumb-small.webp",
-    "last_update": 1735868728,
+    "current_chap": 139,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/s/13-1733293037-nw.webp",
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9527,7 +9531,7 @@
   {
     "id": 149,
     "titles": [
-      "Max talent player"
+      "Max talent player - novel"
     ],
     "current_chap": 300,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/a3ad4390-5004-4a7d-a204-8fd4586cee5e/7BPdLZCtZHyletL54axNTzqdvqCJEyQjFAeK0iG1.jpg",
@@ -9785,9 +9789,9 @@
     "titles": [
       "The regressed mercenary\u2019s machinations"
     ],
-    "current_chap": 19,
+    "current_chap": 21,
     "cover": "https://avt.mkklcdnv6temp.com/fld/46/d/18-1733329975-nw.webp",
-    "last_update": 1734993226,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -9891,9 +9895,9 @@
       "The world after the fall",
       "The world after the end"
     ],
-    "current_chap": 161,
+    "current_chap": 162,
     "cover": "https://gg.asuracomic.net/storage/media/258/conversions/01J3BAY4P9AZ1Y9GGSAAP2HQ1K-thumb-small.webp",
-    "last_update": 1735868728,
+    "last_update": 1736296364,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -12050,9 +12054,9 @@
     "titles": [
       "Shenwu tianzun"
     ],
-    "current_chap": 683,
+    "current_chap": 685,
     "cover": "https://avt.mkklcdnv6temp.com/fld/3/y/10-1732804217-nw.webp",
-    "last_update": 1736096584,
+    "last_update": 1736269257,
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -12301,7 +12305,7 @@
     "description": "",
     "author": "Cheongcho",
     "track": true,
-    "viewed_chap": 88
+    "viewed_chap": 134
   },
   {
     "id": 270,
@@ -12957,7 +12961,7 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 113,
+    "current_chap": 115,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
     "last_update": 1734987539,
     "com_type": 3,
@@ -12971,7 +12975,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 113
+    "viewed_chap": 115
   },
   {
     "id": 301,
@@ -14471,9 +14475,9 @@
     "titles": [
       "I randomly have a new career every week"
     ],
-    "current_chap": 743,
+    "current_chap": 745,
     "cover": "https://avt.mkklcdnv6temp.com/fld/83/b/12-1733290786-nw.webp",
-    "last_update": 1735921784,
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -15571,19 +15575,20 @@
     "titles": [
       "The people on earth are too ferocious"
     ],
-    "current_chap": 119,
-    "cover": "https://isekaiscan.com/wp-content/uploads/2021/10/the-people-on-earth-are-too-ferocious-110x150.png",
-    "last_update": 1675257812,
-    "com_type": 0,
+    "current_chap": 256,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/74/h/12-1733290257-nw.webp",
+    "last_update": 1736269257,
+    "com_type": 3,
     "status": 2,
     "published_in": [
-      7
+      7,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Wo Niu Zhenren (\u5367\u725b\u771f\u4eba), Jiajie Huo (\u970d\u5609\u6770)",
     "track": false,
     "viewed_chap": 0
   },
@@ -20768,19 +20773,20 @@
     "titles": [
       "I became a part time employee for gods"
     ],
-    "current_chap": 69,
-    "cover": "https://rizzfables.com//assets/images/10__employee_for_gods-20-06-2023_11_40_14_PM.webp",
-    "last_update": 1732582129,
+    "current_chap": 78,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/25/s/14-1733301609-nw.webp",
+    "last_update": 1736296372,
     "com_type": 3,
-    "status": 4,
+    "status": 2,
     "published_in": [
-      8
+      8,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "God Thingjak ; Jeon Tae Hwan ; Deany ; Mir",
     "track": false,
     "viewed_chap": 0
   },
@@ -21512,21 +21518,22 @@
     "titles": [
       "Eleceed"
     ],
-    "current_chap": 327,
+    "current_chap": 332,
     "cover": "https://avt.mkklcdnv6temp.com/fld/39/a/9-1732794315-nw.webp",
-    "last_update": 1733266057,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
       10,
       11,
+      17,
       17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": " Jae Ho, Son, \uc190\uc81c\ud638 ",
+    "author": "Jae Ho, Son, \uc190\uc81c\ud638",
     "track": false,
     "viewed_chap": 0
   },
@@ -21767,13 +21774,14 @@
     "titles": [
       "Be the actor"
     ],
-    "current_chap": 112,
-    "cover": "https://avt.mkklcdnv6temp.com/50/k/27-1673339693.jpg",
-    "last_update": 1733266056,
+    "current_chap": 117,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/4/k/13-1733299724-nw.webp",
+    "last_update": 1736281383,
     "com_type": 3,
     "status": 2,
     "published_in": [
       11,
+      17,
       17
     ],
     "genres": [
@@ -21810,19 +21818,20 @@
     "titles": [
       "Hectopascals"
     ],
-    "current_chap": 59,
-    "cover": "https://void-scans.com/wp-content/uploads/2022/08/\u00bdA\u00b8\u00aeAi_C\u00a5Ao_690x1000-3-207x300.jpg",
-    "last_update": 1703104346,
+    "current_chap": 98,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/58/v/13-1733296050-nw.webp",
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      11
+      11,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Beopeoling",
     "track": false,
     "viewed_chap": 0
   },
@@ -25330,7 +25339,7 @@
       "The god of war who regressed to level 2",
       "Martial god regressed to level 2"
     ],
-    "current_chap": 82,
+    "current_chap": 84,
     "cover": "https://gg.asuracomic.net/storage/media/120/conversions/7b70a81e-thumb-small.webp",
     "last_update": 1734987538,
     "com_type": 3,
@@ -25345,7 +25354,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 82
+    "viewed_chap": 84
   },
   {
     "id": 913,
@@ -25855,18 +25864,19 @@
       "World's greatest senior disciple"
     ],
     "current_chap": 112,
-    "cover": "https://rizzfables.com//assets/images/wgsd1.webp",
+    "cover": "https://avt.mkklcdnv6temp.com/fld/85/y/13-1733298171-nw.webp",
     "last_update": 1734195121,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      8,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Yoon,Bug Mihon",
     "track": false,
     "viewed_chap": 0
   },
@@ -25898,9 +25908,9 @@
     "titles": [
       "Weapon maker"
     ],
-    "current_chap": 52,
+    "current_chap": 54,
     "cover": "https://gg.asuracomic.net/storage/media/296/conversions/01J7T6WWJR91P2Q26YR40RDGHC-thumb-small.webp",
-    "last_update": 1734455165,
+    "last_update": 1736269247,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -26791,9 +26801,9 @@
       "Star-fostered swordmaster",
       "Star-embracing swordmaster"
     ],
-    "current_chap": 73,
-    "cover": "https://flamescans.org/wp-content/uploads/2023/09/\u00bdA\u00b8\u00aeAiC\u00a5Ao_690x1000.jpg",
-    "last_update": 1697608094,
+    "current_chap": 74,
+    "cover": "https://gg.asuracomic.net/storage/media/155/conversions/e43c72fb-thumb-small.webp",
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -26805,9 +26815,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Hong Dae Eui (\ud64d\ub300\uc758), Q10",
     "track": true,
-    "viewed_chap": 73
+    "viewed_chap": 74
   },
   {
     "id": 995,
@@ -27243,7 +27253,7 @@
     "titles": [
       "Memorize"
     ],
-    "current_chap": 54,
+    "current_chap": 55,
     "cover": "https://gg.asuracomic.net/storage/media/237/conversions/01J3BANTCGYVH30PHD7H3PP3VK-thumb-small.webp",
     "last_update": 1698281645,
     "com_type": 3,
@@ -27257,7 +27267,7 @@
     "description": "",
     "author": "Hanjung Wolya , Kim Tae-Hyung , \uae40\ud0dc\ud615 , \ud55c\uc911\uc6d4\uc57c , \ub9e4\ub4dc\ubc84\ub4dc",
     "track": true,
-    "viewed_chap": 54
+    "viewed_chap": 55
   },
   {
     "id": 1016,
@@ -27918,24 +27928,24 @@
   {
     "id": 1050,
     "titles": [
-      "Surviving with an sss-rank inventory"
+      "King of violence"
     ],
-    "current_chap": 27,
-    "cover": "https://hivetoon.com/wp-content/uploads/3fWqBuv-1.png",
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/35/n/17-1733323307-nw.webp",
     "last_update": 1733510355,
     "com_type": 3,
     "status": 2,
     "published_in": [
-      2,
-      17
+      17,
+      11
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "LICO  ,  Han Kyeong-Chan",
     "track": true,
-    "viewed_chap": 27
+    "viewed_chap": 36
   },
   {
     "id": 1051,
@@ -28091,9 +28101,9 @@
     "titles": [
       "Avalon of disaster"
     ],
-    "current_chap": 60,
+    "current_chap": 64,
     "cover": "https://avt.mkklcdnv6temp.com/fld/26/q/15-1733308183-nw.webp",
-    "last_update": 1734455174,
+    "last_update": 1736281382,
     "com_type": 1,
     "status": 2,
     "published_in": [
@@ -28178,8 +28188,8 @@
     "titles": [
       "Kunon the sorcerer can see through"
     ],
-    "current_chap": 13,
-    "cover": "https://flamecomics.xyz/wp-content/uploads/2022/05/KunonCover.png",
+    "current_chap": 87,
+    "cover": "https://rizzfables.com//assets/images/player.webp",
     "last_update": 1730771864,
     "com_type": 3,
     "status": 2,
@@ -28191,8 +28201,8 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0
+    "track": true,
+    "viewed_chap": 87
   },
   {
     "id": 1063,
@@ -28304,8 +28314,8 @@
     "titles": [
       "The regressed demon lord is kind"
     ],
-    "current_chap": 50,
-    "cover": "https://gg.asuracomic.net/storage/media/194/conversions/9d3e564d-thumb-small.webp",
+    "current_chap": 43,
+    "cover": "https://gg.asuracomic.net/storage/media/292/conversions/01J6AR9XJKAQHET3AJYG9YPZ57-thumb-small.webp",
     "last_update": 1730040541,
     "com_type": 3,
     "status": 2,
@@ -28316,9 +28326,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Ubilam , Min Yong-Ki , Dubu, Ubiram",
     "track": true,
-    "viewed_chap": 39
+    "viewed_chap": 43
   },
   {
     "id": 1069,
@@ -28474,9 +28484,9 @@
     "titles": [
       "Chronicles of the martial god'"
     ],
-    "current_chap": 114,
+    "current_chap": 115,
     "cover": "https://gg.asuracomic.net/storage/media/94/conversions/a45e4a4a-thumb-small.webp",
-    "last_update": 1735868729,
+    "last_update": 1736294126,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -28539,10 +28549,10 @@
     "titles": [
       "Unrivalled father"
     ],
-    "current_chap": 296,
-    "cover": "https://lscomic.com/wp-content/uploads/2023/08/coverWPD-175x238.png",
+    "current_chap": 63,
+    "cover": "https://gg.asuracomic.net/storage/media/255320/conversions/01JE7RF30SQKQX82H8PVCZM8BZ-thumb-small.webp",
     "last_update": 1715792695,
-    "com_type": 0,
+    "com_type": 3,
     "status": 2,
     "published_in": [
       9
@@ -28552,8 +28562,8 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0
+    "track": true,
+    "viewed_chap": 63
   },
   {
     "id": 1075,
@@ -29778,14 +29788,15 @@
     "titles": [
       "King of violence"
     ],
-    "current_chap": 35,
-    "cover": "https://avt.mkklcdnv6temp.com/46/c/34-1716785721.jpg",
-    "last_update": 1733105655,
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/35/n/17-1733323307-nw.webp",
+    "last_update": 1736269256,
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       11,
+      17,
       17
     ],
     "genres": [
@@ -30643,24 +30654,25 @@
   {
     "id": 1128,
     "titles": [
-      "Children of the rune"
+      "Magic emperor",
+      "The devil butler"
     ],
-    "current_chap": 39,
-    "cover": "https://gg.asuracomic.net/storage/media/218/conversions/c7c01a2d-thumb-small.webp",
+    "current_chap": 643,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/46/v/10-1732800801-nw.webp",
     "last_update": 1733105590,
-    "com_type": 3,
+    "com_type": 2,
     "status": 2,
     "published_in": [
-      1,
-      4
+      17,
+      3
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Wuer Manhua , Ye xiao",
     "track": true,
-    "viewed_chap": 1
+    "viewed_chap": 100
   },
   {
     "id": 1128,
@@ -33036,13 +33048,14 @@
     "titles": [
       "Genius grandson of the loan shark king"
     ],
-    "current_chap": 30,
+    "current_chap": 34,
     "cover": "https://avt.mkklcdnv6temp.com/fld/83/y/17-1733326263-nw.webp",
-    "last_update": 1733497668,
+    "last_update": 1736294134,
     "com_type": 3,
     "status": 2,
     "published_in": [
       11,
+      17,
       17
     ],
     "genres": [
@@ -37220,9 +37233,9 @@
     "titles": [
       "One summer day"
     ],
-    "current_chap": 75,
+    "current_chap": 78,
     "cover": "https://avt.mkklcdnv6temp.com/fld/8/s/15-1733307097-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37388,9 +37401,9 @@
     "titles": [
       "Zero day attack"
     ],
-    "current_chap": 57,
+    "current_chap": 60,
     "cover": "https://avt.mkklcdnv6temp.com/fld/19/v/16-1733314352-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37430,9 +37443,9 @@
     "titles": [
       "Modernist"
     ],
-    "current_chap": 42,
+    "current_chap": 45,
     "cover": "https://avt.mkklcdnv6temp.com/fld/79/s/17-1733326013-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37556,9 +37569,9 @@
     "titles": [
       "Pear blosom love"
     ],
-    "current_chap": 25,
+    "current_chap": 28,
     "cover": "https://avt.mkklcdnv6temp.com/fld/91/q/14-1733306074-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37577,7 +37590,7 @@
     "titles": [
       "I reincarnated as the little sister of a death game manga's murder mastermind and failed"
     ],
-    "current_chap": 30,
+    "current_chap": 33,
     "cover": "https://avt.mkklcdnv6temp.com/fld/57/j/18-1733380548-nw.webp",
     "last_update": 1731241942,
     "com_type": 3,
@@ -37591,16 +37604,16 @@
     "description": "",
     "author": "Bread squirrel  , Bread-Eating Squirrel , \ube75\uba39\ub294\ub2e4\ub78c\uc950 , Next Level Studio",
     "track": true,
-    "viewed_chap": 30
+    "viewed_chap": 33
   },
   {
     "id": 1296,
     "titles": [
       "Regressing as the reincarnated bastard of the sword clan"
     ],
-    "current_chap": 30,
+    "current_chap": 33,
     "cover": "https://avt.mkklcdnv6temp.com/fld/57/j/18-1733380548-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736269256,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37766,9 +37779,9 @@
     "titles": [
       "Tsuyoshi"
     ],
-    "current_chap": 286,
+    "current_chap": 288,
     "cover": "https://avt.mkklcdnv6temp.com/fld/94/f/10-1732803660-nw.webp",
-    "last_update": 1735094152,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -37850,9 +37863,9 @@
     "titles": [
       "Sorry my husband, i just see you as my brother."
     ],
-    "current_chap": 130,
+    "current_chap": 131,
     "cover": "https://avt.mkklcdnv6temp.com/fld/86/f/12-1733290979-nw.webp",
-    "last_update": 1734455164,
+    "last_update": 1736269256,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38312,9 +38325,9 @@
     "titles": [
       "Azelda: the spirit master\u2019s contract marriage"
     ],
-    "current_chap": 13,
+    "current_chap": 16,
     "cover": "https://avt.mkklcdnv6temp.com/fld/75/m/18-1733381611-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38354,9 +38367,9 @@
     "titles": [
       "Cry, even better if you beg"
     ],
-    "current_chap": 33,
+    "current_chap": 36,
     "cover": "https://avt.mkklcdnv6temp.com/fld/31/g/16-1733315201-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38522,9 +38535,9 @@
     "titles": [
       "Born a princess"
     ],
-    "current_chap": 93,
+    "current_chap": 94,
     "cover": "https://avt.mkklcdnv6temp.com/fld/49/i/14-1733303610-nw.webp",
-    "last_update": 1736040768,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38564,9 +38577,9 @@
     "titles": [
       "Fire flower dream"
     ],
-    "current_chap": 29,
+    "current_chap": 32,
     "cover": "https://avt.mkklcdnv6temp.com/fld/36/g/15-1733308796-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38606,9 +38619,9 @@
     "titles": [
       "Prison breakfast"
     ],
-    "current_chap": 23,
+    "current_chap": 25,
     "cover": "https://avt.mkklcdnv6temp.com/fld/37/n/18-1733329469-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38648,9 +38661,9 @@
     "titles": [
       "Stranger than friends"
     ],
-    "current_chap": 89,
+    "current_chap": 91,
     "cover": "https://avt.mkklcdnv6temp.com/fld/9/d/14-1733300130-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736281383,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38774,9 +38787,9 @@
     "titles": [
       "Punch drunk love"
     ],
-    "current_chap": 72,
+    "current_chap": 74,
     "cover": "https://avt.mkklcdnv6temp.com/fld/23/r/5-1732767066-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736281383,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38858,9 +38871,9 @@
     "titles": [
       "Ideal type but kkondae"
     ],
-    "current_chap": 42,
+    "current_chap": 45,
     "cover": "https://avt.mkklcdnv6temp.com/fld/48/h/14-1733303552-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736281382,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -38900,9 +38913,9 @@
     "titles": [
       "Reincarnated as a genius prodigy of a prestigious family"
     ],
-    "current_chap": 31,
+    "current_chap": 34,
     "cover": "https://avt.mkklcdnv6temp.com/fld/50/g/18-1733380139-nw.webp",
-    "last_update": 1734458321,
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -39551,9 +39564,9 @@
     "titles": [
       "It starts with a kingpin account"
     ],
-    "current_chap": 345,
+    "current_chap": 347,
     "cover": "https://avt.mkklcdnv6temp.com/fld/74/g/11-1733284633-nw.webp",
-    "last_update": 1736096584,
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -39698,9 +39711,9 @@
     "titles": [
       "When trying to get back at the hometown bullies, another battle began"
     ],
-    "current_chap": 46,
+    "current_chap": 47,
     "cover": "https://avt.mkklcdnv6temp.com/fld/55/a/14-1733303920-nw.webp",
-    "last_update": 1734630471,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -40160,9 +40173,9 @@
     "titles": [
       "My daddy hides his power"
     ],
-    "current_chap": 27,
+    "current_chap": 31,
     "cover": "https://avt.mkklcdnv6temp.com/fld/82/u/18-1733412144.jpg",
-    "last_update": 1734630471,
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -40370,9 +40383,9 @@
     "titles": [
       "Hi! it's me, the viscount's villanized daughter"
     ],
-    "current_chap": 5,
+    "current_chap": 7,
     "cover": "https://avt.mkklcdnv6temp.com/fld/62/f/18-1733380814-nw.webp",
-    "last_update": 1734630471,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -43143,9 +43156,9 @@
     "titles": [
       "Darling, why do you regret it\uff1f"
     ],
-    "current_chap": 30,
+    "current_chap": 32,
     "cover": "https://avt.mkklcdnv6temp.com/fld/68/n/18-1733381195-nw.webp",
-    "last_update": 1735094141,
+    "last_update": 1736296372,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -43269,9 +43282,9 @@
     "titles": [
       "6-nin no shinanai shoujo to kanarazu shinu unmei no hito"
     ],
-    "current_chap": 1,
+    "current_chap": 2,
     "cover": "https://avt.mkklcdnv6temp.com/fld/85/h/18-1733671629-nw.webp",
-    "last_update": 1735094141,
+    "last_update": 1736269256,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -43710,9 +43723,9 @@
     "titles": [
       "Another world's highest guild leader ~i'm the weakest in the guild, but i can't quit the guild because of the heavy love of all the guild members~"
     ],
-    "current_chap": 9,
+    "current_chap": 12,
     "cover": "https://avt.mkklcdnv6temp.com/44/s/30-1689669835.jpg",
-    "last_update": 1731423155,
+    "last_update": 1736269256,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -43773,9 +43786,9 @@
     "titles": [
       "Kanojo, okarishimasu"
     ],
-    "current_chap": 358,
+    "current_chap": 359,
     "cover": "https://avt.mkklcdnv6temp.com/fld/41/p/8-1732789617-nw.webp",
-    "last_update": 1735094141,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -43920,9 +43933,9 @@
     "titles": [
       "Gachiakuta"
     ],
-    "current_chap": 121,
+    "current_chap": 122,
     "cover": "https://avt.mkklcdnv6temp.com/fld/7/k/13-1733292311-nw.webp",
-    "last_update": 1735094141,
+    "last_update": 1736294135,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -44004,9 +44017,9 @@
     "titles": [
       "I upset millions of cultivators"
     ],
-    "current_chap": 55,
+    "current_chap": 58,
     "cover": "https://avt.mkklcdnv6temp.com/fld/53/u/17-1733324438-nw.webp",
-    "last_update": 1735094141,
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -44907,8 +44920,8 @@
     "titles": [
       "The bride of barbaroi"
     ],
-    "current_chap": 44,
-    "cover": "https://avt.mkklcdnv6temp.com/12/y/23-1611987979.jpg",
+    "current_chap": 20,
+    "cover": "https://gg.asuracomic.net/storage/media/261545/conversions/01JGEDMH1RHB4FMVJAY2B1KHH1-thumb-small.webp",
     "last_update": 1731457827,
     "com_type": 3,
     "status": 2,
@@ -44919,18 +44932,18 @@
       0
     ],
     "description": "",
-    "author": "Kotoba Noriaki",
-    "track": false,
-    "viewed_chap": 0
+    "author": "",
+    "track": true,
+    "viewed_chap": 20
   },
   {
     "id": 1472,
     "titles": [
       "A dragonslayer's peerless regr"
     ],
-    "current_chap": 20,
-    "cover": "https://gg.asuracomic.net/storage/media/261545/conversions/01JGEDMH1RHB4FMVJAY2B1KHH1-thumb-small.webp",
-    "last_update": 1735868727,
+    "current_chap": 21,
+    "cover": "https://gg.asuracomic.net/storage/media/263251/conversions/01JH1A72V199K0YS3AN32BK9AF-thumb-small.webp",
+    "last_update": 1736296364,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -45285,9 +45298,9 @@
     "titles": [
       "The main duties of the vice president"
     ],
-    "current_chap": 1,
-    "cover": "https://avt.mkklcdnv6temp.com/24/f/37-1728399857.jpg",
-    "last_update": 1731457832,
+    "current_chap": 288,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/i/9-1732796174-nw.webp",
+    "last_update": 1736275897,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -49675,9 +49688,9 @@
     "titles": [
       "My hyung's omega"
     ],
-    "current_chap": 9,
+    "current_chap": 10,
     "cover": "https://avt.mkklcdnv6temp.com/fld/94/d/18-1735138684.jpg",
-    "last_update": 1735869012,
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -50578,9 +50591,9 @@
     "titles": [
       "Bittersweet howling"
     ],
-    "current_chap": 29,
+    "current_chap": 30,
     "cover": "https://avt.mkklcdnv6temp.com/fld/17/i/16-1733314164-nw.webp",
-    "last_update": 1736192322,
+    "last_update": 1736275898,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -56187,9 +56200,9 @@
     "titles": [
       "Solo resurrection"
     ],
-    "current_chap": 39,
+    "current_chap": 40,
     "cover": "https://avt.mkklcdnv6temp.com/fld/98/f/17-1733327104-nw.webp",
-    "last_update": 1735869012,
+    "last_update": 1736275897,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -57514,9 +57527,9 @@
     "titles": [
       "0 and 1"
     ],
-    "current_chap": 18,
+    "current_chap": 19,
     "cover": "https://avt.mkklcdnv6temp.com/fld/98/f/15-1733312828-nw.webp",
-    "last_update": 1735869012,
+    "last_update": 1736281383,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -58648,9 +58661,9 @@
     "titles": [
       "Risky: revenge tastes like sin"
     ],
-    "current_chap": 29,
+    "current_chap": 35,
     "cover": "https://avt.mkklcdnv6temp.com/fld/62/k/18-1733380826-nw.webp",
-    "last_update": 1735869012,
+    "last_update": 1736294135,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -60160,9 +60173,9 @@
     "titles": [
       "Secret class"
     ],
-    "current_chap": 244,
+    "current_chap": 246,
     "cover": "https://avt.mkklcdnv6temp.com/fld/88/i/13-1733298358-nw.webp",
-    "last_update": 1735869012,
+    "last_update": 1736269257,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -60288,9 +60301,9 @@
     "titles": [
       "Immortal, invincible"
     ],
-    "current_chap": 178,
+    "current_chap": 180,
     "cover": "https://avt.mkklcdnv6temp.com/fld/76/o/9-1732796590.jpg",
-    "last_update": 1736119294,
+    "last_update": 1736277733,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -63186,9 +63199,9 @@
     "titles": [
       "Silver plan to redo from jk"
     ],
-    "current_chap": 57,
+    "current_chap": 58,
     "cover": "https://avt.mkklcdnv6temp.com/fld/80/v/10-1732802847-nw.webp",
-    "last_update": 1736123447,
+    "last_update": 1736294134,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -63560,6 +63573,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1918,
+    "titles": [
+      "A bad case of junioritis"
+    ],
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/88/k/18-1734362608-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kyejo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1919,
     "titles": [
       "Collector (seo hye-eun)"
@@ -63577,6 +63611,27 @@
     ],
     "description": "",
     "author": "Seo Hye-eun , Tanyun , 775",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1919,
+    "titles": [
+      "I\u2019d rather abandon you than be abandoned"
+    ],
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/79/c/17-1733325978-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Elluang  ,  Han Nuri  ,  Chae Yan",
     "track": false,
     "viewed_chap": 0
   },
@@ -63602,6 +63657,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1920,
+    "titles": [
+      "Koibumi to 13-sai no joyuu"
+    ],
+    "current_chap": 20,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/48/q/16-1733316532-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jaga",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1921,
     "titles": [
       "Daily thick fog"
@@ -63619,6 +63695,27 @@
     ],
     "description": "",
     "author": "PlanB",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1921,
+    "titles": [
+      "I became a tyrant\u2019s maid"
+    ],
+    "current_chap": 54,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/41/j/17-1733323668-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Joo Yeryeong , Penta , Inolle",
     "track": false,
     "viewed_chap": 0
   },
@@ -63644,6 +63741,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1922,
+    "titles": [
+      "The hero went crazy even though i\u2019m the one who died"
+    ],
+    "current_chap": 52,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/j/15-1733312561-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Dam Paldang, Humpback Whale",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1923,
     "titles": [
       "Designs"
@@ -63661,6 +63779,27 @@
     ],
     "description": "",
     "author": "Igarashi Daisuke",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1923,
+    "titles": [
+      "The villainess wants to go home"
+    ],
+    "current_chap": 68,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/89/j/15-1733312224-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "VrK , WHYNOTME , DXD Animation",
     "track": false,
     "viewed_chap": 0
   },
@@ -63686,6 +63825,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1924,
+    "titles": [
+      "The demon maid only wants to be bullied by the villainess"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/58/v/11-1733281985-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Xiong Yue Comic Studio (\u718a\u66f0\u6f2b\u753b\u5de5\u4f5c\u5ba4)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1925,
     "titles": [
       "Sam plays the game"
@@ -63703,6 +63863,27 @@
     ],
     "description": "",
     "author": "KANG Eun-Young",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1925,
+    "titles": [
+      "The dungeon\u2019s time-bound s-rank beauty"
+    ],
+    "current_chap": 58,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/49/a/16-1733316563-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "yuram, 67floors (67\uce35\uc758)",
     "track": false,
     "viewed_chap": 0
   },
@@ -63728,6 +63909,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1926,
+    "titles": [
+      "I ended up saving my crazy stepfather!"
+    ],
+    "current_chap": 53,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/73/t/17-1733325663-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Chon Hyerang  ,  Spoon Comics",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1927,
     "titles": [
       "The story of a succubus who came to the human world"
@@ -63745,6 +63947,27 @@
     ],
     "description": "",
     "author": "Kichi (kitiokitioo)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1927,
+    "titles": [
+      "The blooming violet in the back garden"
+    ],
+    "current_chap": 50,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/2/l/16-1733321016-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "SUNG Hye-rim",
     "track": false,
     "viewed_chap": 0
   },
@@ -63770,6 +63993,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1928,
+    "titles": [
+      "I will rewrite the dead end novel"
+    ],
+    "current_chap": 57,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/2/d/13-1733299533-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Bang Tong Sik , Choi Lee Seol , Cheondung",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1929,
     "titles": [
       "Animal kingdom"
@@ -63787,6 +64031,27 @@
     ],
     "description": "",
     "author": "Ppurin",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1929,
+    "titles": [
+      "Saint seiya - episode g requiem"
+    ],
+    "current_chap": 54,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/2/e/14-1733306691-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kurumada Masami, Okada Megumu",
     "track": false,
     "viewed_chap": 0
   },
@@ -63812,6 +64077,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1930,
+    "titles": [
+      "Be crazy about me"
+    ],
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/78/e/17-1733325924-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "EON COMICS , Hyon-young",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1931,
     "titles": [
       "Tapris sugar step"
@@ -63829,6 +64115,27 @@
     ],
     "description": "",
     "author": "Ukami,Bafako",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1931,
+    "titles": [
+      "Love alarm"
+    ],
+    "current_chap": 145,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/u/10-1732802169-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Chon Kye-young",
     "track": false,
     "viewed_chap": 0
   },
@@ -63854,12 +64161,33 @@
     "viewed_chap": 0
   },
   {
+    "id": 1932,
+    "titles": [
+      "The only way"
+    ],
+    "current_chap": 26,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/85/e/15-1733311948-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "I-Beh",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1933,
     "titles": [
       "Holy emperor's grandson is a necromancer"
     ],
-    "current_chap": 65,
-    "cover": "https://avt.mkklcdnv6temp.com/5/j/33-1703043021.jpg",
+    "current_chap": 116,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/b/13-1733298919-nw.webp",
     "last_update": 1732815314,
     "com_type": 3,
     "status": 2,
@@ -63870,7 +64198,28 @@
       0
     ],
     "description": "",
-    "author": "Geulim Jakkun, Studio Neulbom",
+    "author": "Park Jong Suk,Gunmandumeogja,Yato",
+    "track": true,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1933,
+    "titles": [
+      "World's strongest troll"
+    ],
+    "current_chap": 116,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/b/13-1733298919-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Park Jong Suk,Gunmandumeogja,Yato",
     "track": false,
     "viewed_chap": 0
   },
@@ -63896,6 +64245,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1934,
+    "titles": [
+      "Exclusive scandal"
+    ],
+    "current_chap": 23,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/23/v/18-1733328671-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Chajeong",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1935,
     "titles": [
       "Westa no daidokoro -wasureta boku no sekai gohan-"
@@ -63913,6 +64283,27 @@
     ],
     "description": "",
     "author": "Inoue Hinako",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1935,
+    "titles": [
+      "Reincarnation laundry"
+    ],
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/30/u/18-1733329071-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Baek Heesan",
     "track": false,
     "viewed_chap": 0
   },
@@ -63938,6 +64329,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1936,
+    "titles": [
+      "Swim in the scent"
+    ],
+    "current_chap": 17,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/100/f/17-1733327235-nw.webp",
+    "last_update": 1736281382,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "OSSION",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1937,
     "titles": [
       "I became the wife of the male lead"
@@ -63955,6 +64367,27 @@
     ],
     "description": "",
     "author": "Purik, Winter Leaf",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1937,
+    "titles": [
+      "Sealed with a secret"
+    ],
+    "current_chap": 16,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/80/y/18-1733381925.jpg",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "LEE Geu-rin",
     "track": false,
     "viewed_chap": 0
   },
@@ -63980,6 +64413,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1938,
+    "titles": [
+      "Bittersweet con panna"
+    ],
+    "current_chap": 112,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/19/o/8-1732788607-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hobaen",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1939,
     "titles": [
       "Rebirth of the urban immortal emperor"
@@ -63997,6 +64451,27 @@
     ],
     "description": "",
     "author": "Benming Manhua , Dong Man She",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1939,
+    "titles": [
+      "I want to live a good life"
+    ],
+    "current_chap": 32,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/61/y/18-1733380799-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Na Yoo Hye",
     "track": false,
     "viewed_chap": 0
   },
@@ -64022,6 +64497,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1940,
+    "titles": [
+      "It's time for \"interrogation,\" princess!"
+    ],
+    "current_chap": 254,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/27/y/13-1733293741-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Haruhara Robinson",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1941,
     "titles": [
       "Killer the housemate"
@@ -64039,6 +64535,27 @@
     ],
     "description": "",
     "author": "Chul Gamyun",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1941,
+    "titles": [
+      "Fried shrimp on saturday"
+    ],
+    "current_chap": 19,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/85/q/15-1733311979-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\ubd04\ubd04\uce58 , Bombomchi",
     "track": false,
     "viewed_chap": 0
   },
@@ -64064,6 +64581,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1942,
+    "titles": [
+      "Lady crystal is a man"
+    ],
+    "current_chap": 57,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/27/z/14-1733301819-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jeoneona , Eona Jeon , NO NON",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1943,
     "titles": [
       "I\u2019m really not a supervillain"
@@ -64081,6 +64619,27 @@
     ],
     "description": "",
     "author": "\u8863\u6708\u52a8\u6f2b",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1943,
+    "titles": [
+      "The hunter wants to live quietly"
+    ],
+    "current_chap": 22,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/42/g/18-1733329753-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Lee Gong , Magma , Baek Sam , Ligong",
     "track": false,
     "viewed_chap": 0
   },
@@ -64106,6 +64665,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1944,
+    "titles": [
+      "Die melusine"
+    ],
+    "current_chap": 34,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/65/u/17-1733325188-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yoon Cherie",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1945,
     "titles": [
       "Hero? i quit a long time ago."
@@ -64123,6 +64703,27 @@
     ],
     "description": "",
     "author": "Novelist SF, Wu Liao Kan Kan Tian, Hai Luo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1945,
+    "titles": [
+      "Strikeout pitch"
+    ],
+    "current_chap": 11,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/4/q/17-1733327525-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sumiyoshi Kyuu",
     "track": false,
     "viewed_chap": 0
   },
@@ -64148,6 +64749,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1946,
+    "titles": [
+      "Dear, not cunning witch"
+    ],
+    "current_chap": 35,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/45/v/18-1733329956-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kim Da-Hyeon , Lonna , Kong Gomul",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1947,
     "titles": [
       "Extroversion of an immortal"
@@ -64165,6 +64787,27 @@
     ],
     "description": "",
     "author": "Hyobin",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1947,
+    "titles": [
+      "Baili jin among mortals"
+    ],
+    "current_chap": 200,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/54/n/12-1733289078-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Julys",
     "track": false,
     "viewed_chap": 0
   },
@@ -64190,6 +64833,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1948,
+    "titles": [
+      "Oshi ni amagami"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/84/u/14-1733305679-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Suzuki Julietta",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1949,
     "titles": [
       "Demon academy"
@@ -64207,6 +64871,27 @@
     ],
     "description": "",
     "author": "Kikuchi Hideyuki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1949,
+    "titles": [
+      "The fairy legacy"
+    ],
+    "current_chap": 61,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/72/b/17-1733325562-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Nanlo  ,  Sense  ,  Nayuta (II)",
     "track": false,
     "viewed_chap": 0
   },
@@ -64232,6 +64917,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1950,
+    "titles": [
+      "Tamon-kun ima docchi?!"
+    ],
+    "current_chap": 29,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/12/g/17-1733321908-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Shiwasu Yuki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1951,
     "titles": [
       "A boyish girlfriend in high humidity"
@@ -64249,6 +64955,27 @@
     ],
     "description": "",
     "author": "Ouchi Kaeru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1951,
+    "titles": [
+      "Dandadan"
+    ],
+    "current_chap": 180,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/38/m/12-1733288126-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tatsu Yukinobu",
     "track": false,
     "viewed_chap": 0
   },
@@ -64274,6 +65001,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1952,
+    "titles": [
+      "Wazato miseteru kamoi-san?"
+    ],
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/96/o/17-1733326994-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "M",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1953,
     "titles": [
       "The masters are subscribing to me"
@@ -64291,6 +65039,27 @@
     ],
     "description": "",
     "author": "Ha Kangho , Heuk Ya , Kim Kibaek",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1953,
+    "titles": [
+      "The brilliant healer's new life in the shadows"
+    ],
+    "current_chap": 13,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/78/f/15-1733311468-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hishikawa Sakaku",
     "track": false,
     "viewed_chap": 0
   },
@@ -64316,6 +65085,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1954,
+    "titles": [
+      "Requiem of the shogun"
+    ],
+    "current_chap": 6,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/65/r/10-1732801925-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Umemura Shinya",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1955,
     "titles": [
       "Ha buk paeng\u2019s youngest son"
@@ -64333,6 +65123,27 @@
     ],
     "description": "",
     "author": "Muhyang \ubb34\ud5a5(\u6b66\u9999), Studio M (\uc2a4\ud29c\ub514\uc624M)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1955,
+    "titles": [
+      "Lucky credit"
+    ],
+    "current_chap": 68,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/14/h/17-1733322039-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Danjang",
     "track": false,
     "viewed_chap": 0
   },
@@ -64358,6 +65169,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1956,
+    "titles": [
+      "I became the tyrant\u2019s time-limited wife"
+    ],
+    "current_chap": 21,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/27/a/11-1732805466.jpg",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Air ball",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1957,
     "titles": [
       "The family circumstances of the unreliable witch"
@@ -64375,6 +65207,27 @@
     ],
     "description": "",
     "author": "Piroya",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1957,
+    "titles": [
+      "Sensei wa ikenai \u00d7\u00d7nist"
+    ],
+    "current_chap": 13,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/k/2-1732724242.jpg",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Roku Yoshidaya",
     "track": false,
     "viewed_chap": 0
   },
@@ -64400,12 +65253,33 @@
     "viewed_chap": 0
   },
   {
+    "id": 1958,
+    "titles": [
+      "The lady who summons monsters."
+    ],
+    "current_chap": 73,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/47/k/15-1733309479-nw.webp",
+    "last_update": 1736192311,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Lon, Ja Eunhyang",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1959,
     "titles": [
       "Tasogare no utsuwagami"
     ],
-    "current_chap": 2,
-    "cover": "https://avt.mkklcdnv6temp.com/49/b/37-1731945819.jpg",
+    "current_chap": 8,
+    "cover": "https://gg.asuracomic.net/storage/media/260597/conversions/01JG1J8XWN3N1YJZQTN4W9F0TB-thumb-small.webp",
     "last_update": 1732909940,
     "com_type": 3,
     "status": 2,
@@ -64416,7 +65290,28 @@
       0
     ],
     "description": "",
-    "author": "Yamamoto Shin",
+    "author": "",
+    "track": true,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1959,
+    "titles": [
+      "Regression of the yong clan he"
+    ],
+    "current_chap": 8,
+    "cover": "https://gg.asuracomic.net/storage/media/260597/conversions/01JG1J8XWN3N1YJZQTN4W9F0TB-thumb-small.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
     "track": false,
     "viewed_chap": 0
   },
@@ -64442,6 +65337,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1960,
+    "titles": [
+      "Toaru anbu no item"
+    ],
+    "current_chap": 11,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/18/h/16-1733314235-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kamachi Kazuma",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1961,
     "titles": [
       "Astro baby"
@@ -64459,6 +65375,27 @@
     ],
     "description": "",
     "author": "Moriya Shiro",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1961,
+    "titles": [
+      "Sentaku no toki"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/42/g/8-1732789650-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Gunchi Kiri",
     "track": false,
     "viewed_chap": 0
   },
@@ -64484,6 +65421,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1962,
+    "titles": [
+      "2gether: the series"
+    ],
+    "current_chap": 104,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/9/e/14-1733300133-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "JittiRain , Nung , Jittirain Nong",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1963,
     "titles": [
       "Akugyaku hadou no brave soul"
@@ -64501,6 +65459,27 @@
     ],
     "description": "",
     "author": "LeonarD",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1963,
+    "titles": [
+      "Sss-rank paladin who transcends common sense"
+    ],
+    "current_chap": 54,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/61/a/16-1733317517-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u9694\u58c1\u85af\u7247\u534a\u4ef7\uff08\u539f\u8457\uff09",
     "track": false,
     "viewed_chap": 0
   },
@@ -64526,6 +65505,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1964,
+    "titles": [
+      "Survival of a tyrant\u2019s secretary"
+    ],
+    "current_chap": 57,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/31/j/17-1733323068-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Joochona, Imee",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1965,
     "titles": [
       "The new empress"
@@ -64543,6 +65543,27 @@
     ],
     "description": "",
     "author": "Yangnlam",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1965,
+    "titles": [
+      "The heat of the reincarnated villainess"
+    ],
+    "current_chap": 131,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/32/x/14-1733302283-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "IRUKA Notsuno , TANIMURA Nijuu-en , MIZUNO Saikoro , studio73",
     "track": false,
     "viewed_chap": 0
   },
@@ -64568,6 +65589,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1966,
+    "titles": [
+      "Death delayed for a short time because of the will"
+    ],
+    "current_chap": 60,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/99/a/14-1733306502-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Shaolin",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1967,
     "titles": [
       "Starting as a master of female disciples' leisure skills"
@@ -64585,6 +65627,27 @@
     ],
     "description": "",
     "author": "\u58a8\u5b87\u5bf0",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1967,
+    "titles": [
+      "Bimyou ni yasashii ijimekko"
+    ],
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/22/g/11-1732805202-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Mosuko",
     "track": false,
     "viewed_chap": 0
   },
@@ -64610,6 +65673,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1968,
+    "titles": [
+      "Tonari no wakazo"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/89/z/16-1733319923-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sawa Machiko",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1969,
     "titles": [
       "The real daughter, she is an almighty boss"
@@ -64627,6 +65711,27 @@
     ],
     "description": "",
     "author": "\u537f\u6d45",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1969,
+    "titles": [
+      "The crown prince\u2019s maid makes tea very well"
+    ],
+    "current_chap": 28,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/20/o/18-1733328484-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Dovekie , Jechan , Ppottu",
     "track": false,
     "viewed_chap": 0
   },
@@ -64652,6 +65757,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1970,
+    "titles": [
+      "Blue blood vampire"
+    ],
+    "current_chap": 6,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/83/r/18-1733455055-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kuraka Sui",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1971,
     "titles": [
       "Mii-chan and yamada-san"
@@ -64669,6 +65795,27 @@
     ],
     "description": "",
     "author": "Azuki Nene",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1971,
+    "titles": [
+      "Grim reaper: master of the underworld"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/78/w/17-1733325965-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "We Bang Sang",
     "track": false,
     "viewed_chap": 0
   },
@@ -64694,6 +65841,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1972,
+    "titles": [
+      "My angelic husband is actually a devil in disguise"
+    ],
+    "current_chap": 99,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/47/s/15-1733309499-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1973,
     "titles": [
       "Get away, matsumoto\uff01-100 days escape-"
@@ -64711,6 +65879,27 @@
     ],
     "description": "",
     "author": "Okusu Tsuneharu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1973,
+    "titles": [
+      "Here reigns the vengeful villainess"
+    ],
+    "current_chap": 75,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/16/b/16-1733314079-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Gijya , Sajangnim",
     "track": false,
     "viewed_chap": 0
   },
@@ -64736,6 +65925,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1974,
+    "titles": [
+      "Inukai-san chi no oshikake jk"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/65/a/15-1733310589-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Mitsuba Minoru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1975,
     "titles": [
       "Boku wa kimitachi wo shihai suru"
@@ -64753,6 +65963,27 @@
     ],
     "description": "",
     "author": "Daisuke Chida",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1975,
+    "titles": [
+      "Kimi ni koisuru sanshimai"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/97/b/16-1733320544-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "saku",
     "track": false,
     "viewed_chap": 0
   },
@@ -64778,6 +66009,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1976,
+    "titles": [
+      "Super ninja dan"
+    ],
+    "current_chap": 19,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/49/v/7-1732785558-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kariya Tetsu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1977,
     "titles": [
       "Acting genius, top idol!"
@@ -64795,6 +66047,27 @@
     ],
     "description": "",
     "author": "Soling (\uc18c\ub9c1) , Han Gyeol (\ud55c\uacb0)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1977,
+    "titles": [
+      "Amelia\u2019s contract marriage"
+    ],
+    "current_chap": 65,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/24/p/16-1733314699-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Nuova , Pench\u00e9 , Renjyu",
     "track": false,
     "viewed_chap": 0
   },
@@ -64820,6 +66093,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1978,
+    "titles": [
+      "The wolf that picked something up"
+    ],
+    "current_chap": 134,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/79/r/11-1733284907-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ma Wei",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1979,
     "titles": [
       "Dressed to kill"
@@ -64837,6 +66131,27 @@
     ],
     "description": "",
     "author": "Jinwon , Lidajo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1979,
+    "titles": [
+      "Terror night"
+    ],
+    "current_chap": 29,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/51/l/10-1732801082-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Takashi Tsukimi",
     "track": false,
     "viewed_chap": 0
   },
@@ -64862,6 +66177,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1980,
+    "titles": [
+      "Limitless ascension: strength amid adversity"
+    ],
+    "current_chap": 8,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/82/i/18-1733382004.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u706b\u73d1\u679c\u6f2b\u753b",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1981,
     "titles": [
       "A record of a mortal's journey to immortality\u2014immortal world arc"
@@ -64879,6 +66215,27 @@
     ],
     "description": "",
     "author": "Wang Yu, Moon Cake, Jiong Biao",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1981,
+    "titles": [
+      "Taida na succubus-chan"
+    ],
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/z/18-1735225507-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Baileys",
     "track": false,
     "viewed_chap": 0
   },
@@ -64904,6 +66261,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1982,
+    "titles": [
+      "Shirokuro sekai"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/y/18-1735225319-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sun (\u3059\u3093)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1983,
     "titles": [
       "The empress's beast selection"
@@ -64921,6 +66299,27 @@
     ],
     "description": "",
     "author": "LICO, Honey Bambi , \uafc0\ubc24\ube44",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1983,
+    "titles": [
+      "Deadman"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/x/18-1735224878-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hino Hideshi",
     "track": false,
     "viewed_chap": 0
   },
@@ -64946,6 +66345,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1984,
+    "titles": [
+      "Hitohitogami nichinichi"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/v/18-1735223466-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Furuyama Fuu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1985,
     "titles": [
       "I stole the child of my war-mad husband"
@@ -64963,6 +66383,27 @@
     ],
     "description": "",
     "author": "Kkamja , Winterleaf",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1985,
+    "titles": [
+      "It looks like i\u2019ve fallen into the world of a reverse harem game"
+    ],
+    "current_chap": 140,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/48/m/11-1732806617-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "GOYA , Inui , \uc774\ub2ac",
     "track": false,
     "viewed_chap": 0
   },
@@ -64988,6 +66429,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1986,
+    "titles": [
+      "Even though she\u2019s the substitute queen, she spent the first night with him"
+    ],
+    "current_chap": 30,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/3/d/18-1733327424-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\uc544\uc774\ub77c , Aira , Keulle Oppakdola , Salgu Jelly",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1987,
     "titles": [
       "There are no bad heros in the world"
@@ -65005,6 +66467,27 @@
     ],
     "description": "",
     "author": "Ghost Tofu , Hanso",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1987,
+    "titles": [
+      "The drifting star"
+    ],
+    "current_chap": 76,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/76/b/12-1733290365-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Senbon",
     "track": false,
     "viewed_chap": 0
   },
@@ -65030,6 +66513,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1988,
+    "titles": [
+      "The youngest princess"
+    ],
+    "current_chap": 199,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/89/x/10-1732803401-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Saha,Doldae",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1989,
     "titles": [
       "Ikitsuku saki wa yuusha ka maou ka"
@@ -65047,6 +66551,27 @@
     ],
     "description": "",
     "author": "TSURAGAMACHI Ushitora , Nito",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1989,
+    "titles": [
+      "Reborn as a barrier master"
+    ],
+    "current_chap": 47,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/81/w/9-1732796894-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Itsuwa Katou,Naotaro Kataoka",
     "track": false,
     "viewed_chap": 0
   },
@@ -65072,6 +66597,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1990,
+    "titles": [
+      "Haikyo no meshi"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/t/18-1735223121.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "mujiha",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1991,
     "titles": [
       "Previous life was sword emperor. this life is trash prince."
@@ -65089,6 +66635,27 @@
     ],
     "description": "",
     "author": "Alto; Hayagami Ataka , Alto  ,  Sanshouo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1991,
+    "titles": [
+      "Call me the devil"
+    ],
+    "current_chap": 120,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/3/f/14-1733299622-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ante , Jayang , sun_ah",
     "track": false,
     "viewed_chap": 0
   },
@@ -65114,6 +66681,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1992,
+    "titles": [
+      "Absolute threshold"
+    ],
+    "current_chap": 89,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/12/c/17-1733321899-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1993,
     "titles": [
       "Trapped by the crazy twins"
@@ -65131,6 +66719,27 @@
     ],
     "description": "",
     "author": "Aotsuki Iru",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1993,
+    "titles": [
+      "Isekai de haishin katsudou wo shitara tairyou no yandere shinja wo umidashite shimatta ken"
+    ],
+    "current_chap": 41,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/12/n/15-1733307322-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tsuku Iyomine,Myon",
     "track": false,
     "viewed_chap": 0
   },
@@ -65156,6 +66765,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1994,
+    "titles": [
+      "Mobile suit gundam record of ms wars ii"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/r/18-1735222711.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kondou Kazuhisa",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1995,
     "titles": [
       "To you who never loved me"
@@ -65173,6 +66803,27 @@
     ],
     "description": "",
     "author": "Han Seol On , \ucf58\ud2f0,\ud55c\uc124\uc628",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1995,
+    "titles": [
+      "Fever"
+    ],
+    "current_chap": 20,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/73/m/14-1733304989-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Park Hee Jung",
     "track": false,
     "viewed_chap": 0
   },
@@ -65198,6 +66849,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1996,
+    "titles": [
+      "Here comes the silver spoon!"
+    ],
+    "current_chap": 118,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/45/g/12-1733288512-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Portofino, \uc2e0\uc720\uc131, \ud3ec\ub974\ud1a0\ud53c\ub178",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1997,
     "titles": [
       "I became the only healer in this world"
@@ -65215,6 +66887,27 @@
     ],
     "description": "",
     "author": "Do Ye Woon, Onggi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1997,
+    "titles": [
+      "The children of shiunji family"
+    ],
+    "current_chap": 35,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/y/13-1733298912-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Miyajima Reiji",
     "track": false,
     "viewed_chap": 0
   },
@@ -65240,6 +66933,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 1998,
+    "titles": [
+      "The lord's coins aren't decreasing?!"
+    ],
+    "current_chap": 146,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/45/i/12-1733288517-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hong dae eui , Mokhyeon , Teurubereu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 1999,
     "titles": [
       "Concubine\u2019s invitation"
@@ -65257,6 +66971,27 @@
     ],
     "description": "",
     "author": "IN Hong, Lina",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 1999,
+    "titles": [
+      "Night patrol teacher: special edition - i can't say goodbye"
+    ],
+    "current_chap": 5,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/e/18-1735226495.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Mizutani Osamu",
     "track": false,
     "viewed_chap": 0
   },
@@ -65282,6 +67017,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2000,
+    "titles": [
+      "Maid in japan"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/76/o/6-1732781377-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Orimoto Mimana",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2001,
     "titles": [
       "I favor the villainess"
@@ -65299,6 +67055,27 @@
     ],
     "description": "",
     "author": "Sumio Aono,Inori,Hanagata",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2001,
+    "titles": [
+      "The blue wolves of mibu"
+    ],
+    "current_chap": 19,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/88/w/17-1733326552-nw.webp",
+    "last_update": 1736294134,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tsuyoshi Yasuda",
     "track": false,
     "viewed_chap": 0
   },
@@ -65324,6 +67101,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2002,
+    "titles": [
+      "Strange invasion, i took over the god of death and counterattacked to become the king"
+    ],
+    "current_chap": 29,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/d/17-1733325385-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u706b\u529b\u718a\u732b",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2003,
     "titles": [
       "Shen yin wang zuo"
@@ -65341,6 +67139,27 @@
     ],
     "description": "",
     "author": "Tang Jia San Shao",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2003,
+    "titles": [
+      "Izumino"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/c/18-1735226308-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Nikko_arts",
     "track": false,
     "viewed_chap": 0
   },
@@ -65366,6 +67185,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2004,
+    "titles": [
+      "Mofumofu to isekai bouken meshi"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/b/18-1735226256-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Renkinou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2005,
     "titles": [
       "Neck and neck"
@@ -65383,6 +67223,27 @@
     ],
     "description": "",
     "author": "Lee Sun Hee",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2005,
+    "titles": [
+      "Tune in to the midnight heart"
+    ],
+    "current_chap": 60,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/14/i/16-1733313956-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Igarashi Masakuni",
     "track": false,
     "viewed_chap": 0
   },
@@ -65408,6 +67269,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2006,
+    "titles": [
+      "Darling\u2019s vanishing act"
+    ],
+    "current_chap": 13,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/3/p/17-1733327456-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yazu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2007,
     "titles": [
       "The grand duke's fox princess"
@@ -65425,6 +67307,27 @@
     ],
     "description": "",
     "author": "Kim Gamja (\uae40\uac10\uc790), Yulji (\uc728\uc9c0)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2007,
+    "titles": [
+      "The blood princess and the knight"
+    ],
+    "current_chap": 10,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/48/w/11-1732806639-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u6f22\u5510\u6b78\u7c73",
     "track": false,
     "viewed_chap": 0
   },
@@ -65450,6 +67353,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2008,
+    "titles": [
+      "Fragrant magician"
+    ],
+    "current_chap": 37,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/66/o/17-1733325235-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kim Jambong , Pyo Heeseo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2009,
     "titles": [
       "The broken ring : this marriage will fail anyway"
@@ -65467,6 +67391,27 @@
     ],
     "description": "",
     "author": "Kim Chacha, Cheong-gwa, CHOKAM ",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2009,
+    "titles": [
+      "The grand duke\u2019s beloved granddaughter"
+    ],
+    "current_chap": 57,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/13/h/17-1733321969-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Irinae",
     "track": false,
     "viewed_chap": 0
   },
@@ -65492,6 +67437,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2010,
+    "titles": [
+      "I raise skeletons"
+    ],
+    "current_chap": 20,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/a/18-1735225982-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Lim Je-Yeol",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2011,
     "titles": [
       "I am with the music immortals"
@@ -65509,6 +67475,27 @@
     ],
     "description": "",
     "author": "jeff(WHYNOTME),Lee Han-Seong",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2011,
+    "titles": [
+      "I swear i won't bother you again!"
+    ],
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/13/h/9-1732792913-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Harukawa Haru, Reina Soratani",
     "track": false,
     "viewed_chap": 0
   },
@@ -65534,6 +67521,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2012,
+    "titles": [
+      "Super seisyun brothers"
+    ],
+    "current_chap": 18,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/57/p/7-1732785902-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Shin Shinmoto",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2013,
     "titles": [
       "In the gardens of gehenna"
@@ -65551,6 +67559,27 @@
     ],
     "description": "",
     "author": "Sakasana",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2013,
+    "titles": [
+      "Name: dameo to yaba otoko  - isaki nekoo"
+    ],
+    "current_chap": 29,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/31/y/17-1733315250-nw.webp",
+    "last_update": 1736294135,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Isaki Nekoo",
     "track": false,
     "viewed_chap": 0
   },
@@ -65576,6 +67605,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2014,
+    "titles": [
+      "I\u2019m the dying emperor\u2019s doctor"
+    ],
+    "current_chap": 20,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/85/b/18-1733539781.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jeongha (\uc815\ud558)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2015,
     "titles": [
       "Harukanaru ring"
@@ -65593,6 +67643,27 @@
     ],
     "description": "",
     "author": "Nakamura Keigo",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2015,
+    "titles": [
+      "Galaxias"
+    ],
+    "current_chap": 17,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/p/18-1733328317-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ao Hatesaka , HATEZAKA Ao",
     "track": false,
     "viewed_chap": 0
   },
@@ -65618,6 +67689,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2016,
+    "titles": [
+      "I will break this marriage"
+    ],
+    "current_chap": 53,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/20/q/13-1733293233-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\uafb8\uafb8\uc988",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2017,
     "titles": [
       "Placebo: let's play"
@@ -65635,6 +67727,27 @@
     ],
     "description": "",
     "author": "Cuke Soap",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2017,
+    "titles": [
+      "Make the exorcist fall in love"
+    ],
+    "current_chap": 82,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/96/d/12-1733291594-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Updating",
     "track": false,
     "viewed_chap": 0
   },
@@ -65660,6 +67773,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2018,
+    "titles": [
+      "Kabushiki gaisha magi lumiere"
+    ],
+    "current_chap": 139,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/43/p/13-1733294869-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sekka Iwata,Yuu Aoki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2019,
     "titles": [
       "Miss kitty and her bodyguards"
@@ -65677,6 +67811,27 @@
     ],
     "description": "",
     "author": "Gom Sunim",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2019,
+    "titles": [
+      "The cuckoo's fiancee"
+    ],
+    "current_chap": 233,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/75/l/10-1732802511-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yoshikawa Miki",
     "track": false,
     "viewed_chap": 0
   },
@@ -65702,6 +67857,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2020,
+    "titles": [
+      "To you, the immortal"
+    ],
+    "current_chap": 195,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/83/w/7-1732787027-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ooima Yoshitoki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2021,
     "titles": [
       "Teihen ossan, cheat kokusei de isekai rakuraku life"
@@ -65719,6 +67895,27 @@
     ],
     "description": "",
     "author": "Giaman",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2021,
+    "titles": [
+      "Chainsaw man"
+    ],
+    "current_chap": 189,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/24/t/9-1732793445-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tatsuki Fujimoto",
     "track": false,
     "viewed_chap": 0
   },
@@ -65744,6 +67941,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2022,
+    "titles": [
+      "God's desire game"
+    ],
+    "current_chap": 16,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/53/i/17-1733324407-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "WenYuan Culture (\u95fb\u6e90\u6587\u5316)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2023,
     "titles": [
       "I'm the evil lord of an intergalactic empire!"
@@ -65761,6 +67979,27 @@
     ],
     "description": "",
     "author": "Yomu Mishima,Nadashima Kai",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2023,
+    "titles": [
+      "Elegant desire"
+    ],
+    "current_chap": 73,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/27/g/16-1733314885-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kim Jong Geon",
     "track": false,
     "viewed_chap": 0
   },
@@ -65786,6 +68025,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2024,
+    "titles": [
+      "Sovereign of the infinite clones"
+    ],
+    "current_chap": 21,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/46/m/18-1733329995-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "LICO , Silheom Sample , Hansa",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2025,
     "titles": [
       "Whose baby is it?"
@@ -65803,6 +68063,27 @@
     ],
     "description": "",
     "author": " \u95fb\u4eba\u9e1f\u4e8b\u591a\t",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2025,
+    "titles": [
+      "Journey home after school"
+    ],
+    "current_chap": 34,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/60/s/16-1733317493-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Matsuda Mai",
     "track": false,
     "viewed_chap": 0
   },
@@ -65828,6 +68109,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2026,
+    "titles": [
+      "Daiakutou shounen"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/98/s/18-1735961678-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Fujichika Koume",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2027,
     "titles": [
       "Dating my best friend\u2019s sister"
@@ -65845,6 +68147,27 @@
     ],
     "description": "",
     "author": "281 , Geulpi (II) , Violet Paige",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2027,
+    "titles": [
+      "Radiant"
+    ],
+    "current_chap": 144,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/72/q/1-1732719302-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tony Valente",
     "track": false,
     "viewed_chap": 0
   },
@@ -65870,6 +68193,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2028,
+    "titles": [
+      "Slammer dogs"
+    ],
+    "current_chap": 46,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/n/18-1733328314-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Igingogi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2029,
     "titles": [
       "Jinx (mingwa)"
@@ -65887,6 +68231,27 @@
     ],
     "description": "",
     "author": "Mingwa",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2029,
+    "titles": [
+      "Maou gun saikyou no majutsushi wa ningen datta"
+    ],
+    "current_chap": 48,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/94/k/9-1732797635-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Anajiro,Ryousuke Hata",
     "track": false,
     "viewed_chap": 0
   },
@@ -65912,6 +68277,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2030,
+    "titles": [
+      "Worst gaiden mr. zetton"
+    ],
+    "current_chap": 56,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/44/g/11-1732806402-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Suzuki Dai,Takahashi Hiroshi,Yamamoto Shintarou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2031,
     "titles": [
       "Mary-san"
@@ -65929,6 +68315,27 @@
     ],
     "description": "",
     "author": "Cacomistle",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2031,
+    "titles": [
+      "Shihai shoujo kubaru-chan"
+    ],
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/100/a/17-1733327223-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sushikuitarou",
     "track": false,
     "viewed_chap": 0
   },
@@ -65954,6 +68361,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2032,
+    "titles": [
+      "Welcome to cheap restaurant of outcast!"
+    ],
+    "current_chap": 49,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/30/m/10-1732799816-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tsumumi,Yuki Kimikawa,Gaou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2033,
     "titles": [
       "Isekai de mizu no dai seirei yattemasu"
@@ -65971,6 +68399,27 @@
     ],
     "description": "",
     "author": "Aoki Chihiro , Hotaka Inaho",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2033,
+    "titles": [
+      "Inso's law"
+    ],
+    "current_chap": 231,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/80/w/9-1732796837-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yuhan,Ahyun",
     "track": false,
     "viewed_chap": 0
   },
@@ -65996,6 +68445,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2034,
+    "titles": [
+      "Omniscient reader's viewpoint"
+    ],
+    "current_chap": 244,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/11/a/11-1732804605-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Sing-Shong,Sleepy-C (REDICE STUDIO)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2035,
     "titles": [
       "Tensei shitara slime datta ken"
@@ -66013,6 +68483,27 @@
     ],
     "description": "",
     "author": "Fuse, Kawakami Taiki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2035,
+    "titles": [
+      "The guidebook for villainesses"
+    ],
+    "current_chap": 41,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/2/q/15-1733313134-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Saemmi,Jaya",
     "track": false,
     "viewed_chap": 0
   },
@@ -66038,6 +68529,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2036,
+    "titles": [
+      "Bleeding love"
+    ],
+    "current_chap": 14,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/86/v/18-1733889519.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ge",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2037,
     "titles": [
       "The second life cheat reincarnation mage ~if the strongest reincarnated after 1000 years, life would be too easy~"
@@ -66055,6 +68567,27 @@
     ],
     "description": "",
     "author": "Utsuzawa Shikiso,Ishigo Chidori",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2037,
+    "titles": [
+      "Academy\u2019s reincarnated hero"
+    ],
+    "current_chap": 23,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/88/p/18-1734364878.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
     "track": false,
     "viewed_chap": 0
   },
@@ -66080,6 +68613,27 @@
     "viewed_chap": 0
   },
   {
+    "id": 2038,
+    "titles": [
+      "Grieving you"
+    ],
+    "current_chap": 63,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/26/p/15-1733308180-nw.webp",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "49, White April",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
     "id": 2039,
     "titles": [
       "I saved you, but i'm not responsible"
@@ -66097,6 +68651,27 @@
     ],
     "description": "",
     "author": "Bonnet",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2039,
+    "titles": [
+      "Gotchu! island"
+    ],
+    "current_chap": 22,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/92/d/18-1734879463.jpg",
+    "last_update": 1736269246,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
     "track": false,
     "viewed_chap": 0
   },
@@ -87606,13 +90181,34 @@
     "viewed_chap": 0
   },
   {
-    "id": 1918,
+    "id": 2040,
     "titles": [
-      "A bad case of junioritis"
+      "E, shanai system subete wanope shiteiru watashi wo kaiko desu ka?"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/71/j/16-1733318358-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kashirome Yuki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2041,
+    "titles": [
+      "The return of the s-rank holy weapon user from the duke\u2019s family"
     ],
     "current_chap": 25,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/88/k/18-1734362608-nw.webp",
-    "last_update": 1736192311,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/57/f/17-1733324649-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -87622,123 +90218,18 @@
       0
     ],
     "description": "",
-    "author": "Kyejo",
+    "author": "NIPPON TV, Nakazaki Tatsuto , SHINOHARA Shinome , SORAJIMA , TAIRA Kenji",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1919,
+    "id": 2042,
     "titles": [
-      "I\u2019d rather abandon you than be abandoned"
-    ],
-    "current_chap": 38,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/79/c/17-1733325978-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Elluang  ,  Han Nuri  ,  Chae Yan",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1920,
-    "titles": [
-      "Koibumi to 13-sai no joyuu"
-    ],
-    "current_chap": 20,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/48/q/16-1733316532-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Jaga",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1921,
-    "titles": [
-      "I became a tyrant\u2019s maid"
-    ],
-    "current_chap": 54,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/41/j/17-1733323668-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Joo Yeryeong , Penta , Inolle",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1922,
-    "titles": [
-      "The hero went crazy even though i\u2019m the one who died"
-    ],
-    "current_chap": 52,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/94/j/15-1733312561-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Dam Paldang, Humpback Whale",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1923,
-    "titles": [
-      "The villainess wants to go home"
-    ],
-    "current_chap": 68,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/89/j/15-1733312224-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "VrK , WHYNOTME , DXD Animation",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1924,
-    "titles": [
-      "The demon maid only wants to be bullied by the villainess"
+      "Jukai: shounin yokkyuu no mori"
     ],
     "current_chap": 1,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/58/v/11-1733281985-nw.webp",
-    "last_update": 1736192311,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/54/b/18-1733380362-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -87748,18 +90239,18 @@
       0
     ],
     "description": "",
-    "author": "Xiong Yue Comic Studio (\u718a\u66f0\u6f2b\u753b\u5de5\u4f5c\u5ba4)",
+    "author": "Kajihara Nyorai",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1925,
+    "id": 2043,
     "titles": [
-      "The dungeon\u2019s time-bound s-rank beauty"
+      "I hate you, will you have sex with me?"
     ],
-    "current_chap": 58,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/49/a/16-1733316563-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 67,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/68/m/16-1733318120-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -87769,18 +90260,18 @@
       0
     ],
     "description": "",
-    "author": "yuram, 67floors (67\uce35\uc758)",
+    "author": "Imjustgali",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1926,
+    "id": 2044,
     "titles": [
-      "I ended up saving my crazy stepfather!"
+      "Muhyeok x naui"
     ],
-    "current_chap": 53,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/73/t/17-1733325663-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/47/d/16-1733316415-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -87790,417 +90281,18 @@
       0
     ],
     "description": "",
-    "author": "Chon Hyerang  ,  Spoon Comics",
+    "author": "Nalchi , Gimmgim , Flying Fish",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1927,
+    "id": 2045,
     "titles": [
-      "The blooming violet in the back garden"
-    ],
-    "current_chap": 50,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/2/l/16-1733321016-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "SUNG Hye-rim",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1928,
-    "titles": [
-      "I will rewrite the dead end novel"
-    ],
-    "current_chap": 57,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/2/d/13-1733299533-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Bang Tong Sik , Choi Lee Seol , Cheondung",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1929,
-    "titles": [
-      "Saint seiya - episode g requiem"
-    ],
-    "current_chap": 54,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/2/e/14-1733306691-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Kurumada Masami, Okada Megumu",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1930,
-    "titles": [
-      "Be crazy about me"
-    ],
-    "current_chap": 43,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/78/e/17-1733325924-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "EON COMICS , Hyon-young",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1931,
-    "titles": [
-      "Love alarm"
-    ],
-    "current_chap": 145,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/69/u/10-1732802169-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Chon Kye-young",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1932,
-    "titles": [
-      "The only way"
-    ],
-    "current_chap": 26,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/85/e/15-1733311948-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "I-Beh",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1933,
-    "titles": [
-      "World's strongest troll"
-    ],
-    "current_chap": 116,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/95/b/13-1733298919-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Park Jong Suk,Gunmandumeogja,Yato",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1934,
-    "titles": [
-      "Exclusive scandal"
-    ],
-    "current_chap": 23,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/23/v/18-1733328671-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Chajeong",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1935,
-    "titles": [
-      "Reincarnation laundry"
-    ],
-    "current_chap": 38,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/30/u/18-1733329071-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Baek Heesan",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1936,
-    "titles": [
-      "Swim in the scent"
-    ],
-    "current_chap": 16,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/100/f/17-1733327235-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "OSSION",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1937,
-    "titles": [
-      "Sealed with a secret"
-    ],
-    "current_chap": 16,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/80/y/18-1733381925.jpg",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "LEE Geu-rin",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1938,
-    "titles": [
-      "Bittersweet con panna"
-    ],
-    "current_chap": 112,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/19/o/8-1732788607-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Hobaen",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1939,
-    "titles": [
-      "I want to live a good life"
-    ],
-    "current_chap": 32,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/61/y/18-1733380799-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Na Yoo Hye",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1940,
-    "titles": [
-      "It's time for \"interrogation,\" princess!"
-    ],
-    "current_chap": 254,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/27/y/13-1733293741-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Haruhara Robinson",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1941,
-    "titles": [
-      "Fried shrimp on saturday"
-    ],
-    "current_chap": 19,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/85/q/15-1733311979-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "\ubd04\ubd04\uce58 , Bombomchi",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1942,
-    "titles": [
-      "Lady crystal is a man"
-    ],
-    "current_chap": 57,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/27/z/14-1733301819-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Jeoneona , Eona Jeon , NO NON",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1943,
-    "titles": [
-      "The hunter wants to live quietly"
-    ],
-    "current_chap": 22,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/42/g/18-1733329753-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Lee Gong , Magma , Baek Sam , Ligong",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1944,
-    "titles": [
-      "Die melusine"
-    ],
-    "current_chap": 34,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/65/u/17-1733325188-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Yoon Cherie",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1945,
-    "titles": [
-      "Strikeout pitch"
-    ],
-    "current_chap": 11,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/4/q/17-1733327525-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Sumiyoshi Kyuu",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1946,
-    "titles": [
-      "Dear, not cunning witch"
+      "Freeze, it will stand if you move!"
     ],
     "current_chap": 35,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/45/v/18-1733329956-nw.webp",
-    "last_update": 1736192311,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/26/f/14-1733301654-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88210,18 +90302,18 @@
       0
     ],
     "description": "",
-    "author": "Kim Da-Hyeon , Lonna , Kong Gomul",
+    "author": "Suhyeol , Hyangseol",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1947,
+    "id": 2046,
     "titles": [
-      "Baili jin among mortals"
+      "Charao-kun to seiso-chan"
     ],
-    "current_chap": 200,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/54/n/12-1733289078-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/86/p/18-1733824826-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88231,18 +90323,18 @@
       0
     ],
     "description": "",
-    "author": "Julys",
+    "author": "Akira",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1948,
+    "id": 2047,
     "titles": [
-      "Oshi ni amagami"
+      "More than lovers, less than friends"
     ],
-    "current_chap": 8,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/84/u/14-1733305679-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 48,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/e/13-1733292997-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88252,18 +90344,18 @@
       0
     ],
     "description": "",
-    "author": "Suzuki Julietta",
+    "author": "Yatoyato",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1949,
+    "id": 2048,
     "titles": [
-      "The fairy legacy"
+      "The selfish romance"
     ],
-    "current_chap": 61,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/72/b/17-1733325562-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 38,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/38/n/17-1733323490-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88273,18 +90365,18 @@
       0
     ],
     "description": "",
-    "author": "Nanlo  ,  Sense  ,  Nayuta (II)",
+    "author": "Gyogyo Park",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1950,
+    "id": 2049,
     "titles": [
-      "Tamon-kun ima docchi?!"
+      "No, miyahara, not you!"
     ],
-    "current_chap": 29,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/12/g/17-1733321908-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/96/j/13-1733299039-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88294,18 +90386,18 @@
       0
     ],
     "description": "",
-    "author": "Shiwasu Yuki",
+    "author": "Obiya Midori,Fujitaka Tsumuri",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1951,
+    "id": 2050,
     "titles": [
-      "Dandadan"
+      "Gakeppuchi reijou wa kurokishi-sama o horesasetai!"
     ],
-    "current_chap": 180,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/38/m/12-1733288126-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 9,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/7/g/17-1733321441-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88315,18 +90407,249 @@
       0
     ],
     "description": "",
-    "author": "Tatsu Yukinobu",
+    "author": "Suou (\u6d32\u592e)",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1952,
+    "id": 2051,
     "titles": [
-      "Wazato miseteru kamoi-san?"
+      "Shuumatsu no valkyrie kitan \u2013 jack the ripper no jikenbo"
+    ],
+    "current_chap": 23,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/19/k/14-1733301037-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "IIJIKA Keita",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2052,
+    "titles": [
+      "Hajime no ippo"
+    ],
+    "current_chap": 1480,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/8/x/1-1732716728-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Morikawa, George",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2053,
+    "titles": [
+      "I used high-level medicine to counter magic"
+    ],
+    "current_chap": 36,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/41/p/15-1733309112-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tsuda Houkou , Takishita Nobuhide",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2054,
+    "titles": [
+      "Light of the dawn (remake)"
+    ],
+    "current_chap": 36,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/28/l/18-1733328940-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\uad6c\ud06c , KOOK",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2055,
+    "titles": [
+      "Max talent player (2024)"
+    ],
+    "current_chap": 63,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/76/w/16-1733318831-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Bi Chu",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2056,
+    "titles": [
+      "Aisaretagari no shironeko miko-san"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/90/f/18-1734537631-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2057,
+    "titles": [
+      "Gudaguda taikou legend zipang"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/q/18-1735357220-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Keikenchi, TYPE-MOON",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2058,
+    "titles": [
+      "Chronicles of the seven stars"
+    ],
+    "current_chap": 10,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/o/18-1735356370-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Lee Jae-heon",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2059,
+    "titles": [
+      "The lord has hidden intentions"
+    ],
+    "current_chap": 130,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/52/t/13-1733295577-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u7b80\u7b80\u5355 , \u9ebb\u8fa3\u706b\u9505",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2060,
+    "titles": [
+      "Koi yori aoku (oneshot)"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/5/l/15-1733306894-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Fukaumi Kon",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2061,
+    "titles": [
+      "Kuutei dragons"
+    ],
+    "current_chap": 101,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/72/l/7-1732786539-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kuwabara Taku",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2062,
+    "titles": [
+      "Dorei senshi no isekai taneuma seikatsu"
     ],
     "current_chap": 4,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/96/o/17-1733326994-nw.webp",
-    "last_update": 1736192311,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/71/t/15-1733311029-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88336,39 +90659,18 @@
       0
     ],
     "description": "",
-    "author": "M",
+    "author": "Nahanai",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1953,
+    "id": 2063,
     "titles": [
-      "The brilliant healer's new life in the shadows"
-    ],
-    "current_chap": 13,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/78/f/15-1733311468-nw.webp",
-    "last_update": 1736192311,
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Hishikawa Sakaku",
-    "track": false,
-    "viewed_chap": 0
-  },
-  {
-    "id": 1954,
-    "titles": [
-      "Requiem of the shogun"
+      "Kaiju no. 8: relax"
     ],
     "current_chap": 6,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/65/r/10-1732801925-nw.webp",
-    "last_update": 1736192311,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/45/e/17-1733323906-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88378,18 +90680,18 @@
       0
     ],
     "description": "",
-    "author": "Umemura Shinya",
+    "author": "Watanabe Kizuku",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1955,
+    "id": 2064,
     "titles": [
-      "Lucky credit"
+      "After being called a hero: the unrivaled man starts a family"
     ],
-    "current_chap": 68,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/14/h/17-1733322039-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 59,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/63/p/15-1733310495-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88399,18 +90701,18 @@
       0
     ],
     "description": "",
-    "author": "Danjang",
+    "author": "Musuaki,Sorano Kazuki",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1956,
+    "id": 2065,
     "titles": [
-      "I became the tyrant\u2019s time-limited wife"
+      "Shindou yuusha to maid onee-sana"
     ],
-    "current_chap": 21,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/27/a/11-1732805466.jpg",
-    "last_update": 1736192311,
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/52/o/10-1732801150-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88420,18 +90722,18 @@
       0
     ],
     "description": "",
-    "author": "Air ball",
+    "author": "Nozomi Kota, Uesugi Kyoushirou",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1957,
+    "id": 2066,
     "titles": [
-      "Sensei wa ikenai \u00d7\u00d7nist"
+      "Fall"
     ],
-    "current_chap": 13,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/66/k/2-1732724242.jpg",
-    "last_update": 1736192311,
+    "current_chap": 7,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/n/18-1735356279.jpg",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88441,18 +90743,18 @@
       0
     ],
     "description": "",
-    "author": "Roku Yoshidaya",
+    "author": "Eunsu, Gye Cha Suyeol",
     "track": false,
     "viewed_chap": 0
   },
   {
-    "id": 1958,
+    "id": 2067,
     "titles": [
-      "The lady who summons monsters."
+      "Surviving in a romance fantasy novel"
     ],
-    "current_chap": 73,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/47/k/15-1733309479-nw.webp",
-    "last_update": 1736192311,
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/72/x/18-1733381467-nw.webp",
+    "last_update": 1736278314,
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -88462,7 +90764,553 @@
       0
     ],
     "description": "",
-    "author": "Lon, Ja Eunhyang",
+    "author": "Corita , Sikppang",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2068,
+    "titles": [
+      "Kouhai"
+    ],
+    "current_chap": 24,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/y/17-1733322246-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Zurikishi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2069,
+    "titles": [
+      "Gakuen idolm@ster - comic anthology"
+    ],
+    "current_chap": 3,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/83/m/18-1733414368-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Hanada Momose, Zekkyou Aisu., Amepa (\u3042\u3081\u3071), Otsu Dou (\u4e59\u7ae5), Homare, Ogasawara, Kasan (\u52a0\u7b97), Uma Ohagi, Okada Kirin, Sumi (\u89d2), Haru Uno (\u536f\u91ce\u306f\u308b), Inunisatiare (\u304a\u30e4\u30b5\u3090\u306c)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2070,
+    "titles": [
+      "Watashi-tachi ga koisuru riyuu"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/77/j/14-1733305221-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "ma2",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2071,
+    "titles": [
+      "I'm really not the evil god's lackey"
+    ],
+    "current_chap": 148,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/68/h/12-1733289895-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u4e07\u52ab\u706b , \u523a\u732c\u732b\u9605\u8bfb , \u6211\u68a6\u52a8\u6f2b",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2072,
+    "titles": [
+      "The investor who sees the future"
+    ],
+    "current_chap": 31,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/62/d/18-1733380810-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Park Sungho , Yang Song",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2073,
+    "titles": [
+      "Beethoven reborn"
+    ],
+    "current_chap": 40,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/17/v/17-1733322239-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Woojin, Jayeoung-I",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2074,
+    "titles": [
+      "Karei ni rien shitemisemasu wa!"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/m/18-1735270922-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Abatamo (\u3042\u3070\u305f\u3082), Shirono Ichijiku",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2075,
+    "titles": [
+      "The redemption of earl nottingham"
+    ],
+    "current_chap": 51,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/41/s/16-1733316003-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Boem 1800",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2076,
+    "titles": [
+      "Kaijuu shoujo hana"
+    ],
+    "current_chap": 11,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/l/18-1735268314-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Matsuo Kazuyuki",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2077,
+    "titles": [
+      "Noshiro-san wa nonoshirenaii!!"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/k/18-1735268042-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "bonta",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2078,
+    "titles": [
+      "Minasoko"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/j/18-1735267885-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kotoyama",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2079,
+    "titles": [
+      "Mujaki na kanojo to hatsu ecchi suru mae to ato"
+    ],
+    "current_chap": 2,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/i/18-1735267775-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Miyabi Naruse",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2080,
+    "titles": [
+      "Awana-chan wa kyou mo shiawase"
+    ],
+    "current_chap": 1,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/g/18-1735226649-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Tabayou",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2081,
+    "titles": [
+      "Until i break my husband\u2019s family"
+    ],
+    "current_chap": 4,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/75/r/18-1733381622-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Loreen",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2082,
+    "titles": [
+      "Realization of justice"
+    ],
+    "current_chap": 9,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/95/f/18-1735226565-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Lee Si-hyun",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2083,
+    "titles": [
+      "Noname (oneshot)"
+    ],
+    "current_chap": 12,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/s/17-1733325421-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Rafal Jaki , MACHINE GAMU",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2084,
+    "titles": [
+      "Ulzzang era"
+    ],
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/56/r/15-1733310043-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Park Tae Jun Comics Company, Man's Story",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2085,
+    "titles": [
+      "Jc sasha and her otaku classmate"
+    ],
+    "current_chap": 22,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/6/j/13-1733292249-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Haguhagu,Rinjuu Circus (Circle)",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2086,
+    "titles": [
+      "Gabai"
+    ],
+    "current_chap": 56,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/35/z/16-1733315553-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Shimada Yoshichi",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2087,
+    "titles": [
+      "Undercover! chaebol high school"
+    ],
+    "current_chap": 87,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/h/14-1733304756-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "AJ",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2088,
+    "titles": [
+      "Being pathetic, my disciples keep me alive"
+    ],
+    "current_chap": 52,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/90/o/16-1733319975-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "JZ",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2089,
+    "titles": [
+      "Pandora seven"
+    ],
+    "current_chap": 32,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/73/a/15-1733311115-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kayashima Yuta",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2090,
+    "titles": [
+      "\"nobukuni-san\" does she like me?"
+    ],
+    "current_chap": 50,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/22/r/12-1733287233-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Yasuda Kousuke",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2091,
+    "titles": [
+      "Off-nature museum"
+    ],
+    "current_chap": 25,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/57/d/11-1732979556-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "The Off Pop Institution",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2092,
+    "titles": [
+      "I'm getting married to a girl i hate in my class"
+    ],
+    "current_chap": 6,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/69/z/13-1733296903-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Amano Seiju , \u5929\u4e43\u8056\u6a39 , Narumi Nanami , \u6210\u6d77\u4e03\u6d77",
+    "track": false,
+    "viewed_chap": 0
+  },
+  {
+    "id": 2093,
+    "titles": [
+      "The archmage's restaurant"
+    ],
+    "current_chap": 65,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/32/h/16-1733315276-nw.webp",
+    "last_update": 1736278314,
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Bad Boys, chassi",
     "track": false,
     "viewed_chap": 0
   }
