@@ -101,9 +101,10 @@ func NewCover() string {
 // NewPublishers generates a random set of publishers (1 to 5)
 func NewPublishers() []pb.Publisher {
 	seen := make(map[int]bool) // keep track of seen publishers
+	setMaxLength := randomInt(1, 5)
 
-	repeatedPublishers := make([]pb.Publisher, randomInt(1, 5))
-	for i := 0; i < len(repeatedPublishers); i++ {
+	repeatedPublishers := make([]pb.Publisher, 0)
+	for i := 0; i < setMaxLength; i++ {
 		newPublisher := randomPublisher()
 		// if newPublisher in repeatedPublishers continue
 		if _, ok := seen[int(newPublisher)]; ok {
@@ -119,9 +120,10 @@ func NewPublishers() []pb.Publisher {
 // NewGenres generates a random genre or a set of repeated genres (1 to 5)
 func NewGenres() []pb.Genre {
 	seen := make(map[int]bool) // keep track of seen genres
+	setMaxLength := randomInt(1, 5)
+	repeatedGenres := make([]pb.Genre, 0)
 
-	repeatedGenres := make([]pb.Genre, randomInt(1, 5))
-	for i := 0; i < len(repeatedGenres); i++ {
+	for i := 0; i < setMaxLength; i++ {
 		newGenre := randomGenre()
 		// if newGenre in repeatedGenres continue
 		if _, ok := seen[int(newGenre)]; ok {
