@@ -24,7 +24,55 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/public/login": {
+        "/admin/dashboard": {
+            "get": {
+                "description": "Function for getting the admin dashboard",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Dashboard",
+                "operationId": "dashboard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer \u003cJWT Token\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "404": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
             "post": {
                 "description": "Login a user with basic credentials to receive an auth 'token' in the headers if successful",
                 "consumes": [
@@ -34,14 +82,14 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User login"
+                    "Authentication"
                 ],
-                "summary": "Login user",
+                "summary": "Login existent user",
                 "operationId": "user-login",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Token",
+                        "description": "Bearer \u003cJWT Token\u003e",
                         "name": "Authorization",
                         "in": "header"
                     },
@@ -51,7 +99,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserLogin"
+                            "$ref": "#/definitions/domain.LoginRequest"
                         }
                     }
                 ],
@@ -71,9 +119,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/public/register": {
-            "post": {
-                "description": "Function for registering a new user (for demonstration purposes), receive a condirmation for success or failure",
+        "/protected/profile": {
+            "get": {
+                "description": "Function for getting the user profile",
                 "consumes": [
                     "application/json"
                 ],
@@ -81,24 +129,122 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User register"
+                    "Profile"
                 ],
-                "summary": "Register new user",
-                "operationId": "user-register",
+                "summary": "Profile",
+                "operationId": "profile",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Username",
-                        "name": "username",
-                        "in": "query",
+                        "description": "Bearer \u003cJWT Token\u003e",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
                     },
+                    "400": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "404": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh-token": {
+            "post": {
+                "description": "Function for refreshing the access token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "RefreshToken",
+                "operationId": "refresh-token",
+                "parameters": [
                     {
                         "type": "string",
-                        "description": "Password",
-                        "name": "password",
-                        "in": "query",
+                        "description": "Bearer \u003cJWT Token\u003e",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "404": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "description": "Function for SigningUp a new user (for demonstration purposes), receive a confirmation for success or failure",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "SignUp new user",
+                "operationId": "user-signup",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "testuser",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Login user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.User"
+                        }
                     }
                 ],
                 "responses": {
@@ -128,10 +274,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.UserLogin": {
+        "domain.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "description": "binding:\"required,email\" is a stronger validator for the field",
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password123"
+                }
+            }
+        },
+        "domain.User": {
             "type": "object",
             "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
                 "password": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "username": {
@@ -144,8 +317,8 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:8080",
+	Version:          "1.1",
+	Host:             "localhost:8081",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Comics API",

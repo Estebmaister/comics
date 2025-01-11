@@ -10,7 +10,7 @@ import (
 )
 
 func NewMongoDatabase(env *Env) mongo.Client {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(env.ContextTimeout)*time.Second)
 	defer cancel()
 
 	dbHost := env.DBHost
@@ -18,25 +18,22 @@ func NewMongoDatabase(env *Env) mongo.Client {
 	dbUser := env.DBUser
 	dbPass := env.DBPass
 
-	mongodbURI := fmt.Sprintf("mongodb://%s:%s@%s:%s", dbUser, dbPass, dbHost, dbPort)
+	mongodbURI := fmt.Sprintf(
+		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
+		dbUser, dbPass, dbHost)
 
 	if dbUser == "" || dbPass == "" {
 		mongodbURI = fmt.Sprintf("mongodb://%s:%s", dbHost, dbPort)
 	}
 
-	client, err := mongo.NewClient(mongodbURI)
+	client, err := mongo.NewClient(ctx, mongodbURI)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = client.Connect(ctx)
-	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("error connecting to mongo DB: %s", err)
 	}
 
 	err = client.Ping(ctx)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("error pinging mongo DB: %s", err)
 	}
 
 	return client

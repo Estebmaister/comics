@@ -1,13 +1,32 @@
 basePath: /
 definitions:
-  models.UserLogin:
+  domain.LoginRequest:
     properties:
+      email:
+        description: binding:"required,email" is a stronger validator for the field
+        example: test@example.com
+        type: string
       password:
+        example: password123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  domain.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+      role:
         type: string
       username:
         type: string
     type: object
-host: localhost:8080
+host: localhost:8081
 info:
   contact:
     email: estebmaister@gmail.com
@@ -19,9 +38,41 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   title: Comics API
-  version: "1.0"
+  version: "1.1"
 paths:
-  /public/login:
+  /admin/dashboard:
+    get:
+      consumes:
+      - application/json
+      description: Function for getting the admin dashboard
+      operationId: dashboard
+      parameters:
+      - description: Bearer <JWT Token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: not registered
+          schema:
+            type: integer
+        "404":
+          description: not registered
+          schema:
+            type: string
+      summary: Dashboard
+      tags:
+      - Dashboard
+  /login:
     post:
       consumes:
       - application/json
@@ -29,7 +80,7 @@ paths:
         in the headers if successful
       operationId: user-login
       parameters:
-      - description: Token
+      - description: Bearer <JWT Token>
         in: header
         name: Authorization
         type: string
@@ -38,7 +89,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/models.UserLogin'
+          $ref: '#/definitions/domain.LoginRequest'
       produces:
       - application/json
       responses:
@@ -50,27 +101,92 @@ paths:
           description: no ok
           schema:
             type: string
-      summary: Login user
+      summary: Login existent user
       tags:
-      - User login
-  /public/register:
+      - Authentication
+  /protected/profile:
+    get:
+      consumes:
+      - application/json
+      description: Function for getting the user profile
+      operationId: profile
+      parameters:
+      - description: Bearer <JWT Token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: not registered
+          schema:
+            type: integer
+        "404":
+          description: not registered
+          schema:
+            type: string
+      summary: Profile
+      tags:
+      - Profile
+  /refresh-token:
     post:
       consumes:
       - application/json
-      description: Function for registering a new user (for demonstration purposes),
-        receive a condirmation for success or failure
-      operationId: user-register
+      description: Function for refreshing the access token
+      operationId: refresh-token
       parameters:
-      - description: Username
+      - description: Bearer <JWT Token>
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: not registered
+          schema:
+            type: integer
+        "404":
+          description: not registered
+          schema:
+            type: string
+      summary: RefreshToken
+      tags:
+      - Authentication
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Function for SigningUp a new user (for demonstration purposes),
+        receive a confirmation for success or failure
+      operationId: user-signup
+      parameters:
+      - default: testuser
+        description: Username
         in: query
         name: username
-        required: true
         type: string
-      - description: Password
-        in: query
-        name: password
+      - description: Login user
+        in: body
+        name: user
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/domain.User'
       produces:
       - application/json
       responses:
@@ -88,7 +204,7 @@ paths:
           description: not registered
           schema:
             type: string
-      summary: Register new user
+      summary: SignUp new user
       tags:
-      - User register
+      - Authentication
 swagger: "2.0"

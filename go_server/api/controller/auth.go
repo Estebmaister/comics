@@ -1,85 +1,146 @@
 package controller
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"strings"
 
+	"comics/bootstrap"
 	"comics/domain"
 	"comics/internal/tokenutil"
 
-	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
-	USER = "USER"
+	USER = "user-uuid-gen-01" // UUID namespace for generating user IDs, 16 bytes
 )
 
-// @Summary			Login user
-// @ModuleID  	signUp
-// @Description	Login a user with basic credentials to receive an auth 'token' in the headers if successful
-// @ID					user-login
-// @Tags				User login
-// @Accept			json
-// @Produce			json
-// @Param				Authorization	header		string						false	"Token"
-// @Param				user					body			domain.UserLogin	true	"Login user"
-// @Success			200						{string}	string		"ok"
-// @Failure			400						{string}	string		"no ok"
-// @Router			/public/login [post]
-func Login(c *gin.Context) {
-	var user domain.UserLogin
-
-	// Check user credentials and generate a JWT
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
-		return
+func Login(accessToken string, env *bootstrap.Env, user domain.LoginRequest) (map[string]any, int, error) {
+	// Load secret key from environment variable
+	secretKey := []byte(env.AccessTokenSecret)
+	refreshSecretKey := []byte(env.RefreshTokenSecret)
+	if len(secretKey) == 0 || len(refreshSecretKey) == 0 {
+		return nil, http.StatusInternalServerError, fmt.Errorf("JWT secret keys not set")
 	}
 
-	// TODO: Check if credentials are valid (replace this logic with real authentication)
-	if user.Username == "user" && user.Password == "password" {
-		// Generate a JWT
-		token, err := tokenutil.GenerateToken(uuid.New())
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error generating token"})
-			return
+	// Check for Authorization header
+	if accessToken != "" {
+		token := strings.TrimPrefix(accessToken, "Bearer ")
+
+		// Validate the token
+		claims, err := tokenutil.VerifyToken(token, secretKey)
+		if err == nil {
+			return map[string]any{
+				"message": "Authenticated with token",
+				"user_id": claims.UserID,
+			}, http.StatusOK, nil
 		}
-
-		c.JSON(http.StatusOK, gin.H{"token": token})
-	} else {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		// If token is invalid, fallback to password-based login
 	}
+
+	// Fallback to standard password-based login
+	// Simulate fetching user from database (replace with real DB call)
+	dbUser, err := getUserByEmail(user.Email)
+	if err != nil {
+		return nil, http.StatusUnauthorized, fmt.Errorf("invalid user credentials")
+	}
+
+	// Validate password (assuming bcrypt hash comparison)
+	if err := bcrypt.CompareHashAndPassword(
+		[]byte(dbUser.Password), []byte(user.Password)); err != nil {
+		return nil, http.StatusUnauthorized, fmt.Errorf("invalid credentials")
+	}
+
+	// Generate a JWT
+	accessToken, errAccess := tokenutil.GenerateToken(
+		dbUser.ID, secretKey, env.AccessTokenExpiryHour)
+	refreshToken, errRefresh := tokenutil.GenerateToken(
+		dbUser.ID, refreshSecretKey, env.RefreshTokenExpiryHour)
+	if errAccess != nil && errRefresh != nil {
+		return nil, http.StatusInternalServerError, fmt.Errorf("error generating token")
+	}
+
+	// Return tokens in response
+	return map[string]any{
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+		"message":       "Login successful",
+	}, http.StatusOK, nil
 }
 
-// @Summary		Register new user
-// @Description	Function for registering a new user (for demonstration purposes), receive a condirmation for success or failure
-// @ID				user-register
-// @Tags			User register
-// @Accept		json
-// @Produce		json
-// @Param			username	query			string	true	"Username"
-// @Param			password	query			string	true	"Password"
-// @Success		201				{object}	map[string]string	"registered"
-// @Failure		400 			{integer} string  	"not registered"
-// @Failure		404 			{string} 	integer		"not registered"
-// @Router			/public/register [post]
-func Register(c *gin.Context) {
-	var user domain.User
-	var newID uuid.UUID
+func Register(user domain.User) (map[string]any, int, error) {
 
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
-		return
+	// Simulate fetching user from database (replace with real DB call)
+	_, err := getUserByEmail(user.Email)
+	if err == nil {
+		return nil, http.StatusUnauthorized, fmt.Errorf("email already exists")
 	}
 
-	// TODO: securely hash passwords before storing them
-	newID, err := uuid.NewV7FromReader(strings.NewReader(USER))
+	// Simulate fetching user from database (replace with real DB call)
+	_, err = getUserByUsername(user.Username)
+	if err == nil {
+		return nil, http.StatusUnauthorized, fmt.Errorf("username already exists")
+	}
+
+	newID, err := uuid.NewV7FromReader(bytes.NewReader([]byte(USER)))
 	if err != nil {
+		println("Error generating UUID:", err.Error())
 		newID = uuid.New() // Fallback to a random UUID if generation fails
 	}
 	user.ID = newID
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, http.StatusInternalServerError, fmt.Errorf("error hashing password: %w", err)
+	}
+	user.Password = string(hashedPassword)
+
 	// Store the user in the database (replace this logic with real database operations)
 	// ...
 
-	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+	return map[string]any{
+		"message": "User registered successfully",
+		"user": map[string]any{
+			"id":       user.ID,
+			"username": user.Username,
+			"email":    user.Email,
+			"password": user.Password,
+			"role":     user.Role,
+		},
+	}, http.StatusCreated, nil
+}
+
+// getUserByEmail simulates a database fetch (replace with real DB interaction)
+func getUserByEmail(email string) (domain.User, error) {
+	// Mocked user data for demonstration
+	mockUser := domain.User{
+		ID:       uuid.New(),
+		Username: "testuser",
+		Email:    "test@example.com",
+		Password: "$2a$10$WXvnJNuriTzpJThUJ6BJWOm6cxZNhQUsITXlXJTf0VGQYKATc9QMu", // bcrypt hash for "password123"
+		Role:     "user",
+	}
+	if email == mockUser.Email {
+		return mockUser, nil
+	}
+	return domain.User{}, fmt.Errorf("user not found")
+}
+
+// getUserByUsername simulates a database fetch (replace with real DB interaction)
+func getUserByUsername(username string) (domain.User, error) {
+	// Mocked user data for demonstration
+	mockUser := domain.User{
+		ID:       uuid.New(),
+		Username: "testuser",
+		Email:    "test@example.com",
+		Password: "$2a$12$KTOlJj2JZlyeZtTcfIhB5uR9l3.KYvYInPqvIjUMKYw9E6aBD5l2W", // bcrypt hash for "password123"
+		Role:     "user",
+	}
+	if username == mockUser.Username {
+		return mockUser, nil
+	}
+	return domain.User{}, fmt.Errorf("user not found")
 }

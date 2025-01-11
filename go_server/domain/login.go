@@ -5,8 +5,9 @@ import (
 )
 
 type LoginRequest struct {
-	Email    string `form:"email" binding:"required,email"`
-	Password string `form:"password" binding:"required"`
+	// binding:"required,email" is a stronger validator for the field
+	Email    string `form:"email" binding:"required" example:"test@example.com"`
+	Password string `form:"password" binding:"required" example:"password123"`
 }
 
 type LoginResponse struct {
