@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
 	"go.mongodb.org/mongo-driver/bson/bsonrw"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -79,7 +79,7 @@ type nullawareDecoder struct {
 }
 
 func (d *nullawareDecoder) DecodeValue(dctx bsoncodec.DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error {
-	if vr.Type() != bsontype.Null {
+	if vr.Type() != bson.TypeNull {
 		return d.defDecoder.DecodeValue(dctx, vr, val)
 	}
 
@@ -94,10 +94,10 @@ func (d *nullawareDecoder) DecodeValue(dctx bsoncodec.DecodeContext, vr bsonrw.V
 	return nil
 }
 
-func NewClient(connection string) (Client, error) {
+func NewClient(ctx context.Context, connection string) (Client, error) {
 
 	time.Local = time.UTC
-	c, err := mongo.NewClient(options.Client().ApplyURI(connection))
+	c, err := mongo.Connect(ctx, options.Client().ApplyURI(connection))
 
 	return &mongoClient{cl: c}, err
 
