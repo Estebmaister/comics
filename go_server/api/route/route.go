@@ -39,6 +39,13 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	dashboardRouter(env, timeout, db, adminGroup)
 }
 
+func swaggerRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	// Swagger API documentation
+	url := ginSwagger.URL("./swagger/doc.json")
+	println("http://" + env.ServerAddress + "/swagger/index.html")
+	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+}
+
 // @Summary		Dashboard
 // @Description	Function for getting the admin dashboard
 // @ID				dashboard
@@ -54,13 +61,6 @@ func dashboardRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group 
 	group.GET("/dashboard", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "Dashboard"})
 	})
-}
-
-func swaggerRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
-	// Swagger API documentation
-	url := ginSwagger.URL("./swagger/doc.json")
-	println("http://" + env.ServerAddress + "/swagger/index.html")
-	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 }
 
 // @Summary		SignUp new user

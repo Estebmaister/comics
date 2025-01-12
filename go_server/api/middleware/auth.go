@@ -37,7 +37,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 		}
 
 		c.Set("user_id", claims.UserID)
-		c.Set("role", claims.Role)
+		c.Set("role", claims.Subject)
 		c.Next() // Proceed to the next handler if authorized
 	}
 }

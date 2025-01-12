@@ -8,27 +8,26 @@ import (
 	"github.com/google/uuid"
 )
 
+const (
+	DEFAULT_TOKEN_DURATION = 1 * time.Hour // Token valid for 1 hour
+	ISSUER                 = "comic-auth-service"
+	ROLE_ADMIN             = "admin"
+	ROLE_USER              = "user"
+)
+
 type Claims struct {
 	UserID uuid.UUID `json:"user_id"`
-	Role   string    `json:"role"`
 	jwt.RegisteredClaims
 }
 
-var (
-	defaultTokenDuration = 1 // Token valid for 1 hour
-)
-
 // GenerateToken generates a JWT with the user ID and role as part of the claims
-func GenerateTokeWithRole(userID uuid.UUID, secretKey []byte, tokenDuration int, role string) (string, error) {
-	// Set the token duration to the default if not provided
-	if tokenDuration == 0 {
-		tokenDuration = defaultTokenDuration
-	}
+func GenerateTokenWithRole(userID uuid.UUID, secretKey []byte, tokenDuration time.Duration, role string) (string, error) {
 	claims := Claims{
 		UserID: userID,
-		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(tokenDuration) * time.Hour)),
+			Issuer:    ISSUER,
+			Subject:   role,
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenDuration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
@@ -38,8 +37,8 @@ func GenerateTokeWithRole(userID uuid.UUID, secretKey []byte, tokenDuration int,
 }
 
 // GenerateToken generates a JWT with the user ID as part of the claims
-func GenerateToken(userID uuid.UUID, secretKey []byte, tokenDuration int) (string, error) {
-	return GenerateTokeWithRole(userID, secretKey, tokenDuration, "")
+func GenerateToken(userID uuid.UUID, secretKey []byte, tokenDuration time.Duration) (string, error) {
+	return GenerateTokenWithRole(userID, secretKey, tokenDuration, ROLE_USER)
 }
 
 // VerifyToken verifies a JWT token
@@ -53,12 +52,8 @@ func VerifyToken(tokenString string, secretKey []byte) (*Claims, error) {
 		return secretKey, nil
 	})
 
-	if err != nil {
-		return nil, fmt.Errorf("invalid token: %v", err)
-	}
-
-	if !token.Valid {
-		return nil, fmt.Errorf("token is not valid")
+	if err != nil || !token.Valid {
+		return nil, fmt.Errorf("invalid token, err: %v", err)
 	}
 
 	return claims, nil
@@ -66,12 +61,21 @@ func VerifyToken(tokenString string, secretKey []byte) (*Claims, error) {
 
 // RefreshToken generates a new access token if the refresh token is valid
 func RefreshToken(refreshToken string, refreshSecretKey, accessSecretKey []byte) (string, error) {
+	return RefreshTokenWithRole(refreshToken, refreshSecretKey, accessSecretKey, ROLE_USER)
+}
+
+// RefreshToken generates a new access token if the refresh token is valid
+func RefreshTokenWithRole(refreshToken string, refreshSecretKey, accessSecretKey []byte, role string) (string, error) {
 
 	claims, err := VerifyToken(refreshToken, refreshSecretKey)
 	if err != nil {
 		return "", err
 	}
 
+	if claims.Subject != role {
+		return "", fmt.Errorf("invalid role to refresh given token")
+	}
+
 	// Generate a new access token (short-lived)
-	return GenerateToken(claims.UserID, accessSecretKey, defaultTokenDuration)
+	return GenerateTokenWithRole(claims.UserID, accessSecretKey, DEFAULT_TOKEN_DURATION, role)
 }
