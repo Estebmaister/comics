@@ -11,7 +11,7 @@ import (
 var binaryTempFile = "./comic.temp.bin"
 var jsonTempFile = "./comic.temp.json"
 
-func TestSerializerFile(t *testing.T) {
+func TestSerializerFileWithComic(t *testing.T) {
 	t.Parallel()
 
 	comicCreated := NewComic()

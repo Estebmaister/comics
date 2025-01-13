@@ -85,7 +85,7 @@ const docTemplate = `{
                         "Bearer JWT": []
                     }
                 ],
-                "description": "Login a user with basic credentials to receive an auth 'token' in the headers if successful",
+                "description": "Login a user with basic credentials to receive an auth 'token'\nin the headers if successful",
                 "consumes": [
                     "application/json"
                 ],
@@ -120,6 +120,12 @@ const docTemplate = `{
                         "description": "logged in",
                         "schema": {
                             "$ref": "#/definitions/domain.AuthResponse"
+                        },
+                        "headers": {
+                            "Authorization": {
+                                "type": "string",
+                                "description": "Bearer JWT"
+                            }
                         }
                     },
                     "400": {
@@ -214,8 +220,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "enum": [
+                            "user",
+                            "admin"
+                        ],
                         "type": "string",
-                        "description": "user",
+                        "description": "role",
                         "name": "Role",
                         "in": "header"
                     }
@@ -225,6 +235,12 @@ const docTemplate = `{
                         "description": "new access token generated",
                         "schema": {
                             "$ref": "#/definitions/domain.AuthResponse"
+                        },
+                        "headers": {
+                            "Authorization": {
+                                "type": "string",
+                                "description": "Bearer JWT"
+                            }
                         }
                     },
                     "400": {
@@ -244,7 +260,7 @@ const docTemplate = `{
         },
         "/signup": {
             "post": {
-                "description": "Signs Up a new user (for demonstration purposes), receive a confirmation for success or failure",
+                "description": "Signs Up a new user (for demonstration purposes),\nreceive a confirmation for success or failure",
                 "consumes": [
                     "application/json"
                 ],
@@ -350,6 +366,7 @@ const docTemplate = `{
     },
     "securityDefinitions": {
         "Bearer JWT": {
+            "description": "Type \"Bearer\" followed by a space paste the JWT.",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -360,8 +377,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.1",
-	Host:             "localhost:8081",
-	BasePath:         "/",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Comics API",
 	Description:      "Server documentation to query comics from the DB.",

@@ -11,8 +11,7 @@ type Env struct {
 	AppEnv                 string        `mapstructure:"APP_ENV"`
 	ServerAddress          string        `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout         int           `mapstructure:"CONTEXT_TIMEOUT"`
-	DBHost                 string        `mapstructure:"DB_HOST"`
-	DBPort                 string        `mapstructure:"DB_PORT"`
+	DBAddr                 string        `mapstructure:"DB_ADDR"`
 	DBUser                 string        `mapstructure:"DB_USER"`
 	DBPass                 string        `mapstructure:"DB_PASS"`
 	DBName                 string        `mapstructure:"DB_NAME"`

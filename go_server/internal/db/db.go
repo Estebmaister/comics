@@ -32,6 +32,7 @@ type Database struct {
 type Config struct {
 	Host            string
 	Port            string
+	Addr            string
 	User            string
 	Password        string
 	Database        string
@@ -42,17 +43,26 @@ type Config struct {
 }
 
 func DefaultConfig() *Config {
-	return &Config{
-		Host:            os.Getenv("PGHOST"),
-		Port:            os.Getenv("PGPORT"),
-		User:            os.Getenv("PGUSER"),
-		Password:        os.Getenv("PGPASSWORD"),
-		Database:        os.Getenv("PGDATABASE"),
+	cfg := &Config{
+		Host:            os.Getenv("PG_HOST"),
+		Port:            os.Getenv("PG_PORT"),
+		Addr:            os.Getenv("PG_ADDR"),
+		User:            os.Getenv("PG_USER"),
+		Password:        os.Getenv("PG_PASS"),
+		Database:        os.Getenv("PG_NAME"),
 		MaxOpenConns:    25,
 		MaxIdleConns:    5,
 		ConnMaxLifetime: 5 * time.Minute,
 		JaegerEndpoint:  os.Getenv("JAEGER_ENDPOINT"),
 	}
+	if cfg.Host == "" && cfg.Port == "" {
+		addr := strings.Split(cfg.Addr, ":")
+		if len(addr) == 2 {
+			cfg.Host = addr[0]
+			cfg.Port = addr[1]
+		}
+	}
+	return cfg
 }
 
 func NewDatabase(cfg *Config) (*Database, error) {
@@ -156,7 +166,7 @@ func (db *Database) withSpan(ctx context.Context, operation string, fn func(cont
 	return err
 }
 
-func (db *Database) withRetry(ctx context.Context, operation string, fn func() error) error {
+func (db *Database) withRetry(_ context.Context, operation string, fn func() error) error {
 	retry := backoff.NewExponentialBackOff()
 	retry.MaxElapsedTime = 15 * time.Second
 
@@ -274,7 +284,7 @@ func (db *Database) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 	})
 }
 
-func (db *Database) DeleteComic(ctx context.Context, id int32) error {
+func (db *Database) DeleteComic(ctx context.Context, id uint32) error {
 	return db.withSpan(ctx, "DeleteComic", func(ctx context.Context) error {
 		return db.withRetry(ctx, "DeleteComic", func() error {
 			query := `
@@ -293,7 +303,7 @@ func (db *Database) DeleteComic(ctx context.Context, id int32) error {
 	})
 }
 
-func (db *Database) GetComicById(ctx context.Context, id int32) (*pb.Comic, error) {
+func (db *Database) GetComicById(ctx context.Context, id uint32) (*pb.Comic, error) {
 	var comic pb.Comic
 	err := db.withSpan(ctx, "GetComicById", func(ctx context.Context) error {
 		return db.withRetry(ctx, "GetComicById", func() error {

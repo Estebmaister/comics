@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   domain.AuthResponse:
     properties:
@@ -39,7 +38,6 @@ definitions:
     - password
     - username
     type: object
-host: localhost:8081
 info:
   contact:
     email: estebmaister@gmail.com
@@ -92,7 +90,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: Login a user with basic credentials to receive an auth 'token'
+      description: |-
+        Login a user with basic credentials to receive an auth 'token'
         in the headers if successful
       operationId: user-login
       parameters:
@@ -112,6 +111,10 @@ paths:
       responses:
         "200":
           description: logged in
+          headers:
+            Authorization:
+              description: Bearer JWT
+              type: string
           schema:
             $ref: '#/definitions/domain.AuthResponse'
         "400":
@@ -171,7 +174,10 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: user
+      - description: role
+        enum:
+        - user
+        - admin
         in: header
         name: Role
         type: string
@@ -180,6 +186,10 @@ paths:
       responses:
         "200":
           description: new access token generated
+          headers:
+            Authorization:
+              description: Bearer JWT
+              type: string
           schema:
             $ref: '#/definitions/domain.AuthResponse'
         "400":
@@ -199,8 +209,9 @@ paths:
     post:
       consumes:
       - application/json
-      description: Signs Up a new user (for demonstration purposes), receive a confirmation
-        for success or failure
+      description: |-
+        Signs Up a new user (for demonstration purposes),
+        receive a confirmation for success or failure
       operationId: user-signup
       parameters:
       - description: Login user
@@ -229,6 +240,7 @@ paths:
       - Authentication
 securityDefinitions:
   Bearer JWT:
+    description: Type "Bearer" followed by a space paste the JWT.
     in: header
     name: Authorization
     type: apiKey

@@ -17,11 +17,18 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
+var ( // Headers
+	Authorization = "Authorization"
+	Role          = "Role"
+)
+
+func Setup(
+	env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
+	basePath := "/"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Host = env.ServerAddress
-	docs.SwaggerInfo.BasePath = "/"
-	publicRouter := gin.Group("/")
+	docs.SwaggerInfo.BasePath = basePath
+	publicRouter := gin.Group(basePath)
 	// All Public APIs
 	{
 		swaggerRouter(env, timeout, db, publicRouter)
@@ -48,11 +55,15 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	}
 }
 
-func swaggerRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+func swaggerRouter(
+	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	// Swagger API documentation
 	url := ginSwagger.URL("./swagger/doc.json")
 	println("http://" + env.ServerAddress + "/swagger/index.html")
-	group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	group.GET(
+		"/swagger/*any",
+		ginSwagger.WrapHandler(swaggerFiles.Handler, url),
+	)
 }
 
 // dashboardRouter returns a dashboard view for admins
@@ -69,7 +80,8 @@ func swaggerRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group 
 //	@Failure		400				{string}	string				"Not registered"
 //	@Failure		404				{string}	string				"Not implemented"
 //	@Router			/admin/dashboard [get]
-func dashboardRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+func dashboardRouter(
+	_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.GET("/dashboard", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "Dashboard"})
 	})
@@ -78,7 +90,8 @@ func dashboardRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group 
 // signUpRouter tries to create a new user from the body provided
 //
 //	@Summary		SignUp new user
-//	@Description	Signs Up a new user (for demonstration purposes), receive a confirmation for success or failure
+//	@Description	Signs Up a new user (for demonstration purposes),
+//	@Description	receive a confirmation for success or failure
 //	@ID				user-signup
 //	@Tags			Authentication
 //	@Accept			json
@@ -88,13 +101,15 @@ func dashboardRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group 
 //	@Failure		400		{string}	string					"not registered, invalid data"
 //	@Failure		409		{string}	string					"username or email already in use"
 //	@Router			/signup [post]
-func signUpRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+func signUpRouter(
+	_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.POST("/signup", func(c *gin.Context) {
 		var user domain.SignUpRequest
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
+			c.JSON(
+				http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
 			return
 		}
 
@@ -111,7 +126,8 @@ func signUpRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gi
 //
 //	@Summary		Login existent user
 //	@ModuleID		signUp
-//	@Description	Login a user with basic credentials to receive an auth 'token' in the headers if successful
+//	@Description	Login a user with basic credentials to receive an auth 'token'
+//	@Description	in the headers if successful
 //	@Security		Bearer JWT
 //	@ID				user-login
 //	@Tags			Authentication
@@ -120,16 +136,19 @@ func signUpRouter(_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gi
 //	@Param			Authorization	header		string				false	"Bearer JWT"	default(Bearer XXX)
 //	@Param			user			body		domain.LoginRequest	true	"Login user"
 //	@Success		200				{object}	domain.AuthResponse	"logged in"
+//	@Header			200				{string}	Authorization		"Bearer JWT"
 //	@Failure		400				{string}	string				"no ok"
 //	@Router			/login [post]
-func loginRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+func loginRouter(
+	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.POST("/login", func(c *gin.Context) {
 		var user domain.LoginRequest
-		accessToken := c.GetHeader("Authorization")
+		accessToken := c.GetHeader(Authorization)
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil && accessToken == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
+			c.JSON(
+				http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
 			return
 		}
 
@@ -138,12 +157,12 @@ func loginRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *g
 			c.JSON(status, gin.H{"error": err.Error()})
 			return
 		}
-		c.Header("Authorization", "Bearer "+resp.AccessToken)
+		c.Header(Authorization, "Bearer "+resp.AccessToken)
 		c.JSON(status, resp)
 	})
 }
 
-// refreshTokenRouter tries to renovate the credentials of a user
+// refreshTokenRouter tries to renovate the credentials of a logged user
 //
 //	@Summary		RefreshToken
 //	@Description	Function for refreshing the access token
@@ -153,24 +172,27 @@ func loginRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *g
 //	@Accept			json
 //	@Produce		json
 //	@Param			Authorization	header		string				true	"Bearer JWT"	default(Bearer XXX)
-//	@Param			Role			header		string				false	"user"
+//	@Param			Role			header		string				false	"role"			Enums(user, admin)
 //	@Success		200				{object}	domain.AuthResponse	"new access token generated"
+//	@Header			200				{string}	Authorization		"Bearer JWT"
 //	@Failure		400				{integer}	string				"not registered"
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/refresh-token [post]
-func refreshTokenRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+func refreshTokenRouter(
+	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.POST("/refresh-token", func(c *gin.Context) {
-		role := c.GetHeader("Role")
+		role := c.GetHeader(Role)
 		if role == "" {
 			role = tokenutil.ROLE_USER
 		}
 
-		resp, status, err := controller.RefreshToken(c, env, c.GetHeader("Authorization"), role)
+		resp, status, err := controller.RefreshToken(
+			c, env, c.GetHeader(Authorization), role)
 		if err != nil {
 			c.JSON(status, gin.H{"error": err.Error()})
 			return
 		}
-		c.Header("Authorization", "Bearer "+resp.AccessToken)
+		c.Header(Authorization, "Bearer "+resp.AccessToken)
 		c.JSON(status, resp)
 	})
 }
@@ -189,13 +211,15 @@ func refreshTokenRouter(env *bootstrap.Env, _ time.Duration, _ mongo.Database, g
 //	@Failure		400				{integer}	string				"not registered"
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/protected/profile [get]
-func NewProfileRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+func NewProfileRouter(
+	env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
 	group.GET("/profile", func(c *gin.Context) {
 		// Profile handler logic
 	})
 }
 
-func NewTaskRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+func NewTaskRouter(
+	env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
 	group.GET("/tasks", func(c *gin.Context) {
 		// Task handler logic
 	})

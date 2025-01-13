@@ -15,8 +15,6 @@
         },
         "version": "1.1"
     },
-    "host": "localhost:8081",
-    "basePath": "/",
     "paths": {
         "/admin/dashboard": {
             "get": {
@@ -79,7 +77,7 @@
                         "Bearer JWT": []
                     }
                 ],
-                "description": "Login a user with basic credentials to receive an auth 'token' in the headers if successful",
+                "description": "Login a user with basic credentials to receive an auth 'token'\nin the headers if successful",
                 "consumes": [
                     "application/json"
                 ],
@@ -114,6 +112,12 @@
                         "description": "logged in",
                         "schema": {
                             "$ref": "#/definitions/domain.AuthResponse"
+                        },
+                        "headers": {
+                            "Authorization": {
+                                "type": "string",
+                                "description": "Bearer JWT"
+                            }
                         }
                     },
                     "400": {
@@ -208,8 +212,12 @@
                         "required": true
                     },
                     {
+                        "enum": [
+                            "user",
+                            "admin"
+                        ],
                         "type": "string",
-                        "description": "user",
+                        "description": "role",
                         "name": "Role",
                         "in": "header"
                     }
@@ -219,6 +227,12 @@
                         "description": "new access token generated",
                         "schema": {
                             "$ref": "#/definitions/domain.AuthResponse"
+                        },
+                        "headers": {
+                            "Authorization": {
+                                "type": "string",
+                                "description": "Bearer JWT"
+                            }
                         }
                     },
                     "400": {
@@ -238,7 +252,7 @@
         },
         "/signup": {
             "post": {
-                "description": "Signs Up a new user (for demonstration purposes), receive a confirmation for success or failure",
+                "description": "Signs Up a new user (for demonstration purposes),\nreceive a confirmation for success or failure",
                 "consumes": [
                     "application/json"
                 ],
@@ -344,6 +358,7 @@
     },
     "securityDefinitions": {
         "Bearer JWT": {
+            "description": "Type \"Bearer\" followed by a space paste the JWT.",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

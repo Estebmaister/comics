@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -12,7 +13,6 @@ import (
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
-	"golang.org/x/net/context"
 )
 
 const (

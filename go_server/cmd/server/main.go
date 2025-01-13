@@ -12,40 +12,29 @@ import (
 	repo "comics/repository"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type Application struct {
-	Env   *Env
-	Mongo mongo.Client
-}
-
-type Env struct {
-	AppEnv         string `mapstructure:"APP_ENV"`
-	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
-	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
-	DBHost         string `mapstructure:"DB_HOST"`
-	DBPort         string `mapstructure:"DB_PORT"`
-}
-
-//	@title			Comics API
-//	@version		1.1
-//	@description	Server documentation to query comics from the DB.
-//	@termsOfService	http://swagger.io/terms/
-
-//	@contact.name	Estebmaister
-//	@contact.url	http://www.github.com/estebmaister
-//	@contact.email	estebmaister@gmail.com
-
-//	@license.name	Apache 2.0
-//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
-
+// main serves the http app to authenticate request
+//
+//	@title						Comics API
+//	@version					1.1
+//	@description				Server documentation to query comics from the DB.
+//	@termsOfService				http://swagger.io/terms/
+//
+//	@contact.name				Estebmaister
+//	@contact.url				http://www.github.com/estebmaister
+//	@contact.email				estebmaister@gmail.com
+//
+//	@license.name				Apache 2.0
+//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+//
 //	@securityDefinitions.apikey	Bearer JWT
 //	@in							header
 //	@name						Authorization
-
-// @host		localhost:8081
-// @BasePath	/
+//	@description				Type "Bearer" followed by a space paste the JWT.
+//
+//	@host						localhost:8081
+//	@BasePath					/
 func main() {
 	// app is the instance of the entire application, managing key resources throughout its lifecycle
 	app := bootstrap.App()
@@ -71,7 +60,7 @@ func main() {
 	}()
 
 	// Initialize the database
-	_, err := repo.NewSQLiteDB("comics.db")
+	_, err := repo.NewSQLiteDB("../src/db/comics.db")
 	if err != nil {
 		panic("Failed to initialize SQLite database")
 	}

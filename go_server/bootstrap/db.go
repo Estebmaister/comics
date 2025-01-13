@@ -13,17 +13,12 @@ func NewMongoDatabase(env *Env) mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(env.ContextTimeout)*time.Second)
 	defer cancel()
 
-	dbHost := env.DBHost
-	dbPort := env.DBPort
-	dbUser := env.DBUser
-	dbPass := env.DBPass
-
 	mongodbURI := fmt.Sprintf(
 		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
-		dbUser, dbPass, dbHost)
+		env.DBUser, env.DBPass, env.DBAddr)
 
-	if dbUser == "" || dbPass == "" {
-		mongodbURI = fmt.Sprintf("mongodb://%s:%s", dbHost, dbPort)
+	if env.DBUser == "" || env.DBPass == "" {
+		mongodbURI = fmt.Sprintf("mongodb://%s", env.DBAddr)
 	}
 
 	client, err := mongo.NewClient(ctx, mongodbURI)

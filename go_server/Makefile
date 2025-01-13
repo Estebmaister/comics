@@ -14,3 +14,7 @@ prepare:
 
 run:
 	air server
+
+migration:
+	go build -o tmp/migrate ./cmd/migrate/
+	./tmp/migrate up
