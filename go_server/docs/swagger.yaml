@@ -1,9 +1,19 @@
 basePath: /
 definitions:
+  domain.AuthResponse:
+    properties:
+      access_token:
+        type: string
+      message:
+        type: string
+      refresh_token:
+        type: string
+      user_id:
+        type: string
+    type: object
   domain.LoginRequest:
     properties:
       email:
-        description: binding:"required,email" is a stronger validator for the field
         example: test@example.com
         type: string
       password:
@@ -13,18 +23,21 @@ definitions:
     - email
     - password
     type: object
-  domain.User:
+  domain.SignUpRequest:
     properties:
       email:
-        type: string
-      id:
+        example: test@example.com
         type: string
       password:
-        type: string
-      role:
+        example: password123
         type: string
       username:
+        example: testuser
         type: string
+    required:
+    - email
+    - password
+    - username
     type: object
 host: localhost:8081
 info:
@@ -44,10 +57,11 @@ paths:
     get:
       consumes:
       - application/json
-      description: Function for getting the admin dashboard
+      description: Returns the admin dashboard, needs admin auth
       operationId: dashboard
       parameters:
-      - description: Bearer <JWT Token>
+      - default: Bearer XXX
+        description: Bearer JWT
         in: header
         name: Authorization
         required: true
@@ -56,19 +70,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: ok
+          description: OK
           schema:
             additionalProperties:
               type: string
             type: object
         "400":
-          description: not registered
-          schema:
-            type: integer
-        "404":
-          description: not registered
+          description: Not registered
           schema:
             type: string
+        "404":
+          description: Not implemented
+          schema:
+            type: string
+      security:
+      - Bearer JWT: []
       summary: Dashboard
       tags:
       - Dashboard
@@ -80,7 +96,8 @@ paths:
         in the headers if successful
       operationId: user-login
       parameters:
-      - description: Bearer <JWT Token>
+      - default: Bearer XXX
+        description: Bearer JWT
         in: header
         name: Authorization
         type: string
@@ -94,13 +111,15 @@ paths:
       - application/json
       responses:
         "200":
-          description: ok
+          description: logged in
           schema:
-            type: string
+            $ref: '#/definitions/domain.AuthResponse'
         "400":
           description: no ok
           schema:
             type: string
+      security:
+      - Bearer JWT: []
       summary: Login existent user
       tags:
       - Authentication
@@ -111,7 +130,8 @@ paths:
       description: Function for getting the user profile
       operationId: profile
       parameters:
-      - description: Bearer <JWT Token>
+      - default: Bearer XXX
+        description: Bearer JWT
         in: header
         name: Authorization
         required: true
@@ -133,6 +153,8 @@ paths:
           description: not registered
           schema:
             type: string
+      security:
+      - Bearer JWT: []
       summary: Profile
       tags:
       - Profile
@@ -143,20 +165,23 @@ paths:
       description: Function for refreshing the access token
       operationId: refresh-token
       parameters:
-      - description: Bearer <JWT Token>
+      - default: Bearer XXX
+        description: Bearer JWT
         in: header
         name: Authorization
         required: true
+        type: string
+      - description: user
+        in: header
+        name: Role
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ok
+          description: new access token generated
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/domain.AuthResponse'
         "400":
           description: not registered
           schema:
@@ -165,6 +190,8 @@ paths:
           description: not registered
           schema:
             type: string
+      security:
+      - Bearer JWT: []
       summary: RefreshToken
       tags:
       - Authentication
@@ -172,39 +199,37 @@ paths:
     post:
       consumes:
       - application/json
-      description: Function for SigningUp a new user (for demonstration purposes),
-        receive a confirmation for success or failure
+      description: Signs Up a new user (for demonstration purposes), receive a confirmation
+        for success or failure
       operationId: user-signup
       parameters:
-      - default: testuser
-        description: Username
-        in: query
-        name: username
-        type: string
       - description: Login user
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/domain.User'
+          $ref: '#/definitions/domain.SignUpRequest'
       produces:
       - application/json
       responses:
         "201":
           description: registered
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/domain.AuthResponse'
         "400":
-          description: not registered
+          description: not registered, invalid data
           schema:
-            type: integer
-        "404":
-          description: not registered
+            type: string
+        "409":
+          description: username or email already in use
           schema:
             type: string
       summary: SignUp new user
       tags:
       - Authentication
+securityDefinitions:
+  Bearer JWT:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

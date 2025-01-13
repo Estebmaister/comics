@@ -1,5 +1,5 @@
 swag:
-	swag i -g ./cmd/server/main.go
+	swag fmt & swag i -g ./cmd/server/main.go
 
 swaginstall:
 	go get -u github.com/swaggo/swag/cmd/swag@latest

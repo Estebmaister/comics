@@ -26,7 +26,12 @@ const docTemplate = `{
     "paths": {
         "/admin/dashboard": {
             "get": {
-                "description": "Function for getting the admin dashboard",
+                "security": [
+                    {
+                        "Bearer JWT": []
+                    }
+                ],
+                "description": "Returns the admin dashboard, needs admin auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -41,7 +46,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer \u003cJWT Token\u003e",
+                        "default": "Bearer XXX",
+                        "description": "Bearer JWT",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -49,7 +55,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "OK",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -58,13 +64,13 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "not registered",
+                        "description": "Not registered",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     "404": {
-                        "description": "not registered",
+                        "description": "Not implemented",
                         "schema": {
                             "type": "string"
                         }
@@ -74,6 +80,11 @@ const docTemplate = `{
         },
         "/login": {
             "post": {
+                "security": [
+                    {
+                        "Bearer JWT": []
+                    }
+                ],
                 "description": "Login a user with basic credentials to receive an auth 'token' in the headers if successful",
                 "consumes": [
                     "application/json"
@@ -89,7 +100,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer \u003cJWT Token\u003e",
+                        "default": "Bearer XXX",
+                        "description": "Bearer JWT",
                         "name": "Authorization",
                         "in": "header"
                     },
@@ -105,9 +117,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "logged in",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/domain.AuthResponse"
                         }
                     },
                     "400": {
@@ -121,6 +133,11 @@ const docTemplate = `{
         },
         "/protected/profile": {
             "get": {
+                "security": [
+                    {
+                        "Bearer JWT": []
+                    }
+                ],
                 "description": "Function for getting the user profile",
                 "consumes": [
                     "application/json"
@@ -136,7 +153,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer \u003cJWT Token\u003e",
+                        "default": "Bearer XXX",
+                        "description": "Bearer JWT",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
@@ -169,6 +187,11 @@ const docTemplate = `{
         },
         "/refresh-token": {
             "post": {
+                "security": [
+                    {
+                        "Bearer JWT": []
+                    }
+                ],
                 "description": "Function for refreshing the access token",
                 "consumes": [
                     "application/json"
@@ -184,20 +207,24 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Bearer \u003cJWT Token\u003e",
+                        "default": "Bearer XXX",
+                        "description": "Bearer JWT",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user",
+                        "name": "Role",
+                        "in": "header"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "new access token generated",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/domain.AuthResponse"
                         }
                     },
                     "400": {
@@ -217,7 +244,7 @@ const docTemplate = `{
         },
         "/signup": {
             "post": {
-                "description": "Function for SigningUp a new user (for demonstration purposes), receive a confirmation for success or failure",
+                "description": "Signs Up a new user (for demonstration purposes), receive a confirmation for success or failure",
                 "consumes": [
                     "application/json"
                 ],
@@ -231,19 +258,12 @@ const docTemplate = `{
                 "operationId": "user-signup",
                 "parameters": [
                     {
-                        "type": "string",
-                        "default": "testuser",
-                        "description": "Username",
-                        "name": "username",
-                        "in": "query"
-                    },
-                    {
                         "description": "Login user",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.User"
+                            "$ref": "#/definitions/domain.SignUpRequest"
                         }
                     }
                 ],
@@ -251,20 +271,17 @@ const docTemplate = `{
                     "201": {
                         "description": "registered",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/domain.AuthResponse"
                         }
                     },
                     "400": {
-                        "description": "not registered",
+                        "description": "not registered, invalid data",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
-                    "404": {
-                        "description": "not registered",
+                    "409": {
+                        "description": "username or email already in use",
                         "schema": {
                             "type": "string"
                         }
@@ -274,6 +291,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "domain.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.LoginRequest": {
             "type": "object",
             "required": [
@@ -282,7 +316,6 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "description": "binding:\"required,email\" is a stronger validator for the field",
                     "type": "string",
                     "example": "test@example.com"
                 },
@@ -292,25 +325,34 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.User": {
+        "domain.SignUpRequest": {
             "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
             "properties": {
                 "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "test@example.com"
                 },
                 "password": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "password123"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "testuser"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer JWT": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
