@@ -8,6 +8,7 @@ import (
 )
 
 func TestNewComic(t *testing.T) {
+	t.Parallel()
 	fakeComic := &pb.Comic{
 		Id:     0,
 		Titles: []string{"title"},
@@ -31,6 +32,7 @@ func TestNewComic(t *testing.T) {
 }
 
 func TestRandomFunctions(t *testing.T) {
+	t.Parallel()
 	// Testing edge cases for randomInt
 	zeroInt := randomInt(0, 0)
 	zeroIntCheck1 := randomInt(9, 1)

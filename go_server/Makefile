@@ -5,12 +5,13 @@ swaginstall:
 	go install github.com/swaggo/swag/cmd/swag@latest
 
 test:
-	go test -cover -race -v -timeout 20s ./...
+	set -o pipefail && go test -cover -race -v ./... -json | tparse -all -follow
 
 prepare:
 	go get -u ./...
 	go mod tidy
 	go install github.com/air-verse/air@latest
+	go install github.com/mfridman/tparse@latest
 
 run:
 	air server

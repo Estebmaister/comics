@@ -19,6 +19,7 @@ func init() {
 }
 
 func TestGenerateToken(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 	userID := uuid.New()
 
@@ -28,6 +29,7 @@ func TestGenerateToken(t *testing.T) {
 }
 
 func TestGenerateTokenWithRole(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 	userID := uuid.New()
 
@@ -37,6 +39,7 @@ func TestGenerateTokenWithRole(t *testing.T) {
 }
 
 func TestRefreshToken(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_REFRESH_SECRET_KEY"))
 	badToken := "xxx-bad-token"
 	userID := uuid.New()
@@ -56,6 +59,7 @@ func TestRefreshToken(t *testing.T) {
 }
 
 func TestVerifyToken_IncorrectSigningMethod(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 
 	// New token with different signing method
@@ -72,6 +76,7 @@ func TestVerifyToken_IncorrectSigningMethod(t *testing.T) {
 }
 
 func TestVerifyToken_InvalidToken(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 	tokenString := "XXXXX"
 
@@ -82,6 +87,7 @@ func TestVerifyToken_InvalidToken(t *testing.T) {
 }
 
 func TestVerifyToken(t *testing.T) {
+	t.Parallel()
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 
 	type args struct {
@@ -126,6 +132,7 @@ func TestVerifyToken(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			userID := uuid.New()
 			tokenString, _ := GenerateTokenWithRole(userID, secretKey, tt.args.Duration, tt.args.Role)
 			claims, err := VerifyToken(tokenString, tt.args.SecretKey)
