@@ -2,15 +2,15 @@ swag:
 	swag fmt & swag i -g ./cmd/server/main.go
 
 swaginstall:
-	go get -u github.com/swaggo/swag/cmd/swag@latest
+	go install github.com/swaggo/swag/cmd/swag@latest
 
 test:
 	go test -cover -race -v -timeout 20s ./...
 
 prepare:
+	go get -u ./...
 	go mod tidy
-	go mod vendor
-	go get -u github.com/air-verse/air@latest
+	go install github.com/air-verse/air@latest
 
 run:
 	air server
