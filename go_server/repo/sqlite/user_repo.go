@@ -1,4 +1,4 @@
-package repository
+package sqlite
 
 import (
 	"comics/domain"
@@ -15,6 +15,7 @@ type SQLiteDB struct {
 	Path  string
 }
 
+// NewSQLiteDB creates a new instance of a sqlite database
 func NewSQLiteDB(path string) (*SQLiteDB, error) {
 	// Using in-memory databases for testing, special filename, :memory:
 	db := &SQLiteDB{
@@ -25,6 +26,7 @@ func NewSQLiteDB(path string) (*SQLiteDB, error) {
 	return db, err
 }
 
+// InitDatabase creates the database and table
 func (db *SQLiteDB) InitDatabase() error {
 	var err error
 	db.DB, err = sql.Open(db.Drive, db.Path)
@@ -38,7 +40,9 @@ func (db *SQLiteDB) InitDatabase() error {
 			username TEXT NOT NULL,
 			password TEXT NOT NULL, 
 			email VARCHAR(255),
-			role INTEGER NOT NULL
+			role INTEGER NOT NULL,
+			created_at INTEGER NOT NULL,
+			updated_at INTEGER NOT NULL
 		)`,
 	)
 	if err != nil {
@@ -51,8 +55,8 @@ func (db *SQLiteDB) Close() error {
 	return db.DB.Close()
 }
 
-func (db *SQLiteDB) FindAll(ctx context.Context) ([]domain.User, error) {
-	// TODO: Implement pagination
+// Fetch retrieves a list of all users
+func (db *SQLiteDB) Fetch(ctx context.Context) ([]domain.User, error) {
 	rows, err := db.DB.QueryContext(context.Background(), `SELECT * FROM users`)
 	if err != nil {
 		return nil, err
@@ -69,7 +73,8 @@ func (db *SQLiteDB) FindAll(ctx context.Context) ([]domain.User, error) {
 	return users, nil
 }
 
-func (db *SQLiteDB) FindById(ctx context.Context, id uuid.UUID) (*domain.User, error) {
+// GetByID retrieves a user by ID
+func (db *SQLiteDB) GetById(ctx context.Context, id uuid.UUID) (*domain.User, error) {
 	row := db.DB.QueryRowContext(
 		context.Background(),
 		`SELECT * FROM users WHERE id=$1`, id,
@@ -79,6 +84,29 @@ func (db *SQLiteDB) FindById(ctx context.Context, id uuid.UUID) (*domain.User, e
 	return &user, err
 }
 
+// GetByEmail retrieves a user by email
+func (db *SQLiteDB) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
+	row := db.DB.QueryRowContext(
+		context.Background(),
+		`SELECT * FROM users WHERE email=$1`, email,
+	)
+	var user domain.User
+	err := row.Scan(&user.ID, &user.Username, &user.Password, &user.Email, &user.Role)
+	return &user, err
+}
+
+// GetByUsername retrieves a user by username
+func (db *SQLiteDB) GetByUsername(ctx context.Context, username string) (*domain.User, error) {
+	row := db.DB.QueryRowContext(
+		context.Background(),
+		`SELECT * FROM users WHERE username=$1`, username,
+	)
+	var user domain.User
+	err := row.Scan(&user.ID, &user.Username, &user.Password, &user.Email, &user.Role)
+	return &user, err
+}
+
+// Create a new user
 func (db *SQLiteDB) Create(ctx context.Context, user *domain.User) error {
 	_, err := db.DB.ExecContext(
 		context.Background(),
@@ -88,6 +116,7 @@ func (db *SQLiteDB) Create(ctx context.Context, user *domain.User) error {
 	return err
 }
 
+// Update a user by ID
 func (db *SQLiteDB) Update(ctx context.Context, user *domain.User) error {
 	_, err := db.DB.ExecContext(
 		context.Background(),
@@ -97,6 +126,7 @@ func (db *SQLiteDB) Update(ctx context.Context, user *domain.User) error {
 	return err
 }
 
+// Delete a user by ID
 func (db *SQLiteDB) Delete(ctx context.Context, id uuid.UUID) error {
 	_, err := db.DB.ExecContext(
 		context.Background(),

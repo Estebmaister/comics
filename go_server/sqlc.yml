@@ -15,3 +15,10 @@ sql:
         package: "postgres"
         out: "sql/postgres"
         sql_package: "pgx/v5"
+  - engine: "mysql"
+    queries: "sql/query_mysql.sql"
+    schema: "sql/schema_mysql.sql"
+    gen:
+      go:
+        package: "mysql"
+        out: "sql/mysql"

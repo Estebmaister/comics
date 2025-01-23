@@ -7,9 +7,11 @@ import (
 )
 
 const (
-	USERS = "users" // collection or table name
+	// collection or table name
+	USERS = "users"
 )
 
+// User model
 type User struct {
 	ID        uuid.UUID `bson:"_id"`
 	Username  string    `bson:"username"`
@@ -20,9 +22,23 @@ type User struct {
 	UpdatedAt int64     `bson:"updated_at"`
 }
 
-type UserRepository interface {
-	Create(c context.Context, user *User) error
+// User repository operations
+type UserStore interface {
 	Fetch(c context.Context) ([]User, error)
-	GetByEmail(c context.Context, email string) (User, error)
-	GetByID(c context.Context, id string) (User, error)
+	UserReader
+	UserWriter
+}
+
+// User read operations
+type UserReader interface {
+	GetByID(ctx context.Context, id string) (*User, error)
+	GetByEmail(ctx context.Context, email string) (*User, error)
+	GetByUsername(ctx context.Context, username string) (*User, error)
+}
+
+// User write operations
+type UserWriter interface {
+	Create(ctx context.Context, user *User) error
+	Update(ctx context.Context, user *User) error
+	Delete(ctx context.Context, id string) error
 }
