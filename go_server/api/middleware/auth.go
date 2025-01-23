@@ -9,10 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	KeyUserID        = "user_id"
+	KeyRole          = "role"
+	KeyAuthorization = "Authorization"
+)
+
 // AuthenticationMiddleware checks if the user has a valid JWT
 func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tokenString := c.GetHeader("Authorization")
+		tokenString := c.GetHeader(KeyAuthorization)
 		if tokenString == "" {
 			c.JSON(http.StatusUnauthorized,
 				gin.H{"error": "Missing authentication token"})
@@ -39,8 +45,8 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 			return
 		}
 
-		c.Set("user_id", claims.UserID)
-		c.Set("role", claims.Subject)
+		c.Set(KeyUserID, claims.UserID)
+		c.Set(KeyRole, claims.Subject)
 		c.Next() // Proceed to the next handler if authorized
 	}
 }
@@ -48,7 +54,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 // Role-based Middleware
 func RoleMiddleware(requiredRole string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		role, ok := c.Get("role")
+		role, ok := c.Get(KeyRole)
 		if !ok || role == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing role"})
 			c.Abort()

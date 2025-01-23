@@ -54,7 +54,7 @@ deploy:
 
 ## server        Start the backend server
 server:
-	$(ACTIVATE_VENV) && npm run server
+	$(ACTIVATE_VENV) && python3 src/__main__.py server
 
 ## scrape        Run the web scraper
 scrape:

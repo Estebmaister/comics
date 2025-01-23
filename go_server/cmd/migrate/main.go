@@ -113,11 +113,16 @@ func Migrate(
 		}
 	}()
 
+	var version int
 	switch direction {
 	case DirectionUp:
 		err = m.Up()
 	case DirectionDown:
 		err = m.Down()
+	case "force": // implement
+		err = m.Force(version)
+	case "step": // implement
+		err = m.Steps(version)
 	default:
 		err = fmt.Errorf("invalid direction. Use 'up' or 'down'")
 	}

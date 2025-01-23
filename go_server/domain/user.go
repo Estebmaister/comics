@@ -11,11 +11,13 @@ const (
 )
 
 type User struct {
-	ID       uuid.UUID `bson:"_id"`
-	Username string    `bson:"username"`
-	Email    string    `bson:"email"`
-	Password string    `bson:"password"`
-	Role     string    `bson:"role"`
+	ID        uuid.UUID `bson:"_id"`
+	Username  string    `bson:"username"`
+	Email     string    `bson:"email"`
+	Password  string    `bson:"password"`
+	Role      string    `bson:"role"`
+	CreatedAt int64     `bson:"created_at"`
+	UpdatedAt int64     `bson:"updated_at"`
 }
 
 type UserRepository interface {

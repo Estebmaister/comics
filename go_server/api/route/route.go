@@ -17,9 +17,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-var ( // Headers
-	Authorization = "Authorization"
-	Role          = "Role"
+const ( // Headers
+	keyAuthorization = middleware.KeyAuthorization
+	keyRole          = middleware.KeyRole
 )
 
 func Setup(
@@ -143,7 +143,7 @@ func loginRouter(
 	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.POST("/login", func(c *gin.Context) {
 		var user domain.LoginRequest
-		accessToken := c.GetHeader(Authorization)
+		accessToken := c.GetHeader(keyAuthorization)
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil && accessToken == "" {
@@ -157,7 +157,7 @@ func loginRouter(
 			c.JSON(status, gin.H{"error": err.Error()})
 			return
 		}
-		c.Header(Authorization, "Bearer "+resp.AccessToken)
+		c.Header(keyAuthorization, "Bearer "+resp.AccessToken)
 		c.JSON(status, resp)
 	})
 }
@@ -181,18 +181,18 @@ func loginRouter(
 func refreshTokenRouter(
 	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
 	group.POST("/refresh-token", func(c *gin.Context) {
-		role := c.GetHeader(Role)
+		role := c.GetHeader(keyRole)
 		if role == "" {
 			role = tokenutil.ROLE_USER
 		}
 
 		resp, status, err := controller.RefreshToken(
-			c, env, c.GetHeader(Authorization), role)
+			c, env, c.GetHeader(keyAuthorization), role)
 		if err != nil {
 			c.JSON(status, gin.H{"error": err.Error()})
 			return
 		}
-		c.Header(Authorization, "Bearer "+resp.AccessToken)
+		c.Header(keyAuthorization, "Bearer "+resp.AccessToken)
 		c.JSON(status, resp)
 	})
 }
