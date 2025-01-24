@@ -14,6 +14,7 @@ Returns:
     0 if successful, 1 if errors occurred
 """
 
+import datetime
 from typing import List, Optional
 
 from sqlalchemy.exc import IntegrityError
@@ -69,12 +70,13 @@ def create_comic_db_instance(comic: dict) -> ComicDB:
     Returns:
         ComicDB: New database instance with comic data
     """
+    dt_object = datetime.fromisoformat(comic['last_update'])
     return ComicDB(
         comic['id'],
         '|'.join(comic['titles']),
         comic['current_chap'],
         comic['cover'],
-        comic['last_update'],
+        int(dt_object.timestamp()),
         comic['com_type'],
         comic['status'],
         comic['published_in'],
@@ -82,7 +84,9 @@ def create_comic_db_instance(comic: dict) -> ComicDB:
         comic['description'],
         comic['author'],
         int(comic['track']),
-        comic['viewed_chap']
+        comic['viewed_chap'],
+        comic['rating'],
+        comic['deleted']
     )
 
 

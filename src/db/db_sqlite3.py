@@ -1,5 +1,6 @@
 # python src/db/db_sqlite3.py
-import sqlite3, os
+import os
+import sqlite3
 
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
 conn = sqlite3.connect(db_file)
@@ -15,9 +16,6 @@ query = ''' DELETE FROM comics WHERE id > 680 '''
 query = ''' UPDATE comics SET genres = "0" WHERE id = 83 '''
 query = ''' SELECT * FROM comics WHERE titles LIKE '%{}%' '''. format(like)
 
-# page = request.args.get('page', 1, type=int)
-#     pagination = Employee.query.order_by(Employee.firstname).paginate(
-#         page, per_page=2)
 
 exec = c.execute(query)
 print(exec.fetchall())

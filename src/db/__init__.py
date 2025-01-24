@@ -3,13 +3,15 @@ import os
 import signal
 import sys
 import time
+from datetime import datetime
 from enum import IntEnum, unique
 from typing import Any, Dict, List, Union
 
 from dotenv import load_dotenv
 from flask_restx import Model
 from flask_restx import fields as sf
-from sqlalchemy import URL, Column, Integer, Sequence, String, create_engine
+from sqlalchemy import (URL, Boolean, Column, Integer, Sequence, String,
+                        create_engine)
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.sql import text
 
@@ -178,23 +180,24 @@ class ComicDB(Base):
     """
     __tablename__ = 'comics'
     id = Column(
-        Integer,
-        primary_key=True,
+        Integer, primary_key=True,
         autoincrement='auto' if Engines.MYSQL == DB_ENGINE else False,
         server_default=None if Engines.MYSQL == DB_ENGINE else seq.next_value()
     )
-    titles = Column(String(2083), nullable=False)
-    current_chap = Column(Integer)
-    cover = Column(String(2083), default="")
-    last_update = Column(Integer, default=lambda: int(time.time()))
-    com_type = Column(Integer, default=0)
-    status = Column(Integer, default=0)
-    published_in = Column(String(50), default="0")
-    genres = Column(String(50), default="0")
+    titles = Column(String(2083),   nullable=False)
     description = Column(String(2000), default="")
-    author = Column(String(150), default="")
-    track = Column(Integer)
-    viewed_chap = Column(Integer)
+    author = Column(String(150),    default="")
+    cover = Column(String(2083),    default="")
+    last_update = Column(Integer,   default=lambda: int(time.time()))
+    published_in = Column(String(50), default="0")
+    genres = Column(String(50),     default="0")
+    com_type = Column(Integer,      nullable=False, default=0)
+    status = Column(Integer,        nullable=False, default=0)
+    current_chap = Column(Integer,  nullable=False, default=0)
+    viewed_chap = Column(Integer,   nullable=False, default=0)
+    track = Column(Integer,         nullable=False, default=0)
+    rating = Column(Integer,        nullable=False, default=0)
+    deleted = Column(Boolean,       nullable=False, default=False)
 
     def __init__(
         self,
@@ -210,7 +213,8 @@ class ComicDB(Base):
         description:  str = "",
         author:       str = "",
         track:        int = 0,
-        viewed_chap:  int = 0
+        viewed_chap:  int = 0,
+
     ):
         self.id = id
         self.titles = str(titles)
@@ -231,6 +235,8 @@ class ComicDB(Base):
         self.author = str(author)
         self.track = int(track)
         self.viewed_chap = int(viewed_chap)
+        self.rating = 0
+        self.deleted = False
 
     def get_titles(self) -> List[str]:
         return str(self.titles).split("|")
@@ -254,12 +260,13 @@ class ComicDB(Base):
         self.genres = "|".join([str(int(g)) for g in genres])
 
     def toJSON(self) -> dict:
+        last_update: str = datetime.fromtimestamp(self.last_update).isoformat()
         return dict(
             id=self.id,
             titles=self.get_titles(),
             current_chap=self.current_chap,
             cover=self.cover,
-            last_update=self.last_update,
+            last_update=last_update,
             com_type=Types(self.com_type),
             status=Statuses(self.status),
             published_in=self.get_published_in(),
@@ -267,7 +274,9 @@ class ComicDB(Base):
             description=self.description,
             author=self.author,
             track=bool(self.track),
-            viewed_chap=self.viewed_chap
+            viewed_chap=self.viewed_chap,
+            rating=self.rating,
+            deleted=self.deleted
         )
 
 

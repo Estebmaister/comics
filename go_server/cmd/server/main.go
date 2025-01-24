@@ -9,7 +9,7 @@ import (
 	"comics/api/route"
 	"comics/bootstrap"
 	_ "comics/docs"
-	repo "comics/repository"
+	repo "comics/repo/sqlite"
 
 	"github.com/gin-gonic/gin"
 )

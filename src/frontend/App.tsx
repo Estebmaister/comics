@@ -1,9 +1,19 @@
 import { Component, ChangeEvent } from 'react';
-import comicsJSON from '../db/comics.json';
+import rawComics from '../db/comics.json';
+import { Comic } from '@pb/comics';
 import { ComicCard } from './modules/Comics/Card/ComicCard';
 
-comicsJSON.sort((a, b) => b.last_update - a.last_update)
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
+
+let typedComicsJSON: Comic[] = rawComics.map((comic) => ({
+  ...comic,
+  last_update: new Date(comic.last_update), // Convert ISO string to Date
+}));
+typedComicsJSON = typedComicsJSON.sort((a, b) => {
+  const aTimestamp = a.last_update?.getTime() ?? 0;
+  const bTimestamp = b.last_update?.getTime() ?? 0;
+  return bTimestamp - aTimestamp;
+});
 
 const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean) =>
   comics.filter((com) => {
@@ -42,7 +52,7 @@ class SearchDiv extends Component<{}, searchState> {
     const LIMIT = 8;
     const SEARCH_STRING = localStorage.getItem('search_string') || '';
     const TRACKED_ONLY = Boolean(localStorage.getItem('tracked_only'));
-    const FILTERED_COMICS = filter_comics(comicsJSON, SEARCH_STRING, TRACKED_ONLY)
+    const FILTERED_COMICS = filter_comics(typedComicsJSON, SEARCH_STRING, TRACKED_ONLY)
     const TOTAL = FILTERED_COMICS.length;
 
     this.state = {
@@ -83,13 +93,13 @@ class SearchDiv extends Component<{}, searchState> {
 
     if (filter_word !== '' || this.state.tracked_only === true) {
       filtered_comics = filter_comics(
-        comicsJSON, filter_word, this.state.tracked_only
+        typedComicsJSON, filter_word, this.state.tracked_only
       );
       new_total = filtered_comics.length;
       filtered_comics = filtered_comics.slice(FROM, FROM + LIMIT);
     } else {
-      filtered_comics = comicsJSON.slice(FROM, FROM + LIMIT);
-      new_total = comicsJSON.length;
+      filtered_comics = typedComicsJSON.slice(FROM, FROM + LIMIT);
+      new_total = typedComicsJSON.length;
     }
 
     this.setState((_state, _props) => ({

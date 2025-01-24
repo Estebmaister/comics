@@ -12,6 +12,7 @@ import os
 import re
 import time
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Dict, List, Optional
 
 import cloudscraper
@@ -215,7 +216,7 @@ def _update_chapter_info(
     # Update last update
     timestamp = int(time.time())
     db_comic.last_update = timestamp
-    json_comic['last_update'] = timestamp
+    json_comic['last_update'] = datetime.fromtimestamp(timestamp).isoformat()
     # Trigger alerts only for tracked comics
     if not db_comic.track:
         return

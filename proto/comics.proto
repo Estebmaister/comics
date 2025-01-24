@@ -25,7 +25,7 @@ message Comic {
   // Basic information
   string author = 3;
   string description = 4;
-  ComicType type = 5;
+  ComicType com_type = 5;
   Status status = 6;
 
   // Content metadata
@@ -35,7 +35,7 @@ message Comic {
   google.protobuf.Timestamp last_update = 9; // Using standard timestamp
 
   // Classifications
-  repeated Publisher publishers = 10;
+  repeated Publisher published_in = 10;
   repeated Genre genres = 11;
   Rating rating = 12;
 

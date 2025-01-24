@@ -70,6 +70,11 @@ repopulate:
 	$(ACTIVATE_VENV) && \
 	python3 -c 'from src.db.repopulate_db import main; main()'
 
+## db_update     Run the web backup
+db_update:
+	$(ACTIVATE_VENV) && \
+	python3 -c 'from src.db.db_update import main; main()'
+
 ## py-test       Run python tests
 test-py:
 	$(ACTIVATE_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
@@ -83,6 +88,9 @@ PROTO_FILES := $(wildcard $(PROTO_DIR)/*.proto)
 PYTHON_OUT := src/pb
 PYTHON_PROTO_OUT := $(PYTHON_OUT)
 PYTHON_SERVICE_OUT := $(PYTHON_OUT)
+
+# JavaScript Protobuf output configuration
+JS_OUT := src/frontend/pb
 
 # Go Protobuf output configuration
 GO_OUT := go_server/pb
@@ -138,6 +146,15 @@ proto-go:
 		--validate_out="lang=go,paths=source_relative:$(GO_OUT)" \
 		--go-grpc_out=$(GO_OUT) \
 		--go-grpc_opt=paths=source_relative \
+		$(PROTO_FILES)
+
+## proto-js      Generate JavaScript Protobuf files from definitions
+proto-js:
+	@echo "\nGenerating JavaScript Protobuf files..."
+	$(PROTOC) -I$(PROTO_DIR) \
+		--plugin=./node_modules/.bin/protoc-gen-ts_proto \
+		--ts_proto_out=$(JS_OUT) \
+		--ts_proto_opt=snakeToCamel=false \
 		$(PROTO_FILES)
 
 ## migrate-up    Run database migrations forward

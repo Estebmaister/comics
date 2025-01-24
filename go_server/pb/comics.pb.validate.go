@@ -221,7 +221,7 @@ func (m *Comic) validate(all bool) error {
 
 	// no validation rules for Description
 
-	// no validation rules for Type
+	// no validation rules for ComType
 
 	// no validation rules for Status
 
