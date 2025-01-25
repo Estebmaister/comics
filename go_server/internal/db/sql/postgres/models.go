@@ -14,13 +14,14 @@ type Comic struct {
 	Author      pgtype.Text
 	Description pgtype.Text
 	Cover       pgtype.Text
-	ComType     int32
-	Status      int32
 	PublishedIn []int32
 	Genres      []int32
+	ComType     int32
+	Status      int32
+	Rating      int32
 	CurrentChap int32
 	ViewedChap  int32
-	LastUpdate  int32
 	Track       bool
 	Deleted     bool
+	LastUpdate  pgtype.Date
 }

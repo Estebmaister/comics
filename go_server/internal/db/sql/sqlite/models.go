@@ -6,6 +6,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"time"
 )
 
 type Comic struct {
@@ -14,13 +15,14 @@ type Comic struct {
 	Author      sql.NullString
 	Description sql.NullString
 	Cover       sql.NullString
+	PublishedIn string
+	Genres      string
 	ComType     int64
 	Status      int64
-	PublishedIn sql.NullString
-	Genres      string
+	Rating      int64
 	CurrentChap int64
 	ViewedChap  int64
-	LastUpdate  int64
 	Track       bool
 	Deleted     bool
+	LastUpdate  time.Time
 }

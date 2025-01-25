@@ -194,8 +194,8 @@ func (db *Database) CreateComic(ctx context.Context, comic *pb.Comic) error {
 			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 			RETURNING id`
 
-			publishers := make([]int32, len(comic.Publishers))
-			for i, p := range comic.Publishers {
+			publishers := make([]int32, len(comic.PublishedIn))
+			for i, p := range comic.PublishedIn {
 				publishers[i] = int32(p)
 			}
 
@@ -210,7 +210,7 @@ func (db *Database) CreateComic(ctx context.Context, comic *pb.Comic) error {
 				comic.Titles,
 				comic.Author,
 				comic.Description,
-				comic.Type,
+				comic.ComType,
 				comic.Status,
 				comic.Cover,
 				comic.CurrentChap,
@@ -246,8 +246,8 @@ func (db *Database) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 			WHERE id = $14 AND NOT deleted
 			RETURNING id`
 
-			publishers := make([]int32, len(comic.Publishers))
-			for i, p := range comic.Publishers {
+			publishers := make([]int32, len(comic.PublishedIn))
+			for i, p := range comic.PublishedIn {
 				publishers[i] = int32(p)
 			}
 
@@ -263,7 +263,7 @@ func (db *Database) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 				comic.Titles,
 				comic.Author,
 				comic.Description,
-				comic.Type,
+				comic.ComType,
 				comic.Status,
 				comic.Cover,
 				comic.CurrentChap,
@@ -322,7 +322,7 @@ func (db *Database) GetComicById(ctx context.Context, id uint32) (*pb.Comic, err
 				&comic.Titles,
 				&comic.Author,
 				&comic.Description,
-				&comic.Type,
+				&comic.ComType,
 				&comic.Status,
 				&comic.Cover,
 				&comic.CurrentChap,
@@ -342,11 +342,11 @@ func (db *Database) GetComicById(ctx context.Context, id uint32) (*pb.Comic, err
 			}
 
 			comic.LastUpdate = timestamppb.New(lastUpdate)
-			comic.Publishers = make([]pb.Publisher, len(publishers))
+			comic.PublishedIn = make([]pb.Publisher, len(publishers))
 			comic.Genres = make([]pb.Genre, len(genres))
 
 			for i, p := range publishers {
-				comic.Publishers[i] = pb.Publisher(p)
+				comic.PublishedIn[i] = pb.Publisher(p)
 			}
 			for i, g := range genres {
 				comic.Genres[i] = pb.Genre(g)
@@ -409,7 +409,7 @@ func (db *Database) GetComics(ctx context.Context, page, pageSize int, trackedOn
 					&comic.Titles,
 					&comic.Author,
 					&comic.Description,
-					&comic.Type,
+					&comic.ComType,
 					&comic.Status,
 					&comic.Cover,
 					&comic.CurrentChap,
@@ -425,11 +425,11 @@ func (db *Database) GetComics(ctx context.Context, page, pageSize int, trackedOn
 				}
 
 				comic.LastUpdate = timestamppb.New(lastUpdate)
-				comic.Publishers = make([]pb.Publisher, len(publishers))
+				comic.PublishedIn = make([]pb.Publisher, len(publishers))
 				comic.Genres = make([]pb.Genre, len(genres))
 
 				for i, p := range publishers {
-					comic.Publishers[i] = pb.Publisher(p)
+					comic.PublishedIn[i] = pb.Publisher(p)
 				}
 				for i, g := range genres {
 					comic.Genres[i] = pb.Genre(g)
@@ -509,7 +509,7 @@ func (db *Database) SearchComics(ctx context.Context, query string, page, pageSi
 			&comic.Titles,
 			&comic.Author,
 			&comic.Description,
-			&comic.Type,
+			&comic.ComType,
 			&comic.Status,
 			&comic.Cover,
 			&comic.CurrentChap,
@@ -525,11 +525,11 @@ func (db *Database) SearchComics(ctx context.Context, query string, page, pageSi
 		}
 
 		comic.LastUpdate = timestamppb.New(lastUpdate)
-		comic.Publishers = make([]pb.Publisher, len(publishers))
+		comic.PublishedIn = make([]pb.Publisher, len(publishers))
 		comic.Genres = make([]pb.Genre, len(genres))
 
 		for i, p := range publishers {
-			comic.Publishers[i] = pb.Publisher(p)
+			comic.PublishedIn[i] = pb.Publisher(p)
 		}
 		for i, g := range genres {
 			comic.Genres[i] = pb.Genre(g)
@@ -564,7 +564,7 @@ func (db *Database) GetComicByTitle(ctx context.Context, title string) (*pb.Comi
 			&comic.Titles,
 			&comic.Author,
 			&comic.Description,
-			&comic.Type,
+			&comic.ComType,
 			&comic.Status,
 			&comic.Cover,
 			&comic.CurrentChap,
@@ -586,10 +586,10 @@ func (db *Database) GetComicByTitle(ctx context.Context, title string) (*pb.Comi
 		// Convert publishers and genres strings to int32 slices
 		if publishersStr != "" {
 			publisherIDs := strings.Split(publishersStr, ",")
-			comic.Publishers = make([]pb.Publisher, len(publisherIDs))
+			comic.PublishedIn = make([]pb.Publisher, len(publisherIDs))
 			for i, idStr := range publisherIDs {
 				id, _ := strconv.Atoi(idStr)
-				comic.Publishers[i] = pb.Publisher(id)
+				comic.PublishedIn[i] = pb.Publisher(id)
 			}
 		}
 

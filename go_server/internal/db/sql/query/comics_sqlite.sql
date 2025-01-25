@@ -31,6 +31,7 @@ UPDATE comics
   cover = ?,
   com_type = ?,
   status = ?,
+  rating = ?,
   published_in = ?,
   genres = ?,
   current_chap = ?,
