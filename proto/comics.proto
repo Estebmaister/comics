@@ -5,7 +5,7 @@ package comics;
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
-option go_package = "/pb";
+option go_package = "/pkg/pb";
 option py_generic_services = true;
 
 // Comics collection message

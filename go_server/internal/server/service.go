@@ -1,7 +1,7 @@
 package server
 
 import (
-	pb "comics/pb"
+	pb "comics/pkg/pb"
 
 	"google.golang.org/grpc/reflection"
 )

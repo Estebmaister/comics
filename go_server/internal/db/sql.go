@@ -12,7 +12,7 @@ import (
 
 	"comics/internal/metrics"
 	"comics/internal/tracing"
-	pb "comics/pb"
+	pb "comics/pkg/pb"
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/golang-migrate/migrate/v4"

@@ -93,7 +93,7 @@ PYTHON_SERVICE_OUT := $(PYTHON_OUT)
 JS_OUT := src/frontend/pb
 
 # Go Protobuf output configuration
-GO_OUT := go_server/pb
+GO_OUT := go_server/pkg/pb
 GO_PROTO_OUT := $(GO_OUT)
 GO_SERVICE_OUT := $(GO_OUT)
 

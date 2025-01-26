@@ -4,7 +4,7 @@ package auth;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "/pb";
+option go_package = "/pkg/pb";
 option py_generic_services = true;
 
 // User message containing basic user information
@@ -13,9 +13,15 @@ message User {
   string username = 2;
   string email = 3;
   string password = 4; // Password hashed
-  string role = 5;
+  Role role = 5;
   google.protobuf.Timestamp created_time = 6;
   google.protobuf.Timestamp updated_time = 7;
+}
+
+// Role enum
+enum Role {
+  USER = 0;
+  ADMIN = 1;
 }
 
 // Login request message

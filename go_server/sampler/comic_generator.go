@@ -1,9 +1,9 @@
-package sample
+package sampler
 
 import (
-	"comics/pb"
 	"math/rand"
-	"time"
+
+	pb "comics/pkg/pb"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -12,7 +12,7 @@ import (
 func NewComic() *pb.Comic {
 	currentChapter := uint32(randomInt(0, 1000))
 	comic := &pb.Comic{
-		Id:          NewID(),
+		Id:          NewComicID(),
 		Titles:      NewTitles(),
 		Author:      NewAuthor(),
 		Description: NewDescription(),
@@ -20,7 +20,7 @@ func NewComic() *pb.Comic {
 		Status:      NewStatus(),
 		Cover:       NewCover(),
 		CurrentChap: currentChapter,
-		LastUpdate:  NewLastUpdate(),
+		LastUpdate:  timestamppb.New(randomTimestamp()),
 		PublishedIn: NewPublishers(),
 		Genres:      NewGenres(),
 		Rating:      NewRating(),
@@ -31,8 +31,8 @@ func NewComic() *pb.Comic {
 	return comic
 }
 
-// NewID generates a random ID
-func NewID() uint32 {
+// NewComicID generates a random uint32 ID
+func NewComicID() uint32 {
 	return rand.Uint32()
 }
 
@@ -139,47 +139,19 @@ func NewGenres() []pb.Genre {
 	return []pb.Genre{pb.Genre_GENRE_UNKNOWN}
 }
 
-// NewLatUpdate
-func NewLastUpdate() *timestamppb.Timestamp {
-	// generate a random time between 1st Jan 2000 and now
-	randomTime := rand.Int63n(time.Now().Unix()-94608000) + 94608000
-	// convert randomTime to time.Time
-	randomNow := time.Unix(randomTime, 0)
-
-	return timestamppb.New(randomNow)
-}
-
 // NewType generates a random comic type
 func NewType() pb.ComicType {
-	return pb.ComicType(randomInt(0, 5))
+	return pb.ComicType(randomInt(0, len(pb.ComicType_name)))
 }
 
 // NewStatus generates a random status
 func NewStatus() pb.Status {
-	return pb.Status(randomInt(0, 5))
+	return pb.Status(randomInt(0, len(pb.Status_name)))
 }
 
 // NewRating generates a random rating
 func NewRating() pb.Rating {
-	return pb.Rating(randomInt(0, 10))
-}
-
-func randomStringFromSet(a ...string) string {
-	if len(a) == 0 {
-		return ""
-	}
-	return a[rand.Intn(len(a))]
-}
-
-func randomBool() bool {
-	return rand.Intn(2) == 1
-}
-
-func randomInt[T int | uint | int32 | uint32](min, max T) int {
-	if min >= max {
-		return 0
-	}
-	return rand.Intn(int(max-min)) + int(min)
+	return pb.Rating(randomInt(0, len(pb.Rating_name)))
 }
 
 func randomGenre() pb.Genre {

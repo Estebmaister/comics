@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 
-	pb "comics/pb"
+	pb "comics/pkg/pb"
 )
 
 // ComicsStore defines the interface for comic operations

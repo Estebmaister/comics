@@ -3,10 +3,10 @@ services:
   web:
     build:
       context: .
-      # Correct the path to your Dockerfile
+      # TODO: Change the path to clod
       dockerfile: Dockerfile
     ports:
-      - 8080:3000
-    # Important to bind/mount your codebase dir to /app dir for live reload
+      - 8080:8081
+    # Important to bind/mount your codebase dir to /server dir for live reload
     volumes:
-      - ./:/app
+      - ./:/server

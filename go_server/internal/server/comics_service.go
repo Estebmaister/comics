@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"comics/internal/db"
-	pb "comics/pb"
+	pb "comics/pkg/pb"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"go.opentelemetry.io/otel"

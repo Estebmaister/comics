@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	pb "comics/pb"
+	pb "comics/pkg/pb"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

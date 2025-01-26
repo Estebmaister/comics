@@ -1,4 +1,4 @@
-package sample
+package sampler
 
 import (
 	"fmt"
