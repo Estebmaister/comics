@@ -2,30 +2,22 @@ package db
 
 import (
 	"context"
-
-	pb "comics/pkg/pb"
+	"errors"
+	"time"
 )
 
-// ComicsStore defines the interface for comic operations
-type ComicsStore interface {
-	// Comic operations
-	CreateComic(ctx context.Context, comic *pb.Comic) error
-	UpdateComic(ctx context.Context, comic *pb.Comic) error
-	DeleteComic(ctx context.Context, id int32) error
-	GetComicById(ctx context.Context, id int32) (*pb.Comic, error)
-	GetComics(ctx context.Context, page, pageSize int, trackedOnly, uncheckedOnly bool) ([]*pb.Comic, int, error)
-
-	// Metrics and health
-	GetMetrics() *Metrics
-	Ping(ctx context.Context) error
-	Close() error
-}
+var (
+	NotFoundErr = errors.New("record not found")
+)
 
 // MetricsCollector defines the interface for collecting metrics
 type MetricsCollector interface {
-	RecordQuery(duration float64, operation string, err error)
-	RecordRetry(operation string, success bool)
-	GetMetrics() *Metrics
+	RecordQuery(duration time.Duration, err error)
+	RecordRetry(success bool)
+	RecordConnection(connectionTime time.Duration, err error)
+	ReleaseConnection()
+	Reset()
+	GetStats() map[string]string
 }
 
 // TracingProvider defines the interface for distributed tracing

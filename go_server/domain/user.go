@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -18,27 +19,30 @@ type User struct {
 	Email     string    `bson:"email"`
 	Password  string    `bson:"password"`
 	Role      string    `bson:"role"`
-	CreatedAt int64     `bson:"created_at"`
-	UpdatedAt int64     `bson:"updated_at"`
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
+	Active    bool      `bson:"active"`
 }
 
 // User repository operations
 type UserStore interface {
-	Fetch(c context.Context) ([]User, error)
 	UserReader
 	UserWriter
 }
 
 // User read operations
 type UserReader interface {
-	GetByID(ctx context.Context, id string) (*User, error)
+	GetByID(ctx context.Context, id uuid.UUID) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
 	GetByUsername(ctx context.Context, username string) (*User, error)
+
+	List(ctx context.Context, page, pageSize int) ([]*User, int64, error)
+	FindActiveUsersByRole(ctx context.Context, role string) ([]*User, error)
 }
 
 // User write operations
 type UserWriter interface {
 	Create(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User) error
-	Delete(ctx context.Context, id string) error
+	Delete(ctx context.Context, id uuid.UUID) error
 }

@@ -10,7 +10,6 @@ import (
 	"comics/docs"
 	"comics/domain"
 	"comics/internal/tokenutil"
-	"comics/mongo"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -23,7 +22,7 @@ const ( // Headers
 )
 
 func Setup(
-	env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
+	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, gin *gin.Engine) {
 	basePath := "/"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Host = env.ServerAddress
@@ -56,7 +55,7 @@ func Setup(
 }
 
 func swaggerRouter(
-	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
 	// Swagger API documentation
 	url := ginSwagger.URL("./swagger/doc.json")
 	println("http://" + env.ServerAddress + "/swagger/index.html")
@@ -81,7 +80,7 @@ func swaggerRouter(
 //	@Failure		404				{string}	string				"Not implemented"
 //	@Router			/admin/dashboard [get]
 func dashboardRouter(
-	_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	_ *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/dashboard", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "Dashboard"})
 	})
@@ -102,7 +101,7 @@ func dashboardRouter(
 //	@Failure		409		{string}	string					"username or email already in use"
 //	@Router			/signup [post]
 func signUpRouter(
-	_ *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	_ *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
 	group.POST("/signup", func(c *gin.Context) {
 		var user domain.SignUpRequest
 
@@ -140,7 +139,7 @@ func signUpRouter(
 //	@Failure		400				{string}	string				"no ok"
 //	@Router			/login [post]
 func loginRouter(
-	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
 	group.POST("/login", func(c *gin.Context) {
 		var user domain.LoginRequest
 		accessToken := c.GetHeader(keyAuthorization)
@@ -179,7 +178,7 @@ func loginRouter(
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/refresh-token [post]
 func refreshTokenRouter(
-	env *bootstrap.Env, _ time.Duration, _ mongo.Database, group *gin.RouterGroup) {
+	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
 	group.POST("/refresh-token", func(c *gin.Context) {
 		role := c.GetHeader(keyRole)
 		if role == "" {
@@ -212,14 +211,14 @@ func refreshTokenRouter(
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/protected/profile [get]
 func NewProfileRouter(
-	env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/profile", func(c *gin.Context) {
 		// Profile handler logic
 	})
 }
 
 func NewTaskRouter(
-	env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/tasks", func(c *gin.Context) {
 		// Task handler logic
 	})

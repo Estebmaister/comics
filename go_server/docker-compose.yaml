@@ -1,12 +1,27 @@
-version: "3.8"
+version: '3.8'
 services:
-  web:
+  mongodb:
+    image : mongo
+    container_name: mongodb
+    ports:
+    - 27017:27017
+    healthcheck:
+      test:
+      - CMD
+      - mongo
+      - --eval
+      - "db.adminCommand('ping')"
+    restart: unless-stopped
+  
+  app:
     build:
       context: .
-      # TODO: Change the path to clod
-      dockerfile: Dockerfile
-    ports:
-      - 8080:8081
-    # Important to bind/mount your codebase dir to /server dir for live reload
-    volumes:
-      - ./:/server
+      dockerfile: ./Dockerfile
+    ports: 
+      - 8080:8080
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      mongodb:
+        condition: service_healthy
