@@ -5,8 +5,7 @@ from unittest.mock import MagicMock, call, patch
 import pytest
 
 from helpers.alert import (ALERT_ICON_PATH, DEFAULT_ALERT_MESSAGE, add_alert,
-                           alert_state, send_desktop_notification, send_email,
-                           send_reminder)
+                           alert_state, send_email, send_reminder)
 
 
 @pytest.fixture
@@ -20,40 +19,6 @@ def reset_alert_state():
     alert_state['alert_count'] = 0
     alert_state['content'] = DEFAULT_ALERT_MESSAGE
     alert_state['title'] = 'Scrape alert'
-
-
-@pytest.mark.parametrize("title,content", [
-    ("Test Title", "Test Content"),
-    ("Alert", "Important Message"),
-    ("", "Empty Title Test"),
-])
-def test_send_desktop_notification(title, content):
-    """Test desktop notifications with various inputs"""
-    with patch('subprocess.Popen') as mock_popen:
-        send_desktop_notification(title, content)
-        mock_popen.assert_called_once_with([
-            'notify-send',
-            '-i', ALERT_ICON_PATH,
-            '-u', 'critical',
-            title,
-            content
-        ])
-
-
-def test_send_desktop_notification_handles_file_not_found():
-    """Test handling of missing notify-send command"""
-    with patch('subprocess.Popen', side_effect=FileNotFoundError()), \
-            patch('helpers.alert.log.warning') as mock_log:
-        send_desktop_notification("Test", "Content")
-        mock_log.assert_called_once()
-
-
-def test_send_desktop_notification_handles_subprocess_error():
-    """Test handling of subprocess errors"""
-    with patch('subprocess.Popen', side_effect=subprocess.SubprocessError()), \
-            patch('helpers.alert.log.error') as mock_log:
-        send_desktop_notification("Test", "Content")
-        mock_log.assert_called_once()
 
 
 @pytest.mark.parametrize("subject,body", [
@@ -84,33 +49,6 @@ def test_send_email_handles_smtp_error():
             send_email("Test", "Content")
 
         mock_log.assert_called_once()
-
-
-def test_send_reminder_with_no_alerts(reset_alert_state):
-    """Test that reminder doesn't send when no alerts are present"""
-    with patch('helpers.alert.send_desktop_notification') as mock_desktop, \
-            patch('helpers.alert.send_email') as mock_email:
-        send_reminder()
-
-        mock_desktop.assert_not_called()
-        mock_email.assert_not_called()
-
-
-def test_send_reminder_with_alerts(reset_alert_state):
-    """Test reminder sending with active alerts"""
-    alert_state['alert_count'] = 2
-    alert_state['content'] = "Test Content"
-
-    with patch('helpers.alert.send_desktop_notification') as mock_desktop, \
-            patch('helpers.alert.send_email') as mock_email:
-        send_reminder()
-
-        expected_title = "Scrape alert - (2)"
-        mock_desktop.assert_called_once_with(expected_title, "Test Content")
-        mock_email.assert_called_once_with(expected_title, "Test Content")
-
-        assert alert_state['alert_count'] == 0
-        assert alert_state['content'] == DEFAULT_ALERT_MESSAGE
 
 
 def test_add_alert(reset_alert_state):

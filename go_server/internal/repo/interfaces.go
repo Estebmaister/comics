@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	NotFoundErr = errors.New("record not found")
+	ErrNotFound = errors.New("record not found")
 )
 
 // Client defines the interface for basic database clients

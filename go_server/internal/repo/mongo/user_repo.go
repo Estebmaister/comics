@@ -51,7 +51,7 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, repo.NotFoundErr
+		return nil, repo.ErrNotFound
 	}
 	return user, err
 }
@@ -69,7 +69,7 @@ func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, 
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, repo.NotFoundErr
+		return nil, repo.ErrNotFound
 	}
 	return user, err
 }
@@ -87,7 +87,7 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, repo.NotFoundErr
+		return nil, repo.ErrNotFound
 	}
 	return user, err
 }
@@ -137,7 +137,7 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 
 	// Check if user was found and updated
 	if result.MatchedCount == 0 {
-		return repo.NotFoundErr
+		return repo.ErrNotFound
 	}
 
 	return err
@@ -157,7 +157,7 @@ func (r *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 
 	// Check if user was found and deleted
 	if result.DeletedCount == 0 {
-		return repo.NotFoundErr
+		return repo.ErrNotFound
 	}
 
 	return err
