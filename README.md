@@ -1,22 +1,27 @@
 # Comics MVP: Server, Scrapper and Interface
 
-## Scrapper and Server deployment (Python)
+## Scrapper and Server deployment (Python and Go)
 
 ### Virtual environment (Optional)
 
 ```sh
 # Install pip env manager
 sudo apt install python3-venv
-# python -m pip install --upgrade pip
+## python -m pip install --upgrade pip
 
 # Create the env
 python -m venv comics_env
-
 # Activate the env
 source comics_env/bin/activate
-
 # Deactivate
 deactivate
+```
+
+- For corrupted virtual env:
+```sh
+rm -rf comics_env
+python3 -m venv comics_env
+source comics_env/bin/activate
 ```
 
 ### Installing dependencies
@@ -26,6 +31,11 @@ pip install -r requirements.txt
 
 # after installing new dependencies run
 pip freeze > requirements.txt
+
+## check updates
+pip-review --local
+## apply them
+pip-review --auto
 ```
 
 ### Running scrapper
@@ -37,7 +47,7 @@ python src
 ### Running tests
 
 ```sh
-python test
+python -m unittest discover -s tests
 ```
 
 ```sh
@@ -51,6 +61,12 @@ npm run server
 
 # Or for debug
 python src/__main__.py server debug
+```
+
+### Running Go server
+
+```sh
+(cd go_server && go run ./cmd/server/main.go)
 ```
 
 ### Deployment on Heroku

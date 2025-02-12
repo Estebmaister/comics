@@ -1,19 +1,21 @@
 package bootstrap
 
-import "comics/mongo"
+import (
+	"comics/domain"
+)
 
 type Application struct {
-	Env   *Env
-	Mongo mongo.Client
+	Env      *Env
+	UserRepo domain.UserStore
 }
 
 func App() Application {
 	app := &Application{}
 	app.Env = NewEnv()
-	app.Mongo = NewMongoDatabase(app.Env)
+	app.UserRepo = NewMongoRepo(app.Env)
 	return *app
 }
 
 func (app *Application) CloseDBConnection() {
-	CloseMongoDBConnection(app.Mongo)
+	CloseMongoDBConnection(app.UserRepo)
 }

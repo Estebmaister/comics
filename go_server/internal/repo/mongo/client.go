@@ -1,10 +1,11 @@
 package mongo
 
 import (
-	"comics/internal/db"
 	"context"
 	"fmt"
 	"time"
+
+	"comics/internal/repo"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -21,18 +22,15 @@ type DatabaseConfig struct {
 
 // Client interface for advanced database client operations
 type Client interface {
-	Metrics() db.MetricsCollector
-	Database(dbName string) Database
+	repo.Client
 
-	// Connection lifecycle methods
-	Connect(ctx context.Context) error
-	Disconnect(ctx context.Context) error
+	Metrics() repo.MetricsCollector
+	Database(dbName string) Database
 
 	// Session management
 	StartSession() (*mongo.Session, error)
 
-	// Health and connectivity
-	Ping(ctx context.Context) error
+	// Health
 	IsConnected() bool
 
 	// Readiness and liveness probes
@@ -42,7 +40,7 @@ type Client interface {
 // Implementation example (partial)
 type mongoClient struct {
 	cl      *mongo.Client
-	metrics db.Metrics
+	metrics repo.Metrics
 }
 
 // NewMongoClient creates a new MongoDB client with advanced configuration
@@ -79,7 +77,7 @@ func NewMongoClient(ctx context.Context, cfg *DatabaseConfig, uri string) (*mong
 	// Create mongoClient wrapper
 	mongoClient := &mongoClient{
 		cl:      cl,
-		metrics: db.Metrics{},
+		metrics: repo.Metrics{},
 	}
 
 	// Record connection metrics
@@ -172,6 +170,6 @@ func (mc *mongoClient) WaitForConnection(timeout time.Duration) error {
 }
 
 // Metrics returns a MetricsCollector instance
-func (mc *mongoClient) Metrics() db.MetricsCollector {
+func (mc *mongoClient) Metrics() repo.MetricsCollector {
 	return &mc.metrics
 }

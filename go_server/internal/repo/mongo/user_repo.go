@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"comics/domain"
-	"comics/internal/db"
+	"comics/internal/repo"
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,12 +15,18 @@ import (
 
 // Implement UserStore methods for UserRepo
 var _ domain.UserStore = (*UserRepo)(nil)
+var _ repo.UserStore = (*UserRepo)(nil)
 
 // UserRepo implements UserStore for MongoDB
 type UserRepo struct {
 	coll Collection
 	db   Database
 	cl   Client
+}
+
+// Client return the internal client
+func (r *UserRepo) Client() repo.Client {
+	return r.cl
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
@@ -45,7 +51,7 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, db.NotFoundErr
+		return nil, repo.NotFoundErr
 	}
 	return user, err
 }
@@ -63,7 +69,7 @@ func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, 
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, db.NotFoundErr
+		return nil, repo.NotFoundErr
 	}
 	return user, err
 }
@@ -81,7 +87,7 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 	r.cl.Metrics().RecordQuery(queryDuration, err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
-		return nil, db.NotFoundErr
+		return nil, repo.NotFoundErr
 	}
 	return user, err
 }
@@ -131,7 +137,7 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 
 	// Check if user was found and updated
 	if result.MatchedCount == 0 {
-		return db.NotFoundErr
+		return repo.NotFoundErr
 	}
 
 	return err
@@ -151,7 +157,7 @@ func (r *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 
 	// Check if user was found and deleted
 	if result.DeletedCount == 0 {
-		return db.NotFoundErr
+		return repo.NotFoundErr
 	}
 
 	return err

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"comics/internal/db"
+	"comics/internal/repo"
 	pb "comics/pkg/pb"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -46,12 +46,12 @@ func init() {
 // comicsService implements the ComicService gRPC service
 type comicsService struct {
 	pb.UnimplementedComicServiceServer
-	db *db.Database
+	repo *repo.Database
 }
 
 // newComicsService creates a new comics service instance
-func newComicsService(db *db.Database) *comicsService {
-	return &comicsService{db: db}
+func newComicsService(repo *repo.Database) *comicsService {
+	return &comicsService{repo: repo}
 }
 
 // createResponseMetadata creates response metadata with timing information
@@ -96,7 +96,7 @@ func (s *comicsService) CreateComic(ctx context.Context, req *pb.CreateComicRequ
 	}
 
 	// Create comic in database
-	err := s.db.CreateComic(ctx, req.Comic)
+	err := s.repo.CreateComic(ctx, req.Comic)
 	if err != nil {
 		return handleError(ctx, startTime, fmt.Errorf("failed to create comic: %w", err))
 	}
@@ -126,7 +126,7 @@ func (s *comicsService) GetComicById(ctx context.Context, req *pb.GetComicByIdRe
 	}
 
 	// Get comic from database
-	comic, err := s.db.GetComicById(ctx, req.Id)
+	comic, err := s.repo.GetComicById(ctx, req.Id)
 	if err != nil {
 		if err.Error() == "comic not found" {
 			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))
@@ -166,7 +166,7 @@ func (s *comicsService) GetComics(ctx context.Context, req *pb.GetComicsRequest)
 	}
 
 	// Get comics from database
-	comics, total, err := s.db.GetComics(ctx, int(req.Pagination.Page), int(req.Pagination.PageSize), false, false)
+	comics, total, err := s.repo.GetComics(ctx, int(req.Pagination.Page), int(req.Pagination.PageSize), false, false)
 	if err != nil {
 		errMsg := err.Error()
 		return &pb.ComicsResponse{
@@ -214,7 +214,7 @@ func (s *comicsService) SearchComics(ctx context.Context, req *pb.SearchComicsRe
 	}
 
 	// Search comics in database
-	comics, total, err := s.db.SearchComics(ctx, req.Query, int(req.Pagination.Page), int(req.Pagination.PageSize))
+	comics, total, err := s.repo.SearchComics(ctx, req.Query, int(req.Pagination.Page), int(req.Pagination.PageSize))
 	if err != nil {
 		errMsg := err.Error()
 		return &pb.ComicsResponse{
@@ -256,7 +256,7 @@ func (s *comicsService) UpdateComic(ctx context.Context, req *pb.UpdateComicRequ
 	}
 
 	// Update comic in database
-	err := s.db.UpdateComic(ctx, req.Comic)
+	err := s.repo.UpdateComic(ctx, req.Comic)
 	if err != nil {
 		if err.Error() == "comic not found" {
 			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))
@@ -288,7 +288,7 @@ func (s *comicsService) DeleteComic(ctx context.Context, req *pb.DeleteComicRequ
 	}
 
 	// Delete comic from database
-	err := s.db.DeleteComic(ctx, req.Id)
+	err := s.repo.DeleteComic(ctx, req.Id)
 	if err != nil {
 		if err.Error() == "comic not found" {
 			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))
@@ -319,7 +319,7 @@ func (s *comicsService) GetComicByTitle(ctx context.Context, req *pb.GetComicByT
 	}
 
 	// Get comic from database
-	comic, err := s.db.GetComicByTitle(ctx, req.Title)
+	comic, err := s.repo.GetComicByTitle(ctx, req.Title)
 	if err != nil {
 		if err.Error() == "comic not found" {
 			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))

@@ -5,9 +5,9 @@ import (
 	"net"
 	"net/http"
 
-	"comics/internal/db"
 	"comics/internal/health"
 	"comics/internal/middleware"
+	"comics/internal/repo"
 
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -36,14 +36,14 @@ type Server struct {
 	config       *Config
 	grpcServer   *grpc.Server
 	healthServer *http.Server
-	database     *db.Database
+	database     *repo.Database
 	health       *health.HealthChecker
 }
 
 // New creates a new server instance
 func New(cfg *Config) (*Server, error) {
 	// Create database connection
-	database, err := db.NewDatabase(nil)
+	database, err := repo.NewDatabase(nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize database: %w", err)
 	}
@@ -89,7 +89,7 @@ func (s *Server) Shutdown() {
 }
 
 // Database returns the server's database instance
-func (s *Server) Database() *db.Database {
+func (s *Server) Database() *repo.Database {
 	return s.database
 }
 
