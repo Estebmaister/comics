@@ -3,7 +3,7 @@ import os
 import signal
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import IntEnum, unique
 from typing import Any, Dict, List, Union
 
@@ -108,7 +108,7 @@ if not DB_ENGINE or DB_ENGINE == Engines.SQLITE:
     session.execute(text('PRAGMA case_sensitive_like = true'))
 
 
-@ unique
+@unique
 class Types(IntEnum):
     Unknown = 0
     Manga = 1
@@ -117,7 +117,7 @@ class Types(IntEnum):
     Novel = 4
 
 
-@ unique
+@unique
 class Statuses(IntEnum):
     Unknown = 0
     Completed = 1
@@ -126,7 +126,7 @@ class Statuses(IntEnum):
     Dropped = 4
 
 
-@ unique
+@unique
 class Genres(IntEnum):
     Unknown = 0
     Action = 1
@@ -144,7 +144,7 @@ class Genres(IntEnum):
     Reincarnation = 13
 
 
-@ unique
+@unique
 class Publishers(IntEnum):
     Unknown = 0
     Asura = 1
@@ -260,7 +260,8 @@ class ComicDB(Base):
         self.genres = "|".join([str(int(g)) for g in genres])
 
     def toJSON(self) -> dict:
-        last_update: str = datetime.fromtimestamp(self.last_update).isoformat()
+        last_update: str = datetime.fromtimestamp(
+            self.last_update, tz=timezone.utc).isoformat()
         return dict(
             id=self.id,
             titles=self.get_titles(),
@@ -290,7 +291,7 @@ comic_swagger_model = Model('Comic', {
     'description':  sf.String(description='Comic details', default=''),
     'com_type':     sf.Integer(description='Comic type, ex: 3 =Manhwa'),
     'status':       sf.Integer(description='Comic status, ex: 2 =OnAir'),
-    'last_update':  sf.Integer(description='Comic last update, ex: int(time.now())'),
+    'last_update':  sf.Date(description='Comic last update, ex: int(time.now())'),
     'genres':       sf.List(sf.Integer(), description='Comic genres, ex: [6] =Drama'),
     'track':        sf.Boolean(description='Comic track'),
     'viewed_chap':  sf.Integer(description='Comic viewed chapter')

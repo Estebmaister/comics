@@ -28,7 +28,7 @@ func init() {
 
 	// Precompute cumulative probabilities
 	// helps to determine where each character lies in the probability range.
-	cumulativeWeight := 0.0
+	cumulativeWeight = 0.0
 	for idx, weight := range weights {
 		cumulativeWeight += weight
 		cumulative[idx] = cumulativeWeight / totalWeight

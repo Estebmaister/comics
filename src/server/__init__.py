@@ -97,8 +97,7 @@ class ComicList(Resource):
         try:
             int(offset), int(limit)
         except ValueError:
-            log.warning(
-                "Invalid pagination parameters - offset: %s, limit: %s", offset, limit)
+            log.warning("Invalid pagination parameters - offset or limit")
             api.abort(400, 'Pagination parameters type different from int')
 
         comics_list, pagination = all_comics(
@@ -135,7 +134,7 @@ class ComicList(Resource):
 
         first_title = request.json['titles'][0].capitalize()
         db_comic, session = comics_like_title(first_title)
-        if db_comic != None:
+        if db_comic is not None:
             for comic in db_comic:
                 if first_title in comic.get_titles():
                     log.warning(
@@ -243,7 +242,7 @@ class ComicID(Resource):
             json_comic = [
                 com for com in load_comics if comic.id == com["id"]][0]
         titles = request.json.get('titles')
-        if titles != None:
+        if titles is not None:
             comic.set_titles(titles)
             json_comic["titles"] = comic.get_titles()
 
@@ -258,12 +257,12 @@ class ComicID(Resource):
         comic.com_type = int(request.json.get('com_type', comic.com_type))
         comic.status = int(request.json.get('status', comic.status))
         genres = request.json.get('genres')
-        if genres != None:
+        if genres is not None:
             genres = list(set([int(g) for g in request.json.get('genres', 0)]))
             comic.set_genres(genres)
             json_comic["genres"] = genres
         publishers = request.json.get('published_in')
-        if publishers != None:
+        if publishers is not None:
             publishers = list(set([int(g) for g in request.json.get(
                 'published_in', 0
             )]))
@@ -317,8 +316,8 @@ class ComicTitle(Resource):
         try:
             int(offset), int(limit)
         except ValueError:
-            log.warning("Invalid pagination parameters in title search - offset: %s, limit: %s",
-                        offset, limit)
+            log.warning(
+                "Invalid pagination parameters in search - offset or limit")
             api.abort(400, 'Pagination parameters type different from int')
 
         title = title.strip()
@@ -350,7 +349,7 @@ class ComicMerge(Resource):
     def patch(self, base_id, merging_id):
         '''Merge two comics by their respective id'''
         comic, error = merge_comics(base_id, merging_id)
-        if error != None:
+        if error is not None:
             if 'Comics' in error:
                 return api.abort(400, error)
             return api.abort(404, error)
@@ -366,7 +365,7 @@ class ComicMerge(Resource):
 @server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', methods=['PUT'])
 def merge_comics_by_id(comic_id, comic_merging_id):
     comic, error = merge_comics(comic_id, comic_merging_id)
-    if error != None:
+    if error is not None:
         if 'Comics' in error:
             return error, 400
         return error, 404

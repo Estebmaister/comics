@@ -37,14 +37,6 @@ func validateCreateComicRequest(req *pb.CreateComicRequest) error {
 		return status.Error(codes.InvalidArgument, "author is required")
 	}
 
-	if req.Comic.CurrentChap < 0 {
-		return status.Error(codes.InvalidArgument, "current chapter cannot be negative")
-	}
-
-	if req.Comic.ViewedChap < 0 {
-		return status.Error(codes.InvalidArgument, "viewed chapter cannot be negative")
-	}
-
 	return nil
 }
 
@@ -66,14 +58,6 @@ func validateUpdateComicRequest(req *pb.UpdateComicRequest) error {
 		if len(title) < minTitleLength {
 			return status.Errorf(codes.InvalidArgument, "title at index %d is too short", i)
 		}
-	}
-
-	if req.Comic.CurrentChap < 0 {
-		return status.Error(codes.InvalidArgument, "current chapter cannot be negative")
-	}
-
-	if req.Comic.ViewedChap < 0 {
-		return status.Error(codes.InvalidArgument, "viewed chapter cannot be negative")
 	}
 
 	return nil
@@ -113,8 +97,8 @@ func validateSearchRequest(req *pb.SearchComicsRequest) error {
 	return nil
 }
 
-// validateSortOrder validates the sort order
-func validateSortOrder(order pb.ComicSortOrder) error {
+// ValidateSortOrder validates the sort order
+func ValidateSortOrder(order pb.ComicSortOrder) error {
 	switch order {
 	case pb.ComicSortOrder_UNSPECIFIED,
 		pb.ComicSortOrder_TITLE_ASC,

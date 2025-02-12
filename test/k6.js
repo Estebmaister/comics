@@ -1,10 +1,11 @@
 // @ts-nocheck
 // k6 run --iterations 10 test/k6.js
-import { check, sleep } from 'k6';
+import { check } from 'k6'; // sleep
 import http from 'k6/http';
 import { getCurrentStageIndex } from 'https://jslib.k6.io/k6-utils/1.3.0/index.js';
 
 const apiUrl = 'http://localhost:8081/login';
+const testPass = '1234';
 
 export const options = {
   // define thresholds
@@ -34,7 +35,7 @@ export default function () {
 
   const payload = JSON.stringify({
     username: 'test_case',
-    password: '1234',
+    password: testPass,
   });
 
   const params = {

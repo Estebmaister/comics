@@ -26,29 +26,6 @@ alert_state: Dict[str, any] = {
 }
 
 
-def send_desktop_notification(title: str, content: str) -> None:
-    """
-    Send a desktop notification using notify-send.
-
-    Args:
-        title: The notification title
-        content: The notification content/message
-    """
-    try:
-        subprocess.Popen([
-            'notify-send',
-            '-i', ALERT_ICON_PATH,
-            '-u', 'critical',
-            title,
-            content
-        ])
-    except FileNotFoundError:
-        log.warning(
-            'Desktop notification system (notify-send) not found - %s', content)
-    except subprocess.SubprocessError as e:
-        log.error('Failed to send desktop notification: %s', str(e))
-
-
 def send_email(subject: str, body: str) -> None:
     """
     Send an email notification using Gmail SMTP.
@@ -82,7 +59,6 @@ def send_reminder() -> None:
 
     notification_title = f"{alert_state['title']} - ({alert_state['alert_count']})"
 
-    send_desktop_notification(notification_title, alert_state['content'])
     send_email(notification_title, alert_state['content'])
 
     # Reset alert state

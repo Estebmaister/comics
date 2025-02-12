@@ -11,7 +11,7 @@ Returns:
     0 if successful, 1 if errors occurred
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.sql import text
 
@@ -44,7 +44,7 @@ def add_columns_to_json() -> None:
     # Process each comic from the JSON backup
     for comic in load_comics:
         comic['last_update'] = datetime.fromtimestamp(
-            comic['last_update']).isoformat()
+            comic['last_update'], tz=timezone.utc).isoformat()
         comic['rating'] = 0
         comic['deleted'] = False
 
