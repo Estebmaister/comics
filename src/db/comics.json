@@ -332,7 +332,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 169,
+    "viewed_chap": 171,
     "rating": 0,
     "deleted": false
   },
@@ -618,7 +618,7 @@
     "description": "",
     "author": "\u5929\u547d\u53cd\u6d3e , \u7ed8\u672f\u52a8\u6f2b",
     "track": true,
-    "viewed_chap": 220,
+    "viewed_chap": 225,
     "rating": 0,
     "deleted": false
   },
@@ -1895,7 +1895,7 @@
     "description": "",
     "author": "WAN.Z, Maslow (\uba54\uc2ac\ub85c\uc6b0)",
     "track": true,
-    "viewed_chap": 190,
+    "viewed_chap": 192,
     "rating": 0,
     "deleted": false
   },
@@ -1950,23 +1950,28 @@
     "titles": [
       "Murim login"
     ],
-    "current_chap": 210,
+    "current_chap": 212,
     "cover": "https://gg.asuracomic.net/storage/media/273/conversions/01J3QWG0P2B1T5RX1RB9G9D3AY-thumb-small.webp",
     "last_update": "2024-12-23T15:58:58",
     "com_type": 2,
     "status": 2,
     "published_in": [
       1,
-      7,
-      17
+      17,
+      7
     ],
     "genres": [
-      0
+      1,
+      2,
+      3,
+      5,
+      8,
+      10
     ],
     "description": "",
     "author": "\uc6d0\uc791 \uc81c\ub85c\ube45",
     "track": true,
-    "viewed_chap": 210,
+    "viewed_chap": 212,
     "rating": 0,
     "deleted": false
   },
@@ -2662,7 +2667,7 @@
       "Swordmaster's youngest son",
       "Youngest son of the renowned swordsmanship clan"
     ],
-    "current_chap": 147,
+    "current_chap": 150,
     "cover": "https://gg.asuracomic.net/storage/media/80/conversions/23b345c9-thumb-small.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 3,
@@ -2684,7 +2689,7 @@
     "description": "",
     "author": "Azi,Lee Je-Won (\uc774\uc81c\uc6d0)",
     "track": true,
-    "viewed_chap": 147,
+    "viewed_chap": 150,
     "rating": 0,
     "deleted": false
   },
@@ -3022,7 +3027,7 @@
     "titles": [
       "Reformation of the deadbeat noble"
     ],
-    "current_chap": 133,
+    "current_chap": 136,
     "cover": "https://gg.asuracomic.net/storage/media/30/conversions/ffdf3337-thumb-small.webp",
     "last_update": "2024-12-17T12:06:06",
     "com_type": 3,
@@ -3037,7 +3042,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 133,
+    "viewed_chap": 136,
     "rating": 0,
     "deleted": false
   },
@@ -4470,7 +4475,7 @@
     "description": "",
     "author": "REDICE studio,Kimchi Woo,Themis",
     "track": true,
-    "viewed_chap": 102,
+    "viewed_chap": 105,
     "rating": 0,
     "deleted": false
   },
@@ -5752,7 +5757,7 @@
     "description": "",
     "author": "San Cheon,Zaino",
     "track": true,
-    "viewed_chap": 142,
+    "viewed_chap": 144,
     "rating": 0,
     "deleted": false
   },
@@ -10917,8 +10922,8 @@
       "Leveling with the gods",
       "Leveling up with the gods"
     ],
-    "current_chap": 127,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/58/i/12-1733289305-nw.webp",
+    "current_chap": 128,
+    "cover": "https://rizzfables.com//assets/images/gods-191124-844.webp",
     "last_update": "2024-12-12T21:07:10",
     "com_type": 3,
     "status": 2,
@@ -10936,7 +10941,7 @@
     "description": "",
     "author": "Black Ajin",
     "track": true,
-    "viewed_chap": 127,
+    "viewed_chap": 128,
     "rating": 0,
     "deleted": false
   },
@@ -11296,7 +11301,7 @@
       "Logging 10,000 years into the future",
       "Apex future martial arts"
     ],
-    "current_chap": 187,
+    "current_chap": 192,
     "cover": "https://gg.asuracomic.net/storage/media/58/conversions/49ab5c70-thumb-small.webp",
     "last_update": "2024-12-23T15:58:58",
     "com_type": 1,
@@ -11316,7 +11321,7 @@
     "description": "At the dawn of a revolution in the era of martial arts, hordes of terrifying monsters start invading the world, defeating humanity\u2019s warriors one after another. One day, Lu Sheng finds himself dreaming about the world ten thousand years into the future, where even basic physical training techniques have been modified and become several thousand times more effective! Breathing techniques, body strengthening remedies, martial arts scriptures, and so on\u2026 But with humanity being extinct in the future world, these once great martial arts have no one left to carry on their legacy. No one, except for Lu Sheng!",
     "author": "",
     "track": true,
-    "viewed_chap": 187,
+    "viewed_chap": 192,
     "rating": 0,
     "deleted": false
   },
@@ -13885,8 +13890,8 @@
       "The return of the disaster-class hero",
       "Return of the disaster-class hero"
     ],
-    "current_chap": 110,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/86/i/12-1733290986-nw.webp",
+    "current_chap": 112,
+    "cover": "https://gg.asuracomic.net/storage/media/267698/conversions/01JJST2HQ54CXEV2YQN2621FTB-thumb-small.webp",
     "last_update": "2024-11-27T11:22:42",
     "com_type": 3,
     "status": 2,
@@ -13901,7 +13906,7 @@
     "description": "",
     "author": "Lee ho-yeon , SAN.G , \uc0b0\uc9c0\uc9c1\uc1a1, HEATS",
     "track": true,
-    "viewed_chap": 110,
+    "viewed_chap": 112,
     "rating": 0,
     "deleted": false
   },
@@ -14219,7 +14224,7 @@
     "titles": [
       "Absolute sword sense"
     ],
-    "current_chap": 117,
+    "current_chap": 120,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 3,
@@ -14231,9 +14236,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Hanjung Wolya (\ud55c\uc911\uc6d4\uc57c), Kim Durumi (\uae40\ub450\ub8e8\ubbf8)",
     "track": true,
-    "viewed_chap": 117,
+    "viewed_chap": 120,
     "rating": 0,
     "deleted": false
   },
@@ -16719,34 +16724,6 @@
     "deleted": false
   },
   {
-    "id": 410,
-    "titles": [
-      "Top tier providence"
-    ],
-    "current_chap": 198,
-    "cover": "https://rizzfables.com//assets/images/ttp-1209-1896-199.webp",
-    "last_update": "2024-12-14T11:52:01",
-    "com_type": 2,
-    "status": 2,
-    "published_in": [
-      8,
-      17
-    ],
-    "genres": [
-      1,
-      4,
-      8,
-      10,
-      13
-    ],
-    "description": "",
-    "author": "",
-    "track": true,
-    "viewed_chap": 198,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 411,
     "titles": [
       "Infinite level up in murim"
@@ -18845,7 +18822,7 @@
     "description": "",
     "author": "Great H (\ud604\uc808\ubb34), Hanjung Wolya (\ud55c\uc911\uc6d4\uc57c)",
     "track": true,
-    "viewed_chap": 243,
+    "viewed_chap": 245,
     "rating": 0,
     "deleted": false
   },
@@ -19226,9 +19203,9 @@
     "titles": [
       "A modern man who got transmigrated into the murim world"
     ],
-    "current_chap": 122,
+    "current_chap": 124,
     "cover": "https://avt.mkklcdnv6temp.com/fld/94/m/13-1733298872-nw.webp",
-    "last_update": "2025-01-23T09:21:02",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -23588,9 +23565,9 @@
     "titles": [
       "Eleceed"
     ],
-    "current_chap": 336,
+    "current_chap": 337,
     "cover": "https://avt.mkklcdnv6temp.com/fld/39/a/9-1732794315-nw.webp",
-    "last_update": "2025-02-04T21:08:27",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -24080,9 +24057,9 @@
     "titles": [
       "I only want to beat you"
     ],
-    "current_chap": 183,
+    "current_chap": 186,
     "cover": "https://avt.mkklcdnv6temp.com/fld/44/r/12-1733288479-nw.webp",
-    "last_update": "2025-02-04T21:08:26",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -26767,7 +26744,7 @@
     "titles": [
       "Chronicles of the demon faction"
     ],
-    "current_chap": 102,
+    "current_chap": 104,
     "cover": "https://gg.asuracomic.net/storage/media/151/conversions/3c4cb145-thumb-small.webp",
     "last_update": "2025-01-10T18:51:02",
     "com_type": 3,
@@ -26783,7 +26760,7 @@
     "description": "",
     "author": "codezero  , POS STUDIO",
     "track": true,
-    "viewed_chap": 102,
+    "viewed_chap": 104,
     "rating": 0,
     "deleted": false
   },
@@ -27043,7 +27020,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 77,
+    "viewed_chap": 80,
     "rating": 0,
     "deleted": false
   },
@@ -27076,7 +27053,7 @@
       "Revenge of the sword clan's hound",
       "Revenge of the iron-blooded sword hound"
     ],
-    "current_chap": 98,
+    "current_chap": 99,
     "cover": "https://gg.asuracomic.net/storage/media/298/conversions/01J7TV2G7719CVSTSW9T9M6F31-thumb-small.webp",
     "last_update": "2025-01-05T12:03:03",
     "com_type": 3,
@@ -27092,7 +27069,7 @@
     "description": "",
     "author": "\uc124\uc544\ub791,\uc774\uc0b0\ucc45",
     "track": true,
-    "viewed_chap": 98,
+    "viewed_chap": 99,
     "rating": 0,
     "deleted": false
   },
@@ -27193,7 +27170,7 @@
     "titles": [
       "Surviving the game as a barbarian"
     ],
-    "current_chap": 88,
+    "current_chap": 91,
     "cover": "https://gg.asuracomic.net/storage/media/125/conversions/ed5d5826-thumb-small.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 3,
@@ -27208,7 +27185,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 88,
+    "viewed_chap": 91,
     "rating": 0,
     "deleted": false
   },
@@ -27781,7 +27758,7 @@
       "The god of war who regressed to level 2",
       "Martial god regressed to level 2"
     ],
-    "current_chap": 86,
+    "current_chap": 87,
     "cover": "https://gg.asuracomic.net/storage/media/120/conversions/7b70a81e-thumb-small.webp",
     "last_update": "2024-12-23T15:58:58",
     "com_type": 3,
@@ -27796,7 +27773,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 86,
+    "viewed_chap": 87,
     "rating": 0,
     "deleted": false
   },
@@ -28321,7 +28298,7 @@
     "description": "",
     "author": "Mojji Wang (\uc655\ubaa8\ucc0c),Nungwi (\ub219\uadc0),Kalma",
     "track": true,
-    "viewed_chap": 77,
+    "viewed_chap": 79,
     "rating": 0,
     "deleted": false
   },
@@ -29397,7 +29374,7 @@
     "description": "",
     "author": "Hong Dae Eui (\ud64d\ub300\uc758), Q10",
     "track": true,
-    "viewed_chap": 76,
+    "viewed_chap": 78,
     "rating": 0,
     "deleted": false
   },
@@ -29844,7 +29821,7 @@
     "description": "",
     "author": "Kim,Seong Hyeon (\uc131\ud604),Ahn So-Seol (\uc548\uc18c\uc124),Redice Studio (\ub808\ub4dc\uc544\uc774\uc2a4 \uc2a4\ud29c\ub514\uc624)",
     "track": true,
-    "viewed_chap": 74,
+    "viewed_chap": 77,
     "rating": 0,
     "deleted": false
   },
@@ -29853,8 +29830,8 @@
     "titles": [
       "Spare me, great lord!"
     ],
-    "current_chap": 65,
-    "cover": "https://gg.asuracomic.net/storage/media/160/conversions/2cbad926-thumb-small.webp",
+    "current_chap": 68,
+    "cover": "https://gg.asuracomic.net/storage/media/266925/conversions/01JJHN0Z42F9DNQHJVED1WBBZK-thumb-small.webp",
     "last_update": "2024-12-23T15:59:01",
     "com_type": 3,
     "status": 2,
@@ -29868,7 +29845,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 65,
+    "viewed_chap": 68,
     "rating": 0,
     "deleted": false
   },
@@ -29877,7 +29854,7 @@
     "titles": [
       "Memorize"
     ],
-    "current_chap": 57,
+    "current_chap": 60,
     "cover": "https://gg.asuracomic.net/storage/media/237/conversions/01J3BANTCGYVH30PHD7H3PP3VK-thumb-small.webp",
     "last_update": "2023-10-25T19:54:05",
     "com_type": 3,
@@ -29891,7 +29868,7 @@
     "description": "",
     "author": "Hanjung Wolya , Kim Tae-Hyung , \uae40\ud0dc\ud615 , \ud55c\uc911\uc6d4\uc57c , \ub9e4\ub4dc\ubc84\ub4dc",
     "track": true,
-    "viewed_chap": 57,
+    "viewed_chap": 60,
     "rating": 0,
     "deleted": false
   },
@@ -29924,7 +29901,7 @@
       "The extra\u2019s academy survival guide"
     ],
     "current_chap": 64,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/94/e/16-1733320293-nw.webp",
+    "cover": "https://gg.asuracomic.net/storage/media/257722/conversions/01JF3DFZHDVHCNHVKXCGTD16KM-thumb-small.webp",
     "last_update": "2025-02-06T23:36:08",
     "com_type": 3,
     "status": 2,
@@ -29938,7 +29915,7 @@
     "description": "",
     "author": "Corita (\ucf54\ub9ac\ud0c0),Girin Geurin(\uae30\ub9b0\uadf8\ub9b0)",
     "track": true,
-    "viewed_chap": 61,
+    "viewed_chap": 64,
     "rating": 0,
     "deleted": false
   },
@@ -30019,7 +29996,7 @@
     "titles": [
       "The legendary mechanic"
     ],
-    "current_chap": 49,
+    "current_chap": 52,
     "cover": "https://gg.asuracomic.net/storage/media/228/conversions/e97cd071-thumb-small.webp",
     "last_update": "2024-11-08T18:25:43",
     "com_type": 3,
@@ -30031,9 +30008,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "GoodLuck  ,  Sado (\uc0ac\ub3c4)  ,  X-NAME",
     "track": true,
-    "viewed_chap": 49,
+    "viewed_chap": 52,
     "rating": 0,
     "deleted": false
   },
@@ -30116,7 +30093,7 @@
       "The academy's genius swordsman",
       "Academy's genius swordmaster"
     ],
-    "current_chap": 84,
+    "current_chap": 87,
     "cover": "https://gg.asuracomic.net/storage/media/134/conversions/13623e9f-thumb-small.webp",
     "last_update": "2024-12-08T09:02:11",
     "com_type": 3,
@@ -30132,7 +30109,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 84,
+    "viewed_chap": 87,
     "rating": 0,
     "deleted": false
   },
@@ -30142,7 +30119,7 @@
       "Margrave\u2019s bastard son was the emperor",
       "Margrave\u2019s bastard son was the"
     ],
-    "current_chap": 59,
+    "current_chap": 62,
     "cover": "https://gg.asuracomic.net/storage/media/254/conversions/01J3BAWZ5QEY8N7QFYGET96HRE-thumb-small.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 3,
@@ -30157,7 +30134,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 59,
+    "viewed_chap": 62,
     "rating": 0,
     "deleted": false
   },
@@ -30167,7 +30144,7 @@
       "The last adventurer",
       "Maplestory: the last adventurer"
     ],
-    "current_chap": 54,
+    "current_chap": 57,
     "cover": "https://gg.asuracomic.net/storage/media/154/conversions/94d5d66e-thumb-small.webp",
     "last_update": "2024-07-08T07:52:58",
     "com_type": 3,
@@ -30183,7 +30160,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 54,
+    "viewed_chap": 57,
     "rating": 0,
     "deleted": false
   },
@@ -30284,7 +30261,7 @@
     "titles": [
       "Genius corpse-collecting warrior"
     ],
-    "current_chap": 73,
+    "current_chap": 76,
     "cover": "https://gg.asuracomic.net/storage/media/110/conversions/3656ed0f-thumb-small.webp",
     "last_update": "2024-10-15T08:33:40",
     "com_type": 3,
@@ -30298,7 +30275,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 73,
+    "viewed_chap": 76,
     "rating": 0,
     "deleted": false
   },
@@ -30330,7 +30307,7 @@
     "titles": [
       "Strongest player returns after a thousand years"
     ],
-    "current_chap": 45,
+    "current_chap": 46,
     "cover": "https://gg.asuracomic.net/storage/media/226/conversions/8786309e-thumb-small.webp",
     "last_update": "2024-01-14T10:46:52",
     "com_type": 3,
@@ -30344,7 +30321,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 45,
+    "viewed_chap": 46,
     "rating": 0,
     "deleted": false
   },
@@ -30448,7 +30425,7 @@
     "titles": [
       "Mr devourer, please act like a final boss"
     ],
-    "current_chap": 38,
+    "current_chap": 40,
     "cover": "https://gg.asuracomic.net/storage/media/271/conversions/01J3QRQXHSBQVGA2KHKP2D3S3S-thumb-small.webp",
     "last_update": "2024-12-08T09:02:07",
     "com_type": 3,
@@ -30460,9 +30437,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "DAUL (\ub2e4\uc6b8)",
     "track": true,
-    "viewed_chap": 38,
+    "viewed_chap": 40,
     "rating": 0,
     "deleted": false
   },
@@ -30712,7 +30689,7 @@
     "titles": [
       "99 boss"
     ],
-    "current_chap": 65,
+    "current_chap": 68,
     "cover": "https://gg.asuracomic.net/storage/media/261059/conversions/01JG6WNTBZ27PWXBTXT46SF92N-thumb-small.webp",
     "last_update": "2024-03-05T12:23:19",
     "com_type": 3,
@@ -30726,7 +30703,7 @@
     "description": "",
     "author": "Painkiller,Yang Pyung ,\uc591\ud3c9, Saint Nine ,\uc131\uad6c",
     "track": true,
-    "viewed_chap": 65,
+    "viewed_chap": 68,
     "rating": 0,
     "deleted": false
   },
@@ -30899,7 +30876,7 @@
     "titles": [
       "Kunon the sorcerer can see through"
     ],
-    "current_chap": 89,
+    "current_chap": 90,
     "cover": "https://rizzfables.com//assets/images/player.webp",
     "last_update": "2024-11-04T20:57:44",
     "com_type": 3,
@@ -30913,7 +30890,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 89,
+    "viewed_chap": 90,
     "rating": 0,
     "deleted": false
   },
@@ -30968,7 +30945,7 @@
     "titles": [
       "I became the youngest disciple of the martial god"
     ],
-    "current_chap": 54,
+    "current_chap": 56,
     "cover": "https://rizzfables.com//assets/images/duke-regress-son1.webp",
     "last_update": "2024-07-28T18:43:02",
     "com_type": 3,
@@ -30982,7 +30959,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 54,
+    "viewed_chap": 56,
     "rating": 0,
     "deleted": false
   },
@@ -31178,7 +31155,7 @@
     "titles": [
       "Absolute regression"
     ],
-    "current_chap": 31,
+    "current_chap": 35,
     "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
     "last_update": "2024-12-23T15:59:07",
     "com_type": 3,
@@ -31193,7 +31170,7 @@
     "description": "",
     "author": "Park Jin-hwan,Jang Yunghoon , JP",
     "track": true,
-    "viewed_chap": 31,
+    "viewed_chap": 35,
     "rating": 0,
     "deleted": false
   },
@@ -31296,7 +31273,7 @@
     "titles": [
       "Unrivalled father"
     ],
-    "current_chap": 65,
+    "current_chap": 68,
     "cover": "https://gg.asuracomic.net/storage/media/255320/conversions/01JE7RF30SQKQX82H8PVCZM8BZ-thumb-small.webp",
     "last_update": "2024-05-15T12:04:55",
     "com_type": 3,
@@ -31310,7 +31287,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 65,
+    "viewed_chap": 68,
     "rating": 0,
     "deleted": false
   },
@@ -37147,23 +37124,26 @@
   {
     "id": 1208,
     "titles": [
-      "Dragon prince yuan"
+      "Secretly cultivate for a thousand years",
+      "Top tier providence"
     ],
-    "current_chap": 648,
-    "cover": "https://avt.mkklcdnv6temp.com/48/m/25-1654342065.jpg",
+    "current_chap": 199,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/50/o/13-1733295415-nw.webp",
     "last_update": "2024-11-08T17:17:57",
     "com_type": 3,
     "status": 2,
     "published_in": [
+      8,
       17
     ],
     "genres": [
-      0
+      8,
+      10
     ],
     "description": "",
-    "author": "Tiancan Tudou",
-    "track": false,
-    "viewed_chap": 0,
+    "author": "Star Club",
+    "track": true,
+    "viewed_chap": 199,
     "rating": 0,
     "deleted": false
   },
@@ -38023,7 +38003,7 @@
     "titles": [
       "Surviving as a genius on borrowed time"
     ],
-    "current_chap": 22,
+    "current_chap": 24,
     "cover": "https://gg.asuracomic.net/storage/media/245477/conversions/01JA6F7WP3N7Q1QCQ0EWFVYNWY-thumb-small.webp",
     "last_update": "2024-12-10T10:32:38",
     "com_type": 3,
@@ -38035,9 +38015,9 @@
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Cheongsiso , Jp , Yoon Seung Gi",
     "track": true,
-    "viewed_chap": 22,
+    "viewed_chap": 24,
     "rating": 0,
     "deleted": false
   },
@@ -40392,8 +40372,8 @@
     "titles": [
       "Yani neko"
     ],
-    "current_chap": 41,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/35/m/17-1733323305-nw.webp",
+    "current_chap": 44,
+    "cover": "https://gg.asuracomic.net/storage/media/219/conversions/6a016457-thumb-small.webp",
     "last_update": "2024-11-10T07:32:13",
     "com_type": 3,
     "status": 2,
@@ -40406,7 +40386,7 @@
     "description": "",
     "author": "Lee Hyeon Min,Ganala,Soul Wind,Ian (\uc774\uc548)",
     "track": true,
-    "viewed_chap": 41,
+    "viewed_chap": 44,
     "rating": 0,
     "deleted": false
   },
@@ -40439,7 +40419,7 @@
       "The regressed mercenary\u2019s machinations",
       "The regressed mercenary's machinations"
     ],
-    "current_chap": 22,
+    "current_chap": 25,
     "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
     "last_update": "2024-11-10T07:32:14",
     "com_type": 3,
@@ -40454,7 +40434,7 @@
     "description": "",
     "author": "Gold Line , Park JinSeok",
     "track": true,
-    "viewed_chap": 22,
+    "viewed_chap": 25,
     "rating": 0,
     "deleted": false
   },
@@ -40486,7 +40466,7 @@
     "titles": [
       "Neko no te datte yaku ni tatsu"
     ],
-    "current_chap": 22,
+    "current_chap": 25,
     "cover": "https://gg.asuracomic.net/storage/media/257968/conversions/01JF6DD6P4PAVNG43QP7XN9676-thumb-small.webp",
     "last_update": "2024-11-26T09:19:20",
     "com_type": 3,
@@ -40500,7 +40480,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 22,
+    "viewed_chap": 25,
     "rating": 0,
     "deleted": false
   },
@@ -41176,7 +41156,7 @@
     "titles": [
       "I reincarnated as the little sister of a death game manga's murder mastermind and failed"
     ],
-    "current_chap": 33,
+    "current_chap": 36,
     "cover": "https://avt.mkklcdnv6temp.com/fld/57/j/18-1733380548-nw.webp",
     "last_update": "2024-11-10T07:32:22",
     "com_type": 3,
@@ -41190,7 +41170,7 @@
     "description": "",
     "author": "Bread squirrel  , Bread-Eating Squirrel , \ube75\uba39\ub294\ub2e4\ub78c\uc950 , Next Level Studio",
     "track": true,
-    "viewed_chap": 33,
+    "viewed_chap": 36,
     "rating": 0,
     "deleted": false
   },
@@ -41910,9 +41890,9 @@
   {
     "id": 1312,
     "titles": [
-      "The heavenly demon wants a quit"
+      "The heavenly demon wants a quiet life"
     ],
-    "current_chap": 13,
+    "current_chap": 18,
     "cover": "https://gg.asuracomic.net/storage/media/258121/conversions/01JF83N4R7XZH8XT6FFHDB4Z1Z-thumb-small.webp",
     "last_update": "2024-11-10T07:32:30",
     "com_type": 3,
@@ -42050,9 +42030,9 @@
     "titles": [
       "Becoming the lady of the cursed ducal house"
     ],
-    "current_chap": 38,
+    "current_chap": 43,
     "cover": "https://avt.mkklcdnv6temp.com/fld/37/i/15-1733308857-nw.webp",
-    "last_update": "2025-01-07T21:57:00",
+    "last_update": "2025-02-12T02:10:08+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -47594,9 +47574,9 @@
     "titles": [
       "Kaijin fugeki: kindled spirits"
     ],
-    "current_chap": 25,
+    "current_chap": 30,
     "cover": "https://avt.mkklcdnv6temp.com/fld/29/x/18-1733329022-nw.webp",
-    "last_update": "2024-12-24T21:35:41",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -47732,9 +47712,9 @@
     "titles": [
       "Banjou no orion"
     ],
-    "current_chap": 42,
+    "current_chap": 47,
     "cover": "https://avt.mkklcdnv6temp.com/fld/90/e/17-1733326625-nw.webp",
-    "last_update": "2024-12-24T21:35:41",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -49066,9 +49046,9 @@
     "titles": [
       "A court magician, who was focused on supportive magic because his allies were too weak, aims to become the strongest after being banished"
     ],
-    "current_chap": 142,
+    "current_chap": 150,
     "cover": "https://avt.mkklcdnv6temp.com/21/k/26-1657241125.jpg",
-    "last_update": "2024-11-12T19:30:25",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -49204,7 +49184,7 @@
     "titles": [
       "A dragonslayer's peerless regression"
     ],
-    "current_chap": 23,
+    "current_chap": 26,
     "cover": "https://gg.asuracomic.net/storage/media/266162/01JJ78S117GDR2JEW066796E8B.gif",
     "last_update": "2024-11-12T19:30:27",
     "com_type": 3,
@@ -49218,7 +49198,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 23,
+    "viewed_chap": 26,
     "rating": 0,
     "deleted": false
   },
@@ -53895,10 +53875,10 @@
   {
     "id": 1575,
     "titles": [
-      "Cherry yuusha to \"sei\" naru tsurugi"
+      "The king of snow"
     ],
-    "current_chap": 6,
-    "cover": "https://avt.mkklcdnv6temp.com/41/f/37-1730991798.jpg",
+    "current_chap": 37,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/92/q/16-1733320157-nw.webp",
     "last_update": "2024-11-28T19:27:17",
     "com_type": 3,
     "status": 2,
@@ -53909,9 +53889,9 @@
       0
     ],
     "description": "",
-    "author": "Uchiba Yuzuki",
-    "track": false,
-    "viewed_chap": 0,
+    "author": "\u6f2b\u6f6e\u793e",
+    "track": true,
+    "viewed_chap": 28,
     "rating": 0,
     "deleted": false
   },
@@ -62848,8 +62828,8 @@
       "The regressed youngest son of the duke is an assassin",
       "The reborn young lord is an assassin"
     ],
-    "current_chap": 58,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/96/q/16-1733320508-nw.webp",
+    "current_chap": 61,
+    "cover": "https://gg.asuracomic.net/storage/media/220/conversions/a2db97ee-thumb-small.webp",
     "last_update": "2024-11-21T11:58:14",
     "com_type": 3,
     "status": 2,
@@ -62864,7 +62844,7 @@
     "description": "",
     "author": "Swing Bat (\uc2a4\uc719\ubc43), Coffee Lime (\ucee4\ud53c\ub77c\uc784)",
     "track": true,
-    "viewed_chap": 58,
+    "viewed_chap": 61,
     "rating": 0,
     "deleted": false
   },
@@ -68878,7 +68858,7 @@
     "titles": [
       "The reincarnated assassin is a genius swordsman"
     ],
-    "current_chap": 50,
+    "current_chap": 52,
     "cover": "https://gg.asuracomic.net/storage/media/141/conversions/7b123219-thumb-small.webp",
     "last_update": "2024-11-21T09:01:25",
     "com_type": 3,
@@ -68893,7 +68873,7 @@
     "description": "",
     "author": "Voke,Writing Ant,Tess (\ud14c\uc2a4)",
     "track": true,
-    "viewed_chap": 50,
+    "viewed_chap": 52,
     "rating": 0,
     "deleted": false
   },
@@ -71502,7 +71482,7 @@
     "titles": [
       "Regression of the yong clan heir"
     ],
-    "current_chap": 11,
+    "current_chap": 12,
     "cover": "https://gg.asuracomic.net/storage/media/264280/conversions/01JHFSH1MN7W6NEFJT07S241P4-thumb-small.webp",
     "last_update": "2024-11-29T14:52:20",
     "com_type": 3,
@@ -71516,7 +71496,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 11,
+    "viewed_chap": 12,
     "rating": 0,
     "deleted": false
   },
@@ -88225,9 +88205,9 @@
     "titles": [
       "Mairimashita! iruma-kun mafia au"
     ],
-    "current_chap": 17,
+    "current_chap": 18,
     "cover": "https://avt.mkklcdnv6temp.com/fld/83/o/15-1733311839-nw.webp",
-    "last_update": "2025-01-10T15:02:23",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -106930,9 +106910,9 @@
     "titles": [
       "Only i know that the world will end"
     ],
-    "current_chap": 102,
+    "current_chap": 106,
     "cover": "https://avt.mkklcdnv6temp.com/fld/25/r/14-1733301606-nw.webp",
-    "last_update": "2025-01-15T21:06:21",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -118499,9 +118479,9 @@
     "titles": [
       "God of blackfield"
     ],
-    "current_chap": 218,
+    "current_chap": 227,
     "cover": "https://avt.mkklcdnv6temp.com/fld/94/q/10-1732803683-nw.webp",
-    "last_update": "2025-01-23T09:20:47",
+    "last_update": "2025-02-12T02:10:07+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -128334,7 +128314,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 0,
+    "viewed_chap": 45,
     "rating": 0,
     "deleted": false
   },
@@ -131162,6 +131142,121 @@
     ],
     "description": "",
     "author": "Atsushi Kaneko",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3453,
+    "titles": [
+      "Goddess caf\u00e9 terrace"
+    ],
+    "current_chap": 185,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/15/o/12-1733286839-nw.webp",
+    "last_update": "2025-02-12T02:09:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Seo Kouji",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3454,
+    "titles": [
+      "Mix"
+    ],
+    "current_chap": 145,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/89/e/1-1732720013-nw.webp",
+    "last_update": "2025-02-12T02:09:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Adachi Mitsuru",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3455,
+    "titles": [
+      "The protagonist just wants to falling in love"
+    ],
+    "current_chap": 205,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/64/n/14-1733304456-nw.webp",
+    "last_update": "2025-02-12T02:09:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u716e\u4e2a\u751c\u7cbd  , \u664b\u6c5f\u6587\u5b66\u57ce , \u8702\u6f2b\u793e",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3456,
+    "titles": [
+      "Henkyou no yakushi, miyako de s rank boukensha to naru"
+    ],
+    "current_chap": 60,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/23/t/16-1733314639-nw.webp",
+    "last_update": "2025-02-12T02:09:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Ibarakino",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3457,
+    "titles": [
+      "Kill the male lead to become the demoness"
+    ],
+    "current_chap": 75,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/99/c/16-1733320722-nw.webp",
+    "last_update": "2025-02-12T02:09:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Shisi Xia Xiang",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
