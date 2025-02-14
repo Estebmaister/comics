@@ -193,11 +193,6 @@ const docTemplate = `{
         },
         "/refresh-token": {
             "post": {
-                "security": [
-                    {
-                        "Bearer JWT": []
-                    }
-                ],
                 "description": "Function for refreshing the access token",
                 "consumes": [
                     "application/json"
@@ -213,7 +208,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "default": "Bearer XXX",
+                        "default": "Bearer refresh_token",
                         "description": "Bearer JWT",
                         "name": "Authorization",
                         "in": "header",
@@ -293,13 +288,13 @@ const docTemplate = `{
                     "400": {
                         "description": "not registered, invalid data",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/domain.NoDataResponse"
                         }
                     },
                     "409": {
                         "description": "username or email already in use",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/domain.NoDataResponse"
                         }
                     }
                 }
@@ -307,13 +302,10 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.AuthResponse": {
+        "domain.AuthData": {
             "type": "object",
             "properties": {
                 "access_token": {
-                    "type": "string"
-                },
-                "message": {
                     "type": "string"
                 },
                 "refresh_token": {
@@ -321,6 +313,20 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "domain.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/domain.AuthData"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         },
@@ -338,6 +344,20 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "example": "password123"
+                }
+            }
+        },
+        "domain.NoDataResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         },

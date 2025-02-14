@@ -2,6 +2,8 @@ package bootstrap
 
 import (
 	"comics/domain"
+	"context"
+	"log"
 )
 
 type Application struct {
@@ -9,10 +11,14 @@ type Application struct {
 	UserRepo domain.UserStore
 }
 
-func App() Application {
+func App(ctx context.Context) Application {
 	app := &Application{}
-	app.Env = NewEnv()
-	app.UserRepo = NewMongoRepo(app.Env)
+	app.Env = MustLoadEnv(ctx)
+	userRepo, err := NewRepo(app.Env)
+	if err != nil {
+		log.Fatalf("Failed to initialize user repo: %s", err)
+	}
+	app.UserRepo = userRepo
 	return *app
 }
 

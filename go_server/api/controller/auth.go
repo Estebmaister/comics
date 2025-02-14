@@ -1,193 +1,189 @@
 package controller
 
 import (
-	"bytes"
 	"context"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
 	"comics/bootstrap"
 	"comics/domain"
+	"comics/internal/repo"
+	"comics/internal/service"
 	"comics/internal/tokenutil"
-
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
-const (
-	USER = "user-uuid-gen-01" // UUID namespace for generating user IDs, 16 bytes
-)
+// AuthControl
+type AuthControl struct {
+	userService domain.UserService
+	env         *bootstrap.Env
+}
 
-func Login(c context.Context, env *bootstrap.Env, accessToken string, user domain.LoginRequest) (
-	*domain.AuthResponse, int, error) {
+// NewAuthControl creates a new AuthControl
+func NewAuthControl(userService domain.UserService, env *bootstrap.Env) *AuthControl {
+	return &AuthControl{userService: userService, env: env}
+}
+
+// GetAccessTokenExpirySeconds returns the expiry time in seconds
+func (ac *AuthControl) GetAccessTokenExpirySeconds() int {
+	return int(ac.env.JWT.AccessTokenExpiryHour.Seconds())
+}
+
+// GetRefreshTokenExpirySeconds returns the expiry time in seconds
+func (ac *AuthControl) GetRefreshTokenExpirySeconds() int {
+	return int(ac.env.JWT.RefreshTokenExpiryHour.Seconds())
+}
+
+// GetUserByJWT returns a user from a JWT
+func (ac *AuthControl) GetUserByJWT(ctx context.Context, accessToken string) (
+	*domain.User, error) {
 	// Load secret key from environment variable
-	secretKey := []byte(env.AccessTokenSecret)
-	refreshSecretKey := []byte(env.RefreshTokenSecret)
-	if len(secretKey) == 0 || len(refreshSecretKey) == 0 {
-		return nil, http.StatusInternalServerError, fmt.Errorf("JWT secret keys not set")
+	secretKey, _, err := ac.getSecretKeys()
+	if err != nil {
+		return nil, err
 	}
 
-	// Check for Authorization header
+	token := strings.TrimPrefix(accessToken, "Bearer ")
+
+	// Validate the token
+	claims, err := tokenutil.VerifyToken(token, secretKey)
+	if err != nil {
+		return nil, err
+	}
+	return ac.userService.GetByID(ctx, claims.UserID)
+}
+
+// Login handles user login
+func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domain.LoginRequest) (
+	*domain.AuthResponse, error) {
+	// Load secret key from environment variable
+	secretKey, refreshSecretKey, err := ac.getSecretKeys()
+	if err != nil {
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
+	}
+
 	if accessToken != "" {
 		token := strings.TrimPrefix(accessToken, "Bearer ")
 
 		// Validate the token
 		claims, err := tokenutil.VerifyToken(token, secretKey)
-		if err == nil {
+		if err == nil { // success
 			return &domain.AuthResponse{
-				UserID:      claims.UserID.String(),
-				AccessToken: token,
-				Message:     "Authenticated with token",
-			}, http.StatusOK, nil
+				Status:  http.StatusOK,
+				Message: "Authenticated with token",
+				Data: &domain.AuthData{
+					UserID:      claims.UserID.String(),
+					AccessToken: token,
+				},
+			}, nil
 		}
 		// If token is invalid, fallback to password-based login
 	}
 
-	// Fallback to standard password-based login
-	// TODO: Simulate fetching user from database ( replace with real DB call)
-	dbUser, err := getUserByEmail(user.Email)
-	if err != nil {
-		return nil, http.StatusUnauthorized, fmt.Errorf("invalid user credentials")
-	}
-
-	// Validate password (assuming bcrypt hash comparison)
-	if err := bcrypt.CompareHashAndPassword(
-		[]byte(dbUser.Password), []byte(user.Password)); err != nil {
-		return nil, http.StatusUnauthorized, fmt.Errorf("invalid credentials")
+	dbUser, err := ac.userService.Login(ctx, user)
+	if errors.Is(err, repo.ErrNotFound) {
+		err := fmt.Errorf("invalid credentials") // avoids exposing specific error
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
+	} else if err != nil {
+		log.Printf("error login user: %s, %s", user.Email, err)
+		err := fmt.Errorf("invalid credentials") // avoids exposing specific error
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 
 	// Generate a JWT
-	accessToken, errAccess := tokenutil.GenerateToken(
-		dbUser.ID, secretKey, env.AccessTokenExpiryHour)
-	refreshToken, errRefresh := tokenutil.GenerateToken(
-		dbUser.ID, refreshSecretKey, env.RefreshTokenExpiryHour)
+	accessToken, errAccess := tokenutil.GenerateTokenWithRole(
+		dbUser.ID, secretKey, ac.env.JWT.AccessTokenExpiryHour, dbUser.Role)
+	refreshToken, errRefresh := tokenutil.GenerateTokenWithRole(
+		dbUser.ID, refreshSecretKey, ac.env.JWT.RefreshTokenExpiryHour, dbUser.Role)
 	if errAccess != nil && errRefresh != nil {
-		return nil, http.StatusInternalServerError, fmt.Errorf("error generating token")
+		err := fmt.Errorf("error generating token")
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
 	// Return tokens in response
 	return &domain.AuthResponse{
-		UserID:       dbUser.ID.String(),
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-		Message:      "Login successful",
-	}, http.StatusOK, nil
+		Status:  http.StatusOK,
+		Message: "Login successful",
+		Data: &domain.AuthData{
+			UserID:       dbUser.ID.String(),
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		},
+	}, nil
 }
 
-func Register(c context.Context, user domain.SignUpRequest) (
-	*domain.AuthResponse, int, error) {
-	dbUser := &domain.User{
-		Email:    user.Email,
-		Username: user.Username,
+// Register handles user registration
+func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) (
+	*domain.AuthResponse, error) {
+	dbUser, err := ac.userService.Register(ctx, user)
+	if errors.Is(err, service.ErrCredsAlreadyExist) {
+		return &domain.AuthResponse{Status: http.StatusConflict, Message: err.Error()}, err
+	} else if err != nil {
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
-
-	// Simulate fetching user from database (replace with real DB call)
-	_, err := getUserByEmail(user.Email)
-	if err == nil {
-		return nil, http.StatusConflict,
-			fmt.Errorf("email already exists")
-	}
-
-	// Simulate fetching user from database (replace with real DB call)
-	_, err = getUserByUsername(user.Username)
-	if err == nil {
-		return nil, http.StatusConflict,
-			fmt.Errorf("username already exists")
-	}
-
-	newID, err := uuid.NewV7FromReader(bytes.NewReader([]byte(USER)))
-	if err != nil {
-		println("Error generating UUID:", err.Error())
-		newID = uuid.New() // Fallback to a random UUID if generation fails
-	}
-	dbUser.ID = newID
-
-	hashedPassword, err := bcrypt.GenerateFromPassword(
-		[]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return nil, http.StatusInternalServerError,
-			fmt.Errorf("error hashing password: %w", err)
-	}
-	dbUser.Password = string(hashedPassword)
-
-	// Users can only be registered as "users" not "admin"
-	dbUser.Role = tokenutil.ROLE_USER
-
-	// Store the user in the database (replace this logic with real database operations)
-	// ...
-	// err = db.CreateUser(user)
-	// if err !=nil ...
 
 	return &domain.AuthResponse{
-		UserID: dbUser.ID.String(),
+		Status: http.StatusCreated,
 		// Message: "User registered successfully",
-		Message: fmt.Sprintf("%v", dbUser),
-	}, http.StatusCreated, nil
+		Message: fmt.Sprintf("%v", dbUser), // Debug response
+		Data:    &domain.AuthData{UserID: dbUser.ID.String()},
+	}, nil
 }
 
-func RefreshToken(c context.Context, env *bootstrap.Env, refreshToken, role string) (
-	*domain.AuthResponse, int, error) {
+func (ac *AuthControl) RefreshToken(ctx context.Context, refreshToken, role string) (
+	*domain.AuthResponse, error) {
 	// Load secret key from environment variable
-	secretKey := []byte(env.AccessTokenSecret)
-	refreshSecretKey := []byte(env.RefreshTokenSecret)
-	if len(secretKey) == 0 || len(refreshSecretKey) == 0 {
-		return nil, http.StatusInternalServerError, fmt.Errorf("JWT secret keys not set")
+	secretKey, refreshSecretKey, err := ac.getSecretKeys()
+	if err != nil {
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
-	// Check for Authorization header
 	if refreshToken == "" {
-		return nil, http.StatusUnauthorized, fmt.Errorf("no access token provided")
+		err := fmt.Errorf("no access token provided")
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 	token := strings.TrimPrefix(refreshToken, "Bearer ")
 
 	// Validate the token
 	claims, err := tokenutil.VerifyToken(token, refreshSecretKey)
 	if err != nil {
-		return nil, http.StatusUnauthorized, fmt.Errorf("invalid refresh token")
+		err := fmt.Errorf("invalid refresh token")
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 	if claims.Subject != role {
-		return nil, http.StatusUnauthorized, fmt.Errorf("invalid role")
+		err := fmt.Errorf("invalid role")
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 
 	// Generate a JWT
 	accessToken, err := tokenutil.GenerateToken(
-		claims.UserID, secretKey, env.AccessTokenExpiryHour)
+		claims.UserID, secretKey, ac.env.JWT.AccessTokenExpiryHour)
 	if err != nil {
-		return nil, http.StatusInternalServerError, fmt.Errorf("error generating token")
+		log.Printf("error generating token: %s", err)
+		err := fmt.Errorf("error generating token")
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
 	return &domain.AuthResponse{
-		UserID:      claims.UserID.String(),
-		AccessToken: accessToken,
-		Message:     "Authenticated with token",
-	}, http.StatusOK, nil
+		Status: http.StatusOK,
+		Data: &domain.AuthData{
+			UserID:       claims.UserID.String(),
+			AccessToken:  accessToken,
+			RefreshToken: token,
+		},
+		Message: "Authenticated with token",
+	}, nil
 }
 
-// Mocked user data for demonstration
-var mockUser = domain.User{
-	ID: func() uuid.UUID {
-		uuid, _ := uuid.Parse("473d0a1d-f23b-42cf-b8ee-7e4ad29e42bf")
-		return uuid
-	}(),
-	Username: "testuser",
-	Email:    "test@example.com",
-	Password: "$2a$10$WXvnJNuriTzpJThUJ6BJWOm6cxZNhQUsITXlXJTf0VGQYKATc9QMu", // bcrypt hash for "password123"
-	Role:     "user",
-}
-
-// getUserByEmail simulates a database fetch (replace with real DB interaction)
-func getUserByEmail(email string) (*domain.User, error) {
-	if email != mockUser.Email {
-		return nil, fmt.Errorf("user not found")
+// getSecretKeys returns the secret keys from the environment variables
+func (ac *AuthControl) getSecretKeys() (secretKey, refreshSecretKey []byte, err error) {
+	// Load secret key from environment variable
+	secretKey = []byte(ac.env.JWT.AccessTokenSecret)
+	refreshSecretKey = []byte(ac.env.JWT.RefreshTokenSecret)
+	if len(secretKey) == 0 || len(refreshSecretKey) == 0 {
+		err = fmt.Errorf("JWT secret keys not set")
 	}
-	return &mockUser, nil
-}
-
-// getUserByUsername simulates a database fetch (replace with real DB interaction)
-func getUserByUsername(username string) (*domain.User, error) {
-	if username != mockUser.Username {
-		return nil, fmt.Errorf("user not found")
-	}
-	return &mockUser, nil
+	return
 }

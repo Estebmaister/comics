@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      text-align: left;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .oauth-btn {
+      cursor: not-allowed;
+      background: #db4437;
+      color: white;
+      margin-top: 10px;
+    }
+    .oauth-btn:hover {
+      background: #b03024;
+    }
+    .login-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+
+    <div id="error-message" class="message error"></div>
+
+    <form id="signup-form">
+      <label>Email</label>
+      <input type="email" id="email" required>
+
+      <label>Username</label>
+      <input type="username" id="username" required>
+
+      <label>Password</label>
+      <input type="password" autocomplete="new-password" id="password" required>
+
+      <label>Confirm Password</label>
+      <input type="password" autocomplete="new-password" id="confirm-password" required>
+
+      <button type="submit" id="submit-btn" disabled>Sign Up</button>
+    </form>
+
+    <!-- OAuth Google Sign-In Button -->
+    <button class="oauth-btn" id="google-auth-btn">Sign Up with Google</button>
+
+    <!-- Login Link -->
+    <div class="login-link">
+      Already have an account? <a href="/login">Log in</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const signupForm = document.getElementById("signup-form");
+      const usernameInput = document.getElementById("username");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirm-password");
+      const submitButton = document.getElementById("submit-btn");
+      const errorMessage = document.getElementById("error-message");
+      const googleAuthBtn = document.getElementById("google-auth-btn");
+
+      function validateForm() {
+        const password = passwordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+
+        if (password.length >= 0 && password.length < 8) {
+          showError("Password must be at least 8 characters");
+          submitButton.disabled = true;
+          return;
+        }
+
+        if (password.length >= 8 && password !== confirmPassword) {
+          showError("Passwords do not match");
+          submitButton.disabled = true;
+          return;
+        }
+
+        hideError();
+        submitButton.disabled = false;
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+      }
+
+      function hideError() {
+        errorMessage.style.display = "none";
+      }
+
+      passwordInput.addEventListener("input", validateForm);
+      confirmPasswordInput.addEventListener("input", validateForm);
+
+      signupForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        try {
+          const response = await fetch('/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+          });
+
+          const resp = await response.json();
+
+          if (!response.ok) {
+            console.log(resp)
+            showError(resp.message || "Sign-up failed");
+            return;
+          }
+
+          // Redirect to login page after successful sign-up
+          window.location.href = "/login";
+        } catch (error) {
+          showError("An error occurred. Please try again.");
+        }
+      });
+
+      // Google OAuth Redirect
+      googleAuthBtn.addEventListener("click", function () {
+        window.location.href = "/auth/google";
+      });
+    });
+  </script>
+</body>
+</html>

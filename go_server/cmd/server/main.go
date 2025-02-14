@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -36,33 +38,30 @@ import (
 //	@host						localhost:8081
 //	@BasePath					/
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	// app is the instance of the entire application, managing key resources throughout its lifecycle
-	app := bootstrap.App()
-
-	// Configuration variables
-	env := app.Env
-
-	// Database instance
-	db := app.UserRepo
+	app := bootstrap.App(ctx)
 	defer app.CloseDBConnection()
 
-	timeout := time.Duration(env.ContextTimeout) * time.Second
+	timeout := time.Duration(app.Env.ContextTimeout) * time.Second
 
 	// Creating a gin instance
 	gin := gin.Default()
 
 	// Route binding
-	route.Setup(env, timeout, db, gin)
+	route.Setup(app.Env, timeout, app.UserRepo, gin)
 
 	// Running the server
 	go func() {
-		gin.Run(env.ServerAddress)
+		gin.Run(app.Env.ServerAddress)
 	}()
 
 	// Initialize the database
 	_, err := repo.NewSQLiteDB("../src/db/comics.db")
 	if err != nil {
-		panic("Failed to initialize SQLite database")
+		log.Fatalf("Failed to initialize SQLite database: %s", err)
 	}
 
 	// Wait for interrupt signal

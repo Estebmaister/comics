@@ -23,16 +23,8 @@ const (
 	collName           = "test_users"
 )
 
-// TestUserRepository provides a test suite for the MongoDB user repository
-type TestUserRepository struct {
-	client     Client
-	database   Database
-	collection Collection
-	userRepo   domain.UserStore
-}
-
 var (
-	testClient Client
+	testUri string
 )
 
 func TestMain(m *testing.M) {
@@ -44,15 +36,21 @@ func TestMain(m *testing.M) {
 	}
 
 	// Get connection string
-	connectionString, err := mongoContainer.ConnectionString(ctx)
+	testUri, err = mongoContainer.ConnectionString(ctx)
 	if err != nil {
 		log.Fatalf("Failed to get connection string: %v", err)
 	}
 
 	// Create custom MongoDB client
-	testClient, err = NewMongoClient(ctx, nil, connectionString)
+	testClient, err := NewMongoClient(ctx, nil, testUri)
 	if err != nil {
 		log.Fatalf("Failed to create MongoDB client: %v", err)
+	}
+
+	// Connect to the client
+	err = testClient.Connect(ctx)
+	if err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
 
 	// Run tests
@@ -74,12 +72,12 @@ func TestMain(m *testing.M) {
 
 func TestUserRepo(t *testing.T) {
 	ctx := context.Background()
-	// Connect to the client
-	err := testClient.Connect(context.Background())
-	require.NoError(t, err, "Failed to connect to MongoDB")
 
 	// Create user repository
-	userRepo := NewUserRepo(testClient, dbName, collName)
+	userRepo, err := NewUserRepo(ctx, testUri, dbName, collName)
+	if err != nil {
+		t.Fatalf("Failed to create user repository: %v", err)
+	}
 
 	// Prepare a test user
 	testUser := &domain.User{
@@ -153,8 +151,13 @@ func TestUserRepo(t *testing.T) {
 }
 
 // setupTestEnvironment initializes the test database and repository
-func setupTestEnvironment(_ *testing.T) domain.UserStore {
-	return NewUserRepo(testClient, dbName, collName)
+func setupTestEnvironment(t *testing.T) domain.UserStore {
+	ctx := context.Background()
+	UserRepo, err := NewUserRepo(ctx, testUri, dbName, collName)
+	if err != nil {
+		t.Fatalf("Failed to create user repository: %v", err)
+	}
+	return UserRepo
 }
 
 // TestCreateUser tests the user creation process

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      text-align: center;
+      display: none;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    button:hover:not(:disabled) {
+      background: #0056b3;
+    }
+    .dashboard-button, .edit-button, .cancel-button {
+      text-align: center;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .dashboard-button {
+      color: white;
+      text-decoration: none;
+    }
+    .edit-button {
+      color: #007bff;
+    }
+    .cancel-button {
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>User Profile</h2>
+
+    <!-- Success & Error Messages -->
+    <div id="success-message" class="message success"></div>
+    <div id="error-message" class="message error"></div>
+
+    <!-- Profile Display -->
+    <div id="profile-view">
+      <p><strong>Username:</strong> <span id="display-username"></span></p>
+      <p><strong>Email:</strong> <span id="display-email"></span></p>
+      <p><strong>Role:</strong> {{ .Role }}</p>
+      <div class="edit-button" id="edit-profile-btn">Edit Profile</div>
+      {{ if eq .Role "admin" }}
+      <button>
+          <a href="/admin/dashboard" class="dashboard-button">Admin Dashboard</a>
+      </button>
+      {{ end }}
+    </div>
+
+    <!-- Profile Edit Form -->
+    <form id="edit-profile-form" style="display: none;">
+      <label>Username</label>
+      <input type="username" id="edit-username" required>
+
+      <label>Email</label>
+      <input type="email" id="edit-email" required>
+
+      <label>New Password (Optional)</label>
+      <input type="password" autocomplete="new-password" id="edit-password">
+
+      <label>Confirm Password</label>
+      <input type="password" autocomplete="new-password" id="edit-repeat-password">
+
+      <button type="submit" id="submit-btn" disabled>Update Profile</button>
+      <div class="cancel-button" id="cancel-edit-btn">Cancel</div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const displayUsername = document.getElementById("display-username");
+      const displayEmail = document.getElementById("display-email");
+
+      const editUsername = document.getElementById("edit-username");
+      const editEmail = document.getElementById("edit-email");
+      const editPassword = document.getElementById("edit-password");
+      const editRepeatPassword = document.getElementById("edit-repeat-password");
+      const submitButton = document.getElementById("submit-btn");
+
+      const profileView = document.getElementById("profile-view");
+      const editForm = document.getElementById("edit-profile-form");
+
+      const successMessage = document.getElementById("success-message");
+      const errorMessage = document.getElementById("error-message");
+
+      const editProfileBtn = document.getElementById("edit-profile-btn");
+      const cancelEditBtn = document.getElementById("cancel-edit-btn");
+
+      // Simulated user data (replace with backend values)
+      let user = {
+        username: "{{ .Username }}",
+        email: "{{ .Email }}"
+      };
+
+      // Initialize profile
+      function loadProfile() {
+        displayUsername.textContent = user.username;
+        displayEmail.textContent = user.email;
+        editUsername.value = user.username;
+        editEmail.value = user.email;
+      }
+
+      function editProfile() {
+        profileView.style.display = "none";
+        editForm.style.display = "block";
+        editPassword.value = "";
+        editRepeatPassword.value = "";
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+        validateForm();
+      }
+
+      function cancelEdit() {
+        profileView.style.display = "block";
+        editForm.style.display = "none";
+        errorMessage.style.display = "none";
+      }
+
+      function validateForm() {
+        const password = editPassword.value;
+        const repeatPassword = editRepeatPassword.value;
+
+        if (password.length > 0 && password.length < 8) {
+            showError("Password must be at least 8 characters");
+            submitButton.disabled = true;
+            return;
+        }
+
+        if (password.length >= 8 && password !== repeatPassword) {
+            showError("Passwords do not match");
+            submitButton.disabled = true;
+            return;
+        }
+
+        hideError();
+        submitButton.disabled = false;
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+      }
+
+      function hideError() {
+        errorMessage.style.display = "none";
+      }
+
+      editPassword.addEventListener("input", validateForm);
+      editRepeatPassword.addEventListener("input", validateForm);
+
+      document.getElementById("edit-profile-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const newUsername = editUsername.value.trim();
+        const newEmail = editEmail.value.trim();
+        const newPassword = editPassword.value.trim();
+
+        try {
+          const response = await fetch('/protected/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: newUsername, email: newEmail, password: newPassword })
+          });
+
+          const resp = await response.json();
+
+          if (!response.ok) {
+            console.log(resp)
+            showError(resp.message || "Failed to update profile");
+            return;
+          }
+
+          // Update user data on success
+          user.username = newUsername;
+          user.email = newEmail;
+          loadProfile();
+
+          successMessage.textContent = "Profile updated successfully";
+          successMessage.style.display = "block";
+          errorMessage.style.display = "none";
+
+          cancelEdit();
+        } catch (error) {
+          showError("An error occurred. Please try again.");
+        }
+      });
+
+      // Attach click events
+      editProfileBtn.addEventListener("click", editProfile);
+      cancelEditBtn.addEventListener("click", cancelEdit);
+
+      // Load user profile initially
+      loadProfile();
+    });
+  </script>
+</body>
+</html>

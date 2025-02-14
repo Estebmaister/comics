@@ -22,7 +22,9 @@ type DatabaseConfig struct {
 
 // Client interface for advanced database client operations
 type Client interface {
-	repo.Client
+	Connect(ctx context.Context) error
+	Disconnect(ctx context.Context) error
+	Ping(ctx context.Context) error
 
 	Metrics() repo.MetricsCollector
 	Database(dbName string) Database

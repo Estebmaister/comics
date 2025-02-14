@@ -9,6 +9,8 @@ import (
 	"comics/bootstrap"
 	"comics/docs"
 	"comics/domain"
+	"comics/internal/repo/mongo"
+	"comics/internal/service"
 	"comics/internal/tokenutil"
 
 	"github.com/gin-gonic/gin"
@@ -16,51 +18,65 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-const ( // Headers
-	keyAuthorization = middleware.KeyAuthorization
+const (
+	// Headers
 	keyRole          = middleware.KeyRole
+	keyAuthorization = middleware.KeyAuthorization
+	keyAccept        = middleware.KeyAccept
+	contentTypeJSON  = middleware.ContentTypeJSON
+
+	// Cookies
+	cookieAccessToken  = middleware.KeyAccessToken
+	cookieRefreshToken = middleware.KeyRefreshToken
 )
 
+// Setup configures the gin routes of the server
 func Setup(
-	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, gin *gin.Engine) {
+	env *bootstrap.Env, timeout time.Duration, userRepo domain.UserStore, gin *gin.Engine) {
 	basePath := "/"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Host = env.ServerAddress
 	docs.SwaggerInfo.BasePath = basePath
+	println("http://" + env.ServerAddress + "/swagger/index.html")
+
+	userService := service.NewUserService(userRepo, env)
+	authController := controller.NewAuthControl(userService, env)
+
+	// Serve static files (CSS, JS, images)
+	gin.Static("/static", "./static")
 	publicRouter := gin.Group(basePath)
 	// All Public APIs
 	{
-		swaggerRouter(env, timeout, db, publicRouter)
-		signUpRouter(env, timeout, db, publicRouter)
-		loginRouter(env, timeout, db, publicRouter)
-		refreshTokenRouter(env, timeout, db, publicRouter)
+		swaggerRouter(publicRouter)
+		signUpRouter(authController, publicRouter)
+		loginRouter(authController, publicRouter)
+		refreshTokenRouter(authController, publicRouter)
 	}
 
 	protectedRouter := gin.Group("/protected")
 	// Middleware to verify AccessToken
-	protectedRouter.Use(middleware.AuthenticationMiddleware(env.AccessTokenSecret))
+	protectedRouter.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
 	// All protected Private APIs
 	{
-		NewProfileRouter(env, timeout, db, protectedRouter)
-		NewTaskRouter(env, timeout, db, protectedRouter)
+		profileRouter(authController, protectedRouter)
+		NewTaskRouter(env, timeout, userRepo, protectedRouter)
 	}
 
+	// Load templates from "templates/" directory
+	gin.LoadHTMLGlob("templates/*")
 	adminGroup := gin.Group("/admin")
-	adminGroup.Use(middleware.AuthenticationMiddleware(env.AccessTokenSecret))
+	adminGroup.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
 	adminGroup.Use(middleware.RoleMiddleware(tokenutil.ROLE_ADMIN))
 	// All admin APIs
 	{
-		dashboardRouter(env, timeout, db, adminGroup)
+		dashboardRouter(userRepo, adminGroup)
 	}
 }
 
-func swaggerRouter(
-	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
+func swaggerRouter(group *gin.RouterGroup) {
 	// Swagger API documentation
 	url := ginSwagger.URL("./swagger/doc.json")
-	println("http://" + env.ServerAddress + "/swagger/index.html")
-	group.GET(
-		"/swagger/*any",
+	group.GET("/swagger/*any",
 		ginSwagger.WrapHandler(swaggerFiles.Handler, url),
 	)
 }
@@ -79,10 +95,20 @@ func swaggerRouter(
 //	@Failure		400				{string}	string				"Not registered"
 //	@Failure		404				{string}	string				"Not implemented"
 //	@Router			/admin/dashboard [get]
-func dashboardRouter(
-	_ *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
+func dashboardRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/dashboard", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Dashboard"})
+		// Fetch metrics from repository
+		metrics := userRepo.(*mongo.UserRepo).Metrics()
+
+		if c.GetHeader(keyAccept) == contentTypeJSON {
+			c.JSON(http.StatusOK, metrics)
+			return
+		}
+		// Render HTML template with metrics data
+		c.HTML(http.StatusOK, "dashboard.html", gin.H{
+			"Title":   "Database Metrics Dashboard",
+			"Metrics": metrics,
+		})
 	})
 }
 
@@ -97,27 +123,26 @@ func dashboardRouter(
 //	@Produce		json
 //	@Param			user	body		domain.SignUpRequest	true	"Login user"
 //	@Success		201		{object}	domain.AuthResponse		"registered"
-//	@Failure		400		{string}	string					"not registered, invalid data"
-//	@Failure		409		{string}	string					"username or email already in use"
+//	@Failure		400		{object}	domain.NoDataResponse	"not registered, invalid data"
+//	@Failure		409		{object}	domain.NoDataResponse	"username or email already in use"
 //	@Router			/signup [post]
-func signUpRouter(
-	_ *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
+func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
+	group.GET("/signup", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "signup.html", nil)
+	})
+
 	group.POST("/signup", func(c *gin.Context) {
 		var user domain.SignUpRequest
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil {
-			c.JSON(
-				http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
+			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
+				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
 		}
 
-		resp, status, err := controller.Register(c, user)
-		if err != nil {
-			c.JSON(status, gin.H{"error": err.Error()})
-			return
-		}
-		c.JSON(status, resp)
+		resp, _ := authController.Register(c, user)
+		c.JSON(resp.Status, resp)
 	})
 }
 
@@ -138,26 +163,34 @@ func signUpRouter(
 //	@Header			200				{string}	Authorization		"Bearer JWT"
 //	@Failure		400				{string}	string				"no ok"
 //	@Router			/login [post]
-func loginRouter(
-	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
+func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
+	group.GET("/login", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "login.html", nil)
+	})
+
 	group.POST("/login", func(c *gin.Context) {
 		var user domain.LoginRequest
 		accessToken := c.GetHeader(keyAuthorization)
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil && accessToken == "" {
-			c.JSON(
-				http.StatusBadRequest, gin.H{"error": "Invalid data, imposible to parse"})
+			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
+				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
 		}
 
-		resp, status, err := controller.Login(c, env, accessToken, user)
-		if err != nil {
-			c.JSON(status, gin.H{"error": err.Error()})
-			return
+		resp, _ := authController.Login(c, accessToken, user)
+		if resp.Data != nil {
+			c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
+			// Set JWT in HttpOnly cookies (for web clients)
+			c.SetCookie(cookieAccessToken, resp.Data.AccessToken,
+				authController.GetAccessTokenExpirySeconds(), "/",
+				"", false, true)
+			c.SetCookie(cookieRefreshToken, resp.Data.RefreshToken,
+				authController.GetRefreshTokenExpirySeconds(), "/",
+				"", false, true)
 		}
-		c.Header(keyAuthorization, "Bearer "+resp.AccessToken)
-		c.JSON(status, resp)
+		c.JSON(resp.Status, resp)
 	})
 }
 
@@ -167,36 +200,32 @@ func loginRouter(
 //	@Description	Function for refreshing the access token
 //	@ID				refresh-token
 //	@Tags			Authentication
-//	@Security		Bearer JWT
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string				true	"Bearer JWT"	default(Bearer XXX)
+//	@Param			Authorization	header		string				true	"Bearer JWT"	default(Bearer refresh_token)
 //	@Param			Role			header		string				false	"role"			Enums(user, admin)
 //	@Success		200				{object}	domain.AuthResponse	"new access token generated"
 //	@Header			200				{string}	Authorization		"Bearer JWT"
 //	@Failure		400				{integer}	string				"not registered"
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/refresh-token [post]
-func refreshTokenRouter(
-	env *bootstrap.Env, _ time.Duration, _ domain.UserStore, group *gin.RouterGroup) {
+func refreshTokenRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
 	group.POST("/refresh-token", func(c *gin.Context) {
+		refreshToken := c.GetHeader(keyAuthorization)
 		role := c.GetHeader(keyRole)
 		if role == "" {
 			role = tokenutil.ROLE_USER
 		}
 
-		resp, status, err := controller.RefreshToken(
-			c, env, c.GetHeader(keyAuthorization), role)
-		if err != nil {
-			c.JSON(status, gin.H{"error": err.Error()})
-			return
+		resp, _ := authController.RefreshToken(c, refreshToken, role)
+		if resp.Data != nil {
+			c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
 		}
-		c.Header(keyAuthorization, "Bearer "+resp.AccessToken)
-		c.JSON(status, resp)
+		c.JSON(resp.Status, resp)
 	})
 }
 
-// Profile handler
+// Profile handler returns teh logged user data
 //
 //	@Summary		Profile
 //	@Description	Function for getting the user profile
@@ -210,10 +239,28 @@ func refreshTokenRouter(
 //	@Failure		400				{integer}	string				"not registered"
 //	@Failure		404				{string}	integer				"not registered"
 //	@Router			/protected/profile [get]
-func NewProfileRouter(
-	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, group *gin.RouterGroup) {
+func profileRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
 	group.GET("/profile", func(c *gin.Context) {
-		// Profile handler logic
+		accessToken := c.GetHeader(keyAuthorization)
+		middleware.ExtractCookieAccessToken(c, &accessToken)
+
+		user, err := authController.GetUserByJWT(c, accessToken)
+
+		if c.GetHeader(keyAccept) == contentTypeJSON {
+			if err != nil {
+				c.JSON(http.StatusNotFound, &domain.APIResponse[any]{
+					Status: http.StatusNotFound, Message: "User not found"})
+				return
+			} else {
+				c.JSON(http.StatusOK, user)
+				return
+			}
+		}
+
+		if err != nil {
+			c.Redirect(http.StatusUnauthorized, "/login")
+		}
+		c.HTML(http.StatusOK, "profile.html", user)
 	})
 }
 

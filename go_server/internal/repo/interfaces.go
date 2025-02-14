@@ -1,7 +1,6 @@
 package repo
 
 import (
-	"comics/domain"
 	"context"
 	"errors"
 	"time"
@@ -10,19 +9,6 @@ import (
 var (
 	ErrNotFound = errors.New("record not found")
 )
-
-// Client defines the interface for basic database clients
-type Client interface {
-	Connect(ctx context.Context) error
-	Disconnect(ctx context.Context) error
-	Ping(ctx context.Context) error
-}
-
-// UserStore defines basic store needs
-type UserStore interface {
-	domain.UserStore
-	Client() Client
-}
 
 // MetricsCollector defines the interface for collecting metrics
 type MetricsCollector interface {

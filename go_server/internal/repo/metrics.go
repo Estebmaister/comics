@@ -156,9 +156,15 @@ func (m *Metrics) GetStats() map[string]string {
 		"active_connections":    formatInt64(m.ActiveConnections),
 
 		// Error metrics
-		"error_count":           formatInt64(m.ErrorCount),
-		"last_error_time":       m.LastErrorTime.String(),
-		"last_connection_error": m.LastConnError.Error(),
+		"error_count":     formatInt64(m.ErrorCount),
+		"last_error_time": m.LastErrorTime.String(),
+		"last_connection_error": func() string {
+			if m.LastConnError != nil {
+				return m.LastConnError.Error()
+			} else {
+				return "No errors recorded"
+			}
+		}(),
 
 		// Retry metrics
 		"total_retries":      formatInt64(m.TotalRetries),

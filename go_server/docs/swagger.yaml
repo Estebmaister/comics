@@ -1,14 +1,21 @@
 definitions:
-  domain.AuthResponse:
+  domain.AuthData:
     properties:
       access_token:
-        type: string
-      message:
         type: string
       refresh_token:
         type: string
       user_id:
         type: string
+    type: object
+  domain.AuthResponse:
+    properties:
+      data:
+        $ref: '#/definitions/domain.AuthData'
+      message:
+        type: string
+      status:
+        type: integer
     type: object
   domain.LoginRequest:
     properties:
@@ -21,6 +28,15 @@ definitions:
     required:
     - email
     - password
+    type: object
+  domain.NoDataResponse:
+    properties:
+      data:
+        type: boolean
+      message:
+        type: string
+      status:
+        type: integer
     type: object
   domain.SignUpRequest:
     properties:
@@ -168,7 +184,7 @@ paths:
       description: Function for refreshing the access token
       operationId: refresh-token
       parameters:
-      - default: Bearer XXX
+      - default: Bearer refresh_token
         description: Bearer JWT
         in: header
         name: Authorization
@@ -200,8 +216,6 @@ paths:
           description: not registered
           schema:
             type: string
-      security:
-      - Bearer JWT: []
       summary: RefreshToken
       tags:
       - Authentication
@@ -230,11 +244,11 @@ paths:
         "400":
           description: not registered, invalid data
           schema:
-            type: string
+            $ref: '#/definitions/domain.NoDataResponse'
         "409":
           description: username or email already in use
           schema:
-            type: string
+            $ref: '#/definitions/domain.NoDataResponse'
       summary: SignUp new user
       tags:
       - Authentication

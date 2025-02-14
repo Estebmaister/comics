@@ -15,7 +15,6 @@ import (
 
 // Implement UserStore methods for UserRepo
 var _ domain.UserStore = (*UserRepo)(nil)
-var _ repo.UserStore = (*UserRepo)(nil)
 
 // UserRepo implements UserStore for MongoDB
 type UserRepo struct {
@@ -25,17 +24,26 @@ type UserRepo struct {
 }
 
 // Client return the internal client
-func (r *UserRepo) Client() repo.Client {
+func (r *UserRepo) Client() Client {
 	return r.cl
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
-func NewUserRepo(cl Client, dbName, collName string) domain.UserStore {
+func NewUserRepo(ctx context.Context, uri, dbName, collName string) (domain.UserStore, error) {
+	cl, err := NewMongoClient(ctx, nil, uri)
+	if err != nil {
+		return nil, err
+	}
 	return &UserRepo{
 		coll: cl.Database(dbName).Collection(collName),
 		db:   cl.Database(dbName),
 		cl:   cl,
-	}
+	}, nil
+}
+
+// Metrics return the internal stats
+func (r *UserRepo) Metrics() map[string]string {
+	return r.cl.Metrics().GetStats()
 }
 
 // GetByID retrieves a user by ID

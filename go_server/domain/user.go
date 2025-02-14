@@ -17,7 +17,7 @@ type User struct {
 	ID        uuid.UUID `bson:"_id"`
 	Username  string    `bson:"username"`
 	Email     string    `bson:"email"`
-	Password  string    `bson:"password"`
+	Password  string    `bson:"password" json:"-"`
 	Role      string    `bson:"role"`
 	CreatedAt time.Time `bson:"created_at"`
 	UpdatedAt time.Time `bson:"updated_at"`

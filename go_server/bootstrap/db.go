@@ -10,16 +10,16 @@ import (
 	"comics/internal/repo/mongo"
 )
 
-func NewMongoRepo(env *Env) domain.UserStore {
+func NewRepo(env *Env) (domain.UserStore, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(env.ContextTimeout)*time.Second)
 	defer cancel()
 
 	uri := fmt.Sprintf(
 		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
-		env.DBUser, env.DBPass, env.DBAddr)
+		env.DB.User, env.DB.Pass, env.DB.Addr)
 
-	if env.DBUser == "" || env.DBPass == "" {
-		uri = fmt.Sprintf("mongodb://%s", env.DBAddr)
+	if env.DB.User == "" || env.DB.Pass == "" {
+		uri = fmt.Sprintf("mongodb://%s", env.DB.Addr)
 	}
 
 	var cfg *mongo.DatabaseConfig
@@ -33,7 +33,7 @@ func NewMongoRepo(env *Env) domain.UserStore {
 		log.Fatalf("error pinging mongo DB: %s", err)
 	}
 
-	return mongo.NewUserRepo(client, env.DBName, env.DBCollection)
+	return mongo.NewUserRepo(ctx, uri, env.DB.Name, env.DB.TableUsers)
 }
 
 func CloseMongoDBConnection(repo domain.UserStore) {

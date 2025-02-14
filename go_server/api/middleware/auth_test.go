@@ -77,6 +77,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 			})
 
 			req, _ := http.NewRequest("GET", "/protected", nil)
+			req.Header.Set(KeyAccept, ContentTypeJSON)
 			req.Header.Set(KeyAuthorization, tt.args.token)
 
 			w := httptest.NewRecorder()
