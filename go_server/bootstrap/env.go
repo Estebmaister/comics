@@ -5,12 +5,14 @@ import (
 	"log"
 	"time"
 
+	"comics/internal/repo"
+
 	"github.com/spf13/viper"
 )
 
 // Env holds the application configuration
 type Env struct {
-	DB             DBConfig
+	DB             repo.DBConfig
 	JWT            JWTConfig
 	AppEnv         string `mapstructure:"APP_ENV"`
 	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
@@ -25,22 +27,13 @@ type JWTConfig struct {
 	RefreshTokenSecret     string        `mapstructure:"REFRESH_TOKEN_SECRET"`
 }
 
-// DBConfig holds the DB configuration
-type DBConfig struct {
-	Addr       string `mapstructure:"DB_ADDR"`
-	User       string `mapstructure:"DB_USER"`
-	Pass       string `mapstructure:"DB_PASS"`
-	Name       string `mapstructure:"DB_NAME"`
-	TableUsers string `mapstructure:"DB_TABLE_USERS"`
-}
-
 // MustLoadEnv reads the environment configuration with viper
 func MustLoadEnv(_ context.Context) *Env {
 	viper.SetConfigFile(".env")
 	viper.SetConfigType("env") // Define the config type as ENV
 	// viper.AutomaticEnv() // Read from environment variables
 	env := Env{}
-	dbConfig := DBConfig{}
+	dbConfig := repo.DBConfig{}
 	jwtConfig := JWTConfig{}
 
 	err := viper.ReadInConfig()

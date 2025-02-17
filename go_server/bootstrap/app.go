@@ -1,14 +1,27 @@
 package bootstrap
 
 import (
-	"comics/domain"
 	"context"
 	"log"
+	"time"
+
+	"comics/domain"
 )
+
+// Closable defines a common interface for closing database connections
+type Closable interface {
+	Close(ctx context.Context, duration time.Duration) error
+}
+
+// ClosableUserStore defines
+type ClosableUserStore interface {
+	Closable
+	domain.UserStore
+}
 
 type Application struct {
 	Env      *Env
-	UserRepo domain.UserStore
+	UserRepo ClosableUserStore
 }
 
 func App(ctx context.Context) Application {
@@ -22,6 +35,6 @@ func App(ctx context.Context) Application {
 	return *app
 }
 
-func (app *Application) CloseDBConnection() {
-	CloseMongoDBConnection(app.UserRepo)
+func (app *Application) CloseDBConnection(ctx context.Context, duration time.Duration) {
+	CloseConnection(ctx, app.UserRepo, duration)
 }

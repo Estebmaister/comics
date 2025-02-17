@@ -7,23 +7,14 @@ import (
 
 	"comics/internal/repo"
 
+	"go.mongodb.org/mongo-driver/v2/event"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-// DatabaseConfig provides configuration options for the MongoDB client
-type DatabaseConfig struct {
-	MaxPoolSize    uint64        `env:"mongo_max_pool_size" default:"100"`
-	MinPoolSize    uint64        `env:"mongo_min_pool_size" default:"0"`
-	MaxConnIdle    time.Duration `env:"mongo_max_conn_idle" default:"5m"`
-	ConnectTimeout time.Duration `env:"mongo_connect_timeout" default:"30s"`
-	URI            string        `env:"mongo_uri" default:"mongodb://localhost:27017/comics"`
-}
-
 // Client interface for advanced database client operations
 type Client interface {
-	Connect(ctx context.Context) error
-	Disconnect(ctx context.Context) error
+	Disconnect(ctx context.Context, duration time.Duration) error
 	Ping(ctx context.Context) error
 
 	Metrics() repo.MetricsCollector
@@ -42,29 +33,41 @@ type Client interface {
 // Implementation example (partial)
 type mongoClient struct {
 	cl      *mongo.Client
-	metrics repo.Metrics
+	metrics repo.MetricsCollector
 }
 
-// NewMongoClient creates a new MongoDB client with advanced configuration
-func NewMongoClient(ctx context.Context, cfg *DatabaseConfig, uri string) (*mongoClient, error) {
+// newMongoClient creates a new MongoDB client with advanced configuration
+func newMongoClient(ctx context.Context, cfg *repo.DBConfig) (*mongoClient, error) {
 	// Validate configuration
-	if cfg == nil {
-		cfg = &DatabaseConfig{
+	if cfg == nil || cfg.Addr == "" {
+		cfg = &repo.DBConfig{
+			Addr:           "mongodb://localhost:27017",
 			MaxPoolSize:    100,
 			MinPoolSize:    0,
 			MaxConnIdle:    5 * time.Minute,
 			ConnectTimeout: 30 * time.Second,
-			URI:            uri,
 		}
 	}
 
+	uri := fmt.Sprintf(
+		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
+		cfg.User, cfg.Pass, cfg.Addr)
+
+	if cfg.User == "" || cfg.Pass == "" {
+		uri = cfg.Addr
+	}
+
+	// Create metrics collector
+	metrics := repo.Metrics{}
+
 	// Prepare client options
 	clientOptions := options.Client().
-		ApplyURI(cfg.URI).
+		ApplyURI(uri).
 		SetMaxPoolSize(uint64(cfg.MaxPoolSize)).
 		SetMinPoolSize(uint64(cfg.MinPoolSize)).
 		SetMaxConnIdleTime(cfg.MaxConnIdle).
 		SetConnectTimeout(cfg.ConnectTimeout).
+		SetPoolMonitor(newPoolMonitor(&metrics)).
 		SetCompressors([]string{"zstd", "zlib", "snappy"})
 
 	// Record connection start time
@@ -72,39 +75,42 @@ func NewMongoClient(ctx context.Context, cfg *DatabaseConfig, uri string) (*mong
 
 	// Create MongoDB client
 	cl, err := mongo.Connect(clientOptions)
-	if err != nil {
-		return nil, err
-	}
 
 	// Create mongoClient wrapper
 	mongoClient := &mongoClient{
 		cl:      cl,
-		metrics: repo.Metrics{},
+		metrics: &metrics,
 	}
 
 	// Record connection metrics
 	mongoClient.Metrics().RecordConnection(time.Since(startTime), err)
 
-	return mongoClient, nil
+	return mongoClient, err
 }
 
-// Connect establishes a connection to the MongoDB server
-func (mc *mongoClient) Connect(ctx context.Context) error {
-	// Record connection start time
-	startTime := time.Now()
-
-	// Attempt to ping the server to verify connection
-	err := mc.Ping(ctx)
-
-	// Record connection metrics
-	mc.Metrics().RecordConnection(time.Since(startTime), err)
-
-	// If connection fails, return the error
-	if err != nil {
-		return fmt.Errorf("failed to establish MongoDB connection: %w", err)
+// newPoolMonitor creates a new PoolMonitor instance
+func newPoolMonitor(metrics repo.MetricsCollector) *event.PoolMonitor {
+	return &event.PoolMonitor{
+		Event: func(evt *event.PoolEvent) {
+			switch evt.Type {
+			case event.ConnectionCreated:
+				metrics.RecordConnection(evt.Duration, evt.Error)
+			case event.ConnectionClosed:
+				metrics.CloseConnection(evt.Duration, evt.Error)
+			case event.ConnectionCheckOutFailed:
+				metrics.RecordConnection(0, evt.Error)
+			case event.ConnectionCheckedOut:
+				metrics.RetrieveConnection()
+			case event.ConnectionCheckedIn:
+				metrics.ReleaseConnection()
+			}
+		},
 	}
+}
 
-	return nil
+// Metrics returns a MetricsCollector instance
+func (mc *mongoClient) Metrics() repo.MetricsCollector {
+	return mc.metrics
 }
 
 // Ping checks the connection to the MongoDB server
@@ -127,21 +133,14 @@ func (mc *mongoClient) Database(dbName string) Database {
 }
 
 // Disconnect closes the MongoDB connection
-func (mc *mongoClient) Disconnect(ctx context.Context) error {
-	// Attempt to disconnect
+func (mc *mongoClient) Disconnect(ctx context.Context, duration time.Duration) error {
 	err := mc.cl.Disconnect(ctx)
-	if err != nil {
-		return err
-	}
-
-	// Release the connection
-	mc.Metrics().ReleaseConnection()
-	return nil
+	mc.Metrics().CloseConnection(duration, err)
+	return err
 }
 
-// IsConnected checks if the client is connected to the database
+// IsConnected checks if the client is connected to the database by pinging it
 func (mc *mongoClient) IsConnected() bool {
-	// Ping to check actual connection status
 	err := mc.Ping(context.Background())
 	return err == nil
 }
@@ -169,9 +168,4 @@ func (mc *mongoClient) WaitForConnection(timeout time.Duration) error {
 			}
 		}
 	}
-}
-
-// Metrics returns a MetricsCollector instance
-func (mc *mongoClient) Metrics() repo.MetricsCollector {
-	return &mc.metrics
 }

@@ -15,11 +15,11 @@ import (
 
 // Implement UserStore methods for UserRepo
 var _ domain.UserStore = (*UserRepo)(nil)
+var _ repo.Closable = (*UserRepo)(nil)
 
 // UserRepo implements UserStore for MongoDB
 type UserRepo struct {
 	coll Collection
-	db   Database
 	cl   Client
 }
 
@@ -29,16 +29,20 @@ func (r *UserRepo) Client() Client {
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
-func NewUserRepo(ctx context.Context, uri, dbName, collName string) (domain.UserStore, error) {
-	cl, err := NewMongoClient(ctx, nil, uri)
+func NewUserRepo(ctx context.Context, cfg *repo.DBConfig) (*UserRepo, error) {
+	cl, err := newMongoClient(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
 	return &UserRepo{
-		coll: cl.Database(dbName).Collection(collName),
-		db:   cl.Database(dbName),
+		coll: cl.Database(cfg.Name).Collection(cfg.TableUsers),
 		cl:   cl,
 	}, nil
+}
+
+// Close disconnects the client
+func (r *UserRepo) Close(ctx context.Context, duration time.Duration) error {
+	return r.cl.Disconnect(ctx, duration)
 }
 
 // Metrics return the internal stats

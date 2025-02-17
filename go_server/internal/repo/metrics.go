@@ -6,6 +6,18 @@ import (
 	"time"
 )
 
+// MetricsCollector defines the interface for collecting metrics
+type MetricsCollector interface {
+	RecordQuery(duration time.Duration, err error)
+	RecordRetry(success bool)
+	RecordConnection(connectionTime time.Duration, err error)
+	CloseConnection(connectionTime time.Duration, err error)
+	ReleaseConnection()
+	RetrieveConnection()
+	Reset()
+	GetStats() map[string]string
+}
+
 // Metrics represents the metrics for a database connection
 type Metrics struct {
 	// Mutex for thread-safe access
@@ -17,16 +29,18 @@ type Metrics struct {
 	FailedQueries     int64
 
 	// Latency tracking
-	TotalLatency   time.Duration
-	MaxLatency     time.Duration
-	AverageLatency time.Duration
+	TotalLatency time.Duration
+	MaxLatency   time.Duration
 
-	// Connection metrics
+	// Connection tracking
 	TotalConnectionTime   time.Duration
 	AverageConnectionTime time.Duration
 	LastConnectionTime    time.Time
-	ConnectionCount       int64
-	ActiveConnections     int64
+
+	TotalCreatedConnections uint64
+	TotalClosedConnections  uint64
+	ActiveConnections       int64
+	IdleConnections         int64
 
 	// Retry metrics
 	TotalRetries      int64
@@ -78,7 +92,7 @@ func (m *Metrics) RecordConnection(connectionTime time.Duration, err error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	m.ConnectionCount++
+	m.TotalCreatedConnections++
 
 	if err != nil {
 		// Handle connection error
@@ -93,12 +107,43 @@ func (m *Metrics) RecordConnection(connectionTime time.Duration, err error) {
 	}
 }
 
-// ReleaseConnection updates metrics when a connection is released
+// CloseConnection updates metrics when a connection is closed
+func (m *Metrics) CloseConnection(connectionTime time.Duration, err error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	m.TotalClosedConnections++
+	if m.ActiveConnections > 0 {
+		m.ActiveConnections--
+	} else {
+		m.IdleConnections--
+	}
+	m.TotalConnectionTime += connectionTime
+
+	// Handle close error
+	if err != nil {
+		m.ErrorCount++
+		m.LastErrorTime = time.Now()
+		m.LastConnError = err
+	}
+}
+
+// ReleaseConnection updates metrics when a connection is released from the pool
 func (m *Metrics) ReleaseConnection() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	m.ActiveConnections--
+	m.IdleConnections++
+}
+
+// RetrieveConnection updates metrics when a connection is retrieved from the pool
+func (m *Metrics) RetrieveConnection() {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	m.ActiveConnections++
+	m.IdleConnections--
 }
 
 // Reset clears all accumulated metrics
@@ -106,20 +151,32 @@ func (m *Metrics) Reset() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
+	// Operation counters
 	m.TotalQueries = 0
 	m.SuccessfulQueries = 0
 	m.FailedQueries = 0
+
+	// Latency tracking
 	m.TotalLatency = 0
 	m.MaxLatency = 0
-	m.ConnectionCount = 0
-	m.ActiveConnections = 0
+
+	// Connection tracking
 	m.TotalConnectionTime = 0
 	m.AverageConnectionTime = 0
+	m.LastConnectionTime = time.Time{}
+
+	m.TotalCreatedConnections = 0
+	m.TotalClosedConnections = 0
+	m.ActiveConnections = 0
+	m.IdleConnections = 0
+
+	// Retry tracking
 	m.TotalRetries = 0
 	m.SuccessfulRetries = 0
+
+	// Error tracking
 	m.ErrorCount = 0
 	m.LastErrorTime = time.Time{}
-	m.LastConnectionTime = time.Time{}
 	m.LastConnError = nil
 }
 
@@ -132,50 +189,59 @@ func (m *Metrics) GetStats() map[string]string {
 		avgLatency = time.Duration(int64(m.TotalLatency) / m.TotalQueries)
 	}
 	// Calculate average connection time
-	if m.ConnectionCount > 0 {
+	if m.TotalCreatedConnections > 0 {
 		m.AverageConnectionTime =
-			m.TotalConnectionTime / time.Duration(m.ConnectionCount)
+			m.TotalConnectionTime / time.Duration(m.TotalCreatedConnections)
 	}
 
 	return map[string]string{
 		// Operation counters
-		"total_queries":      formatInt64(m.TotalQueries),
-		"successful_queries": formatInt64(m.SuccessfulQueries),
-		"failed_queries":     formatInt64(m.FailedQueries),
+		"queries_count":      formatNumber(m.TotalQueries),
+		"queries_successful": formatNumber(m.SuccessfulQueries),
+		"queries_failed":     formatNumber(m.FailedQueries),
 
 		// Latency tracking
-		"total_latency": formatDuration(m.TotalLatency),
-		"avg_latency":   formatDuration(avgLatency),
-		"max_latency":   formatDuration(m.MaxLatency),
+		"latency_total": formatTime(m.TotalLatency),
+		"latency_avg":   formatTime(avgLatency),
+		"latency_max":   formatTime(m.MaxLatency),
 
-		// Connection metrics
-		"total_connection_time": formatDuration(m.TotalConnectionTime),
-		"avg_connection_time":   formatDuration(m.AverageConnectionTime),
-		"last_connection_time":  m.LastConnectionTime.String(),
-		"connection_count":      formatInt64(m.ConnectionCount),
-		"active_connections":    formatInt64(m.ActiveConnections),
+		// Connection tracking
+		"connection_time_total": formatTime(m.TotalConnectionTime),
+		"connection_time_avg":   formatTime(m.AverageConnectionTime),
+		"connection_last_time":  formatTime(m.LastConnectionTime),
 
-		// Error metrics
-		"error_count":     formatInt64(m.ErrorCount),
-		"last_error_time": m.LastErrorTime.String(),
-		"last_connection_error": func() string {
-			if m.LastConnError != nil {
-				return m.LastConnError.Error()
-			} else {
-				return "No errors recorded"
-			}
-		}(),
+		"connections_created": formatNumber(m.TotalCreatedConnections),
+		"connections_closed":  formatNumber(m.TotalClosedConnections),
+		"connections_active":  formatNumber(m.ActiveConnections),
+		"connections_idle":    formatNumber(m.IdleConnections),
 
 		// Retry metrics
-		"total_retries":      formatInt64(m.TotalRetries),
-		"successful_retries": formatInt64(m.SuccessfulRetries),
+		"retries_count":      formatNumber(m.TotalRetries),
+		"retries_successful": formatNumber(m.SuccessfulRetries),
+
+		// Error metrics
+		"error_count":             formatNumber(m.ErrorCount),
+		"error_last_time":         formatTime(m.LastErrorTime),
+		"error_conn_at_last_time": formatError(m.LastConnError),
 	}
 }
 
-func formatInt64(n int64) string {
+type stringer interface {
+	String() string
+}
+
+func formatTime[T stringer](t T) string {
+	return t.String()
+}
+
+func formatNumber[T int64 | uint64](n T) string {
 	return fmt.Sprintf("%d", n)
 }
 
-func formatDuration(d time.Duration) string {
-	return d.String()
+func formatError(e error) string {
+	if e != nil {
+		return e.Error()
+	} else {
+		return "No errors recorded"
+	}
 }

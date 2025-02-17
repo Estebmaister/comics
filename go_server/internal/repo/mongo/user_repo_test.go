@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"comics/domain"
+	"comics/internal/repo"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -19,12 +20,17 @@ const (
 	failedToCreateUser = "Failed to create user"
 	failedToUpdateUser = "Failed to update user"
 	failedToDeleteUser = "Failed to delete user"
-	dbName             = "test_comics_db"
-	collName           = "test_users"
 )
 
 var (
-	testUri string
+	userDBcfg = repo.DBConfig{
+		Name:           "test_comics_db",
+		TableUsers:     "test_users",
+		MaxPoolSize:    100,
+		MinPoolSize:    0,
+		MaxConnIdle:    5 * time.Minute,
+		ConnectTimeout: 30 * time.Second,
+	}
 )
 
 func TestMain(m *testing.M) {
@@ -36,31 +42,30 @@ func TestMain(m *testing.M) {
 	}
 
 	// Get connection string
-	testUri, err = mongoContainer.ConnectionString(ctx)
+	testUri, err := mongoContainer.ConnectionString(ctx)
 	if err != nil {
 		log.Fatalf("Failed to get connection string: %v", err)
 	}
+	userDBcfg.Addr = testUri
 
 	// Create custom MongoDB client
-	testClient, err := NewMongoClient(ctx, nil, testUri)
+	startTime := time.Now()
+	testClient, err := newMongoClient(ctx, &userDBcfg)
 	if err != nil {
 		log.Fatalf("Failed to create MongoDB client: %v", err)
-	}
-
-	// Connect to the client
-	err = testClient.Connect(ctx)
-	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
 
 	// Run tests
 	code := m.Run()
 
 	// Cleanup
-	if err := testClient.Database(dbName).Collection(collName).Drop(ctx); err != nil {
+	if err := testClient.
+		Database(userDBcfg.Name).
+		Collection(userDBcfg.TableUsers).
+		Drop(ctx); err != nil {
 		log.Fatalf("Failed to drop collection: %v", err)
 	}
-	if err := testClient.Disconnect(ctx); err != nil {
+	if err := testClient.Disconnect(ctx, time.Since(startTime)); err != nil {
 		log.Fatalf("Failed to disconnect from MongoDB: %v", err)
 	}
 	if err := mongoContainer.Terminate(ctx); err != nil {
@@ -74,7 +79,7 @@ func TestUserRepo(t *testing.T) {
 	ctx := context.Background()
 
 	// Create user repository
-	userRepo, err := NewUserRepo(ctx, testUri, dbName, collName)
+	userRepo, err := NewUserRepo(ctx, &userDBcfg)
 	if err != nil {
 		t.Fatalf("Failed to create user repository: %v", err)
 	}
@@ -153,7 +158,7 @@ func TestUserRepo(t *testing.T) {
 // setupTestEnvironment initializes the test database and repository
 func setupTestEnvironment(t *testing.T) domain.UserStore {
 	ctx := context.Background()
-	UserRepo, err := NewUserRepo(ctx, testUri, dbName, collName)
+	UserRepo, err := NewUserRepo(ctx, &userDBcfg)
 	if err != nil {
 		t.Fatalf("Failed to create user repository: %v", err)
 	}
@@ -192,7 +197,7 @@ func TestGetUserByID(t *testing.T) {
 	// Create a test user
 	testUser := &domain.User{
 		ID:        uuid.New(),
-		Username:  "getbyiduser",
+		Username:  "ex_user",
 		Email:     "getbyid@example.com",
 		Role:      "user",
 		CreatedAt: time.Now(),

@@ -38,12 +38,15 @@ import (
 //	@host						localhost:8081
 //	@BasePath					/
 func main() {
+	startTime := time.Now()
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// app is the instance of the entire application, managing key resources throughout its lifecycle
 	app := bootstrap.App(ctx)
-	defer app.CloseDBConnection()
+	defer func() {
+		app.CloseDBConnection(ctx, time.Since(startTime))
+	}()
 
 	timeout := time.Duration(app.Env.ContextTimeout) * time.Second
 
