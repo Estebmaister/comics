@@ -33,11 +33,11 @@ func main() {
 	defer tp.Shutdown(context.Background())
 
 	// Create server with default config
-	srv, err := server.New(server.DefaultConfig())
+	srv, err := server.New(ctx, server.DefaultConfig())
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create server")
 	}
-	defer srv.Shutdown()
+	defer srv.Shutdown(ctx)
 
 	// Register gRPC services
 	srv.RegisterServices()

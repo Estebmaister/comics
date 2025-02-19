@@ -46,11 +46,11 @@ func init() {
 // comicsService implements the ComicService gRPC service
 type comicsService struct {
 	pb.UnimplementedComicServiceServer
-	repo *repo.Database
+	repo *repo.ComicsRepo
 }
 
 // newComicsService creates a new comics service instance
-func newComicsService(repo *repo.Database) *comicsService {
+func newComicsService(repo *repo.ComicsRepo) *comicsService {
 	return &comicsService{repo: repo}
 }
 
@@ -306,7 +306,7 @@ func (s *comicsService) DeleteComic(ctx context.Context, req *pb.DeleteComicRequ
 }
 
 // GetComicByTitle implements the GetComicByTitle RPC method
-func (s *comicsService) GetComicByTitle(ctx context.Context, req *pb.GetComicByTitleRequest) (*pb.ComicResponse, error) {
+func (s *comicsService) GetComicsByTitle(ctx context.Context, req *pb.GetComicByTitleRequest) (*pb.ComicsResponse, error) {
 	startTime := time.Now()
 	ctx, span := tracer.Start(ctx, "GetComicByTitle")
 	defer span.End()
@@ -315,24 +315,37 @@ func (s *comicsService) GetComicByTitle(ctx context.Context, req *pb.GetComicByT
 
 	// Validate request
 	if req.Title == "" {
-		return handleError(ctx, startTime, status.Error(codes.InvalidArgument, "title cannot be empty"))
+		errMsg := "title cannot be empty"
+		return &pb.ComicsResponse{
+			Metadata: createResponseMetadata(ctx, startTime, codes.InvalidArgument),
+			Error:    &errMsg,
+		}, status.Error(codes.InvalidArgument, errMsg)
 	}
 
 	// Get comic from database
-	comic, err := s.repo.GetComicByTitle(ctx, req.Title)
+	comics, err := s.repo.GetComicsByTitle(ctx, req.Title)
 	if err != nil {
 		if err.Error() == "comic not found" {
-			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))
+			errMsg := "comic not found"
+			return &pb.ComicsResponse{
+				Metadata: createResponseMetadata(ctx, startTime, codes.InvalidArgument),
+				Error:    &errMsg,
+			}, status.Error(codes.NotFound, errMsg)
 		}
-		return handleError(ctx, startTime, fmt.Errorf("failed to get comic: %w", err))
+		err = fmt.Errorf("failed to get comic: %w", err)
+		errMsg := err.Error()
+		return &pb.ComicsResponse{
+			Metadata: createResponseMetadata(ctx, startTime, codes.InvalidArgument),
+			Error:    &errMsg,
+		}, err
 	}
 
 	duration := time.Since(startTime).Seconds()
 	requestDuration.WithLabelValues("GetComicByTitle", codes.OK.String()).Observe(duration)
 	requestTotal.WithLabelValues("GetComicByTitle", codes.OK.String()).Inc()
 
-	return &pb.ComicResponse{
+	return &pb.ComicsResponse{
 		Metadata: createResponseMetadata(ctx, startTime, codes.OK),
-		Comic:    comic,
+		Comics:   comics,
 	}, nil
 }

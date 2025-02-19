@@ -13,6 +13,8 @@ var (
 // DBConfig holds the DB configuration
 type DBConfig struct {
 	// Connection string
+	Host string `mapstructure:"DB_HOST"`
+	Port string `mapstructure:"DB_PORT"`
 	Addr string `mapstructure:"DB_ADDR"`
 	User string `mapstructure:"DB_USER"`
 	Pass string `mapstructure:"DB_PASS"`
@@ -21,10 +23,12 @@ type DBConfig struct {
 	TableUsers  string `mapstructure:"DB_TABLE_USERS"`
 	TableComics string `mapstructure:"DB_TABLE_COMICS"`
 	// Pool configuration
-	MaxPoolSize    int           `mapstructure:"DB_MAX_POOL_SIZE" default:"100"`
-	MinPoolSize    int           `mapstructure:"DB_MIN_POOL_SIZE" default:"0"`
-	MaxConnIdle    time.Duration `mapstructure:"DB_MAX_CONN_TIME_IDLE" default:"5m"`
-	ConnectTimeout time.Duration `mapstructure:"DB_CONN_TIMEOUT" default:"30s"`
+	MaxPoolSize     int           `mapstructure:"DB_MAX_POOL_SIZE" default:"100"`
+	MinPoolSize     int           `mapstructure:"DB_MIN_POOL_SIZE" default:"0"`
+	MaxConnIdleTime time.Duration `mapstructure:"DB_MAX_CONN_IDLE_TIME" default:"5m"`
+	MaxConnLifeTime time.Duration `mapstructure:"DB_MAX_CONN_LIFE_TIME" default:"60m"`
+	ConnectTimeout  time.Duration `mapstructure:"DB_CONN_TIMEOUT" default:"30s"`
+	JaegerEndpoint  string
 }
 
 // Closable defines a common interface for closing database connections

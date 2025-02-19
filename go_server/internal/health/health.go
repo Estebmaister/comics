@@ -2,7 +2,6 @@ package health
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"sync/atomic"
 	"time"
@@ -10,13 +9,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+type Pinger interface {
+	Ping(ctx context.Context) error
+}
+
+// HealthChecker checks the health of the application
 type HealthChecker struct {
-	db           *sql.DB
+	db           Pinger
 	isReady      atomic.Bool
 	shutdownChan chan struct{}
 }
 
-func NewHealthChecker(db *sql.DB) *HealthChecker {
+func NewHealthChecker(db Pinger) *HealthChecker {
 	h := &HealthChecker{
 		db:           db,
 		shutdownChan: make(chan struct{}),
@@ -46,7 +50,7 @@ func (h *HealthChecker) readinessLoop() {
 			return
 		case <-ticker.C:
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-			err := h.db.PingContext(ctx)
+			err := h.db.Ping(ctx)
 			cancel()
 
 			h.isReady.Store(err == nil)
@@ -70,7 +74,7 @@ func (h *HealthChecker) LivenessHandler() http.HandlerFunc {
 func (h *HealthChecker) ReadinessHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		
+
 		if !h.isReady.Load() {
 			w.WriteHeader(http.StatusServiceUnavailable)
 			w.Write([]byte(`{"status":"DOWN"}`))

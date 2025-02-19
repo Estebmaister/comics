@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"net/http"
@@ -36,20 +37,20 @@ type Server struct {
 	config       *Config
 	grpcServer   *grpc.Server
 	healthServer *http.Server
-	database     *repo.Database
+	comicsRepo   *repo.ComicsRepo
 	health       *health.HealthChecker
 }
 
 // New creates a new server instance
-func New(cfg *Config) (*Server, error) {
-	// Create database connection
-	database, err := repo.NewDatabase(nil)
+func New(ctx context.Context, cfg *Config) (*Server, error) {
+	// Create repo-db connection
+	comicsRepo, err := repo.NewComicsRepo(ctx, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize database: %w", err)
 	}
 
 	// Create health checker
-	healthChecker := health.NewHealthChecker(database.DB())
+	healthChecker := health.NewHealthChecker(comicsRepo.Client())
 
 	// Create gRPC server with interceptors
 	grpcServer := grpc.NewServer(
@@ -68,7 +69,7 @@ func New(cfg *Config) (*Server, error) {
 		config:       cfg,
 		grpcServer:   grpcServer,
 		healthServer: healthServer,
-		database:     database,
+		comicsRepo:   comicsRepo,
 		health:       healthChecker,
 	}, nil
 }
@@ -79,18 +80,18 @@ func (s *Server) GRPCListener() (net.Listener, error) {
 }
 
 // Shutdown gracefully shuts down the server
-func (s *Server) Shutdown() {
+func (s *Server) Shutdown(ctx context.Context) {
 	log.Info().Msg("Shutting down server...")
 	s.grpcServer.GracefulStop()
 	s.health.Stop()
-	if err := s.database.Close(); err != nil {
+	if err := s.comicsRepo.Close(ctx, 0); err != nil {
 		log.Error().Err(err).Msg("Error closing database connection")
 	}
 }
 
 // Database returns the server's database instance
-func (s *Server) Database() *repo.Database {
-	return s.database
+func (s *Server) Database() *repo.ComicsRepo {
+	return s.comicsRepo
 }
 
 // GRPCServer returns the gRPC server instance
