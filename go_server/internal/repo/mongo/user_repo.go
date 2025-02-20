@@ -2,15 +2,24 @@ package mongo
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"comics/domain"
+	"comics/internal/metrics"
 	"comics/internal/repo"
+	"comics/internal/tracing"
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
+)
+
+const (
+	tracerName = "user-db"
+	namespace  = "comics_db"
+	subsystem  = "user_repo"
 )
 
 // Implement UserStore methods for UserRepo
@@ -19,8 +28,10 @@ var _ repo.Closable = (*UserRepo)(nil)
 
 // UserRepo implements UserStore for MongoDB
 type UserRepo struct {
-	coll Collection
-	cl   Client
+	coll    Collection
+	cl      Client
+	metrics *metrics.Metrics
+	tracer  *tracing.Tracer
 }
 
 // Client return the internal client
@@ -30,25 +41,43 @@ func (r *UserRepo) Client() Client {
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
 func NewUserRepo(ctx context.Context, cfg *repo.DBConfig) (*UserRepo, error) {
-	cl, err := newMongoClient(ctx, cfg)
+	// Initialize metrics
+	metrics := metrics.NewMetrics(namespace, subsystem)
+
+	// Initialize tracer
+	tracer, err := tracing.NewTracer(tracerName, cfg.JaegerEndpoint)
+	if err != nil {
+		return nil, fmt.Errorf("error creating tracer: %w", err)
+	}
+
+	cl, err := newMongoClient(ctx, cfg, metrics)
 	if err != nil {
 		return nil, err
 	}
+
+	// err = cl.Ping(ctx)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
 	return &UserRepo{
-		coll: cl.Database(cfg.Name).Collection(cfg.TableUsers),
-		cl:   cl,
+		coll:    cl.Database(cfg.Name).Collection(cfg.TableUsers),
+		cl:      cl,
+		metrics: metrics,
+		tracer:  tracer,
 	}, nil
 }
 
 // Close disconnects the client
 func (r *UserRepo) Close(ctx context.Context, duration time.Duration) error {
-	return r.cl.Disconnect(ctx, duration)
+	return r.cl.Disconnect(ctx)
 }
 
+// Metrics return the internal metrics
+func (r *UserRepo) Metrics() *metrics.Metrics { return r.metrics }
+
 // Metrics return the internal stats
-func (r *UserRepo) Metrics() map[string]string {
-	return r.cl.Metrics().GetStats()
-}
+func (r *UserRepo) GetStats() map[string]string { return r.metrics.GetStats() }
 
 // GetByID retrieves a user by ID
 func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, error) {
@@ -60,7 +89,7 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "GetByID", err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
 		return nil, repo.ErrNotFound
@@ -78,7 +107,7 @@ func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, 
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "GetByEmail", err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
 		return nil, repo.ErrNotFound
@@ -96,7 +125,7 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "GetByUsername", err)
 
 	if err != nil && err.Error() == mongo.ErrNoDocuments.Error() {
 		return nil, repo.ErrNotFound
@@ -118,7 +147,7 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "Create", err)
 
 	return err
 }
@@ -145,7 +174,7 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "Update", err)
 
 	// Check if user was found and updated
 	if result.MatchedCount == 0 {
@@ -165,7 +194,7 @@ func (r *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "Delete", err)
 
 	// Check if user was found and deleted
 	if result.DeletedCount == 0 {
@@ -211,7 +240,7 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "List", err)
 
 	return users, totalCount, nil
 }
@@ -244,7 +273,7 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "FindActiveUsersByRole", err)
 
 	return users, nil
 }
@@ -279,7 +308,7 @@ func (r *UserRepo) PerformTransaction(ctx context.Context, fn func(context.Conte
 
 	// Record query metrics
 	queryDuration := time.Since(startTime)
-	r.cl.Metrics().RecordQuery(queryDuration, err)
+	r.Metrics().RecordQuery(queryDuration, "PerformTransaction", err)
 
 	return err
 }

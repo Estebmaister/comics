@@ -28,6 +28,7 @@ type User struct {
 type UserStore interface {
 	UserReader
 	UserWriter
+	GetStats() map[string]string
 }
 
 // User read operations

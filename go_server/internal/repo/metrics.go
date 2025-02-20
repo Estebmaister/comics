@@ -6,18 +6,6 @@ import (
 	"time"
 )
 
-// MetricsCollector defines the interface for collecting metrics
-type MetricsCollector interface {
-	RecordQuery(duration time.Duration, err error)
-	RecordRetry(success bool)
-	RecordConnection(connectionTime time.Duration, err error)
-	CloseConnection(connectionTime time.Duration, err error)
-	ReleaseConnection()
-	RetrieveConnection()
-	Reset()
-	GetStats() map[string]string
-}
-
 // Metrics represents the metrics for a database connection
 type Metrics struct {
 	// Mutex for thread-safe access
@@ -50,100 +38,6 @@ type Metrics struct {
 	ErrorCount    int64
 	LastErrorTime time.Time
 	LastConnError error
-}
-
-// RecordQuery updates metrics for a database query
-func (m *Metrics) RecordQuery(duration time.Duration, err error) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.TotalQueries++
-
-	if err != nil {
-		m.FailedQueries++
-		m.ErrorCount++
-		m.LastErrorTime = time.Now()
-		m.LastConnError = err
-	} else {
-		m.SuccessfulQueries++
-	}
-
-	m.TotalLatency += duration
-
-	if duration > m.MaxLatency {
-		m.MaxLatency = duration
-	}
-}
-
-// RecordRetry updates metrics for a retry attempt
-func (m *Metrics) RecordRetry(success bool) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.TotalRetries++
-
-	if success {
-		m.SuccessfulRetries++
-	}
-}
-
-// RecordConnection updates metrics for a database connection
-func (m *Metrics) RecordConnection(connectionTime time.Duration, err error) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.TotalCreatedConnections++
-
-	if err != nil {
-		// Handle connection error
-		m.ErrorCount++
-		m.LastErrorTime = time.Now()
-		m.LastConnError = err
-	} else {
-		// Successful connection
-		m.ActiveConnections++
-		m.TotalConnectionTime += connectionTime
-		m.LastConnectionTime = time.Now()
-	}
-}
-
-// CloseConnection updates metrics when a connection is closed
-func (m *Metrics) CloseConnection(connectionTime time.Duration, err error) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.TotalClosedConnections++
-	if m.ActiveConnections > 0 {
-		m.ActiveConnections--
-	} else {
-		m.IdleConnections--
-	}
-	m.TotalConnectionTime += connectionTime
-
-	// Handle close error
-	if err != nil {
-		m.ErrorCount++
-		m.LastErrorTime = time.Now()
-		m.LastConnError = err
-	}
-}
-
-// ReleaseConnection updates metrics when a connection is released from the pool
-func (m *Metrics) ReleaseConnection() {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.ActiveConnections--
-	m.IdleConnections++
-}
-
-// RetrieveConnection updates metrics when a connection is retrieved from the pool
-func (m *Metrics) RetrieveConnection() {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-
-	m.ActiveConnections++
-	m.IdleConnections--
 }
 
 // Reset clears all accumulated metrics
@@ -226,11 +120,7 @@ func (m *Metrics) GetStats() map[string]string {
 	}
 }
 
-type stringer interface {
-	String() string
-}
-
-func formatTime[T stringer](t T) string {
+func formatTime[T fmt.Stringer](t T) string {
 	return t.String()
 }
 

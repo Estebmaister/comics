@@ -9,7 +9,6 @@ import (
 	"comics/bootstrap"
 	"comics/docs"
 	"comics/domain"
-	"comics/internal/repo/mongo"
 	"comics/internal/service"
 	"comics/internal/tokenutil"
 
@@ -98,7 +97,7 @@ func swaggerRouter(group *gin.RouterGroup) {
 func dashboardRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/dashboard", func(c *gin.Context) {
 		// Fetch metrics from repository
-		metrics := userRepo.(*mongo.UserRepo).Metrics()
+		metrics := userRepo.GetStats()
 
 		if c.GetHeader(keyAccept) == contentTypeJSON {
 			c.JSON(http.StatusOK, metrics)

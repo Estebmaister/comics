@@ -24,12 +24,12 @@ const (
 
 var (
 	userDBcfg = repo.DBConfig{
-		Name:           "test_comics_db",
-		TableUsers:     "test_users",
-		MaxPoolSize:    100,
-		MinPoolSize:    0,
-		MaxConnIdle:    5 * time.Minute,
-		ConnectTimeout: 30 * time.Second,
+		Name:            "test_comics_db",
+		TableUsers:      "test_users",
+		MaxPoolSize:     100,
+		MinPoolSize:     0,
+		MaxConnIdleTime: 5 * time.Minute,
+		ConnectTimeout:  30 * time.Second,
 	}
 )
 
@@ -49,8 +49,7 @@ func TestMain(m *testing.M) {
 	userDBcfg.Addr = testUri
 
 	// Create custom MongoDB client
-	startTime := time.Now()
-	testClient, err := newMongoClient(ctx, &userDBcfg)
+	testClient, err := newMongoClient(ctx, &userDBcfg, nil)
 	if err != nil {
 		log.Fatalf("Failed to create MongoDB client: %v", err)
 	}
@@ -65,7 +64,7 @@ func TestMain(m *testing.M) {
 		Drop(ctx); err != nil {
 		log.Fatalf("Failed to drop collection: %v", err)
 	}
-	if err := testClient.Disconnect(ctx, time.Since(startTime)); err != nil {
+	if err := testClient.Disconnect(ctx); err != nil {
 		log.Fatalf("Failed to disconnect from MongoDB: %v", err)
 	}
 	if err := mongoContainer.Terminate(ctx); err != nil {
