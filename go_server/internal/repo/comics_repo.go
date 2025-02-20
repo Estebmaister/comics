@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -160,17 +161,19 @@ func (r *ComicsRepo) withRetry(_ context.Context, operation string, fn func() er
 		backoff.WithMaxElapsedTime(15 * time.Second),
 	)
 
-	err := backoff.Retry(func() error {
+	return backoff.Retry(func() error {
 		if err := fn(); err != nil {
 			r.metrics.RecordRetry(operation, false)
+			if errors.Is(err, ErrNotFound) {
+				// Do not retry if the error is ErrNotFound
+				return backoff.Permanent(err)
+			}
 			log.Printf("Operation %s failed, retrying: %v", operation, err)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)
 		return nil
 	}, retry)
-
-	return err
 }
 
 func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
@@ -266,7 +269,7 @@ func (r *ComicsRepo) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 				comic.Id,
 			).Scan(&id)
 
-			if err == sql.ErrNoRows {
+			if errors.Is(err, sql.ErrNoRows) {
 				return ErrNotFound
 			}
 			return err
@@ -285,7 +288,7 @@ func (r *ComicsRepo) DeleteComic(ctx context.Context, id uint32) error {
 
 			var deletedId int32
 			err := r.cl.QueryRow(ctx, query, id).Scan(&deletedId)
-			if err == sql.ErrNoRows {
+			if errors.Is(err, sql.ErrNoRows) {
 				return ErrNotFound
 			}
 			return err
@@ -324,7 +327,7 @@ func (r *ComicsRepo) GetComicById(ctx context.Context, id uint32) (*pb.Comic, er
 			)
 
 			if err != nil {
-				if err == sql.ErrNoRows {
+				if errors.Is(err, sql.ErrNoRows) {
 					return ErrNotFound
 				}
 				return err
@@ -592,6 +595,7 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 }
 
 func (r *ComicsRepo) Metrics() *metrics.MetricsSnapshot {
+	log.Printf("Comics repo metrics: %v\n\n", r.cl.Stat())
 	return r.metrics.GetSnapshot()
 }
 
@@ -600,6 +604,4 @@ func (r *ComicsRepo) Close(ctx context.Context, duration time.Duration) error {
 	return nil
 }
 
-func (r *ComicsRepo) Client() *pgxpool.Pool {
-	return r.cl
-}
+func (r *ComicsRepo) Client() *pgxpool.Pool { return r.cl }
