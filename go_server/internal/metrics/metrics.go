@@ -111,7 +111,7 @@ func NewMetrics(serviceName, namespace string) *Metrics {
 
 // RecordQuery records a database query
 func (m *Metrics) RecordQuery(duration time.Duration, operation string, err error) {
-	log.Log().Msg("record query")
+	log.Trace().Msg("record query")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -160,7 +160,7 @@ func (m *Metrics) RecordRetry(operation string, success bool) {
 }
 
 func (m *Metrics) RetrieveConnection() {
-	log.Debug().Msg("retriving connection")
+	log.Trace().Msg("retriving connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Inc()
@@ -168,7 +168,7 @@ func (m *Metrics) RetrieveConnection() {
 }
 
 func (m *Metrics) ReleaseConnection() {
-	log.Debug().Msg("releasing connection")
+	log.Trace().Msg("releasing connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Dec()
@@ -176,7 +176,7 @@ func (m *Metrics) ReleaseConnection() {
 }
 
 func (m *Metrics) CloseConnection(duration time.Duration, err error) {
-	log.Debug().Msg("close connection")
+	log.Trace().Msg("close connection")
 	if err != nil {
 		return
 	}
@@ -186,7 +186,7 @@ func (m *Metrics) CloseConnection(duration time.Duration, err error) {
 }
 
 func (m *Metrics) RecordConnection(duration time.Duration, err error) {
-	log.Debug().Msg("record connection")
+	log.Trace().Msg("record connection")
 	if err != nil {
 		return
 	}
