@@ -2,7 +2,6 @@ package route
 
 import (
 	"net/http"
-	"time"
 
 	"comics/api/controller"
 	"comics/api/middleware"
@@ -13,11 +12,16 @@ import (
 	"comics/internal/tokenutil"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 const (
+	// Tracing
+	netHostName = "comics_router"
+
 	// Headers
 	keyRole          = middleware.KeyRole
 	keyAuthorization = middleware.KeyAuthorization
@@ -30,20 +34,28 @@ const (
 )
 
 // Setup configures the gin routes of the server
-func Setup(
-	env *bootstrap.Env, timeout time.Duration, userRepo domain.UserStore, gin *gin.Engine) {
+func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	basePath := "/"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Host = env.ServerAddress
 	docs.SwaggerInfo.BasePath = basePath
-	println("http://" + env.ServerAddress + "/swagger/index.html")
+	log.Info().Str("URL", "http://"+env.ServerAddress+"/swagger/index.html").Msg("Swagger")
 
 	userService := service.NewUserService(userRepo, env)
 	authController := controller.NewAuthControl(userService, env)
 
+	// Add HTTP instrumentation for the whole router.
+	g.Use(otelgin.Middleware(netHostName))
+
+	// Middleware to log requests
+	g.Use(middleware.LoggerMiddleware())
+
 	// Serve static files (CSS, JS, images)
-	gin.Static("/static", "./static")
-	publicRouter := gin.Group(basePath)
+	g.Static("/static", "./static")
+	// Load templates from "templates/" directory
+	g.LoadHTMLGlob("templates/*")
+
+	publicRouter := g.Group(basePath)
 	// All Public APIs
 	{
 		swaggerRouter(publicRouter)
@@ -52,18 +64,16 @@ func Setup(
 		refreshTokenRouter(authController, publicRouter)
 	}
 
-	protectedRouter := gin.Group("/protected")
+	protectedRouter := g.Group("/protected")
 	// Middleware to verify AccessToken
 	protectedRouter.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
 	// All protected Private APIs
 	{
 		profileRouter(authController, protectedRouter)
-		NewTaskRouter(env, timeout, userRepo, protectedRouter)
+		NewTaskRouter(env, userRepo, protectedRouter)
 	}
 
-	// Load templates from "templates/" directory
-	gin.LoadHTMLGlob("templates/*")
-	adminGroup := gin.Group("/admin")
+	adminGroup := g.Group("/admin")
 	adminGroup.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
 	adminGroup.Use(middleware.RoleMiddleware(tokenutil.ROLE_ADMIN))
 	// All admin APIs
@@ -104,7 +114,7 @@ func dashboardRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 			return
 		}
 		// Render HTML template with metrics data
-		c.HTML(http.StatusOK, "dashboard.html", gin.H{
+		otelgin.HTML(c, http.StatusOK, "dashboard.html", gin.H{
 			"Title":   "Database Metrics Dashboard",
 			"Metrics": metrics,
 		})
@@ -127,7 +137,7 @@ func dashboardRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 //	@Router			/signup [post]
 func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
 	group.GET("/signup", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "signup.html", nil)
+		otelgin.HTML(c, http.StatusOK, "signup.html", nil)
 	})
 
 	group.POST("/signup", func(c *gin.Context) {
@@ -135,12 +145,16 @@ func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil {
+			c.Error(err)
 			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
 				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
 		}
 
-		resp, _ := authController.Register(c, user)
+		resp, err := authController.Register(c.Request.Context(), user)
+		if err != nil {
+			c.Error(err)
+		}
 		c.JSON(resp.Status, resp)
 	})
 }
@@ -164,7 +178,7 @@ func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup
 //	@Router			/login [post]
 func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
 	group.GET("/login", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "login.html", nil)
+		otelgin.HTML(c, http.StatusOK, "login.html", nil)
 	})
 
 	group.POST("/login", func(c *gin.Context) {
@@ -173,22 +187,26 @@ func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup)
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil && accessToken == "" {
+			c.Error(err)
 			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
 				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
 		}
 
-		resp, _ := authController.Login(c, accessToken, user)
-		if resp.Data != nil {
-			c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
-			// Set JWT in HttpOnly cookies (for web clients)
-			c.SetCookie(cookieAccessToken, resp.Data.AccessToken,
-				authController.GetAccessTokenExpirySeconds(), "/",
-				"", false, true)
-			c.SetCookie(cookieRefreshToken, resp.Data.RefreshToken,
-				authController.GetRefreshTokenExpirySeconds(), "/",
-				"", false, true)
+		resp, err := authController.Login(c.Request.Context(), accessToken, user)
+		if err != nil {
+			c.Error(err)
+			c.JSON(resp.Status, resp)
+			return
 		}
+		c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
+		// Set JWT in HttpOnly cookies (for web clients)
+		c.SetCookie(cookieAccessToken, resp.Data.AccessToken,
+			authController.GetAccessTokenExpirySeconds(), "/",
+			"", false, true)
+		c.SetCookie(cookieRefreshToken, resp.Data.RefreshToken,
+			authController.GetRefreshTokenExpirySeconds(), "/",
+			"", false, true)
 		c.JSON(resp.Status, resp)
 	})
 }
@@ -216,10 +234,13 @@ func refreshTokenRouter(authController *controller.AuthControl, group *gin.Route
 			role = tokenutil.ROLE_USER
 		}
 
-		resp, _ := authController.RefreshToken(c, refreshToken, role)
-		if resp.Data != nil {
-			c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
+		resp, err := authController.RefreshToken(c.Request.Context(), refreshToken, role)
+		if err != nil {
+			c.Error(err)
+			c.JSON(resp.Status, resp)
+			return
 		}
+		c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
 		c.JSON(resp.Status, resp)
 	})
 }
@@ -243,10 +264,11 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 		accessToken := c.GetHeader(keyAuthorization)
 		middleware.ExtractCookieAccessToken(c, &accessToken)
 
-		user, err := authController.GetUserByJWT(c, accessToken)
+		user, err := authController.GetUserByJWT(c.Request.Context(), accessToken)
 
 		if c.GetHeader(keyAccept) == contentTypeJSON {
 			if err != nil {
+				c.Error(err)
 				c.JSON(http.StatusNotFound, &domain.APIResponse[any]{
 					Status: http.StatusNotFound, Message: "User not found"})
 				return
@@ -257,14 +279,15 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 		}
 
 		if err != nil {
+			c.Error(err)
 			c.Redirect(http.StatusUnauthorized, "/login")
 		}
-		c.HTML(http.StatusOK, "profile.html", user)
+		otelgin.HTML(c, http.StatusOK, "profile.html", user)
 	})
 }
 
 func NewTaskRouter(
-	env *bootstrap.Env, timeout time.Duration, db domain.UserStore, group *gin.RouterGroup) {
+	env *bootstrap.Env, db domain.UserStore, group *gin.RouterGroup) {
 	group.GET("/tasks", func(c *gin.Context) {
 		// Task handler logic
 	})

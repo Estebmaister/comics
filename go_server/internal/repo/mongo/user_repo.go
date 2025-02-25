@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"comics/domain"
@@ -14,15 +13,19 @@ import (
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 const (
-	tracerName = "user-db"
-	namespace  = "comics_db"
-	subsystem  = "user_repo"
+	namespace = "user_repo"
+)
+
+var (
+	backoffMinInterval = 500 * time.Millisecond
+	backoffTimeout     = 5 * time.Second
 )
 
 // Implement UserStore methods for UserRepo
@@ -37,32 +40,48 @@ type UserRepo struct {
 	tracer  *tracing.Tracer
 }
 
-// Client return the internal client
-func (r *UserRepo) Client() Client {
-	return r.cl
+// DefaultConfig returns a default configuration
+func DefaultConfig() *repo.DBConfig {
+	return &repo.DBConfig{
+		Addr:           "localhost:27017", // local connection
+		Name:           "comics_db",
+		TableUsers:     "users",
+		MaxPoolSize:    100,              // default from mongo driver
+		MinPoolSize:    0,                // default from mongo driver
+		ConnectTimeout: 30 * time.Second, // default from mongo driver
+		TracerConfig: tracing.TracerConfig{
+			ServiceName: "comics_service",
+		},
+	}
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
 func NewUserRepo(ctx context.Context, cfg *repo.DBConfig) (*UserRepo, error) {
+	// Validate configuration
+	if cfg == nil {
+		cfg = DefaultConfig()
+	}
+
 	// Initialize metrics
-	metrics := metrics.NewMetrics(namespace, subsystem)
+	metrics := metrics.NewMetrics(cfg.TracerConfig.ServiceName, namespace)
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(tracerName, cfg.JaegerEndpoint)
+	tracer, err := tracing.NewTracer(ctx, cfg.TracerConfig, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}
 
+	// Initialize connection pool
 	cl, err := newMongoClient(ctx, cfg, metrics)
 	if err != nil {
 		return nil, err
 	}
 
-	err = cl.Ping(ctx)
-	if err != nil {
-		return nil, err
+	// Set backoff timeout
+	if cfg.BackoffTimeout != 0 {
+		backoffTimeout = cfg.BackoffTimeout
 	}
-
+	// Return the UserRepo
 	return &UserRepo{
 		coll:    cl.Database(cfg.Name).Collection(cfg.TableUsers),
 		cl:      cl,
@@ -71,12 +90,18 @@ func NewUserRepo(ctx context.Context, cfg *repo.DBConfig) (*UserRepo, error) {
 	}, nil
 }
 
+// Client return the internal client
+func (r *UserRepo) Client() Client { return r.cl }
+
 // Close disconnects the client
-func (r *UserRepo) Close(ctx context.Context, duration time.Duration) error {
-	return r.cl.Disconnect(ctx)
+func (r *UserRepo) Close(ctx context.Context) error {
+	errs := []error{}
+	errs = append(errs, r.tracer.Shutdown(ctx))
+	errs = append(errs, r.cl.Disconnect(ctx))
+	return errors.Join(errs...)
 }
 
-// Metrics return the internal metrics
+// Metrics return the internal metrics struct
 func (r *UserRepo) Metrics() *metrics.Metrics { return r.metrics }
 
 // Metrics return the internal stats
@@ -90,30 +115,36 @@ func (r *UserRepo) withSpan(ctx context.Context, operation string, fn func(conte
 	err := fn(ctx)
 	if err != nil {
 		span.SetError(err)
+	} else {
+		span.SetOk()
 	}
 
 	r.metrics.RecordQuery(time.Since(start), operation, err)
 	return err
 }
 
-func (r *UserRepo) withRetry(_ context.Context, operation string, fn func() error) error {
-	retry := backoff.NewExponentialBackOff(
-		backoff.WithMaxElapsedTime(15 * time.Second),
+func (r *UserRepo) withRetry(ctx context.Context, operation string, fn func(ctx context.Context) error) error {
+	expBackoff := backoff.NewExponentialBackOff(
+		backoff.WithMaxElapsedTime(backoffTimeout),
+		backoff.WithInitialInterval(backoffMinInterval),
 	)
+	ctxBackoff := backoff.WithContext(expBackoff, ctx)
 
 	return backoff.Retry(func() error {
-		if err := fn(); err != nil {
+		if err := fn(ctx); err != nil {
 			r.metrics.RecordRetry(operation, false)
-			if errors.Is(err, repo.ErrNotFound) {
+			if errors.Is(err, repo.ErrNotFound) ||
+				errors.Is(err, repo.ErrInvalidPageParams) ||
+				errors.Is(err, context.Canceled) {
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
 			}
-			log.Printf("Operation %s failed, retrying: %v\n", operation, err)
+			log.Warn().Err(err).Msgf("Operation %s failed, retrying", operation)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)
 		return nil
-	}, retry)
+	}, ctxBackoff)
 }
 
 // GetByID retrieves a user by ID
@@ -121,7 +152,8 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 	user := &domain.User{}
 
 	err := r.withSpan(ctx, "GetByID", func(ctx context.Context) error {
-		return r.withRetry(ctx, "GetByID", func() error {
+		return r.withRetry(ctx, "GetByID", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("id", id.String())
 
 			err := r.coll.FindOne(ctx, map[string]interface{}{"_id": id}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
@@ -131,25 +163,32 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 
 		})
 	})
+	if err != nil {
+		return nil, err
+	}
 	return user, err
 }
 
 // GetByEmail retrieves a user by email
 func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
 	user := &domain.User{}
-
 	err := r.withSpan(ctx, "GetByEmail", func(ctx context.Context) error {
-		return r.withRetry(ctx, "GetByEmail", func() error {
+		return r.withRetry(ctx, "GetByEmail", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("email", email)
 
 			// Find user by email
 			err := r.coll.FindOne(ctx, map[string]interface{}{"email": email}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
+			tracing.FromContext(ctx).SetTag("id", user.ID.String())
 			return err
 
 		})
 	})
+	if err != nil {
+		return nil, err
+	}
 	return user, err
 }
 
@@ -158,24 +197,31 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 	user := &domain.User{}
 
 	err := r.withSpan(ctx, "GetByUsername", func(ctx context.Context) error {
-		return r.withRetry(ctx, "GetByUsername", func() error {
+		return r.withRetry(ctx, "GetByUsername", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("username", username)
 
 			// Find user by username
 			err := r.coll.FindOne(ctx, map[string]interface{}{"username": username}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
+			tracing.FromContext(ctx).SetTag("id", user.ID.String())
 			return err
 
 		})
 	})
+	if err != nil {
+		return nil, err
+	}
 	return user, err
 }
 
 // Create a new user
 func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 	return r.withSpan(ctx, "Create", func(ctx context.Context) error {
-		return r.withRetry(ctx, "Create", func() error {
+		return r.withRetry(ctx, "Create", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("username", user.Username)
+			tracing.FromContext(ctx).SetTag("email", user.Email)
 
 			// Set creation timestamps
 			user.CreatedAt = time.Now()
@@ -192,7 +238,8 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 // fields that can be updated: username, email, role, active
 func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 	return r.withSpan(ctx, "Update", func(ctx context.Context) error {
-		return r.withRetry(ctx, "Update", func() error {
+		return r.withRetry(ctx, "Update", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("id", user.ID.String())
 
 			// Prepare updated user document
 			update := bson.M{"$set": bson.M{
@@ -218,7 +265,8 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 // Delete a user by ID
 func (r *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 	return r.withSpan(ctx, "Delete", func(ctx context.Context) error {
-		return r.withRetry(ctx, "Delete", func() error {
+		return r.withRetry(ctx, "Delete", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("id", id.String())
 
 			// Perform delete on given ID
 			result, err := r.coll.DeleteOne(ctx, bson.M{"_id": id})
@@ -236,9 +284,13 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 	var users []*domain.User
 	var totalCount int64
 	err := r.withSpan(ctx, "List", func(ctx context.Context) error {
-		return r.withRetry(ctx, "List", func() error {
+		return r.withRetry(ctx, "List", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("page", page)
+			tracing.FromContext(ctx).SetTag("page_size", pageSize)
 
-			// Calculate skip
+			if page < 1 || pageSize < 1 {
+				return repo.ErrInvalidPageParams
+			}
 			skip := int64((page - 1) * pageSize)
 
 			// Count total documents
@@ -263,7 +315,6 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 			defer cursor.Close(ctx)
 
 			// Decode results
-			var users []*domain.User
 			if err = cursor.All(ctx, &users); err != nil {
 				return err
 			}
@@ -278,7 +329,8 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*domain.User, error) {
 	var users []*domain.User
 	err := r.withSpan(ctx, "FindActiveUsersByRole", func(ctx context.Context) error {
-		return r.withRetry(ctx, "FindActiveUsersByRole", func() error {
+		return r.withRetry(ctx, "FindActiveUsersByRole", func(ctx context.Context) error {
+			tracing.FromContext(ctx).SetTag("role", role)
 
 			// Define filter for active users with specific role
 			filter := bson.M{
@@ -296,9 +348,12 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 			}
 			defer cursor.Close(ctx)
 
+			// Decode results
 			if err = cursor.All(ctx, &users); err != nil {
 				return err
 			}
+
+			tracing.FromContext(ctx).SetTag("users", len(users))
 			return nil
 		})
 	})
@@ -306,33 +361,11 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 	return users, err
 }
 
-// PerformTransaction executes several ops within a MongoDB transaction
-func (r *UserRepo) PerformTransaction(ctx context.Context, fn func(context.Context) error) error {
-	return r.withSpan(ctx, "PerformTransaction", func(ctx context.Context) error {
-		return r.withRetry(ctx, "PerformTransaction", func() error {
-
-			// Start session
-			session, err := r.cl.StartSession()
-			if err != nil {
-				return err
-			}
-			defer session.EndSession(ctx)
-
-			// Start transaction
-			err = session.StartTransaction()
-			if err != nil {
-				return err
-			}
-
-			// Execute function within transaction
-			err = fn(ctx)
-			if err != nil {
-				session.AbortTransaction(ctx)
-				return err
-			}
-
-			// Commit transaction
-			return session.CommitTransaction(ctx)
+// Tx executes several ops within a MongoDB transaction
+func (r *UserRepo) Tx(ctx context.Context, fn func(context.Context) error) error {
+	return r.withSpan(ctx, "Tx", func(ctx context.Context) error {
+		return r.cl.UseSession(ctx, func(ctx context.Context) error {
+			return fn(ctx)
 		})
 	})
 }

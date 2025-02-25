@@ -28,6 +28,8 @@ type User struct {
 type UserStore interface {
 	UserReader
 	UserWriter
+
+	Tx(ctx context.Context, fn func(context.Context) error) error
 	GetStats() map[string]string
 }
 

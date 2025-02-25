@@ -5,32 +5,29 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
+	_ "comics/internal/logger"
 	"comics/internal/server"
 	"comics/internal/tracing"
 
-	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 func main() {
-	// Initialize logger
-	log.Logger = log.Output(zerolog.ConsoleWriter{
-		Out:        os.Stdout,
-		TimeFormat: time.RFC3339,
-	})
-
 	// Create root context
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Initialize tracer
-	tp, err := tracing.NewTracer("comics-server", "http://localhost:14268/api/traces")
+	tp, err := tracing.NewTracer(ctx, tracing.TracerConfig{
+		Endpoint:    "http://localhost:14268/api/traces",
+		ServiceName: "comics-server",
+		Sampler:     100,
+	}, "grpc")
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize tracer")
 	}
-	defer tp.Shutdown(context.Background())
+	defer tp.Shutdown(ctx)
 
 	// Create server with default config
 	srv, err := server.New(ctx, server.DefaultConfig())

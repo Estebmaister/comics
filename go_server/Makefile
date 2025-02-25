@@ -33,6 +33,10 @@ test:
 run:
 	air server
 
+build:
+	go build -o tmp/server ./cmd/server/
+	./tmp/server
+
 migration:
 	go build -o tmp/migrate ./cmd/migrate/
 	./tmp/migrate up

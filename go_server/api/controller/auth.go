@@ -10,9 +10,12 @@ import (
 
 	"comics/bootstrap"
 	"comics/domain"
-	"comics/internal/repo"
 	"comics/internal/service"
 	"comics/internal/tokenutil"
+)
+
+const (
+	invalidCredentials = "invalid credentials"
 )
 
 // AuthControl
@@ -83,13 +86,9 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 	}
 
 	dbUser, err := ac.userService.Login(ctx, user)
-	if errors.Is(err, repo.ErrNotFound) {
-		err := fmt.Errorf("invalid credentials") // avoids exposing specific error
-		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
-	} else if err != nil {
-		log.Printf("error login user: %s, %s", user.Email, err)
-		err := fmt.Errorf("invalid credentials") // avoids exposing specific error
-		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
+	if err != nil {
+		err := fmt.Errorf("%s: %w", invalidCredentials, err)
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: invalidCredentials}, err
 	}
 
 	// Generate a JWT
@@ -98,8 +97,8 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 	refreshToken, errRefresh := tokenutil.GenerateTokenWithRole(
 		dbUser.ID, refreshSecretKey, ac.env.JWT.RefreshTokenExpiryHour, dbUser.Role)
 	if errAccess != nil && errRefresh != nil {
-		err := fmt.Errorf("error generating token")
-		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
+		err := fmt.Errorf("error generating token: %w %w", errAccess, errRefresh)
+		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: "error generating token"}, err
 	}
 
 	// Return tokens in response

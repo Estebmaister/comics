@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -21,16 +21,18 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/joho/godotenv"
+	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
-	tracerName = "comics-db"
-	namespace  = "comics_db"
-	subsystem  = "comics_repo"
-	dbName     = "comics"
-	// requires migreate file driver
+	namespace = "comics_repo"
+	// requires migrate file driver on imports
 	migrationSource = "file://internal/repo/sql/migrations"
+)
+
+var (
+	backoffTimeout = 15 * time.Second
 )
 
 type ComicsRepo struct {
@@ -41,25 +43,35 @@ type ComicsRepo struct {
 
 func DefaultConfig() *DBConfig {
 	if err := godotenv.Load(); err != nil {
-		log.Printf("Warning: .env file not found: %v", err)
+		log.Warn().Err(err).Msgf(".env file not found")
 	}
 	cfg := &DBConfig{
-		Host:            os.Getenv("PG_HOST"),
-		Port:            os.Getenv("PG_PORT"),
 		Addr:            os.Getenv("PG_ADDR"),
 		User:            os.Getenv("PG_USER"),
 		Pass:            os.Getenv("PG_PASS"),
 		Name:            os.Getenv("PG_NAME"),
-		MaxPoolSize:     25,
-		MinPoolSize:     5,
+		MaxPoolSize:     100,
 		MaxConnIdleTime: 5 * time.Minute,
-		JaegerEndpoint:  os.Getenv("JAEGER_ENDPOINT"),
+		TracerConfig: tracing.TracerConfig{
+			Endpoint:    os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT"),
+			ServiceName: "comics_service",
+		},
 	}
-	if cfg.Host == "" && cfg.Port == "" {
+	if cfg.Name == "" {
+		cfg.Name = "comics_db"
+	}
+	if cfg.Host == "" && cfg.Port == 0 {
 		addr := strings.Split(cfg.Addr, ":")
 		if len(addr) == 2 {
+			if len(addr[0]) == 0 {
+				cfg.Host = "localhost"
+			}
 			cfg.Host = addr[0]
-			cfg.Port = addr[1]
+			port, err := strconv.Atoi(addr[1])
+			if err != nil {
+				port = 5432
+			}
+			cfg.Port = port
 		}
 	}
 	return cfg
@@ -70,7 +82,7 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
 		cfg = DefaultConfig()
 	}
 
-	connStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s",
+	connStr := fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s",
 		cfg.User, cfg.Pass, cfg.Host, cfg.Port, cfg.Name) // sslmode=disable
 	poolCfg, err := pgxpool.ParseConfig(connStr)
 	if err != nil {
@@ -88,14 +100,18 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
 	}
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(tracerName, cfg.JaegerEndpoint)
+	tracer, err := tracing.NewTracer(ctx, cfg.TracerConfig, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}
 
 	// Initialize metrics
-	metrics := metrics.NewMetrics(namespace, subsystem)
+	metrics := metrics.NewMetrics(cfg.TracerConfig.ServiceName, namespace)
 
+	// Set backoff timeout
+	backoffTimeout = cfg.BackoffTimeout
+
+	// Create repository
 	repo := &ComicsRepo{
 		cl:      cl,
 		metrics: metrics,
@@ -108,7 +124,7 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
 	}
 
 	// Run migrations
-	if err := repo.runMigrations(ctx); err != nil {
+	if err := repo.runMigrations(ctx, cfg.Name); err != nil {
 		return nil, err
 	}
 
@@ -121,7 +137,7 @@ func (r *ComicsRepo) pingWithRetry(ctx context.Context) error {
 	})
 }
 
-func (r *ComicsRepo) runMigrations(_ context.Context) error {
+func (r *ComicsRepo) runMigrations(_ context.Context, dataBaseName string) error {
 	// Create a new pgx driver instance
 	db := stdlib.OpenDBFromPool(r.cl)
 	driver, err := pgx.WithInstance(db, &pgx.Config{})
@@ -130,7 +146,7 @@ func (r *ComicsRepo) runMigrations(_ context.Context) error {
 	}
 
 	// Create a new migration instance
-	m, err := migrate.NewWithDatabaseInstance(migrationSource, dbName, driver)
+	m, err := migrate.NewWithDatabaseInstance(migrationSource, dataBaseName, driver)
 	if err != nil {
 		return fmt.Errorf("error creating migration instance: %w", err)
 	}
@@ -158,7 +174,7 @@ func (r *ComicsRepo) withSpan(ctx context.Context, operation string, fn func(con
 
 func (r *ComicsRepo) withRetry(_ context.Context, operation string, fn func() error) error {
 	retry := backoff.NewExponentialBackOff(
-		backoff.WithMaxElapsedTime(15 * time.Second),
+		backoff.WithMaxElapsedTime(backoffTimeout),
 	)
 
 	return backoff.Retry(func() error {
@@ -168,7 +184,7 @@ func (r *ComicsRepo) withRetry(_ context.Context, operation string, fn func() er
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
 			}
-			log.Printf("Operation %s failed, retrying: %v", operation, err)
+			log.Warn().Err(err).Msgf("Operation %s failed, retrying", operation)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)
@@ -595,13 +611,13 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 }
 
 func (r *ComicsRepo) Metrics() *metrics.MetricsSnapshot {
-	log.Printf("Comics repo metrics: %v\n\n", r.cl.Stat())
+	log.Debug().Msgf("Comics repo metrics: %v", r.cl.Stat())
 	return r.metrics.GetSnapshot()
 }
 
 func (r *ComicsRepo) Close(ctx context.Context, duration time.Duration) error {
 	r.cl.Close()
-	return nil
+	return r.tracer.Shutdown(ctx)
 }
 
 func (r *ComicsRepo) Client() *pgxpool.Pool { return r.cl }

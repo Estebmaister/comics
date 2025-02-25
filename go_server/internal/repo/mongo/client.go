@@ -22,6 +22,7 @@ type Client interface {
 
 	// Session management
 	StartSession() (*mongo.Session, error)
+	UseSession(ctx context.Context, fn func(ctx context.Context) error) error
 
 	// Health
 	IsConnected() bool
@@ -37,17 +38,7 @@ type mongoClient struct {
 
 // newMongoClient creates a new MongoDB client with advanced configuration
 func newMongoClient(_ context.Context, cfg *repo.DBConfig, dbMetrics *metrics.Metrics) (*mongoClient, error) {
-	// Validate configuration
-	if cfg == nil || cfg.Addr == "" {
-		cfg = &repo.DBConfig{
-			Addr:            "mongodb://localhost:27017",
-			MaxPoolSize:     100,
-			MinPoolSize:     0,
-			MaxConnIdleTime: 5 * time.Minute,
-			ConnectTimeout:  30 * time.Second,
-		}
-	}
-
+	// Prepare connection URI
 	uri := fmt.Sprintf(
 		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
 		cfg.User, cfg.Pass, cfg.Addr)
@@ -111,9 +102,7 @@ func (mc *mongoClient) Database(dbName string) Database {
 }
 
 // Disconnect closes the MongoDB connection
-func (mc *mongoClient) Disconnect(ctx context.Context) error {
-	return mc.cl.Disconnect(ctx)
-}
+func (mc *mongoClient) Disconnect(ctx context.Context) error { return mc.cl.Disconnect(ctx) }
 
 // IsConnected checks if the client is connected to the database by pinging it
 func (mc *mongoClient) IsConnected() bool {
@@ -122,8 +111,11 @@ func (mc *mongoClient) IsConnected() bool {
 }
 
 // StartSession begins a new MongoDB session
-func (mc *mongoClient) StartSession() (*mongo.Session, error) {
-	return mc.cl.StartSession()
+func (mc *mongoClient) StartSession() (*mongo.Session, error) { return mc.cl.StartSession() }
+
+// UseSession uses a session to execute a function
+func (mc *mongoClient) UseSession(ctx context.Context, fn func(ctx context.Context) error) error {
+	return mc.cl.UseSession(ctx, fn)
 }
 
 // WaitForConnection waits until a connection is established

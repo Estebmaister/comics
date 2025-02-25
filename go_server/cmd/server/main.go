@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"comics/api/route"
 	"comics/bootstrap"
@@ -14,6 +12,7 @@ import (
 	repo "comics/repo/sqlite"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 )
 
 // main serves the http app to authenticate request
@@ -38,37 +37,45 @@ import (
 //	@host						localhost:8081
 //	@BasePath					/
 func main() {
-	startTime := time.Now()
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx, stop := signal.NotifyContext(context.Background(),
+		syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	defer stop()
 
 	// app is the instance of the entire application, managing key resources throughout its lifecycle
 	app := bootstrap.App(ctx)
 	defer func() {
-		app.CloseDBConnection(ctx, time.Since(startTime))
+		app.CloseDBConnection(ctx)
 	}()
 
-	timeout := time.Duration(app.Env.ContextTimeout) * time.Second
-
 	// Creating a gin instance
-	gin := gin.Default()
-
+	if app.Env.AppEnv == bootstrap.Development {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	g := gin.New()
+	g.Use(gin.Recovery())
 	// Route binding
-	route.Setup(app.Env, timeout, app.UserRepo, gin)
+	route.Setup(app.Env, app.UserRepo, g)
 
 	// Running the server
+	srvErr := make(chan error, 1)
 	go func() {
-		gin.Run(app.Env.ServerAddress)
+		srvErr <- g.Run(app.Env.ServerAddress)
 	}()
 
 	// Initialize the database
 	_, err := repo.NewSQLiteDB("../src/db/comics.db")
 	if err != nil {
-		log.Fatalf("Failed to initialize SQLite database: %s", err)
+		log.Fatal().Err(err).Msg("Failed to initialize SQLite database")
 	}
 
-	// Wait for interrupt signal
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
-	<-sigChan
+	// Wait for interruption
+	select {
+	case err = <-srvErr:
+		log.Fatal().Err(err).Msg("Error when starting HTTP server.")
+		return
+	case <-ctx.Done():
+		// Stop receiving signal notifications as soon as possible.
+		stop()
+	}
+	log.Info().Msg("Shutting down server...")
 }

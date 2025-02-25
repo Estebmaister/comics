@@ -2,15 +2,14 @@ package bootstrap
 
 import (
 	"context"
-	"log"
-	"time"
 
 	"comics/domain"
+	"comics/internal/logger"
 )
 
 // Closable defines a common interface for closing database connections
 type Closable interface {
-	Close(ctx context.Context, duration time.Duration) error
+	Close(ctx context.Context) error
 }
 
 // ClosableUserStore defines
@@ -27,14 +26,20 @@ type Application struct {
 func App(ctx context.Context) Application {
 	app := &Application{}
 	app.Env = MustLoadEnv(ctx)
+// Initialize logger
+	log, shutLogger, err := logger.InitLogger(app.Env.Logger)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to initialize logger sender")
+	}
+	defer shutLogger()
 	userRepo, err := NewRepo(app.Env)
 	if err != nil {
-		log.Fatalf("Failed to initialize user repo: %s", err)
+		log.Fatal().Err(err).Msg("Failed to initialize user repo")
 	}
 	app.UserRepo = userRepo
 	return *app
 }
 
-func (app *Application) CloseDBConnection(ctx context.Context, duration time.Duration) {
-	CloseConnection(ctx, app.UserRepo, duration)
+func (app *Application) CloseDBConnection(ctx context.Context) {
+	CloseConnection(ctx, app.UserRepo)
 }

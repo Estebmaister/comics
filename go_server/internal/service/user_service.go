@@ -11,6 +11,7 @@ import (
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"golang.org/x/sync/errgroup"
 )
 
 var (
@@ -34,7 +35,7 @@ func NewUserService(userRepo domain.UserStore, env *bootstrap.Env) domain.UserSe
 	}
 }
 
-// GetByID returns a user by an ID normally extracted from a JWT
+// GetByID returns a user by an ID, which is normally extracted from a JWT
 func (s *userServiceImpl) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, error) {
 	return s.userRepo.GetByID(ctx, id)
 }
@@ -57,14 +58,8 @@ func (s *userServiceImpl) Login(ctx context.Context, user domain.LoginRequest) (
 
 // Register creates a new user
 func (s *userServiceImpl) Register(ctx context.Context, user domain.SignUpRequest) (*domain.User, error) {
-	// Check if user exists by email
-	if _, err := s.userRepo.GetByEmail(ctx, user.Email); err == nil {
-		return nil, fmt.Errorf("email %w", ErrCredsAlreadyExist)
-	}
-
-	// Check if user exists by username
-	if _, err := s.userRepo.GetByUsername(ctx, user.Username); err == nil {
-		return nil, fmt.Errorf("username %w", ErrCredsAlreadyExist)
+	if err := s.checkUserExistence(ctx, user); err != nil {
+		return nil, err
 	}
 
 	// Generate UUID
@@ -95,4 +90,32 @@ func (s *userServiceImpl) Register(ctx context.Context, user domain.SignUpReques
 	}
 
 	return dbUser, nil
+}
+
+// Helper function to perform concurrent checks using errgroup
+func (s *userServiceImpl) checkUserExistence(ctx context.Context, user domain.SignUpRequest) error {
+	g, ctx := errgroup.WithContext(ctx)
+
+	// Check if user exists by email
+	g.Go(func() error {
+		if _, err := s.userRepo.GetByEmail(ctx, user.Email); err == nil {
+			return fmt.Errorf("email %w", ErrCredsAlreadyExist)
+		}
+		return nil
+	})
+
+	// Check if user exists by username
+	g.Go(func() error {
+		if _, err := s.userRepo.GetByUsername(ctx, user.Username); err == nil {
+			return fmt.Errorf("username %w", ErrCredsAlreadyExist)
+		}
+		return nil
+	})
+
+	// Wait for all goroutines to finish and return the first error encountered, if any
+	if err := g.Wait(); err != nil {
+		return err
+	}
+
+	return nil
 }

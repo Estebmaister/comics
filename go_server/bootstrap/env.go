@@ -2,20 +2,34 @@ package bootstrap
 
 import (
 	"context"
-	"log"
 	"time"
 
+	"comics/internal/logger"
 	"comics/internal/repo"
+	"comics/internal/tracing"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
+)
+
+// Enums for the app environment
+type AppEnv string
+
+const (
+	Development AppEnv = "development"
+	Production  AppEnv = "production"
+	Testing     AppEnv = "testing"
 )
 
 // Env holds the application configuration
 type Env struct {
 	DB             repo.DBConfig
 	JWT            JWTConfig
-	AppEnv         string `mapstructure:"APP_ENV"`
+	Logger         logger.LoggerConfig
+	Tracer         tracing.TracerConfig
+	AppEnv         AppEnv `mapstructure:"ENVIRONMENT"`
 	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
+	GRPCAddress    string `mapstructure:"GRPC_ADDRESS"`
 	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
 }
 
@@ -33,26 +47,38 @@ func MustLoadEnv(_ context.Context) *Env {
 	viper.SetConfigType("env") // Define the config type as ENV
 	// viper.AutomaticEnv() // Read from environment variables
 	env := Env{}
-	dbConfig := repo.DBConfig{}
 	jwtConfig := JWTConfig{}
+	dbConfig := repo.DBConfig{}
+	loggerConfig := logger.LoggerConfig{}
+	tracerConfig := tracing.TracerConfig{}
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal("Can't find the file .env : ", err)
+		log.Fatal().Err(err).Msg("Can't find the file .env")
 	}
 
-	err1 := viper.Unmarshal(&env)
-	err2 := viper.Unmarshal(&jwtConfig)
-	err3 := viper.Unmarshal(&dbConfig)
-	if err1 != nil || err2 != nil || err3 != nil {
-		log.Fatal("Environment can't be loaded: ", err)
+	errs := []error{}
+	errs = append(errs, viper.Unmarshal(&env))
+	errs = append(errs, viper.Unmarshal(&jwtConfig))
+	errs = append(errs, viper.Unmarshal(&dbConfig))
+	errs = append(errs, viper.Unmarshal(&loggerConfig))
+	errs = append(errs, viper.Unmarshal(&tracerConfig))
+	for _, err := range errs {
+		if err != nil {
+			log.Fatal().Err(err).Msg("Environment can't be Unmarshal from Viper")
+		}
 	}
 	env.DB = dbConfig
 	env.JWT = jwtConfig
+	env.Logger = loggerConfig
+	env.Tracer = tracerConfig
+	env.DB.TracerConfig = env.Tracer
 
-	if env.AppEnv == "development" {
-		log.Println("The App is running in development env")
-		log.Printf("%#v\n", env) // Debug
+	// Cast the application environment to a type
+	env.AppEnv = AppEnv(env.AppEnv)
+	if env.AppEnv != Production {
+		log.Debug().Msg("The App is running in a dev env")
+		log.Debug().Msgf("%#v\n", env)
 	}
 
 	return &env
