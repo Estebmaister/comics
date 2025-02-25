@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
+	"go.opentelemetry.io/otel/exporters/zipkin"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
@@ -26,10 +30,12 @@ const (
 // TracerConfig holds the tracer configuration
 type TracerConfig struct {
 	Environment string `mapstructure:"ENVIRONMENT" default:"development"`
-	Endpoint    string `mapstructure:"OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"`
-	Secure      bool   `mapstructure:"OTEL_EXPORTER_OTLP_SECURE" default:"false"`
+	LogLevel    string `mapstructure:"LOG_LEVEL" default:"info"`
 	ServiceName string `mapstructure:"OTEL_SERVICE_NAME" default:"comics-service"`
 	Sampler     int    `mapstructure:"OTEL_TRACES_SAMPLER_PERCENTAGE" default:"100"`
+	Secure      bool   `mapstructure:"OTEL_EXPORTER_OTLP_SECURE" default:"false"`
+	Endpoint    string `mapstructure:"OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"`
+	ZipkinURL   string `mapstructure:"OTEL_EXPORTER_ZIPKIN_TRACES_ENDPOINT"`
 }
 
 // Tracer holds the tracer provider and tracer created
@@ -45,29 +51,38 @@ func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer
 
 	// Set up propagator
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(
-		propagation.TraceContext{},
-		propagation.Baggage{},
-	))
+		propagation.TraceContext{}, propagation.Baggage{}))
 
-	// Initialize OTLP client
+	// OTLP exporter grpc client options
 	clientOpts := []otlptracegrpc.Option{
-		otlptracegrpc.WithEndpointURL(cfg.Endpoint),
+		otlptracegrpc.WithEndpoint(cfg.Endpoint),
 	}
 	if !cfg.Secure {
 		clientOpts = append(clientOpts, otlptracegrpc.WithInsecure())
 	}
 	client := otlptracegrpc.NewClient(clientOpts...)
 
-	// Create OTLP exporter
+	// Create OTLP exporter (print to stdout for development trace loglevel)
 	var exporter tracesdk.SpanExporter
 	var err error
-	if cfg.Environment == "developmen" {
+	logLevel, _ := zerolog.ParseLevel(cfg.LogLevel)
+	if logLevel <= zerolog.TraceLevel {
+		log.Debug().Msg("OTLP on stdout")
 		exporter, err = stdouttrace.New(stdouttrace.WithPrettyPrint())
 	} else {
 		exporter, err = otlptrace.New(ctx, client)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to create OTLP exporter: %v", err)
+	}
+
+	// Create Zipkin exporter for debugging purposes
+	var zipkinExporter tracesdk.SpanExporter
+	if cfg.ZipkinURL != "" && cfg.Environment == "development" {
+		zipkinExporter, err = zipkin.New(cfg.ZipkinURL)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to create Zipkin exporter: %v", err)
 	}
 
 	// Create resource
@@ -78,21 +93,23 @@ func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer
 		semconv.ServiceNamespaceKey.String(namespace),
 	)
 
+	// Set sampler [0,1]
+	sampler := tracesdk.TraceIDRatioBased(float64(cfg.Sampler) / 100)
+
 	// Create tracer provider
-	provider := tracesdk.NewTracerProvider(
-		tracesdk.WithBatcher(exporter,
-			// Default is 5s. Set to 1s for demonstrative purposes.
-			tracesdk.WithBatchTimeout(time.Second)),
+	tp := tracesdk.NewTracerProvider(
+		tracesdk.WithBatcher(exporter),
+		tracesdk.WithBatcher(zipkinExporter), // For debugging purposes
 		tracesdk.WithResource(resources),
-		tracesdk.WithSampler(tracesdk.TraceIDRatioBased(float64(cfg.Sampler)/100)),
+		tracesdk.WithSampler(sampler),
 	)
 
 	// Set the provider as the global tracer provider
-	otel.SetTracerProvider(provider)
+	otel.SetTracerProvider(tp)
 
 	return &Tracer{
-		provider: provider,
-		tracer:   provider.Tracer(cfg.ServiceName),
+		provider: tp,
+		tracer:   tp.Tracer(cfg.ServiceName),
 	}, nil
 }
 

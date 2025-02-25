@@ -30,8 +30,8 @@ func init() {
 
 // LoggerConfig holds the configuration for the logger
 type LoggerConfig struct {
-	LogLevel      string `mapstructure:"LOG_LEVEL"`
-	LogFormat     string `mapstructure:"LOG_FORMAT"`
+	LogLevel      string `mapstructure:"LOG_LEVEL" default:"info"`
+	LogFormat     string `mapstructure:"LOG_FORMAT" default:"json"`
 	LogOutputFile string `mapstructure:"LOG_OUTPUT_FILE"`
 
 	MaxSize    int  `mapstructure:"LOG_MAX_SIZE_MB"`
