@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"log"
 	"os"
 	"testing"
 	"time"
@@ -11,6 +10,7 @@ import (
 	"comics/internal/repo"
 
 	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go/modules/mongodb"
@@ -23,14 +23,8 @@ const (
 )
 
 var (
-	userDBcfg = repo.DBConfig{
-		Name:            "test_comics_db",
-		TableUsers:      "test_users",
-		MaxPoolSize:     100,
-		MinPoolSize:     0,
-		MaxConnIdleTime: 5 * time.Minute,
-		ConnectTimeout:  30 * time.Second,
-	}
+	userRepo  *UserRepo
+	userDBcfg = DefaultConfig()
 )
 
 func TestMain(m *testing.M) {
@@ -38,37 +32,41 @@ func TestMain(m *testing.M) {
 	ctx := context.Background()
 	mongoContainer, err := mongodb.Run(ctx, "mongo:latest")
 	if err != nil {
-		log.Fatalf("Failed to start MongoDB container: %v", err)
+		log.Fatal().Err(err).Msg("Failed to start MongoDB container")
 	}
 
 	// Get connection string
 	testUri, err := mongoContainer.ConnectionString(ctx)
 	if err != nil {
-		log.Fatalf("Failed to get connection string: %v", err)
+		log.Fatal().Err(err).Msg("Failed to get connection string")
 	}
-	userDBcfg.Addr = testUri
 
-	// Create custom MongoDB client
-	testClient, err := newMongoClient(ctx, &userDBcfg, nil)
+	// Set DB config
+	userDBcfg.Addr = testUri
+	userDBcfg.Name = "comics_db_test"
+	userDBcfg.BackoffTimeout = 1 * time.Second
+	userDBcfg.TracerConfig.ServiceName += "_test"
+
+	// Create custom UserRepo
+	userRepo, err = NewUserRepo(ctx, userDBcfg)
 	if err != nil {
-		log.Fatalf("Failed to create MongoDB client: %v", err)
+		log.Fatal().Err(err).Msg("Failed to create UserRepo")
 	}
 
 	// Run tests
 	code := m.Run()
 
 	// Cleanup
-	if err := testClient.
-		Database(userDBcfg.Name).
+	if err := userRepo.Client().Database(userDBcfg.Name).
 		Collection(userDBcfg.TableUsers).
 		Drop(ctx); err != nil {
-		log.Fatalf("Failed to drop collection: %v", err)
+		log.Fatal().Err(err).Msg("Failed to drop collection")
 	}
-	if err := testClient.Disconnect(ctx); err != nil {
-		log.Fatalf("Failed to disconnect from MongoDB: %v", err)
+	if err := userRepo.Close(ctx); err != nil {
+		log.Fatal().Err(err).Msg("Failed to disconnect from MongoDB")
 	}
 	if err := mongoContainer.Terminate(ctx); err != nil {
-		log.Fatalf("Failed to terminate MongoDB container: %v", err)
+		log.Fatal().Err(err).Msg("Failed to terminate MongoDB container")
 	}
 
 	os.Exit(code)
@@ -77,20 +75,18 @@ func TestMain(m *testing.M) {
 func TestUserRepo(t *testing.T) {
 	ctx := context.Background()
 
-	// Create user repository
-	userRepo, err := NewUserRepo(ctx, &userDBcfg)
-	if err != nil {
-		t.Fatalf("Failed to create user repository: %v", err)
-	}
-
 	// Prepare a test user
 	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "testuser",
-		Email:     "test@example.com",
-		Password:  "hashedpassword",
-		CreatedAt: time.Now(),
+		ID:       uuid.New(),
+		Username: "testuser",
+		Email:    "test@example.com",
+		Password: "hashedpassword",
+		Role:     "user",
+		Active:   true,
 	}
+
+	// Bad user
+	badUser := &domain.User{ID: uuid.New()}
 
 	t.Run("Create User", func(t *testing.T) {
 		err := userRepo.Create(ctx, testUser)
@@ -104,6 +100,7 @@ func TestUserRepo(t *testing.T) {
 		if retrievedUser != nil {
 			assert.Equal(t, testUser.Username, retrievedUser.Username)
 		}
+		// Verify bad queries
 		nilUser, err := userRepo.GetByID(ctx, uuid.New())
 		assert.Error(t, err)
 		assert.Nil(t, nilUser)
@@ -116,6 +113,14 @@ func TestUserRepo(t *testing.T) {
 		if retrievedUser != nil {
 			assert.Equal(t, testUser.Email, retrievedUser.Email)
 		}
+		// Verify bad queries
+		nilUser, err := userRepo.GetByEmail(ctx, "nonexistent@example.com")
+		assert.Error(t, err)
+		assert.Nil(t, nilUser)
+
+		badQueryUser, err := userRepo.GetByEmail(ctx, "")
+		assert.Error(t, err)
+		assert.Nil(t, badQueryUser)
 	})
 
 	t.Run("Get User By Username", func(t *testing.T) {
@@ -125,6 +130,14 @@ func TestUserRepo(t *testing.T) {
 		if retrievedUser != nil {
 			assert.Equal(t, testUser.Username, retrievedUser.Username)
 		}
+		// Verify bad queries
+		nilUser, err := userRepo.GetByUsername(ctx, "nonexistentuser")
+		assert.Error(t, err)
+		assert.Nil(t, nilUser)
+
+		badQueryUser, err := userRepo.GetByUsername(ctx, "")
+		assert.Error(t, err)
+		assert.Nil(t, badQueryUser)
 	})
 
 	t.Run("Update User", func(t *testing.T) {
@@ -135,13 +148,27 @@ func TestUserRepo(t *testing.T) {
 		// Verify update
 		retrievedUser, err := userRepo.GetByID(ctx, testUser.ID)
 		assert.NoError(t, err)
-		assert.Equal(t, "updatedusername", retrievedUser.Username)
+		assert.NotNil(t, retrievedUser)
+		if retrievedUser != nil {
+			assert.Equal(t, "updatedusername", retrievedUser.Username)
+		}
+
+		// Verify bad update
+		err = userRepo.Update(ctx, badUser)
+		assert.Error(t, err)
 	})
 
 	t.Run("List Users", func(t *testing.T) {
 		users, _, err := userRepo.List(ctx, 1, 10)
 		assert.NoError(t, err)
 		assert.NotEmpty(t, users)
+
+		// Verify bad list
+		_, _, err = userRepo.List(ctx, 0, 10)
+		assert.Error(t, err)
+
+		_, _, err = userRepo.List(ctx, 1, 0)
+		assert.Error(t, err)
 	})
 
 	t.Run("Delete User", func(t *testing.T) {
@@ -151,23 +178,22 @@ func TestUserRepo(t *testing.T) {
 		// Verify deletion
 		_, err = userRepo.GetByID(ctx, testUser.ID)
 		assert.Error(t, err)
-	})
-}
 
-// setupTestEnvironment initializes the test database and repository
-func setupTestEnvironment(t *testing.T) domain.UserStore {
-	ctx := context.Background()
-	UserRepo, err := NewUserRepo(ctx, &userDBcfg)
-	if err != nil {
-		t.Fatalf("Failed to create user repository: %v", err)
-	}
-	return UserRepo
+		// Verify bad delete
+		err = userRepo.Delete(ctx, uuid.New())
+		assert.Error(t, err)
+	})
+
+	t.Run("Metrics", func(t *testing.T) {
+		_ = userRepo.Client()
+		log.Debug().Msgf("stats: %v", userRepo.GetStats())
+		assert.Equal(t, uint64(1),
+			userRepo.Metrics().GetSnapshot().TotalCreatedConnections)
+	})
 }
 
 // TestCreateUser tests the user creation process
 func TestCreateUser(t *testing.T) {
-	uStore := setupTestEnvironment(t)
-
 	// Create a test user
 	testUser := &domain.User{
 		ID:        uuid.New(),
@@ -180,7 +206,7 @@ func TestCreateUser(t *testing.T) {
 	}
 
 	// Create the user
-	err := uStore.Create(context.Background(), testUser)
+	err := userRepo.Create(context.Background(), testUser)
 	assert.NoError(t, err, failedToCreateUser)
 
 	// Verify the user was created
@@ -191,7 +217,6 @@ func TestCreateUser(t *testing.T) {
 
 // TestGetUserByID tests retrieving a user by ID
 func TestGetUserByID(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create a test user
 	testUser := &domain.User{
@@ -205,11 +230,11 @@ func TestGetUserByID(t *testing.T) {
 	}
 
 	// Create the user
-	err := uStore.Create(context.Background(), testUser)
+	err := userRepo.Create(context.Background(), testUser)
 	require.NoError(t, err, failedToCreateUser)
 
 	// Retrieve the user by ID
-	retrievedUser, err := uStore.GetByID(context.Background(), testUser.ID)
+	retrievedUser, err := userRepo.GetByID(context.Background(), testUser.ID)
 	assert.NoError(t, err, "Failed to get user by ID")
 	assert.Equal(t, testUser.Username, retrievedUser.Username, "Retrieved user username should match")
 	assert.Equal(t, testUser.Email, retrievedUser.Email, "Retrieved user email should match")
@@ -217,7 +242,6 @@ func TestGetUserByID(t *testing.T) {
 
 // TestGetUserByEmail tests retrieving a user by email
 func TestGetUserByEmail(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create a test user
 	testUser := &domain.User{
@@ -231,18 +255,17 @@ func TestGetUserByEmail(t *testing.T) {
 	}
 
 	// Create the user
-	err := uStore.Create(context.Background(), testUser)
+	err := userRepo.Create(context.Background(), testUser)
 	require.NoError(t, err, failedToCreateUser)
 
 	// Retrieve the user by email
-	retrievedUser, err := uStore.GetByEmail(context.Background(), testUser.Email)
+	retrievedUser, err := userRepo.GetByEmail(context.Background(), testUser.Email)
 	assert.NoError(t, err, "Failed to get user by email")
 	assert.Equal(t, testUser.Username, retrievedUser.Username, "Retrieved user username should match")
 }
 
 // TestUpdateUser tests updating a user
 func TestUpdateUser(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create a test user
 	testUser := &domain.User{
@@ -256,17 +279,17 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	// Create the user
-	err := uStore.Create(context.Background(), testUser)
+	err := userRepo.Create(context.Background(), testUser)
 	require.NoError(t, err, failedToCreateUser)
 
 	// Update the user
 	testUser.Username = "updatedusername"
 	testUser.Role = "user"
-	err = uStore.Update(context.Background(), testUser)
+	err = userRepo.Update(context.Background(), testUser)
 	assert.NoError(t, err, failedToUpdateUser)
 
 	// Retrieve and verify updates
-	updatedUser, err := uStore.GetByID(context.Background(), testUser.ID)
+	updatedUser, err := userRepo.GetByID(context.Background(), testUser.ID)
 	assert.NoError(t, err, "Failed to retrieve updated user")
 	assert.Equal(t, "updatedusername", updatedUser.Username, "Username should be updated")
 	assert.Equal(t, "user", updatedUser.Role, "Role should be updated")
@@ -274,7 +297,6 @@ func TestUpdateUser(t *testing.T) {
 
 // TestDeleteUser tests deleting a user
 func TestDeleteUser(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create a test user
 	testUser := &domain.User{
@@ -288,21 +310,20 @@ func TestDeleteUser(t *testing.T) {
 	}
 
 	// Create the user
-	err := uStore.Create(context.Background(), testUser)
+	err := userRepo.Create(context.Background(), testUser)
 	require.NoError(t, err, failedToCreateUser)
 
 	// Delete the user
-	err = uStore.Delete(context.Background(), testUser.ID)
+	err = userRepo.Delete(context.Background(), testUser.ID)
 	assert.NoError(t, err, failedToDeleteUser)
 
 	// Try to retrieve the deleted user
-	_, err = uStore.GetByID(context.Background(), testUser.ID)
+	_, err = userRepo.GetByID(context.Background(), testUser.ID)
 	assert.Error(t, err, "Should not be able to retrieve deleted user")
 }
 
 // TestListUsers tests listing users with pagination
 func TestListUsers(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create multiple test users
 	users := []*domain.User{
@@ -328,12 +349,12 @@ func TestListUsers(t *testing.T) {
 
 	// Create users
 	for _, user := range users {
-		err := uStore.Create(context.Background(), user)
+		err := userRepo.Create(context.Background(), user)
 		require.NoError(t, err, "Failed to create test user")
 	}
 
 	// List users
-	listedUsers, total, err := uStore.List(context.Background(), 1, 10)
+	listedUsers, total, err := userRepo.List(context.Background(), 1, 10)
 	assert.NoError(t, err, "Failed to list users")
 	assert.True(t, total >= 2, "Should have at least 2 users")
 	assert.GreaterOrEqual(t, len(listedUsers), 2, "Should return at least 2 users")
@@ -341,7 +362,6 @@ func TestListUsers(t *testing.T) {
 
 // TestFindActiveUsersByRole tests finding active users by role
 func TestFindActiveUsersByRole(t *testing.T) {
-	uStore := setupTestEnvironment(t)
 
 	// Create test users with different roles
 	users := []*domain.User{
@@ -367,15 +387,45 @@ func TestFindActiveUsersByRole(t *testing.T) {
 
 	// Create users
 	for _, user := range users {
-		err := uStore.Create(context.Background(), user)
+		err := userRepo.Create(context.Background(), user)
 		require.NoError(t, err, "Failed to create test user")
 	}
 
 	// Find active admin users
-	activeAdmins, err := uStore.FindActiveUsersByRole(context.Background(), "admin")
+	activeAdmins, err := userRepo.FindActiveUsersByRole(context.Background(), "admin")
 	assert.NoError(t, err, "Failed to find active users by role")
 
 	// Verify results
 	assert.Len(t, activeAdmins, 1, "Should find only 1 active admin")
 	assert.Equal(t, "adminuser", activeAdmins[0].Username, "Should be the active admin user")
+}
+
+// TestClientConnection tests the client connection methods
+func TestClientConnection(t *testing.T) {
+	ctx := context.Background()
+
+	_, err := NewUserRepo(ctx, nil)
+	assert.Error(t, err, "Creating UserRepo with nil config")
+
+	_, err = NewUserRepo(ctx, &repo.DBConfig{})
+	assert.Error(t, err, "Creating UserRepo with empty config")
+
+	userDBcfg.TracerConfig.ServiceName = "comics-service-test"
+	newUserRepo, err := NewUserRepo(ctx, userDBcfg)
+	assert.NoError(t, err, "Failed to create new UserRepo")
+
+	err = newUserRepo.Client().WaitForConnection(1 * time.Second)
+	assert.NoError(t, err, "Failed to wait for connection")
+
+	err = newUserRepo.Client().WaitForConnection(1 * time.Nanosecond)
+	assert.Error(t, err, "Should not be able to wait for connection")
+
+	_, err = newUserRepo.Client().StartSession()
+	assert.NoError(t, err, "Failed to start session")
+
+	err = newUserRepo.Close(ctx)
+	assert.NoError(t, err, "Failed to close connection")
+
+	isOpen := newUserRepo.Client().IsConnected()
+	assert.False(t, isOpen, "Connection should be closed")
 }

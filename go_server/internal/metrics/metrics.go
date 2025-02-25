@@ -3,12 +3,12 @@ package metrics
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"sync"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -55,48 +55,53 @@ type Metrics struct {
 	totalLatency time.Duration
 	// Connection tracking
 	activeConnections       uint64
-	idleConnections         uint64
 	totalCreatedConnections uint64
 	totalClosedConnections  uint64
 }
 
 // NewMetrics creates a new instance of Metrics
-func NewMetrics(namespace, subsystem string) *Metrics {
+func NewMetrics(serviceName, namespace string) *Metrics {
+	// recover form panic
+	defer func() {
+		if r := recover(); r != nil {
+			log.Error().Msgf("panic recovered: %s", r)
+		}
+	}()
 	m := &Metrics{}
 
 	// Initialize Prometheus metrics
 	m.queryDuration = promauto.NewHistogram(prometheus.HistogramOpts{
-		Namespace: namespace,
-		Subsystem: subsystem,
+		Namespace: serviceName,
+		Subsystem: namespace,
 		Name:      "query_duration_seconds",
 		Help:      "Duration of database queries in seconds",
 		Buckets:   prometheus.ExponentialBuckets(0.001, 2, 10), // From 1ms to ~1s
 	})
 
 	m.queryTotal = promauto.NewCounterVec(prometheus.CounterOpts{
-		Namespace: namespace,
-		Subsystem: subsystem,
+		Namespace: serviceName,
+		Subsystem: namespace,
 		Name:      "queries_total",
 		Help:      "Total number of database queries",
 	}, []string{"operation", "status"})
 
 	m.retryTotal = promauto.NewCounterVec(prometheus.CounterOpts{
-		Namespace: namespace,
-		Subsystem: subsystem,
+		Namespace: serviceName,
+		Subsystem: namespace,
 		Name:      "retries_total",
 		Help:      "Total number of query retries",
 	}, []string{"operation", "status"})
 
 	m.activeRequests = promauto.NewGauge(prometheus.GaugeOpts{
-		Namespace: namespace,
-		Subsystem: subsystem,
+		Namespace: serviceName,
+		Subsystem: namespace,
 		Name:      "active_requests",
 		Help:      "Number of active database requests",
 	})
 
 	m.errorRate = promauto.NewGauge(prometheus.GaugeOpts{
-		Namespace: namespace,
-		Subsystem: subsystem,
+		Namespace: serviceName,
+		Subsystem: namespace,
 		Name:      "error_rate",
 		Help:      "Rate of database errors",
 	})
@@ -106,7 +111,7 @@ func NewMetrics(namespace, subsystem string) *Metrics {
 
 // RecordQuery records a database query
 func (m *Metrics) RecordQuery(duration time.Duration, operation string, err error) {
-	log.Print("recording query")
+	log.Log().Msg("record query")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -155,42 +160,33 @@ func (m *Metrics) RecordRetry(operation string, success bool) {
 }
 
 func (m *Metrics) RetrieveConnection() {
-	log.Print("retrieving connection")
+	log.Debug().Msg("retriving connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Inc()
 	m.activeConnections++
-	if m.idleConnections > 0 {
-		m.idleConnections--
-	}
 }
 
 func (m *Metrics) ReleaseConnection() {
-	log.Print("releasing connection")
+	log.Debug().Msg("releasing connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Dec()
 	m.activeConnections--
-	m.idleConnections++
 }
 
 func (m *Metrics) CloseConnection(duration time.Duration, err error) {
-	log.Print("closing connection")
+	log.Debug().Msg("close connection")
 	if err != nil {
 		return
 	}
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.totalClosedConnections++
-	if m.activeConnections > 0 {
-		m.activeConnections--
-	} else {
-		m.idleConnections--
-	}
 }
 
 func (m *Metrics) RecordConnection(duration time.Duration, err error) {
-	log.Print("recording connection")
+	log.Debug().Msg("record connection")
 	if err != nil {
 		return
 	}
@@ -246,7 +242,6 @@ func (m *Metrics) GetSnapshot() *MetricsSnapshot {
 
 		// Connection tracking
 		ActiveConnections:       m.activeConnections,
-		IdleConnections:         m.idleConnections,
 		TotalCreatedConnections: m.totalCreatedConnections,
 		TotalClosedConnections:  m.totalClosedConnections,
 
@@ -286,7 +281,6 @@ type MetricsSnapshot struct {
 
 	// Connection tracking
 	ActiveConnections       uint64 `json:"connection_active_count"`
-	IdleConnections         uint64 `json:"connection_idle_count"`
 	TotalCreatedConnections uint64 `json:"connection_total_created"`
 	TotalClosedConnections  uint64 `json:"connection_total_closed"`
 
