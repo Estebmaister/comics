@@ -12,7 +12,7 @@ import (
 
 // UnaryServerLoggingInterceptor returns a new unary server interceptor for logging
 func UnaryServerLoggingInterceptor() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 		start := time.Now()
 
 		// Initialize the logger
@@ -50,7 +50,7 @@ func UnaryServerLoggingInterceptor() grpc.UnaryServerInterceptor {
 
 // StreamServerLoggingInterceptor returns a new stream server interceptor for logging
 func StreamServerLoggingInterceptor() grpc.StreamServerInterceptor {
-	return func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	return func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		start := time.Now()
 
 		// Initialize the logger

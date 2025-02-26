@@ -111,7 +111,7 @@ func NewMetrics(serviceName, namespace string) *Metrics {
 
 // RecordQuery records a database query
 func (m *Metrics) RecordQuery(duration time.Duration, operation string, err error) {
-	log.Trace().Msg("record query")
+	log.Trace().Msgf("record db query: %s", operation)
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -144,6 +144,7 @@ func (m *Metrics) RecordQuery(duration time.Duration, operation string, err erro
 }
 
 func (m *Metrics) RecordRetry(operation string, success bool) {
+	log.Trace().Msgf("record db retry: %s", operation)
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -160,7 +161,7 @@ func (m *Metrics) RecordRetry(operation string, success bool) {
 }
 
 func (m *Metrics) RetrieveConnection() {
-	log.Trace().Msg("retriving connection")
+	log.Trace().Msg("retriving db connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Inc()
@@ -168,7 +169,7 @@ func (m *Metrics) RetrieveConnection() {
 }
 
 func (m *Metrics) ReleaseConnection() {
-	log.Trace().Msg("releasing connection")
+	log.Trace().Msg("releasing db connection")
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.activeRequests.Dec()
@@ -176,7 +177,7 @@ func (m *Metrics) ReleaseConnection() {
 }
 
 func (m *Metrics) CloseConnection(duration time.Duration, err error) {
-	log.Trace().Msg("close connection")
+	log.Trace().Msg("close db connection")
 	if err != nil {
 		return
 	}
@@ -186,7 +187,7 @@ func (m *Metrics) CloseConnection(duration time.Duration, err error) {
 }
 
 func (m *Metrics) RecordConnection(duration time.Duration, err error) {
-	log.Trace().Msg("record connection")
+	log.Trace().Msg("record db connection")
 	if err != nil {
 		return
 	}
@@ -196,8 +197,7 @@ func (m *Metrics) RecordConnection(duration time.Duration, err error) {
 }
 
 func (m *Metrics) GetStats() map[string]string {
-	// Unmarshal the JSON to a map[string]interface{}
-	var result map[string]interface{}
+	var result map[string]any
 	_ = json.Unmarshal(m.GetSnapshot().ToJSON(), &result)
 
 	// Convert the map values to strings and return it

@@ -100,11 +100,11 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 				return
 			case msg := <-logChannel:
 				// Prepare the payload for Loki.
-				payload := map[string]interface{}{
-					"streams": []map[string]interface{}{
+				payload := map[string]any{
+					"streams": []map[string]any{
 						{
 							"labels": `{app="my-go-app", environment="production"}`,
-							"entries": []map[string]interface{}{
+							"entries": []map[string]any{
 								{
 									"ts":   time.Now().Format(time.RFC3339Nano),
 									"line": msg,
@@ -140,7 +140,7 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 }
 
 // sendToLoki sends log data to Loki with simple retry logic.
-func sendToLoki(client *loki.Client, logData map[string]interface{}) error {
+func sendToLoki(client *loki.Client, logData map[string]any) error {
 	// Convert logData to JSON string
 	jsonData, err := json.Marshal(logData)
 	if err != nil {

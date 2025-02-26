@@ -70,7 +70,7 @@ func populateNeo4j(ctx context.Context, driver neo4j.DriverWithContext, users []
 	for _, user := range users {
 		_, err := session.Run(ctx,
 			"CREATE (u:User {id: $id, name: $name, email: $email})",
-			map[string]interface{}{
+			map[string]any{
 				"id":    user.ID,
 				"name":  user.Name,
 				"email": user.Email,

@@ -15,12 +15,12 @@ type Database interface {
 
 // Collection interface abstracts MongoDB collection operations
 type Collection interface {
-	InsertOne(ctx context.Context, document interface{}, opts ...options.Lister[options.InsertOneOptions]) (*mongo.InsertOneResult, error)
-	FindOne(ctx context.Context, filter interface{}, opts ...options.Lister[options.FindOneOptions]) *mongo.SingleResult
-	Find(ctx context.Context, filter interface{}, opts ...options.Lister[options.FindOptions]) (*mongo.Cursor, error)
-	UpdateByID(ctx context.Context, id interface{}, update interface{}, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error)
-	DeleteOne(ctx context.Context, filter interface{}, opts ...options.Lister[options.DeleteOneOptions]) (*mongo.DeleteResult, error)
-	CountDocuments(ctx context.Context, filter interface{}, opts ...options.Lister[options.CountOptions]) (int64, error)
+	InsertOne(ctx context.Context, document any, opts ...options.Lister[options.InsertOneOptions]) (*mongo.InsertOneResult, error)
+	FindOne(ctx context.Context, filter any, opts ...options.Lister[options.FindOneOptions]) *mongo.SingleResult
+	Find(ctx context.Context, filter any, opts ...options.Lister[options.FindOptions]) (*mongo.Cursor, error)
+	UpdateByID(ctx context.Context, id any, update any, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error)
+	DeleteOne(ctx context.Context, filter any, opts ...options.Lister[options.DeleteOneOptions]) (*mongo.DeleteResult, error)
+	CountDocuments(ctx context.Context, filter any, opts ...options.Lister[options.CountOptions]) (int64, error)
 	Drop(ctx context.Context, opts ...options.Lister[options.DropCollectionOptions]) error
 	Indexes() mongo.IndexView
 }
@@ -45,32 +45,32 @@ func (md *mongoDatabase) Collection(name string, opts ...options.Lister[options.
 }
 
 // InsertOne interface abstracts MongoDB insert one operation
-func (mc *mongoCollection) InsertOne(ctx context.Context, document interface{}, opts ...options.Lister[options.InsertOneOptions]) (*mongo.InsertOneResult, error) {
+func (mc *mongoCollection) InsertOne(ctx context.Context, document any, opts ...options.Lister[options.InsertOneOptions]) (*mongo.InsertOneResult, error) {
 	return mc.coll.InsertOne(ctx, document, opts[:]...)
 }
 
 // FindOne interface abstracts MongoDB find one operation
-func (mc *mongoCollection) FindOne(ctx context.Context, filter interface{}, opts ...options.Lister[options.FindOneOptions]) *mongo.SingleResult {
+func (mc *mongoCollection) FindOne(ctx context.Context, filter any, opts ...options.Lister[options.FindOneOptions]) *mongo.SingleResult {
 	return mc.coll.FindOne(ctx, filter, opts[:]...)
 }
 
 // Find interface abstracts MongoDB find operation
-func (mc *mongoCollection) Find(ctx context.Context, filter interface{}, opts ...options.Lister[options.FindOptions]) (*mongo.Cursor, error) {
+func (mc *mongoCollection) Find(ctx context.Context, filter any, opts ...options.Lister[options.FindOptions]) (*mongo.Cursor, error) {
 	return mc.coll.Find(ctx, filter, opts[:]...)
 }
 
 // UpdateByID interface abstracts MongoDB update by ID operation
-func (mc *mongoCollection) UpdateByID(ctx context.Context, id interface{}, update interface{}, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error) {
+func (mc *mongoCollection) UpdateByID(ctx context.Context, id any, update any, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error) {
 	return mc.coll.UpdateByID(ctx, id, update, opts[:]...)
 }
 
 // DeleteOne interface abstracts MongoDB delete one operation
-func (mc *mongoCollection) DeleteOne(ctx context.Context, filter interface{}, opts ...options.Lister[options.DeleteOneOptions]) (*mongo.DeleteResult, error) {
+func (mc *mongoCollection) DeleteOne(ctx context.Context, filter any, opts ...options.Lister[options.DeleteOneOptions]) (*mongo.DeleteResult, error) {
 	return mc.coll.DeleteOne(ctx, filter, opts[:]...)
 }
 
 // CountDocuments interface abstracts MongoDB count documents operation
-func (mc *mongoCollection) CountDocuments(ctx context.Context, filter interface{}, opts ...options.Lister[options.CountOptions]) (int64, error) {
+func (mc *mongoCollection) CountDocuments(ctx context.Context, filter any, opts ...options.Lister[options.CountOptions]) (int64, error) {
 	return mc.coll.CountDocuments(ctx, filter, opts[:]...)
 }
 

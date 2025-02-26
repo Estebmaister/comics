@@ -32,7 +32,7 @@ func NewLokiWriter(endpoint, labels string) *LokiWriter {
 }
 
 func (lw *LokiWriter) Write(p []byte) (n int, err error) {
-	var event map[string]interface{}
+	var event map[string]any
 	if err := json.Unmarshal(p, &event); err != nil {
 		return 0, err
 	}
@@ -43,11 +43,11 @@ func (lw *LokiWriter) Write(p []byte) (n int, err error) {
 		return 0, err
 	}
 
-	payload := map[string]interface{}{
-		"streams": []map[string]interface{}{
+	payload := map[string]any{
+		"streams": []map[string]any{
 			{
 				"labels": lw.labels,
-				"entries": []map[string]interface{}{
+				"entries": []map[string]any{
 					{
 						"ts":   timestamp,
 						"line": string(line),

@@ -53,7 +53,7 @@ func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(
 		propagation.TraceContext{}, propagation.Baggage{}))
 
-	// OTLP exporter grpc client options
+	// OTLP trace exporter grpc client options
 	clientOpts := []otlptracegrpc.Option{
 		otlptracegrpc.WithEndpoint(cfg.Endpoint),
 	}
@@ -62,7 +62,7 @@ func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer
 	}
 	client := otlptracegrpc.NewClient(clientOpts...)
 
-	// Create OTLP exporter (print to stdout for development trace loglevel)
+	// Create OTLP trace exporter (print to stdout for development trace loglevel)
 	var exporter tracesdk.SpanExporter
 	var err error
 	logLevel, _ := zerolog.ParseLevel(cfg.LogLevel)
@@ -76,7 +76,7 @@ func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer
 		return nil, fmt.Errorf("failed to create OTLP exporter: %v", err)
 	}
 
-	// Create Zipkin exporter for debugging purposes
+	// Create Zipkin trace exporter for debugging purposes
 	var zipkinExporter tracesdk.SpanExporter
 	if cfg.ZipkinURL != "" && cfg.Environment == "development" {
 		zipkinExporter, err = zipkin.New(cfg.ZipkinURL)
@@ -161,7 +161,7 @@ func (s *span) SetOk() {
 }
 
 // SetTag sets a tag on the span
-func (s *span) SetTag(key string, value interface{}) {
+func (s *span) SetTag(key string, value any) {
 	switch v := value.(type) {
 	case int:
 		s.span.SetAttributes(attribute.Int(key, v))

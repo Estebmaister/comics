@@ -10,6 +10,7 @@ import (
 var (
 	ErrNotFound          = errors.New("record not found")
 	ErrInvalidPageParams = errors.New("invalid page parameters")
+	ErrInvalidArgument   = errors.New("invalid argument")
 )
 
 // DBConfig holds the DB configuration
@@ -49,5 +50,5 @@ type TracingProvider interface {
 type TraceSpan interface {
 	End()
 	SetError(err error)
-	SetTag(key string, value interface{})
+	SetTag(key string, value any)
 }

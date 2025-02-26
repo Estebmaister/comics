@@ -54,12 +54,12 @@ func WithLogger(l logger) Opt {
 }
 
 type logger interface {
-	Log(ctx context.Context, fmt string, args ...interface{})
+	Log(ctx context.Context, fmt string, args ...any)
 }
 
 type stdLogger struct{}
 
-func (s stdLogger) Log(_ context.Context, fmt string, args ...interface{}) {
+func (s stdLogger) Log(_ context.Context, fmt string, args ...any) {
 	log.Printf(fmt, args...)
 }
 

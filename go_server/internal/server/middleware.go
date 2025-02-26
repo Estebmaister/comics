@@ -11,10 +11,10 @@ import (
 
 func LoggingInterceptor(
 	ctx context.Context,
-	req interface{},
+	req any,
 	info *grpc.UnaryServerInfo,
 	handler grpc.UnaryHandler,
-) (interface{}, error) {
+) (any, error) {
 	start := time.Now()
 	logger := log.With().Str("method", info.FullMethod).Logger()
 	newCtx := logger.WithContext(ctx)
@@ -29,10 +29,10 @@ func LoggingInterceptor(
 
 func SensitiveDataInterceptor(
 	ctx context.Context,
-	req interface{},
+	req any,
 	info *grpc.UnaryServerInfo,
 	handler grpc.UnaryHandler,
-) (interface{}, error) {
+) (any, error) {
 	// Example: Remove sensitive data from logs
 	if info.FullMethod == "/package.Service/Login" {
 		if md, ok := metadata.FromIncomingContext(ctx); ok {
