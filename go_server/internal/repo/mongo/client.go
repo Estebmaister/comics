@@ -23,6 +23,8 @@ type Client interface {
 	// Session management
 	StartSession() (*mongo.Session, error)
 	UseSession(ctx context.Context, fn func(ctx context.Context) error) error
+	UseSessionWithOptions(ctx context.Context, opts *options.SessionOptionsBuilder,
+		fn func(ctx context.Context) error) error
 
 	// Health
 	IsConnected() bool
@@ -37,7 +39,8 @@ type mongoClient struct {
 }
 
 // newMongoClient creates a new MongoDB client with advanced configuration
-func newMongoClient(_ context.Context, cfg *repo.DBConfig, dbMetrics *metrics.Metrics) (*mongoClient, error) {
+func newMongoClient(_ context.Context, cfg *repo.DBConfig, dbMetrics *metrics.Metrics,
+) (*mongoClient, error) {
 	// Prepare connection URI
 	uri := fmt.Sprintf(
 		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
@@ -116,6 +119,12 @@ func (mc *mongoClient) StartSession() (*mongo.Session, error) { return mc.cl.Sta
 // UseSession uses a session to execute a function
 func (mc *mongoClient) UseSession(ctx context.Context, fn func(ctx context.Context) error) error {
 	return mc.cl.UseSession(ctx, fn)
+}
+
+// UseSessionWithOptions uses a session with options to execute a given function
+func (mc *mongoClient) UseSessionWithOptions(ctx context.Context,
+	opts *options.SessionOptionsBuilder, fn func(ctx context.Context) error) error {
+	return mc.cl.UseSessionWithOptions(ctx, opts, fn)
 }
 
 // WaitForConnection waits until a connection is established

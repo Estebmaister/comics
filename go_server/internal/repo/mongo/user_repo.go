@@ -17,6 +17,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo/readconcern"
 )
 
 const (
@@ -135,6 +136,7 @@ func (r *UserRepo) withRetry(ctx context.Context, operation string, fn func(ctx 
 			r.metrics.RecordRetry(operation, false)
 			if errors.Is(err, repo.ErrNotFound) ||
 				errors.Is(err, repo.ErrInvalidPageParams) ||
+				errors.Is(err, repo.ErrInvalidArgument) ||
 				errors.Is(err, context.Canceled) {
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
@@ -155,7 +157,7 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 		return r.withRetry(ctx, "GetByID", func(ctx context.Context) error {
 			tracing.FromContext(ctx).SetTag("id", id.String())
 
-			err := r.coll.FindOne(ctx, map[string]interface{}{"_id": id}).Decode(user)
+			err := r.coll.FindOne(ctx, map[string]any{"_id": id}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
@@ -177,7 +179,7 @@ func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, 
 			tracing.FromContext(ctx).SetTag("email", email)
 
 			// Find user by email
-			err := r.coll.FindOne(ctx, map[string]interface{}{"email": email}).Decode(user)
+			err := r.coll.FindOne(ctx, map[string]any{"email": email}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
@@ -201,7 +203,7 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 			tracing.FromContext(ctx).SetTag("username", username)
 
 			// Find user by username
-			err := r.coll.FindOne(ctx, map[string]interface{}{"username": username}).Decode(user)
+			err := r.coll.FindOne(ctx, map[string]any{"username": username}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
@@ -220,13 +222,26 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 	return r.withSpan(ctx, "Create", func(ctx context.Context) error {
 		return r.withRetry(ctx, "Create", func(ctx context.Context) error {
+			if user == nil {
+				return repo.ErrInvalidArgument
+			}
+			tracing.FromContext(ctx).SetTag("id", user.ID)
 			tracing.FromContext(ctx).SetTag("username", user.Username)
 			tracing.FromContext(ctx).SetTag("email", user.Email)
+			tracing.FromContext(ctx).SetTag("role", user.Role)
+			tracing.FromContext(ctx).SetTag("active", user.Active)
+
+			if user.ID == uuid.Nil || user.Username == "" || user.Email == "" {
+				return repo.ErrInvalidArgument
+			}
 
 			// Set creation timestamps
 			user.CreatedAt = time.Now()
 			user.UpdatedAt = user.CreatedAt
 
+			if user.Password == "" {
+				log.Warn().Msgf("Password is empty for user: %v", user)
+			}
 			// Insert the user
 			_, err := r.coll.InsertOne(ctx, user)
 			return err
@@ -239,7 +254,14 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 	return r.withSpan(ctx, "Update", func(ctx context.Context) error {
 		return r.withRetry(ctx, "Update", func(ctx context.Context) error {
+			if user == nil {
+				return repo.ErrInvalidArgument
+			}
 			tracing.FromContext(ctx).SetTag("id", user.ID.String())
+			tracing.FromContext(ctx).SetTag("username", user.Username)
+			tracing.FromContext(ctx).SetTag("email", user.Email)
+			tracing.FromContext(ctx).SetTag("role", user.Role)
+			tracing.FromContext(ctx).SetTag("active", user.Active)
 
 			// Prepare updated user document
 			update := bson.M{"$set": bson.M{
@@ -253,11 +275,14 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 
 			// Perform update on the provided ID
 			result, err := r.coll.UpdateByID(ctx, user.ID, update)
+			if err != nil {
+				return err
+			}
 			// Check if user was found and updated
 			if result.MatchedCount == 0 {
 				return repo.ErrNotFound
 			}
-			return err
+			return nil
 		})
 	})
 }
@@ -299,6 +324,7 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 			if err != nil {
 				return err
 			}
+			tracing.FromContext(ctx).SetTag("total_count", totalCount)
 
 			// Prepare find options for pagination
 			findOptions := options.Find().
@@ -315,10 +341,7 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 			defer cursor.Close(ctx)
 
 			// Decode results
-			if err = cursor.All(ctx, &users); err != nil {
-				return err
-			}
-			return nil
+			return cursor.All(ctx, &users)
 		})
 	})
 
@@ -339,7 +362,8 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 			}
 
 			// Prepare find options
-			findOptions := options.Find().SetProjection(bson.D{{Key: "password", Value: 0}})
+			findOptions := options.Find().
+				SetProjection(bson.D{{Key: "password", Value: 0}})
 
 			// Find users matching the filter
 			cursor, err := r.coll.Find(ctx, filter, findOptions)
@@ -364,8 +388,18 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 // Tx executes several ops within a MongoDB transaction
 func (r *UserRepo) Tx(ctx context.Context, fn func(context.Context) error) error {
 	return r.withSpan(ctx, "Tx", func(ctx context.Context) error {
-		return r.cl.UseSession(ctx, func(ctx context.Context) error {
-			return fn(ctx)
+
+		// Set read concern option to majority to avoid reading uncommitted data
+		txnOpts := options.Transaction().SetReadConcern(readconcern.Majority())
+		opts := options.Session().SetDefaultTransactionOptions(txnOpts)
+
+		return r.cl.UseSessionWithOptions(ctx, opts, func(ctx context.Context) error {
+			ses := mongo.SessionFromContext(ctx)
+
+			_, err := ses.WithTransaction(ctx, func(ctx context.Context) (any, error) {
+				return nil, fn(ctx)
+			})
+			return err
 		})
 	})
 }

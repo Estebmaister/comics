@@ -2,6 +2,7 @@ package mongo
 
 import (
 	"context"
+	"errors"
 	"os"
 	"testing"
 	"time"
@@ -16,12 +17,6 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/mongodb"
 )
 
-const (
-	failedToCreateUser = "Failed to create user"
-	failedToUpdateUser = "Failed to update user"
-	failedToDeleteUser = "Failed to delete user"
-)
-
 var (
 	userRepo  *UserRepo
 	userDBcfg = DefaultConfig()
@@ -29,8 +24,11 @@ var (
 
 func TestMain(m *testing.M) {
 	// Setup MongoDB container
-	ctx := context.Background()
-	mongoContainer, err := mongodb.Run(ctx, "mongo:latest")
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	mongoContainer, err := mongodb.Run(ctx, "mongo:latest",
+		mongodb.WithReplicaSet("rs0"),
+	)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to start MongoDB container")
 	}
@@ -42,7 +40,7 @@ func TestMain(m *testing.M) {
 	}
 
 	// Set DB config
-	userDBcfg.Addr = testUri
+	userDBcfg.Addr = testUri + "/?directConnection=true"
 	userDBcfg.Name = "comics_db_test"
 	userDBcfg.BackoffTimeout = 1 * time.Second
 	userDBcfg.TracerConfig.ServiceName += "_test"
@@ -74,23 +72,52 @@ func TestMain(m *testing.M) {
 
 func TestUserRepo(t *testing.T) {
 	ctx := context.Background()
+	startTime := time.Now()
 
-	// Prepare a test user
-	testUser := &domain.User{
+	// Prepare valid test users
+	users := []*domain.User{{
 		ID:       uuid.New(),
 		Username: "testuser",
 		Email:    "test@example.com",
 		Password: "hashedpassword",
 		Role:     "user",
+		Active:   false,
+	}, {
+		ID:       uuid.New(),
+		Username: "adminuser",
+		Email:    "admin@example.com",
+		Password: "hashedpassword",
+		Role:     "admin",
 		Active:   true,
+	}, {
+		ID:       uuid.New(),
+		Username: "inactiveadmin",
+		Email:    "inactiveadmin@example.com",
+		Role:     "admin",
+		Active:   false,
+	},
 	}
+	testUser := users[0]
 
 	// Bad user
 	badUser := &domain.User{ID: uuid.New()}
 
 	t.Run("Create User", func(t *testing.T) {
-		err := userRepo.Create(ctx, testUser)
-		assert.NoError(t, err)
+		// Create users
+		for _, user := range users {
+			err := userRepo.Create(context.Background(), user)
+			require.NoError(t, err, "Failed to create test user")
+
+			// Verify the user was created
+			assert.True(t, user.CreatedAt.After(startTime), "CreatedAt should be set")
+			assert.True(t, user.UpdatedAt.After(startTime), "UpdatedAt should be set")
+		}
+
+		// Verify bad users
+		err := userRepo.Create(ctx, nil)
+		assert.Error(t, err, "Should not be able to create a user from nil")
+		err = userRepo.Create(ctx, badUser)
+		assert.Error(t, err, "Should not be able to create a user with no username or email")
 	})
 
 	t.Run("Get User By ID", func(t *testing.T) {
@@ -103,7 +130,7 @@ func TestUserRepo(t *testing.T) {
 		// Verify bad queries
 		nilUser, err := userRepo.GetByID(ctx, uuid.New())
 		assert.Error(t, err)
-		assert.Nil(t, nilUser)
+		assert.Nil(t, nilUser, "Should be an inexistent user")
 	})
 
 	t.Run("Get User By Email", func(t *testing.T) {
@@ -155,13 +182,18 @@ func TestUserRepo(t *testing.T) {
 
 		// Verify bad update
 		err = userRepo.Update(ctx, badUser)
-		assert.Error(t, err)
+		assert.Error(t, err, "Should not be able to update an inexistent user")
+
+		err = userRepo.Update(ctx, nil)
+		assert.Error(t, err, "Should not be able to update a user from nil")
 	})
 
 	t.Run("List Users", func(t *testing.T) {
-		users, _, err := userRepo.List(ctx, 1, 10)
+		users, total, err := userRepo.List(ctx, 1, 10)
 		assert.NoError(t, err)
 		assert.NotEmpty(t, users)
+		assert.True(t, total >= 2)
+		assert.GreaterOrEqual(t, len(users), 2)
 
 		// Verify bad list
 		_, _, err = userRepo.List(ctx, 0, 10)
@@ -171,17 +203,66 @@ func TestUserRepo(t *testing.T) {
 		assert.Error(t, err)
 	})
 
+	t.Run("Find Active Users By Role", func(t *testing.T) {
+		activeAdmins, err := userRepo.FindActiveUsersByRole(ctx, "admin")
+		assert.NoError(t, err, "Failed to find active users by role")
+
+		// Verify results
+		assert.Len(t, activeAdmins, 1, "Should find only 1 active admin")
+		if len(activeAdmins) > 0 {
+			assert.Equal(t, "admin", activeAdmins[0].Role, "Should find only admin users")
+			assert.Equal(t, "adminuser", activeAdmins[0].Username, "Should be the active admin user")
+		}
+	})
+
 	t.Run("Delete User", func(t *testing.T) {
-		err := userRepo.Delete(ctx, testUser.ID)
-		assert.NoError(t, err)
+		for _, user := range users {
+			err := userRepo.Delete(ctx, user.ID)
+			assert.NoError(t, err)
+		}
 
 		// Verify deletion
-		_, err = userRepo.GetByID(ctx, testUser.ID)
+		_, err := userRepo.GetByID(ctx, testUser.ID)
 		assert.Error(t, err)
 
 		// Verify bad delete
-		err = userRepo.Delete(ctx, uuid.New())
+		err = userRepo.Delete(ctx, badUser.ID)
 		assert.Error(t, err)
+	})
+
+	t.Run("Transactions with Users", func(t *testing.T) {
+		err := userRepo.Create(ctx, testUser)
+		assert.NoError(t, err, "Shouldn't fail to create user")
+
+		err = userRepo.Tx(ctx, func(ctx context.Context) error {
+			testUser.Username = "newusername"
+			err := userRepo.Update(ctx, testUser)
+			assert.NoError(t, err, "Shouldn't fail to update user")
+			testUser.Email = "newemail@example.com"
+			err = userRepo.Update(ctx, testUser)
+			assert.NoError(t, err, "Shouldn't fail to update user")
+			return nil
+		})
+		assert.NoError(t, err, "Shouldn't fail to execute tx")
+
+		updatedUser, err := userRepo.GetByID(ctx, testUser.ID)
+		assert.NoError(t, err, "Shouldn't fail to get updated user")
+		assert.Equal(t, "newusername", updatedUser.Username)
+		assert.Equal(t, "newemail@example.com", updatedUser.Email)
+
+		// Verify bad tx
+		err = userRepo.Tx(ctx, func(ctx context.Context) error {
+			err := userRepo.Delete(ctx, testUser.ID)
+			assert.NoError(t, err, "Shouldn't fail to delete user")
+			return errors.New("tx error")
+		})
+		assert.Error(t, err, "Should fail to execute tx")
+
+		nonDeletedUser, err := userRepo.GetByID(ctx, testUser.ID)
+		assert.NoError(t, err, "Shouldn't fail to get non deleted user")
+		assert.NotNil(t, nonDeletedUser)
+		assert.Equal(t, testUser.Username, nonDeletedUser.Username)
+		assert.Equal(t, testUser.Email, nonDeletedUser.Email)
 	})
 
 	t.Run("Metrics", func(t *testing.T) {
@@ -190,214 +271,6 @@ func TestUserRepo(t *testing.T) {
 		assert.Equal(t, uint64(1),
 			userRepo.Metrics().GetSnapshot().TotalCreatedConnections)
 	})
-}
-
-// TestCreateUser tests the user creation process
-func TestCreateUser(t *testing.T) {
-	// Create a test user
-	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "testuser",
-		Email:     "test@example.com",
-		Role:      "user",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Active:    true,
-	}
-
-	// Create the user
-	err := userRepo.Create(context.Background(), testUser)
-	assert.NoError(t, err, failedToCreateUser)
-
-	// Verify the user was created
-	assert.NotEqual(t, uuid.Nil, testUser.ID, "User ID should be present")
-	assert.True(t, testUser.CreatedAt.Before(time.Now()), "CreatedAt should be set")
-	assert.True(t, testUser.Active, "User should be active by default")
-}
-
-// TestGetUserByID tests retrieving a user by ID
-func TestGetUserByID(t *testing.T) {
-
-	// Create a test user
-	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "ex_user",
-		Email:     "getbyid@example.com",
-		Role:      "user",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Active:    true,
-	}
-
-	// Create the user
-	err := userRepo.Create(context.Background(), testUser)
-	require.NoError(t, err, failedToCreateUser)
-
-	// Retrieve the user by ID
-	retrievedUser, err := userRepo.GetByID(context.Background(), testUser.ID)
-	assert.NoError(t, err, "Failed to get user by ID")
-	assert.Equal(t, testUser.Username, retrievedUser.Username, "Retrieved user username should match")
-	assert.Equal(t, testUser.Email, retrievedUser.Email, "Retrieved user email should match")
-}
-
-// TestGetUserByEmail tests retrieving a user by email
-func TestGetUserByEmail(t *testing.T) {
-
-	// Create a test user
-	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "getuserbyemail",
-		Email:     "uniqueemail@example.com",
-		Role:      "user",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Active:    true,
-	}
-
-	// Create the user
-	err := userRepo.Create(context.Background(), testUser)
-	require.NoError(t, err, failedToCreateUser)
-
-	// Retrieve the user by email
-	retrievedUser, err := userRepo.GetByEmail(context.Background(), testUser.Email)
-	assert.NoError(t, err, "Failed to get user by email")
-	assert.Equal(t, testUser.Username, retrievedUser.Username, "Retrieved user username should match")
-}
-
-// TestUpdateUser tests updating a user
-func TestUpdateUser(t *testing.T) {
-
-	// Create a test user
-	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "updateuser",
-		Email:     "update@example.com",
-		Role:      "admin",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Active:    true,
-	}
-
-	// Create the user
-	err := userRepo.Create(context.Background(), testUser)
-	require.NoError(t, err, failedToCreateUser)
-
-	// Update the user
-	testUser.Username = "updatedusername"
-	testUser.Role = "user"
-	err = userRepo.Update(context.Background(), testUser)
-	assert.NoError(t, err, failedToUpdateUser)
-
-	// Retrieve and verify updates
-	updatedUser, err := userRepo.GetByID(context.Background(), testUser.ID)
-	assert.NoError(t, err, "Failed to retrieve updated user")
-	assert.Equal(t, "updatedusername", updatedUser.Username, "Username should be updated")
-	assert.Equal(t, "user", updatedUser.Role, "Role should be updated")
-}
-
-// TestDeleteUser tests deleting a user
-func TestDeleteUser(t *testing.T) {
-
-	// Create a test user
-	testUser := &domain.User{
-		ID:        uuid.New(),
-		Username:  "deleteuser",
-		Email:     "delete@example.com",
-		Role:      "user",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		Active:    true,
-	}
-
-	// Create the user
-	err := userRepo.Create(context.Background(), testUser)
-	require.NoError(t, err, failedToCreateUser)
-
-	// Delete the user
-	err = userRepo.Delete(context.Background(), testUser.ID)
-	assert.NoError(t, err, failedToDeleteUser)
-
-	// Try to retrieve the deleted user
-	_, err = userRepo.GetByID(context.Background(), testUser.ID)
-	assert.Error(t, err, "Should not be able to retrieve deleted user")
-}
-
-// TestListUsers tests listing users with pagination
-func TestListUsers(t *testing.T) {
-
-	// Create multiple test users
-	users := []*domain.User{
-		{
-			ID:        uuid.New(),
-			Username:  "user1",
-			Email:     "user1@example.com",
-			Role:      "user",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Active:    true,
-		},
-		{
-			ID:        uuid.New(),
-			Username:  "user2",
-			Email:     "user2@example.com",
-			Role:      "user",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Active:    true,
-		},
-	}
-
-	// Create users
-	for _, user := range users {
-		err := userRepo.Create(context.Background(), user)
-		require.NoError(t, err, "Failed to create test user")
-	}
-
-	// List users
-	listedUsers, total, err := userRepo.List(context.Background(), 1, 10)
-	assert.NoError(t, err, "Failed to list users")
-	assert.True(t, total >= 2, "Should have at least 2 users")
-	assert.GreaterOrEqual(t, len(listedUsers), 2, "Should return at least 2 users")
-}
-
-// TestFindActiveUsersByRole tests finding active users by role
-func TestFindActiveUsersByRole(t *testing.T) {
-
-	// Create test users with different roles
-	users := []*domain.User{
-		{
-			ID:        uuid.New(),
-			Username:  "adminuser",
-			Email:     "admin@example.com",
-			Role:      "admin",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Active:    true,
-		},
-		{
-			ID:        uuid.New(),
-			Username:  "inactiveadmin",
-			Email:     "inactiveadmin@example.com",
-			Role:      "admin",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			Active:    false,
-		},
-	}
-
-	// Create users
-	for _, user := range users {
-		err := userRepo.Create(context.Background(), user)
-		require.NoError(t, err, "Failed to create test user")
-	}
-
-	// Find active admin users
-	activeAdmins, err := userRepo.FindActiveUsersByRole(context.Background(), "admin")
-	assert.NoError(t, err, "Failed to find active users by role")
-
-	// Verify results
-	assert.Len(t, activeAdmins, 1, "Should find only 1 active admin")
-	assert.Equal(t, "adminuser", activeAdmins[0].Username, "Should be the active admin user")
 }
 
 // TestClientConnection tests the client connection methods
