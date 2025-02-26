@@ -32,8 +32,12 @@ const (
 )
 
 var (
-	backoffTimeout = 15 * time.Second
+	backoffMinInterval = 500 * time.Millisecond
+	backoffTimeout     = 5 * time.Second
 )
+
+// Implement UserStore methods for UserRepo
+var _ Closable = (*ComicsRepo)(nil)
 
 type ComicsRepo struct {
 	cl      *pgxpool.Pool
@@ -131,10 +135,26 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
 	return repo, nil
 }
 
+// Close closes the repository and shuts down the tracer
+func (r *ComicsRepo) Close(ctx context.Context) error {
+	r.cl.Close()
+	return r.tracer.Shutdown(ctx)
+}
+
+// Metrics returns a snapshot of the repository's metrics
+func (r *ComicsRepo) Metrics() *metrics.MetricsSnapshot {
+	log.Debug().Msgf("Comics repo db metrics: %v", r.cl.Stat())
+	return r.metrics.GetSnapshot()
+}
+
+// Client returns the pool client
+func (r *ComicsRepo) Client() *pgxpool.Pool { return r.cl }
+
+// Ping checks if the database is up
+func (r *ComicsRepo) Ping(ctx context.Context) error { return r.cl.Ping(ctx) }
+
 func (r *ComicsRepo) pingWithRetry(ctx context.Context) error {
-	return r.withRetry(ctx, "Ping", func() error {
-		return r.cl.Ping(ctx)
-	})
+	return r.withRetry(ctx, "Ping", func() error { return r.Ping(ctx) })
 }
 
 func (r *ComicsRepo) runMigrations(_ context.Context, dataBaseName string) error {
@@ -172,10 +192,12 @@ func (r *ComicsRepo) withSpan(ctx context.Context, operation string, fn func(con
 	return err
 }
 
-func (r *ComicsRepo) withRetry(_ context.Context, operation string, fn func() error) error {
-	retry := backoff.NewExponentialBackOff(
+func (r *ComicsRepo) withRetry(ctx context.Context, operation string, fn func() error) error {
+	expBackoff := backoff.NewExponentialBackOff(
 		backoff.WithMaxElapsedTime(backoffTimeout),
+		backoff.WithInitialInterval(backoffMinInterval),
 	)
+	ctxBackoff := backoff.WithContext(expBackoff, ctx)
 
 	return backoff.Retry(func() error {
 		if err := fn(); err != nil {
@@ -189,7 +211,7 @@ func (r *ComicsRepo) withRetry(_ context.Context, operation string, fn func() er
 		}
 		r.metrics.RecordRetry(operation, true)
 		return nil
-	}, retry)
+	}, ctxBackoff)
 }
 
 func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
@@ -609,15 +631,3 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 
 	return comics, err
 }
-
-func (r *ComicsRepo) Metrics() *metrics.MetricsSnapshot {
-	log.Debug().Msgf("Comics repo metrics: %v", r.cl.Stat())
-	return r.metrics.GetSnapshot()
-}
-
-func (r *ComicsRepo) Close(ctx context.Context, duration time.Duration) error {
-	r.cl.Close()
-	return r.tracer.Shutdown(ctx)
-}
-
-func (r *ComicsRepo) Client() *pgxpool.Pool { return r.cl }

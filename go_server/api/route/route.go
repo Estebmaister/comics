@@ -8,10 +8,14 @@ import (
 	"comics/bootstrap"
 	"comics/docs"
 	"comics/domain"
+	"comics/internal/health"
 	"comics/internal/service"
 	"comics/internal/tokenutil"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -59,6 +63,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	// All Public APIs
 	{
 		swaggerRouter(publicRouter)
+		metricsRouter(userRepo, publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
 		refreshTokenRouter(authController, publicRouter)
@@ -80,6 +85,21 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	{
 		dashboardRouter(userRepo, adminGroup)
 	}
+}
+
+func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
+	prometheus.MustRegister(collectors.NewBuildInfoCollector())
+	// prometheus.MustRegister(collectors.NewGoCollector())
+	group.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	healthy := health.NewHealthChecker(userRepo)
+
+	// Register health check handlers
+	group.GET("/health", gin.WrapH(healthy.LivenessHandler()))
+	group.GET("/health/live", gin.WrapH(healthy.LivenessHandler()))
+	group.GET("/health/ready", gin.WrapH(healthy.ReadinessHandler()))
+
+	// Start health checker
+	healthy.Start()
 }
 
 func swaggerRouter(group *gin.RouterGroup) {

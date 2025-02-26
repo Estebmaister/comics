@@ -96,11 +96,11 @@ func (r *UserRepo) Client() Client { return r.cl }
 
 // Close disconnects the client
 func (r *UserRepo) Close(ctx context.Context) error {
-	errs := []error{}
-	errs = append(errs, r.tracer.Shutdown(ctx))
-	errs = append(errs, r.cl.Disconnect(ctx))
-	return errors.Join(errs...)
+	return errors.Join(r.tracer.Shutdown(ctx), r.cl.Disconnect(ctx))
 }
+
+// Ping checks if the database is up
+func (r *UserRepo) Ping(ctx context.Context) error { return r.cl.Ping(ctx) }
 
 // Metrics return the internal metrics struct
 func (r *UserRepo) Metrics() *metrics.Metrics { return r.metrics }

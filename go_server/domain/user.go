@@ -30,6 +30,7 @@ type UserStore interface {
 	UserWriter
 
 	Tx(ctx context.Context, fn func(context.Context) error) error
+	Ping(ctx context.Context) error
 	GetStats() map[string]string
 }
 
