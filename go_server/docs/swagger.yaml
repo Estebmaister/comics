@@ -142,6 +142,33 @@ paths:
       summary: Login existent user
       tags:
       - Authentication
+  /metrics:
+    get:
+      consumes:
+      - application/json
+      description: Returns metrics necessary for observability
+      operationId: metrics
+      parameters:
+      - default: Bearer XXX
+        description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: \# METRICS & HELP
+          schema:
+            type: string
+        "503":
+          description: Service unavailable
+          schema:
+            type: string
+      summary: Metrics
+      tags:
+      - Metrics
   /protected/profile:
     get:
       consumes:

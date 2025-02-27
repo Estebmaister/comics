@@ -1,5 +1,22 @@
-version: '3.8'
 services:
+  comics_server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=host.docker.internal:4317
+      # Needed to be available from host, outside the container
+      - ADDRESS_HTTP=0.0.0.0:8083
+      - ADDRESS_GRPC=0.0.0.0:8084
+    ports:
+      - 8083:8083
+    volumes:
+      - ./.env:/app/.env:ro
+      - ../src/db/comics.db:/src/db/comics.db:ro
+    restart: on-failure
+    networks:
+      - server_net
+
   mongodb:
     image : mongo
     container_name: mongodb
@@ -12,75 +29,9 @@ services:
       - --eval
       - "db.adminCommand('ping')"
     restart: unless-stopped
-
-  app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 8080:8080
-    restart: on-failure
-    env_file:
-      - .env
-    depends_on:
-      mongodb:
-        condition: service_healthy
-
-  jaeger:
-    image: jaegertracing/jaeger:latest
-    container_name: jaeger
-    environment:
-      COLLECTOR_OTLP_ENABLED: true
-      # COLLECTOR_ZIPKIN_HTTP_PORT: 9411
-      # JAEGER_STORAGE_TYPE: memory
-      # OTEL_TRACES_SAMPLER: always_off
-    ports:
-      - "5779:5779" # gRPC jaeger.api_v2.SamplingManager
-      - "5778:5778" # HTTP /sampling
-
-      - "4317:4317" # gRPC OTEL collector
-      - "4318:4318" # HTTP OTEL collector /v1/traces
-      # - "9411:9411" # HTTP ZipkinJSON /api/v2/spans /api/v1/spans
-      # - "6831:6831/udp" # Legacy Thrift compact
-      # - "6832:6832/udp" # Legacy Thrift binary
-      # - "14250:14250" # gRPC Legacy Protobuf jaeger.api_v2.CollectorService
-      # - "14268:14268" # HTTP Legacy Thrift /api/traces
-
-      - "16685:16685" # gRPC OTLP-based Protobuf collector jaeger.api_v3.QueryService
-      - "16686:16686" # HTTP OTLP-based /api/v3/* & /api/*
     networks:
-      - observability
-    volumes:
-      # - ./jaeger-config.yaml:/etc/jaeger/jaeger-config.yaml
-      - ./observe:/var/jaeger
-
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    ports:
-      - "9411:9411" # HTTP OTEL collector
-    networks:
-      - observability
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    depends_on:
-      - jaeger
-      - zipkin
-    networks:
-      - observability
-    volumes:
-      - observe:/var/lib/grafana
-
-volumes:
-  observe:
+      - server_net
 
 networks:
-  observability:
+  server_net:
     driver: bridge
