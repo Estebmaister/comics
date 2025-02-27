@@ -74,8 +74,8 @@ func NewMetrics(serviceName, namespace string) *Metrics {
 		Namespace: serviceName,
 		Subsystem: namespace,
 		Name:      "query_duration_seconds",
-		Help:      "Duration of database queries in seconds",
-		Buckets:   prometheus.ExponentialBuckets(0.001, 2, 10), // From 1ms to ~1s
+		Help:      "Duration of database queries in mili seconds",
+		Buckets:   prometheus.ExponentialBuckets(0.001, 2, 11), // From 1ms to ~1s
 	})
 
 	m.queryTotal = promauto.NewCounterVec(prometheus.CounterOpts{
