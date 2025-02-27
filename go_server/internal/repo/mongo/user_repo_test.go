@@ -9,6 +9,7 @@ import (
 
 	"comics/domain"
 	"comics/internal/repo"
+	"comics/internal/tracing"
 
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
@@ -43,10 +44,11 @@ func TestMain(m *testing.M) {
 	userDBcfg.Addr = testUri + "/?directConnection=true"
 	userDBcfg.Name = "comics_db_test"
 	userDBcfg.BackoffTimeout = 1 * time.Second
-	userDBcfg.TracerConfig.ServiceName += "_test"
 
 	// Create custom UserRepo
-	userRepo, err = NewUserRepo(ctx, userDBcfg)
+	userRepo, err = NewUserRepo(ctx, userDBcfg, &tracing.TracerConfig{
+		ServiceName: "comics-service-test",
+	})
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create UserRepo")
 	}
@@ -277,14 +279,15 @@ func TestUserRepo(t *testing.T) {
 func TestClientConnection(t *testing.T) {
 	ctx := context.Background()
 
-	_, err := NewUserRepo(ctx, nil)
+	_, err := NewUserRepo(ctx, nil, nil)
 	assert.Error(t, err, "Creating UserRepo with nil config")
 
-	_, err = NewUserRepo(ctx, &repo.DBConfig{})
+	_, err = NewUserRepo(ctx, &repo.DBConfig{}, nil)
 	assert.Error(t, err, "Creating UserRepo with empty config")
 
-	userDBcfg.TracerConfig.ServiceName = "comics-service-test"
-	newUserRepo, err := NewUserRepo(ctx, userDBcfg)
+	newUserRepo, err := NewUserRepo(ctx, userDBcfg, &tracing.TracerConfig{
+		ServiceName: "comics-service_test",
+	})
 	assert.NoError(t, err, "Failed to create new UserRepo")
 
 	err = newUserRepo.Client().WaitForConnection(1 * time.Second)

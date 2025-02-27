@@ -59,18 +59,18 @@ func main() {
 	// Running the server
 	srvErr := make(chan error, 1)
 	go func() {
-		srvErr <- g.Run(app.Env.ServerAddress)
+		srvErr <- g.Run(app.Env.AddressHTTP)
 	}()
 
-	// Initialize the database
-	_, err := repo.NewSQLiteDB("../src/db/comics.db")
-	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to initialize SQLite database")
+	// Initialize the file comics database
+	_, sqliteErr := repo.NewSQLiteDB("../src/db/comics.db")
+	if sqliteErr != nil {
+		log.Fatal().Err(sqliteErr).Msg("Failed to initialize SQLite database")
 	}
 
 	// Wait for interruption
 	select {
-	case err = <-srvErr:
+	case err := <-srvErr:
 		log.Fatal().Err(err).Msg("Error when starting HTTP server.")
 		return
 	case <-ctx.Done():

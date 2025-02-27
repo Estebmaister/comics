@@ -33,9 +33,19 @@ type TracerConfig struct {
 	LogLevel    string `mapstructure:"LOG_LEVEL" default:"info"`
 	ServiceName string `mapstructure:"OTEL_SERVICE_NAME" default:"comics-service"`
 	Sampler     int    `mapstructure:"OTEL_TRACES_SAMPLER_PERCENTAGE" default:"100"`
-	Secure      bool   `mapstructure:"OTEL_EXPORTER_OTLP_SECURE" default:"false"`
-	Endpoint    string `mapstructure:"OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"`
+	Secure      bool   `mapstructure:"OTEL_EXPORTER_SECURE"`
+	Endpoint    string `mapstructure:"OTEL_EXPORTER_GRPC_ENDPOINT"`
 	ZipkinURL   string `mapstructure:"OTEL_EXPORTER_ZIPKIN_TRACES_ENDPOINT"`
+}
+
+// DefaultTracerConfig returns a TracerConfig empty usable struct
+func DefaultTracerConfig() *TracerConfig {
+	return &TracerConfig{
+		Environment: "dev",
+		LogLevel:    "trace",
+		ServiceName: "comics-server",
+		Sampler:     10,
+	}
 }
 
 // Tracer holds the tracer provider and tracer created
@@ -45,7 +55,10 @@ type Tracer struct {
 }
 
 // NewTracer creates a new OpenTelemetry tracer
-func NewTracer(ctx context.Context, cfg TracerConfig, namespace string) (*Tracer, error) {
+func NewTracer(ctx context.Context, cfg *TracerConfig, namespace string) (*Tracer, error) {
+	if cfg == nil {
+		cfg = DefaultTracerConfig()
+	}
 	// Set OpenTelemetry to use Zerolog via logr adapter
 	// otel.SetLogger(zerologr.New(&log.Logger))
 

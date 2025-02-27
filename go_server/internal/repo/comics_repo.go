@@ -56,10 +56,6 @@ func DefaultConfig() *DBConfig {
 		Name:            os.Getenv("PG_NAME"),
 		MaxPoolSize:     100,
 		MaxConnIdleTime: 5 * time.Minute,
-		TracerConfig: tracing.TracerConfig{
-			Endpoint:    os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT"),
-			ServiceName: "comics_service",
-		},
 	}
 	if cfg.Name == "" {
 		cfg.Name = "comics_db"
@@ -81,9 +77,12 @@ func DefaultConfig() *DBConfig {
 	return cfg
 }
 
-func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
+func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracing.TracerConfig) (*ComicsRepo, error) {
 	if cfg == nil {
 		cfg = DefaultConfig()
+	}
+	if tpCfg == nil {
+		tpCfg = tracing.DefaultTracerConfig()
 	}
 
 	connStr := fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s",
@@ -104,13 +103,13 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig) (*ComicsRepo, error) {
 	}
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(ctx, cfg.TracerConfig, namespace)
+	tracer, err := tracing.NewTracer(ctx, tpCfg, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}
 
 	// Initialize metrics
-	metrics := metrics.NewMetrics(cfg.TracerConfig.ServiceName, namespace)
+	metrics := metrics.NewMetrics(tpCfg.ServiceName, namespace)
 
 	// Set backoff timeout
 	backoffTimeout = cfg.BackoffTimeout

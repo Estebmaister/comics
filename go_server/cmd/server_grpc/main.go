@@ -19,7 +19,7 @@ func main() {
 	defer cancel()
 
 	// Initialize tracer
-	tp, err := tracing.NewTracer(ctx, tracing.TracerConfig{
+	tp, err := tracing.NewTracer(ctx, &tracing.TracerConfig{
 		Endpoint:    "http://localhost:14268/api/traces",
 		ServiceName: "comics-server",
 		Sampler:     100,

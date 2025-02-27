@@ -1,7 +1,6 @@
 package repo
 
 import (
-	"comics/internal/tracing"
 	"context"
 	"errors"
 	"time"
@@ -15,8 +14,6 @@ var (
 
 // DBConfig holds the DB configuration
 type DBConfig struct {
-	// Tracing
-	tracing.TracerConfig
 	// Connection string
 	Host string `mapstructure:"DB_HOST" default:"localhost"`
 	Port int    `mapstructure:"DB_PORT" default:"5432"`

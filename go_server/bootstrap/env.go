@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"comics/internal/logger"
@@ -12,24 +13,27 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Enums for the app environment
+// AppEnv represents the application's runtime environment
 type AppEnv string
 
 const (
 	Development AppEnv = "development"
 	Production  AppEnv = "production"
 	Testing     AppEnv = "testing"
+
+	// Default environment if not specified
+	defaultEnv = Production
 )
 
 // Env holds the application configuration
 type Env struct {
-	DB             repo.DBConfig
-	JWT            JWTConfig
-	Logger         logger.LoggerConfig
-	Tracer         tracing.TracerConfig
-	AppEnv         AppEnv `mapstructure:"ENVIRONMENT"`
-	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
-	GRPCAddress    string `mapstructure:"GRPC_ADDRESS"`
+	*repo.DBConfig
+	*JWTConfig
+	*logger.LoggerConfig
+	*tracing.TracerConfig
+	AppEnv         `mapstructure:"ENVIRONMENT"`
+	AddressHTTP    string `mapstructure:"ADDRESS_HTTP"`
+	AddressGRPC    string `mapstructure:"ADDRESS_GRPC"`
 	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
 }
 
@@ -45,12 +49,12 @@ type JWTConfig struct {
 func MustLoadEnv(_ context.Context) *Env {
 	viper.SetConfigFile(".env")
 	viper.SetConfigType("env") // Define the config type as ENV
-	// viper.AutomaticEnv() // Read from environment variables
+	viper.AutomaticEnv()       // Priority to read from environment variables
 	env := Env{}
-	jwtConfig := JWTConfig{}
-	dbConfig := repo.DBConfig{}
-	loggerConfig := logger.LoggerConfig{}
-	tracerConfig := tracing.TracerConfig{}
+	jwtConfig := &JWTConfig{}
+	dbConfig := &repo.DBConfig{}
+	loggerConfig := &logger.LoggerConfig{}
+	tracerConfig := &tracing.TracerConfig{}
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -68,18 +72,44 @@ func MustLoadEnv(_ context.Context) *Env {
 			log.Fatal().Err(err).Msg("Environment can't be Unmarshal from Viper")
 		}
 	}
-	env.DB = dbConfig
-	env.JWT = jwtConfig
-	env.Logger = loggerConfig
-	env.Tracer = tracerConfig
-	env.DB.TracerConfig = env.Tracer
+	env.DBConfig = dbConfig
+	env.JWTConfig = jwtConfig
+	env.LoggerConfig = loggerConfig
+	env.TracerConfig = tracerConfig
 
 	// Cast the application environment to a type
-	env.AppEnv = AppEnv(env.AppEnv)
-	if env.AppEnv != Production {
+	env.AppEnv = parseAppEnv(string(env.AppEnv))
+	if !env.AppEnv.IsProduction() {
 		log.Debug().Msg("The App is running in a dev env")
-		log.Debug().Msgf("%#v\n", env)
+		log.Debug().Msgf("%v\n", Sanitize(env))
 	}
 
 	return &env
+}
+
+// IsProduction environment check
+func (e AppEnv) IsProduction() bool { return e == Production }
+
+// IsDevelopment environment check
+func (e AppEnv) IsDevelopment() bool { return e == Development }
+
+// IsTesting environment check
+func (e AppEnv) IsTesting() bool { return e == Testing }
+
+// parseAppEnv safely parses environment variable and validates the value
+func parseAppEnv(rawEnv string) AppEnv {
+	switch strings.ToLower(strings.TrimSpace(rawEnv)) {
+	case "production", "prod":
+		return Production
+	case "testing", "test":
+		return Testing
+	case "development", "dev", "":
+		return Development
+	default:
+		log.Warn().
+			Str("value", rawEnv).
+			Str("default", string(defaultEnv)).
+			Msg("Invalid environment value, using default")
+		return defaultEnv
+	}
 }

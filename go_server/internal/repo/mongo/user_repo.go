@@ -50,24 +50,24 @@ func DefaultConfig() *repo.DBConfig {
 		MaxPoolSize:    100,              // default from mongo driver
 		MinPoolSize:    0,                // default from mongo driver
 		ConnectTimeout: 30 * time.Second, // default from mongo driver
-		TracerConfig: tracing.TracerConfig{
-			ServiceName: "comics_service",
-		},
 	}
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
-func NewUserRepo(ctx context.Context, cfg *repo.DBConfig) (*UserRepo, error) {
+func NewUserRepo(ctx context.Context, cfg *repo.DBConfig, tpCfg *tracing.TracerConfig) (*UserRepo, error) {
 	// Validate configuration
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}
+	if tpCfg == nil {
+		tpCfg = tracing.DefaultTracerConfig()
+	}
 
 	// Initialize metrics
-	metrics := metrics.NewMetrics(cfg.TracerConfig.ServiceName, namespace)
+	metrics := metrics.NewMetrics(tpCfg.ServiceName, namespace)
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(ctx, cfg.TracerConfig, namespace)
+	tracer, err := tracing.NewTracer(ctx, tpCfg, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}

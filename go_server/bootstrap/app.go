@@ -27,7 +27,7 @@ func App(ctx context.Context) Application {
 	app := &Application{}
 	app.Env = MustLoadEnv(ctx)
 // Initialize logger
-	log, shutLogger, err := logger.InitLogger(app.Env.Logger)
+	log, shutLogger, err := logger.InitLogger(ctx, app.Env.LoggerConfig)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to initialize logger sender")
 	}

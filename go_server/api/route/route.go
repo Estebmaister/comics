@@ -24,7 +24,7 @@ import (
 
 const (
 	// Tracing
-	netHostName = "comics_router"
+	tracingServiceName = "comics_router"
 
 	// Headers
 	keyRole          = middleware.KeyRole
@@ -39,30 +39,28 @@ const (
 
 // Setup configures the gin routes of the server
 func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
-	basePath := "/"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-	docs.SwaggerInfo.Host = env.ServerAddress
-	docs.SwaggerInfo.BasePath = basePath
-	log.Info().Str("URL", "http://"+env.ServerAddress+"/swagger/index.html").Msg("Swagger")
 
+	// Starting user service and auth controller
 	userService := service.NewUserService(userRepo, env)
 	authController := controller.NewAuthControl(userService, env)
 
-	// Add HTTP instrumentation for the whole router.
-	g.Use(otelgin.Middleware(netHostName))
-
-	// Middleware to log requests
-	g.Use(middleware.LoggerMiddleware())
+	g.Use(
+		// Middleware to add HTTP tracer instrumentation for the whole router
+		otelgin.Middleware(tracingServiceName),
+		// Middleware to log requests
+		middleware.LoggerMiddleware(),
+	)
 
 	// Serve static files (CSS, JS, images)
 	g.Static("/static", "./static")
 	// Load templates from "templates/" directory
 	g.LoadHTMLGlob("templates/*")
 
+	basePath := "/"
 	publicRouter := g.Group(basePath)
 	// All Public APIs
 	{
-		swaggerRouter(publicRouter)
+		swaggerRouter(env, basePath, publicRouter)
 		metricsRouter(userRepo, publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
@@ -71,22 +69,36 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 
 	protectedRouter := g.Group("/protected")
 	// Middleware to verify AccessToken
-	protectedRouter.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
-	// All protected Private APIs
-	{
+	protectedRouter.Use(
+		middleware.AuthenticationMiddleware(
+			env.JWTConfig.AccessTokenSecret))
+
+	{ // All protected Private APIs
 		profileRouter(authController, protectedRouter)
 		NewTaskRouter(env, userRepo, protectedRouter)
 	}
 
 	adminGroup := g.Group("/admin")
-	adminGroup.Use(middleware.AuthenticationMiddleware(env.JWT.AccessTokenSecret))
-	adminGroup.Use(middleware.RoleMiddleware(tokenutil.ROLE_ADMIN))
-	// All admin APIs
-	{
+	adminGroup.Use(
+		middleware.AuthenticationMiddleware(
+			env.JWTConfig.AccessTokenSecret),
+		middleware.RoleMiddleware(tokenutil.ROLE_ADMIN))
+	{ // All admin APIs
 		dashboardRouter(userRepo, adminGroup)
 	}
 }
 
+// metricsRouter manages the Prometheus metrics
+//
+//	@Summary		Metrics
+//	@Description	Returns metrics necessary for observability
+//	@ID				metrics
+//	@Tags			Metrics
+//	@Accept			json
+//	@Produce		json
+//	@Success		200				string	string	"Metrics \# TYPE & HELP"
+//	@Failure		503				string	string	"Service unavailable"
+//	@Router			/metrics [get]
 func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 	prometheus.MustRegister(collectors.NewBuildInfoCollector())
 	// prometheus.MustRegister(collectors.NewGoCollector())
@@ -95,16 +107,24 @@ func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 
 	// Register health check handlers
 	group.GET("/health", gin.WrapH(healthy.LivenessHandler()))
-	group.GET("/health/live", gin.WrapH(healthy.LivenessHandler()))
-	group.GET("/health/ready", gin.WrapH(healthy.ReadinessHandler()))
+	group.GET("/ready", gin.WrapH(healthy.ReadinessHandler()))
 
 	// Start health checker
 	healthy.Start()
 }
 
-func swaggerRouter(group *gin.RouterGroup) {
+func swaggerRouter(env *bootstrap.Env, basePath string, group *gin.RouterGroup) {
+	// Setting runtine values in SwaggerInfo
+	docs.SwaggerInfo.BasePath = basePath
+	docs.SwaggerInfo.Host = env.AddressHTTP
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	log.Info().
+		Str("URL", "http://"+env.AddressHTTP+"/swagger/index.html").
+		Msg("Swagger")
+
 	// Swagger API documentation
 	url := ginSwagger.URL("./swagger/doc.json")
+
 	group.GET("/swagger/*any",
 		ginSwagger.WrapHandler(swaggerFiles.Handler, url),
 	)

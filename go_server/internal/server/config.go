@@ -44,7 +44,7 @@ type Server struct {
 // New creates a new server instance
 func New(ctx context.Context, cfg *Config) (*Server, error) {
 	// Create repo-db connection
-	comicsRepo, err := repo.NewComicsRepo(ctx, nil)
+	comicsRepo, err := repo.NewComicsRepo(ctx, nil, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize database: %w", err)
 	}

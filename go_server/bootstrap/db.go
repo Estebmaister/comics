@@ -12,7 +12,7 @@ func NewRepo(env *Env) (ClosableUserStore, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(env.ContextTimeout)*time.Second)
 	defer cancel()
 
-	return mongo.NewUserRepo(ctx, &env.DB)
+	return mongo.NewUserRepo(ctx, env.DBConfig, env.TracerConfig)
 }
 
 // CloseConnection safely disconnects from the repo DB

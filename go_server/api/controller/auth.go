@@ -31,12 +31,12 @@ func NewAuthControl(userService domain.UserService, env *bootstrap.Env) *AuthCon
 
 // GetAccessTokenExpirySeconds returns the expiry time in seconds
 func (ac *AuthControl) GetAccessTokenExpirySeconds() int {
-	return int(ac.env.JWT.AccessTokenExpiryHour.Seconds())
+	return int(ac.env.JWTConfig.AccessTokenExpiryHour.Seconds())
 }
 
 // GetRefreshTokenExpirySeconds returns the expiry time in seconds
 func (ac *AuthControl) GetRefreshTokenExpirySeconds() int {
-	return int(ac.env.JWT.RefreshTokenExpiryHour.Seconds())
+	return int(ac.env.JWTConfig.RefreshTokenExpiryHour.Seconds())
 }
 
 // GetUserByJWT returns a user from a JWT
@@ -93,12 +93,16 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 
 	// Generate a JWT
 	accessToken, errAccess := tokenutil.GenerateTokenWithRole(
-		dbUser.ID, secretKey, ac.env.JWT.AccessTokenExpiryHour, dbUser.Role)
+		dbUser.ID, secretKey,
+		ac.env.JWTConfig.AccessTokenExpiryHour, dbUser.Role)
 	refreshToken, errRefresh := tokenutil.GenerateTokenWithRole(
-		dbUser.ID, refreshSecretKey, ac.env.JWT.RefreshTokenExpiryHour, dbUser.Role)
+		dbUser.ID, refreshSecretKey,
+		ac.env.JWTConfig.RefreshTokenExpiryHour, dbUser.Role)
 	if errAccess != nil && errRefresh != nil {
 		err := fmt.Errorf("error generating token: %w %w", errAccess, errRefresh)
-		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: "error generating token"}, err
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: "error generating token",
+		}, err
 	}
 
 	// Return tokens in response
@@ -118,9 +122,11 @@ func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) 
 	*domain.AuthResponse, error) {
 	dbUser, err := ac.userService.Register(ctx, user)
 	if errors.Is(err, service.ErrCredsAlreadyExist) {
-		return &domain.AuthResponse{Status: http.StatusConflict, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusConflict, Message: err.Error()}, err
 	} else if err != nil {
-		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
 	return &domain.AuthResponse{
@@ -136,12 +142,14 @@ func (ac *AuthControl) RefreshToken(ctx context.Context, refreshToken, role stri
 	// Load secret key from environment variable
 	secretKey, refreshSecretKey, err := ac.getSecretKeys()
 	if err != nil {
-		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
 	if refreshToken == "" {
 		err := fmt.Errorf("no access token provided")
-		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 	token := strings.TrimPrefix(refreshToken, "Bearer ")
 
@@ -153,16 +161,18 @@ func (ac *AuthControl) RefreshToken(ctx context.Context, refreshToken, role stri
 	}
 	if claims.Subject != role {
 		err := fmt.Errorf("invalid role")
-		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusUnauthorized, Message: err.Error()}, err
 	}
 
 	// Generate a JWT
 	accessToken, err := tokenutil.GenerateToken(
-		claims.UserID, secretKey, ac.env.JWT.AccessTokenExpiryHour)
+		claims.UserID, secretKey, ac.env.JWTConfig.AccessTokenExpiryHour)
 	if err != nil {
 		log.Printf("error generating token: %s", err)
 		err := fmt.Errorf("error generating token")
-		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
 	return &domain.AuthResponse{
@@ -179,8 +189,8 @@ func (ac *AuthControl) RefreshToken(ctx context.Context, refreshToken, role stri
 // getSecretKeys returns the secret keys from the environment variables
 func (ac *AuthControl) getSecretKeys() (secretKey, refreshSecretKey []byte, err error) {
 	// Load secret key from environment variable
-	secretKey = []byte(ac.env.JWT.AccessTokenSecret)
-	refreshSecretKey = []byte(ac.env.JWT.RefreshTokenSecret)
+	secretKey = []byte(ac.env.JWTConfig.AccessTokenSecret)
+	refreshSecretKey = []byte(ac.env.JWTConfig.RefreshTokenSecret)
 	if len(secretKey) == 0 || len(refreshSecretKey) == 0 {
 		err = fmt.Errorf("JWT secret keys not set")
 	}
