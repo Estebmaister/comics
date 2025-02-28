@@ -2,26 +2,36 @@ package bootstrap
 
 import (
 	"context"
-	"log"
-	"time"
+	"errors"
 
 	"comics/internal/repo/mongo"
 )
 
-func NewRepo(env *Env) (ClosableUserStore, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(env.ContextTimeout)*time.Second)
-	defer cancel()
+const (
+	mongoUserRepoType = iota
+	sqliteUserRepoType
+	mongoComicRepoType
+	sqliteComicRepoType
+	postgresUserRepoType
+	postgresComicRepoType
+)
 
-	return mongo.NewUserRepo(ctx, env.DBConfig, env.TracerConfig)
-}
-
-// CloseConnection safely disconnects from the repo DB
-func CloseConnection(ctx context.Context, repo Closable) error {
-	if err := repo.Close(ctx); err != nil {
-		log.Printf("Error closing DB connection: %v", err)
-		return err
+// newRepo creates a new UserRepo instance
+func newRepo(ctx context.Context, env *Env, repoType int) (ClosableUserStore, error) {
+	switch repoType {
+	case mongoUserRepoType:
+		return mongo.NewUserRepo(ctx, env.DBConfig, env.TracerConfig)
+	// case sqliteUserRepoType:
+	// 	return sqlite.NewUserRepo(ctx, env.DBConfig, env.TracerConfig)
+	// case mongoComicRepoType:
+	// 	return mongo.NewComicRepo(ctx, env.DBConfig, env.TracerConfig)
+	// case sqliteComicRepoType:
+	// 	return sqlite.NewComicRepo(ctx, env.DBConfig, env.TracerConfig)
+	// case postgresUserRepoType:
+	// 	return postgres.NewUserRepo(ctx, env.DBConfig, env.TracerConfig)
+	// case postgresComicRepoType:
+	// 	return postgres.NewComicRepo(ctx, env.DBConfig, env.TracerConfig)
+	default:
+		return nil, errors.New("unknown repo type")
 	}
-
-	log.Println("Connection to DB closed successfully.")
-	return nil
 }

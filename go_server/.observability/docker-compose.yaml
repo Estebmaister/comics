@@ -23,13 +23,15 @@ services:
       - 16686:16686 # HTTP OTLP-based /api/v3/* & /api/*
     volumes:
       # - ./jaeger-config.yaml:/etc/jaeger/jaeger-config.yaml
-      - ./observer_vol:/var/jaeger
+      - observer_vol:/var/jaeger
+    networks:
+      - observability
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    ports:
-      - 9411:9411 # HTTP OTEL collector
+  # zipkin:
+  #   image: openzipkin/zipkin:latest
+  #   container_name: zipkin
+  #   ports:
+  #     - 9411:9411 # HTTP OTEL collector
 
   loki:
     image: grafana/loki:latest
@@ -39,24 +41,30 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - observability
 
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     environment:
-      TARGETS: host.docker.internal:8081/metrics
+      TARGETS: host.docker.internal:8082/metrics
     ports:
       - 9090:9090
     volumes:
-      - prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules.yml:/etc/prometheus/rules.yml
+    networks:
+      - observability
   
   alert-manager:
     image: prom/alertmanager
     volumes:
-      - prometheus/alertmanager.yml:/alertmanager/alertmanager.yml
+      - ./prometheus/alertmanager.yml:/alertmanager/alertmanager.yml
     ports:
       - 9093:9093
+    networks:
+      - observability
 
   grafana:
     image: grafana/grafana:latest
@@ -64,13 +72,13 @@ services:
     ports:
       - 3000:3000
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    depends_on:
-      - jaeger
-      - zipkin
+      - GF_SECURITY_ADMIN_USER=adm1n
+      - GF_SECURITY_ADMIN_PASSWORD=adm1n
     volumes:
+      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
       - observer_vol:/var/lib/grafana
+    networks:
+      - observability
 
 volumes:
   observer_vol:

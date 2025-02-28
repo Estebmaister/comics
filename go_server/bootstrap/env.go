@@ -23,6 +23,8 @@ const (
 
 	// Default environment if not specified
 	defaultEnv = Production
+
+	defaultCtxTimeout = 10 * time.Second
 )
 
 // Env holds the application configuration
@@ -32,9 +34,9 @@ type Env struct {
 	*logger.LoggerConfig
 	*tracing.TracerConfig
 	AppEnv         `mapstructure:"ENVIRONMENT"`
-	AddressHTTP    string `mapstructure:"ADDRESS_HTTP"`
-	AddressGRPC    string `mapstructure:"ADDRESS_GRPC"`
-	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
+	AddressHTTP    string        `mapstructure:"ADDRESS_HTTP"`
+	AddressGRPC    string        `mapstructure:"ADDRESS_GRPC"`
+	InitCtxTimeout time.Duration `mapstructure:"INIT_TIMEOUT"`
 }
 
 // JWTConfig holds the configuration for the JW Token
@@ -82,6 +84,11 @@ func MustLoadEnv(_ context.Context) *Env {
 	if !env.AppEnv.IsProduction() {
 		log.Debug().Msg("The App is running in a dev env")
 		log.Debug().Msgf("%v\n", Sanitize(env))
+	}
+
+	// Set the default initialization timeout
+	if env.InitCtxTimeout == 0 {
+		env.InitCtxTimeout = defaultCtxTimeout
 	}
 
 	return &env

@@ -10,6 +10,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+const (
+	// healthCheckInterval is the interval at which the health check is performed
+	healthCheckInterval = 5 * time.Second
+	// readinessMaxInterval is the interval at which the readiness check is performed
+	readinessMaxInterval = 1 * time.Second
+)
+
+var (
+	statusUP   = []byte(`{"status":"UP"}`)
+	statusDOWN = []byte(`{"status":"DOWN"}`)
+)
+
 // Pinger defines the interface for pinging a database
 type Pinger interface {
 	Ping(ctx context.Context) error
@@ -48,7 +60,7 @@ func (h *HealthChecker) LivenessHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"UP"}`))
+		w.Write(statusUP)
 	}
 }
 
@@ -60,12 +72,12 @@ func (h *HealthChecker) ReadinessHandler() http.HandlerFunc {
 		if !h.isReady.Load() {
 			h.triggerManualCheck()
 			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte(`{"status":"DOWN"}`))
+			w.Write(statusDOWN)
 			return
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"status":"UP"}`))
+		w.Write(statusUP)
 	}
 }
 
@@ -74,9 +86,9 @@ func (h *HealthChecker) readinessLoop() {
 	// Create an exponential backoff configuration
 	expBackoff := backoff.NewExponentialBackOff(
 		backoff.WithMaxElapsedTime(0),
-		backoff.WithInitialInterval(5*time.Second),
+		backoff.WithInitialInterval(healthCheckInterval),
 		backoff.WithMultiplier(1.5),
-		backoff.WithMaxInterval(1*time.Minute),
+		backoff.WithMaxInterval(readinessMaxInterval),
 	)
 
 	for {
@@ -100,7 +112,7 @@ func (h *HealthChecker) readinessLoop() {
 
 // performHealthCheck checks the health of the database and store if its ready
 func (h *HealthChecker) performHealthCheck() {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), healthCheckInterval)
 	defer cancel()
 
 	err := h.db.Ping(ctx)

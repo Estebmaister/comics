@@ -5,6 +5,8 @@ import (
 
 	"comics/domain"
 	"comics/internal/logger"
+
+	"github.com/rs/zerolog/log"
 )
 
 // Closable defines a common interface for closing database connections
@@ -21,25 +23,52 @@ type ClosableUserStore interface {
 type Application struct {
 	Env      *Env
 	UserRepo ClosableUserStore
+	Shutters []func(context.Context) error
 }
 
-func App(ctx context.Context) Application {
-	app := &Application{}
-	app.Env = MustLoadEnv(ctx)
-// Initialize logger
-	log, shutLogger, err := logger.InitLogger(ctx, app.Env.LoggerConfig)
+// MustLoadApp loads the application from the environment variables
+func MustLoadApp(ctx context.Context) Application {
+	// Load environment variables
+	env := MustLoadEnv(ctx)
+
+	// Context with timeout for the initialization
+	ctx, cancel := context.WithTimeout(ctx, env.InitCtxTimeout)
+	defer cancel()
+
+	// Initialize logger
+	log, loggerClose, err := logger.InitLogger(ctx, env.LoggerConfig)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to initialize logger sender")
+		log.Fatal().Err(err).Msg("Failed to initialize logger")
 	}
-	defer shutLogger()
-	userRepo, err := NewRepo(app.Env)
+
+	// Initialize user repository
+	userRepo, err := newRepo(ctx, env, mongoUserRepoType)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize user repo")
 	}
-	app.UserRepo = userRepo
-	return *app
+
+	// Return the application
+	return Application{
+		Env:      env,
+		UserRepo: userRepo,
+		Shutters: []func(context.Context) error{
+			userRepo.Close,
+			loggerClose,
+		},
+	}
 }
 
-func (app *Application) CloseDBConnection(ctx context.Context) {
-	CloseConnection(ctx, app.UserRepo)
+// Close closes the application resources
+func (app *Application) Close(ctx context.Context) {
+	// Context with timeout for the shutdown
+	ctx, cancel := context.WithTimeout(ctx, app.Env.InitCtxTimeout)
+	defer cancel()
+
+	// Shutdown each shutter in order
+	for _, shutter := range app.Shutters {
+		if err := shutter(ctx); err != nil {
+			// Log the error if a shutter function fails
+			log.Error().Err(err).Msg("Error during shutdown")
+		}
+	}
 }

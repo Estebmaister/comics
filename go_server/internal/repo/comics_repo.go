@@ -137,7 +137,12 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracing.TracerConf
 // Close closes the repository and shuts down the tracer
 func (r *ComicsRepo) Close(ctx context.Context) error {
 	r.cl.Close()
-	return r.tracer.Shutdown(ctx)
+	err := r.tracer.Shutdown(ctx)
+	if err != nil {
+		return err
+	}
+	log.Info().Msg("Comics repo shutdown successfull")
+	return nil
 }
 
 // Metrics returns a snapshot of the repository's metrics

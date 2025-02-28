@@ -136,6 +136,8 @@ func (t *Tracer) Shutdown(ctx context.Context) error {
 			return fmt.Errorf("tracer shutdown failed: %w", err)
 		}
 	}
+
+	log.Info().Msg("Tracer shutdown successfull")
 	return nil
 }
 

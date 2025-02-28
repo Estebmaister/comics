@@ -42,13 +42,10 @@ func main() {
 	defer stop()
 
 	// app is the instance of the entire application, managing key resources throughout its lifecycle
-	app := bootstrap.App(ctx)
-	defer func() {
-		app.CloseDBConnection(ctx)
-	}()
+	app := bootstrap.MustLoadApp(ctx)
 
 	// Creating a gin instance
-	if app.Env.AppEnv == bootstrap.Development {
+	if app.Env.AppEnv.IsProduction() || app.Env.AppEnv.IsDevelopment() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	g := gin.New()
@@ -71,11 +68,16 @@ func main() {
 	// Wait for interruption
 	select {
 	case err := <-srvErr:
-		log.Fatal().Err(err).Msg("Error when starting HTTP server.")
-		return
+		log.Error().Err(err).Msg("Error when starting HTTP server")
 	case <-ctx.Done():
 		// Stop receiving signal notifications as soon as possible.
 		stop()
 	}
-	log.Info().Msg("Shutting down server...")
+
+	// Create a new context for shutdown operations
+	shutdownCtx, cancel := context.WithTimeout(
+		context.Background(), app.Env.InitCtxTimeout)
+	defer cancel()
+	log.Info().Msg("Shutting down application...")
+	app.Close(shutdownCtx)
 }

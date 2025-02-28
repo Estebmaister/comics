@@ -96,7 +96,12 @@ func (r *UserRepo) Client() Client { return r.cl }
 
 // Close disconnects the client
 func (r *UserRepo) Close(ctx context.Context) error {
-	return errors.Join(r.tracer.Shutdown(ctx), r.cl.Disconnect(ctx))
+	err := errors.Join(r.tracer.Shutdown(ctx), r.cl.Disconnect(ctx))
+	if err != nil {
+		return err
+	}
+	log.Info().Msg("User repo shutdown successfull")
+	return nil
 }
 
 // Ping checks if the database is up

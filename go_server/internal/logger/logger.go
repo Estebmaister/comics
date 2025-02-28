@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"os"
 	"sync"
 	"time"
@@ -15,13 +14,18 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 
 	"github.com/grafana/loki-client-go/loki"
-	"github.com/grafana/loki-client-go/pkg/urlutil"
 )
 
 var (
 	output = zerolog.NewConsoleWriter()
+	// Use structured labels instead of raw string
+	labels = model.LabelSet{
+		"app":         "comics",
+		"environment": "production",
+	}
 )
 
+// Set the default logger to console in case of errors previous to read the env
 func init() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	logger := zerolog.New(output).With().Timestamp().Caller().Logger()
@@ -42,8 +46,12 @@ type LoggerConfig struct {
 	LokiEndpoint string `mapstructure:"LOKI_ENDPOINT"`
 }
 
-func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
-	if cfg.LogFormat == "json" {
+func InitLogger(ctx context.Context, cfg *LoggerConfig) (
+	zerolog.Logger, func(ctx context.Context) error, error) {
+	if cfg == nil {
+		cfg = &LoggerConfig{}
+	}
+	if cfg.LogFormat == "json" { // change default output type if json is set
 		output = zerolog.ConsoleWriter{Out: os.Stdout, NoColor: true}
 	}
 
@@ -72,23 +80,16 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 	log.Logger = logger
 
 	// Loki client setup
-	lokiURLValue, err := url.Parse(cfg.LokiEndpoint)
-	if err != nil {
-		log.Error().Err(err).Msg("Failed to parse Loki endpoint")
-		return logger, func() { lumberjackLogger.Close() }, err
-	}
-	client, err := loki.New(loki.Config{URL: urlutil.URLValue{URL: lokiURLValue}})
+	client, err := loki.NewWithDefault(cfg.LokiEndpoint)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to create Loki client")
-		return logger, func() { lumberjackLogger.Close() }, err
+		return logger, func(_ context.Context) error { return lumberjackLogger.Close() }, err
 	}
 
-	// Channel for log messages
+	// Channel for log messages & WaitGroup to wait for goroutine to finish
 	logChannel := make(chan string, 100)
-
-	// WaitGroup to wait for goroutine to finish
 	var wg sync.WaitGroup
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 
 	// Goroutine to process log messages
 	wg.Add(1)
@@ -99,11 +100,11 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 			case <-ctx.Done():
 				return
 			case msg := <-logChannel:
-				// Prepare the payload for Loki.
+				// Prepare the payload for Loki
 				payload := map[string]any{
 					"streams": []map[string]any{
 						{
-							"labels": `{app="my-go-app", environment="production"}`,
+							"labels": labels,
 							"entries": []map[string]any{
 								{
 									"ts":   time.Now().Format(time.RFC3339Nano),
@@ -124,7 +125,7 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 	}()
 
 	// Function to gracefully shut down the logger
-	shutdown := func() {
+	shutdown := func(_ context.Context) error {
 		// Cancel the context to stop the goroutine
 		cancel()
 		// Wait for the goroutine to finish
@@ -132,8 +133,14 @@ func InitLogger(cfg LoggerConfig) (zerolog.Logger, func(), error) {
 		// Close the Loki client
 		client.Stop()
 		// Close the lumberjack logger
-		lumberjackLogger.Close()
-		log.Info().Msg("Logger shutdown")
+		err := lumberjackLogger.Close()
+		if err != nil {
+			log.Error().Err(err).Msg("Failed to close lumberjack logger")
+		}
+		// Close the channel
+		close(logChannel)
+		log.Info().Msg("Logger shutdown successfull")
+		return nil
 	}
 
 	return logger, shutdown, nil
@@ -148,15 +155,13 @@ func sendToLoki(client *loki.Client, logData map[string]any) error {
 	}
 
 	retries := 3
-	for i := 0; i < retries; i++ {
-		err := client.Handle(model.LabelSet{
-			model.LabelName("app"):         model.LabelValue("my-go-app"),
-			model.LabelName("environment"): model.LabelValue("production"),
-		}, time.Now(), string(jsonData))
+	for i := range retries {
+		err := client.Handle(labels, time.Now(), string(jsonData))
 		if err == nil {
 			return nil // Successfully sent.
 		}
-		time.Sleep(2 * time.Second) // Wait before retrying.
+		backoff := time.Duration(2*i) * time.Second
+		time.Sleep(backoff)
 	}
 	return fmt.Errorf("failed to send log to Loki after %d retries", retries)
 }
