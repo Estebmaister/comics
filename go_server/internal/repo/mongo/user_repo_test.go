@@ -9,7 +9,7 @@ import (
 
 	"comics/domain"
 	"comics/internal/repo"
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
@@ -46,7 +46,7 @@ func TestMain(m *testing.M) {
 	userDBcfg.BackoffTimeout = 1 * time.Second
 
 	// Create custom UserRepo
-	userRepo, err = NewUserRepo(ctx, userDBcfg, &tracing.TracerConfig{
+	userRepo, err = NewUserRepo(ctx, userDBcfg, &tracer.TracerConfig{
 		ServiceName: "comics-service-test",
 	})
 	if err != nil {
@@ -285,7 +285,7 @@ func TestClientConnection(t *testing.T) {
 	_, err = NewUserRepo(ctx, &repo.DBConfig{}, nil)
 	assert.Error(t, err, "Creating UserRepo with empty config")
 
-	newUserRepo, err := NewUserRepo(ctx, userDBcfg, &tracing.TracerConfig{
+	newUserRepo, err := NewUserRepo(ctx, userDBcfg, &tracer.TracerConfig{
 		ServiceName: "comics-service_test",
 	})
 	assert.NoError(t, err, "Failed to create new UserRepo")

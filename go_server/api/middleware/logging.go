@@ -6,7 +6,7 @@ import (
 	"io"
 	"time"
 
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/xid"
@@ -48,7 +48,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 
 		// Add request ID and tracing info to logger
 		ctx := c.Request.Context()
-		logger := tracing.LoggerWithSpanFromCtx(ctx, log.Logger)
+		logger := tracer.LoggerWithSpanFromCtx(ctx, log.Logger)
 		logger.UpdateContext(func(c zerolog.Context) zerolog.Context {
 			return c.Str(keyRequestID, reqID)
 		})
@@ -93,6 +93,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 // RequestID returns the request ID from the headers or the gin request context.
 // if it's not found, a new one is generated and added to the headers and to the context.
 func RequestID(c *gin.Context) string {
+	// Get the request ID from the headers
 	reqID := c.Request.Header.Get(keyHeaderRequestID)
 	if reqID != "" {
 		c.Request = c.Request.WithContext(
@@ -100,12 +101,17 @@ func RequestID(c *gin.Context) string {
 		return reqID
 	}
 
-	reqID = c.Request.Context().Value(requestID{}).(string)
+	// Get the request ID from the context
+	reqIDtx := c.Request.Context().Value(requestID{})
+	if reqIDtx != nil {
+		reqID = reqIDtx.(string)
+	}
 	if reqID != "" {
 		c.Writer.Header().Add(keyHeaderRequestID, reqID)
 		return reqID
 	}
 
+	// Generate a new request ID
 	reqID = xid.New().String()
 	c.Writer.Header().Add(keyHeaderRequestID, reqID)
 	c.Request = c.Request.WithContext(

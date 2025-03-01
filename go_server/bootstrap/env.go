@@ -7,7 +7,7 @@ import (
 
 	"comics/internal/logger"
 	"comics/internal/repo"
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
@@ -32,7 +32,7 @@ type Env struct {
 	*repo.DBConfig
 	*JWTConfig
 	*logger.LoggerConfig
-	*tracing.TracerConfig
+	*tracer.TracerConfig
 	AppEnv         `mapstructure:"ENVIRONMENT"`
 	AddressHTTP    string        `mapstructure:"ADDRESS_HTTP"`
 	AddressGRPC    string        `mapstructure:"ADDRESS_GRPC"`
@@ -56,7 +56,7 @@ func MustLoadEnv(_ context.Context) *Env {
 	jwtConfig := &JWTConfig{}
 	dbConfig := &repo.DBConfig{}
 	loggerConfig := &logger.LoggerConfig{}
-	tracerConfig := &tracing.TracerConfig{}
+	tracerConfig := &tracer.TracerConfig{}
 
 	err := viper.ReadInConfig()
 	if err != nil {

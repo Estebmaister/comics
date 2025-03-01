@@ -9,10 +9,11 @@ import (
 	"comics/domain"
 	"comics/internal/metrics"
 	"comics/internal/repo"
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/google/uuid"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -38,7 +39,7 @@ type UserRepo struct {
 	coll    Collection
 	cl      Client
 	metrics *metrics.Metrics
-	tracer  *tracing.Tracer
+	tracer  *tracer.Tracer
 }
 
 // DefaultConfig returns a default configuration
@@ -54,20 +55,20 @@ func DefaultConfig() *repo.DBConfig {
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
-func NewUserRepo(ctx context.Context, cfg *repo.DBConfig, tpCfg *tracing.TracerConfig) (*UserRepo, error) {
+func NewUserRepo(ctx context.Context, cfg *repo.DBConfig, tpCfg *tracer.TracerConfig) (*UserRepo, error) {
 	// Validate configuration
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}
 	if tpCfg == nil {
-		tpCfg = tracing.DefaultTracerConfig()
+		tpCfg = tracer.DefaultTracerConfig()
 	}
 
 	// Initialize metrics
 	metrics := metrics.NewMetrics(tpCfg.ServiceName, namespace)
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(ctx, tpCfg, namespace)
+	tracer, err := tracer.NewTracer(ctx, tpCfg, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}
@@ -160,7 +161,7 @@ func (r *UserRepo) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, err
 
 	err := r.withSpan(ctx, "GetByID", func(ctx context.Context) error {
 		return r.withRetry(ctx, "GetByID", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("id", id.String())
+			tracer.FromContext(ctx).SetTag("id", id.String())
 
 			err := r.coll.FindOne(ctx, map[string]any{"_id": id}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
@@ -181,14 +182,14 @@ func (r *UserRepo) GetByEmail(ctx context.Context, email string) (*domain.User, 
 	user := &domain.User{}
 	err := r.withSpan(ctx, "GetByEmail", func(ctx context.Context) error {
 		return r.withRetry(ctx, "GetByEmail", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("email", email)
+			tracer.FromContext(ctx).SetTag("email", email)
 
 			// Find user by email
 			err := r.coll.FindOne(ctx, map[string]any{"email": email}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
-			tracing.FromContext(ctx).SetTag("id", user.ID.String())
+			tracer.FromContext(ctx).SetTag("id", user.ID.String())
 			return err
 
 		})
@@ -205,14 +206,14 @@ func (r *UserRepo) GetByUsername(ctx context.Context, username string) (*domain.
 
 	err := r.withSpan(ctx, "GetByUsername", func(ctx context.Context) error {
 		return r.withRetry(ctx, "GetByUsername", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("username", username)
+			tracer.FromContext(ctx).SetTag("username", username)
 
 			// Find user by username
 			err := r.coll.FindOne(ctx, map[string]any{"username": username}).Decode(user)
 			if err != nil && errors.Is(err, mongo.ErrNoDocuments) {
 				return repo.ErrNotFound
 			}
-			tracing.FromContext(ctx).SetTag("id", user.ID.String())
+			tracer.FromContext(ctx).SetTag("id", user.ID.String())
 			return err
 
 		})
@@ -230,11 +231,9 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 			if user == nil {
 				return repo.ErrInvalidArgument
 			}
-			tracing.FromContext(ctx).SetTag("id", user.ID)
-			tracing.FromContext(ctx).SetTag("username", user.Username)
-			tracing.FromContext(ctx).SetTag("email", user.Email)
-			tracing.FromContext(ctx).SetTag("role", user.Role)
-			tracing.FromContext(ctx).SetTag("active", user.Active)
+			tracer.FromContext(ctx).SetTag("id", user.ID)
+			log := zerolog.Ctx(ctx)
+			log.Debug().Msgf("Creating user %s", user)
 
 			if user.ID == uuid.Nil || user.Username == "" || user.Email == "" {
 				return repo.ErrInvalidArgument
@@ -244,11 +243,12 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 			user.CreatedAt = time.Now()
 			user.UpdatedAt = user.CreatedAt
 
+			// Insert the user
+			_, err := r.coll.InsertOne(ctx, user)
+
 			if user.Password == "" {
 				log.Warn().Msgf("Password is empty for user: %v", user)
 			}
-			// Insert the user
-			_, err := r.coll.InsertOne(ctx, user)
 			return err
 		})
 	})
@@ -262,11 +262,9 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 			if user == nil {
 				return repo.ErrInvalidArgument
 			}
-			tracing.FromContext(ctx).SetTag("id", user.ID.String())
-			tracing.FromContext(ctx).SetTag("username", user.Username)
-			tracing.FromContext(ctx).SetTag("email", user.Email)
-			tracing.FromContext(ctx).SetTag("role", user.Role)
-			tracing.FromContext(ctx).SetTag("active", user.Active)
+			tracer.FromContext(ctx).SetTag("id", user.ID.String())
+			log := zerolog.Ctx(ctx)
+			log.Debug().Msgf("Updating user %s", user)
 
 			// Prepare updated user document
 			update := bson.M{"$set": bson.M{
@@ -296,7 +294,7 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 func (r *UserRepo) Delete(ctx context.Context, id uuid.UUID) error {
 	return r.withSpan(ctx, "Delete", func(ctx context.Context) error {
 		return r.withRetry(ctx, "Delete", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("id", id.String())
+			tracer.FromContext(ctx).SetTag("id", id.String())
 
 			// Perform delete on given ID
 			result, err := r.coll.DeleteOne(ctx, bson.M{"_id": id})
@@ -315,8 +313,8 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 	var totalCount int64
 	err := r.withSpan(ctx, "List", func(ctx context.Context) error {
 		return r.withRetry(ctx, "List", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("page", page)
-			tracing.FromContext(ctx).SetTag("page_size", pageSize)
+			tracer.FromContext(ctx).SetTag("page", page)
+			tracer.FromContext(ctx).SetTag("page_size", pageSize)
 
 			if page < 1 || pageSize < 1 {
 				return repo.ErrInvalidPageParams
@@ -329,7 +327,7 @@ func (r *UserRepo) List(ctx context.Context, page, pageSize int) ([]*domain.User
 			if err != nil {
 				return err
 			}
-			tracing.FromContext(ctx).SetTag("total_count", totalCount)
+			tracer.FromContext(ctx).SetTag("total_count", totalCount)
 
 			// Prepare find options for pagination
 			findOptions := options.Find().
@@ -358,7 +356,7 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 	var users []*domain.User
 	err := r.withSpan(ctx, "FindActiveUsersByRole", func(ctx context.Context) error {
 		return r.withRetry(ctx, "FindActiveUsersByRole", func(ctx context.Context) error {
-			tracing.FromContext(ctx).SetTag("role", role)
+			tracer.FromContext(ctx).SetTag("role", role)
 
 			// Define filter for active users with specific role
 			filter := bson.M{
@@ -382,7 +380,7 @@ func (r *UserRepo) FindActiveUsersByRole(ctx context.Context, role string) ([]*d
 				return err
 			}
 
-			tracing.FromContext(ctx).SetTag("users", len(users))
+			tracer.FromContext(ctx).SetTag("users", len(users))
 			return nil
 		})
 	})

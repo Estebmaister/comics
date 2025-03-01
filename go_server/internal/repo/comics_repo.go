@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"comics/internal/metrics"
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 	"comics/pkg/pb"
 
 	"github.com/cenkalti/backoff/v4"
@@ -42,7 +42,7 @@ var _ Closable = (*ComicsRepo)(nil)
 type ComicsRepo struct {
 	cl      *pgxpool.Pool
 	metrics *metrics.Metrics
-	tracer  *tracing.Tracer
+	tracer  *tracer.Tracer
 }
 
 func DefaultConfig() *DBConfig {
@@ -77,12 +77,12 @@ func DefaultConfig() *DBConfig {
 	return cfg
 }
 
-func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracing.TracerConfig) (*ComicsRepo, error) {
+func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracer.TracerConfig) (*ComicsRepo, error) {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}
 	if tpCfg == nil {
-		tpCfg = tracing.DefaultTracerConfig()
+		tpCfg = tracer.DefaultTracerConfig()
 	}
 
 	connStr := fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s",
@@ -103,7 +103,7 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracing.TracerConf
 	}
 
 	// Initialize tracer
-	tracer, err := tracing.NewTracer(ctx, tpCfg, namespace)
+	tracer, err := tracer.NewTracer(ctx, tpCfg, namespace)
 	if err != nil {
 		return nil, fmt.Errorf("error creating tracer: %w", err)
 	}

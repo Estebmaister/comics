@@ -8,7 +8,7 @@ import (
 
 	_ "comics/internal/logger"
 	"comics/internal/server"
-	"comics/internal/tracing"
+	"comics/internal/tracer"
 
 	"github.com/rs/zerolog/log"
 )
@@ -19,7 +19,7 @@ func main() {
 	defer cancel()
 
 	// Initialize tracer
-	tp, err := tracing.NewTracer(ctx, &tracing.TracerConfig{
+	tp, err := tracer.NewTracer(ctx, &tracer.TracerConfig{
 		Endpoint:    "http://localhost:14268/api/traces",
 		ServiceName: "comics-server",
 		Sampler:     100,

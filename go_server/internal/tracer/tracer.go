@@ -1,4 +1,4 @@
-package tracing
+package tracer
 
 import (
 	"context"
@@ -25,6 +25,8 @@ import (
 const (
 	shutdownTimeout = 5 * time.Second
 	errMessage      = "error occurred"
+	keySpanID       = "span_id"
+	keyTraceID      = "trace_id"
 )
 
 // TracerConfig holds the tracer configuration
@@ -153,6 +155,23 @@ func FromContext(ctx context.Context) *span {
 	return &span{span: trace.SpanFromContext(ctx)}
 }
 
+// SpanContextFromContext returns the span context from the context if it exists.
+func SpanContextFromContext(ctx context.Context) trace.SpanContext {
+	return FromContext(ctx).SpanContext()
+}
+
+// LoggerWithSpanFromCtx returns a new logger with the span and tracer ids inserted
+func LoggerWithSpanFromCtx(ctx context.Context, log zerolog.Logger) zerolog.Logger {
+	spanCtx := SpanContextFromContext(ctx)
+	if spanCtx.HasTraceID() {
+		log = log.With().Str(keyTraceID, spanCtx.TraceID().String()).Logger()
+	}
+	if spanCtx.HasSpanID() {
+		log = log.With().Str(keySpanID, spanCtx.SpanID().String()).Logger()
+	}
+	return log
+}
+
 type span struct {
 	span trace.Span
 }
@@ -160,6 +179,11 @@ type span struct {
 // End ends the span
 func (s *span) End() {
 	s.span.End()
+}
+
+// SpanContext returns the span context
+func (s *span) SpanContext() trace.SpanContext {
+	return s.span.SpanContext()
 }
 
 // SetError sets the span status to Error and records the error
