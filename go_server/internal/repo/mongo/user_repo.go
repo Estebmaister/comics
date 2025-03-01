@@ -146,7 +146,7 @@ func (r *UserRepo) withRetry(ctx context.Context, operation string, fn func(ctx 
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
 			}
-			log.Warn().Err(err).Msgf("Operation %s failed, retrying", operation)
+			log.Warn().Err(err).Caller().Msgf("Operation %s failed, retrying", operation)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)

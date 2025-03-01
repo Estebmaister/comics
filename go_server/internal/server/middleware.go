@@ -22,7 +22,7 @@ func LoggingInterceptor(
 	h, err := handler(newCtx, req)
 	duration := time.Since(start)
 
-	logger.Info().Err(err).Dur("duration", duration).Msg("gRPC request")
+	logger.Info().Err(err).Caller().Dur("duration", duration).Msg("gRPC request")
 
 	return h, err
 }

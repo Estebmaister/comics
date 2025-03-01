@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"sync"
 	"time"
@@ -17,7 +18,13 @@ import (
 )
 
 var (
-	output = zerolog.NewConsoleWriter()
+	// Default output for debug console
+	output io.Writer = zerolog.NewConsoleWriter(
+		func(w *zerolog.ConsoleWriter) {
+			w.FieldsExclude = []string{
+				"span_id", "trace_id", "request_id", "client_ip"}
+		})
+
 	// Use structured labels instead of raw string
 	labels = model.LabelSet{
 		"app":         "comics",
@@ -34,9 +41,9 @@ func init() {
 
 // LoggerConfig holds the configuration for the logger
 type LoggerConfig struct {
-	LogLevel      string `mapstructure:"LOG_LEVEL" default:"info"`
-	LogFormat     string `mapstructure:"LOG_FORMAT" default:"json"`
-	LogOutputFile string `mapstructure:"LOG_OUTPUT_FILE"`
+	LogLevel        string `mapstructure:"LOG_LEVEL" default:"info"`
+	LogDebugConsole bool   `mapstructure:"LOG_DEBUG_CONSOLE"`
+	LogOutputFile   string `mapstructure:"LOG_OUTPUT_FILE"`
 
 	MaxSize    int  `mapstructure:"LOG_MAX_SIZE_MB"`
 	MaxBackups int  `mapstructure:"LOG_MAX_BACKUPS"`
@@ -51,8 +58,8 @@ func InitLogger(ctx context.Context, cfg *LoggerConfig) (
 	if cfg == nil {
 		cfg = &LoggerConfig{}
 	}
-	if cfg.LogFormat == "json" { // change default output type if json is set
-		output = zerolog.ConsoleWriter{Out: os.Stdout, NoColor: true}
+	if !cfg.LogDebugConsole { // change default output to plain console
+		output = os.Stderr
 	}
 
 	level, err := zerolog.ParseLevel(cfg.LogLevel)

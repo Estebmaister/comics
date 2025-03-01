@@ -85,7 +85,7 @@ func (s *Server) Shutdown(ctx context.Context) {
 	s.grpcServer.GracefulStop()
 	s.health.Stop()
 	if err := s.comicsRepo.Close(ctx); err != nil {
-		log.Error().Err(err).Msg("Error closing database connection")
+		log.Error().Err(err).Caller().Msg("Error closing database connection")
 	}
 }
 

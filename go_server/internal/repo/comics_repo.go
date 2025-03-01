@@ -47,7 +47,7 @@ type ComicsRepo struct {
 
 func DefaultConfig() *DBConfig {
 	if err := godotenv.Load(); err != nil {
-		log.Warn().Err(err).Msgf(".env file not found")
+		log.Warn().Err(err).Caller().Msgf(".env file not found")
 	}
 	cfg := &DBConfig{
 		Addr:            os.Getenv("PG_ADDR"),
@@ -210,7 +210,7 @@ func (r *ComicsRepo) withRetry(ctx context.Context, operation string, fn func() 
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
 			}
-			log.Warn().Err(err).Msgf("Operation %s failed, retrying", operation)
+			log.Warn().Err(err).Caller().Msgf("Operation %s failed, retrying", operation)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)

@@ -30,7 +30,7 @@ func (s *Server) StartMetricsServer(ctx context.Context) error {
 	go func() {
 		log.Info().Msgf("Starting metrics server on port %d", s.config.MetricsPort)
 		if err := s.healthServer.ListenAndServe(); err != http.ErrServerClosed {
-			log.Error().Err(err).Msg("Metrics server failed")
+			log.Error().Err(err).Caller().Msg("Metrics server failed")
 		}
 	}()
 
@@ -38,7 +38,7 @@ func (s *Server) StartMetricsServer(ctx context.Context) error {
 	go func() {
 		<-ctx.Done()
 		if err := s.healthServer.Shutdown(context.Background()); err != nil {
-			log.Error().Err(err).Msg("Error shutting down metrics server")
+			log.Error().Err(err).Caller().Msg("Error shutting down metrics server")
 		}
 	}()
 
