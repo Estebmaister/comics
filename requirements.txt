@@ -43,6 +43,7 @@ setuptools==75.8.0
 six==1.17.0
 soupsieve==2.6
 SQLAlchemy==2.0.38
+termcolor==2.5.0
 tomli==2.2.1
 typing_extensions==4.12.2
 urllib3==2.3.0
