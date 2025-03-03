@@ -121,9 +121,7 @@ func (r *UserRepo) withSpan(ctx context.Context, operation string, fn func(conte
 	start := time.Now()
 	err := fn(ctx)
 	if err != nil {
-		span.SetError(err)
-	} else {
-		span.SetOk()
+		span.SetTag("query.failed", true)
 	}
 
 	r.metrics.RecordQuery(time.Since(start), operation, err)
@@ -147,7 +145,9 @@ func (r *UserRepo) withRetry(ctx context.Context, operation string, fn func(ctx 
 				// Do not retry if the error is ErrNotFound
 				return backoff.Permanent(err)
 			}
-			log.Warn().Err(err).Caller().Msgf("Operation %s failed, retrying", operation)
+			tracer.FromContext(ctx).SetTag("query.retried", true)
+			zerolog.Ctx(ctx).Warn().Err(err).Caller().
+				Msgf("Operation %s failed, retrying", operation)
 			return err
 		}
 		r.metrics.RecordRetry(operation, true)
@@ -232,8 +232,8 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 				return repo.ErrInvalidArgument
 			}
 			tracer.FromContext(ctx).SetTag("id", user.ID)
-			log := zerolog.Ctx(ctx)
-			log.Debug().Msgf("Creating user %s", user)
+			zerolog.Ctx(ctx).Debug().Msgf("Creating %s: %s, %s, %s",
+				user.Role, user.ID, user.Username, user.Email)
 
 			if user.ID == uuid.Nil || user.Username == "" || user.Email == "" {
 				return repo.ErrInvalidArgument
@@ -247,7 +247,7 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 			_, err := r.coll.InsertOne(ctx, user)
 
 			if user.Password == "" {
-				log.Warn().Msgf("Password is empty for user: %v", user)
+				zerolog.Ctx(ctx).Warn().Msgf("Password is empty for user: %v", user)
 			}
 			return err
 		})
@@ -263,8 +263,7 @@ func (r *UserRepo) Update(ctx context.Context, user *domain.User) error {
 				return repo.ErrInvalidArgument
 			}
 			tracer.FromContext(ctx).SetTag("id", user.ID.String())
-			log := zerolog.Ctx(ctx)
-			log.Debug().Msgf("Updating user %s", user)
+			zerolog.Ctx(ctx).Debug().Msgf("Updating user %v", user)
 
 			// Prepare updated user document
 			update := bson.M{"$set": bson.M{

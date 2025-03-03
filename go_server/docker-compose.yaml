@@ -1,5 +1,6 @@
 services:
   comics_server:
+    container_name: comics_server
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -10,6 +11,7 @@ services:
       - ADDRESS_GRPC=0.0.0.0:8084
     ports:
       - 8083:8083
+      - 8084:8084
     volumes:
       - ./.env:/app/.env:ro
       - ../src/db/comics.db:/src/db/comics.db:ro

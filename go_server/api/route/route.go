@@ -96,8 +96,8 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 //	@Tags			Metrics
 //	@Accept			json
 //	@Produce		json
-//	@Success		200				string	string	"Metrics \# TYPE & HELP"
-//	@Failure		503				string	string	"Service unavailable"
+//	@Success		200	string	string	"Metrics: \#TYPE & \#HELP"
+//	@Failure		503	string	string	"Service unavailable"
 //	@Router			/metrics [get]
 func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 	prometheus.MustRegister(collectors.NewBuildInfoCollector())
@@ -306,21 +306,24 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 
 		user, err := authController.GetUserByJWT(c.Request.Context(), accessToken)
 
+		// If call comes from api return JSON
 		if c.GetHeader(keyAccept) == contentTypeJSON {
 			if err != nil {
 				c.Error(err)
 				c.JSON(http.StatusNotFound, &domain.APIResponse[any]{
 					Status: http.StatusNotFound, Message: "User not found"})
 				return
-			} else {
-				c.JSON(http.StatusOK, user)
-				return
 			}
+
+			c.JSON(http.StatusOK, user)
+			return
 		}
 
+		// If call comes from browser render profile or redirect to login if no user found
 		if err != nil {
 			c.Error(err)
-			c.Redirect(http.StatusUnauthorized, "/login")
+			c.Redirect(http.StatusSeeOther, "/login")
+			return
 		}
 		otelgin.HTML(c, http.StatusOK, "profile.html", user)
 	})

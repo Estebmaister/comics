@@ -24,23 +24,30 @@ services:
     volumes:
       # - ./jaeger-config.yaml:/etc/jaeger/jaeger-config.yaml
       - observer_vol:/var/jaeger
+      - observer_vol:/tmp
     networks:
       - observability
-
-  # zipkin:
-  #   image: openzipkin/zipkin:latest
-  #   container_name: zipkin
-  #   ports:
-  #     - 9411:9411 # HTTP OTEL collector
 
   loki:
     image: grafana/loki:latest
     container_name: loki
     ports:
       - 3100:3100
-    command: -config.file=/etc/loki/local-config.yaml
+    command: -config.file=/mnt/config/loki-config.yaml
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./grafana/loki-config.yaml:/mnt/config/loki-config.yaml
+    networks:
+      - observability
+  
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    command: -config.file=/mnt/config/promtail-config.yml
+    volumes:
+      - ./grafana/promtail-config.yaml:/mnt/config/promtail-config.yml
+      - ./log:/.observability/log
+    links:
+      - loki
     networks:
       - observability
 
@@ -54,13 +61,16 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/rules.yml:/etc/prometheus/rules.yml
+      - observer_vol:/prometheus
     networks:
       - observability
   
   alert-manager:
+    container_name: alert-manager
     image: prom/alertmanager
     volumes:
       - ./prometheus/alertmanager.yml:/alertmanager/alertmanager.yml
+      - observer_vol:/alertmanager
     ports:
       - 9093:9093
     networks:

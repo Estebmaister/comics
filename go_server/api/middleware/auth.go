@@ -40,10 +40,13 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 		tokenString := c.GetHeader(KeyAuthorization)
 		ExtractCookieAccessToken(c, &tokenString)
 		if tokenString == "" {
+			// If call comes from browser redirect to login
 			if c.GetHeader(KeyAccept) != ContentTypeJSON {
 				c.Redirect(http.StatusFound, "/login")
 				return
 			}
+
+			// Return unauthorized error
 			c.Error(fmt.Errorf("missing authentication token"))
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing authentication token"})
 			c.Abort()

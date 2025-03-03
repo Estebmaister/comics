@@ -8,6 +8,8 @@ const edit = async (comic: any, server = SERVER) => {
   let newData;
   comic.last_update = new Date().getTime();
   const data = { ...comic };
+  delete data.deleted;
+  delete data.track;
   console.debug(JSON.stringify(data))
   await fetch(`${server}/comics/${comic.id}`, {
     method: 'PUT',

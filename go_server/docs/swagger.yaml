@@ -148,18 +148,11 @@ paths:
       - application/json
       description: Returns metrics necessary for observability
       operationId: metrics
-      parameters:
-      - default: Bearer XXX
-        description: Bearer JWT
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: \# METRICS & HELP
+          description: 'Metrics: \#TYPE & \#HELP'
           schema:
             type: string
         "503":

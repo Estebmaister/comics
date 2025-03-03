@@ -9,6 +9,7 @@ const formType = (field: string) => {
   switch (field) {
     case 'viewed_chap':
     case 'current_chap':
+    case 'rating':
       return 'number';
     case 'cover':
       return 'url';
@@ -19,6 +20,7 @@ const formType = (field: string) => {
       return 'select';
     case 'id':
     case 'last_update':
+    case 'deleted':
     case 'track':
       return 'none';
     default:

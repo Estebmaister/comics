@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import signal
 import sys
@@ -35,19 +36,22 @@ engines = {
 }
 
 load_dotenv()
+log = logging.getLogger(__name__)
+
 try:
     DB_ENGINE: Engines = engines[os.getenv('DB_ENGINE')]
 except:
-    print('DB_ENGINE env var malformed, defaulting to sqlite')
+    log.warning('DB_ENGINE env var malformed, defaulting to sqlite')
     DB_ENGINE: Engines = Engines.SQLITE
+
 DB_USER: str = os.getenv('DB_USER', 'esteb')
 DB_NAME: str = os.getenv('DB_NAME', 'comics')
 DB_PASS: str = os.getenv('DB_PASS', 'My0th3rS3lf')
 DB_HOST: str = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT: str = os.getenv('DB_PORT', '3306')
 db_file = os.path.join(os.path.dirname(__file__), "comics.db")
-ssl_ca = os.path.join(os.path.dirname(__file__),
-                      "DigiCertGlobalRootG2.crt.pem")
+ssl_ca = os.path.join(
+    os.path.dirname(__file__), "DigiCertGlobalRootG2.crt.pem")
 comic_file = os.path.join(os.path.dirname(__file__), "comics.json")
 load_comics = []
 
@@ -97,7 +101,7 @@ def _engine_creation():
 
 
 engine = _engine_creation()
-print(engine)
+log.info(engine)
 
 
 seq = Sequence('comic_id_seq')
@@ -324,7 +328,7 @@ save_db_classes_file()
 
 def close_signal_handler(sig, frame):
     session.close()
-    print('\nDB connection closed...')
+    log.info('DB connection closed...')
     sys.exit(0)
 
 

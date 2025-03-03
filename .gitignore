@@ -53,16 +53,6 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
 # Flask stuff:
 instance/
 .webassets-cache
@@ -185,6 +175,9 @@ cython_debug/
 .env.production.local
 todo
 
+# logs
+*.log
+*.log.gz
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

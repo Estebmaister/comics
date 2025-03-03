@@ -104,7 +104,11 @@ def merge_comics(base_id: int, merging_id: int) -> (dict, str):
     except IndexError:
         load_comics.append(comic.toJSON())
         json_comic = [com for com in load_comics if comic.id == com["id"]][0]
-    dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
+    try:
+        dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
+    except IndexError:
+        load_comics.append(d_comic.toJSON())
+        dj_comic = [com for com in load_comics if d_comic.id == com["id"]][0]
 
     titles = list(set(comic.get_titles() + d_comic.get_titles()))
     comic.set_titles(titles)

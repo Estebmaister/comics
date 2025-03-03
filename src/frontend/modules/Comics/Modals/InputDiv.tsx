@@ -26,6 +26,7 @@ const InputDiv = (
           ref={field === 'title' ? focusInputRef : null}
           required={field === 'title'}
           min={0}
+          max={field === 'rating' ? 5 : undefined}
           type={type}
           id={field}
           name={field}

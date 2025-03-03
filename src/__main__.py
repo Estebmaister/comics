@@ -7,13 +7,13 @@ import time
 from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 
+import helpers.logger
 from db import session
 from helpers.alert import send_reminder
-from helpers.logger import logger
 from scrape import scrapes
 from server import server as SERVER
 
-log = logger(__name__)
+log = helpers.logger.get_logger(__name__)
 PORT: int = int(os.getenv('PORT', 5001))
 DEBUG: bool = os.getenv('DEBUG', 'false') == 'true'
 

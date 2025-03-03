@@ -26,9 +26,12 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
   const [comic, setComic] = useState(props.comic);
   const { id, cover, current_chap } = comic;
   const [viewedChap, setViewedChap] = useState(comic.viewed_chap);
-  const [track, setTrack] = useState(comic.track);
   const [check, setCheck] = useState(current_chap > viewedChap);
   const [del, setDel] = useState(false);
+
+  const setTrackComic = (track: boolean) => {
+    setComic({ ...comic, track: track });
+  }
 
   const [isHovering, setIsHovering] = useState(false);
   const handleMouseOver = () => setIsHovering(true);;
@@ -55,7 +58,7 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
     <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
 
     <p className={`${styles.comicChapter} text`}> Chapter
-      {track && current_chap !== viewedChap ?
+      {comic.track && current_chap !== viewedChap ?
         (<span className={styles.currentChapter}> {viewedChap + '/ '} </span>)
         : ' '} {current_chap}
     </p>
@@ -67,7 +70,7 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
     <p className='text'> Publishers: {publishersHandler(
       comic.published_in)} </p>
 
-    {track && check ?
+    {comic.track && check ?
       <button
         className={`${styles.trackButton} ${styles.checkButton} basic-button`}
         onClick={() =>
@@ -78,9 +81,9 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
     }
     <button
       className={styles.trackButton + ' basic-button' +
-        (track ? ' reverse-button' : '')}
-      onClick={() => trackComic(track, comic.id, setTrack)}>
-      {track ? 'Untrack' : 'Track'}
+        (comic.track ? ' reverse-button' : '')}
+      onClick={() => trackComic(comic.track, comic.id, setTrackComic)}>
+      {comic.track ? 'Untrack' : 'Track'}
     </button>
     <button
       className={styles.delButton + ' basic-button reverse-button'}

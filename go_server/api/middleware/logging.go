@@ -3,7 +3,9 @@ package middleware
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
+	"net/http"
 	"time"
 
 	"comics/internal/tracer"
@@ -56,37 +58,48 @@ func LoggerMiddleware() gin.HandlerFunc {
 		// Set the logger on the context
 		c.Request = c.Request.WithContext(logger.WithContext(ctx))
 
+		defer func() {
+			panicVal := recover()
+			if panicVal != nil {
+				err := fmt.Errorf("%v", panicVal)
+				c.Error(err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				c.Abort()
+				defer panic(err)
+			}
+
+			// Build log context
+			status := c.Writer.Status()
+			path := c.Request.URL.Path
+			raw := c.Request.URL.RawQuery
+			if raw != "" {
+				path = path + "?" + raw
+			}
+
+			// Build request log struct
+			logger = sensitiveDataFilterToLog(bodyBytes, logger)
+			logger = logger.With().Err(c.Errors.Last()).
+				// Str("request_id", c.Writer.Header().Get("Request-Id")).
+				Str("client_ip", c.ClientIP()).
+				Str("method", c.Request.Method).
+				Str("path", path).
+				Int("status", status).
+				Dur("duration", time.Since(start)).
+				Logger()
+
+			// Log the request
+			switch {
+			case status >= 400 && status < 500:
+				logger.Warn().Msg(msg)
+			case status >= 500:
+				logger.Error().Msg(msg)
+			default:
+				logger.Info().Msg(msg)
+			}
+		}()
+
 		// Call the next middleware
 		c.Next()
-
-		// Build log context
-		status := c.Writer.Status()
-		path := c.Request.URL.Path
-		raw := c.Request.URL.RawQuery
-		if raw != "" {
-			path = path + "?" + raw
-		}
-
-		// Build request log struct
-		logger = sensitiveDataFilterToLog(bodyBytes, logger)
-		logger = logger.With().Err(c.Errors.Last()).
-			// Str("request_id", c.Writer.Header().Get("Request-Id")).
-			Str("client_ip", c.ClientIP()).
-			Str("method", c.Request.Method).
-			Str("path", path).
-			Int("status", status).
-			Dur("duration", time.Since(start)).
-			Logger()
-
-		// Log the request
-		switch {
-		case status >= 400 && status < 500:
-			logger.Warn().Msg(msg)
-		case status >= 500:
-			logger.Error().Msg(msg)
-		default:
-			logger.Info().Msg(msg)
-		}
 	}
 }
 
@@ -129,5 +142,6 @@ func sensitiveDataFilterToLog(data []byte, logger zerolog.Logger) zerolog.Logger
 			data, _ = sjson.SetBytes(data, key, "***PROTECTED***")
 		}
 	}
+	data = bytes.ReplaceAll(data, []byte("\n"), []byte(""))
 	return logger.With().RawJSON("body", data).Logger()
 }

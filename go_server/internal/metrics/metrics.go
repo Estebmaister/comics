@@ -61,7 +61,7 @@ type Metrics struct {
 
 // NewMetrics creates a new instance of Metrics
 func NewMetrics(serviceName, namespace string) *Metrics {
-	// recover form panic
+	// recover form panic creating duplicated metrics
 	defer func() {
 		if r := recover(); r != nil {
 			log.Error().Msgf("panic recovered: %s", r)
@@ -75,7 +75,7 @@ func NewMetrics(serviceName, namespace string) *Metrics {
 		Subsystem: namespace,
 		Name:      "query_duration_seconds",
 		Help:      "Duration of database queries in mili seconds",
-		Buckets:   prometheus.ExponentialBuckets(0.001, 2, 11), // From 1ms to ~1s
+		Buckets:   prometheus.ExponentialBuckets(0.06, 1.3, 12), // From 60ms to ~1s
 	})
 
 	m.queryTotal = promauto.NewCounterVec(prometheus.CounterOpts{

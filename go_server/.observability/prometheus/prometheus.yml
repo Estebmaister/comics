@@ -19,5 +19,5 @@ scrape_configs:
   - job_name: comics
     static_configs:
       - targets:
-        - localhost:8081
+        - host.docker.internal:8081
         - host.docker.internal:8083

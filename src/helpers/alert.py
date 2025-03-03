@@ -3,11 +3,11 @@ import smtplib
 import subprocess
 from typing import Dict, List, Optional
 
+import helpers.logger
 from db import Publishers
-from helpers.logger import logger
 
 # Configure logging
-log = logger(__name__)
+log = helpers.logger.get_logger(__name__)
 
 # Constants
 SMTP_SERVER = 'smtp.gmail.com'
@@ -76,12 +76,12 @@ def add_alert(title: str, chapter: str, publishers: List[Publishers]) -> None:
         publishers: List of publishers for this comic
     """
     publisher_names = [Publishers(pub).name for pub in publishers]
-    update_message = f'\n{title}, ch {chapter} - {publisher_names}'
+    update_message = f'{title}, ch {chapter} - {publisher_names}'
 
-    print('[ UPDATE ]', title, chapter, publisher_names)
+    helpers.logger.update(update_message)
 
     alert_state['alert_count'] += 1
-    alert_state['content'] += update_message
+    alert_state['content'] += f'\n{update_message}'
 
     # Send reminder if we've accumulated enough alerts
     if alert_state['alert_count'] >= 5:
