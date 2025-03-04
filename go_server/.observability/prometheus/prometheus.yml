@@ -17,7 +17,11 @@ scrape_configs:
       - targets:
         - prometheus:9090
   - job_name: comics
+    metrics_path: /metrics
     static_configs:
       - targets:
         - host.docker.internal:8081
+  - job_name: comics_docker
+    static_configs:
+      - targets:
         - host.docker.internal:8083
