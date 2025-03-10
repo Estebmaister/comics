@@ -41,7 +41,7 @@ SCRAPE_FUNCTIONS: Dict[str, Callable] = {
     Publishers.Asura.name: 				scrape_asura,
     Publishers.FlameScans.name: 		scrape_flame,
     Publishers.RealmScans.name: 		scrape_realm,
-    Publishers.Manganato.name: 			scrape_manganato,
+    Publishers.Manganato.name: 			site_closed,
     Publishers.LeviatanScans.name: 	    site_closed,
     Publishers.LuminousScans.name: 	    func_pending,
     Publishers.IsekaiScan.name: 		func_pending,
