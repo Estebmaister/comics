@@ -38,8 +38,9 @@ type LoggerConfig struct {
 	Compress   bool `mapstructure:"LOG_COMPRESS"`
 }
 
-func InitLogger(ctx context.Context, cfg *LoggerConfig) (
-	zerolog.Logger, func(ctx context.Context) error, error) {
+type shutdownFunc func(context.Context) error
+
+func InitLogger(ctx context.Context, cfg *LoggerConfig) (zerolog.Logger, shutdownFunc, error) {
 	if cfg == nil {
 		cfg = &LoggerConfig{}
 	}

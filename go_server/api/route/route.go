@@ -47,7 +47,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 
 	// get global Monitor object
 	m := ginmetrics.GetMonitor()
-	m.SetMetricPath("/debug/metrics") // TODO: extract metrics to middlewares
+	// m.SetMetricPath("/debug/metrics") // TODO: extract metrics to middlewares
 	// set middleware for gin
 	m.Use(g)
 	g.Use(

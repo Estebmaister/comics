@@ -5,8 +5,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=host.docker.internal:4317
-      # Needed to be available from host, outside the container
+      - OTEL_EXPORTER_GRPC_ENDPOINT=host.docker.internal:4317
+      - LOG_OUTPUT_FILE=.observability/log/docker_logs.log
+      # 0.0.0.0 Needed to be available from host, outside the container
       - ADDRESS_HTTP=0.0.0.0:8083
       - ADDRESS_GRPC=0.0.0.0:8084
     ports:
@@ -15,6 +16,7 @@ services:
     volumes:
       - ./.env:/app/.env:ro
       - ../src/db/comics.db:/src/db/comics.db:ro
+      - ./.observability/log:/app/.observability/log
     restart: on-failure
     networks:
       - server_net

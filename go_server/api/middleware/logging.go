@@ -68,9 +68,13 @@ func LoggerMiddleware() gin.HandlerFunc {
 				defer panic(err)
 			}
 
-			// Build log context
-			status := c.Writer.Status()
 			path := c.Request.URL.Path
+			status := c.Writer.Status()
+			if status == http.StatusOK && (path == "/metrics" || path == "/health") {
+				return // Skip logging for healthcheck
+			}
+
+			// Build log context
 			raw := c.Request.URL.RawQuery
 			if raw != "" {
 				path = path + "?" + raw

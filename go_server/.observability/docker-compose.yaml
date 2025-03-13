@@ -33,21 +33,34 @@ services:
     container_name: loki
     ports:
       - 3100:3100
-    command: -config.file=/mnt/config/loki-config.yaml
+    command: -config.file=/mnt/config/loki-config.yml
     volumes:
-      - ./grafana/loki-config.yaml:/mnt/config/loki-config.yaml
+      - ./grafana/loki-config.yml:/mnt/config/loki-config.yml
     networks:
       - observability
   
-  promtail:
-    container_name: promtail
-    image: grafana/promtail:latest
-    command: -config.file=/mnt/config/promtail-config.yml
+  # promtail:
+  #   container_name: promtail
+  #   image: grafana/promtail:latest
+  #   command: -config.file=/mnt/config/promtail-config.yml
+  #   volumes:
+  #     - ./grafana/promtail-config.yml:/mnt/config/promtail-config.yml
+  #     - ./log:/.observability/log
+  #   networks:
+  #     - observability
+
+  vector:
+    image: timberio/vector:latest-alpine
+    container_name: vector
+    ports:
+      - 8686:8686
+    environment:
+      - VECTOR_CONFIG=/etc/vector/vector.yml
     volumes:
-      - ./grafana/promtail-config.yaml:/mnt/config/promtail-config.yml
-      - ./log:/.observability/log
-    links:
-      - loki
+      - ./vector-config.yml:/etc/vector/vector.yml
+      - ./log:/.observability/log  # Mount host log directory
+      - observer_vol:/var/lib/vector
+    restart: unless-stopped
     networks:
       - observability
 
@@ -92,6 +105,7 @@ services:
 
 volumes:
   observer_vol:
+    driver: local
 
 networks:
   observability:

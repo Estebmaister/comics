@@ -1,0 +1,78 @@
+# Vector Configuration File
+data_dir: /var/lib/vector
+
+sources:
+  # Comprehensive log source supporting both regular and compressed logs
+  comics_logs:
+    type: file
+    include:
+      - /.observability/log/*.log
+      - /.observability/log/*.log.gz
+    # Advanced file reading configuration
+    read_from: beginning
+    fingerprint:
+      strategy: checksum
+
+  # Optional: Journal logs for systemd-based systems
+  # system_logs:
+  #   type: journald
+
+transforms:
+  # Optional: Add log parsing or filtering
+  parsed_logs:
+    type: remap
+    inputs: ["comics_logs"]
+    source: |
+      . = parse_json!(.message)
+
+      # Attempt to parse timestamp with multiple formats
+      # Necessary when logs don't have a consistent timezone
+      .timestamp, err = parse_timestamp(.time, "%Y-%m-%dT%H:%M:%S%z")
+      if err != null {
+        .timestamp, err = parse_timestamp(.time, "%Y-%m-%dT%H:%M:%SZ")
+        if err != null {
+          .timestamp, err = parse_timestamp(.time, "%Y-%m-%d %H:%M:%S")
+          if err != null {
+            .timestamp = now()
+          }
+        }
+      }
+
+      # Extract additional metadata
+      # .host = get_hostname!()
+
+sinks:
+  # Loki sink configuration
+  loki_sink:
+    type: loki
+    inputs:
+      - parsed_logs  # Use transformed logs
+      # - system_logs  # Uncomment to include system journal logs
+    endpoint: http://loki:3100  # Replace with your Loki server URL
+    encoding:
+      codec: json
+    # Labels to add to log streams
+    labels:
+      service_name: "comic_srv_vec"
+      trace_id: "{{ .trace_id }}"
+      span_id: "{{ .span_id }}"
+      error: "{{ .error }}"
+
+    # Optional: Compression and batching
+    batch:
+      max_size: 2097152  # 2MB to handle compressed content
+      timeout_secs: 10
+
+    # Compression settings for outgoing logs
+    compression: gzip
+
+# Optional: Add healthcheck and metrics
+api:
+  enabled: true
+  address: 0.0.0.0:8686
+
+# Telemetry for debugging
+# telemetry:
+#   internal_logs:
+#     enabled: true
+#     level: "info"

@@ -11,6 +11,7 @@ import (
 	"comics/internal/repo"
 
 	"github.com/rs/zerolog/log"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 )
 
@@ -56,6 +57,7 @@ func New(ctx context.Context, cfg *Config) (*Server, error) {
 	grpcServer := grpc.NewServer(
 		grpc.UnaryInterceptor(middleware.UnaryServerLoggingInterceptor()),
 		grpc.StreamInterceptor(middleware.StreamServerLoggingInterceptor()),
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 	)
 
 	// Create metrics/health server
