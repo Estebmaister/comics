@@ -1,10 +1,7 @@
 prepare:
 	go get -u ./...
 	go mod tidy
-	go install github.com/air-verse/air@latest						## local dev server
-	go install github.com/swaggo/swag/cmd/swag@latest			## API docs
-	go install github.com/mfridman/tparse@latest 					## tests formatter
-	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest		## sql generator
+	go tool trivy repository .
 
 linters:
 	go install golang.org/x/lint/golint@latest
@@ -25,13 +22,13 @@ sqlc:
 	sqlc generate
 
 swag:
-	swag fmt & swag i -g ./cmd/server/main.go
+	go tool swag fmt & go tool swag i -g ./cmd/server/main.go
 
 test:
-	set -o pipefail && go test -cover -race -v ./... -json | tparse -all -follow
+	set -o pipefail && go test -cover -race -v ./... -json | go tool tparse -all -follow
 
 run:
-	air server
+	go tool air server
 
 build:
 	go build -o tmp/server ./cmd/server/

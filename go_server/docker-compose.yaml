@@ -14,7 +14,7 @@ services:
       - 8083:8083
       - 8084:8084
     volumes:
-      - ./.env:/app/.env:ro
+      - ./.env:/app/.env:ro # read only
       - ../src/db/comics.db:/src/db/comics.db:ro
       - ./.observability/log:/app/.observability/log
     restart: on-failure
