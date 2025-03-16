@@ -10,6 +10,7 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
+// User model
 type User struct {
 	ID            int
 	Name          string
@@ -90,10 +91,10 @@ func main() {
 	defer pgDB.Close()
 
 	// Neo4j Connection
-	neo4jUri := "neo4j://localhost:7687"
+	neo4jURI := "neo4j://localhost:7687"
 	neo4jUsername := "neo4j"
 	neo4jPassword := "your_password"
-	neo4jDriver := connectNeo4j(neo4jUri, neo4jUsername, neo4jPassword)
+	neo4jDriver := connectNeo4j(neo4jURI, neo4jUsername, neo4jPassword)
 	defer neo4jDriver.Close(ctx)
 
 	// Extract data from Postgres

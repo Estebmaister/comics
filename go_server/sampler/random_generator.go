@@ -38,7 +38,7 @@ func init() {
 // randomString generates a random string of length between 2 and 16
 func randomString() string {
 	return randomStringOfLength(
-		randomInt(defaultStrMinLength, defaultStrMaxLength))
+		randomUInt(defaultStrMinLength, defaultStrMaxLength))
 }
 
 // randomStringOfLength generates a random string of length provided
@@ -47,7 +47,7 @@ func randomStringOfLength(length int) string {
 	result := make([]byte, length)
 
 	for rIdx := 0; rIdx < length; rIdx++ {
-		randomValue := rand.Float64() // [0, 1)
+		randomValue := rand.Float64() // #nosec G404 [0, 1)
 		for charIdx, probability := range cumulative {
 			if randomValue <= probability {
 				result[rIdx] = charset[charIdx]
@@ -61,7 +61,7 @@ func randomStringOfLength(length int) string {
 // randomTimestamp generates a new proto timestamp between oneYearAgo and now
 func randomTimestamp() time.Time {
 	oneYearAgo := time.Now().Add(-time.Hour * 24 * 365).Unix()
-	randomTime := rand.Int63n(time.Now().Unix()-oneYearAgo) + oneYearAgo
+	randomTime := rand.Int63n(time.Now().Unix()-oneYearAgo) + oneYearAgo // #nosec G404
 	randomNow := time.Unix(randomTime, 0)
 	return randomNow
 }
@@ -72,7 +72,7 @@ func randomTimestampSince(since time.Time) time.Time {
 	if since.Unix() >= time.Now().Unix() {
 		return since
 	}
-	randomTime := rand.Int63n(time.Now().Unix()-since.Unix()) + since.Unix()
+	randomTime := rand.Int63n(time.Now().Unix()-since.Unix()) + since.Unix() // #nosec G404
 	randomNow := time.Unix(randomTime, 0)
 	return randomNow
 }
@@ -82,18 +82,19 @@ func randomStringFromSet(a ...string) string {
 	if len(a) == 0 {
 		return ""
 	}
-	return a[rand.Intn(len(a))]
+	return a[rand.Intn(len(a))] // #nosec G404
 }
 
 // randomBool generates a random bool
 func randomBool() bool {
-	return rand.Intn(2) == 1
+	return rand.Intn(2) == 1 // #nosec G404
 }
 
-// randomInt generates a random int between min and max
-func randomInt[T int | uint | int32 | uint32](min, max T) int {
-	if min >= max {
+// randomUInt generates a random int between min and max numbers
+// minN: minimum number should be less than maxN and greater than 0
+func randomUInt[T int | uint | int32 | uint32](minN, maxN T) int {
+	if minN >= maxN {
 		return 0
 	}
-	return rand.Intn(int(max-min)) + int(min)
+	return rand.Intn(int(maxN-minN)) + int(minN) // #nosec G404
 }

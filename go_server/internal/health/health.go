@@ -27,16 +27,17 @@ type Pinger interface {
 	Ping(ctx context.Context) error
 }
 
-// HealthChecker checks the health of the application
-type HealthChecker struct {
+// Checker checks the health of the application
+type Checker struct {
 	db              Pinger
 	isReady         atomic.Bool
 	shutdownChan    chan struct{}
 	manualCheckChan chan struct{}
 }
 
-func NewHealthChecker(db Pinger) *HealthChecker {
-	h := &HealthChecker{
+// NewHealthChecker creates a new health checker
+func NewHealthChecker(db Pinger) *Checker {
+	h := &Checker{
 		db:              db,
 		shutdownChan:    make(chan struct{}),
 		manualCheckChan: make(chan struct{}),
@@ -46,47 +47,56 @@ func NewHealthChecker(db Pinger) *HealthChecker {
 }
 
 // Start begins the readiness check loop
-func (h *HealthChecker) Start() {
+func (h *Checker) Start() {
 	go h.readinessLoop()
 }
 
 // Stop signals the health checker to stop
-func (h *HealthChecker) Stop() {
+func (h *Checker) Stop() {
 	close(h.shutdownChan)
 }
 
 // LivenessHandler returns an HTTP handler for liveness probe
-func (h *HealthChecker) LivenessHandler() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func (h *Checker) LivenessHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write(statusUP)
+		if _, err := w.Write(statusUP); err != nil {
+			// Handle the error, e.g., log it
+			log.Error().Err(err).Msg("failed to write response")
+		}
 	}
 }
 
 // ReadinessHandler returns an HTTP handler for readiness probe
-func (h *HealthChecker) ReadinessHandler() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func (h *Checker) ReadinessHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		if !h.isReady.Load() {
 			h.triggerManualCheck()
 			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write(statusDOWN)
+			if _, err := w.Write(statusDOWN); err != nil {
+				// Handle the error, e.g., log it
+				log.Error().Err(err).Msg("failed to write response")
+			}
 			return
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write(statusUP)
+		if _, err := w.Write(statusUP); err != nil {
+			// Handle the error, e.g., log it
+			log.Error().Err(err).Msg("failed to write response")
+		}
 	}
 }
 
 // readinessLoop periodically checks if the service is ready
-func (h *HealthChecker) readinessLoop() {
+func (h *Checker) readinessLoop() {
 	// Create an exponential backoff configuration
 	expBackoff := backoff.NewExponentialBackOff(
 		backoff.WithMaxElapsedTime(0),
-		backoff.WithInitialInterval(healthCheckInterval),
+		backoff.WithInitialInterval(2*healthCheckInterval),
 		backoff.WithMultiplier(1.5),
 		backoff.WithMaxInterval(readinessMaxInterval),
 	)
@@ -111,7 +121,7 @@ func (h *HealthChecker) readinessLoop() {
 }
 
 // performHealthCheck checks the health of the database and store if its ready
-func (h *HealthChecker) performHealthCheck() {
+func (h *Checker) performHealthCheck() {
 	ctx, cancel := context.WithTimeout(context.Background(), healthCheckInterval)
 	defer cancel()
 
@@ -123,7 +133,7 @@ func (h *HealthChecker) performHealthCheck() {
 }
 
 // triggerManualCheck signals the health checker to perform a manual check
-func (h *HealthChecker) triggerManualCheck() {
+func (h *Checker) triggerManualCheck() {
 	select {
 	case h.manualCheckChan <- struct{}{}:
 		log.Debug().Msg("Triggered manual health check")

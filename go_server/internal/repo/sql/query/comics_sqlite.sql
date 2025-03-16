@@ -1,4 +1,4 @@
--- name: GetComicById :one
+-- name: GetComicByID :one
 SELECT * FROM comics
 WHERE id = ? LIMIT 1;
 
@@ -23,7 +23,7 @@ INSERT INTO comics (
 )
 RETURNING *;
 
--- name: UpdateComicById :exec
+-- name: UpdateComicByID :exec
 UPDATE comics
   set titles = ?,
   author = ?,
@@ -41,11 +41,11 @@ UPDATE comics
   deleted = ?
 WHERE id = ?;
 
--- name: SoftDeleteComicById :exec
+-- name: SoftDeleteComicByID :exec
 UPDATE comics
 SET deleted = true, updated_at = CURRENT_TIMESTAMP
 WHERE id = ?;
 
--- name: DeleteComicById :exec
+-- name: DeleteComicByID :exec
 DELETE FROM comics
 WHERE id = ?;

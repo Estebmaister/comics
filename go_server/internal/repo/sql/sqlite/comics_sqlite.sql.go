@@ -73,23 +73,23 @@ func (q *Queries) CreateComic(ctx context.Context, arg CreateComicParams) (Comic
 	return i, err
 }
 
-const deleteComicById = `-- name: DeleteComicById :exec
+const deleteComicByID = `-- name: DeleteComicByID :exec
 DELETE FROM comics
 WHERE id = ?
 `
 
-func (q *Queries) DeleteComicById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteComicById, id)
+func (q *Queries) DeleteComicByID(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteComicByID, id)
 	return err
 }
 
-const getComicById = `-- name: GetComicById :one
+const getComicByID = `-- name: GetComicByID :one
 SELECT id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
 WHERE id = ? LIMIT 1
 `
 
-func (q *Queries) GetComicById(ctx context.Context, id int64) (Comic, error) {
-	row := q.db.QueryRowContext(ctx, getComicById, id)
+func (q *Queries) GetComicByID(ctx context.Context, id int64) (Comic, error) {
+	row := q.db.QueryRowContext(ctx, getComicByID, id)
 	var i Comic
 	err := row.Scan(
 		&i.ID,
@@ -213,18 +213,18 @@ func (q *Queries) GetComicsByTitle(ctx context.Context, arg GetComicsByTitlePara
 	return items, nil
 }
 
-const softDeleteComicById = `-- name: SoftDeleteComicById :exec
+const softDeleteComicByID = `-- name: SoftDeleteComicByID :exec
 UPDATE comics
 SET deleted = true, updated_at = CURRENT_TIMESTAMP
 WHERE id = ?
 `
 
-func (q *Queries) SoftDeleteComicById(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, softDeleteComicById, id)
+func (q *Queries) SoftDeleteComicByID(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, softDeleteComicByID, id)
 	return err
 }
 
-const updateComicById = `-- name: UpdateComicById :exec
+const updateComicByID = `-- name: UpdateComicByID :exec
 UPDATE comics
   set titles = ?,
   author = ?,
@@ -243,7 +243,7 @@ UPDATE comics
 WHERE id = ?
 `
 
-type UpdateComicByIdParams struct {
+type UpdateComicByIDParams struct {
 	Titles      string
 	Author      sql.NullString
 	Description sql.NullString
@@ -261,8 +261,8 @@ type UpdateComicByIdParams struct {
 	ID          int64
 }
 
-func (q *Queries) UpdateComicById(ctx context.Context, arg UpdateComicByIdParams) error {
-	_, err := q.db.ExecContext(ctx, updateComicById,
+func (q *Queries) UpdateComicByID(ctx context.Context, arg UpdateComicByIDParams) error {
+	_, err := q.db.ExecContext(ctx, updateComicByID,
 		arg.Titles,
 		arg.Author,
 		arg.Description,

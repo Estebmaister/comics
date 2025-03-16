@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Errors
 var (
 	ErrNotFound          = errors.New("record not found")
 	ErrInvalidPageParams = errors.New("invalid page parameters")
@@ -25,8 +26,8 @@ type DBConfig struct {
 	TableUsers  string `mapstructure:"DB_TABLE_USERS" default:"users"`
 	TableComics string `mapstructure:"DB_TABLE_COMICS" default:"comics"`
 	// Connection configuration
-	MaxPoolSize     int           `mapstructure:"DB_MAX_POOL_SIZE" default:"100"`
-	MinPoolSize     int           `mapstructure:"DB_MIN_POOL_SIZE" default:"0"`
+	MaxPoolSize     uint          `mapstructure:"DB_MAX_POOL_SIZE" default:"100"`
+	MinPoolSize     uint          `mapstructure:"DB_MIN_POOL_SIZE" default:"0"`
 	MaxConnIdleTime time.Duration `mapstructure:"DB_MAX_CONN_IDLE_TIME" default:"5m"`
 	MaxConnLifeTime time.Duration `mapstructure:"DB_MAX_CONN_LIFE_TIME" default:"60m"`
 	ConnectTimeout  time.Duration `mapstructure:"DB_CONN_TIMEOUT" default:"30s"`

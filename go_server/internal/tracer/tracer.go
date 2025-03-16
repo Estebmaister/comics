@@ -14,7 +14,6 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
-	"go.opentelemetry.io/otel/exporters/zipkin"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
@@ -29,22 +28,21 @@ const (
 	keyTraceID      = "trace_id"
 )
 
-// TracerConfig holds the tracer configuration
-type TracerConfig struct {
-	Environment string `mapstructure:"ENVIRONMENT" default:"development"`
-	LogLevel    string `mapstructure:"LOG_LEVEL" default:"info"`
-	ServiceName string `mapstructure:"OTEL_SERVICE_NAME" default:"comics-service"`
-	Sampler     int    `mapstructure:"OTEL_TRACES_SAMPLER_PERCENTAGE" default:"100"`
+// Config holds the tracer configuration
+type Config struct {
+	Environment string `mapstructure:"ENVIRONMENT"`
+	LogLevel    string `mapstructure:"LOG_LEVEL"`
+	ServiceName string `mapstructure:"OTEL_SERVICE_NAME"`
+	Sampler     int    `mapstructure:"OTEL_TRACES_SAMPLER_PERCENTAGE"`
 	Secure      bool   `mapstructure:"OTEL_EXPORTER_SECURE"`
 	Endpoint    string `mapstructure:"OTEL_EXPORTER_GRPC_ENDPOINT"`
-	ZipkinURL   string `mapstructure:"OTEL_EXPORTER_ZIPKIN_TRACES_ENDPOINT"`
 }
 
-// DefaultTracerConfig returns a TracerConfig empty usable struct
-func DefaultTracerConfig() *TracerConfig {
-	return &TracerConfig{
-		Environment: "dev",
-		LogLevel:    "trace",
+// DefaultTracerConfig returns a tracer.Config empty usable struct
+func DefaultTracerConfig() *Config {
+	return &Config{
+		Environment: "development",
+		LogLevel:    zerolog.LevelTraceValue,
 		ServiceName: "comics-server",
 		Sampler:     10,
 	}
@@ -57,7 +55,7 @@ type Tracer struct {
 }
 
 // NewTracer creates a new OpenTelemetry tracer
-func NewTracer(ctx context.Context, cfg *TracerConfig, namespace string) (*Tracer, error) {
+func NewTracer(ctx context.Context, cfg *Config, namespace string) (*Tracer, error) {
 	if cfg == nil {
 		cfg = DefaultTracerConfig()
 	}
@@ -91,15 +89,6 @@ func NewTracer(ctx context.Context, cfg *TracerConfig, namespace string) (*Trace
 		return nil, fmt.Errorf("failed to create OTLP exporter: %v", err)
 	}
 
-	// Create Zipkin trace exporter for debugging purposes
-	var zipkinExporter tracesdk.SpanExporter
-	if cfg.ZipkinURL != "" && cfg.Environment == "development" {
-		zipkinExporter, err = zipkin.New(cfg.ZipkinURL)
-	}
-	if err != nil {
-		return nil, fmt.Errorf("failed to create Zipkin exporter: %v", err)
-	}
-
 	// Create resource
 	resources := resource.NewWithAttributes(
 		semconv.SchemaURL,
@@ -114,7 +103,6 @@ func NewTracer(ctx context.Context, cfg *TracerConfig, namespace string) (*Trace
 	// Create tracer provider
 	tp := tracesdk.NewTracerProvider(
 		tracesdk.WithBatcher(exporter),
-		tracesdk.WithBatcher(zipkinExporter), // For debugging purposes
 		tracesdk.WithResource(resources),
 		tracesdk.WithSampler(sampler),
 	)
@@ -144,14 +132,14 @@ func (t *Tracer) Shutdown(ctx context.Context) error {
 }
 
 // StartSpan starts a new span, it's required to end it
-func (t *Tracer) StartSpan(ctx context.Context, operation string) (context.Context, *span) {
+func (t *Tracer) StartSpan(ctx context.Context, operation string) (context.Context, Span) {
 	ctx, spanTrace := t.tracer.Start(ctx, operation)
 	return ctx, &span{span: spanTrace}
 }
 
 // FromContext returns the span from the context if it exists.
 // If it doesn't, it returns an implementation of a Span that performs no operations.
-func FromContext(ctx context.Context) *span {
+func FromContext(ctx context.Context) Span {
 	return &span{span: trace.SpanFromContext(ctx)}
 }
 
@@ -172,6 +160,17 @@ func LoggerWithSpanFromCtx(ctx context.Context, log zerolog.Logger) zerolog.Logg
 	return log
 }
 
+// Span interface
+type Span interface {
+	End()
+	SpanContext() trace.SpanContext
+	SetError(error)
+	SetOk()
+	SetTag(string, any)
+	TraceID() string
+	SpanID() string
+}
+
 type span struct {
 	span trace.Span
 }
@@ -179,6 +178,16 @@ type span struct {
 // End ends the span
 func (s *span) End() {
 	s.span.End()
+}
+
+// TraceID returns the trace ID
+func (s *span) TraceID() string {
+	return s.span.SpanContext().TraceID().String()
+}
+
+// SpanID returns the span ID
+func (s *span) SpanID() string {
+	return s.span.SpanContext().SpanID().String()
 }
 
 // SpanContext returns the span context

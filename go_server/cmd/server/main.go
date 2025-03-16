@@ -60,7 +60,7 @@ func main() {
 	}()
 
 	// Initialize the file comics database
-	_, sqliteErr := repo.NewSQLiteDB("../src/db/comics.db")
+	_, sqliteErr := repo.NewSQLiteUserRepo("../src/db/comics.db")
 	if sqliteErr != nil {
 		log.Fatal().Err(sqliteErr).Msg("Failed to initialize SQLite database")
 	}

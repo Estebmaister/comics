@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -17,7 +18,7 @@ import (
 	"github.com/cenkalti/backoff/v4"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/golang-migrate/migrate/v4/source/file" // migrate file driver
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/joho/godotenv"
@@ -39,12 +40,14 @@ var (
 // Implement UserStore methods for UserRepo
 var _ Closable = (*ComicsRepo)(nil)
 
+// ComicsRepo implements UserStore for PostgreSQL
 type ComicsRepo struct {
 	cl      *pgxpool.Pool
 	metrics *metrics.Metrics
 	tracer  *tracer.Tracer
 }
 
+// DefaultConfig returns a DBConfig empty usable struct
 func DefaultConfig() *DBConfig {
 	if err := godotenv.Load(); err != nil {
 		log.Warn().Err(err).Caller().Msgf(".env file not found")
@@ -77,7 +80,8 @@ func DefaultConfig() *DBConfig {
 	return cfg
 }
 
-func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracer.TracerConfig) (*ComicsRepo, error) {
+// NewComicsRepo creates a new PostgreSQL-based comic repository
+func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracer.Config) (*ComicsRepo, error) {
 	if cfg == nil {
 		cfg = DefaultConfig()
 	}
@@ -90,6 +94,14 @@ func NewComicsRepo(ctx context.Context, cfg *DBConfig, tpCfg *tracer.TracerConfi
 	poolCfg, err := pgxpool.ParseConfig(connStr)
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse connection string: %v", err)
+	}
+
+	// Ensure pool sizes are within the int32 range
+	if cfg.MaxPoolSize > math.MaxInt32 {
+		return nil, fmt.Errorf("MaxPoolSize exceeds int32 range")
+	}
+	if cfg.MinPoolSize > math.MaxInt32 {
+		return nil, fmt.Errorf("MinPoolSize exceeds int32 range")
 	}
 
 	// Configure connection pool settings
@@ -146,7 +158,7 @@ func (r *ComicsRepo) Close(ctx context.Context) error {
 }
 
 // Metrics returns a snapshot of the repository's metrics
-func (r *ComicsRepo) Metrics() *metrics.MetricsSnapshot {
+func (r *ComicsRepo) Metrics() *metrics.Snapshot {
 	log.Debug().Msgf("Comics repo db metrics: %v", r.cl.Stat())
 	return r.metrics.GetSnapshot()
 }
@@ -218,6 +230,7 @@ func (r *ComicsRepo) withRetry(ctx context.Context, operation string, fn func() 
 	}, ctxBackoff)
 }
 
+// CreateComic creates a new comic in the database
 func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
 	return r.withSpan(ctx, "CreateComic", func(ctx context.Context) error {
 		return r.withRetry(ctx, "CreateComic", func() error {
@@ -260,6 +273,7 @@ func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
 	})
 }
 
+// UpdateComic updates an existing comic in the database
 func (r *ComicsRepo) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 	return r.withSpan(ctx, "UpdateComic", func(ctx context.Context) error {
 		return r.withRetry(ctx, "UpdateComic", func() error {
@@ -319,6 +333,7 @@ func (r *ComicsRepo) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 	})
 }
 
+// DeleteComic deletes an existing comic from the database
 func (r *ComicsRepo) DeleteComic(ctx context.Context, id uint32) error {
 	return r.withSpan(ctx, "DeleteComic", func(ctx context.Context) error {
 		return r.withRetry(ctx, "DeleteComic", func() error {
@@ -328,8 +343,8 @@ func (r *ComicsRepo) DeleteComic(ctx context.Context, id uint32) error {
 			WHERE id = $1
 			RETURNING id`
 
-			var deletedId int32
-			err := r.cl.QueryRow(ctx, query, id).Scan(&deletedId)
+			var deletedID int32
+			err := r.cl.QueryRow(ctx, query, id).Scan(&deletedID)
 			if errors.Is(err, sql.ErrNoRows) {
 				return ErrNotFound
 			}
@@ -338,10 +353,11 @@ func (r *ComicsRepo) DeleteComic(ctx context.Context, id uint32) error {
 	})
 }
 
-func (r *ComicsRepo) GetComicById(ctx context.Context, id uint32) (*pb.Comic, error) {
+// GetComicByID retrieves a comic by its ID
+func (r *ComicsRepo) GetComicByID(ctx context.Context, id uint32) (*pb.Comic, error) {
 	var comic pb.Comic
-	err := r.withSpan(ctx, "GetComicById", func(ctx context.Context) error {
-		return r.withRetry(ctx, "GetComicById", func() error {
+	err := r.withSpan(ctx, "GetComicByID", func(ctx context.Context) error {
+		return r.withRetry(ctx, "GetComicByID", func() error {
 			query := `
 			SELECT id, titles, author, description, type, status, cover, current_chap,
 				last_update, publishers, genres, track, viewed_chap, deleted
@@ -396,6 +412,7 @@ func (r *ComicsRepo) GetComicById(ctx context.Context, id uint32) (*pb.Comic, er
 	return &comic, nil
 }
 
+// GetComics retrieves a paginated list of comics
 func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedOnly, uncheckedOnly bool) ([]*pb.Comic, int, error) {
 	var comics []*pb.Comic
 	var total int
@@ -481,6 +498,7 @@ func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedO
 	return comics, total, nil
 }
 
+// SearchComics searches for comics by title, author, or genre
 func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageSize int) (comics []*pb.Comic, total int, err error) {
 	ctx, span := r.tracer.StartSpan(ctx, "SearchComics")
 	defer span.End()
@@ -577,6 +595,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 	return comics, total, nil
 }
 
+// GetComicsByTitle retrieves comics by title
 func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics []*pb.Comic, err error) {
 	err = r.withSpan(ctx, "GetComicsByTitle", func(ctx context.Context) error {
 		query := `

@@ -15,10 +15,10 @@ import (
 )
 
 var (
+	// ErrCredsAlreadyExist to wrap existing credentials on creation
+	ErrCredsAlreadyExist = fmt.Errorf("already exist")
 	// UUID namespace for generating user IDs, 16 bytes
 	userNamespace = "user-uuid-gen-01"
-	// Error to wrap existing credentials on creation
-	ErrCredsAlreadyExist = fmt.Errorf("already exist")
 )
 
 // userServiceImpl implements UserService
@@ -80,7 +80,7 @@ func (s *userServiceImpl) Register(ctx context.Context, user domain.SignUpReques
 		Email:    user.Email,
 		Username: user.Username,
 		Password: string(hashedPassword),
-		Role:     tokenutil.ROLE_USER,
+		Role:     tokenutil.RoleUser,
 		Active:   true,
 	}
 

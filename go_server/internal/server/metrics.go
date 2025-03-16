@@ -17,11 +17,11 @@ func (s *Server) StartMetricsServer(ctx context.Context) error {
 	mux.Handle("/metrics", promhttp.Handler())
 
 	// Register health check handlers
-	mux.HandleFunc("/health/live", s.health.LivenessHandler())
-	mux.HandleFunc("/health/ready", s.health.ReadinessHandler())
+	mux.HandleFunc("/health/live", s.healthChecker.LivenessHandler())
+	mux.HandleFunc("/health/ready", s.healthChecker.ReadinessHandler())
 
 	// Start health checker
-	s.health.Start()
+	s.healthChecker.Start()
 
 	// Update server mux
 	s.healthServer.Handler = mux

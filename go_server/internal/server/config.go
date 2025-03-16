@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"time"
 
 	"comics/internal/health"
 	"comics/internal/middleware"
@@ -35,11 +36,11 @@ func DefaultConfig() *Config {
 
 // Server represents our gRPC server instance
 type Server struct {
-	config       *Config
-	grpcServer   *grpc.Server
-	healthServer *http.Server
-	comicsRepo   *repo.ComicsRepo
-	health       *health.HealthChecker
+	config        *Config
+	grpcServer    *grpc.Server
+	healthServer  *http.Server
+	comicsRepo    *repo.ComicsRepo
+	healthChecker *health.Checker
 }
 
 // New creates a new server instance
@@ -63,16 +64,19 @@ func New(ctx context.Context, cfg *Config) (*Server, error) {
 	// Create metrics/health server
 	mux := http.NewServeMux()
 	healthServer := &http.Server{
-		Addr:    fmt.Sprintf(":%d", cfg.MetricsPort),
-		Handler: mux,
+		Addr:              fmt.Sprintf(":%d", cfg.MetricsPort),
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       5 * time.Second,
+		WriteTimeout:      5 * time.Second,
 	}
 
 	return &Server{
-		config:       cfg,
-		grpcServer:   grpcServer,
-		healthServer: healthServer,
-		comicsRepo:   comicsRepo,
-		health:       healthChecker,
+		config:        cfg,
+		grpcServer:    grpcServer,
+		healthServer:  healthServer,
+		comicsRepo:    comicsRepo,
+		healthChecker: healthChecker,
 	}, nil
 }
 
@@ -85,7 +89,7 @@ func (s *Server) GRPCListener() (net.Listener, error) {
 func (s *Server) Shutdown(ctx context.Context) {
 	log.Info().Msg("Shutting down server...")
 	s.grpcServer.GracefulStop()
-	s.health.Stop()
+	s.healthChecker.Stop()
 	if err := s.comicsRepo.Close(ctx); err != nil {
 		log.Error().Err(err).Caller().Msg("Error closing database connection")
 	}

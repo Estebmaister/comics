@@ -20,6 +20,7 @@ type ClosableUserStore interface {
 	domain.UserStore
 }
 
+// Application is the main application struct
 type Application struct {
 	Env      *Env
 	UserRepo ClosableUserStore

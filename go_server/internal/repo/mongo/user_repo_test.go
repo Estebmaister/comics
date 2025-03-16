@@ -35,18 +35,18 @@ func TestMain(m *testing.M) {
 	}
 
 	// Get connection string
-	testUri, err := mongoContainer.ConnectionString(ctx)
+	testURI, err := mongoContainer.ConnectionString(ctx)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to get connection string")
 	}
 
 	// Set DB config
-	userDBcfg.Addr = testUri + "/?directConnection=true"
+	userDBcfg.Addr = testURI + "/?directConnection=true"
 	userDBcfg.Name = "comics_db_test"
 	userDBcfg.BackoffTimeout = 1 * time.Second
 
 	// Create custom UserRepo
-	userRepo, err = NewUserRepo(ctx, userDBcfg, &tracer.TracerConfig{
+	userRepo, err = NewUserRepo(ctx, userDBcfg, &tracer.Config{
 		ServiceName: "comics-service-test",
 	})
 	if err != nil {
@@ -270,7 +270,7 @@ func TestUserRepo(t *testing.T) {
 	t.Run("Metrics", func(t *testing.T) {
 		_ = userRepo.Client()
 		log.Debug().Msgf("stats: %v", userRepo.GetStats())
-		assert.Equal(t, uint64(1),
+		assert.Equal(t, int64(1),
 			userRepo.Metrics().GetSnapshot().TotalCreatedConnections)
 	})
 }
@@ -285,7 +285,7 @@ func TestClientConnection(t *testing.T) {
 	_, err = NewUserRepo(ctx, &repo.DBConfig{}, nil)
 	assert.Error(t, err, "Creating UserRepo with empty config")
 
-	newUserRepo, err := NewUserRepo(ctx, userDBcfg, &tracer.TracerConfig{
+	newUserRepo, err := NewUserRepo(ctx, userDBcfg, &tracer.Config{
 		ServiceName: "comics-service_test",
 	})
 	assert.NoError(t, err, "Failed to create new UserRepo")

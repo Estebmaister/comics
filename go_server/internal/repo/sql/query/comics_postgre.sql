@@ -1,4 +1,4 @@
--- name: GetComicById :one
+-- name: GetComicByID :one
 SELECT * FROM comics
 WHERE id = $1 LIMIT 1;
 
@@ -27,7 +27,7 @@ INSERT INTO comics (
 )
 RETURNING *;
 
--- name: UpdateComicById :exec
+-- name: UpdateComicByID :exec
 UPDATE comics
   set titles = $2,
   author = $3,
@@ -44,11 +44,11 @@ UPDATE comics
   deleted = $14
 WHERE id = $1;
 
--- name: SoftDeleteComicById :exec
+-- name: SoftDeleteComicByID :exec
 UPDATE comics
 SET deleted = true
 WHERE id = $1;
 
--- name: DeleteComicById :exec
+-- name: DeleteComicByID :exec
 DELETE FROM comics
 WHERE id = $1;

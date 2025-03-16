@@ -33,7 +33,7 @@ func TestGenerateTokenWithRole(t *testing.T) {
 	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 	userID := uuid.New()
 
-	token, err := GenerateTokenWithRole(userID, secretKey, time.Hour, ROLE_ADMIN)
+	token, err := GenerateTokenWithRole(userID, secretKey, time.Hour, RoleAdmin)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)
 }
@@ -43,9 +43,9 @@ func TestRefreshToken(t *testing.T) {
 	secretKey := []byte(os.Getenv("JWT_REFRESH_SECRET_KEY"))
 	badToken := "xxx-bad-token"
 	userID := uuid.New()
-	token, _ := GenerateTokenWithRole(userID, secretKey, time.Hour, ROLE_ADMIN)
+	token, _ := GenerateTokenWithRole(userID, secretKey, time.Hour, RoleAdmin)
 
-	token, err := RefreshTokenWithRole(token, secretKey, secretKey, ROLE_ADMIN)
+	token, err := RefreshTokenWithRole(token, secretKey, secretKey, RoleAdmin)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, token)
 
@@ -53,7 +53,7 @@ func TestRefreshToken(t *testing.T) {
 	assert.Error(t, err)
 	assert.Empty(t, token)
 
-	token, err = RefreshTokenWithRole(badToken, secretKey, secretKey, ROLE_ADMIN)
+	token, err = RefreshTokenWithRole(badToken, secretKey, secretKey, RoleAdmin)
 	assert.Error(t, err)
 	assert.Empty(t, token)
 }

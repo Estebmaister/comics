@@ -46,7 +46,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 		}
 
 		// Extract request ID from headers or context
-		reqID := RequestID(c)
+		reqID := SetRequestID(c)
 
 		// Add request ID and tracing info to logger
 		ctx := c.Request.Context()
@@ -62,7 +62,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 			panicVal := recover()
 			if panicVal != nil {
 				err := fmt.Errorf("%v", panicVal)
-				c.Error(err)
+				c.Error(err) // nolint:errcheck
 				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				c.Abort()
 				defer panic(err)
@@ -107,9 +107,9 @@ func LoggerMiddleware() gin.HandlerFunc {
 	}
 }
 
-// RequestID returns the request ID from the headers or the gin request context.
+// SetRequestID returns the request ID from the headers or the gin request context.
 // if it's not found, a new one is generated and added to the headers and to the context.
-func RequestID(c *gin.Context) string {
+func SetRequestID(c *gin.Context) string {
 	// Get the request ID from the headers
 	reqID := c.Request.Header.Get(keyHeaderRequestID)
 	if reqID != "" {
@@ -119,9 +119,9 @@ func RequestID(c *gin.Context) string {
 	}
 
 	// Get the request ID from the context
-	reqIDtx := c.Request.Context().Value(requestID{})
-	if reqIDtx != nil {
-		reqID = reqIDtx.(string)
+	reqIDFromCtx := c.Request.Context().Value(requestID{})
+	if reqIDFromCtx != nil {
+		reqID = reqIDFromCtx.(string)
 	}
 	if reqID != "" {
 		c.Writer.Header().Add(keyHeaderRequestID, reqID)

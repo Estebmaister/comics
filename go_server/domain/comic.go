@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	// collection or table name
+	// COMICS name of the collection/table on the DB
 	COMICS = "comics"
 )
 
@@ -29,20 +29,20 @@ type Comic struct {
 	Deleted     bool      `json:"deleted"`
 }
 
-// Comic repository operations
+// ComicStore interface abstracts comic repository operations
 type ComicStore interface {
 	ComicReader
 	ComicWriter
 }
 
-// Comic read operations
+// ComicReader interface abstracts comic read operations
 type ComicReader interface {
 	GetByID(ctx context.Context, id int) (*Comic, error)
 	List(ctx context.Context, page, pageSize int) ([]Comic, error)
 	SearchByTitle(ctx context.Context, title string, page, pageSize int) ([]Comic, error)
 }
 
-// Comic write operations
+// ComicWriter interface abstracts comic write operations
 type ComicWriter interface {
 	Create(ctx context.Context, comic *Comic) error
 	Update(ctx context.Context, comic *Comic) error

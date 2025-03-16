@@ -55,7 +55,7 @@ func DefaultConfig() *repo.DBConfig {
 }
 
 // NewUserRepo creates a new MongoDB-based user repository for a given database and collection
-func NewUserRepo(ctx context.Context, cfg *repo.DBConfig, tpCfg *tracer.TracerConfig) (*UserRepo, error) {
+func NewUserRepo(ctx context.Context, cfg *repo.DBConfig, tpCfg *tracer.Config) (*UserRepo, error) {
 	// Validate configuration
 	if cfg == nil {
 		cfg = DefaultConfig()
@@ -111,7 +111,7 @@ func (r *UserRepo) Ping(ctx context.Context) error { return r.cl.Ping(ctx) }
 // Metrics return the internal metrics struct
 func (r *UserRepo) Metrics() *metrics.Metrics { return r.metrics }
 
-// Metrics return the internal stats
+// GetStats return the internal stats as map
 func (r *UserRepo) GetStats() map[string]string { return r.metrics.GetStats() }
 
 func (r *UserRepo) withSpan(ctx context.Context, operation string, fn func(context.Context) error) error {

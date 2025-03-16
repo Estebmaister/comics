@@ -73,23 +73,23 @@ func (q *Queries) CreateComic(ctx context.Context, arg CreateComicParams) (Comic
 	return i, err
 }
 
-const deleteComicById = `-- name: DeleteComicById :exec
+const deleteComicByID = `-- name: DeleteComicByID :exec
 DELETE FROM comics
 WHERE id = $1
 `
 
-func (q *Queries) DeleteComicById(ctx context.Context, id int32) error {
-	_, err := q.db.Exec(ctx, deleteComicById, id)
+func (q *Queries) DeleteComicByID(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, deleteComicByID, id)
 	return err
 }
 
-const getComicById = `-- name: GetComicById :one
+const getComicByID = `-- name: GetComicByID :one
 SELECT id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetComicById(ctx context.Context, id int32) (Comic, error) {
-	row := q.db.QueryRow(ctx, getComicById, id)
+func (q *Queries) GetComicByID(ctx context.Context, id int32) (Comic, error) {
+	row := q.db.QueryRow(ctx, getComicByID, id)
 	var i Comic
 	err := row.Scan(
 		&i.ID,
@@ -211,18 +211,18 @@ func (q *Queries) GetComicsByTitle(ctx context.Context, arg GetComicsByTitlePara
 	return items, nil
 }
 
-const softDeleteComicById = `-- name: SoftDeleteComicById :exec
+const softDeleteComicByID = `-- name: SoftDeleteComicByID :exec
 UPDATE comics
 SET deleted = true
 WHERE id = $1
 `
 
-func (q *Queries) SoftDeleteComicById(ctx context.Context, id int32) error {
-	_, err := q.db.Exec(ctx, softDeleteComicById, id)
+func (q *Queries) SoftDeleteComicByID(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, softDeleteComicByID, id)
 	return err
 }
 
-const updateComicById = `-- name: UpdateComicById :exec
+const updateComicByID = `-- name: UpdateComicByID :exec
 UPDATE comics
   set titles = $2,
   author = $3,
@@ -240,7 +240,7 @@ UPDATE comics
 WHERE id = $1
 `
 
-type UpdateComicByIdParams struct {
+type UpdateComicByIDParams struct {
 	ID          int32
 	Titles      []string
 	Author      pgtype.Text
@@ -257,8 +257,8 @@ type UpdateComicByIdParams struct {
 	Deleted     bool
 }
 
-func (q *Queries) UpdateComicById(ctx context.Context, arg UpdateComicByIdParams) error {
-	_, err := q.db.Exec(ctx, updateComicById,
+func (q *Queries) UpdateComicByID(ctx context.Context, arg UpdateComicByIDParams) error {
+	_, err := q.db.Exec(ctx, updateComicByID,
 		arg.ID,
 		arg.Titles,
 		arg.Author,

@@ -49,5 +49,5 @@ func NewUsername() string {
 
 // NewRole generates a new role
 func NewRole() pb.Role {
-	return pb.Role(randomInt(0, len(pb.Role_name)))
+	return pb.Role(randomUInt(0, len(pb.Role_name))) // #nosec G115
 }

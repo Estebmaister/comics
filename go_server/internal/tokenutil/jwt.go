@@ -8,24 +8,29 @@ import (
 	"github.com/google/uuid"
 )
 
+// Roles
 const (
-	DEFAULT_TOKEN_DURATION = 1 * time.Hour // Token valid for 1 hour
-	ISSUER                 = "comic-auth-service"
-	ROLE_ADMIN             = "admin"
-	ROLE_USER              = "user"
+	RoleAdmin = "admin"
+	RoleUser  = "user"
 )
 
+const (
+	defaultTokenDuration = 1 * time.Hour // Token valid for 1 hour
+	issuer               = "comic-auth-service"
+)
+
+// Claims represents the custom claims in a JWT
 type Claims struct {
 	UserID uuid.UUID `json:"user_id"`
 	jwt.RegisteredClaims
 }
 
-// GenerateToken generates a JWT with the user ID and role as part of the claims
+// GenerateTokenWithRole generates a JWT with the user ID and role as part of the claims
 func GenerateTokenWithRole(userID uuid.UUID, secretKey []byte, tokenDuration time.Duration, role string) (string, error) {
 	claims := Claims{
 		UserID: userID,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    ISSUER,
+			Issuer:    issuer,
 			Subject:   role,
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenDuration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -38,7 +43,7 @@ func GenerateTokenWithRole(userID uuid.UUID, secretKey []byte, tokenDuration tim
 
 // GenerateToken generates a JWT with the user ID as part of the claims
 func GenerateToken(userID uuid.UUID, secretKey []byte, tokenDuration time.Duration) (string, error) {
-	return GenerateTokenWithRole(userID, secretKey, tokenDuration, ROLE_USER)
+	return GenerateTokenWithRole(userID, secretKey, tokenDuration, RoleUser)
 }
 
 // VerifyToken verifies a JWT token
@@ -61,10 +66,10 @@ func VerifyToken(tokenString string, secretKey []byte) (*Claims, error) {
 
 // RefreshToken generates a new access token if the refresh token is valid
 func RefreshToken(refreshToken string, refreshSecretKey, accessSecretKey []byte) (string, error) {
-	return RefreshTokenWithRole(refreshToken, refreshSecretKey, accessSecretKey, ROLE_USER)
+	return RefreshTokenWithRole(refreshToken, refreshSecretKey, accessSecretKey, RoleUser)
 }
 
-// RefreshToken generates a new access token if the refresh token is valid
+// RefreshTokenWithRole generates a new access token if the refresh token is valid
 func RefreshTokenWithRole(refreshToken string, refreshSecretKey, accessSecretKey []byte, role string) (string, error) {
 
 	claims, err := VerifyToken(refreshToken, refreshSecretKey)
@@ -77,5 +82,5 @@ func RefreshTokenWithRole(refreshToken string, refreshSecretKey, accessSecretKey
 	}
 
 	// Generate a new access token (short-lived)
-	return GenerateTokenWithRole(claims.UserID, accessSecretKey, DEFAULT_TOKEN_DURATION, role)
+	return GenerateTokenWithRole(claims.UserID, accessSecretKey, defaultTokenDuration, role)
 }

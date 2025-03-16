@@ -26,8 +26,8 @@ func init() {
 	log.Logger = logger
 }
 
-// LoggerConfig holds the configuration for the logger
-type LoggerConfig struct {
+// Config holds the configuration for the logger
+type Config struct {
 	LogLevel        string `mapstructure:"LOG_LEVEL" default:"info"`
 	LogDebugConsole bool   `mapstructure:"LOG_DEBUG_CONSOLE"`
 	LogOutputFile   string `mapstructure:"LOG_OUTPUT_FILE"`
@@ -38,11 +38,12 @@ type LoggerConfig struct {
 	Compress   bool `mapstructure:"LOG_COMPRESS"`
 }
 
-type shutdownFunc func(context.Context) error
-
-func InitLogger(ctx context.Context, cfg *LoggerConfig) (zerolog.Logger, shutdownFunc, error) {
+// InitLogger initializes the logger after environment variables are loaded
+// Returns the logger, a function to close the logger, and an error
+func InitLogger(_ context.Context, cfg *Config) (
+	zerolog.Logger, func(context.Context) error, error) {
 	if cfg == nil {
-		cfg = &LoggerConfig{}
+		cfg = &Config{}
 	}
 	if !cfg.LogDebugConsole { // change default output to plain console
 		output = os.Stderr

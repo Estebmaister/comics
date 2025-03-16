@@ -16,18 +16,18 @@ const (
 	statusError   = "error"
 )
 
-// MetricsCollector defines the interface for collecting metrics
-type MetricsCollector interface {
+// Collector defines the interface for collecting metrics
+type Collector interface {
 	RecordQuery(duration time.Duration, operation string, err error)
 	RecordRetry(operation string, success bool)
-	RecordConnection(connectionTime time.Duration, err error)
-	CloseConnection(connectionTime time.Duration, err error)
+	RecordConnection(err error)
+	CloseConnection(err error)
 	ReleaseConnection()
 	RetrieveConnection()
 	GetStats() map[string]string
 }
 
-var _ MetricsCollector = &Metrics{}
+var _ Collector = &Metrics{}
 
 // Metrics represents the metrics for a database connection
 type Metrics struct {
@@ -42,21 +42,21 @@ type Metrics struct {
 
 	// Internal metrics for quick access
 	// Operation counters
-	totalQueries      uint64
-	successfulQueries uint64
+	totalQueries      int64
+	successfulQueries int64
 	// Error tracking
 	lastErrorTime time.Time
 	lastConnError error
 	// Retry tracking
-	totalRetries      uint64
-	successfulRetries uint64
+	totalRetries      int64
+	successfulRetries int64
 	// Latency tracking
 	maxLatency   time.Duration
 	totalLatency time.Duration
 	// Connection tracking
-	activeConnections       uint64
-	totalCreatedConnections uint64
-	totalClosedConnections  uint64
+	activeConnections       int64
+	totalCreatedConnections int64
+	totalClosedConnections  int64
 }
 
 // NewMetrics creates a new instance of Metrics
@@ -143,6 +143,7 @@ func (m *Metrics) RecordQuery(duration time.Duration, operation string, err erro
 	}
 }
 
+// RecordRetry records a database retry
 func (m *Metrics) RecordRetry(operation string, success bool) {
 	log.Trace().Msgf("record db retry: %s", operation)
 	m.mu.Lock()
@@ -160,6 +161,7 @@ func (m *Metrics) RecordRetry(operation string, success bool) {
 	}
 }
 
+// RetrieveConnection records a database connection retrieval
 func (m *Metrics) RetrieveConnection() {
 	log.Trace().Msg("retriving db connection")
 	m.mu.Lock()
@@ -168,6 +170,7 @@ func (m *Metrics) RetrieveConnection() {
 	m.activeConnections++
 }
 
+// ReleaseConnection records a database connection release
 func (m *Metrics) ReleaseConnection() {
 	log.Trace().Msg("releasing db connection")
 	m.mu.Lock()
@@ -176,7 +179,8 @@ func (m *Metrics) ReleaseConnection() {
 	m.activeConnections--
 }
 
-func (m *Metrics) CloseConnection(duration time.Duration, err error) {
+// CloseConnection records a database connection closure
+func (m *Metrics) CloseConnection(err error) {
 	log.Trace().Msg("close db connection")
 	if err != nil {
 		return
@@ -186,7 +190,8 @@ func (m *Metrics) CloseConnection(duration time.Duration, err error) {
 	m.totalClosedConnections++
 }
 
-func (m *Metrics) RecordConnection(duration time.Duration, err error) {
+// RecordConnection records a database connection creation
+func (m *Metrics) RecordConnection(err error) {
 	log.Trace().Msg("record db connection")
 	if err != nil {
 		return
@@ -196,6 +201,7 @@ func (m *Metrics) RecordConnection(duration time.Duration, err error) {
 	m.totalCreatedConnections++
 }
 
+// GetStats returns a map of metrics
 func (m *Metrics) GetStats() map[string]string {
 	var result map[string]any
 	_ = json.Unmarshal(m.GetSnapshot().ToJSON(), &result)
@@ -208,14 +214,15 @@ func (m *Metrics) GetStats() map[string]string {
 	return stringMap
 }
 
-func (m *Metrics) GetSnapshot() *MetricsSnapshot {
+// GetSnapshot returns a snapshot of the metrics
+func (m *Metrics) GetSnapshot() *Snapshot {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
 	// Calculate average latency time
 	avgLatency := time.Duration(0)
 	if m.totalQueries > 0 {
-		avgLatency = time.Duration(uint64(m.totalLatency) / m.totalQueries)
+		avgLatency = time.Duration(int64(m.totalLatency) / m.totalQueries)
 	}
 
 	// Calculate error rate
@@ -230,7 +237,7 @@ func (m *Metrics) GetSnapshot() *MetricsSnapshot {
 		lastConnError = m.lastConnError.Error()
 	}
 
-	return &MetricsSnapshot{
+	return &Snapshot{
 		// Operation counters
 		TotalQueries:      m.totalQueries,
 		SuccessfulQueries: m.successfulQueries,
@@ -263,16 +270,17 @@ func (d stringDuration) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("%q", time.Duration(d).String())), nil
 }
 
-func (s *MetricsSnapshot) ToJSON() []byte {
+// ToJSON converts the Snapshot to JSON
+func (s *Snapshot) ToJSON() []byte {
 	b, _ := json.Marshal(s)
 	return b
 }
 
-// MetricsSnapshot represents a snapshot of metrics data.
-type MetricsSnapshot struct {
+// Snapshot represents a snapshot of metrics data.
+type Snapshot struct {
 	// Operation counters
-	TotalQueries      uint64 `json:"queries_count"`
-	SuccessfulQueries uint64 `json:"queries_successful"`
+	TotalQueries      int64 `json:"queries_count"`
+	SuccessfulQueries int64 `json:"queries_successful"`
 
 	// Latency tracking
 	TotalLatency   stringDuration `json:"latency_total"`
@@ -280,13 +288,13 @@ type MetricsSnapshot struct {
 	MaxLatency     stringDuration `json:"latency_max"`
 
 	// Connection tracking
-	ActiveConnections       uint64 `json:"connection_active_count"`
-	TotalCreatedConnections uint64 `json:"connection_total_created"`
-	TotalClosedConnections  uint64 `json:"connection_total_closed"`
+	ActiveConnections       int64 `json:"connection_active_count"`
+	TotalCreatedConnections int64 `json:"connection_total_created"`
+	TotalClosedConnections  int64 `json:"connection_total_closed"`
 
 	// Retry tracking
-	TotalRetries      uint64 `json:"retries_count"`
-	SuccessfulRetries uint64 `json:"retries_successful"`
+	TotalRetries      int64 `json:"retries_count"`
+	SuccessfulRetries int64 `json:"retries_successful"`
 
 	// Error tracking
 	ErrorRate     float64   `json:"error_rate"`

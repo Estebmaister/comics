@@ -80,11 +80,11 @@ func newPoolMonitor(metrics *metrics.Metrics) *event.PoolMonitor {
 		Event: func(evt *event.PoolEvent) {
 			switch evt.Type {
 			case event.ConnectionCreated:
-				metrics.RecordConnection(evt.Duration, evt.Error)
+				metrics.RecordConnection(evt.Error)
 			case event.ConnectionClosed:
-				metrics.CloseConnection(evt.Duration, evt.Error)
+				metrics.CloseConnection(evt.Error)
 			case event.ConnectionCheckOutFailed:
-				metrics.RecordConnection(0, evt.Error)
+				metrics.RecordConnection(evt.Error)
 			case event.ConnectionCheckedOut:
 				metrics.RetrieveConnection()
 			case event.ConnectionCheckedIn:

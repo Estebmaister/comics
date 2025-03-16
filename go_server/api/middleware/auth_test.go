@@ -32,7 +32,7 @@ func init() {
 	validUserToken, _ = tokenutil.GenerateToken(
 		uuid.New(), []byte(secretKey), time.Minute*5)
 	validAdminToken, _ = tokenutil.GenerateTokenWithRole(
-		uuid.New(), []byte(secretKey), time.Minute*5, tokenutil.ROLE_ADMIN)
+		uuid.New(), []byte(secretKey), time.Minute*5, tokenutil.RoleAdmin)
 	noRoleToken, _ = tokenutil.GenerateTokenWithRole(
 		uuid.New(), []byte(secretKey), time.Minute*5, "")
 }
@@ -40,8 +40,8 @@ func init() {
 func TestAuthenticationMiddleware(t *testing.T) {
 	t.Parallel()
 	type args struct {
-		scret string
-		token string
+		secretKey string
+		token     string
 	}
 	type want struct {
 		code int
@@ -53,25 +53,25 @@ func TestAuthenticationMiddleware(t *testing.T) {
 		want want
 	}{{
 		name: "Valid Token",
-		args: args{scret: secretKey, token: bearer + validUserToken},
+		args: args{secretKey: secretKey, token: bearer + validUserToken},
 		want: want{code: http.StatusOK, msg: accessGranted},
 	}, {
 		name: "Invalid Token from different secret key",
-		args: args{scret: "wrong", token: bearer + validUserToken},
+		args: args{secretKey: "wrong", token: bearer + validUserToken},
 		want: want{code: http.StatusUnauthorized, msg: "Invalid authentication token"},
 	}, {
 		name: "No token",
-		args: args{scret: secretKey, token: ""},
+		args: args{secretKey: secretKey, token: ""},
 		want: want{code: http.StatusUnauthorized, msg: "Missing authentication token"},
 	}, {
 		name: "Wrong structured token",
-		args: args{scret: secretKey, token: validUserToken},
+		args: args{secretKey: secretKey, token: validUserToken},
 		want: want{code: http.StatusUnauthorized, msg: "Invalid structure token"},
 	}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			router := gin.Default()
-			router.Use(AuthenticationMiddleware(tt.args.scret))
+			router.Use(AuthenticationMiddleware(tt.args.secretKey))
 			router.GET("/protected", func(c *gin.Context) {
 				c.JSON(http.StatusOK, accessGrantedMsg)
 			})
@@ -105,19 +105,19 @@ func TestRoleMiddleware(t *testing.T) {
 		want want
 	}{{
 		name: "Valid Role",
-		args: args{role: tokenutil.ROLE_ADMIN, token: bearer + validAdminToken},
+		args: args{role: tokenutil.RoleAdmin, token: bearer + validAdminToken},
 		want: want{code: http.StatusOK, msg: accessGranted},
 	}, {
 		name: "Invalid Role from token",
-		args: args{role: tokenutil.ROLE_ADMIN, token: bearer + validUserToken},
+		args: args{role: tokenutil.RoleAdmin, token: bearer + validUserToken},
 		want: want{code: http.StatusForbidden, msg: "Insufficient privileges"},
 	}, {
 		name: "No token",
-		args: args{role: tokenutil.ROLE_ADMIN, token: bearer + noRoleToken},
+		args: args{role: tokenutil.RoleAdmin, token: bearer + noRoleToken},
 		want: want{code: http.StatusUnauthorized, msg: "Missing role"},
 	}, {
 		name: "Wrong structured token",
-		args: args{role: tokenutil.ROLE_ADMIN, token: validUserToken},
+		args: args{role: tokenutil.RoleAdmin, token: validUserToken},
 		want: want{code: http.StatusUnauthorized, msg: "Invalid structure token"},
 	}}
 	for _, tt := range tests {

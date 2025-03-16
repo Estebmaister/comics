@@ -10,7 +10,7 @@ import (
 
 // NewComic generates a new comic with random values
 func NewComic() *pb.Comic {
-	currentChapter := uint32(randomInt(0, 1000))
+	currentChapter := uint32(randomUInt(0, 1000)) // #nosec G115
 	comic := &pb.Comic{
 		Id:          NewComicID(),
 		Titles:      NewTitles(),
@@ -25,7 +25,7 @@ func NewComic() *pb.Comic {
 		Genres:      NewGenres(),
 		Rating:      NewRating(),
 		Track:       randomBool(),
-		ViewedChap:  uint32(randomInt(0, currentChapter)),
+		ViewedChap:  uint32(randomUInt(0, currentChapter)), // #nosec G115
 		Deleted:     randomBool(),
 	}
 	return comic
@@ -33,7 +33,7 @@ func NewComic() *pb.Comic {
 
 // NewComicID generates a random uint32 ID
 func NewComicID() uint32 {
-	return rand.Uint32()
+	return rand.Uint32() // #nosec G404
 }
 
 // NewTitles generates a random title or a set of repeated titles
@@ -58,7 +58,7 @@ func NewTitles() []string {
 		{"Kimetsu no yaiba", "Demon Slayer"},
 	}
 	if randomBool() {
-		return repeatedTitles[randomInt(0, len(repeatedTitles))]
+		return repeatedTitles[randomUInt(0, len(repeatedTitles))]
 	}
 	return []string{randomStringFromSet(titles...)}
 }
@@ -101,7 +101,7 @@ func NewCover() string {
 // NewPublishers generates a random set of publishers (1 to 5)
 func NewPublishers() []pb.Publisher {
 	seen := make(map[int]bool) // keep track of seen publishers
-	setMaxLength := randomInt(1, 5)
+	setMaxLength := randomUInt(1, 5)
 
 	repeatedPublishers := make([]pb.Publisher, 0)
 	for i := 0; i < setMaxLength; i++ {
@@ -120,7 +120,7 @@ func NewPublishers() []pb.Publisher {
 // NewGenres generates a random genre or a set of repeated genres (1 to 5)
 func NewGenres() []pb.Genre {
 	seen := make(map[int]bool) // keep track of seen genres
-	setMaxLength := randomInt(1, 5)
+	setMaxLength := randomUInt(1, 5)
 	repeatedGenres := make([]pb.Genre, 0)
 
 	for i := 0; i < setMaxLength; i++ {
@@ -141,23 +141,23 @@ func NewGenres() []pb.Genre {
 
 // NewType generates a random comic type
 func NewType() pb.ComicType {
-	return pb.ComicType(randomInt(0, len(pb.ComicType_name)))
+	return pb.ComicType(randomUInt(0, len(pb.ComicType_name))) // #nosec G115
 }
 
 // NewStatus generates a random status
 func NewStatus() pb.Status {
-	return pb.Status(randomInt(0, len(pb.Status_name)))
+	return pb.Status(randomUInt(0, len(pb.Status_name))) // #nosec G115
 }
 
 // NewRating generates a random rating
 func NewRating() pb.Rating {
-	return pb.Rating(randomInt(0, len(pb.Rating_name)))
+	return pb.Rating(randomUInt(0, len(pb.Rating_name))) // #nosec G115
 }
 
 func randomGenre() pb.Genre {
-	return pb.Genre(randomInt(0, len(pb.Genre_name)))
+	return pb.Genre(randomUInt(0, len(pb.Genre_name))) // #nosec G115
 }
 
 func randomPublisher() pb.Publisher {
-	return pb.Publisher(randomInt(0, len(pb.Publisher_name)))
+	return pb.Publisher(randomUInt(0, len(pb.Publisher_name))) // #nosec G115
 }

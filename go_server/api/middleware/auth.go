@@ -10,15 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Headers
 const (
-	// Headers
 	KeyUserID        = "user_id"
 	KeyRole          = "role"
 	KeyAuthorization = "Authorization"
 	KeyAccept        = "Accept"
 	ContentTypeJSON  = "application/json"
+)
 
-	// Cookies
+// Cookies
+const (
 	KeyAccessToken  = "access_token"
 	KeyRefreshToken = "refresh_token"
 )
@@ -47,7 +49,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 			}
 
 			// Return unauthorized error
-			c.Error(fmt.Errorf("missing authentication token"))
+			c.Error(fmt.Errorf("missing authentication token")) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing authentication token"})
 			c.Abort()
 			return
@@ -56,7 +58,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 		// The token should be prefixed with "Bearer "
 		tokenParts := strings.Split(tokenString, " ")
 		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-			c.Error(fmt.Errorf("invalid structure token"))
+			c.Error(fmt.Errorf("invalid structure token")) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid structure token"})
 			c.Abort()
 			return
@@ -66,7 +68,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 
 		claims, err := tokenutil.VerifyToken(tokenString, []byte(accessTokenSecret))
 		if err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authentication token"})
 			c.Abort()
 			return
@@ -79,19 +81,19 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 	}
 }
 
-// Role-based Middleware
+// RoleMiddleware checks if the user has the required role (extracted from JWT)
 func RoleMiddleware(requiredRole string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, ok := c.Get(KeyRole)
 		if !ok || role == "" {
-			c.Error(fmt.Errorf("missing role on headers"))
+			c.Error(fmt.Errorf("missing role on headers")) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing role"})
 			c.Abort()
 			return
 		}
 
 		if role != requiredRole {
-			c.Error(fmt.Errorf("%s: insufficient privileges", role))
+			c.Error(fmt.Errorf("%s: insufficient privileges", role)) // nolint:errcheck
 			c.JSON(http.StatusForbidden, gin.H{"error": "Insufficient privileges"})
 			c.Abort()
 			return

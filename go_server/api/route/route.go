@@ -88,7 +88,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	adminGroup.Use(
 		middleware.AuthenticationMiddleware(
 			env.JWTConfig.AccessTokenSecret),
-		middleware.RoleMiddleware(tokenutil.ROLE_ADMIN))
+		middleware.RoleMiddleware(tokenutil.RoleAdmin))
 	{ // All admin APIs
 		dashboardRouter(userRepo, adminGroup)
 	}
@@ -191,7 +191,7 @@ func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
 				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
@@ -199,7 +199,7 @@ func signUpRouter(authController *controller.AuthControl, group *gin.RouterGroup
 
 		resp, err := authController.Register(c.Request.Context(), user)
 		if err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 		}
 		c.JSON(resp.Status, resp)
 	})
@@ -233,7 +233,7 @@ func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup)
 
 		// Check user input
 		if err := c.ShouldBindJSON(&user); err != nil && accessToken == "" {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.JSON(http.StatusBadRequest, &domain.APIResponse[any]{
 				Status: http.StatusBadRequest, Message: "Invalid data, imposible to parse"})
 			return
@@ -241,7 +241,7 @@ func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup)
 
 		resp, err := authController.Login(c.Request.Context(), accessToken, user)
 		if err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.JSON(resp.Status, resp)
 			return
 		}
@@ -277,12 +277,12 @@ func refreshTokenRouter(authController *controller.AuthControl, group *gin.Route
 		refreshToken := c.GetHeader(keyAuthorization)
 		role := c.GetHeader(keyRole)
 		if role == "" {
-			role = tokenutil.ROLE_USER
+			role = tokenutil.RoleUser
 		}
 
 		resp, err := authController.RefreshToken(c.Request.Context(), refreshToken, role)
 		if err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.JSON(resp.Status, resp)
 			return
 		}
@@ -315,7 +315,7 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 		// If call comes from api return JSON
 		if c.GetHeader(keyAccept) == contentTypeJSON {
 			if err != nil {
-				c.Error(err)
+				c.Error(err) // nolint:errcheck
 				c.JSON(http.StatusNotFound, &domain.APIResponse[any]{
 					Status: http.StatusNotFound, Message: "User not found"})
 				return
@@ -327,7 +327,7 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 
 		// If call comes from browser render profile or redirect to login if no user found
 		if err != nil {
-			c.Error(err)
+			c.Error(err) // nolint:errcheck
 			c.Redirect(http.StatusSeeOther, "/login")
 			return
 		}
@@ -335,12 +335,12 @@ func profileRouter(authController *controller.AuthControl, group *gin.RouterGrou
 	})
 }
 
-func NewTaskRouter(
-	env *bootstrap.Env, db domain.UserStore, group *gin.RouterGroup) {
-	group.GET("/tasks", func(c *gin.Context) {
+// NewTaskRouter creates a new router for tasks TODO: implement
+func NewTaskRouter(_ *bootstrap.Env, _ domain.UserStore, group *gin.RouterGroup) {
+	group.GET("/tasks", func(_ *gin.Context) {
 		// Task handler logic
 	})
-	group.POST("/tasks", func(c *gin.Context) {
+	group.POST("/tasks", func(_ *gin.Context) {
 		// Create task handler logic
 	})
 }

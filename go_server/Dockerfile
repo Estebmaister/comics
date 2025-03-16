@@ -22,13 +22,15 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o 
 
 FROM alpine:3.21
 
-RUN apk update \
-    && apk upgrade
+RUN apk update && apk upgrade
 
 # Import certs from builder
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
+
+# Create a non-root user and group
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 # Set working directory and copy the server binary and the static files
 WORKDIR /app
@@ -37,5 +39,13 @@ COPY --from=builder app/templates ./templates
 COPY --from=builder app/static ./static
 COPY --from=builder app/docs ./docs
 
+# Adjust ownership and permissions
+RUN chown -R appuser:appgroup /app
+
+# Switch to the non-root user
+USER appuser
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8081/ || exit 1
 EXPOSE 8081
+
 CMD [ "./server" ]

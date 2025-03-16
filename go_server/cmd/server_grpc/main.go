@@ -19,7 +19,7 @@ func main() {
 	defer cancel()
 
 	// Initialize tracer
-	tp, err := tracer.NewTracer(ctx, &tracer.TracerConfig{
+	tp, err := tracer.NewTracer(ctx, &tracer.Config{
 		Endpoint:    "http://localhost:14268/api/traces",
 		ServiceName: "comics-server",
 		Sampler:     100,
@@ -27,7 +27,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize tracer")
 	}
-	defer tp.Shutdown(ctx)
+	defer tp.Shutdown(ctx) // nolint:errcheck
 
 	// Create server with default config
 	srv, err := server.New(ctx, server.DefaultConfig())

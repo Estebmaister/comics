@@ -75,7 +75,7 @@ func StreamServerLoggingInterceptor() grpc.StreamServerInterceptor {
 }
 
 // getRequestID extracts request ID from context or generates a new one
-func getRequestID(ctx context.Context) string {
+func getRequestID(_ context.Context) string {
 	// You can implement your own request ID extraction logic here
 	// For now, we'll return a timestamp-based ID
 	return time.Now().Format("20060102150405")

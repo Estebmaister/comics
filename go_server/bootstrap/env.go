@@ -16,23 +16,22 @@ import (
 // AppEnv represents the application's runtime environment
 type AppEnv string
 
+// AppEnv values
 const (
 	Development AppEnv = "development"
 	Production  AppEnv = "production"
 	Testing     AppEnv = "testing"
 
-	// Default environment if not specified
-	defaultEnv = Production
-
+	defaultEnv        = Production
 	defaultCtxTimeout = 10 * time.Second
 )
 
 // Env holds the application configuration
 type Env struct {
-	*repo.DBConfig
-	*JWTConfig
-	*logger.LoggerConfig
-	*tracer.TracerConfig
+	DBConfig       *repo.DBConfig
+	JWTConfig      *JWTConfig
+	LoggerConfig   *logger.Config
+	TracerConfig   *tracer.Config
 	AppEnv         `mapstructure:"ENVIRONMENT"`
 	AddressHTTP    string        `mapstructure:"ADDRESS_HTTP"`
 	AddressGRPC    string        `mapstructure:"ADDRESS_GRPC"`
@@ -55,8 +54,8 @@ func MustLoadEnv(_ context.Context) *Env {
 	env := Env{}
 	jwtConfig := &JWTConfig{}
 	dbConfig := &repo.DBConfig{}
-	loggerConfig := &logger.LoggerConfig{}
-	tracerConfig := &tracer.TracerConfig{}
+	loggerConfig := &logger.Config{}
+	tracerConfig := &tracer.Config{}
 
 	err := viper.ReadInConfig()
 	if err != nil {

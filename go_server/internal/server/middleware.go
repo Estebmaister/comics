@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+// LoggingInterceptor logs gRPC requests
 func LoggingInterceptor(
 	ctx context.Context,
 	req any,
@@ -27,6 +28,7 @@ func LoggingInterceptor(
 	return h, err
 }
 
+// SensitiveDataInterceptor removes sensitive data from logs
 func SensitiveDataInterceptor(
 	ctx context.Context,
 	req any,

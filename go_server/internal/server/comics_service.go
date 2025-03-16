@@ -112,10 +112,10 @@ func (s *comicsService) CreateComic(ctx context.Context, req *pb.CreateComicRequ
 	}, nil
 }
 
-// GetComicById implements the GetComicById RPC method
-func (s *comicsService) GetComicById(ctx context.Context, req *pb.GetComicByIdRequest) (*pb.ComicResponse, error) {
+// GetComicByID implements the GetComicByID RPC method
+func (s *comicsService) GetComicByID(ctx context.Context, req *pb.GetComicByIdRequest) (*pb.ComicResponse, error) {
 	startTime := time.Now()
-	ctx, span := tracer.Start(ctx, "GetComicById")
+	ctx, span := tracer.Start(ctx, "GetComicByID")
 	defer span.End()
 
 	span.SetAttributes(attribute.Int("comic.id", int(req.Id)))
@@ -126,7 +126,7 @@ func (s *comicsService) GetComicById(ctx context.Context, req *pb.GetComicByIdRe
 	}
 
 	// Get comic from database
-	comic, err := s.repo.GetComicById(ctx, req.Id)
+	comic, err := s.repo.GetComicByID(ctx, req.Id)
 	if err != nil {
 		if err.Error() == "comic not found" {
 			return handleError(ctx, startTime, status.Error(codes.NotFound, "comic not found"))
@@ -135,8 +135,8 @@ func (s *comicsService) GetComicById(ctx context.Context, req *pb.GetComicByIdRe
 	}
 
 	duration := time.Since(startTime).Seconds()
-	requestDuration.WithLabelValues("GetComicById", codes.OK.String()).Observe(duration)
-	requestTotal.WithLabelValues("GetComicById", codes.OK.String()).Inc()
+	requestDuration.WithLabelValues("GetComicByID", codes.OK.String()).Observe(duration)
+	requestTotal.WithLabelValues("GetComicByID", codes.OK.String()).Inc()
 
 	return &pb.ComicResponse{
 		Metadata: createResponseMetadata(ctx, startTime, codes.OK),
@@ -180,7 +180,7 @@ func (s *comicsService) GetComics(ctx context.Context, req *pb.GetComicsRequest)
 	requestTotal.WithLabelValues("GetComics", codes.OK.String()).Inc()
 
 	// Calculate pagination info
-	totalCount := uint32(total)
+	totalCount := uint32(total) // #nosec G115
 	totalPages := (totalCount + req.Pagination.PageSize - 1) / req.Pagination.PageSize
 
 	return &pb.ComicsResponse{
@@ -227,7 +227,7 @@ func (s *comicsService) SearchComics(ctx context.Context, req *pb.SearchComicsRe
 	requestDuration.WithLabelValues("SearchComics", codes.OK.String()).Observe(duration)
 	requestTotal.WithLabelValues("SearchComics", codes.OK.String()).Inc()
 
-	totalCount := uint32(total)
+	totalCount := uint32(total) // #nosec G115
 	totalPages := (totalCount + req.Pagination.PageSize - 1) / req.Pagination.PageSize
 
 	return &pb.ComicsResponse{

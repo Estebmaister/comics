@@ -13,8 +13,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Direction defines the direction of the migration
+// up: apply the migrations
+// down n: revert n migrations
 type Direction string
 
+// Direction values
 const (
 	DirectionUp   Direction = "up"
 	DirectionDown Direction = "down"
@@ -44,8 +48,10 @@ func main() {
 	}
 }
 
+// Opt is an option func to apply for the migration
 type Opt func(*config) error
 
+// WithLogger sets the logger for the migration
 func WithLogger(l logger) Opt {
 	return func(cfg *config) error {
 		cfg.Logger = l

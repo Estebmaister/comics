@@ -13,7 +13,7 @@ type UserService interface {
 	GetByID(ctx context.Context, id uuid.UUID) (*User, error)
 }
 
-// Define the base generic API response
+// APIResponse define the base generic API response
 type APIResponse[T any] struct {
 	Status  int    `json:"status"`
 	Data    *T     `json:"data,omitempty"`

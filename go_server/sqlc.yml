@@ -1,17 +1,17 @@
 version: "2"
 sql:
   - engine: "sqlite"
-    queries: "internal/db/sql/query/comics_sqlite.sql"
-    schema: "internal/db/sql/schema/comics_sqlite.sql"
+    queries: "internal/repo/sql/query/comics_sqlite.sql"
+    schema: "internal/repo/sql/schema/comics_sqlite.sql"
     gen:
       go:
         package: "sqlite"
-        out: "internal/db/sql/sqlite"
+        out: "internal/repo/sql/sqlite"
   - engine: "postgresql"
-    queries: "internal/db/sql/query/comics_postgre.sql"
-    schema: "internal/db/sql/schema/comics_postgre.sql"
+    queries: "internal/repo/sql/query/comics_postgre.sql"
+    schema: "internal/repo/sql/schema/comics_postgre.sql"
     gen:
       go:
         package: "postgres"
-        out: "internal/db/sql/postgres"
+        out: "internal/repo/sql/postgres"
         sql_package: "pgx/v5"

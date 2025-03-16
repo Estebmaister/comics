@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	// collection or table name
+	// USERS name of the collection/table in the DB
 	USERS = "users"
 )
 
@@ -24,7 +24,7 @@ type User struct {
 	Active    bool      `bson:"active"`
 }
 
-// User repository operations
+// UserStore interface abstracts user repository operations
 type UserStore interface {
 	UserReader
 	UserWriter
@@ -34,7 +34,7 @@ type UserStore interface {
 	GetStats() map[string]string
 }
 
-// User read operations
+// UserReader interface abstracts user read operations
 type UserReader interface {
 	GetByID(ctx context.Context, id uuid.UUID) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
@@ -44,7 +44,7 @@ type UserReader interface {
 	FindActiveUsersByRole(ctx context.Context, role string) ([]*User, error)
 }
 
-// User write operations
+// UserWriter interface abstracts user write operations
 type UserWriter interface {
 	Create(ctx context.Context, user *User) error
 	Update(ctx context.Context, user *User) error

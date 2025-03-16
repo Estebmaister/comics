@@ -9,23 +9,23 @@ import (
 
 func TestRandomInt(t *testing.T) {
 	t.Parallel()
-	// Testing edge cases for randomInt
-	zeroInt := randomInt(0, 0)
-	zeroIntCheck1 := randomInt(9, 1)
-	zeroIntCheck2 := randomInt(0, 1)
+	// Testing edge cases for randomUInt
+	zeroInt := randomUInt(0, 0)
+	zeroIntCheck1 := randomUInt(9, 1)
+	zeroIntCheck2 := randomUInt(0, 1)
 	if zeroIntCheck1 != 0 || zeroIntCheck2 != 0 || zeroInt != 0 {
-		t.Error("randomInt( min >= max ) should return 0")
+		t.Error("randomUInt( min >= max ) should return 0")
 	}
-	oneInt := randomInt(1, 2)
+	oneInt := randomUInt(1, 2)
 	if oneInt != 1 {
-		t.Error("randomInt(1, 2) should return 1")
+		t.Error("randomUInt(1, 2) should return 1")
 	}
 
-	// Testing if randomInt generates a number between min and max
+	// Testing if randomUInt generates a number between min and max
 	for i := 0; i < 100; i++ {
-		randomInt := randomInt(1, 10)
-		if randomInt < 1 || randomInt > 10 {
-			t.Errorf("randomInt(1, 10) = %d should be between 1 and 10", randomInt)
+		randomUInt := randomUInt(1, 10)
+		if randomUInt < 1 || randomUInt > 10 {
+			t.Errorf("randomUInt(1, 10) = %d should be between 1 and 10", randomUInt)
 		}
 	}
 }

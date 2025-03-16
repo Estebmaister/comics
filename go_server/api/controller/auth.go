@@ -15,10 +15,10 @@ import (
 )
 
 const (
-	invalidCredentials = "invalid credentials"
+	invalidCredentials = "invalid credentials" // #nosec G101
 )
 
-// AuthControl
+// AuthControl is a controller to handle authentication
 type AuthControl struct {
 	userService domain.UserService
 	env         *bootstrap.Env
@@ -117,7 +117,7 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 	}, nil
 }
 
-// Register handles user registration
+// Register creates a new user or returns an error if the user already exists
 func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) (
 	*domain.AuthResponse, error) {
 	dbUser, err := ac.userService.Register(ctx, user)
@@ -137,7 +137,8 @@ func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) 
 	}, nil
 }
 
-func (ac *AuthControl) RefreshToken(ctx context.Context, refreshToken, role string) (
+// RefreshToken receives a refresh token and returns a new access token
+func (ac *AuthControl) RefreshToken(_ context.Context, refreshToken, role string) (
 	*domain.AuthResponse, error) {
 	// Load secret key from environment variable
 	secretKey, refreshSecretKey, err := ac.getSecretKeys()
