@@ -5,18 +5,23 @@ tmp_dir = "./tmp"
 [build]
 args_bin = []
 bin = "./tmp/main"
-cmd = "go build -o ./tmp/main ./cmd/server"
+cmd = 'CGO_ENABLED=0 go build -gcflags=all="-N -l" -o ./tmp/main ./cmd/server'
+# all: flags should be applied to all packages in build packages
+# -N: disabled optimizations to ensure generated code closer to source code for easier debugging
+# -l: disables inlining optimization where small functions are expanded in 
+#     place to reduce overhead of function calls, making it easier for debugging
 delay = 1000
 exclude_dir = ["assets", "tmp", "vendor", "testdata"]
 exclude_file = []
 exclude_regex = ["_test.go"]
 exclude_unchanged = false
 follow_symlink = false
-full_bin = ""
+full_bin = """go tool -modfile=tool.go.mod dlv exec ./tmp/main --listen=127.0.0.1:2345 \
+--headless=true --api-version=2 --accept-multiclient --continue --log --"""
 include_dir = []
 include_ext = ["go", "tpl", "tmpl", "html"]
 include_file = []
-kill_delay = "0s"
+kill_delay = "1s"
 log = "build-errors.log"
 poll = false
 poll_interval = 0
@@ -24,7 +29,7 @@ post_cmd = []
 pre_cmd = []
 rerun = false
 rerun_delay = 500
-send_interrupt = false
+send_interrupt = true
 stop_on_error = false
 
 [color]
