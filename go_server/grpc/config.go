@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	"comics/grpc/middleware"
 	"comics/internal/health"
-	"comics/internal/middleware"
 	"comics/internal/repo"
 
 	"github.com/rs/zerolog/log"

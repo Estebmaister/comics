@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	server "comics/grpc"
 	_ "comics/internal/logger"
-	"comics/internal/server"
 	"comics/internal/tracer"
 
 	"github.com/rs/zerolog/log"
