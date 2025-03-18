@@ -14,7 +14,7 @@ const (
 	// healthCheckInterval is the interval at which the health check is performed
 	healthCheckInterval = 5 * time.Second
 	// readinessMaxInterval is the interval at which the readiness check is performed
-	readinessMaxInterval = 1 * time.Second
+	readinessMaxInterval = 15 * time.Second
 )
 
 var (
@@ -42,7 +42,7 @@ func NewHealthChecker(db Pinger) *Checker {
 		shutdownChan:    make(chan struct{}),
 		manualCheckChan: make(chan struct{}),
 	}
-	h.isReady.Store(false)
+	h.isReady.Store(true)
 	return h
 }
 
@@ -126,10 +126,13 @@ func (h *Checker) performHealthCheck() {
 	defer cancel()
 
 	err := h.db.Ping(ctx)
-	h.isReady.Store(err == nil)
 	if err != nil {
 		log.Error().Err(err).Msg("Database health check failed")
 	}
+	if err == nil && !h.isReady.Load() {
+		log.Info().Msg("Database is ready")
+	}
+	h.isReady.Store(err == nil)
 }
 
 // triggerManualCheck signals the health checker to perform a manual check

@@ -9,7 +9,7 @@ import (
 	"comics/api/route"
 	"comics/bootstrap"
 	_ "comics/docs"
-	repo "comics/repo/sqlite"
+	"comics/internal/repo/sql/sqlite"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -60,7 +60,8 @@ func main() {
 	}()
 
 	// Initialize the file comics database
-	_, sqliteErr := repo.NewSQLiteUserRepo("../src/db/comics.db")
+	sqliteDBPath := "../src/db/comics.db"
+	_, sqliteErr := sqlite.NewSQLiteUserRepo(sqliteDBPath)
 	if sqliteErr != nil {
 		log.Fatal().Err(sqliteErr).Msg("Failed to initialize SQLite database")
 	}

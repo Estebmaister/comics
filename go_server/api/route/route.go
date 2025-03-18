@@ -129,11 +129,8 @@ func swaggerRouter(env *bootstrap.Env, basePath string, group *gin.RouterGroup) 
 		Msg("Swagger")
 
 	// Swagger API documentation
-	url := ginSwagger.URL("./swagger/doc.json")
-
 	group.GET("/swagger/*any",
-		ginSwagger.WrapHandler(swaggerFiles.Handler, url),
-	)
+		ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 // dashboardRouter returns a dashboard view for admins
