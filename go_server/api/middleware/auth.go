@@ -58,7 +58,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 		// The token should be prefixed with "Bearer "
 		tokenParts := strings.Split(tokenString, " ")
 		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-			c.Error(fmt.Errorf("invalid structure token")) // nolint:errcheck
+			c.Error(fmt.Errorf("invalid structure token: %s", tokenString)) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid structure token"})
 			c.Abort()
 			return

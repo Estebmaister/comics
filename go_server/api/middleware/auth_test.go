@@ -40,8 +40,10 @@ func init() {
 func TestAuthenticationMiddleware(t *testing.T) {
 	t.Parallel()
 	type args struct {
-		secretKey string
-		token     string
+		secretKey     string
+		token         string
+		noContentType bool
+		cookieToken   string
 	}
 	type want struct {
 		code int
@@ -67,6 +69,14 @@ func TestAuthenticationMiddleware(t *testing.T) {
 		name: "Wrong structured token",
 		args: args{secretKey: secretKey, token: validUserToken},
 		want: want{code: http.StatusUnauthorized, msg: "Invalid structure token"},
+	}, {
+		name: "No header",
+		args: args{secretKey: secretKey, token: "", noContentType: true},
+		want: want{code: http.StatusFound, msg: accessGranted},
+	}, {
+		name: "Cookie token",
+		args: args{secretKey: secretKey, cookieToken: validUserToken, noContentType: true},
+		want: want{code: http.StatusOK, msg: accessGranted},
 	}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -77,7 +87,15 @@ func TestAuthenticationMiddleware(t *testing.T) {
 			})
 
 			req, _ := http.NewRequest("GET", "/protected", nil)
-			req.Header.Set(KeyAccept, ContentTypeJSON)
+			if !tt.args.noContentType {
+				req.Header.Set(KeyAccept, ContentTypeJSON)
+			}
+			if tt.args.cookieToken != "" {
+				req.AddCookie(&http.Cookie{
+					Name:  KeyAccessToken,
+					Value: tt.args.cookieToken,
+				})
+			}
 			req.Header.Set(KeyAuthorization, tt.args.token)
 
 			w := httptest.NewRecorder()

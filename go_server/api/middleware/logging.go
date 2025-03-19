@@ -46,7 +46,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 		}
 
 		// Extract request ID from headers or context
-		reqID := SetRequestID(c)
+		reqID := setRequestID(c)
 
 		// Add request ID and tracing info to logger
 		ctx := c.Request.Context()
@@ -107,33 +107,36 @@ func LoggerMiddleware() gin.HandlerFunc {
 	}
 }
 
-// SetRequestID returns the request ID from the headers or the gin request context.
+// setRequestID returns the request ID from the headers or the gin request context.
 // if it's not found, a new one is generated and added to the headers and to the context.
-func SetRequestID(c *gin.Context) string {
+func setRequestID(c *gin.Context) string {
 	// Get the request ID from the headers
 	reqID := c.Request.Header.Get(keyHeaderRequestID)
-	if reqID != "" {
-		c.Request = c.Request.WithContext(
-			context.WithValue(c.Request.Context(), requestID{}, reqID))
-		return reqID
-	}
 
 	// Get the request ID from the context
-	reqIDFromCtx := c.Request.Context().Value(requestID{})
-	if reqIDFromCtx != nil {
-		reqID = reqIDFromCtx.(string)
-	}
-	if reqID != "" {
-		c.Writer.Header().Add(keyHeaderRequestID, reqID)
-		return reqID
+	ctx := c.Request.Context()
+	if reqID == "" {
+		reqID, ctx = GetRequestID(ctx)
 	}
 
-	// Generate a new request ID
-	reqID = xid.New().String()
+	// Add request ID to the request and response-writter header
+	c.Request.Header.Add(keyHeaderRequestID, reqID)
 	c.Writer.Header().Add(keyHeaderRequestID, reqID)
-	c.Request = c.Request.WithContext(
-		context.WithValue(c.Request.Context(), requestID{}, reqID))
+	// Add request ID to the request context
+	c.Request = c.Request.WithContext(ctx)
 	return reqID
+}
+
+// GetRequestID returns the request ID from the context or creates one
+// and adds it to the context.
+func GetRequestID(ctx context.Context) (string, context.Context) {
+	reqID := ctx.Value(requestID{})
+	if reqID != nil {
+		return reqID.(string), ctx
+	}
+	newReqID := xid.New().String()
+	ctx = context.WithValue(ctx, requestID{}, newReqID)
+	return newReqID, ctx
 }
 
 // sensitiveDataFilterToLog efficiently masks sensitive fields without full JSON parsing
