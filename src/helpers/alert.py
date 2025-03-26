@@ -46,6 +46,7 @@ def send_email(subject: str, body: str) -> None:
             server.sendmail(EMAIL, EMAIL, message.encode('ascii', 'ignore'))
     except smtplib.SMTPException as e:
         log.error('Failed to send email: %s', str(e))
+        # example: (421, b'4.4.5 Server busy, try again later.')
         raise
 
 
@@ -59,7 +60,11 @@ def send_reminder() -> None:
 
     notification_title = f"{alert_state['title']} - ({alert_state['alert_count']})"
 
-    send_email(notification_title, alert_state['content'])
+    try:
+        send_email(notification_title, alert_state['content'])
+    except Exception as e:
+        # Continue, don't reset alert state
+        return
 
     # Reset alert state
     alert_state['alert_count'] = 0

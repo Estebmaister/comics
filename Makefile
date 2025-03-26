@@ -7,7 +7,7 @@
 
 # Virtual environment configuration
 VENV_DIR=comics_env
-ACTIVATE_VENV:=source $(VENV_DIR)/bin/activate
+ACTIVATE_VENV:=source ./$(VENV_DIR)/bin/activate
 
 # Colors for help text
 CYAN := \033[36m
@@ -123,6 +123,8 @@ setup:
 
 ## proto-py      Generate Python Protobuf files from definitions
 proto-py:
+	@echo "\nInstalling Python Protobuf dependencies..."
+	$(ACTIVATE_VENV) && pip install grpcio==1.70.0 grpcio-tools==1.70.0
 	@echo "\nGenerating Python Protobuf files..."
 	@mkdir -p $(PYTHON_PROTO_OUT)
 	@mkdir -p $(PYTHON_SERVICE_OUT)
