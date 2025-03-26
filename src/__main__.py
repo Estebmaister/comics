@@ -40,13 +40,16 @@ def run_server() -> None:
             r'/comics/*': {'origins': [
                 'http://localhost:*',
                 'https://estebmaister.github.io/*',
-                'http://mac.persian-nominal.ts.net*',  # Tailscale magiclink
+                # Tailscale magiclink and DNS
+                r'http://.*\.persian-nominal\.ts\.net(:\d+)?',
                 'http://100.103.47.96/*'
             ]},
             '/scrape': {'origins': [
                 'http://localhost:*',
                 'https://estebmaister.github.io/*',
-                'http://mac.persian-nominal.ts.net*',  # Tailscale magiclink
+                # Tailscale magiclink and DNS
+                r'http://.*\.persian-nominal\.ts\.net(:\d+)?',
+                'http://realme.persian-nominal.ts.net*',
                 'http://100.103.47.96/*'
             ]},
             r'/health/*': {'origins': '*'},
