@@ -1,7 +1,9 @@
 import React, { useState, SetStateAction } from 'react';
 import Loaders from '../../Loaders';
 import './ScrapeButton.css';
-const SERVER = process.env.REACT_APP_PY_SERVER;
+import config from '../../../util/Config';
+
+const SERVER = config.SERVER;
 
 const scrape = async (
   setShowLoader: { (value: SetStateAction<boolean>): void; },

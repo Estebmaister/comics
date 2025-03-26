@@ -39,11 +39,15 @@ def run_server() -> None:
         resources={
             r'/comics/*': {'origins': [
                 'http://localhost:*',
-                'https://estebmaister.github.io/*'
+                'https://estebmaister.github.io/*',
+                'http://mac.persian-nominal.ts.net*',  # Tailscale magiclink
+                'http://100.103.47.96/*'
             ]},
             '/scrape': {'origins': [
                 'http://localhost:*',
-                'https://estebmaister.github.io/*'
+                'https://estebmaister.github.io/*',
+                'http://mac.persian-nominal.ts.net*',  # Tailscale magiclink
+                'http://100.103.47.96/*'
             ]},
             r'/health/*': {'origins': '*'},
         }
@@ -51,7 +55,7 @@ def run_server() -> None:
 
     # Debug/Development
     if DEBUG:
-        SERVER.run(host='', port=PORT, debug=DEBUG)
+        SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG)
     # Production
     http_server = WSGIServer(('', PORT), SERVER)
     http_server.serve_forever()

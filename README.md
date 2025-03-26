@@ -17,12 +17,13 @@ source comics_env/bin/activate
 deactivate
 ```
 
-- For corrupted virtual env:
-```sh
-rm -rf comics_env
-python3 -m venv comics_env
-source comics_env/bin/activate
-```
+> [!IMPORTANT]
+> For corrupted virtual env:
+> ```sh
+> rm -rf comics_env
+> python3 -m venv comics_env
+> source comics_env/bin/activate
+> ```
 
 ### Installing dependencies
 
@@ -37,6 +38,13 @@ pip-review --local
 ## apply them
 pip-review --auto
 ```
+
+> [!NOTE]
+> On termux there are several dependencies that need to be installed manually, and they can take hours to install.
+> ```sh
+> pkg install c-ares
+> GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY=1 GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1 GRPC_PYTHON_BUILD_SYSTEM_CARES=1 CFLAGS+=" -U__ANDROID_API__ -D__ANDROID_API__=30 -include unistd.h" LDFLAGS+=" -llog" pip install grpcio
+> ```
 
 ### Running scrapper
 

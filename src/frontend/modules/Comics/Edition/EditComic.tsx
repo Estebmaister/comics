@@ -2,8 +2,9 @@ import { useState, SetStateAction } from 'react';
 import EditComicModal from '../Modals/EditModal';
 import './EditComic.css';
 import db_classes from '../../../../db/db_classes.json'
+import config from '../../../util/Config';
 
-const SERVER = process.env.REACT_APP_PY_SERVER;
+const SERVER = config.SERVER;
 const edit = async (comic: any, server = SERVER) => {
   let newData;
   comic.last_update = new Date().getTime();

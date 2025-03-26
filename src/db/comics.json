@@ -58,9 +58,9 @@
     "titles": [
       "Apotheosis"
     ],
-    "current_chap": 1282,
+    "current_chap": 1283,
     "cover": "https://avt.mkklcdnv6temp.com/fld/60/t/8-1732790570-nw.webp",
-    "last_update": "2025-03-25T03:53:38+00:00",
+    "last_update": "2025-03-26T16:46:56+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -3647,9 +3647,9 @@
     "titles": [
       "Monster pet evolution"
     ],
-    "current_chap": 358,
+    "current_chap": 359,
     "cover": "https://avt.mkklcdnv6temp.com/fld/55/t/12-1733289151-nw.webp",
-    "last_update": "2025-03-25T03:53:38+00:00",
+    "last_update": "2025-03-26T16:46:56+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -4433,9 +4433,9 @@
     "titles": [
       "Spare me, great lord!"
     ],
-    "current_chap": 730,
+    "current_chap": 731,
     "cover": "https://avt.mkklcdnv6temp.com/fld/61/u/10-1732801702.jpg",
-    "last_update": "2025-03-25T03:53:38+00:00",
+    "last_update": "2025-03-26T16:46:56+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -6075,9 +6075,9 @@
     "titles": [
       "Healing life through camping in another world"
     ],
-    "current_chap": 56,
+    "current_chap": 57,
     "cover": "https://rizzfables.com//assets/images/camp_new1.webp",
-    "last_update": "2025-03-21T13:28:39+00:00",
+    "last_update": "2025-03-26T16:46:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -6440,9 +6440,9 @@
     "titles": [
       "Warrior grandpa and supreme granddaughter"
     ],
-    "current_chap": 85,
+    "current_chap": 86,
     "cover": "https://rizzfables.com//assets/images/grappa0902.webp",
-    "last_update": "2025-03-21T13:28:39+00:00",
+    "last_update": "2025-03-26T16:46:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -16730,7 +16730,8 @@
   {
     "id": 411,
     "titles": [
-      "Infinite level up in murim"
+      "Infinite level up in murim",
+      "Infinite leveling: murim"
     ],
     "current_chap": 228,
     "cover": "https://rizzfables.com//assets/images/15__ilum-20-06-2023_11_40_12_PM.webp",
@@ -16739,6 +16740,7 @@
     "status": 2,
     "published_in": [
       8,
+      17,
       7
     ],
     "genres": [
@@ -16747,7 +16749,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 25,
+    "viewed_chap": 35,
     "rating": 0,
     "deleted": false
   },
@@ -18809,9 +18811,9 @@
     "titles": [
       "Nano machine"
     ],
-    "current_chap": 251,
+    "current_chap": 252,
     "cover": "https://gg.asuracomic.net/storage/media/270399/conversions/01JKTBDEEZRNKTH6TRHPF5PCXM-thumb-small.webp",
-    "last_update": "2025-03-21T13:28:22+00:00",
+    "last_update": "2025-03-26T16:46:53+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -18827,7 +18829,7 @@
     "description": "",
     "author": "Great H (\ud604\uc808\ubb34), Hanjung Wolya (\ud55c\uc911\uc6d4\uc57c)",
     "track": true,
-    "viewed_chap": 251,
+    "viewed_chap": 252,
     "rating": 0,
     "deleted": false
   },
@@ -19198,32 +19200,6 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 523,
-    "titles": [
-      "A modern man who got transmigrated into the murim world"
-    ],
-    "current_chap": 124,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/94/m/13-1733298872-nw.webp",
-    "last_update": "2025-02-12T02:10:07+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      7,
-      11,
-      17,
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Yeo Beop-ryong,Cheong Ru Yeon,Park Hee Jin",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -29624,6 +29600,7 @@
   {
     "id": 1005,
     "titles": [
+      "A modern man who got transmigrated into the murim world",
       "A modern man who got transmigrated to murim"
     ],
     "current_chap": 116,
@@ -29632,7 +29609,10 @@
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      8,
+      17,
+      11,
+      7
     ],
     "genres": [
       0
@@ -29933,9 +29913,9 @@
     "titles": [
       "The delivery man from murim"
     ],
-    "current_chap": 78,
+    "current_chap": 80,
     "cover": "https://rizzfables.com//assets/images/delivery1.webp",
-    "last_update": "2025-03-21T13:28:39+00:00",
+    "last_update": "2025-03-26T16:46:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -115289,29 +115269,6 @@
   {
     "id": 2914,
     "titles": [
-      "A sense of amusement"
-    ],
-    "current_chap": 26,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/67/p/7-1732786336-nw.webp",
-    "last_update": "2024-12-08T09:01:52",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Q-Boy",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 2914,
-    "titles": [
       "Infinite leveling: murim"
     ],
     "current_chap": 220,
@@ -137440,9 +137397,9 @@
     "titles": [
       "What a bountiful harvest, demo"
     ],
-    "current_chap": 1,
+    "current_chap": 3,
     "cover": "https://gg.asuracomic.net/storage/media/283175/conversions/01JQ98T630CEKKVY3E71F01J0F-thumb-small.webp",
-    "last_update": "2025-03-26T15:05:03+00:00",
+    "last_update": "2025-03-26T16:46:53+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [

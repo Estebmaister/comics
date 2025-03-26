@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import MergeComicModal from '../Modals/MergeModal';
 import './MergeComic.css';
+import config from '../../../util/Config';
 
-const SERVER = process.env.REACT_APP_PY_SERVER;
-
+const SERVER = config.SERVER;
 const mergeComic = async (baseID: number, mergingID: number, server = SERVER) => {
   let success = true;
   await fetch(`${server}/comics/${baseID}/${mergingID}`, {

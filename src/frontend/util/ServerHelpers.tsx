@@ -1,6 +1,8 @@
 import { SetStateAction } from 'react';
 import Loaders from '../modules/Loaders';
-const SERVER = process.env.REACT_APP_PY_SERVER;
+import config from './Config';
+
+const SERVER = config.SERVER;
 
 const dataFetch = (
   setters: { setWebComics: any; setPaginationDict: any; setLoadMsg: any; },

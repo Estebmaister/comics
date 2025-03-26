@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import CreateComicModal from '../Modals/CreateModal';
 import './CreateComic.css';
-import db_classes from '../../../../db/db_classes.json'
+import db_classes from '../../../../db/db_classes.json';
+import config from '../../../util/Config';
 
-const SERVER = process.env.REACT_APP_PY_SERVER;
+const SERVER = config.SERVER;
 const create = async (comic: any, server = SERVER) => {
   let success = true;
   const last_update = { last_update: new Date().getTime() }
