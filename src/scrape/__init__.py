@@ -12,6 +12,7 @@ from db import Publishers, session
 from helpers.alert import send_reminder
 from helpers.logger import logger
 from scrape.asura import scrape_asura
+from scrape.demonic import scrape_demonic
 from scrape.flame import scrape_flame
 from scrape.manganato import scrape_manganato
 from scrape.manhuaplus import scrape_manhuaplus
@@ -40,6 +41,7 @@ SCRAPE_FUNCTIONS: Dict[str, Callable] = {
     Publishers.Asura.name: 				scrape_asura,
     Publishers.FlameScans.name: 		scrape_flame,
     Publishers.RealmScans.name: 		scrape_realm,
+    Publishers.DemonicScans.name: 	    scrape_demonic,
     Publishers.Manganato.name: 			site_closed,
     Publishers.LeviatanScans.name: 	    site_closed,
     Publishers.LuminousScans.name: 	    func_pending,

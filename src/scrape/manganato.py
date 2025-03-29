@@ -7,7 +7,7 @@ It extracts chapter numbers, titles, cover images, authors and other metadata.
 
 from typing import Optional
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import Tag
 
 from db import Publishers
 from helpers.logger import logger

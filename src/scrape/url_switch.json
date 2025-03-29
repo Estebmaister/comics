@@ -19,7 +19,7 @@
     ],
   "FlameScans":   
     [
-      "https://flamecomics.com/"     
+      "https://flamecomics.xyz/"     
     ],
   "VoidScans":    
     [
@@ -72,5 +72,9 @@
   "FirstKiss":    
     [
       "https://1stkissmanga.me/"     
-    ] 
+    ],
+  "DemonicScans":
+    [
+      "https://demonicscans.org/index.php"
+    ]
 }

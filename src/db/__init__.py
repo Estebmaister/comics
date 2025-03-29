@@ -169,6 +169,7 @@ class Publishers(IntEnum):
     Mangarolls = 16
     Manganato = 17
     FirstKiss = 18
+    DemonicScans = 19
 
 
 # SQLAlchemy model definition
