@@ -10,10 +10,9 @@ from db import (ComicDB, Statuses, Types, comic_swagger_model, load_comics,
                 save_comics_file)
 from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
                      comics_like_title, merge_comics, sql_check)
-from helpers.alert import send_reminder
 from helpers.logger import logger
 from helpers.server import put_body_parser
-from scrape import async_scrape
+from scrape import async_scrape_wrapper
 
 log = logger(__name__)
 server = Flask(__name__)
@@ -51,9 +50,13 @@ class Scrape(Resource):
     '''Runs the scrapper worker'''
 
     def get(self):
-        asyncio.run(async_scrape())
-        send_reminder()
-        return {'message': 'success'}
+        # Use asyncio's default event loop
+        try:
+            asyncio.run(async_scrape_wrapper())
+            return {'message': 'success'}
+        except Exception as e:
+            log.error(f'Scraping error: {e}')
+            return {'message': f'error: str(e)'}, 500
 
 
 # RESTful API routes

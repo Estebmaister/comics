@@ -8,9 +8,8 @@ It coordinates the scraping process across different publishers and manages the 
 import asyncio
 from typing import Callable, Dict
 
-from sqlalchemy.orm import Session
-
-from db import Publishers
+from db import Publishers, session
+from helpers.alert import send_reminder
 from helpers.logger import logger
 from scrape.asura import scrape_asura
 from scrape.flame import scrape_flame
@@ -74,16 +73,26 @@ async def async_scrape() -> None:
     await asyncio.gather(*tasks)
 
 
-def scrapes(session: Session) -> None:
+def scrapes() -> None:
     """
-    Main entry point for comic scraping.
+    Main synchronous entry point for comic scraping.
 
     Coordinates the scraping process across all publishers.
     """
+    asyncio.run(async_scrape_wrapper())
+
+
+async def async_scrape_wrapper():
+    """
+    Wrapper to manage the entire scraping process asynchronous.
+
+    Ensures database commit and reminder sending happen after scraping.
+    """
     try:
-        asyncio.run(async_scrape())
+        # Perform the scraping
+        await async_scrape()
     finally:
-        # Commit in memory changes to the database
+        # Commit database session
         session.commit()
-        # Close the database session
-        session.close()
+        # Send reminder (assuming this can be made async)
+        send_reminder()
