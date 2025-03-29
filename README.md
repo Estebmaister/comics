@@ -1,5 +1,11 @@
 # Comics MVP: Server, Scrapper and Interface
-
+![GitHub license](https://img.shields.io/github/license/estebmaister/comics)
+![GitHub last commit](https://img.shields.io/github/last-commit/estebmaister/comics)
+![GitHub contributors](https://img.shields.io/github/contributors/estebmaister/comics)
+![GitHub repo size](https://img.shields.io/github/repo-size/estebmaister/comics)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/estebmaister/comics)
+![GitHub top language](https://img.shields.io/github/languages/top/estebmaister/comics)
+![GitHub language count](https://img.shields.io/github/languages/count/estebmaister/comics)
 ## Scrapper and Server deployment (Python and Go)
 
 ### Virtual environment (Optional)
