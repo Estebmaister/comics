@@ -7,7 +7,7 @@
 
 # Virtual environment configuration
 VENV_DIR=comics_env
-ACTIVATE_VENV:=source ./$(VENV_DIR)/bin/activate
+ACTIVATE_VENV:=. ./$(VENV_DIR)/bin/activate
 
 # Colors for help text
 CYAN := \033[36m
