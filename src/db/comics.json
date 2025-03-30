@@ -294,9 +294,9 @@
     "titles": [
       "Logging 10,000 years into the"
     ],
-    "current_chap": 204,
+    "current_chap": 205,
     "cover": "https://gg.asuracomic.net/storage/media/58/conversions/49ab5c70-thumb-small.webp",
-    "last_update": "2025-03-28T14:41:40+00:00",
+    "last_update": "2025-03-30T21:42:49+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -138120,6 +138120,29 @@
     ],
     "current_chap": 64,
     "cover": "https://readermc.org/images/thumbnails/Legend of Dangun.webp",
+    "last_update": "2025-03-30T17:56:31+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3759,
+    "titles": [
+      "The otherworldly life of the missing ..."
+    ],
+    "current_chap": 2,
+    "cover": "https://readermc.org/images/thumbnails/The Otherworldly Life of the Missing Alchemist~.webp",
     "last_update": "2025-03-30T17:56:31+00:00",
     "com_type": 3,
     "status": 2,
