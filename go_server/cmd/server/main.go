@@ -63,7 +63,7 @@ func main() {
 	sqliteDBPath := "../src/db/comics.db"
 	_, sqliteErr := sqlite.NewSQLiteUserRepo(sqliteDBPath)
 	if sqliteErr != nil {
-		log.Fatal().Err(sqliteErr).Msg("Failed to initialize SQLite database")
+		log.Error().Err(sqliteErr).Msg("Failed to initialize SQLite database")
 	}
 
 	// Wait for interruption
