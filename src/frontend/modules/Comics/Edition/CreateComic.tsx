@@ -5,6 +5,7 @@ import db_classes from '../../../../db/db_classes.json';
 import config from '../../../util/Config';
 
 const SERVER = config.SERVER;
+const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
 const create = async (comic: any, server = SERVER) => {
   let success = true;
   const last_update = { last_update: new Date().getTime() }
@@ -64,7 +65,7 @@ const CreateComic = () => {
   };
 
   const timerHide = () => {
-    setTimeout(() => setHideMsg(true), 1000);
+    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
     return true;
   };
 

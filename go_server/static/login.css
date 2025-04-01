@@ -50,7 +50,8 @@ input {
   box-sizing: border-box;
 }
 
-button {
+button,
+.oauth-btn {
   width: 100%;
   background: #007bff;
   color: white;
@@ -63,6 +64,15 @@ button {
 
 button:hover {
   background: #0056b3;
+}
+
+
+.oauth-btn {
+  background: #db4437;
+}
+
+.oauth-btn:hover {
+  background: #b03024;
 }
 
 .signup-link {

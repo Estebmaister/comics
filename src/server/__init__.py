@@ -9,7 +9,8 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from db import (ComicDB, Statuses, Types, comic_swagger_model, load_comics,
                 save_comics_file)
 from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
-                     comics_like_title, merge_comics, sql_check)
+                     comics_like_title, delete_comic_by_id, merge_comics,
+                     sql_check, update_comic_by_id)
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from scrape import async_scrape_wrapper
@@ -132,54 +133,58 @@ class ComicList(Resource):
             api.abort(400, 'titles should be a non-empty list of strings')
 
         first_title = body['titles'][0].capitalize()
-        db_comic, session = comics_like_title(first_title)
-        if db_comic is not None:
-            for comic in db_comic:
-                if first_title in comic.get_titles():
+        with Session() as session:
+            db_comic = comics_like_title(first_title, session)
+            if db_comic is not None:
+                for comic in db_comic:
+                    if first_title in comic.get_titles():
+                        log.warning(
+                            "Attempted to create duplicate comic: %s", first_title)
+                        api.abort(400, 'Comic is already in the database')
+
+            if ('description' in body and
+                    type(body['description']) is not str):
+                log.warning("Invalid description type in create comic request")
+                api.abort(400, 'description type different from string')
+
+            if 'track' in body and type(body['track']) is not bool:
+                log.warning("Invalid track type in create comic request")
+                api.abort(400, 'track type different from boolean')
+
+            if 'viewed_chap' in body:
+                try:
+                    int(body['viewed_chap'])
+                except ValueError:
                     log.warning(
-                        "Attempted to create duplicate comic: %s", first_title)
-                    api.abort(400, 'Comic is already in the database')
+                        "Invalid viewed_chap value in create comic request: %s", body['viewed_chap'])
+                    api.abort(400, 'viewed_chap must be an integer')
 
-        if ('description' in body and
-                type(body['description']) is not str):
-            log.warning("Invalid description type in create comic request")
-            api.abort(400, 'description type different from string')
+            comic = ComicDB(
+                id=body.get('id', None),
+                titles=None,
+                current_chap=body.get('current_chap', 0),
+                cover=body.get('cover', ''),
+                com_type=int(body.get('com_type', 0)),
+                status=int(body.get('status', 0)),
+                description=body.get('description', ''),
+                author=body.get('author', ''),
+                track=int(body.get('track', 0)),
+                viewed_chap=int(body.get('viewed_chap', 0)),
+                rating=body.get('rating', 0),
+            )
+            comic.set_titles(body.get('titles', ['']))
+            comic.set_published_in(body.get('published_in', [0]))
+            comic.set_genres(body.get('genres', [0]))
 
-        if 'track' in body and type(body['track']) is not bool:
-            log.warning("Invalid track type in create comic request")
-            api.abort(400, 'track type different from boolean')
+            session.add(comic)
+            session.commit()
+            comicJSON = comic.toJSON()
+            session.close()
 
-        if 'viewed_chap' in body:
-            try:
-                int(body['viewed_chap'])
-            except ValueError:
-                log.warning(
-                    "Invalid viewed_chap value in create comic request: %s", body['viewed_chap'])
-                api.abort(400, 'viewed_chap must be an integer')
-
-        comic = ComicDB(
-            id=body.get('id', None),
-            titles=None,
-            current_chap=body.get('current_chap', 0),
-            cover=body.get('cover', ''),
-            com_type=int(body.get('com_type', 0)),
-            status=int(body.get('status', 0)),
-            description=body.get('description', ''),
-            author=body.get('author', ''),
-            track=int(body.get('track', 0)),
-            viewed_chap=int(body.get('viewed_chap', 0)),
-            rating=body.get('rating', 0),
-        )
-        comic.set_titles(body.get('titles', ['']))
-        comic.set_published_in(body.get('published_in', [0]))
-        comic.set_genres(body.get('genres', [0]))
-
-        session.add(comic)
-        session.commit()
-        load_comics.append(comic.toJSON())
-        save_comics_file(load_comics)
-        log.info("Created new comic: %s", first_title)
-        return comic.toJSON()
+            load_comics.append(response)
+            save_comics_file(load_comics)
+            log.info("Created new comic: %s", first_title)
+            return comicJSON
 
 
 @ns.route('/<int:id>')
@@ -192,26 +197,18 @@ class ComicID(Resource):
     @ns.marshal_with(comic_swagger_model)
     def get(self, id):
         '''Fetch a comic by ID'''
-        comic, _ = comic_by_id(id)
-        if comic is None:
+        comicJSON = comic_by_id(id)
+        if comicJSON is None:
             api.abort(404, COMIC_NOT_FOUND.format(id))
-        return comic.toJSON()
+        return comicJSON
 
     @ns.doc('delete_comic')
     @ns.response(202, 'Comic deleted')
     def delete(self, id):
         '''Delete a comic given its identifier'''
-        comic, session = comic_by_id(id)
-        if comic is None:
+        rowsDeleted = delete_comic_by_id(id)
+        if rowsDeleted == 0:
             api.abort(404, COMIC_NOT_FOUND.format(id))
-        session.delete(comic)
-        session.commit()
-        try:
-            dj_comic = [com for com in load_comics if comic.id == com["id"]][0]
-            load_comics.remove(dj_comic)
-            save_comics_file(load_comics)
-        except IndexError:
-            log.debug('Comic ID %s not found in JSON backup', id)
         return 202
 
     @ns.doc('update_comic')
@@ -229,61 +226,10 @@ class ComicID(Resource):
             api.abort(400, err_reading_body)
         log.debug("Updating comic: %s", body)
 
-        comic, session = comic_by_id(id)
-        if comic is None:
-            log.info('No comic found by ID %s', id)
+        comicJSON = update_comic_by_id(id, body)
+        if comicJSON is None:
             api.abort(404, COMIC_NOT_FOUND.format(id))
-        try:
-            json_comic = [
-                comic for comic in load_comics if id == comic["id"]][0]
-        except IndexError:
-            log.debug('Comic ID %s not found in JSON backup, adding it', id)
-            load_comics.append(comic.toJSON())
-            json_comic = [
-                com for com in load_comics if comic.id == com["id"]][0]
-
-        titles = body.get('titles')
-        if titles is not None:
-            comic.set_titles(titles)
-            json_comic["titles"] = comic.get_titles()
-
-        comic.author = body.get('author', comic.author)
-        comic.cover = body.get('cover', comic.cover)
-        comic.description = body.get('description', comic.description)
-        comic.track = int(body.get('track', comic.track))
-        comic.viewed_chap = int(body.get('viewed_chap', comic.viewed_chap))
-        comic.current_chap = int(body.get('current_chap', comic.current_chap))
-        comic.com_type = int(body.get('com_type', comic.com_type))
-        comic.status = int(body.get('status', comic.status))
-        comic.rating = int(body.get('rating', comic.rating))
-
-        genres = body.get('genres')
-        if genres is not None:
-            genres = list(set([int(g) for g in body.get('genres', 0)]))
-            comic.set_genres(genres)
-            json_comic["genres"] = genres
-
-        publishers = body.get('published_in')
-        if publishers is not None:
-            publishers = list(set([int(g) for g in body.get(
-                'published_in', 0
-            )]))
-            comic.set_published_in(publishers)
-            json_comic["published_in"] = publishers
-
-        json_comic["author"] = comic.author
-        json_comic["cover"] = comic.cover
-        json_comic["description"] = comic.description
-        json_comic["track"] = bool(comic.track)
-        json_comic["viewed_chap"] = comic.viewed_chap
-        json_comic["current_chap"] = comic.current_chap
-        json_comic["com_type"] = Types(comic.com_type)
-        json_comic["status"] = Statuses(comic.status)
-        json_comic["rating"] = comic.rating
-
-        session.commit()
-        save_comics_file(load_comics)
-        return comic.toJSON()
+        return comicJSON
 
 
 @ns.route('/search/<string:title>')
@@ -366,12 +312,12 @@ class ComicMerge(Resource):
 # Route put option exposed but not available in swagger
 @server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', methods=['PUT'])
 def merge_comics_by_id(comic_id, comic_merging_id):
-    comic, error = merge_comics(comic_id, comic_merging_id)
+    comicJSON, error = merge_comics(comic_id, comic_merging_id)
     if error is not None:
         if 'Comics' in error:
             return error, 400
         return error, 404
-    return comic.toJSON()
+    return comicJSON, 200
 
 
 # API Error handling

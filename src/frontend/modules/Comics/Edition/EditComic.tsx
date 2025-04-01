@@ -5,6 +5,7 @@ import db_classes from '../../../../db/db_classes.json'
 import config from '../../../util/Config';
 
 const SERVER = config.SERVER;
+const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
 const edit = async (comic: any, server = SERVER) => {
   let newData;
   comic.last_update = new Date().getTime();
@@ -73,7 +74,7 @@ const EditComic = (props: {
   };
 
   const timerHide = () => {
-    setTimeout(() => setHideMsg(true), 1000);
+    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
     return true;
   };
 
@@ -90,7 +91,7 @@ const EditComic = (props: {
         `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
       }>
         <b>{db_classes?.com_type[comicFormData?.com_type]}</b> comic {' '}
-        <b>{comicFormData.titles}</b> {failMsg ? 'failed' : 'created'}.
+        <b>{comicFormData.titles}</b> {failMsg ? 'failed' : 'updated'}.
       </div>
     )}
 

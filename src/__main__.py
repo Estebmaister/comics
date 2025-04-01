@@ -1,7 +1,9 @@
 # src/__main__.py
 
+import asyncio
 import os
 import sys
+import threading
 import time
 
 from flask_cors import CORS
@@ -14,11 +16,22 @@ from server import server as SERVER
 log = helpers.logger.get_logger(__name__)
 PORT: int = int(os.getenv('PORT', 5001))
 DEBUG: bool = os.getenv('DEBUG', 'false') == 'true'
+PRODUCTION: bool = os.getenv('PRODUCTION', 'false') == 'true'
 
-recurrence = 600  # 10 minutes
+default_recurrence = 600  # 10 minutes
 
 
-def scrapping() -> None:
+def run_async_scrape() -> None:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        loop.run_until_complete(scrapping(10*default_recurrence))
+    finally:
+        # Close the loop
+        loop.close()
+
+
+def scrapping(recurrence: int = default_recurrence) -> None:
     scrape_cont = 1
     log.info('Scraping started...')
     while True:
@@ -54,15 +67,19 @@ def run_server() -> None:
         }
     )
 
-    # Debug/Development
-    if DEBUG:
-        SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG)
     # Production
-    http_server = WSGIServer(('0.0.0.0', PORT), SERVER)
-    http_server.serve_forever()
+    if PRODUCTION:
+        http_server = WSGIServer(('0.0.0.0', PORT), SERVER)
+        http_server.serve_forever()
+    # Development
+    SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG)
 
 
-if 'server' in sys.argv:
+if 'server' in sys.argv and 'scrape' in sys.argv:
+    thread = threading.Thread(target=run_async_scrape)
+    thread.start()
+    run_server()
+elif 'server' in sys.argv:
     run_server()
 else:
     scrapping()

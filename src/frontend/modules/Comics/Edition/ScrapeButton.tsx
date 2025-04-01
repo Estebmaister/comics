@@ -4,7 +4,7 @@ import './ScrapeButton.css';
 import config from '../../../util/Config';
 
 const SERVER = config.SERVER;
-
+const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
 const scrape = async (
   setShowLoader: { (value: SetStateAction<boolean>): void; },
   server = SERVER
@@ -42,7 +42,7 @@ const ScrapeButton = () => {
       setFailMsg(false);
       setHideMsg(false);
       setShowMsg(true);
-      setTimeout(() => window.location.reload(), 2000);
+      setTimeout(() => window.location.reload(), SHOW_MESSAGE_TIMEOUT);
       return;
     }
     setHideMsg(false);
@@ -51,7 +51,7 @@ const ScrapeButton = () => {
   };
 
   const timerHide = () => {
-    setTimeout(() => setHideMsg(true), 1000);
+    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
     return true;
   }
 

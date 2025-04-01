@@ -8,6 +8,7 @@ It extracts chapter numbers, titles, cover images and other metadata.
 from typing import Optional
 
 from bs4 import Tag
+from sqlalchemy.orm import Session
 
 from db import Publishers
 from helpers.logger import logger
@@ -42,7 +43,11 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         comic_int = comic_div.div.select('div')[1]
 
         # Extract and clean title
-        title = comic_int.h2.a.text.strip()
+        title = comic_int.h2.a.text.replace('...', '').strip()
+        com_type = DEFAULT_COMIC_TYPE
+        if comic_div.has_attr('style'):
+            title += ' - novel'
+            com_type = 'novel'
 
         # Extract chapter spans
         chap_int = comic_int.find_all('a')
@@ -57,7 +62,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
             chapter=chap,
             title=title,
             cover_url=cover,
-            com_type=DEFAULT_COMIC_TYPE,
+            com_type=com_type,
             status=DEFAULT_STATUS
         )
 
@@ -66,7 +71,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         return None
 
 
-async def scrape_demonic(url: str) -> None:
+async def scrape_demonic(url: str, session: Session) -> None:
     """
     Scrape comics from DemonicScans website.
 
@@ -85,4 +90,4 @@ async def scrape_demonic(url: str) -> None:
     for comic_div in comic_divs:
         comic = extract_comic_info(comic_div)
         if comic:
-            await register_comic(comic, PUBLISHER)
+            await register_comic(comic, PUBLISHER, session)

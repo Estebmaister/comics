@@ -317,7 +317,7 @@
     "titles": [
       "Villain to kill"
     ],
-    "current_chap": 178,
+    "current_chap": 180,
     "cover": "https://gg.asuracomic.net/storage/media/263704/conversions/01JH7Y0S6EFHC18HC0JM16F31H-thumb-small.webp",
     "last_update": "2025-03-25T03:53:28+00:00",
     "com_type": 3,
@@ -332,7 +332,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 178,
+    "viewed_chap": 180,
     "rating": 0,
     "deleted": false
   },
@@ -503,13 +503,17 @@
     "titles": [
       "Myst, might, mayhem"
     ],
-    "current_chap": 66,
+    "current_chap": 67,
     "cover": "https://gg.asuracomic.net/storage/media/237/conversions/01J3BANTCGYVH30PHD7H3PP3VK-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:29+00:00",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1
+      1,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -577,9 +581,9 @@
     "titles": [
       "The novel\u2019s extra (remake)"
     ],
-    "current_chap": 121,
+    "current_chap": 122,
     "cover": "https://gg.asuracomic.net/storage/media/248267/conversions/01JBAVX953N5XQX9XRAGQMDBP4-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:29+00:00",
+    "last_update": "2025-03-31T16:54:30+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -601,7 +605,7 @@
       "I am the fated villain"
     ],
     "current_chap": 278,
-    "cover": "https://gg.asuracomic.net/storage/media/10/conversions/55ae5b78-thumb-small.webp",
+    "cover": "https://readermc.org/images/thumbnails/Me, The Heavenly Destined Villain.webp",
     "last_update": "2025-02-18T03:24:56+00:00",
     "com_type": 3,
     "status": 2,
@@ -650,13 +654,17 @@
     "titles": [
       "The indomitable martial king"
     ],
-    "current_chap": 74,
+    "current_chap": 75,
     "cover": "https://gg.asuracomic.net/storage/media/266925/conversions/01JJHN0Z42F9DNQHJVED1WBBZK-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:29+00:00",
+    "last_update": "2025-03-31T16:54:30+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1
+      1,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -720,9 +728,9 @@
     "titles": [
       "Martial god regressed to level"
     ],
-    "current_chap": 91,
+    "current_chap": 92,
     "cover": "https://gg.asuracomic.net/storage/media/120/conversions/7b70a81e-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:29+00:00",
+    "last_update": "2025-03-31T16:54:30+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -812,13 +820,17 @@
     "titles": [
       "Your talent is mine"
     ],
-    "current_chap": 98,
+    "current_chap": 99,
     "cover": "https://gg.asuracomic.net/storage/media/17/conversions/11d8b8cd-thumb-small.webp",
-    "last_update": "2025-03-21T13:33:06+00:00",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      1
+      1,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -1664,7 +1676,7 @@
     "titles": [
       "Helmut: the forsaken child"
     ],
-    "current_chap": 84,
+    "current_chap": 85,
     "cover": "https://gg.asuracomic.net/storage/media/281334/conversions/01JPMXG103HRJGRE6VDY1FNW2E-thumb-small.webp",
     "last_update": "2025-03-25T03:53:31+00:00",
     "com_type": 3,
@@ -1678,7 +1690,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 84,
+    "viewed_chap": 85,
     "rating": 0,
     "deleted": false
   },
@@ -1797,33 +1809,6 @@
     "author": "Hanjung Wolya (\ud55c\uc911\uc6d4\uc57c), Kim Durumi (\uae40\ub450\ub8e8\ubbf8)",
     "track": false,
     "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 27,
-    "titles": [
-      "Martial demon king",
-      "Demon lord\u2019s martial arts ascension (martial demon king)",
-      "Demon lord\u2019s martial arts ascension"
-    ],
-    "current_chap": 94,
-    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/filters:format(webp)/https://asuratoon.com/wp-content/uploads/2022/11/DemonLordCover02.png",
-    "last_update": "2024-02-04T20:41:52",
-    "com_type": 2,
-    "status": 2,
-    "published_in": [
-      1,
-      2,
-      7
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": true,
-    "viewed_chap": 65,
     "rating": 0,
     "deleted": false
   },
@@ -2217,9 +2202,9 @@
     "titles": [
       "Light of arad: forerunner"
     ],
-    "current_chap": 44,
+    "current_chap": 45,
     "cover": "https://gg.asuracomic.net/storage/media/266391/conversions/01JJAGADRX2WPGQVTTY5P1D6C2-thumb-small.webp",
-    "last_update": "2025-03-21T13:28:19+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -2308,6 +2293,7 @@
   {
     "id": 34,
     "titles": [
+      "I became a renowned family's sword prodigy",
       "I became a renowned family\u2019s sword prodigy"
     ],
     "current_chap": 143,
@@ -2317,15 +2303,11 @@
     "status": 2,
     "published_in": [
       1,
-      17,
+      19,
       17
     ],
     "genres": [
-      1,
-      3,
-      8,
-      10,
-      13
+      0
     ],
     "description": "",
     "author": "IBARFSP , Jeon Wook",
@@ -2362,13 +2344,14 @@
     "titles": [
       "Absolute regression"
     ],
-    "current_chap": 40,
+    "current_chap": 42,
     "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:29+00:00",
+    "last_update": "2025-03-31T17:09:13+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1
+      1,
+      19
     ],
     "genres": [
       0
@@ -2503,14 +2486,15 @@
     "titles": [
       "Demonic evolution"
     ],
-    "current_chap": 98,
+    "current_chap": 100,
     "cover": "https://avt.mkklcdnv6temp.com/fld/46/v/14-1733303470-nw.webp",
-    "last_update": "2025-01-15T21:06:37",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -2670,7 +2654,7 @@
       "Youngest son of the renowned swordsmanship clan"
     ],
     "current_chap": 157,
-    "cover": "https://gg.asuracomic.net/storage/media/80/conversions/23b345c9-thumb-small.webp",
+    "cover": "https://readermc.org/images/thumbnails/Swordmaster\u2019s Youngest Son.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 3,
     "status": 2,
@@ -3383,26 +3367,23 @@
       "I obtained a mythic item"
     ],
     "current_chap": 123,
-    "cover": "https://readermc.org/images/thumbnails/I Obtained a Mythic Item.webp",
+    "cover": "https://gg.asuracomic.net/storage/media/264695/conversions/01JHK6JX06G6QQ3R2CJWFNQM5M-thumb-small.webp",
     "last_update": "2025-03-30T17:57:13+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       2,
-      17,
-      19
+      19,
+      17
     ],
     "genres": [
-      8,
-      1,
-      2,
-      13
+      0
     ],
     "description": "",
     "author": "Jung Seonyul (\uc815\uc120\uc728),Hess (\ud5e4\uc2a4)",
     "track": true,
-    "viewed_chap": 83,
+    "viewed_chap": 77,
     "rating": 0,
     "deleted": false
   },
@@ -3581,13 +3562,17 @@
     "titles": [
       "Battle through the heavens"
     ],
-    "current_chap": 469,
-    "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/thumbbb-175x238.webp",
-    "last_update": "2025-03-25T03:53:38+00:00",
+    "current_chap": 470,
+    "cover": "https://readermc.org/images/thumbnails/Battle Through The Heavens.jpg",
+    "last_update": "2025-03-31T16:54:33+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      3
+      3,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -3651,9 +3636,9 @@
     "titles": [
       "Monster pet evolution"
     ],
-    "current_chap": 359,
+    "current_chap": 360,
     "cover": "https://avt.mkklcdnv6temp.com/fld/55/t/12-1733289151-nw.webp",
-    "last_update": "2025-03-26T16:46:56+00:00",
+    "last_update": "2025-03-31T16:54:33+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -3673,6 +3658,7 @@
   {
     "id": 53,
     "titles": [
+      "The archmage transcending through regression",
       "Archmage transcending through regression"
     ],
     "current_chap": 133,
@@ -3682,7 +3668,7 @@
     "status": 2,
     "published_in": [
       1,
-      17,
+      19,
       17
     ],
     "genres": [
@@ -3793,9 +3779,9 @@
     "titles": [
       "My disciples are all big villains"
     ],
-    "current_chap": 353,
+    "current_chap": 354,
     "cover": "https://readermc.org/images/thumbnails/My Disciples Are All Big Villains.jpg",
-    "last_update": "2025-03-30T17:57:16+00:00",
+    "last_update": "2025-04-01T00:07:20+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
@@ -3892,15 +3878,16 @@
       "The max level hero strikes back",
       "The max level hero has returned!"
     ],
-    "current_chap": 197,
+    "current_chap": 198,
     "cover": "https://gg.asuracomic.net/storage/media/179/conversions/72e52cf5-thumb-small.webp",
-    "last_update": "2025-03-28T14:41:42+00:00",
+    "last_update": "2025-04-01T00:07:20+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       17,
-      9
+      9,
+      19
     ],
     "genres": [
       0
@@ -4033,16 +4020,20 @@
       "Youngest scion of the mages",
       "Youngest son of the renowned magic clan"
     ],
-    "current_chap": 90,
+    "current_chap": 91,
     "cover": "https://gg.asuracomic.net/storage/media/106/conversions/830674ea-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:31+00:00",
+    "last_update": "2025-03-31T16:54:30+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       2,
       17,
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -4105,9 +4096,10 @@
     "id": 59,
     "titles": [
       "The novel\u2019s extra (remake)",
+      "The novel's extra (remake)",
       "The novel\u2019s extra"
     ],
-    "current_chap": 121,
+    "current_chap": 122,
     "cover": "https://gg.asuracomic.net/storage/media/248267/conversions/01JBAVX953N5XQX9XRAGQMDBP4-thumb-small.webp",
     "last_update": "2025-01-13T19:00:47",
     "com_type": 3,
@@ -4116,9 +4108,11 @@
       1,
       2,
       4,
-      17
+      17,
+      19
     ],
     "genres": [
+      0,
       1,
       2,
       3,
@@ -4127,7 +4121,7 @@
     ],
     "description": "Billions of characters exist inside the single world of a novel. However, no one aside from the heroines and \u2018important supporting characters\u2019 receives a name. \u201cChundong, what is your standing?\u201d I don\u2019t know. I don\u2019t even know why my name is Chundong. This world is a novel I wrote. However, I ended up as a character I\u2019d never even written about. Other than getting accepted into the Agent Military Academy, this character isn\u2019t particularly extraordinary, has no interactions with anyone in the novel, and isn\u2019t even mentioned at all. Therefore, I became an extra in the novel. \u2026No. I became dust on the novel.",
     "author": "Jee Gab Song",
-    "track": true,
+    "track": false,
     "viewed_chap": 25,
     "rating": 0,
     "deleted": false
@@ -4231,12 +4225,13 @@
       "Magic emperor"
     ],
     "current_chap": 681,
-    "cover": "https://manhuaplus.com/wp-content/uploads/2020/07/unnamed-175x238.jpg",
+    "cover": "https://readermc.org/images/thumbnails/Magic Emperor.webp",
     "last_update": "2025-03-30T17:56:58+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      3
+      3,
+      19
     ],
     "genres": [
       0
@@ -4512,14 +4507,18 @@
     "titles": [
       "Dragon master"
     ],
-    "current_chap": 395,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/50/m/12-1733288839-nw.webp",
-    "last_update": "2025-03-25T20:28:52+00:00",
+    "current_chap": 396,
+    "cover": "https://readermc.org/images/thumbnails/Dragon Master.webp",
+    "last_update": "2025-03-31T16:54:33+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
       3,
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -4537,16 +4536,16 @@
       "Omniscient reader's viewpoint",
       "Omniscient reader\u2019s viewpoint"
     ],
-    "current_chap": 551,
+    "current_chap": 255,
     "cover": "https://gg.asuracomic.net/storage/media/105/conversions/9b59fdec-thumb-small.webp",
     "last_update": "2025-03-30T17:57:12+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
+      19,
       4,
-      17,
-      19
+      17
     ],
     "genres": [
       0
@@ -4554,7 +4553,7 @@
     "description": "",
     "author": "Sing-Shong,Sleepy-C (REDICE STUDIO)",
     "track": true,
-    "viewed_chap": 197,
+    "viewed_chap": 180,
     "rating": 0,
     "deleted": false
   },
@@ -5034,15 +5033,19 @@
     "titles": [
       "How to live as a villain"
     ],
-    "current_chap": 171,
+    "current_chap": 189,
     "cover": "https://avt.mkklcdnv6temp.com/fld/75/q/12-1733290340-nw.webp",
-    "last_update": "2024-12-12T21:07:13",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       17,
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -5606,9 +5609,9 @@
     "titles": [
       "My school life pretending to be a worthless person"
     ],
-    "current_chap": 105,
+    "current_chap": 106,
     "cover": "https://gg.asuracomic.net/storage/media/78/conversions/7e31399d-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:31+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -5724,12 +5727,13 @@
       "Transcension academy"
     ],
     "current_chap": 151,
-    "cover": "https://rizzfables.com//assets/images/41__transcension_academy-23-06-2023_11_44_12_PM.webp",
+    "cover": "https://readermc.org/images/thumbnails/Transcension Academy.jpg",
     "last_update": "2025-03-29T18:31:22+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      8,
+      19
     ],
     "genres": [
       0
@@ -5748,15 +5752,16 @@
       "The heavenly demon can\u2019t live a normal life",
       "The heavenly demon can't live"
     ],
-    "current_chap": 150,
+    "current_chap": 151,
     "cover": "https://gg.asuracomic.net/storage/media/36/conversions/d86aab25-thumb-small.webp",
-    "last_update": "2025-03-26T15:05:27+00:00",
+    "last_update": "2025-03-31T17:05:32+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       10,
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -5764,7 +5769,7 @@
     "description": "",
     "author": "San Cheon,Zaino",
     "track": true,
-    "viewed_chap": 150,
+    "viewed_chap": 151,
     "rating": 0,
     "deleted": false
   },
@@ -6227,15 +6232,19 @@
     "titles": [
       "Return of the sss-class ranker"
     ],
-    "current_chap": 150,
+    "current_chap": 151,
     "cover": "https://gg.asuracomic.net/storage/media/75/conversions/e31c8619-thumb-small.webp",
-    "last_update": "2025-03-28T14:41:35+00:00",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
       17,
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -6512,8 +6521,8 @@
     "titles": [
       "Return of the frozen player"
     ],
-    "current_chap": 98,
-    "cover": "https://media.reaperscans.com/file/4SRBHm/comics/b06b0869-f2d6-4bbd-b938-9d4055f0a166/8Z9DuRsvEd4U1xdVTPYqpvEkFJMxSC0L9BoTxPS7.png",
+    "current_chap": 161,
+    "cover": "https://readermc.org/images/thumbnails/Return of the Frozen Player.jpg",
     "last_update": "2024-11-12T09:52:22",
     "com_type": 3,
     "status": 2,
@@ -6527,7 +6536,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 98,
+    "viewed_chap": 161,
     "rating": 0,
     "deleted": false
   },
@@ -8453,13 +8462,14 @@
     "titles": [
       "Apex future martial arts"
     ],
-    "current_chap": 189,
+    "current_chap": 205,
     "cover": "https://avt.mkklcdnv6temp.com/fld/91/w/13-1733298641-nw.webp",
-    "last_update": "2025-01-29T09:29:47",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -9645,9 +9655,9 @@
     "titles": [
       "Superhuman battlefield"
     ],
-    "current_chap": 150,
+    "current_chap": 151,
     "cover": "https://gg.asuracomic.net/storage/media/68/conversions/7942ca76-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:28+00:00",
+    "last_update": "2025-03-31T16:54:30+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -10830,7 +10840,7 @@
       "The world after the end"
     ],
     "current_chap": 173,
-    "cover": "https://gg.asuracomic.net/storage/media/258/conversions/01J3BAY4P9AZ1Y9GGSAAP2HQ1K-thumb-small.webp",
+    "cover": "https://readermc.org/images/thumbnails/The World After the Fall [ALL CHAPTERS].webp",
     "last_update": "2025-03-26T15:05:30+00:00",
     "com_type": 3,
     "status": 2,
@@ -11164,8 +11174,8 @@
     "titles": [
       "Arcane sniper"
     ],
-    "current_chap": 143,
-    "cover": "https://media.reaperscans.com/file/4SRBHm/comics/ba81b4c2-9c66-4943-8b77-f1c9f503384e/mSfEIMkd6Fdvm2FS0NQKNcsuKfpFktKZyPYhjCBP.jpg",
+    "current_chap": 184,
+    "cover": "https://readermc.org/images/thumbnails/Arcane Sniper.jpg",
     "last_update": "2024-06-08T11:10:22",
     "com_type": 3,
     "status": 2,
@@ -11178,7 +11188,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 143,
+    "viewed_chap": 184,
     "rating": 0,
     "deleted": false
   },
@@ -11311,7 +11321,7 @@
     "titles": [
       "Leveling with the gods - novel"
     ],
-    "current_chap": 147,
+    "current_chap": 250,
     "cover": "https://media.reaperscans.com/file/4SRBHm/novels/f041e11f-6351-4927-b321-d8d7eadd6a0c/bIDbziAneQ6agzb8mhBerd8OBtlEEzyODfdNHtm0.png",
     "last_update": "2023-01-20T14:29:04",
     "com_type": 4,
@@ -13215,15 +13225,16 @@
     "titles": [
       "Shenwu tianzun"
     ],
-    "current_chap": 701,
+    "current_chap": 767,
     "cover": "https://avt.mkklcdnv6temp.com/fld/3/y/10-1732804217-nw.webp",
-    "last_update": "2025-01-23T09:21:01",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
       1,
       17,
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -13899,23 +13910,22 @@
     "titles": [
       "Return of the mount hua sect"
     ],
-    "current_chap": 1152,
+    "current_chap": 152,
     "cover": "https://gg.asuracomic.net/storage/media/54/conversions/fb9b38c7-thumb-small.webp",
     "last_update": "2025-03-30T17:57:12+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
-      17,
       19
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "Updating",
+    "author": "",
     "track": true,
-    "viewed_chap": 110,
+    "viewed_chap": 95,
     "rating": 0,
     "deleted": false
   },
@@ -14085,7 +14095,8 @@
   {
     "id": 295,
     "titles": [
-      "The return of the crazy demon"
+      "The return of the crazy demon",
+      "Return of the crazy demon"
     ],
     "current_chap": 147,
     "cover": "https://gg.asuracomic.net/storage/media/79/1be5e62f.webp",
@@ -14094,6 +14105,7 @@
     "status": 2,
     "published_in": [
       1,
+      19,
       17
     ],
     "genres": [
@@ -15235,23 +15247,25 @@
   {
     "id": 345,
     "titles": [
-      "Estio"
+      "Estio",
+      "Estio [all chapters]"
     ],
-    "current_chap": 109,
+    "current_chap": 116,
     "cover": "https://media.reaperscans.com/file/4SRBHm/comics/41e62a1e-8c7c-4801-a679-6f02d065dcfa/hE6XY7wcT7OTGXwNl1ITeFoJuUp4li3kTd05Cc6U.png",
     "last_update": "2024-05-24T15:44:04",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      2
+      2,
+      19
     ],
     "genres": [
       0
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 20,
     "rating": 0,
     "deleted": false
   },
@@ -16572,15 +16586,16 @@
     "titles": [
       "It starts with a mountain"
     ],
-    "current_chap": 605,
+    "current_chap": 632,
     "cover": "https://avt.mkklcdnv6temp.com/fld/100/v/11-1733286030-nw.webp",
-    "last_update": "2025-01-06T14:38:42",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
       8,
       7,
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -20710,9 +20725,9 @@
     "titles": [
       "God of martial arts"
     ],
-    "current_chap": 776,
+    "current_chap": 827,
     "cover": "https://avt.mkklcdnv6temp.com/fld/52/r/8-1732790167-nw.webp",
-    "last_update": "2025-01-27T14:48:04",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -21145,31 +21160,6 @@
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 609,
-    "titles": [
-      "I\u2019m trapped in this day for one thousand years (i\u2019m stuck on the same day for a thousand years)"
-    ],
-    "current_chap": 164,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/8/x/14-1733300110-nw.webp",
-    "last_update": "2025-02-06T23:36:08",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      7,
-      17,
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "\u4e27\u6cfd , \u6625\u65e5\u6587\u5316",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -22596,8 +22586,8 @@
   {
     "id": 673,
     "titles": [
-      "I became the despised granddaughter of the murim family",
-      "I became the despised granddaughter of a murim family"
+      "I became the despised granddaughter of a murim family",
+      "I became the despised granddaughter of the murim family"
     ],
     "current_chap": 89,
     "cover": "https://avt.mkklcdnv6temp.com/fld/20/x/14-1733301169-nw.webp",
@@ -22606,8 +22596,9 @@
     "status": 2,
     "published_in": [
       8,
-      5,
-      17
+      17,
+      19,
+      5
     ],
     "genres": [
       0
@@ -22925,23 +22916,22 @@
       "Return to player"
     ],
     "current_chap": 194,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/40/x/11-1732806221-nw.webp",
+    "cover": "https://img.asuracomics.com/unsafe/fit-in/200x260/https://asuracomics.com/wp-content/uploads/2023/02/returntoplayerCover01.png",
     "last_update": "2025-03-30T17:57:17+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      1,
       8,
-      17,
+      1,
       19
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "INDEX (\uc778\ub371\uc2a4), UMKY (\uc5c4\ud0a4)",
-    "track": false,
-    "viewed_chap": 0,
+    "author": "",
+    "track": true,
+    "viewed_chap": 60,
     "rating": 0,
     "deleted": false
   },
@@ -24150,6 +24140,30 @@
     "status": 2,
     "published_in": [
       11
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 752,
+    "titles": [
+      "Return of the legend"
+    ],
+    "current_chap": 163,
+    "cover": "https://void-scans.com/wp-content/uploads/xxlarge-4-1.webp",
+    "last_update": "2025-03-30T22:28:00+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      11,
+      19
     ],
     "genres": [
       0
@@ -26176,7 +26190,7 @@
     "titles": [
       "Demonic evolution"
     ],
-    "current_chap": 88,
+    "current_chap": 100,
     "cover": "https://avt.mkklcdnv6temp.com/fld/46/v/14-1733303470-nw.webp",
     "last_update": "2024-12-23T15:58:59",
     "com_type": 2,
@@ -26190,7 +26204,7 @@
     ],
     "description": "",
     "author": "\u9ed1\u9e1f\u793e",
-    "track": false,
+    "track": true,
     "viewed_chap": 60,
     "rating": 0,
     "deleted": false
@@ -26612,29 +26626,6 @@
     "author": "",
     "track": false,
     "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 863,
-    "titles": [
-      "Second life ranker"
-    ],
-    "current_chap": 181,
-    "cover": "https://nightscans.org/wp-content/uploads/2023/03/2NDliferankerCOVER.webp",
-    "last_update": "2024-08-09T17:45:21",
-    "com_type": 0,
-    "status": 2,
-    "published_in": [
-      10
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": true,
-    "viewed_chap": 181,
     "rating": 0,
     "deleted": false
   },
@@ -27729,14 +27720,18 @@
       "The god of war who regressed to level 2",
       "Martial god regressed to level 2"
     ],
-    "current_chap": 91,
+    "current_chap": 92,
     "cover": "https://gg.asuracomic.net/storage/media/120/conversions/7b70a81e-thumb-small.webp",
-    "last_update": "2024-12-23T15:58:58",
+    "last_update": "2025-03-31T16:37:20+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
-      4
+      4,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -27744,7 +27739,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 91,
+    "viewed_chap": 92,
     "rating": 0,
     "deleted": false
   },
@@ -28010,7 +28005,8 @@
   {
     "id": 926,
     "titles": [
-      "Master: this villainous disciple is not the holy child"
+      "Master: this villainous disciple is not the holy child",
+      "Master: this rebellious disciple is definitely not the holy son"
     ],
     "current_chap": 106,
     "cover": "https://avt.mkklcdnv6temp.com/fld/60/o/15-1733310294-nw.webp",
@@ -28018,6 +28014,8 @@
     "com_type": 2,
     "status": 2,
     "published_in": [
+      19,
+      17,
       3
     ],
     "genres": [
@@ -28111,7 +28109,7 @@
     "titles": [
       "Jungle juice"
     ],
-    "current_chap": 142,
+    "current_chap": 152,
     "cover": "https://avt.mkklcdnv6temp.com/fld/89/y/11-1733285426-nw.webp",
     "last_update": "2025-02-05T14:55:11",
     "com_type": 3,
@@ -28352,9 +28350,9 @@
     "titles": [
       "Weapon maker"
     ],
-    "current_chap": 65,
+    "current_chap": 66,
     "cover": "https://gg.asuracomic.net/storage/media/296/conversions/01J7T6WWJR91P2Q26YR40RDGHC-thumb-small.webp",
-    "last_update": "2025-03-26T15:05:27+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -29446,29 +29444,6 @@
     "deleted": false
   },
   {
-    "id": 999,
-    "titles": [
-      "A modern man who got transmigrated into murim"
-    ],
-    "current_chap": 58,
-    "cover": "https://realmscans.to/cdn-cgi/image/format=auto/assets/images/modm1.webp",
-    "last_update": "2023-10-13T00:50:32",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      8
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 1000,
     "titles": [
       "I can summon god [redone]"
@@ -29586,8 +29561,9 @@
   {
     "id": 1005,
     "titles": [
+      "A modern man who got transmigrated to murim",
       "A modern man who got transmigrated into the murim world",
-      "A modern man who got transmigrated to murim"
+      "A modern man who got transmigrated into murim"
     ],
     "current_chap": 116,
     "cover": "https://rizzfables.com//assets/images/modern_man.webp",
@@ -29595,10 +29571,11 @@
     "com_type": 3,
     "status": 2,
     "published_in": [
+      7,
       8,
-      17,
       11,
-      7
+      17,
+      19
     ],
     "genres": [
       0
@@ -29661,21 +29638,23 @@
   {
     "id": 1008,
     "titles": [
+      "Holy emperor's grandson is a necromancer",
       "Holy emperor\u2019s grandson is a necromancer"
     ],
-    "current_chap": 68,
+    "current_chap": 80,
     "cover": "https://rizzfables.com//assets/images/67-grandson-5647-9833-0985.webp",
     "last_update": "2024-12-19T12:48:01",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      8
+      8,
+      17
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "",
+    "author": "Geulim Jakkun, Studio Neulbom",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -29806,7 +29785,7 @@
     "titles": [
       "Spare me, great lord!"
     ],
-    "current_chap": 74,
+    "current_chap": 75,
     "cover": "https://gg.asuracomic.net/storage/media/266925/conversions/01JJHN0Z42F9DNQHJVED1WBBZK-thumb-small.webp",
     "last_update": "2024-12-23T15:59:01",
     "com_type": 3,
@@ -29821,7 +29800,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 74,
+    "viewed_chap": 75,
     "rating": 0,
     "deleted": false
   },
@@ -29830,7 +29809,7 @@
     "titles": [
       "Memorize"
     ],
-    "current_chap": 66,
+    "current_chap": 67,
     "cover": "https://gg.asuracomic.net/storage/media/237/conversions/01J3BANTCGYVH30PHD7H3PP3VK-thumb-small.webp",
     "last_update": "2023-10-25T19:54:05",
     "com_type": 3,
@@ -29844,7 +29823,7 @@
     "description": "",
     "author": "Hanjung Wolya , Kim Tae-Hyung , \uae40\ud0dc\ud615 , \ud55c\uc911\uc6d4\uc57c , \ub9e4\ub4dc\ubc84\ub4dc",
     "track": true,
-    "viewed_chap": 66,
+    "viewed_chap": 67,
     "rating": 0,
     "deleted": false
   },
@@ -29874,9 +29853,10 @@
   {
     "id": 1017,
     "titles": [
-      "The extra\u2019s academy survival guide"
+      "The extra\u2019s academy survival guide",
+      "The extra's academy survival guide"
     ],
-    "current_chap": 70,
+    "current_chap": 71,
     "cover": "https://gg.asuracomic.net/storage/media/257722/conversions/01JF3DFZHDVHCNHVKXCGTD16KM-thumb-small.webp",
     "last_update": "2025-02-13T22:30:27+00:00",
     "com_type": 3,
@@ -29891,7 +29871,7 @@
     "description": "",
     "author": "Corita (\ucf54\ub9ac\ud0c0),Girin Geurin(\uae30\ub9b0\uadf8\ub9b0)",
     "track": true,
-    "viewed_chap": 70,
+    "viewed_chap": 71,
     "rating": 0,
     "deleted": false
   },
@@ -29972,9 +29952,9 @@
     "titles": [
       "My exclusive tower guide"
     ],
-    "current_chap": 59,
+    "current_chap": 60,
     "cover": "https://gg.asuracomic.net/storage/media/228/conversions/e97cd071-thumb-small.webp",
-    "last_update": "2025-03-29T18:30:51+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -29987,7 +29967,7 @@
     "description": "",
     "author": "GoodLuck  ,  Sado (\uc0ac\ub3c4)  ,  X-NAME",
     "track": true,
-    "viewed_chap": 59,
+    "viewed_chap": 60,
     "rating": 0,
     "deleted": false
   },
@@ -30286,7 +30266,7 @@
     "titles": [
       "Strongest player returns after a thousand years"
     ],
-    "current_chap": 55,
+    "current_chap": 56,
     "cover": "https://gg.asuracomic.net/storage/media/226/conversions/8786309e-thumb-small.webp",
     "last_update": "2024-01-14T10:46:52",
     "com_type": 3,
@@ -30300,7 +30280,7 @@
     "description": "",
     "author": "Keulu Keulu  ,  Koul  ,  MIDNIGHT STUDIO",
     "track": true,
-    "viewed_chap": 55,
+    "viewed_chap": 56,
     "rating": 0,
     "deleted": false
   },
@@ -30355,8 +30335,8 @@
     "titles": [
       "Kijin gentoushou"
     ],
-    "current_chap": 20,
-    "cover": "https://media.reaperscans.com/file/4SRBHm/comics/4c59c0a0-65ba-4eb3-a429-27026415a0f9/FSUNE81EVfaMgmCkpUgK82A4Mn6sCly9CWIPiUcj.png",
+    "current_chap": 43,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/48/q/17-1733324119-nw.webp",
     "last_update": "2024-02-06T10:51:15",
     "com_type": 3,
     "status": 2,
@@ -30367,8 +30347,8 @@
       0
     ],
     "description": "",
-    "author": "",
-    "track": false,
+    "author": "Cheongmin",
+    "track": true,
     "viewed_chap": 0,
     "rating": 0,
     "deleted": false
@@ -30669,7 +30649,7 @@
     "titles": [
       "99 boss"
     ],
-    "current_chap": 74,
+    "current_chap": 75,
     "cover": "https://gg.asuracomic.net/storage/media/261059/conversions/01JG6WNTBZ27PWXBTXT46SF92N-thumb-small.webp",
     "last_update": "2024-03-05T12:23:19",
     "com_type": 3,
@@ -30683,7 +30663,7 @@
     "description": "",
     "author": "Painkiller,Yang Pyung ,\uc591\ud3c9, Saint Nine ,\uc131\uad6c",
     "track": true,
-    "viewed_chap": 74,
+    "viewed_chap": 75,
     "rating": 0,
     "deleted": false
   },
@@ -31084,16 +31064,17 @@
   {
     "id": 1071,
     "titles": [
-      "The executioner",
-      "The executioner (lee jehwan)"
+      "The executioner (lee jehwan)",
+      "The executioner"
     ],
-    "current_chap": 50,
+    "current_chap": 20,
     "cover": "https://gg.asuracomic.net/storage/media/217/conversions/e0a69147-thumb-small.webp",
     "last_update": "2025-02-14T06:20:21+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       1,
+      19,
       17
     ],
     "genres": [
@@ -31134,7 +31115,7 @@
     "titles": [
       "Absolute regression"
     ],
-    "current_chap": 40,
+    "current_chap": 42,
     "cover": "https://gg.asuracomic.net/storage/media/285/conversions/01J4J7N5E8J6GSEYWGV23ZFHDG-thumb-small.webp",
     "last_update": "2024-12-23T15:59:07",
     "com_type": 3,
@@ -31149,7 +31130,7 @@
     "description": "",
     "author": "Park Jin-hwan,Jang Yunghoon , JP",
     "track": true,
-    "viewed_chap": 40,
+    "viewed_chap": 42,
     "rating": 0,
     "deleted": false
   },
@@ -32911,13 +32892,17 @@
     "titles": [
       "Frozen frontiers"
     ],
-    "current_chap": 12,
+    "current_chap": 115,
     "cover": "http://www.w3.org/2000/svg'%20viewBox='0%200%20496%20660'%3E%3C/svg%3E",
-    "last_update": "2024-07-28T18:09:18",
+    "last_update": "2025-04-01T00:52:45+00:00",
     "com_type": 2,
     "status": 2,
     "published_in": [
-      10
+      10,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -33210,9 +33195,9 @@
     "titles": [
       "Genius archer\u2019s streaming"
     ],
-    "current_chap": 55,
+    "current_chap": 56,
     "cover": "https://gg.asuracomic.net/storage/media/225/conversions/68b6a264-thumb-small.webp",
-    "last_update": "2025-03-26T15:05:27+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -33724,14 +33709,18 @@
     "titles": [
       "Juvenile prison"
     ],
-    "current_chap": 33,
+    "current_chap": 43,
     "cover": "https://avt.mkklcdnv6temp.com/fld/48/q/17-1733324119-nw.webp",
-    "last_update": "2025-01-09T22:30:00",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
       4,
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -34951,9 +34940,9 @@
     "titles": [
       "Subscribing to the transcendent's channel"
     ],
-    "current_chap": 53,
+    "current_chap": 54,
     "cover": "https://rizzfables.com//assets/images/new.webp",
-    "last_update": "2025-03-25T03:53:41+00:00",
+    "last_update": "2025-03-31T16:54:35+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -35602,9 +35591,9 @@
     "titles": [
       "The regressed mercenary's machinations"
     ],
-    "current_chap": 16,
+    "current_chap": 33,
     "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
-    "last_update": "2024-12-06T10:06:57",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -36510,13 +36499,14 @@
     "titles": [
       "Laws of the good child"
     ],
-    "current_chap": 27,
+    "current_chap": 45,
     "cover": "https://hivetoon.com/wp-content/uploads/cover.jpg",
-    "last_update": "2024-11-25T18:09:57",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      11
+      11,
+      19
     ],
     "genres": [
       0
@@ -36696,13 +36686,14 @@
     "titles": [
       "The childe"
     ],
-    "current_chap": 12,
+    "current_chap": 22,
     "cover": "https://hivetoon.com/wp-content/uploads/BDC3B8AEC1EE_C6F7BDBAC5CD_BDE6B3D7C0CF_690x1000-1.png",
-    "last_update": "2024-11-06T16:29:43",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      11
+      11,
+      19
     ],
     "genres": [
       0
@@ -37102,32 +37093,6 @@
     "author": "Sin Hyosang",
     "track": false,
     "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 1208,
-    "titles": [
-      "Secretly cultivate for a thousand years",
-      "Top tier providence"
-    ],
-    "current_chap": 207,
-    "cover": "https://rizzfables.com//assets/images/ttp1.webp",
-    "last_update": "2024-11-08T17:17:57",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      8,
-      17
-    ],
-    "genres": [
-      8,
-      10
-    ],
-    "description": "",
-    "author": "Star Club",
-    "track": true,
-    "viewed_chap": 207,
     "rating": 0,
     "deleted": false
   },
@@ -40356,8 +40321,8 @@
     "titles": [
       "Yani neko"
     ],
-    "current_chap": 50,
-    "cover": "https://gg.asuracomic.net/storage/media/219/conversions/6a016457-thumb-small.webp",
+    "current_chap": 51,
+    "cover": "https://gg.asuracomic.net/storage/media/283983/conversions/01JQJ3VBMPVV7DMYJ5PBFY2N3Y-thumb-small.webp",
     "last_update": "2024-11-10T07:32:13",
     "com_type": 3,
     "status": 2,
@@ -40370,7 +40335,7 @@
     "description": "",
     "author": "Lee Hyeon Min,Ganala,Soul Wind,Ian (\uc774\uc548)",
     "track": true,
-    "viewed_chap": 50,
+    "viewed_chap": 51,
     "rating": 0,
     "deleted": false
   },
@@ -40403,7 +40368,7 @@
       "The regressed mercenary\u2019s machinations",
       "The regressed mercenary's machinations"
     ],
-    "current_chap": 30,
+    "current_chap": 33,
     "cover": "https://gg.asuracomic.net/storage/media/243966/conversions/01J9KCWWJBA7Z7P1XWYXX9MEZC-thumb-small.webp",
     "last_update": "2024-11-10T07:32:14",
     "com_type": 3,
@@ -40418,7 +40383,7 @@
     "description": "",
     "author": "Gold Line , Park JinSeok",
     "track": true,
-    "viewed_chap": 30,
+    "viewed_chap": 33,
     "rating": 0,
     "deleted": false
   },
@@ -43302,13 +43267,14 @@
     "titles": [
       "It starts with a kingpin account"
     ],
-    "current_chap": 363,
+    "current_chap": 428,
     "cover": "https://avt.mkklcdnv6temp.com/fld/74/g/11-1733284633-nw.webp",
-    "last_update": "2025-01-23T09:21:00",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -43706,29 +43672,6 @@
     ],
     "description": "",
     "author": "Daran 9",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 1352,
-    "titles": [
-      "It was love at first sight, mr. villain!"
-    ],
-    "current_chap": 44,
-    "cover": "https://avt.mkklcdnv6temp.com/12/i/34-1710817461.jpg",
-    "last_update": "2025-01-26T14:28:35",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "\ud638\ubbf8",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -45097,13 +45040,14 @@
     "titles": [
       "Strikeout pitch"
     ],
-    "current_chap": 14,
+    "current_chap": 17,
     "cover": "https://avt.mkklcdnv6temp.com/fld/4/q/17-1733327525-nw.webp",
-    "last_update": "2025-02-17T23:40:45+00:00",
+    "last_update": "2025-03-31T21:25:28+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -47489,13 +47433,14 @@
     "titles": [
       "Beloved tyrant"
     ],
-    "current_chap": 47,
+    "current_chap": 35,
     "cover": "https://avt.mkklcdnv6temp.com/35/q/27-1669693112.jpg",
-    "last_update": "2024-11-12T09:52:31",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -53954,13 +53899,17 @@
     "titles": [
       "Leveling up, by only eating!"
     ],
-    "current_chap": 190,
+    "current_chap": 196,
     "cover": "https://avt.mkklcdnv6temp.com/fld/99/m/10-1732803967-nw.webp",
-    "last_update": "2025-02-18T17:56:15+00:00",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -54161,13 +54110,14 @@
     "titles": [
       "I determine my own destiny"
     ],
-    "current_chap": 274,
+    "current_chap": 295,
     "cover": "https://avt.mkklcdnv6temp.com/fld/14/g/13-1733292795-nw.webp",
-    "last_update": "2025-01-17T02:18:39",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -55472,13 +55422,17 @@
     "titles": [
       "Divine urban god"
     ],
-    "current_chap": 228,
+    "current_chap": 244,
     "cover": "https://avt.mkklcdnv6temp.com/fld/82/j/13-1733297869-nw.webp",
-    "last_update": "2025-01-26T16:25:19",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -57060,13 +57014,14 @@
     "titles": [
       "Hijiri-kun wants to live a pure life"
     ],
-    "current_chap": 2,
+    "current_chap": 116,
     "cover": "https://avt.mkklcdnv6temp.com/18/m/31-1692762048.jpg",
-    "last_update": "2024-11-16T09:27:17",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -57865,13 +57820,14 @@
     "titles": [
       "Study group"
     ],
-    "current_chap": 256,
+    "current_chap": 269,
     "cover": "https://avt.mkklcdnv6temp.com/fld/80/f/9-1732796796-nw.webp",
-    "last_update": "2025-01-02T20:50:12",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -61938,13 +61894,17 @@
     "titles": [
       "The crazy genius composer returns"
     ],
-    "current_chap": 46,
+    "current_chap": 58,
     "cover": "https://avt.mkklcdnv6temp.com/fld/58/l/17-1733324726-nw.webp",
-    "last_update": "2025-01-02T20:50:12",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -64748,13 +64708,14 @@
     "titles": [
       "Point shooting"
     ],
-    "current_chap": 39,
+    "current_chap": 245,
     "cover": "https://avt.mkklcdnv6temp.com/22/j/32-1699176468.jpg",
-    "last_update": "2024-11-28T22:50:31",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -66522,9 +66483,9 @@
     "titles": [
       "My second life is a healing life?"
     ],
-    "current_chap": 74,
+    "current_chap": 75,
     "cover": "https://avt.mkklcdnv6temp.com/fld/56/p/16-1733317159-nw.webp",
-    "last_update": "2025-03-30T17:57:15+00:00",
+    "last_update": "2025-04-01T00:52:45+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -81319,23 +81280,26 @@
   {
     "id": 2174,
     "titles": [
-      "Mobile suit gundam seed freedom astray"
+      "Ranker who lives a second time",
+      "Second life ranker"
     ],
-    "current_chap": 3,
-    "cover": "https://avt.mkklcdnv6temp.com/21/y/37-1728038497.jpg",
+    "current_chap": 202,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/74/d/9-1732796454-nw.webp",
     "last_update": "2024-11-26T14:44:19",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      10,
+      19
     ],
     "genres": [
       0
     ],
     "description": "",
-    "author": "Tokita Koichi",
-    "track": false,
-    "viewed_chap": 0,
+    "author": "Sa Doyeon,Nong Nong",
+    "track": true,
+    "viewed_chap": 161,
     "rating": 0,
     "deleted": false
   },
@@ -82128,13 +82092,17 @@
     "titles": [
       "Vrmmo wo kane no chikara de musou suru"
     ],
-    "current_chap": 3,
+    "current_chap": 9,
     "cover": "https://avt.mkklcdnv6temp.com/fld/96/z/18-1735873198-nw.webp",
-    "last_update": "2025-01-09T11:43:07",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -82197,7 +82165,7 @@
     "titles": [
       "Zero no tsukaima gaiden: tabasa no bouken"
     ],
-    "current_chap": 204,
+    "current_chap": 211,
     "cover": "https://avt.mkklcdnv6temp.com/fld/44/v/9-1732794671-nw.webp",
     "last_update": "2024-11-26T15:35:32",
     "com_type": 3,
@@ -82211,7 +82179,7 @@
     "description": "",
     "author": "TurtleMe, Fuyuki23",
     "track": true,
-    "viewed_chap": 204,
+    "viewed_chap": 211,
     "rating": 0,
     "deleted": false
   },
@@ -86383,13 +86351,17 @@
     "titles": [
       "1st year max level manager"
     ],
-    "current_chap": 136,
+    "current_chap": 145,
     "cover": "https://avt.mkklcdnv6temp.com/fld/55/p/12-1733289142-nw.webp",
-    "last_update": "2025-01-09T20:36:23",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -86534,29 +86506,6 @@
     ],
     "description": "",
     "author": "mago",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 2288,
-    "titles": [
-      "Surviving as a maid"
-    ],
-    "current_chap": 140,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/3/u/10-1732804208-nw.webp",
-    "last_update": "2024-12-05T17:03:56",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Heeseo",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -99312,13 +99261,14 @@
     "titles": [
       "Zombie x slasher"
     ],
-    "current_chap": 78,
+    "current_chap": 89,
     "cover": "https://avt.mkklcdnv6temp.com/fld/26/e/15-1733308153-nw.webp",
-    "last_update": "2025-01-12T01:01:31",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -99588,13 +99538,14 @@
     "titles": [
       "The way that knight lives as a lady"
     ],
-    "current_chap": 138,
+    "current_chap": 150,
     "cover": "https://avt.mkklcdnv6temp.com/fld/20/p/12-1733287120-nw.webp",
-    "last_update": "2025-01-12T01:01:31",
+    "last_update": "2025-03-30T22:10:41+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -101223,8 +101174,8 @@
     "titles": [
       "Pole star"
     ],
-    "current_chap": 1,
-    "cover": "https://avt.mkklcdnv6temp.com/11/u/36-1725077438.jpg",
+    "current_chap": 270,
+    "cover": "https://avt.mkklcdnv6temp.com/fld/6/h/10-1732798342-nw.webp",
     "last_update": "2024-12-03T17:47:13",
     "com_type": 3,
     "status": 2,
@@ -101235,7 +101186,7 @@
       0
     ],
     "description": "",
-    "author": "NON",
+    "author": "Bibi,Goji Shoji",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -102028,13 +101979,14 @@
     "titles": [
       "What can i do alone?"
     ],
-    "current_chap": 22,
+    "current_chap": 32,
     "cover": "https://avt.mkklcdnv6temp.com/fld/45/r/18-1733329947-nw.webp",
-    "last_update": "2025-01-12T21:04:15",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -103593,13 +103545,14 @@
     "titles": [
       "Surviving in an action manhwa"
     ],
-    "current_chap": 100,
+    "current_chap": 106,
     "cover": "https://avt.mkklcdnv6temp.com/fld/42/f/13-1733294763-nw.webp",
-    "last_update": "2025-02-17T05:49:18+00:00",
+    "last_update": "2025-03-31T02:35:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -105502,13 +105455,14 @@
     "titles": [
       "Futagashira"
     ],
-    "current_chap": 21,
+    "current_chap": 51,
     "cover": "https://avt.mkklcdnv6temp.com/fld/58/n/7-1732785946-nw.webp",
-    "last_update": "2024-12-05T20:46:15",
+    "last_update": "2025-04-01T00:07:20+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -110976,13 +110930,14 @@
     "titles": [
       "Age of terror"
     ],
-    "current_chap": 169,
+    "current_chap": 452,
     "cover": "https://avt.mkklcdnv6temp.com/fld/83/v/12-1733290833-nw.webp",
-    "last_update": "2025-01-23T12:40:08",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -113933,29 +113888,6 @@
     ],
     "description": "",
     "author": "\u7f18\u6f2b\u52a8\u6f2b",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 2885,
-    "titles": [
-      "Zombie x slasher"
-    ],
-    "current_chap": 73,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/26/e/15-1733308153-nw.webp",
-    "last_update": "2024-12-08T02:05:51",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Narak",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -120084,9 +120016,9 @@
     "titles": [
       "Lord of destiny wheel"
     ],
-    "current_chap": 62,
+    "current_chap": 106,
     "cover": "https://avt.mkklcdnv6temp.com/fld/21/m/17-1733322456-nw.webp",
-    "last_update": "2024-12-09T19:25:35",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -123875,29 +123807,6 @@
     "deleted": false
   },
   {
-    "id": 3138,
-    "titles": [
-      "Mount hua sect's genius phanto"
-    ],
-    "current_chap": 23,
-    "cover": "https://gg.asuracomic.net/storage/media/269692/conversions/01JKHBVVXZ508G0K814ZYB80A9-thumb-small.webp",
-    "last_update": "2025-03-28T14:41:42+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      1
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3139,
     "titles": [
       "A heroic tale about starting with a personal relations cheat(ability) and letting others do the job"
@@ -124887,29 +124796,6 @@
     "deleted": false
   },
   {
-    "id": 3182,
-    "titles": [
-      "I'm a former slave, but i tried to buy an oni slave who i later found to have too much energy so i want to throw him away..."
-    ],
-    "current_chap": 47,
-    "cover": "https://avt.mkklcdnv6temp.com/fld/92/g/11-1733285543-nw.webp",
-    "last_update": "2025-01-27T14:47:47",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      17
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "Amaharu Niko",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3183,
     "titles": [
       "I want to hold aono-kun so badly i could die"
@@ -125214,7 +125100,7 @@
     "titles": [
       "From goblin to goblin god"
     ],
-    "current_chap": 36,
+    "current_chap": 48,
     "cover": "https://avt.mkklcdnv6temp.com/fld/55/g/17-1733324525-nw.webp",
     "last_update": "2025-01-27T14:47:47",
     "com_type": 3,
@@ -125227,8 +125113,8 @@
     ],
     "description": "",
     "author": "Yuan Dian Ge Zi Manhua (\u539f\u70b9\u683c\u5b50\u6f2b\u753b)",
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 48,
     "rating": 0,
     "deleted": false
   },
@@ -125398,13 +125284,17 @@
     "titles": [
       "Hazure hantei kara hajimatta cheat majutsushi seikatsu"
     ],
-    "current_chap": 10,
+    "current_chap": 49,
     "cover": "https://avt.mkklcdnv6temp.com/fld/4/w/19-1736987873-nw.webp",
-    "last_update": "2025-01-28T12:15:39",
+    "last_update": "2025-03-31T16:54:36+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19,
+      19,
+      19,
+      19
     ],
     "genres": [
       0
@@ -127215,9 +127105,9 @@
     "titles": [
       "I became a big-shot on the heavenly leaderboard"
     ],
-    "current_chap": 81,
+    "current_chap": 98,
     "cover": "https://avt.mkklcdnv6temp.com/fld/95/b/15-1733312605-nw.webp",
-    "last_update": "2025-01-29T09:29:32",
+    "last_update": "2025-03-31T16:54:37+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -132644,9 +132534,9 @@
     "titles": [
       "Love letter from the future"
     ],
-    "current_chap": 25,
+    "current_chap": 26,
     "cover": "https://gg.asuracomic.net/storage/media/277797/conversions/01JNFSVFZ7EKT586PN0DSPEWYK-thumb-small.webp",
-    "last_update": "2025-03-25T03:53:32+00:00",
+    "last_update": "2025-04-01T00:00:31+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -132658,7 +132548,7 @@
     "description": "",
     "author": "",
     "track": true,
-    "viewed_chap": 25,
+    "viewed_chap": 26,
     "rating": 0,
     "deleted": false
   },
@@ -132851,13 +132741,14 @@
     "titles": [
       "The beginning of the primordial era: taking the river styx as my daughter"
     ],
-    "current_chap": 18,
+    "current_chap": 45,
     "cover": "https://avt.mkklcdnv6temp.com/fld/90/c/18-1734537624-nw.webp",
-    "last_update": "2025-02-17T19:41:28+00:00",
+    "last_update": "2025-03-30T22:10:40+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      17
+      17,
+      19
     ],
     "genres": [
       0
@@ -137152,7 +137043,7 @@
     "titles": [
       "All purpose apocalyptic upgrade system"
     ],
-    "current_chap": 40,
+    "current_chap": 44,
     "cover": "https://avt.mgicdn.com/fld/93/s/14-1733306190-nw.webp",
     "last_update": "2025-02-24T08:48:13+00:00",
     "com_type": 3,
@@ -137447,34 +137338,12 @@
     "deleted": false
   },
   {
-    "id": 3729,
-    "titles": [
-      "Shadow slave"
-    ],
-    "current_chap": 2180,
-    "cover": "https://readermc.org/images/nthumbnails/Shadow Slave.jpg",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3730,
     "titles": [
-      "The legendary hero is an academy hono..."
+      "The legendary hero is an academy honor student",
+      "The legendary hero is an academy hono"
     ],
-    "current_chap": 50,
+    "current_chap": 33,
     "cover": "https://readermc.org/images/nthumbnails/The Legendary Hero Is an Academy Honors Student.jpg",
     "last_update": "2025-03-30T17:56:31+00:00",
     "com_type": 3,
@@ -137483,58 +137352,15 @@
       19
     ],
     "genres": [
-      0
+      1,
+      2,
+      13,
+      7
     ],
     "description": "",
     "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3731,
-    "titles": [
-      "Reborn as a demonic cultivator: start..."
-    ],
-    "current_chap": 32,
-    "cover": "https://readermc.org/images/thumbnails/Reborn as a Demonic Cultivator  Starting with a Zombie Planet.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3732,
-    "titles": [
-      "The reversal of my life as a side cha..."
-    ],
-    "current_chap": 49,
-    "cover": "https://readermc.org/images/thumbnails/The Reversal of My Life as a Side Character.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
+    "track": true,
+    "viewed_chap": 33,
     "rating": 0,
     "deleted": false
   },
@@ -137654,29 +137480,6 @@
     "deleted": false
   },
   {
-    "id": 3738,
-    "titles": [
-      "The great mage of the hero's party re..."
-    ],
-    "current_chap": 77,
-    "cover": "https://readermc.org/images/thumbnails/The Great Mage of the Hero\u2019s Party Reincarnates.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3739,
     "titles": [
       "Crimson heart wanderer"
@@ -137700,58 +137503,12 @@
     "deleted": false
   },
   {
-    "id": 3740,
-    "titles": [
-      "The regressed son of a duke is an ass..."
-    ],
-    "current_chap": 68,
-    "cover": "https://readermc.org/images/thumbnails/The Regressed Son of a Duke is an Assassin.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3741,
     "titles": [
       "Don't concern yourself with that book"
     ],
     "current_chap": 71,
     "cover": "https://readermc.org/images/thumbnails/Don't Concern Yourself With That Book.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3742,
-    "titles": [
-      "Nageki no bourei wa intai shitai - sa..."
-    ],
-    "current_chap": 55,
-    "cover": "https://readermc.org/images/thumbnails/Nageki no Bourei wa Intai Shitai - Saijiyaku Hanta ni Yoru Saikiyou Patei Ikusei Jutsu.webp",
     "last_update": "2025-03-30T17:56:31+00:00",
     "com_type": 3,
     "status": 2,
@@ -137798,52 +137555,6 @@
     ],
     "current_chap": 63,
     "cover": "https://readermc.org/images/thumbnails/Reincarnation Of The Heavenly Demon.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3745,
-    "titles": [
-      "The incompetent villainous prince wan..."
-    ],
-    "current_chap": 5,
-    "cover": "https://readermc.org/images/thumbnails/The Incompetent Villainous Prince Wants to Survive ~I was Reincarnated Into a Romance RPG as a Mob Villain, But I will Ignore the Original Work and Aim to Become the Strongest~.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3746,
-    "titles": [
-      "Listener ni damasarete dungeon no sai..."
-    ],
-    "current_chap": 11,
-    "cover": "https://readermc.org/images/thumbnails/Listener ni Damasarete Dungeon no Sai Kasou kara Dasshutsu RTA suru Koto ni Natta.jpg",
     "last_update": "2025-03-30T17:56:31+00:00",
     "com_type": 3,
     "status": 2,
@@ -137930,52 +137641,6 @@
     "deleted": false
   },
   {
-    "id": 3750,
-    "titles": [
-      "Moe buta tensei: akutoku shounin da k..."
-    ],
-    "current_chap": 12,
-    "cover": "https://readermc.org/images/thumbnails/Moe Buta Tensei  Akutoku Shounin Da Kedo Yuusha O Sashioite Isekai Musou Shitemita.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3751,
-    "titles": [
-      "The strongest magical swordsman ever ..."
-    ],
-    "current_chap": 125,
-    "cover": "https://readermc.org/images/thumbnails/The Strongest Magical Swordsman Ever Reborn as an F-Rank Adventurer..webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3752,
     "titles": [
       "The eighth son? that can't be right"
@@ -137999,58 +137664,12 @@
     "deleted": false
   },
   {
-    "id": 3753,
-    "titles": [
-      "I, the demon lord am being targeted b..."
-    ],
-    "current_chap": 63,
-    "cover": "https://readermc.org/images/thumbnails/I, The Demon Lord am being targeted by my female Disciples!.jpg",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
     "id": 3754,
     "titles": [
       "Memoir of the king of war"
     ],
     "current_chap": 201,
     "cover": "https://readermc.org/images/thumbnails/Memoir Of The King Of War.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
-    "com_type": 3,
-    "status": 2,
-    "published_in": [
-      19
-    ],
-    "genres": [
-      0
-    ],
-    "description": "",
-    "author": "",
-    "track": false,
-    "viewed_chap": 0,
-    "rating": 0,
-    "deleted": false
-  },
-  {
-    "id": 3755,
-    "titles": [
-      "Because i'm super lucky, i got a seco..."
-    ],
-    "current_chap": 10,
-    "cover": "https://readermc.org/images/thumbnails/Because I 'm Super Lucky, I Got a Second Chance at Life.webp",
     "last_update": "2025-03-30T17:56:31+00:00",
     "com_type": 3,
     "status": 2,
@@ -138137,13 +137756,110 @@
     "deleted": false
   },
   {
-    "id": 3759,
+    "id": 3760,
     "titles": [
-      "The otherworldly life of the missing ..."
+      "Shadow slave - novel"
+    ],
+    "current_chap": 2180,
+    "cover": "https://readermc.org/images/nthumbnails/Shadow Slave.jpg",
+    "last_update": "2025-03-30T21:59:26+00:00",
+    "com_type": 4,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3761,
+    "titles": [
+      "Return of the mount hua sect - novel"
+    ],
+    "current_chap": 1152,
+    "cover": "https://readermc.org/images/nthumbnails/Return of the Mount Hua Sect.jpg",
+    "last_update": "2025-03-30T21:59:26+00:00",
+    "com_type": 4,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3762,
+    "titles": [
+      "Omniscient reader's viewpoint - novel"
+    ],
+    "current_chap": 551,
+    "cover": "https://readermc.org/images/nthumbnails/Omniscient Reader's Viewpoint.jpg",
+    "last_update": "2025-03-30T21:59:26+00:00",
+    "com_type": 4,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3763,
+    "titles": [
+      "The legendary hero is an academy honor student - novel",
+      "The legendary hero is an academy hono - novel"
+    ],
+    "current_chap": 931,
+    "cover": "https://readermc.org/images/nthumbnails/The Legendary Hero Is an Academy Honors Student.jpg",
+    "last_update": "2025-03-30T21:59:26+00:00",
+    "com_type": 4,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      1,
+      2,
+      3,
+      7,
+      13
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 96,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3765,
+    "titles": [
+      "The otherworldly life of the missing alchemist~"
     ],
     "current_chap": 2,
     "cover": "https://readermc.org/images/thumbnails/The Otherworldly Life of the Missing Alchemist~.webp",
-    "last_update": "2025-03-30T17:56:31+00:00",
+    "last_update": "2025-03-30T22:05:02+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -138156,6 +137872,5408 @@
     "author": "",
     "track": false,
     "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3766,
+    "titles": [
+      "Because i'm super lucky, i got a second chance at life"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/Because I 'm Super Lucky, I Got a Second Chance at Life.webp",
+    "last_update": "2025-03-30T22:05:02+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3767,
+    "titles": [
+      "I, the demon lord am being targeted by my female disciples!"
+    ],
+    "current_chap": 63,
+    "cover": "https://readermc.org/images/thumbnails/I, The Demon Lord am being targeted by my female Disciples!.jpg",
+    "last_update": "2025-03-30T22:05:02+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3768,
+    "titles": [
+      "Reborn as a demonic cultivator: start"
+    ],
+    "current_chap": 32,
+    "cover": "https://readermc.org/images/thumbnails/Reborn as a Demonic Cultivator  Starting with a Zombie Planet.webp",
+    "last_update": "2025-03-30T22:05:02+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3769,
+    "titles": [
+      "The great mage of the hero's party re"
+    ],
+    "current_chap": 77,
+    "cover": "https://readermc.org/images/thumbnails/The Great Mage of the Hero\u2019s Party Reincarnates.webp",
+    "last_update": "2025-03-30T22:05:02+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3770,
+    "titles": [
+      "The incompetent villainous prince wan"
+    ],
+    "current_chap": 5,
+    "cover": "https://readermc.org/images/thumbnails/The Incompetent Villainous Prince Wants to Survive ~I was Reincarnated Into a Romance RPG as a Mob Villain, But I will Ignore the Original Work and Aim to Become the Strongest~.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3771,
+    "titles": [
+      "Listener ni damasarete dungeon no sai"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/Listener ni Damasarete Dungeon no Sai Kasou kara Dasshutsu RTA suru Koto ni Natta.jpg",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3772,
+    "titles": [
+      "Moe buta tensei: akutoku shounin da k"
+    ],
+    "current_chap": 12,
+    "cover": "https://readermc.org/images/thumbnails/Moe Buta Tensei  Akutoku Shounin Da Kedo Yuusha O Sashioite Isekai Musou Shitemita.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3773,
+    "titles": [
+      "Don't underestimate a big carrot"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/Don\u2019t Underestimate a Big Carrot.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3774,
+    "titles": [
+      "Calamity leveling"
+    ],
+    "current_chap": 18,
+    "cover": "https://readermc.org/images/thumbnails/Calamity Leveling.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3775,
+    "titles": [
+      "The magic tower problematic child"
+    ],
+    "current_chap": 6,
+    "cover": "https://readermc.org/images/thumbnails/The Magic Tower Problematic Child.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3776,
+    "titles": [
+      "The man dying to live"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/The Man Dying to Live.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3777,
+    "titles": [
+      "Flame demon arhat"
+    ],
+    "current_chap": 5,
+    "cover": "https://readermc.org/images/thumbnails/Flame Demon Arhat.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3778,
+    "titles": [
+      "The time of rebirth"
+    ],
+    "current_chap": 541,
+    "cover": "https://readermc.org/images/thumbnails/The Time of Rebirth.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3779,
+    "titles": [
+      "Perhaps invincible"
+    ],
+    "current_chap": 25,
+    "cover": "https://readermc.org/images/thumbnails/Perhaps Invincible.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3780,
+    "titles": [
+      "Kunon the sorcerer can see through"
+    ],
+    "current_chap": 15,
+    "cover": "https://readermc.org/images/thumbnails/Kunon The Sorcerer Can See Through.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3781,
+    "titles": [
+      "I can have infinite epiphanies"
+    ],
+    "current_chap": 196,
+    "cover": "https://readermc.org/images/thumbnails/I Can Have Infinite Epiphanies.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3782,
+    "titles": [
+      "Lord of destiny wheel"
+    ],
+    "current_chap": 106,
+    "cover": "https://readermc.org/images/thumbnails/Lord of Destiny Wheel.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 106,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3783,
+    "titles": [
+      "The demonic warrior"
+    ],
+    "current_chap": 50,
+    "cover": "https://readermc.org/images/thumbnails/The Demonic Warrior.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3784,
+    "titles": [
+      "Versatile sword cultivator"
+    ],
+    "current_chap": 44,
+    "cover": "https://readermc.org/images/thumbnails/Versatile Sword Cultivator.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3785,
+    "titles": [
+      "Global beast tamer: i can see the pat"
+    ],
+    "current_chap": 14,
+    "cover": "https://readermc.org/images/thumbnails/Global Beast Tamer  I Can See the Path of Evolution (2025).webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3786,
+    "titles": [
+      "Time stop brave"
+    ],
+    "current_chap": 53,
+    "cover": "https://readermc.org/images/thumbnails/Time Stop Brave.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3787,
+    "titles": [
+      "The story between a dumb prefect and"
+    ],
+    "current_chap": 78,
+    "cover": "https://readermc.org/images/thumbnails/The Story Between a Dumb Prefect and a High School Girl with an Inappropriate Skirt Lengt.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3788,
+    "titles": [
+      "Ore wa akutou de wa arimasen"
+    ],
+    "current_chap": 29,
+    "cover": "https://readermc.org/images/thumbnails/Ore wa Akutou de wa Arimasen.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3789,
+    "titles": [
+      "Celebrating the remaining life"
+    ],
+    "current_chap": 91,
+    "cover": "https://readermc.org/images/thumbnails/Celebrating The Remaining Life.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3790,
+    "titles": [
+      "A rare marriage: how to grill our love"
+    ],
+    "current_chap": 122,
+    "cover": "https://readermc.org/images/thumbnails/A Rare Marriage  How to Grill Our Love.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3791,
+    "titles": [
+      "Dark fantasy paladin"
+    ],
+    "current_chap": 52,
+    "cover": "https://readermc.org/images/thumbnails/Dark Fantasy Paladin.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3792,
+    "titles": [
+      "Worthless profession: dragon tamer"
+    ],
+    "current_chap": 108,
+    "cover": "https://readermc.org/images/thumbnails/WORTHLESS PROFESSION  DRAGON TAMER.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3793,
+    "titles": [
+      "The god's chosen ~ god of the infected"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/The God\u2019s Chosen ~ God of the Infected.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3794,
+    "titles": [
+      "The villains' senior brother"
+    ],
+    "current_chap": 13,
+    "cover": "https://readermc.org/images/thumbnails/The Villains\u2019 Senior Brother.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3795,
+    "titles": [
+      "The genius mage who uses his fists"
+    ],
+    "current_chap": 12,
+    "cover": "https://readermc.org/images/thumbnails/The Genius Mage Who Uses His Fists.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3796,
+    "titles": [
+      "My inventory is abnormal"
+    ],
+    "current_chap": 55,
+    "cover": "https://readermc.org/images/thumbnails/My Inventory is Abnormal.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3797,
+    "titles": [
+      "The secret of the partner next to you"
+    ],
+    "current_chap": 84,
+    "cover": "https://readermc.org/images/thumbnails/The Secret of the Partner Next to You.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3798,
+    "titles": [
+      "The script-eating actor"
+    ],
+    "current_chap": 17,
+    "cover": "https://readermc.org/images/thumbnails/The Script-Eating Actor.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3799,
+    "titles": [
+      "Kurahime to koikarasu (serialization)"
+    ],
+    "current_chap": 2,
+    "cover": "https://readermc.org/images/thumbnails/Kurahime to Koikarasu (Serialization).webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3800,
+    "titles": [
+      "The demonic blade fairy"
+    ],
+    "current_chap": 52,
+    "cover": "https://readermc.org/images/thumbnails/The Demonic Blade Fairy.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3801,
+    "titles": [
+      "Reincarnated as a new employee"
+    ],
+    "current_chap": 8,
+    "cover": "https://readermc.org/images/thumbnails/Reincarnated as a New Employee.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3802,
+    "titles": [
+      "The luoyang branch of the heavenly de"
+    ],
+    "current_chap": 16,
+    "cover": "https://readermc.org/images/thumbnails/The Luoyang Branch of the Heavenly Demon Cult.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3803,
+    "titles": [
+      "Counterattack system: i maxed out the"
+    ],
+    "current_chap": 5,
+    "cover": "https://readermc.org/images/thumbnails/Counterattack System  I Maxed Out the Goddess ' Favorability.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3804,
+    "titles": [
+      "An outcast in another world official"
+    ],
+    "current_chap": 1,
+    "cover": "https://readermc.org/images/thumbnails/An Outcast in Another World Official.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3805,
+    "titles": [
+      "Academy organization"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/Academy Organization.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3806,
+    "titles": [
+      "The death-returning demon king-class"
+    ],
+    "current_chap": 18,
+    "cover": "https://readermc.org/images/thumbnails/The Death-Returning Demon King-Class Player  Lost Man.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3807,
+    "titles": [
+      "Job switch log;"
+    ],
+    "current_chap": 3,
+    "cover": "https://readermc.org/images/thumbnails/Job Switch Log;.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3808,
+    "titles": [
+      "Playing the perfect fox-eyed villain"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/Playing the Perfect Fox-Eyed Villain.webp",
+    "last_update": "2025-03-31T16:54:36+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3809,
+    "titles": [
+      "Overpowered at 1 hp"
+    ],
+    "current_chap": 9,
+    "cover": "https://readermc.org/images/thumbnails/Overpowered at 1 HP.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3810,
+    "titles": [
+      "Hirotta mono ha taisetsu ni shimasho"
+    ],
+    "current_chap": 1,
+    "cover": "https://readermc.org/images/thumbnails/Hirotta Mono Ha Taisetsu Ni Shimasho Kookami Ni Kinirareta Otoko No Teni Monogatari.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3811,
+    "titles": [
+      "In a world where levels rule"
+    ],
+    "current_chap": 2,
+    "cover": "https://readermc.org/images/thumbnails/In a World Where Levels Rule.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3812,
+    "titles": [
+      "Ninja reincarnation: fuuma kotarou's"
+    ],
+    "current_chap": 6,
+    "cover": "https://readermc.org/images/thumbnails/Ninja Reincarnation  Fuuma Kotarou\u2019s Quest to Reclaim His Humanity.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3813,
+    "titles": [
+      "Even the lottery jackpot winner still goes to work"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/Even the Lottery Jackpot Winner Still Goes to Work.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3814,
+    "titles": [
+      "The king of microtransactions conquers the game world"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/The King of Microtransactions Conquers the Game World.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3815,
+    "titles": [
+      "The scientist who loves his wife too much becomes a hero who saves the nation"
+    ],
+    "current_chap": 3,
+    "cover": "https://readermc.org/images/thumbnails/The Scientist Who Loves His Wife Too Much Becomes a Hero Who Saves the Nation.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3816,
+    "titles": [
+      "465 days"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/465 Days.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3817,
+    "titles": [
+      "The demon emperor hopes for a hero"
+    ],
+    "current_chap": 16,
+    "cover": "https://readermc.org/images/thumbnails/The Demon Emperor Hopes for a Hero.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3818,
+    "titles": [
+      "I reincarnated as a mob villain in an otome game i was bashing away at, but i'm gonna live straight because i don't wanna be condemned"
+    ],
+    "current_chap": 8,
+    "cover": "https://readermc.org/images/thumbnails/I Reincarnated As A Mob Villain In An Otome Game I Was Bashing Away At, But I 'm Gonna Live Straight Because I Don 't Wanna Be Condemned.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3819,
+    "titles": [
+      "Level 1 kara hajimaru shoukan musou"
+    ],
+    "current_chap": 31,
+    "cover": "https://readermc.org/images/thumbnails/Level 1 kara Hajimaru Shoukan Musou.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3820,
+    "titles": [
+      "Academy's undercover professor"
+    ],
+    "current_chap": 113,
+    "cover": "https://readermc.org/images/thumbnails/Academy\u2019s Undercover Professor.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3821,
+    "titles": [
+      "I will remove them from my life"
+    ],
+    "current_chap": 108,
+    "cover": "https://readermc.org/images/thumbnails/I Will Remove Them From My Life.webp",
+    "last_update": "2025-03-30T22:10:32+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3822,
+    "titles": [
+      "I'll become the mother of the hero"
+    ],
+    "current_chap": 110,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019ll Become the Mother of the Hero.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3823,
+    "titles": [
+      "Academy's genius swordsman"
+    ],
+    "current_chap": 94,
+    "cover": "https://readermc.org/images/thumbnails/Academy\u2019s Genius Swordsman.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 94,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3825,
+    "titles": [
+      "Tenkuu no shiro o moratta no de iseka"
+    ],
+    "current_chap": 50,
+    "cover": "https://readermc.org/images/thumbnails/Tenkuu no Shiro o Moratta no de Isekai de Tanoshiku Asobitai.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3826,
+    "titles": [
+      "Arifureta shokugyou de sekai saikyou"
+    ],
+    "current_chap": 85,
+    "cover": "https://readermc.org/images/thumbnails/Arifureta Shokugyou de Sekai Saikyou.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3827,
+    "titles": [
+      "Tsuki ga michibiku isekai douchuu"
+    ],
+    "current_chap": 104,
+    "cover": "https://readermc.org/images/thumbnails/Tsuki ga Michibiku Isekai Douchuu.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3828,
+    "titles": [
+      "I was reincarnated as an evil noble in a game and became unparalleled with my overpowered muscles"
+    ],
+    "current_chap": 9,
+    "cover": "https://readermc.org/images/thumbnails/I Was Reincarnated as an Evil Noble in a Game and Became Unparalleled With My Overpowered Muscles.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3829,
+    "titles": [
+      "Star of zenith"
+    ],
+    "current_chap": 26,
+    "cover": "https://readermc.org/images/thumbnails/Star of Zenith.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3830,
+    "titles": [
+      "The late game healer is way too strong"
+    ],
+    "current_chap": 32,
+    "cover": "https://readermc.org/images/thumbnails/The Late Game Healer Is Way Too Strong.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3831,
+    "titles": [
+      "I will raise this family to greatness"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/I Will Raise This Family to Greatness.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3832,
+    "titles": [
+      "Kaiten no albus"
+    ],
+    "current_chap": 38,
+    "cover": "https://readermc.org/images/thumbnails/Kaiten no Albus.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3833,
+    "titles": [
+      "Hero organization"
+    ],
+    "current_chap": 21,
+    "cover": "https://readermc.org/images/thumbnails/Hero Organization.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3834,
+    "titles": [
+      "Heroes, demons and villains"
+    ],
+    "current_chap": 121,
+    "cover": "https://readermc.org/images/thumbnails/Heroes, Demons AND Villains.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3836,
+    "titles": [
+      "Steel lower-class citizens"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/Steel Lower-Class Citizens.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3837,
+    "titles": [
+      "Bc - blood cell"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/BC - Blood Cell.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3838,
+    "titles": [
+      "Song of the sky walkers"
+    ],
+    "current_chap": 139,
+    "cover": "https://readermc.org/images/thumbnails/Song of the Sky Walkers.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3839,
+    "titles": [
+      "I'm level 999, but i only have one year to live"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m Level 999, But I Only Have One Year To Live.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3840,
+    "titles": [
+      "Goddess evolution"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/Goddess Evolution.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3841,
+    "titles": [
+      "The end of the world: the emperor ban"
+    ],
+    "current_chap": 6,
+    "cover": "https://readermc.org/images/thumbnails/The End of the World  The Emperor Banner invites all female disciples to take their seats.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3842,
+    "titles": [
+      "Alien abyss: restart era"
+    ],
+    "current_chap": 27,
+    "cover": "https://readermc.org/images/thumbnails/Alien Abyss  Restart Era.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3843,
+    "titles": [
+      "Moyong chronicles"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/Moyong Chronicles.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3844,
+    "titles": [
+      "I'm the only ranker who can clear the hidden dungeon"
+    ],
+    "current_chap": 20,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m the Only Ranker Who Can Clear the Hidden Dungeon.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3845,
+    "titles": [
+      "Divine beast kindergarten"
+    ],
+    "current_chap": 13,
+    "cover": "https://readermc.org/images/thumbnails/Divine Beast Kindergarten.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3846,
+    "titles": [
+      "Isekai yakkyoku"
+    ],
+    "current_chap": 58,
+    "cover": "https://readermc.org/images/thumbnails/Isekai Yakkyoku.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3847,
+    "titles": [
+      "Apocalyptic food stall"
+    ],
+    "current_chap": 29,
+    "cover": "https://readermc.org/images/thumbnails/Apocalyptic Food stall.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3848,
+    "titles": [
+      "Welcome to japan, elf-san!"
+    ],
+    "current_chap": 62,
+    "cover": "https://readermc.org/images/thumbnails/Welcome to Japan, Elf-san!.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3849,
+    "titles": [
+      "I'm sick and tired of my childhood friend's, now girlfriend's, constant abuse so i broke up with her"
+    ],
+    "current_chap": 34,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m Sick and Tired of My Childhood Friend\u2019s, Now Girlfriend\u2019s, Constant Abuse so I Broke up With Her.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3850,
+    "titles": [
+      "Records of the demonic path's return"
+    ],
+    "current_chap": 60,
+    "cover": "https://readermc.org/images/thumbnails/Records of the Demonic Path\u2019s Return.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3851,
+    "titles": [
+      "White dragon duke: pendragon"
+    ],
+    "current_chap": 129,
+    "cover": "https://readermc.org/images/thumbnails/White Dragon Duke  Pendragon.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3852,
+    "titles": [
+      "Imprisoned one million years: my disciples are all over the world"
+    ],
+    "current_chap": 365,
+    "cover": "https://readermc.org/images/thumbnails/Imprisoned One Million Years  My Disciples Are All Over The World.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3853,
+    "titles": [
+      "I really don't want to be reborn"
+    ],
+    "current_chap": 415,
+    "cover": "https://readermc.org/images/thumbnails/I Really Don't Want to be Reborn.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3854,
+    "titles": [
+      "From useless to peerless: a barrier mage's journey"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/From Useless to Peerless  A Barrier Mage 's Journey.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3855,
+    "titles": [
+      "Snake ancestor"
+    ],
+    "current_chap": 33,
+    "cover": "https://readermc.org/images/thumbnails/Snake Ancestor.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3856,
+    "titles": [
+      "The strongest tamer returned from another world with his childhood friend as his familiar"
+    ],
+    "current_chap": 24,
+    "cover": "https://readermc.org/images/thumbnails/The Strongest Tamer Returned from Another World with his Childhood Friend as his Familiar.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3857,
+    "titles": [
+      "It turns out that i have been invincible for a long time"
+    ],
+    "current_chap": 25,
+    "cover": "https://readermc.org/images/thumbnails/IT TURNS OUT THAT I HAVE BEEN INVINCIBLE FOR A LONG TIME.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3858,
+    "titles": [
+      "Piece maker of flame"
+    ],
+    "current_chap": 31,
+    "cover": "https://readermc.org/images/thumbnails/Piece Maker of Flame.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3859,
+    "titles": [
+      "I'm the evil lord of an intergalactic empire!"
+    ],
+    "current_chap": 36,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m the Evil Lord of an Intergalactic Empire!.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3860,
+    "titles": [
+      "The shaman's blade"
+    ],
+    "current_chap": 29,
+    "cover": "https://readermc.org/images/thumbnails/The Shaman 's Blade.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3861,
+    "titles": [
+      "The hated black mage returns"
+    ],
+    "current_chap": 25,
+    "cover": "https://readermc.org/images/thumbnails/The Hated Black Mage Returns.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3862,
+    "titles": [
+      "I became the game's biggest villain"
+    ],
+    "current_chap": 110,
+    "cover": "https://readermc.org/images/thumbnails/I Became The Game\u2019s Biggest Villain.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3863,
+    "titles": [
+      "Saikyou de saisoku no mugen level up"
+    ],
+    "current_chap": 49,
+    "cover": "https://readermc.org/images/thumbnails/Saikyou de Saisoku no Mugen Level Up.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3864,
+    "titles": [
+      "Traveling through time and space to become an unlucky npc: i have a wife to protect me"
+    ],
+    "current_chap": 90,
+    "cover": "https://readermc.org/images/thumbnails/Traveling Through Time and Space to Become an Unlucky NPC  I Have a Wife to Protect Me.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3865,
+    "titles": [
+      "Rebirth in the end times: i reached the top by opening boxes"
+    ],
+    "current_chap": 43,
+    "cover": "https://readermc.org/images/thumbnails/Rebirth in the end times  I reached the top by opening boxes.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3866,
+    "titles": [
+      "Return of the genius player"
+    ],
+    "current_chap": 47,
+    "cover": "https://readermc.org/images/thumbnails/RETURN OF THE GENIUS PLAYER.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3867,
+    "titles": [
+      "Become the strongest hero through the cheat systeme"
+    ],
+    "current_chap": 47,
+    "cover": "https://readermc.org/images/thumbnails/Become the Strongest Hero Through the Cheat System.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3868,
+    "titles": [
+      "Ascension: from water spirit to deity"
+    ],
+    "current_chap": 25,
+    "cover": "https://readermc.org/images/thumbnails/Ascension  From Water Spirit to Deity.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3869,
+    "titles": [
+      "Majo taisen: 32-nin no isai no majo wa koroshiau"
+    ],
+    "current_chap": 53,
+    "cover": "https://readermc.org/images/thumbnails/Majo Taisen  32-nin no Isai no Majo wa Koroshiau [ALL CHAPTERS].webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3870,
+    "titles": [
+      "Leveling up with skills"
+    ],
+    "current_chap": 101,
+    "cover": "https://readermc.org/images/thumbnails/Leveling Up With Skills.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3871,
+    "titles": [
+      "Demon lord\u2019s martial arts ascension",
+      "Demon lord\u2019s martial arts ascension (martial demon king)",
+      "Demon lord's martial arts ascension",
+      "Martial demon king"
+    ],
+    "current_chap": 110,
+    "cover": "https://readermc.org/images/thumbnails/Demon Lord\u2019s Martial Arts Ascension.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2,
+      19,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 54,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3872,
+    "titles": [
+      "Tensei akuma no saikyou yuusha ikusei"
+    ],
+    "current_chap": 12,
+    "cover": "https://readermc.org/images/thumbnails/Tensei Akuma no Saikyou Yuusha Ikusei Keikaku.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3873,
+    "titles": [
+      "Lady baby"
+    ],
+    "current_chap": 223,
+    "cover": "https://readermc.org/images/thumbnails/Lady Baby.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3874,
+    "titles": [
+      "My status window is on strike"
+    ],
+    "current_chap": 36,
+    "cover": "https://readermc.org/images/thumbnails/My Status Window is on Strike.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3875,
+    "titles": [
+      "Admission is a waste of time"
+    ],
+    "current_chap": 38,
+    "cover": "https://readermc.org/images/thumbnails/Admission is a Waste of Time.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3876,
+    "titles": [
+      "The only new game plus hardcore gamer i'm so overpowered, i shattered the game's balance"
+    ],
+    "current_chap": 42,
+    "cover": "https://readermc.org/images/thumbnails/The Only New Game+ Hardcore Gamer ~I\u2019m so Overpowered, I Shattered the Game\u2019s Balance~.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3877,
+    "titles": [
+      "The new beggars' sect"
+    ],
+    "current_chap": 31,
+    "cover": "https://readermc.org/images/thumbnails/The New Beggars ' Sect.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3878,
+    "titles": [
+      "I was reincarnated as the 7th prince so i will perfect my magic as i please"
+    ],
+    "current_chap": 197,
+    "cover": "https://readermc.org/images/thumbnails/I was reincarnated as the 7th Prince so I will perfect my magic as I please.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3879,
+    "titles": [
+      "Alice (yang kipul)"
+    ],
+    "current_chap": 14,
+    "cover": "https://readermc.org/images/thumbnails/Alice (Yang Kipul).webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3880,
+    "titles": [
+      "Genikasuri"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/Genikasuri.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3881,
+    "titles": [
+      "Goblin's night"
+    ],
+    "current_chap": 87,
+    "cover": "https://readermc.org/images/thumbnails/Goblin\u2019s Night.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3882,
+    "titles": [
+      "Apotheosis - elevation to the status of a god"
+    ],
+    "current_chap": 1284,
+    "cover": "https://readermc.org/images/thumbnails/Apotheosis - Elevation to the status of a god.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3883,
+    "titles": [
+      "I become the youngest disciple of the martial arts leader"
+    ],
+    "current_chap": 43,
+    "cover": "https://readermc.org/images/thumbnails/I Become The Youngest Disciple of The Martial Arts Leader.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3884,
+    "titles": [
+      "Regressing with the kings power"
+    ],
+    "current_chap": 84,
+    "cover": "https://readermc.org/images/thumbnails/Regressing with the Kings Power.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 84,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3885,
+    "titles": [
+      "Nonbiri vrmmo-ki"
+    ],
+    "current_chap": 78,
+    "cover": "https://readermc.org/images/thumbnails/Nonbiri VRMMO-ki.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3886,
+    "titles": [
+      "Tensei shite inaka de slowlife wo okuritai"
+    ],
+    "current_chap": 73,
+    "cover": "https://readermc.org/images/thumbnails/Tensei Shite Inaka de slowlife wo Okuritai.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3887,
+    "titles": [
+      "Ichioku-nen button o renda shita ore wa, kizuitara saikyou ni natteita"
+    ],
+    "current_chap": 28,
+    "cover": "https://readermc.org/images/thumbnails/Ichioku-nen Button o Renda Shita Ore wa, Kizuitara Saikyou ni Natteita.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3888,
+    "titles": [
+      "I became strongest in the world by summoning heroes with my exclusive gatcha"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/I became strongest in the world by summoning Heroes with my exclusive Gatcha.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3889,
+    "titles": [
+      "Regressor's life after retirement"
+    ],
+    "current_chap": 61,
+    "cover": "https://readermc.org/images/thumbnails/Regressor\u2019s Life After Retirement.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3890,
+    "titles": [
+      "The heavenly demon lord who doesn't want to level up"
+    ],
+    "current_chap": 77,
+    "cover": "https://readermc.org/images/thumbnails/The Heavenly Demon Lord Who Doesn 't Want to Level Up.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3891,
+    "titles": [
+      "Invasion of the myriad races: starting by taming a legendary beast"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/Invasion of the Myriad Races  Starting by Taming a Legendary Beast.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3892,
+    "titles": [
+      "Back then, i didn't realize it was a big win"
+    ],
+    "current_chap": 44,
+    "cover": "https://readermc.org/images/thumbnails/Back Then, I Didn\u2019t Realize It Was A Big Win.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3893,
+    "titles": [
+      "Risou no himo seikatsu"
+    ],
+    "current_chap": 74,
+    "cover": "https://readermc.org/images/thumbnails/Risou no Himo Seikatsu.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3894,
+    "titles": [
+      "Reincarnation of the swordmaster"
+    ],
+    "current_chap": 50,
+    "cover": "https://readermc.org/images/thumbnails/Reincarnation of the Swordmaster.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 50,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3895,
+    "titles": [
+      "I got reincarnated but my only ally is a little girl with cheat powers!?"
+    ],
+    "current_chap": 14,
+    "cover": "https://readermc.org/images/thumbnails/I Got reincarnated but my only ally is a little girl with cheat powers! .webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3896,
+    "titles": [
+      "Seoul exorcism department"
+    ],
+    "current_chap": 28,
+    "cover": "https://readermc.org/images/thumbnails/Seoul Exorcism Department.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3897,
+    "titles": [
+      "Code demon"
+    ],
+    "current_chap": 20,
+    "cover": "https://readermc.org/images/thumbnails/Code Demon.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3898,
+    "titles": [
+      "Nine dragons: cop\u00f3ka"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/Nine Dragons  COP\u00d3KA.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3900,
+    "titles": [
+      "Doctor's rebirth"
+    ],
+    "current_chap": 196,
+    "cover": "https://readermc.org/images/thumbnails/Doctor\u2019s Rebirth.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3901,
+    "titles": [
+      "Live dungeon!"
+    ],
+    "current_chap": 80,
+    "cover": "https://readermc.org/images/thumbnails/Live Dungeon!.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3902,
+    "titles": [
+      "Forging an industrial empire in a magical world"
+    ],
+    "current_chap": 27,
+    "cover": "https://readermc.org/images/thumbnails/Forging an Industrial Empire in a Magical World.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3903,
+    "titles": [
+      "I'm really not the demon god's lackey"
+    ],
+    "current_chap": 153,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m Really Not The Demon God\u2019s Lackey.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3906,
+    "titles": [
+      "The top ranker's aspiring writer life manual"
+    ],
+    "current_chap": 25,
+    "cover": "https://readermc.org/images/thumbnails/The Top Ranker 's Aspiring Writer Life Manual.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3908,
+    "titles": [
+      "I'm actually a cultivation bigshot"
+    ],
+    "current_chap": 455,
+    "cover": "https://readermc.org/images/thumbnails/I 'm Actually a Cultivation Bigshot.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3909,
+    "titles": [
+      "Apocalypse sword god"
+    ],
+    "current_chap": 59,
+    "cover": "https://readermc.org/images/thumbnails/Apocalypse Sword God.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3910,
+    "titles": [
+      "The holy emperor's grandson is a necromancer"
+    ],
+    "current_chap": 80,
+    "cover": "https://readermc.org/images/thumbnails/HOLY EMPEROR\u2019S GRANDSON IS A NECROMANCER.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3911,
+    "titles": [
+      "Genius archer's streaming"
+    ],
+    "current_chap": 56,
+    "cover": "https://readermc.org/images/thumbnails/Genius Archer\u2019s Streaming.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3912,
+    "titles": [
+      "Starting as a master of female disciples' leisure skills"
+    ],
+    "current_chap": 29,
+    "cover": "https://readermc.org/images/thumbnails/Starting as a Master of Female Disciples ' Leisure Skills.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3914,
+    "titles": [
+      "Player"
+    ],
+    "current_chap": 230,
+    "cover": "https://readermc.org/images/thumbnails/Player.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3915,
+    "titles": [
+      "How to retire as a disaster necromancer"
+    ],
+    "current_chap": 29,
+    "cover": "https://readermc.org/images/thumbnails/How to Retire as a Disaster Necromancer.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3916,
+    "titles": [
+      "Into the light once again"
+    ],
+    "current_chap": 100,
+    "cover": "https://readermc.org/images/thumbnails/Into The Light Once Again.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3917,
+    "titles": [
+      "Cinderella wasn't me"
+    ],
+    "current_chap": 141,
+    "cover": "https://readermc.org/images/thumbnails/Cinderella Wasn't Me.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3918,
+    "titles": [
+      "Blood demon reincarnation"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/Blood Demon Reincarnation.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3919,
+    "titles": [
+      "Magi craft meister"
+    ],
+    "current_chap": 69,
+    "cover": "https://readermc.org/images/thumbnails/Magi Craft Meister.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3921,
+    "titles": [
+      "Trash of the count's family"
+    ],
+    "current_chap": 145,
+    "cover": "https://readermc.org/images/thumbnails/Trash of the Count's Family.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3922,
+    "titles": [
+      "Prices depreciated, and i became the world's richest person"
+    ],
+    "current_chap": 19,
+    "cover": "https://readermc.org/images/thumbnails/Prices Depreciated, And I Became The World\u2019s Richest Person.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3923,
+    "titles": [
+      "Raising hell: a demon's guide to pare"
+    ],
+    "current_chap": 9,
+    "cover": "https://readermc.org/images/thumbnails/Raising Hell  A Demon's Guide to Parenting.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3924,
+    "titles": [
+      "Sorcerous stabber orphen: the witch\u2018s salvation"
+    ],
+    "current_chap": 32,
+    "cover": "https://readermc.org/images/thumbnails/Sorcerous Stabber Orphen  The Witch\u2018s Salvation.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3925,
+    "titles": [
+      "Overpower your enemies by the law"
+    ],
+    "current_chap": 28,
+    "cover": "https://readermc.org/images/thumbnails/Overpower Your Enemies by the Law.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3926,
+    "titles": [
+      "I rely on my invincibility to deal tons of damage passively!"
+    ],
+    "current_chap": 70,
+    "cover": "https://readermc.org/images/thumbnails/I Rely on My Invincibility to Deal Tons of Damage Passively!.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3927,
+    "titles": [
+      "The school life of the earth leader"
+    ],
+    "current_chap": 18,
+    "cover": "https://readermc.org/images/thumbnails/The School Life of the Earth Leader.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3928,
+    "titles": [
+      "Virus king"
+    ],
+    "current_chap": 58,
+    "cover": "https://readermc.org/images/thumbnails/Virus King.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3929,
+    "titles": [
+      "Doomsday for all: me, virus monarch"
+    ],
+    "current_chap": 58,
+    "cover": "https://readermc.org/images/thumbnails/Doomsday for All  Me, Virus Monarch.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3931,
+    "titles": [
+      "Onsaemiro"
+    ],
+    "current_chap": 62,
+    "cover": "https://readermc.org/images/thumbnails/Onsaemiro.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3932,
+    "titles": [
+      "Evil dragon is reincarnated! revenge begins at the age of five!"
+    ],
+    "current_chap": 261,
+    "cover": "https://readermc.org/images/thumbnails/Evil Dragon Is Reincarnated! Revenge Begins at the Age of Five!.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3933,
+    "titles": [
+      "The invisible student"
+    ],
+    "current_chap": 12,
+    "cover": "https://readermc.org/images/thumbnails/The Invisible Student.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3934,
+    "titles": [
+      "I'm really not a supervillain"
+    ],
+    "current_chap": 246,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m Really Not A Supervillain.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3935,
+    "titles": [
+      "Kakkoii onnanoko to 12-centi no yakusoku"
+    ],
+    "current_chap": 34,
+    "cover": "https://readermc.org/images/thumbnails/Kakkoii Onnanoko to 12-centi no Yakusoku.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3936,
+    "titles": [
+      "Soul land i"
+    ],
+    "current_chap": 361,
+    "cover": "https://readermc.org/images/thumbnails/Soul Land I.jpg",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3938,
+    "titles": [
+      "Secret lady"
+    ],
+    "current_chap": 118,
+    "cover": "https://readermc.org/images/thumbnails/Secret Lady.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3940,
+    "titles": [
+      "Giant killing"
+    ],
+    "current_chap": 540,
+    "cover": "https://readermc.org/images/thumbnails/Giant Killing.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3942,
+    "titles": [
+      "Kurai anoko to shitai koto"
+    ],
+    "current_chap": 54,
+    "cover": "https://readermc.org/images/thumbnails/Kurai Anoko to Shitai koto.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3943,
+    "titles": [
+      "Mofumofu to isekai slow life o mezashimasu"
+    ],
+    "current_chap": 31,
+    "cover": "https://readermc.org/images/thumbnails/Mofumofu to Isekai Slow Life o Mezashimasu.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3944,
+    "titles": [
+      "Two moon"
+    ],
+    "current_chap": 72,
+    "cover": "https://readermc.org/images/thumbnails/Two Moon.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3945,
+    "titles": [
+      "I contracted myself"
+    ],
+    "current_chap": 86,
+    "cover": "https://readermc.org/images/thumbnails/I Contracted Myself.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 86,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3946,
+    "titles": [
+      "Overlord of insects"
+    ],
+    "current_chap": 52,
+    "cover": "https://readermc.org/images/thumbnails/Overlord of Insects.webp",
+    "last_update": "2025-04-01T00:52:45+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3947,
+    "titles": [
+      "Kalli the champion"
+    ],
+    "current_chap": 102,
+    "cover": "https://readermc.org/images/thumbnails/Kalli The Champion.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3948,
+    "titles": [
+      "Even with cheats, am i still the weak"
+    ],
+    "current_chap": 28,
+    "cover": "https://readermc.org/images/thumbnails/Even With Cheats, Am I Still the Weakest in the Sect !.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3949,
+    "titles": [
+      "From earth's weakest to the universe's strongest"
+    ],
+    "current_chap": 30,
+    "cover": "https://readermc.org/images/thumbnails/From Earth\u2019s Weakest to the Universe\u2019s Strongest.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3950,
+    "titles": [
+      "I took over the academy with a single sashimi knife"
+    ],
+    "current_chap": 36,
+    "cover": "https://readermc.org/images/thumbnails/I Took over The Academy With a Single Sashimi Knife.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3951,
+    "titles": [
+      "The war of corpses"
+    ],
+    "current_chap": 8,
+    "cover": "https://readermc.org/images/thumbnails/The War of Corpses.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3952,
+    "titles": [
+      "Guide to be king of the dead"
+    ],
+    "current_chap": 30,
+    "cover": "https://readermc.org/images/thumbnails/Guide to be King of the Dead.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3953,
+    "titles": [
+      "Don't call me a madman"
+    ],
+    "current_chap": 18,
+    "cover": "https://readermc.org/images/thumbnails/Don\u2019t call me a madman.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3955,
+    "titles": [
+      "High school musical genius is paganin"
+    ],
+    "current_chap": 47,
+    "cover": "https://readermc.org/images/thumbnails/High School Musical Genius Is Paganini Reincarnated.webp",
+    "last_update": "2025-03-30T22:27:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3956,
+    "titles": [
+      "Lord of goblins"
+    ],
+    "current_chap": 84,
+    "cover": "https://readermc.org/images/thumbnails/Lord of Goblins.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3957,
+    "titles": [
+      "The great sage of the namgung clan"
+    ],
+    "current_chap": 16,
+    "cover": "https://readermc.org/images/thumbnails/The Great Sage of the Namgung Clan.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3958,
+    "titles": [
+      "Get some honey by copying skills"
+    ],
+    "current_chap": 22,
+    "cover": "https://readermc.org/images/thumbnails/Get Some Honey By Copying Skills.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3959,
+    "titles": [
+      "D-frag"
+    ],
+    "current_chap": 169,
+    "cover": "https://readermc.org/images/thumbnails/D-Frag.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3960,
+    "titles": [
+      "Argate online"
+    ],
+    "current_chap": 57,
+    "cover": "https://readermc.org/images/thumbnails/ARGATE ONLINE.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3961,
+    "titles": [
+      "Yuusha party wo tuihou sareta ore dag"
+    ],
+    "current_chap": 46,
+    "cover": "https://readermc.org/images/thumbnails/Yuusha party wo tuihou sareta ore daga, ore kara sudatte kuretayoude ureshii. nanode daiseijo, omae ni otte korarete ha komarunodaga .webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3963,
+    "titles": [
+      "Telework yotabanashi"
+    ],
+    "current_chap": 20,
+    "cover": "https://readermc.org/images/thumbnails/Telework Yotabanashi.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3964,
+    "titles": [
+      "Student jo-eun"
+    ],
+    "current_chap": 10,
+    "cover": "https://readermc.org/images/thumbnails/Student Jo-Eun.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3965,
+    "titles": [
+      "1 million times attack speed"
+    ],
+    "current_chap": 104,
+    "cover": "https://readermc.org/images/thumbnails/1 Million Times Attack Speed.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3966,
+    "titles": [
+      "High school conquest: war against the"
+    ],
+    "current_chap": 17,
+    "cover": "https://readermc.org/images/thumbnails/High School Conquest  War Against the Bullies.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3967,
+    "titles": [
+      "The strongest raised by dragons"
+    ],
+    "current_chap": 21,
+    "cover": "https://readermc.org/images/thumbnails/The Strongest Raised by Dragons.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3968,
+    "titles": [
+      "Starting from level 1: i'll defeat al"
+    ],
+    "current_chap": 23,
+    "cover": "https://readermc.org/images/thumbnails/Starting from Level 1  I\u2019ll Defeat All Reincarnated Monsters in My Secret Dungeon.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3969,
+    "titles": [
+      "A retired old sage takes his disciple"
+    ],
+    "current_chap": 26,
+    "cover": "https://readermc.org/images/thumbnails/A Retired Old Sage Takes His Disciple on a Journey.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3970,
+    "titles": [
+      "Teihen ossan, cheat kokusei de isekai rakuraku life"
+    ],
+    "current_chap": 12,
+    "cover": "https://readermc.org/images/thumbnails/Teihen Ossan, Cheat Kokusei de Isekai Rakuraku Life.webp",
+    "last_update": "2025-03-31T22:44:08+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3971,
+    "titles": [
+      "The wicked prosecutor has changed"
+    ],
+    "current_chap": 31,
+    "cover": "https://readermc.org/images/thumbnails/The Wicked Prosecutor Has Changed.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3972,
+    "titles": [
+      "I will divorce the female lead's sisc"
+    ],
+    "current_chap": 72,
+    "cover": "https://readermc.org/images/thumbnails/I Will Divorce the Female Lead 's Siscon Brother.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3973,
+    "titles": [
+      "Tensei kizoku no isekai boukenroku ~j"
+    ],
+    "current_chap": 69,
+    "cover": "https://readermc.org/images/thumbnails/Tensei Kizoku no Isekai Boukenroku ~Jichou wo Shiranai Kamigami no Shito~.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3974,
+    "titles": [
+      "I'll be the matriarch in this life"
+    ],
+    "current_chap": 178,
+    "cover": "https://readermc.org/images/thumbnails/I'll Be The Matriarch In This Life.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3978,
+    "titles": [
+      "Sss grade saint knight"
+    ],
+    "current_chap": 67,
+    "cover": "https://readermc.org/images/thumbnails/SSS Grade Saint Knight.webp",
+    "last_update": "2025-03-31T02:35:36+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3980,
+    "titles": [
+      "I accidentally became a legendary explorer after saving a famous streamer who forgot to end their dungeon stream"
+    ],
+    "current_chap": 6,
+    "cover": "https://readermc.org/images/thumbnails/I Accidentally Became a Legendary Explorer After Saving a Famous Streamer Who Forgot to End Their Dungeon Stream.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3981,
+    "titles": [
+      "Majutsu guild sousui ~umarekawatte imasara yarinaosu nidome no gakuin seikatsu~"
+    ],
+    "current_chap": 72,
+    "cover": "https://readermc.org/images/thumbnails/Majutsu Guild Sousui ~Umarekawatte Imasara Yarinaosu Nidome no Gakuin Seikatsu~.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3983,
+    "titles": [
+      "Beast taming: starting with the classic of mountains and seas, sweeping across the globe"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/Beast Taming  Starting with the Classic of Mountains and Seas, Sweeping Across the Globe.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3987,
+    "titles": [
+      "I hit the button for a million years and before i knew it, i was the strongest"
+    ],
+    "current_chap": 27,
+    "cover": "https://readermc.org/images/thumbnails/I hit the button for a million years and before I knew it, I was the strongest.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3993,
+    "titles": [
+      "A rank party wo ridatsu shita ore wa, moto oshiego tachi to meikyuu shinbu wo mezau"
+    ],
+    "current_chap": 127,
+    "cover": "https://readermc.org/images/thumbnails/A RANK PARTY WO RIDATSU SHITA ORE WA, MOTO OSHIEGO TACHI TO MEIKYUU SHINBU WO MEZASU.webp",
+    "last_update": "2025-03-31T02:23:30+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 3999,
+    "titles": [
+      "Sword god dragon"
+    ],
+    "current_chap": 28,
+    "cover": "https://readermc.org/images/thumbnails/Sword God Dragon.webp",
+    "last_update": "2025-03-31T16:54:37+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4000,
+    "titles": [
+      "Surviving the game as a barbarian - novel"
+    ],
+    "current_chap": 817,
+    "cover": "https://gg.asuracomic.net/storage/media/125/conversions/ed5d5826-thumb-small.webp",
+    "last_update": "2025-03-31T04:40:26+00:00",
+    "com_type": 4,
+    "status": 2,
+    "published_in": [
+      0
+    ],
+    "genres": [
+      1,
+      2,
+      3
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 817,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4001,
+    "titles": [
+      "Surviving with an sss-rank inventory"
+    ],
+    "current_chap": 65,
+    "cover": "https://readermc.org/images/thumbnails/Surviving with an SSS-Rank Inventory.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4002,
+    "titles": [
+      "Aftergod [all chapters]"
+    ],
+    "current_chap": 73,
+    "cover": "https://readermc.org/images/thumbnails/AFTERGOD [ALL CHAPTERS].webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4003,
+    "titles": [
+      "Interspecies protection agency"
+    ],
+    "current_chap": 19,
+    "cover": "https://readermc.org/images/thumbnails/Interspecies Protection Agency.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4004,
+    "titles": [
+      "Once again idol"
+    ],
+    "current_chap": 162,
+    "cover": "https://readermc.org/images/thumbnails/Once Again Idol.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4006,
+    "titles": [
+      "Kalsarin"
+    ],
+    "current_chap": 145,
+    "cover": "https://readermc.org/images/thumbnails/Kalsarin.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4007,
+    "titles": [
+      "Cultivating the supreme dantian"
+    ],
+    "current_chap": 359,
+    "cover": "https://readermc.org/images/thumbnails/Cultivating the supreme dantian.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4008,
+    "titles": [
+      "Blue blossom (shishitsu)"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/Blue Blossom (Shishitsu).webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4009,
+    "titles": [
+      "Mouhitori no saikyou no ore -teihen k"
+    ],
+    "current_chap": 9,
+    "cover": "https://readermc.org/images/thumbnails/Mouhitori no Saikyou no Ore -Teihen Kara no Nariagari-.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4010,
+    "titles": [
+      "I can stop anything with my broken skill"
+    ],
+    "current_chap": 9,
+    "cover": "https://readermc.org/images/thumbnails/I Can Stop Anything with My Broken Skill.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4011,
+    "titles": [
+      "Iranai skill wo kaitorimasu"
+    ],
+    "current_chap": 4,
+    "cover": "https://readermc.org/images/thumbnails/Iranai Skill wo Kaitorimasu.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4012,
+    "titles": [
+      "I wield the power of flower language"
+    ],
+    "current_chap": 15,
+    "cover": "https://readermc.org/images/thumbnails/I Wield the Power of Flower Language and Dominate with \u2018Adversity\u2019.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4013,
+    "titles": [
+      "Betrayed thief, the phantom thief as"
+    ],
+    "current_chap": 7,
+    "cover": "https://readermc.org/images/thumbnails/Betrayed Thief, the Phantom Thief as a Demon King Goes for World Domination.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4014,
+    "titles": [
+      "Leveling up fast with divine measurem"
+    ],
+    "current_chap": 18,
+    "cover": "https://readermc.org/images/thumbnails/Leveling Up Fast with Divine Measurement Skills.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4015,
+    "titles": [
+      "Seichou cheat de nandemo dekiru you ni Natta ga, Mushoku Dake wa Yamerarenai You Desu"
+    ],
+    "current_chap": 86,
+    "cover": "https://readermc.org/images/thumbnails/Seichou Cheat de Nandemo Dekiru You ni Natta ga, Mushoku Dake wa Yamerarenai You Desu.webp",
+    "last_update": "2025-04-01T00:52:45+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4016,
+    "titles": [
+      "21 century retrogression"
+    ],
+    "current_chap": 45,
+    "cover": "https://readermc.org/images/thumbnails/21 century retrogression.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4017,
+    "titles": [
+      "King of gacha \u2013 god's gamer"
+    ],
+    "current_chap": 33,
+    "cover": "https://readermc.org/images/thumbnails/King of Gacha \u2013 God\u2019s Gamer.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4018,
+    "titles": [
+      "The genius grandson of namgung clan"
+    ],
+    "current_chap": 53,
+    "cover": "https://readermc.org/images/thumbnails/The Genius Grandson of Namgung Clan.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4019,
+    "titles": [
+      "Home plate villain"
+    ],
+    "current_chap": 86,
+    "cover": "https://readermc.org/images/thumbnails/Home Plate Villain.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4020,
+    "titles": [
+      "The genius actor's aura"
+    ],
+    "current_chap": 77,
+    "cover": "https://readermc.org/images/thumbnails/The Genius Actor\u2019s Aura.webp",
+    "last_update": "2025-03-31T16:33:47+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4021,
+    "titles": [
+      "A hero who is good at everything"
+    ],
+    "current_chap": 43,
+    "cover": "https://readermc.org/images/thumbnails/A Hero Who Is Good At Everything.webp",
+    "last_update": "2025-03-31T16:36:46+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4022,
+    "titles": [
+      "Disciple of the three kings"
+    ],
+    "current_chap": 36,
+    "cover": "https://readermc.org/images/thumbnails/Disciple of the Three Kings.webp",
+    "last_update": "2025-03-31T20:22:29+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4023,
+    "titles": [
+      "Top tier providence: secretly cultiva"
+    ],
+    "current_chap": 208,
+    "cover": "https://readermc.org/images/thumbnails/Top Tier Providence  Secretly Cultivate for a Thousand Years.webp",
+    "last_update": "2025-03-31T20:50:53+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4024,
+    "titles": [
+      "Against the gods"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/I Regressed, but the World didn\u2019t End.webp",
+    "last_update": "2025-03-31T20:22:29+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": true,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4025,
+    "titles": [
+      "Secretly cultivate for a thousand years",
+      "Top tier providence: secretly cultivate for a thousand years",
+      "Top tier providence"
+    ],
+    "current_chap": 208,
+    "cover": "https://readermc.org/images/thumbnails/Top Tier Providence  Secretly Cultivate for a Thousand Years.webp",
+    "last_update": "2025-03-31T20:22:29+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      8,
+      17,
+      19
+    ],
+    "genres": [
+      1,
+      2,
+      3,
+      8,
+      10
+    ],
+    "description": "",
+    "author": "Star Club",
+    "track": true,
+    "viewed_chap": 208,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4028,
+    "titles": [
+      "I regressed, but the world didn't end"
+    ],
+    "current_chap": 11,
+    "cover": "https://readermc.org/images/thumbnails/I Regressed, but the World didn\u2019t End.webp",
+    "last_update": "2025-03-31T21:01:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4029,
+    "titles": [
+      "Rosen garten saga"
+    ],
+    "current_chap": 82,
+    "cover": "https://readermc.org/images/thumbnails/Rosen Garten Saga.webp",
+    "last_update": "2025-03-31T21:10:12+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4030,
+    "titles": [
+      "The swift cyborg warrior 009"
+    ],
+    "current_chap": 20,
+    "cover": "https://readermc.org/images/thumbnails/The Swift Cyborg Warrior 009.webp",
+    "last_update": "2025-03-31T21:25:20+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4031,
+    "titles": [
+      "Song baek"
+    ],
+    "current_chap": 36,
+    "cover": "https://readermc.org/images/thumbnails/Song Baek.webp",
+    "last_update": "2025-03-31T22:29:34+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4032,
+    "titles": [
+      "The genius actor who brings misfortune"
+    ],
+    "current_chap": 41,
+    "cover": "https://readermc.org/images/thumbnails/The Genius Actor Who Brings Misfortune.webp",
+    "last_update": "2025-04-01T00:07:00+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4033,
+    "titles": [
+      "Mount hua sect's genius phantom swordsman"
+    ],
+    "current_chap": 24,
+    "cover": "https://gg.asuracomic.net/storage/media/269692/conversions/01JKHBVVXZ508G0K814ZYB80A9-thumb-small.webp",
+    "last_update": "2025-04-01T00:07:00+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 4034,
+    "titles": [
+      "I\u2019m trapped in this day for one thousand years (i\u2019m stuck on the same day for a thousand years)",
+      "I'm trapped in this day for one thousand years"
+    ],
+    "current_chap": 176,
+    "cover": "https://readermc.org/images/thumbnails/I\u2019m Trapped In This Day For One Thousand Years.webp",
+    "last_update": "2025-04-01T00:51:35+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17,
+      19,
+      7
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "\u4e27\u6cfd , \u6625\u65e5\u6587\u5316",
+    "track": false,
+    "viewed_chap": 30,
     "rating": 0,
     "deleted": false
   }

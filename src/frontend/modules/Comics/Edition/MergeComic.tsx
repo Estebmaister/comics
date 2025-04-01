@@ -4,6 +4,7 @@ import './MergeComic.css';
 import config from '../../../util/Config';
 
 const SERVER = config.SERVER;
+const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
 const mergeComic = async (baseID: number, mergingID: number, server = SERVER) => {
   let success = true;
   await fetch(`${server}/comics/${baseID}/${mergingID}`, {
@@ -58,7 +59,7 @@ const MergeComic = () => {
   };
 
   const timerHide = () => {
-    setTimeout(() => setHideMsg(true), 1000);
+    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
     return true;
   }
 

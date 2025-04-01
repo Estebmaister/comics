@@ -17,6 +17,7 @@ from typing import Dict, List, Optional
 
 import cloudscraper
 from bs4 import BeautifulSoup
+from sqlalchemy.orm import Session
 
 from db import (ComicDB, Publishers, Statuses, Types, load_comics,
                 save_comics_file)
@@ -31,7 +32,7 @@ log = logger(__name__)
 
 # Constants
 CHAPS_FILE = os.path.join(os.path.dirname(__file__), "../db/chaps.html")
-REQUEST_TIMEOUT = 50  # seconds
+REQUEST_TIMEOUT = 10  # seconds
 MINIMUM_COVER_URL_LENGTH = 10
 
 # Initialize scraper with modern browser configuration
@@ -100,7 +101,7 @@ def _save_debug_output(soup: BeautifulSoup) -> None:
         file.write(soup.prettify())
 
 
-async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers) -> None:
+async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers, session: Session) -> None:
     """
     Register or update a comic in the database and JSON storage.
 
@@ -114,7 +115,7 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers) -> 
         return
 
     # Fetch existing records
-    db_comics, session = comics_like_title(str(normalized_comic.titles))
+    db_comics = comics_like_title(str(normalized_comic.titles), session)
     json_comics = [
         comic for comic in load_comics if str(normalized_comic.titles) in comic["titles"]
     ]
@@ -141,7 +142,13 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers) -> 
     await _update_existing_comic(db_comics[0], json_comics, normalized_comic, publisher)
 
     # Save changes in memory
-    session.flush()
+    try:
+        session.flush()
+    except Exception as e:
+        session.rollback()
+        log.error('Failed to flush session: %s, rolling back on comic %s', str(
+            e), normalized_comic.titles)
+        return
     save_comics_file(load_comics)
 
 

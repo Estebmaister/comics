@@ -23,7 +23,7 @@ from sqlalchemy.exc import IntegrityError
 from src.db.helpers import manage_multi_finds
 
 # Import database models and utilities
-from . import ComicDB, Types, load_comics, save_comics_file, session
+from . import ComicDB, Session, Types, load_comics, save_comics_file
 
 
 class IDTracker:
@@ -100,9 +100,10 @@ def find_existing_comic(title: str) -> List[ComicDB]:
     Returns:
         List[ComicDB]: List of matching comics
     """
-    return session.query(ComicDB).filter(
-        ComicDB.titles.like(f"%{title}%")
-    ).all()
+    with Session() as session:
+        return session.query(ComicDB).filter(
+            ComicDB.titles.like(f"%{title}%")
+        ).all()
 
 
 def process_comic(comic: dict, session) -> bool:
@@ -165,6 +166,7 @@ def main() -> int:
     Returns:
         int: 0 if successful, 1 if errors occurred
     """
+    session = Session()
     try:
         id_tracker = IDTracker()
         comics_processed = 0
@@ -206,6 +208,8 @@ def main() -> int:
         print(f"Fatal error: {e}")
         session.rollback()
         return 1
+    finally:
+        session.close()
 
 
 if __name__ == "__main__":

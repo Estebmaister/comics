@@ -8,6 +8,7 @@ It extracts chapter numbers, titles, cover images, status and other metadata.
 from typing import Optional
 
 from bs4 import Tag
+from sqlalchemy.orm import Session
 
 from db import Publishers
 from helpers.logger import logger
@@ -72,7 +73,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         return None
 
 
-async def scrape_realm(url: str) -> None:
+async def scrape_realm(url: str, session: Session) -> None:
     """
     Scrape comics from Realm Scans website.
 
@@ -91,4 +92,4 @@ async def scrape_realm(url: str) -> None:
     for comic_div in comic_divs:
         comic = extract_comic_info(comic_div)
         if comic:
-            await register_comic(comic, PUBLISHER)
+            await register_comic(comic, PUBLISHER, session)

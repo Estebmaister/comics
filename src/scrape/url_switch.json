@@ -75,6 +75,7 @@
     ],
   "DemonicScans":
     [
-      "https://demonicscans.org/index.php"
+      "https://demonicscans.org/index.php",
+      "https://demonicscans.org/lastupdates.php?list=2"
     ]
 }

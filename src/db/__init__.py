@@ -97,7 +97,14 @@ def _engine_creation():
         DB_URL = f'sqlite:///{db_file}'
         CONNECT_ARGS = {'check_same_thread': False}
 
-    return create_engine(DB_URL, connect_args=CONNECT_ARGS)
+    return create_engine(
+        DB_URL,
+        connect_args=CONNECT_ARGS,
+        pool_size=10,       # default 5
+        max_overflow=20,    # default 10
+        pool_timeout=60,    # default 30s
+        pool_recycle=600    # Recycle connections after 10 minutes
+    )
 
 
 engine = _engine_creation()
@@ -110,6 +117,8 @@ Session = sessionmaker(bind=engine)
 session = Session()
 if not DB_ENGINE or DB_ENGINE == Engines.SQLITE:
     session.execute(text('PRAGMA case_sensitive_like = true'))
+    session.execute(text('PRAGMA journal_mode = WAL'))
+    session.execute(text('PRAGMA wal_checkpoint(FULL)'))
 
 
 @unique
@@ -219,6 +228,7 @@ class ComicDB(Base):
         author:       str = "",
         track:        int = 0,
         viewed_chap:  int = 0,
+        rating:       int = 0,
 
     ):
         self.id = id
@@ -328,9 +338,26 @@ save_db_classes_file()
 
 
 def close_signal_handler(sig, frame):
-    session.close()
-    log.info('DB connection closed...')
-    sys.exit(0)
+    try:
+        # Commit any pending transactions
+        session.commit()
+
+        # Force a WAL checkpoint
+        if not DB_ENGINE or DB_ENGINE == Engines.SQLITE:
+            log.info('Executing WAL checkpoint...')
+            # Get the raw DBAPI connection
+            connection = session.connection().connection
+            connection.execute("PRAGMA wal_checkpoint(FULL);")
+
+        # Close connections
+        session.close()
+        engine.dispose()
+        log.info('DB connection closed...')
+    except Exception as e:
+        log.error(f'Error while closing DB connection: {e}')
+    finally:
+        sys.exit(0)
 
 
 signal.signal(signal.SIGINT, close_signal_handler)
+signal.signal(signal.SIGTERM, close_signal_handler)
