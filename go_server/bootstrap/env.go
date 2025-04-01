@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"os"
 	"strings"
 	"time"
 
@@ -61,7 +62,11 @@ func MustLoadEnv(_ context.Context) *Env {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Warn().Err(err).Msg("Can't find the file .env")
+		dir, errDir := os.Getwd()
+		log.Error().Err(err).Msgf("Can't find the file .env in %s", dir)
+		if errDir != nil {
+			log.Warn().Err(errDir).Msg("Can't get the current directory")
+		}
 	}
 
 	errs := []error{}
