@@ -20,12 +20,12 @@ const (
 
 // AuthControl is a controller to handle authentication
 type AuthControl struct {
-	userService domain.UserService
+	userService domain.UserServicer
 	env         *bootstrap.Env
 }
 
 // NewAuthControl creates a new AuthControl
-func NewAuthControl(userService domain.UserService, env *bootstrap.Env) *AuthControl {
+func NewAuthControl(userService domain.UserServicer, env *bootstrap.Env) *AuthControl {
 	return &AuthControl{userService: userService, env: env}
 }
 

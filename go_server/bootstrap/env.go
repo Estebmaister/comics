@@ -28,14 +28,16 @@ const (
 
 // Env holds the application configuration
 type Env struct {
-	DBConfig       *repo.DBConfig
-	JWTConfig      *JWTConfig
-	LoggerConfig   *logger.Config
-	TracerConfig   *tracer.Config
-	AppEnv         `mapstructure:"ENVIRONMENT"`
-	AddressHTTP    string        `mapstructure:"ADDRESS_HTTP"`
-	AddressGRPC    string        `mapstructure:"ADDRESS_GRPC"`
-	InitCtxTimeout time.Duration `mapstructure:"INIT_TIMEOUT"`
+	DBConfig           *repo.DBConfig
+	JWTConfig          *JWTConfig
+	LoggerConfig       *logger.Config
+	TracerConfig       *tracer.Config
+	AppEnv             `mapstructure:"ENVIRONMENT"`
+	GoogleClientID     string        `mapstructure:"GOOGLE_CLIENT_ID"`
+	GoogleClientSecret string        `mapstructure:"GOOGLE_CLIENT_SECRET"`
+	AddressHTTP        string        `mapstructure:"ADDRESS_HTTP"`
+	AddressGRPC        string        `mapstructure:"ADDRESS_GRPC"`
+	InitCtxTimeout     time.Duration `mapstructure:"INIT_TIMEOUT"`
 }
 
 // JWTConfig holds the configuration for the JW Token
@@ -59,7 +61,7 @@ func MustLoadEnv(_ context.Context) *Env {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal().Err(err).Msg("Can't find the file .env")
+		log.Warn().Err(err).Msg("Can't find the file .env")
 	}
 
 	errs := []error{}

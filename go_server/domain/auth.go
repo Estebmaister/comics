@@ -6,11 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
-// UserService defines methods for authentication and user management
-type UserService interface {
+// UserServicer defines methods for authentication and user management
+type UserServicer interface {
 	Login(ctx context.Context, user LoginRequest) (*User, error)
 	Register(ctx context.Context, user SignUpRequest) (*User, error)
 	GetByID(ctx context.Context, id uuid.UUID) (*User, error)
+	GetByEmail(ctx context.Context, email string) (*User, error)
 }
 
 // APIResponse define the base generic API response

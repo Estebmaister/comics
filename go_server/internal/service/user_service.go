@@ -21,27 +21,34 @@ var (
 	userNamespace = "user-uuid-gen-01"
 )
 
-// userServiceImpl implements UserService
-type userServiceImpl struct {
+var _ domain.UserServicer = (*userService)(nil)
+
+// userService implements UserServicer
+type userService struct {
 	userRepo domain.UserStore
 	env      *bootstrap.Env
 }
 
-// NewUserService creates a new UserService instance
-func NewUserService(userRepo domain.UserStore, env *bootstrap.Env) domain.UserService {
-	return &userServiceImpl{
+// NewUserService creates a new UserServicer instance
+func NewUserService(userRepo domain.UserStore, env *bootstrap.Env) domain.UserServicer {
+	return &userService{
 		userRepo: userRepo,
 		env:      env,
 	}
 }
 
 // GetByID returns a user by an ID, which is normally extracted from a JWT
-func (s *userServiceImpl) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, error) {
+func (s *userService) GetByID(ctx context.Context, id uuid.UUID) (*domain.User, error) {
 	return s.userRepo.GetByID(ctx, id)
 }
 
+// GetByEmail returns a user by an email, which is normally extracted from OAuth
+func (s *userService) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
+	return s.userRepo.GetByEmail(ctx, email)
+}
+
 // Login authenticates a user by email and password
-func (s *userServiceImpl) Login(ctx context.Context, user domain.LoginRequest) (*domain.User, error) {
+func (s *userService) Login(ctx context.Context, user domain.LoginRequest) (*domain.User, error) {
 	// Fetch user by email
 	dbUser, err := s.userRepo.GetByEmail(ctx, user.Email)
 	if err != nil {
@@ -57,7 +64,7 @@ func (s *userServiceImpl) Login(ctx context.Context, user domain.LoginRequest) (
 }
 
 // Register creates a new user
-func (s *userServiceImpl) Register(ctx context.Context, user domain.SignUpRequest) (*domain.User, error) {
+func (s *userService) Register(ctx context.Context, user domain.SignUpRequest) (*domain.User, error) {
 	if err := s.checkUserExistence(ctx, user); err != nil {
 		return nil, err
 	}
@@ -93,7 +100,7 @@ func (s *userServiceImpl) Register(ctx context.Context, user domain.SignUpReques
 }
 
 // Helper function to perform concurrent checks using errgroup
-func (s *userServiceImpl) checkUserExistence(ctx context.Context, user domain.SignUpRequest) error {
+func (s *userService) checkUserExistence(ctx context.Context, user domain.SignUpRequest) error {
 	g, ctx := errgroup.WithContext(ctx)
 
 	// Check if user exists by email

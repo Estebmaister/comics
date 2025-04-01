@@ -83,7 +83,6 @@ func LoggerMiddleware() gin.HandlerFunc {
 			// Build request log struct
 			logger = sensitiveDataFilterToLog(bodyBytes, logger)
 			logger = logger.With().Err(c.Errors.Last()).
-				// Str("request_id", c.Writer.Header().Get("Request-Id")).
 				Str("client_ip", c.ClientIP()).
 				Str("method", c.Request.Method).
 				Str("path", path).
