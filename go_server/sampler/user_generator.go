@@ -32,7 +32,7 @@ func NewUserID() string {
 
 // NewEmail generates a new email
 func NewEmail() string {
-	return randomString() + "@" +
+	return RandomString() + "@" +
 		randomStringFromSet("email", "gmail", "yahoo", "hotmail", "outlook") +
 		randomStringFromSet(".com", ".org", ".net", ".edu", ".info", ".biz")
 }
@@ -44,7 +44,7 @@ func NewPassword() string {
 
 // NewUsername generates a new username
 func NewUsername() string {
-	return randomString()
+	return RandomString()
 }
 
 // NewRole generates a new role

@@ -46,7 +46,7 @@ func TestRandomStrings(t *testing.T) {
 
 	// Testing randomString
 	for i := 0; i < 100; i++ {
-		randomString := randomString()
+		randomString := RandomString()
 		if len(randomString) < defaultStrMinLength || len(randomString) > defaultStrMaxLength {
 			t.Errorf("randomString() = %s should be between 2 and 16", randomString)
 		}

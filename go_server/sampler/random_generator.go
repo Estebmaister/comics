@@ -35,8 +35,8 @@ func init() {
 	}
 }
 
-// randomString generates a random string of length between 2 and 16
-func randomString() string {
+// RandomString generates a random string of length between 2 and 16
+func RandomString() string {
 	return randomStringOfLength(
 		randomUInt(defaultStrMinLength, defaultStrMaxLength))
 }
