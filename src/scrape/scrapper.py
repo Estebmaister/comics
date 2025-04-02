@@ -43,12 +43,15 @@ COVER_UPDATE_PUBLISHERS = {
     Publishers.Asura,
     Publishers.FlameScans,
     Publishers.Manganato,
-    Publishers.RealmScans
+    Publishers.RealmScans,
+    Publishers.DemonicScans,
+    Publishers.IsekaiScan
 }
 
 RESTRICTED_COVER_PUBLISHERS = {
     Publishers.ManhuaPlus,
-    Publishers.ReaperScans
+    Publishers.ReaperScans,
+    Publishers.Manganato
 }
 
 
