@@ -62,8 +62,14 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	// Load templates from "templates/" directory
 	g.LoadHTMLGlob("templates/*")
 
+	// Redirect root to protected profile
+	g.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusSeeOther, "/protected/profile")
+	})
+
 	basePath := "/"
 	publicRouter := g.Group(basePath)
+	setOAuth2(env, authController, publicRouter)
 	// All Public APIs
 	{
 		swaggerRouter(env, basePath, publicRouter)
@@ -122,10 +128,10 @@ func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 func swaggerRouter(env *bootstrap.Env, basePath string, group *gin.RouterGroup) {
 	// Setting runtine values in SwaggerInfo
 	docs.SwaggerInfo.BasePath = basePath
-	docs.SwaggerInfo.Host = env.AddressHTTP
+	docs.SwaggerInfo.Host = env.HostURL
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	log.Info().
-		Str("URL", "http://"+env.AddressHTTP+"/swagger/index.html").
+		Str("URL", "http://"+env.AddressHTTP+":"+env.PortHTTP+"/swagger/index.html").
 		Msg("Swagger")
 
 	// Swagger API documentation

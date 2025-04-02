@@ -45,7 +45,16 @@ RUN chown -R appuser:appgroup /app
 # Switch to the non-root user
 USER appuser
 
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8081/ || exit 1
-EXPOSE 8081
+# Set environment variables for host, port and health check path
+ENV HTTP_PORT=8081
+ENV HTTP_ADDRESS=0.0.0.0
+ENV HEALTHCHECK_PATH=/health
+
+# Expose the application port
+EXPOSE ${HTTP_PORT}
+
+# Configure health check using environment variables
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+CMD curl --fail http://${HTTP_ADDRESS}:${HTTP_PORT}${HEALTHCHECK_PATH} || exit 1
 
 CMD [ "./server" ]

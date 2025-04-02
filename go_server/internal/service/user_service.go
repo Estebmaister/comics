@@ -93,7 +93,7 @@ func (s *userService) Register(ctx context.Context, user domain.SignUpRequest) (
 
 	// Store in database
 	if err := s.userRepo.Create(ctx, dbUser); err != nil {
-		return nil, fmt.Errorf("failed to create user")
+		return nil, fmt.Errorf("failed to create user: %w, %v", err, dbUser)
 	}
 
 	return dbUser, nil
@@ -112,12 +112,14 @@ func (s *userService) checkUserExistence(ctx context.Context, user domain.SignUp
 	})
 
 	// Check if user exists by username
-	g.Go(func() error {
-		if _, err := s.userRepo.GetByUsername(ctx, user.Username); err == nil {
-			return fmt.Errorf("username %w", ErrCredsAlreadyExist)
-		}
-		return nil
-	})
+	if user.Username != "" {
+		g.Go(func() error {
+			if _, err := s.userRepo.GetByUsername(ctx, user.Username); err == nil {
+				return fmt.Errorf("username %w", ErrCredsAlreadyExist)
+			}
+			return nil
+		})
+	}
 
 	// Wait for all goroutines to finish and return the first error encountered, if any
 	if err := g.Wait(); err != nil {

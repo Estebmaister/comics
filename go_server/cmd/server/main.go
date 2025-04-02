@@ -56,7 +56,7 @@ func main() {
 	// Running the server
 	srvErr := make(chan error, 1)
 	go func() {
-		srvErr <- g.Run(app.Env.AddressHTTP)
+		srvErr <- g.Run(app.Env.AddressHTTP + ":" + app.Env.PortHTTP)
 	}()
 
 	// Initialize the file comics database

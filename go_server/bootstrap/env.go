@@ -36,8 +36,11 @@ type Env struct {
 	AppEnv             `mapstructure:"ENVIRONMENT"`
 	GoogleClientID     string        `mapstructure:"GOOGLE_CLIENT_ID"`
 	GoogleClientSecret string        `mapstructure:"GOOGLE_CLIENT_SECRET"`
-	AddressHTTP        string        `mapstructure:"ADDRESS_HTTP"`
-	AddressGRPC        string        `mapstructure:"ADDRESS_GRPC"`
+	AddressHTTP        string        `mapstructure:"HTTP_ADDRESS"`
+	PortHTTP           string        `mapstructure:"HTTP_PORT"`
+	AddressGRPC        string        `mapstructure:"GRPC_ADDRESS"`
+	PortGRPC           string        `mapstructure:"GRPC_PORT"`
+	HostURL            string        `mapstructure:"HOST_URL"`
 	InitCtxTimeout     time.Duration `mapstructure:"INIT_TIMEOUT"`
 }
 

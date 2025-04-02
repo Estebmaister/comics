@@ -62,7 +62,7 @@ func (ac *AuthControl) GetUserByJWT(ctx context.Context, accessToken string) (
 func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domain.LoginRequest) (
 	*domain.AuthResponse, error) {
 	// Load secret key from environment variable
-	secretKey, refreshSecretKey, err := ac.getSecretKeys()
+	secretKey, _, err := ac.getSecretKeys()
 	if err != nil {
 		return &domain.AuthResponse{Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
@@ -85,6 +85,12 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 		// If token is invalid, fallback to password-based login
 	}
 
+	if user.Email == "" || user.Password == "" {
+		return &domain.AuthResponse{
+			Status: http.StatusBadRequest, Message: "Invalid data, missing fields",
+		}, fmt.Errorf("login failed: missing fields, email and password required")
+	}
+
 	dbUser, err := ac.userService.Login(ctx, user)
 	if err != nil {
 		err := fmt.Errorf("%s: %w", invalidCredentials, err)
@@ -92,14 +98,40 @@ func (ac *AuthControl) Login(ctx context.Context, accessToken string, user domai
 	}
 
 	// Generate a JWT
-	accessToken, errAccess := tokenutil.GenerateTokenWithRole(
-		dbUser.ID, secretKey,
-		ac.env.JWTConfig.AccessTokenExpiryHour, dbUser.Role)
-	refreshToken, errRefresh := tokenutil.GenerateTokenWithRole(
-		dbUser.ID, refreshSecretKey,
-		ac.env.JWTConfig.RefreshTokenExpiryHour, dbUser.Role)
-	if errAccess != nil && errRefresh != nil {
-		err := fmt.Errorf("error generating token: %w %w", errAccess, errRefresh)
+	accessToken, refreshToken, err := ac.generateJWTs(dbUser)
+	if err != nil {
+		err := fmt.Errorf("error generating token: %w", err)
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: "error generating token",
+		}, err
+	}
+
+	// Return tokens in response
+	return &domain.AuthResponse{
+		Status:  http.StatusOK,
+		Message: "Login successful",
+		Data: &domain.AuthData{
+			UserID:       dbUser.ID.String(),
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		},
+	}, nil
+}
+
+// LoginByOAuthEmail returns a user from a Google email
+func (ac *AuthControl) LoginByOAuthEmail(ctx context.Context, email string) (
+	*domain.AuthResponse, error) {
+
+	dbUser, err := ac.userService.GetByEmail(ctx, email)
+	if err != nil {
+		err := fmt.Errorf("%s: %w", invalidCredentials, err)
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: invalidCredentials}, err
+	}
+
+	// Generate a JWT
+	accessToken, refreshToken, err := ac.generateJWTs(dbUser)
+	if err != nil {
+		err := fmt.Errorf("error generating token: %w", err)
 		return &domain.AuthResponse{
 			Status: http.StatusInternalServerError, Message: "error generating token",
 		}, err
@@ -129,11 +161,24 @@ func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) 
 			Status: http.StatusInternalServerError, Message: err.Error()}, err
 	}
 
+	// Generate a JWT
+	accessToken, refreshToken, err := ac.generateJWTs(dbUser)
+	if err != nil {
+		err := fmt.Errorf("error generating token: %w", err)
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: "error generating token",
+		}, err
+	}
+
 	return &domain.AuthResponse{
-		Status: http.StatusCreated,
-		// Message: "User registered successfully",
-		Message: fmt.Sprintf("%v", dbUser), // Debug response
-		Data:    &domain.AuthData{UserID: dbUser.ID.String()},
+		Status:  http.StatusCreated,
+		Message: "User registered successfully",
+		// Message: fmt.Sprintf("%v", dbUser), // Debug response
+		Data: &domain.AuthData{
+			UserID:       dbUser.ID.String(),
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		},
 	}, nil
 }
 
@@ -196,4 +241,26 @@ func (ac *AuthControl) getSecretKeys() (secretKey, refreshSecretKey []byte, err 
 		err = fmt.Errorf("JWT secret keys not set")
 	}
 	return
+}
+
+// generateJWTs generates a new access and refresh token for a user
+func (ac *AuthControl) generateJWTs(user *domain.User) (string, string, error) {
+	secretKey, refreshSecretKey, err := ac.getSecretKeys()
+	if err != nil {
+		return "", "", err
+	}
+	accessToken, errAccess := tokenutil.GenerateTokenWithRole(
+		user.ID, secretKey,
+		ac.env.JWTConfig.AccessTokenExpiryHour, user.Role)
+	if errAccess != nil {
+
+		return "", "", errAccess
+	}
+	refreshToken, errRefresh := tokenutil.GenerateTokenWithRole(
+		user.ID, refreshSecretKey,
+		ac.env.JWTConfig.RefreshTokenExpiryHour, user.Role)
+	if errRefresh != nil {
+		return "", "", errRefresh
+	}
+	return accessToken, refreshToken, nil
 }

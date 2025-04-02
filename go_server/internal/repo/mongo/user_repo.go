@@ -235,7 +235,7 @@ func (r *UserRepo) Create(ctx context.Context, user *domain.User) error {
 			zerolog.Ctx(ctx).Debug().Msgf("Creating %s: %s, %s, %s",
 				user.Role, user.ID, user.Username, user.Email)
 
-			if user.ID == uuid.Nil || user.Username == "" || user.Email == "" {
+			if user.ID == uuid.Nil || user.Email == "" {
 				return repo.ErrInvalidArgument
 			}
 
