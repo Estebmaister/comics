@@ -166,7 +166,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Function for getting the user profile
+      description: Endpoint for getting the logged user profile
       operationId: profile
       parameters:
       - default: Bearer XXX
@@ -194,7 +194,47 @@ paths:
             type: string
       security:
       - Bearer JWT: []
-      summary: Profile
+      summary: GetProfile
+      tags:
+      - Profile
+    put:
+      consumes:
+      - application/json
+      description: Endpoint for updating the logged user profile
+      operationId: update-profile
+      parameters:
+      - default: Bearer XXX
+        description: Bearer JWT
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Update user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/domain.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: not registered
+          schema:
+            type: integer
+        "404":
+          description: not registered
+          schema:
+            type: string
+      security:
+      - Bearer JWT: []
+      summary: UpdateProfile
       tags:
       - Profile
   /refresh-token:

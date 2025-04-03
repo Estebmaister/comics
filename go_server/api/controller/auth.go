@@ -149,6 +149,31 @@ func (ac *AuthControl) LoginByOAuthEmail(ctx context.Context, email string) (
 	}, nil
 }
 
+// UpdateProfile updates a user's profile
+func (ac *AuthControl) UpdateProfile(ctx context.Context, accessToken string, user domain.UpdateRequest) (
+	*domain.AuthResponse, error) {
+	// Fetch the existing user
+	dbUser, err := ac.GetUserByJWT(ctx, accessToken)
+	if err != nil {
+		return &domain.AuthResponse{Status: http.StatusUnauthorized, Message: err.Error()}, err
+	}
+
+	// Update user in the repository
+	if err := ac.userService.Update(ctx, dbUser, user); err != nil {
+		if errors.Is(err, service.ErrCredsAlreadyExist) {
+			return &domain.AuthResponse{
+				Status: http.StatusConflict, Message: err.Error()}, err
+		}
+		return &domain.AuthResponse{
+			Status: http.StatusInternalServerError, Message: err.Error()}, err
+	}
+
+	return &domain.AuthResponse{
+		Status:  http.StatusOK,
+		Message: "Update successful",
+	}, nil
+}
+
 // Register creates a new user or returns an error if the user already exists
 func (ac *AuthControl) Register(ctx context.Context, user domain.SignUpRequest) (
 	*domain.AuthResponse, error) {

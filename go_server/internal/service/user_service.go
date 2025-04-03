@@ -63,6 +63,61 @@ func (s *userService) Login(ctx context.Context, user domain.LoginRequest) (*dom
 	return dbUser, err
 }
 
+// Update updates a user's information
+// Email and username can't match other users to guarantee uniqueness
+func (s *userService) Update(ctx context.Context, dbUser *domain.User, user domain.UpdateRequest) error {
+	g, groupCtx := errgroup.WithContext(ctx)
+
+	// Apply updates if provided
+	if user.Email != "" && user.Email != dbUser.Email {
+		// Check if email already exists
+		g.Go(func() error {
+			existingUser, err := s.userRepo.GetByEmail(groupCtx, user.Email)
+			if err == nil && existingUser.ID != dbUser.ID {
+				return fmt.Errorf("email %w", ErrCredsAlreadyExist)
+			}
+			dbUser.Email = user.Email
+			return nil
+		})
+	}
+
+	if user.Username != "" && user.Username != dbUser.Username {
+		// Check if username already exists
+		g.Go(func() error {
+			existingUser, err := s.userRepo.GetByUsername(groupCtx, user.Username)
+			if err == nil && existingUser.ID != dbUser.ID {
+				return fmt.Errorf("username %w", ErrCredsAlreadyExist)
+			}
+			dbUser.Username = user.Username
+			return nil
+		})
+	}
+
+	if user.Password != "" {
+		// Hash new password
+		g.Go(func() error {
+			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+			if err != nil {
+				return fmt.Errorf("error hashing password: %w", err)
+			}
+			dbUser.Password = string(hashedPassword)
+			return nil
+		})
+	}
+
+	// Wait for all goroutines to finish and return the first error encountered, if any
+	if err := g.Wait(); err != nil {
+		return err
+	}
+
+	// Update user in the repository
+	if err := s.userRepo.Update(ctx, dbUser); err != nil {
+		return fmt.Errorf("failed to update user: %w", err)
+	}
+
+	return nil
+}
+
 // Register creates a new user
 func (s *userService) Register(ctx context.Context, user domain.SignUpRequest) (*domain.User, error) {
 	if err := s.checkUserExistence(ctx, user); err != nil {
@@ -78,7 +133,7 @@ func (s *userService) Register(ctx context.Context, user domain.SignUpRequest) (
 	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, fmt.Errorf("error hashing password")
+		return nil, fmt.Errorf("error hashing password: %w", err)
 	}
 
 	// Create user
@@ -99,7 +154,8 @@ func (s *userService) Register(ctx context.Context, user domain.SignUpRequest) (
 	return dbUser, nil
 }
 
-// Helper function to perform concurrent checks using errgroup
+// checkUserExistence ia a helper function to perform concurrent checks of
+// username and email using errgroup
 func (s *userService) checkUserExistence(ctx context.Context, user domain.SignUpRequest) error {
 	g, ctx := errgroup.WithContext(ctx)
 

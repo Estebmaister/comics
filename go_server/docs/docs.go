@@ -174,7 +174,7 @@ const docTemplate = `{
                         "Bearer JWT": []
                     }
                 ],
-                "description": "Function for getting the user profile",
+                "description": "Endpoint for getting the logged user profile",
                 "consumes": [
                     "application/json"
                 ],
@@ -184,7 +184,7 @@ const docTemplate = `{
                 "tags": [
                     "Profile"
                 ],
-                "summary": "Profile",
+                "summary": "GetProfile",
                 "operationId": "profile",
                 "parameters": [
                     {
@@ -194,6 +194,67 @@ const docTemplate = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "404": {
+                        "description": "not registered",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer JWT": []
+                    }
+                ],
+                "description": "Endpoint for updating the logged user profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "UpdateProfile",
+                "operationId": "update-profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer XXX",
+                        "description": "Bearer JWT",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Update user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.SignUpRequest"
+                        }
                     }
                 ],
                 "responses": {

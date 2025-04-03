@@ -41,26 +41,21 @@ const (
 // Setup configures the gin routes of the server
 func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 
-	// Starting user service and auth controller
+	// Starting user service and inject it into auth controller
 	userService := service.NewUserService(userRepo, env)
 	authController := controller.NewAuthControl(userService, env)
 
 	// get global Monitor object
 	m := ginmetrics.GetMonitor()
 	// m.SetMetricPath("/debug/metrics") // TODO: extract metrics to middlewares
-	// set middleware for gin
-	m.Use(g)
-	g.Use(
-		// Middleware to add HTTP tracer instrumentation for the whole router
+	m.Use(g) // set middleware for gin
+	g.Use(   // adds HTTP tracer instrumentation and request logging for the whole router
 		otelgin.Middleware(tracingServiceName),
-		// Middleware to log requests
 		middleware.LoggerMiddleware(),
 	)
 
-	// Serve static files (CSS, JS, images)
-	g.Static("/static", "./static")
-	// Load templates from "templates/" directory
-	g.LoadHTMLGlob("templates/*")
+	g.Static("/static", "./static") // Serve static files (CSS, JS, images)
+	g.LoadHTMLGlob("templates/*")   // Load templates from "templates/" directory
 
 	// Redirect root to protected profile
 	g.GET("/", func(c *gin.Context) {
@@ -70,8 +65,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	basePath := "/"
 	publicRouter := g.Group(basePath)
 	setOAuth2(env, authController, publicRouter)
-	// All Public APIs
-	{
+	{ // All Public APIs
 		swaggerRouter(env, basePath, publicRouter)
 		metricsRouter(userRepo, publicRouter)
 		signUpRouter(authController, publicRouter)
@@ -79,24 +73,21 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 		refreshTokenRouter(authController, publicRouter)
 	}
 
-	protectedRouter := g.Group("/protected")
-	// Middleware to verify AccessToken
-	protectedRouter.Use(
-		middleware.AuthenticationMiddleware(
-			env.JWTConfig.AccessTokenSecret))
-
+	protected := g.Group("/protected")
+	protected.Use( // verifies AccessToken
+		middleware.AuthenticationMiddleware(env.JWTConfig.AccessTokenSecret))
 	{ // All protected Private APIs
-		profileRouter(authController, protectedRouter)
-		NewTaskRouter(env, userRepo, protectedRouter)
+		protected.GET("/profile", getProfile(authController))
+		protected.PUT("/profile", putProfile(authController))
+		NewTaskRouter(env, userRepo, protected)
 	}
 
-	adminGroup := g.Group("/admin")
-	adminGroup.Use(
-		middleware.AuthenticationMiddleware(
-			env.JWTConfig.AccessTokenSecret),
+	admin := g.Group("/admin")
+	admin.Use( // verifies AccessToken and Role
+		middleware.AuthenticationMiddleware(env.JWTConfig.AccessTokenSecret),
 		middleware.RoleMiddleware(tokenutil.RoleAdmin))
 	{ // All admin APIs
-		dashboardRouter(userRepo, adminGroup)
+		dashboardRouter(userRepo, admin)
 	}
 }
 
@@ -252,10 +243,10 @@ func loginRouter(authController *controller.AuthControl, group *gin.RouterGroup)
 		// Set JWT in HttpOnly cookies (for web clients)
 		c.SetCookie(cookieAccessToken, resp.Data.AccessToken,
 			authController.GetAccessTokenExpirySeconds(), "/",
-			"", false, true)
+			"", true, true)
 		c.SetCookie(cookieRefreshToken, resp.Data.RefreshToken,
 			authController.GetRefreshTokenExpirySeconds(), "/",
-			"", false, true)
+			"", true, true)
 		c.JSON(resp.Status, resp)
 	})
 }
@@ -291,50 +282,6 @@ func refreshTokenRouter(authController *controller.AuthControl, group *gin.Route
 		}
 		c.Header(keyAuthorization, "Bearer "+resp.Data.AccessToken)
 		c.JSON(resp.Status, resp)
-	})
-}
-
-// Profile handler returns teh logged user data
-//
-//	@Summary		Profile
-//	@Description	Function for getting the user profile
-//	@ID				profile
-//	@Tags			Profile
-//	@Security		Bearer JWT
-//	@Accept			json
-//	@Produce		json
-//	@Param			Authorization	header		string				true	"Bearer JWT"	default(Bearer XXX)
-//	@Success		200				{object}	map[string]string	"ok"
-//	@Failure		400				{integer}	string				"not registered"
-//	@Failure		404				{string}	integer				"not registered"
-//	@Router			/protected/profile [get]
-func profileRouter(authController *controller.AuthControl, group *gin.RouterGroup) {
-	group.GET("/profile", func(c *gin.Context) {
-		accessToken := c.GetHeader(keyAuthorization)
-		middleware.ExtractCookieAccessToken(c, &accessToken)
-
-		user, err := authController.GetUserByJWT(c.Request.Context(), accessToken)
-
-		// If call comes from api return JSON
-		if c.GetHeader(keyAccept) == contentTypeJSON {
-			if err != nil {
-				c.Error(err) // nolint:errcheck
-				c.JSON(http.StatusNotFound, &domain.APIResponse[any]{
-					Status: http.StatusNotFound, Message: "User not found"})
-				return
-			}
-
-			c.JSON(http.StatusOK, user)
-			return
-		}
-
-		// If call comes from browser render profile or redirect to login if no user found
-		if err != nil {
-			c.Error(err) // nolint:errcheck
-			c.Redirect(http.StatusSeeOther, "/login")
-			return
-		}
-		otelgin.HTML(c, http.StatusOK, "profile.html", user)
 	})
 }
 

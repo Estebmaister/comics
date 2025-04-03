@@ -84,10 +84,10 @@ func handleGoogleCallback(ac *controller.AuthControl) func(c *gin.Context) {
 		// Set JWT in HttpOnly cookies
 		c.SetCookie(cookieAccessToken, resp.Data.AccessToken,
 			ac.GetAccessTokenExpirySeconds(), "/",
-			"", false, true)
+			"", true, true)
 		c.SetCookie(cookieRefreshToken, resp.Data.RefreshToken,
 			ac.GetRefreshTokenExpirySeconds(), "/",
-			"", false, true)
+			"", true, true)
 		c.Redirect(http.StatusTemporaryRedirect, "/protected/profile")
 	}
 }
