@@ -4,91 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .message {
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      text-align: center;
-      display: none;
-    }
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    .error {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    button {
-      width: 100%;
-      background: #007bff;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-    button:hover:not(:disabled) {
-      background: #0056b3;
-    }
-    .dashboard-button, .edit-button, .cancel-button {
-      text-align: center;
-      margin-top: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .dashboard-button {
-      color: white;
-      text-decoration: none;
-    }
-    .edit-button {
-      color: #007bff;
-    }
-    .cancel-button {
-      color: #dc3545;
-    }
-  </style>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="container">
@@ -103,11 +19,13 @@
       <p><strong>Username:</strong> <span id="display-username"></span></p>
       <p><strong>Email:</strong> <span id="display-email"></span></p>
       <p><strong>Role:</strong> {{ .Role }}</p>
-      <div class="edit-button" id="edit-profile-btn">Edit Profile</div>
+      <div class="btn edit-btn" id="edit-profile-btn">Edit Profile</div>
       {{ if eq .Role "admin" }}
-      <button>
-          <a href="/admin/dashboard" class="dashboard-button">Admin Dashboard</a>
+      <a href="/admin/dashboard">
+      <button class="btn">
+      Admin Dashboard
       </button>
+      </a>
       {{ end }}
     </div>
 
@@ -125,8 +43,8 @@
       <label>Confirm Password</label>
       <input type="password" autocomplete="new-password" id="edit-repeat-password">
 
-      <button type="submit" id="submit-btn" disabled>Update Profile</button>
-      <div class="cancel-button" id="cancel-edit-btn">Cancel</div>
+      <button class="btn" type="submit" id="submit-btn" disabled>Update Profile</button>
+      <div class="btn cancel-btn" id="cancel-edit-btn">Cancel</div>
     </form>
   </div>
 

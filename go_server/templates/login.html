@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="/static/login.css">
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="container">
@@ -19,14 +19,16 @@
       <label>Password</label>
       <input type="password" id="password" required>
 
-      <button type="submit">Login</button>
+      <button class="btn" type="submit">
+          Login
+      </button>
 
     </form>
       <!-- OAuth Google Sign-In Button -->
       <a href="/auth/google">
-        <button class="oauth-btn" id="google-auth-btn">
+      <div class="btn oauth-btn" id="google-auth-btn">
           Login with Google
-        </button>
+      </div>
       </a>
 
       <!-- SignUp Link -->
