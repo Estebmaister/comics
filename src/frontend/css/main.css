@@ -270,6 +270,10 @@ p {
   .comic-list {
     margin-top: 3em;
   }
+
+  body {
+    min-height: 0px;
+  }
 }
 
 .tooltip_div .tooltip {
