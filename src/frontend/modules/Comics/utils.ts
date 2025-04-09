@@ -7,6 +7,7 @@ import { COMIC_CARD_WIDTH, MAIN_PAGE_PADDING } from './constants';
 export const calculateInlineComics = (): number => {
   const width = window.innerWidth;
   const inlineComicsWOP = Math.floor(width / COMIC_CARD_WIDTH);
+  if (inlineComicsWOP <= 0 || width <= 0) return 1;
   return width - (COMIC_CARD_WIDTH * inlineComicsWOP + MAIN_PAGE_PADDING) >= 0
     ? inlineComicsWOP
     : inlineComicsWOP - 1;

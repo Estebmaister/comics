@@ -29,6 +29,9 @@ def all_comics(_from: int = 0, limit: int = 20,
                only_tracked: bool = False, only_unchecked: bool = False,
                full_query: bool = False
                ) -> (List[ComicDB], Pagination):
+    '''List all comics with pagination, optional filters
+    >>> all_comics(0, 20, False, False, False) -> (List[ComicDB], Pagination)
+    '''
     with Session() as session:
         if full_query:
             return session.query(ComicDB).all()
@@ -45,6 +48,9 @@ def all_comics(_from: int = 0, limit: int = 20,
         else:
             partial_result = partial_result.filter(ComicDB.track == 1)
     total = partial_result.count()
+    if limit < 1:  # limit must be at least 1
+        log.warning("Invalid pagination parameters - limit: %s", limit)
+        limit = 1
     total_pages = math.ceil(total/limit)
     current_page = math.ceil(_from/limit + 1)
     pagination_data = Pagination(

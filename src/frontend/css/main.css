@@ -240,6 +240,12 @@ body {
   background: transparent;
 }
 
+.text:hover {
+  overflow: scroll;
+  text-overflow: unset;
+  scrollbar-width: none;
+}
+
 p {
   text-align: justify;
   color: #888
@@ -259,6 +265,10 @@ p {
 
   .text {
     max-width: 240px;
+  }
+
+  .comic-list {
+    margin-top: 3em;
   }
 }
 
