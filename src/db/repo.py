@@ -84,6 +84,18 @@ def delete_comic_by_id(id: int) -> (int):
         return rows_deleted
 
 
+def create_comic(comic: ComicDB) -> dict:
+    with Session() as session:
+        session.add(comic)
+        session.commit()
+
+        comicJSON = comic.toJSON()
+        load_comics.append(comicJSON)
+        save_comics_file(load_comics)
+
+        return comicJSON
+
+
 def update_comic_by_id(id: int, body: dict) -> (dict | None):
     '''>>> update_comic_by_id(10) -> jsonComic | None'''
     with Session() as session:
@@ -144,11 +156,19 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
 
 
 def comics_like_title(title: str, session: SessionType) -> (List[ComicDB]):
-    return session.query(ComicDB).filter(
-        ComicDB.titles.like(f"%{title}%")
-    ).order_by(
-        ComicDB.last_update.desc(), ComicDB.id
-    ).all()
+
+    if session is not None:
+        return session.query(ComicDB).filter(
+            ComicDB.titles.like(f"%{title}%")
+        ).order_by(
+            ComicDB.last_update.desc(), ComicDB.id
+        ).all()
+    with Session() as session:
+        return session.query(ComicDB).filter(
+            ComicDB.titles.like(f"%{title}%")
+        ).order_by(
+            ComicDB.last_update.desc(), ComicDB.id
+        ).all()
 
 
 def comics_by_title_no_case(

@@ -6,11 +6,10 @@ from flask import Flask, make_response, request
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from db import (ComicDB, Statuses, Types, comic_swagger_model, load_comics,
-                save_comics_file)
+from db import ComicDB, comic_swagger_model
 from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
-                     comics_like_title, delete_comic_by_id, merge_comics,
-                     sql_check, update_comic_by_id)
+                     comics_like_title, create_comic, delete_comic_by_id,
+                     merge_comics, sql_check, update_comic_by_id)
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from scrape import async_scrape_wrapper
@@ -19,8 +18,9 @@ log = logger(__name__)
 server = Flask(__name__)
 server.config["RESTX_MASK_SWAGGER"] = False
 server.wsgi_app = ProxyFix(server.wsgi_app)
-api = Api(server, version='1.0', title='ComicMVC API',
-          description='A Comic API capable enough to provide all CRUD ops and more')
+api = Api(
+    server, version='1.0', title='ComicMVC API',
+    description='A Comic API capable enough to provide all CRUD ops and more')
 api.logger = log
 health_ns = api.namespace('health', description='Service health')
 scrape_ns = api.namespace('scrape', description='Scrape operations')
@@ -116,7 +116,7 @@ class ComicList(Resource):
     @ns.expect(comic_swagger_model)
     @ns.marshal_with(comic_swagger_model, code=201)
     def post(self):
-        '''Create a new comic'''
+        '''Create a new comic from JSON body'''
         body = request.json
         if not body:
             log.warning("No JSON body in create comic request")
@@ -133,58 +133,48 @@ class ComicList(Resource):
             api.abort(400, 'titles should be a non-empty list of strings')
 
         first_title = body['titles'][0].capitalize()
-        with Session() as session:
-            db_comic = comics_like_title(first_title, session)
-            if db_comic is not None:
-                for comic in db_comic:
-                    if first_title in comic.get_titles():
-                        log.warning(
-                            "Attempted to create duplicate comic: %s", first_title)
-                        api.abort(400, 'Comic is already in the database')
-
-            if ('description' in body and
-                    type(body['description']) is not str):
-                log.warning("Invalid description type in create comic request")
-                api.abort(400, 'description type different from string')
-
-            if 'track' in body and type(body['track']) is not bool:
-                log.warning("Invalid track type in create comic request")
-                api.abort(400, 'track type different from boolean')
-
-            if 'viewed_chap' in body:
-                try:
-                    int(body['viewed_chap'])
-                except ValueError:
+        db_comic = comics_like_title(first_title, None)
+        if db_comic is not None:
+            for comic in db_comic:
+                if first_title in comic.get_titles():
                     log.warning(
-                        "Invalid viewed_chap value in create comic request: %s", body['viewed_chap'])
-                    api.abort(400, 'viewed_chap must be an integer')
+                        "Attempted to create duplicate comic: %s", first_title)
+                    api.abort(400, 'Comic is already in the database')
+        if ('description' in body and
+                type(body['description']) is not str):
+            log.warning("Invalid description type in create comic request")
+            api.abort(400, 'description type different from string')
 
-            comic = ComicDB(
-                id=body.get('id', None),
-                titles=None,
-                current_chap=body.get('current_chap', 0),
-                cover=body.get('cover', ''),
-                com_type=int(body.get('com_type', 0)),
-                status=int(body.get('status', 0)),
-                description=body.get('description', ''),
-                author=body.get('author', ''),
-                track=int(body.get('track', 0)),
-                viewed_chap=int(body.get('viewed_chap', 0)),
-                rating=body.get('rating', 0),
-            )
-            comic.set_titles(body.get('titles', ['']))
-            comic.set_published_in(body.get('published_in', [0]))
-            comic.set_genres(body.get('genres', [0]))
+        if 'track' in body and type(body['track']) is not bool:
+            log.warning("Invalid track type in create comic request")
+            api.abort(400, 'track type different from boolean')
 
-            session.add(comic)
-            session.commit()
-            comicJSON = comic.toJSON()
-            session.close()
+        if 'viewed_chap' in body:
+            try:
+                int(body['viewed_chap'])
+            except ValueError:
+                log.warning(
+                    "Invalid viewed_chap value in create comic request: %s", body['viewed_chap'])
+                api.abort(400, 'viewed_chap must be an integer')
 
-            load_comics.append(response)
-            save_comics_file(load_comics)
-            log.info("Created new comic: %s", first_title)
-            return comicJSON
+        comic = ComicDB(
+            id=body.get('id', None),
+            titles=None,
+            current_chap=body.get('current_chap', 0),
+            cover=body.get('cover', ''),
+            com_type=int(body.get('com_type', 0)),
+            status=int(body.get('status', 0)),
+            description=body.get('description', ''),
+            author=body.get('author', ''),
+            track=int(body.get('track', 0)),
+            viewed_chap=int(body.get('viewed_chap', 0)),
+            rating=body.get('rating', 0),
+        )
+        comic.set_titles(body.get('titles', ['']))
+        comic.set_published_in(body.get('published_in', [0]))
+        comic.set_genres(body.get('genres', [0]))
+
+        return create_comic(comic)
 
 
 @ns.route('/<int:id>')
