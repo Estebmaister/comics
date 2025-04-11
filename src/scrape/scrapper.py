@@ -289,7 +289,14 @@ async def _update_cover_if_needed(
         return
 
     # Update for specific publishers that need regular cover updates
-    if publisher in COVER_UPDATE_PUBLISHERS:
+    if publisher in COVER_UPDATE_PUBLISHERS and publisher not in RESTRICTED_COVER_PUBLISHERS:
+        db_comic.cover = cover
+        json_comic['cover'] = cover
+
+    # Update for restricted publishers when there is no other publisher
+    if publisher in RESTRICTED_COVER_PUBLISHERS and not any(
+        pub not in RESTRICTED_COVER_PUBLISHERS for pub in db_comic.get_published_in()
+    ):
         db_comic.cover = cover
         json_comic['cover'] = cover
 

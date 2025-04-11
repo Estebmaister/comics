@@ -21,8 +21,7 @@ log = logger(__name__)
 PUBLISHER = Publishers.Manganato
 DEFAULT_COMIC_TYPE = 'manhwa'
 DEFAULT_STATUS = 'ongoing'
-COMIC_ITEM_CLASS = 'content-homepage-item'
-COMIC_RIGHT_CLASS = 'content-homepage-item-right'
+COMIC_ITEM_CLASS = 'itemupdate first'
 
 
 def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
@@ -41,25 +40,23 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         cover = comic_div.a.img['src']
 
         # Extract comic internal div with title and metadata
-        comic_int = comic_div.select(f"div.{COMIC_RIGHT_CLASS}")[0]
+        comic_int = comic_div.ul
 
         # Extract title
-        title = comic_int.h3.a.text.strip()
+        title = comic_int.li.h3.a.text.strip()
 
         # Extract author (optional)
         try:
-            author = comic_int.span.text.strip()
+            author = comic_int.li.span.text.strip()
         except AttributeError:
             author = ''
 
-        # Extract chapter information
-        chap_elements = comic_int.find_all('p')
-        if not chap_elements:
+        # Extract latest chapter number
+        try:
+            chap = comic_int.select('li')[1].span.a.text
+        except AttributeError:
             log.info('No chapters found for comic: %s', title)
             return None
-
-        # Extract latest chapter number
-        chap = chap_elements[0].a.text
 
         return ScrapedComic(
             chapter=chap,
@@ -71,7 +68,7 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         )
 
     except (ValueError, IndexError, KeyError, AttributeError) as error:
-        log.error('Failed to extract comic info for %s: %s', title, error)
+        log.error('Failed to extract comic info for %s: %a', title, error)
         return None
 
 
