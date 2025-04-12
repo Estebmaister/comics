@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import MergeComicModal from '../Modals/MergeModal';
 import './MergeComic.css';
 import config from '../../../util/Config';
+import OpMsg from './OpMsg';
 
 const SERVER = config.SERVER;
-const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
-const mergeComic = async (baseID: number, mergingID: number, server = SERVER) => {
-  let success = true;
+const mergeComic: (baseID: number, mergingID: number, server?: string) => Promise<string> = async (baseID: number, mergingID: number, server = SERVER) => {
+  let msg = '';
   await fetch(`${server}/comics/${baseID}/${mergingID}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -14,18 +14,19 @@ const mergeComic = async (baseID: number, mergingID: number, server = SERVER) =>
     .then((response) => response.json())
     .then((data) => {
       console.debug(data);
-      if (data?.message !== undefined) success = false;
+      if (data?.message !== undefined) msg = data.message;
     })
     .catch((err) => {
       console.debug(err.message);
-      success = false;
+      msg = err.message;
     });
-  return success;
+  return msg;
 }
 
 const MergeComic = () => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState<any>(null);
+  const [msg, setMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
@@ -44,38 +45,34 @@ const MergeComic = () => {
   // Send information to the server and renders a msg from response
   const handleFormSubmit = async (data: any) => {
     setComicFormData(data);
+    setHideMsg(false);
+    setShowMsg(true);
 
-    if (await mergeComic(data?.baseID, data?.mergingID)) {
+    const resultMsg = await mergeComic(data?.baseID, data?.mergingID);
+    setMsg(resultMsg);
+    if (resultMsg === '') {
       handleCloseMergeComicModal();
       setFailMsg(false);
-      setHideMsg(false);
-      setShowMsg(true);
       return true;
     }
-    setHideMsg(false);
     setFailMsg(true);
-    setShowMsg(true);
     return false;
   };
-
-  const timerHide = () => {
-    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
-    return true;
-  }
 
   return (<>
     <button className={'button-merge'} onClick={handleOpenMergeComicModal}>
     </button>
 
-    {(showMsg && timerHide()) && (
-      <div className={
-        `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-      }>
-        comics <b>{comicFormData?.baseID}</b>{' '}
-        & <b>{comicFormData?.mergingID}</b> merging
-        {failMsg ? ' failed, check that comics type match' : ' succeed'}.
-      </div>
-    )}
+    <OpMsg
+      comicType={comicFormData?.baseID + ' &'}
+      title={comicFormData?.mergingID}
+      msg={msg}
+      operation="merging"
+      showMsg={showMsg}
+      hideMsg={hideMsg}
+      failMsg={failMsg}
+      setHideMsg={setHideMsg}
+    />
 
     <MergeComicModal
       isOpen={isMergeComicModalOpen}

@@ -32,7 +32,6 @@
   position: absolute;
   left: 20px;
   top: 200px;
-  pointer-events: none;
   font-size: 0.8em;
 
   padding: 0.2em;
@@ -89,4 +88,11 @@
   top: 1.6em;
   background-color: #302c2b;
   width: 2em;
+}
+
+/* Links */
+
+p>a {
+  color: #DDD;
+  text-decoration: none;
 }

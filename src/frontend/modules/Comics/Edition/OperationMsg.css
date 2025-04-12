@@ -1,0 +1,25 @@
+.msg-box {
+  text-shadow: none;
+  position: fixed;
+  top: 6em;
+  left: 8%;
+  padding: 1em;
+  max-width: 400px;
+  border-radius: 0.5em;
+  border: 0.3em solid var(--success-border);
+  background: var(--success-color);
+  color: var(--success-border);
+}
+
+.msg-fail {
+  border: 0.3em solid var(--fail-border);
+  background: var(--fail-color);
+  color: var(--fail-border);
+}
+
+.msg-hide {
+  animation: fadeOut 1s;
+  visibility: hidden;
+  opacity: 0%;
+  transition: 2s;
+}

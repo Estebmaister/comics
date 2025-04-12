@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-import './CreateModal.css';
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
+import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
-import PropTypes from 'prop-types';
 import db_classes from '../../../../db/db_classes.json'
+import { handleInputChange, ComicModalProps } from './helpers';
 
 const createComicEmpty = {
   title: '',
@@ -39,7 +39,8 @@ const formType = (field: string) => {
   }
 }
 
-const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
+
+const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
   const focusInputRef = useRef<any>(null);
   const [formState, setFormState] = useState(createComicEmpty);
 
@@ -48,18 +49,6 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
       setTimeout(() => { focusInputRef.current.focus(); }, 0);
     }
   }, [isOpen]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked, type } = event.target;
-    let newEntry: any;
-    if (type === 'select-one') newEntry = parseInt(value);
-    else if (type === 'checkbox') newEntry = checked;
-    else newEntry = value;
-    setFormState((prevFormData) => ({
-      ...prevFormData,
-      [name]: newEntry,
-    }));
-  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +68,8 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
             selectOptDict={db_classes}
             className={'form-row'}
             type={formType(kField)}
-            handleInputChange={handleInputChange}
+            handleInputChange={handleInputChange(setFormState)}
+            multiple={kField === 'genres' || kField === 'published_in'}
           />
         )}
 
@@ -89,12 +79,6 @@ const CreateComicModal = ({ onSubmit, isOpen, onClose }: any) => {
       </form>
     </Modal>
   );
-};
-
-CreateComicModal.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
 };
 
 export default CreateComicModal;

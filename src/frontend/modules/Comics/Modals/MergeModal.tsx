@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-import './CreateModal.css';
+import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
-import PropTypes from 'prop-types';
+import { ComicModalProps } from './helpers';
 
 const mergeEmptyDict = {
   baseID: 0,
   mergingID: 0,
 };
 
-const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
-  const focusInputRef = useRef<any>(null);
+const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
+  const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
-      setTimeout(() => { focusInputRef.current.focus(); }, 0);
+      setTimeout(() => { focusInputRef.current?.focus(); }, 0);
     }
   }, [isOpen]);
 
@@ -57,12 +57,6 @@ const MergeComicModal = ({ onSubmit, isOpen, onClose }: any) => {
       </form>
     </Modal>
   );
-};
-
-MergeComicModal.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
 };
 
 export default MergeComicModal;

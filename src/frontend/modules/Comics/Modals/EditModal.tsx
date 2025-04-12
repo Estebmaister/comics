@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-import './CreateModal.css';
+import { useState, useEffect, useRef, FormEvent } from 'react';
+import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
-import PropTypes from 'prop-types';
 import db_classes from '../../../../db/db_classes.json'
+import { handleInputChange, ComicModalProps } from './helpers';
 
 const formType = (field: string) => {
   switch (field) {
@@ -28,31 +28,18 @@ const formType = (field: string) => {
   }
 }
 
-const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
-  const focusInputRef = useRef<any>(null);
-  const [formState, setFormState] = useState(comic);
-
+const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, onClose }) => {
+  const focusInputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
-      setTimeout(() => { focusInputRef.current.focus(); }, 0);
+      setTimeout(() => { focusInputRef.current?.focus(); }, 0);
     }
   }, [isOpen]);
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement> | any
-  ) => {
-    const { name, value, selectedOptions, checked, type } = event.target;
-    let newEntry: any;
-    if (type === 'select-one') newEntry = parseInt(value);
-    else if (type === 'checkbox') newEntry = checked;
-    else if (type === 'select-multiple') newEntry = Object
-      .values(selectedOptions)?.map((options: any) => +options.value);
-    else newEntry = value;
-    setFormState((prevFormData: any) => ({
-      ...prevFormData,
-      [name]: newEntry,
-    }));
-  };
+  const [formState, setFormState] = useState(comic);
+  useEffect(() => {
+    setFormState(comic);
+  }, [comic]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,7 +59,7 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
             selectOptDict={db_classes}
             className={'form-row'}
             type={formType(kField)}
-            handleInputChange={handleInputChange}
+            handleInputChange={handleInputChange(setFormState)}
             multiple={kField === 'genres' || kField === 'published_in'}
           />
         )}
@@ -83,13 +70,6 @@ const EditComicModal = ({ onSubmit, isOpen, onClose, comic }: any) => {
       </form>
     </Modal>
   );
-};
-
-EditComicModal.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  comic: PropTypes.object.isRequired
 };
 
 export default EditComicModal;

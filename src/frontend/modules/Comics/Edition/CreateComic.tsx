@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import CreateComicModal from '../Modals/CreateModal';
+import OpMsg from './OpMsg';
 import './CreateComic.css';
-import db_classes from '../../../../db/db_classes.json';
 import config from '../../../util/Config';
+import db_classes from '../../../../db/db_classes.json';
 
 const SERVER = config.SERVER;
-const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
-const create = async (comic: any, server = SERVER) => {
-  let success = true;
+const create: (comic: any, server?: string) => Promise<string> = async (comic, server = SERVER) => {
+  let msg = '';
   const last_update = { last_update: new Date().getTime() }
   const titles = { titles: [comic.title] };
   const genres = { genres: [comic.genres] };
@@ -22,18 +22,19 @@ const create = async (comic: any, server = SERVER) => {
     .then((response) => response.json())
     .then((data) => {
       console.debug(data);
-      if (data?.message === 'Internal Server Error') success = false;
+      if (data?.message) msg = data.message;
     })
     .catch((err) => {
       console.debug(err.message);
-      success = false;
+      msg = err.message;
     });
-  return success;
+  return msg;
 };
 
 const CreateComic = () => {
   const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState<any>(null);
+  const [msg, setMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
   const [failMsg, setFailMsg] = useState(false);
@@ -50,37 +51,34 @@ const CreateComic = () => {
 
   const handleFormSubmit = async (data: {}) => {
     setComicFormData(data);
+    const resultMsg = await create(data);
+    setMsg(resultMsg);
+    setHideMsg(false);
+    setShowMsg(true);
 
-    if (await create(data)) {
+    if (resultMsg === '') {
       handleCloseCreateComicModal();
       setFailMsg(false);
-      setHideMsg(false);
-      setShowMsg(true);
       return true;
     }
-    setHideMsg(false);
     setFailMsg(true);
-    setShowMsg(true);
     return false;
-  };
-
-  const timerHide = () => {
-    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
-    return true;
   };
 
   return (<>
     <button className={'button-plus'} onClick={handleOpenCreateComicModal}>
     </button>
 
-    {(comicFormData?.title && showMsg && timerHide()) && (
-      <div className={
-        `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-      }>
-        <b>{db_classes?.com_type[comicFormData?.com_type]}</b> comic {' '}
-        <b>{comicFormData.title}</b> {failMsg ? 'failed' : 'created'}.
-      </div>
-    )}
+    <OpMsg
+      comicType={db_classes?.com_type[comicFormData?.com_type]}
+      title={comicFormData?.title}
+      msg={msg}
+      operation="creation"
+      showMsg={showMsg}
+      hideMsg={hideMsg}
+      failMsg={failMsg}
+      setHideMsg={setHideMsg}
+    />
 
     <CreateComicModal
       isOpen={isCreateComicModalOpen}

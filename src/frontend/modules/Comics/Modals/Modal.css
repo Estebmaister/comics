@@ -1,0 +1,50 @@
+.form-row+.form-row {
+  margin-top: 0.8rem;
+}
+
+.form-row label {
+  text-shadow: none;
+  font-size: 0.9em;
+  color: #333;
+}
+
+input[type=checkbox]+label,
+label+input[type=checkbox] {
+  width: 60%;
+  height: 1em;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.form-row input,
+.form-row select,
+.form-row button,
+.form-row textarea {
+  margin-top: 0.2em;
+  padding: 0.2em;
+  padding-left: 0.5em;
+  font-size: 0.9em;
+  width: 100%;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  border-color: #5b9bd5;
+  box-shadow: 0 0 0 2px rgba(91, 155, 213, 0.2);
+  outline: none;
+}
+
+.form-row input[type=checkbox]:focus {
+  box-shadow: none;
+}

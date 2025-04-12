@@ -1,26 +1,14 @@
 import { useState } from 'react';
 import styles from './ComicCard.module.css'
 import BrokenImage from '../../../assets/404.jpg'
-import { Types, Statuses, Genres, Publishers } from '../../../util/ComicClasses';
+import { Types, Statuses } from '../../../util/ComicClasses';
 import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
+import { genresHandler, publishersHandler } from './helpers';
 import EditComic from '../Edition/EditComic';
+import CopyableSpan from '../components/CopyableSpan';
 
 // TODO: Research a solution for image sourcing
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-
-const publishersHandler = (publishers: string[]) => {
-  const return_array: string[] = [];
-  publishers.forEach((element: string) =>
-    return_array.push(Publishers[+element]))
-  return return_array.join(', ');
-}
-
-const genresHandler = (genres: string[]) => {
-  const return_array: string[] = [];
-  genres.forEach((element: string) =>
-    return_array.push(Genres[+element]))
-  return return_array.join(', ');
-}
 
 export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
   const [comic, setComic] = useState(props.comic);
@@ -53,7 +41,17 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
       />
     </div>
 
-    {isHovering && (<span className={styles.hoverID}>ID: {id}</span>)}
+    {isHovering && (
+      <CopyableSpan
+        copyText={id}
+        text={`ID: ${id}`}
+        className={styles.hoverID}
+        onMouseOver={handleMouseOver}
+        onFocus={handleMouseOver}
+        onMouseOut={handleMouseOut}
+        onBlur={handleMouseOut}
+      />)
+    }
 
     <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
 
@@ -67,21 +65,17 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
     <p className='text'> Status: {Statuses[comic.status]} </p>
     <p className='text'> Type:   {Types[comic.com_type]} </p>
     <p className='text'> Genres: {genresHandler(comic.genres)} </p>
-    <p className='text'> Publishers: {publishersHandler(
-      comic.published_in)} </p>
+    <p className='text'> Publishers: {publishersHandler(comic.published_in)} </p>
 
     {comic.track && check ?
       <button
         className={`${styles.trackButton} ${styles.checkButton} basic-button`}
-        onClick={() =>
-          checkoutComic(current_chap, id, setCheck, setViewedChap)
-        }>
+        onClick={() => checkoutComic(current_chap, id, setCheck, setViewedChap)}>
         Checkout
       </button> : ''
     }
     <button
-      className={styles.trackButton + ' basic-button' +
-        (comic.track ? ' reverse-button' : '')}
+      className={styles.trackButton + ' basic-button' + (comic.track ? ' reverse-button' : '')}
       onClick={() => trackComic(comic.track, comic.id, setTrackComic)}>
       {comic.track ? 'Untrack' : 'Track'}
     </button>
