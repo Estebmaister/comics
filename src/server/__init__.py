@@ -126,20 +126,20 @@ class ComicList(Resource):
             log.warning("No titles field in create comic request")
             api.abort(400, 'titles is a necessary field to create a comic')
 
-        if (type(body['titles']) != list or
-                '' in body['titles']):
+        if (type(body['titles']) != list or '' in body['titles']):
             log.warning(
                 "Invalid titles format in create comic request: %s", body['titles'])
             api.abort(400, 'titles should be a non-empty list of strings')
 
-        first_title = body['titles'][0].capitalize()
-        db_comic = comics_like_title(first_title, None)
-        if db_comic is not None:
-            for comic in db_comic:
-                if first_title in comic.get_titles():
-                    log.warning(
-                        "Attempted to create duplicate comic: %s", first_title)
-                    api.abort(400, 'Comic is already in the database')
+        for title in body['titles']:
+            title = title.capitalize()
+            db_comic = comics_like_title(title, None)
+            if db_comic is not None:
+                for comic in db_comic:
+                    if title in comic.get_titles():
+                        log.warning(
+                            "Attempted to create duplicate comic: %s", title)
+                        api.abort(400, 'Comic is already in the database')
         if ('description' in body and
                 type(body['description']) is not str):
             log.warning("Invalid description type in create comic request")

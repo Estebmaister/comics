@@ -1,3 +1,4 @@
+import json
 import math
 from typing import List
 
@@ -81,19 +82,29 @@ def delete_comic_by_id(id: int) -> (int):
             save_comics_file(load_comics)
         except IndexError:
             log.debug('Comic ID %s not found in JSON backup', id)
+        finally:
+            session.commit()
         return rows_deleted
 
 
-def create_comic(comic: ComicDB) -> dict:
-    with Session() as session:
-        session.add(comic)
-        session.commit()
-
+def create_comic(comic: ComicDB, session: SessionType = None) -> (dict | None):
+    try:
+        if session is None:
+            with Session() as s:
+                s.add(comic)
+                s.commit()
+        else:
+            session.add(comic)
+            session.commit()
         comicJSON = comic.toJSON()
         load_comics.append(comicJSON)
         save_comics_file(load_comics)
+    except Exception as err:
+        log.error('Failed to create comic (%s): %s', str(err), comic)
+        return None
 
-        return comicJSON
+    log.info('Created new entry: %s', json.dumps(comicJSON))
+    return comicJSON
 
 
 def update_comic_by_id(id: int, body: dict) -> (dict | None):
@@ -155,7 +166,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
         return comicJSON
 
 
-def comics_like_title(title: str, session: SessionType) -> (List[ComicDB]):
+def comics_like_title(title: str, session: SessionType = None) -> (List[ComicDB]):
 
     if session is not None:
         return session.query(ComicDB).filter(
@@ -206,6 +217,8 @@ COMIC_NOT_FOUND = 'Comic {} not found'
 
 def merge_comics(base_id: int, merging_id: int) -> (dict, str):
     '''>>> merge_comics(10, 24) -> ComicJSON: dict, None - error msg '''
+    if base_id == merging_id:
+        return None, 'Cannot merge comic with itself'
     with Session() as session:
         comic = session.query(ComicDB).get(base_id)
         if comic is None:
@@ -249,11 +262,12 @@ def merge_comics(base_id: int, merging_id: int) -> (dict, str):
             comic.author = d_comic.author
         if comic.description == '':
             comic.description = d_comic.description
+        if comic.cover == '':
+            comic.cover = d_comic.cover
 
         session.delete(d_comic)
         session.commit()
         comicJSON = comic.toJSON()
-        session.close()
 
         json_comic["titles"] = titles
         json_comic["genres"] = genres
@@ -265,6 +279,7 @@ def merge_comics(base_id: int, merging_id: int) -> (dict, str):
         json_comic["rating"] = comic.rating
         json_comic["author"] = comic.author
         json_comic["description"] = comic.description
+        json_comic["cover"] = comic.cover
 
         load_comics.remove(dj_comic)
         save_comics_file(load_comics)

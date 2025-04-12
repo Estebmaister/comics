@@ -7,7 +7,6 @@ and metadata, and manages their storage in both database and JSON formats.
 
 from __future__ import annotations
 
-import json
 import os
 import re
 import time
@@ -22,7 +21,7 @@ from sqlalchemy.orm import Session
 from db import (ComicDB, Publishers, Statuses, Types, load_comics,
                 save_comics_file)
 from db.helpers import manage_multi_finds
-from db.repo import comics_like_title
+from db.repo import comics_like_title, create_comic
 from helpers.alert import add_alert
 from helpers.logger import logger
 from scrape.url_switch import url_switch
@@ -129,7 +128,7 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers, ses
     normalized_comic.set_titles(final_title)
 
     if not db_comics:
-        await _create_new_comic_entry(session, normalized_comic)
+        create_comic(normalized_comic, session)
         return
 
     if len(db_comics) != 1:
@@ -152,17 +151,6 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers, ses
         log.error('Failed to flush session: %s, rolling back on comic %s', str(
             e), normalized_comic.titles)
         return
-    save_comics_file(load_comics)
-
-
-async def _create_new_comic_entry(session, comic: ComicDB) -> None:
-    """Create a new comic entry in both database and JSON storage."""
-    session.add(comic)
-    session.commit()
-
-    json_entry = comic.toJSON()
-    log.info('Created new entry: %s', json.dumps(json_entry))
-    load_comics.append(json_entry)
     save_comics_file(load_comics)
 
 
