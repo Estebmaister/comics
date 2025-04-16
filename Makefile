@@ -7,7 +7,7 @@
 
 # Virtual environment configuration
 VENV_DIR=comics_env
-ACTIVATE_VENV:=. ./$(VENV_DIR)/bin/activate
+ACT_VENV:=. ./$(VENV_DIR)/bin/activate
 
 # Colors for help text
 CYAN := \033[36m
@@ -31,7 +31,7 @@ help:
 ## venv          Create and setup Python virtual environment
 $(VENV_DIR)/touchfile: requirements.txt
 	test -d "$(VENV_DIR)" || python3 -m venv "$(VENV_DIR)"
-	$(ACTIVATE_VENV) && pip install --upgrade --requirement requirements.txt
+	$(ACT_VENV) && pip install --upgrade --requirement requirements.txt
 	touch "$(VENV_DIR)/touchfile"
 
 venv: $(VENV_DIR)/touchfile
@@ -42,7 +42,7 @@ venvclean:
 
 ## activate      Show virtual environment activation instructions
 activate:
-	@echo "Run '$(ACTIVATE_VENV)' to activate the virtual environment."
+	@echo "Run '$(ACT_VENV)' to activate the virtual environment."
 
 ## start         Start the frontend development server
 start:
@@ -54,34 +54,58 @@ deploy:
 
 ## server        Start the backend server
 server:
-	$(ACTIVATE_VENV) && python3 src/__main__.py server
+	$(ACT_VENV) && python3 src/__main__.py server
 
 ## scrape        Run the web scraper
 scrape:
-	$(ACTIVATE_VENV) && python3 src/__main__.py
+	$(ACT_VENV) && python3 src/__main__.py
 
 ## remote        Run the web server and scraper, save logs and detach the process
 remote:
-	$(ACTIVATE_VENV) && python3 src scrape server > ./output.log 2>&1 &
+	@if [ -f ./server.pid ]; then \
+		echo "Server is already running. Use 'make stop' to stop it."; \
+		exit 1; \
+	fi
+	@echo "Running detached web server and scraper, logs will be saved to ./output.log"
+	@echo "PID will be saved to ./server.pid"
+	$(ACT_VENV) && (python3 src scrape server > ./output.log 2>&1 & echo $$! > ./server.pid)
+
+## stop          Stop the background process using the PID file
+stop:
+	@if [ -f ./server.pid ]; then \
+		PID=$$(cat ./server.pid); \
+		SPIN='|/-\\'; \
+		i=0; \
+		while ps -p $$PID > /dev/null; do \
+			kill $$PID > /dev/null 2>&1; \
+			printf "\rKilling process $$PID... %s" $${SPIN:$$i%4:1}; \
+			i=$$((i + 1)); \
+			sleep 0.3; \
+		done; \
+		echo "\nProcess $$PID stopped. Cleaning up."; \
+		rm ./server.pid; \
+	else \
+		echo "No PID file found."; \
+	fi
 
 ## backup        Run the web backup
 backup:
-	$(ACTIVATE_VENV) && \
+	$(ACT_VENV) && \
 	python3 -c 'from src.db.backup_db import backup_database; backup_database()'
 
 ## repopulate    Run the web backup
 repopulate:
-	$(ACTIVATE_VENV) && \
+	$(ACT_VENV) && \
 	python3 -c 'from src.db.repopulate_db import main; main()'
 
 ## db_update     Run the web backup
 db_update:
-	$(ACTIVATE_VENV) && \
+	$(ACT_VENV) && \
 	python3 -c 'from src.db.db_update import main; main()'
 
 ## py-test       Run python tests
 test-py:
-	$(ACTIVATE_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
+	$(ACT_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
 
 # Protobuf configuration
 # Directory containing .proto files
@@ -108,14 +132,14 @@ GO_GRPC := protoc-gen-go-grpc
 
 ## update-py     Update all Python dependencies to latest versions
 update-py:
-	$(ACTIVATE_VENV) && \
+	$(ACT_VENV) && \
 	cat requirements.txt | cut -f1 -d= | xargs pip install -U && \
 	pip freeze > requirements.txt
 
 ## setup-py      Initialize Python environment and dependencies
 setup-py:
 	@echo "\nPython setup..."
-	$(ACTIVATE_VENV) && pip install -r requirements.txt
+	$(ACT_VENV) && pip install -r requirements.txt
 
 ## setup         Initialize both Go and Python environments
 setup:
@@ -128,11 +152,11 @@ setup:
 ## proto-py      Generate Python Protobuf files from definitions
 proto-py:
 	@echo "\nInstalling Python Protobuf dependencies..."
-	$(ACTIVATE_VENV) && pip install grpcio==1.70.0 grpcio-tools==1.70.0
+	$(ACT_VENV) && pip install grpcio==1.70.0 grpcio-tools==1.70.0
 	@echo "\nGenerating Python Protobuf files..."
 	@mkdir -p $(PYTHON_PROTO_OUT)
 	@mkdir -p $(PYTHON_SERVICE_OUT)
-	$(ACTIVATE_VENV) && \
+	$(ACT_VENV) && \
 	$(PYTHON_GRPC) -I$(PROTO_DIR) \
 		--python_out=$(PYTHON_OUT) \
 		--pyi_out=$(PYTHON_OUT) \

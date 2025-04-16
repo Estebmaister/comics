@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+#
+# pre-commit — abort if server.pid exists or is staged
+
+# 1) If it's staged for commit, reject
+if git diff --cached --name-only | grep -qE '^server\.pid$$'; then
+  echo >&2 "✖  ERROR: You must not commit server.pid"
+  exit 1
+fi
+
+# 2) If it exists in the working directory at all, reject
+if [ -f server.pid ]; then
+  echo >&2 "✖  ERROR: server.pid found in working tree. Please remove it before committing."
+  exit 1
+fi
+
+# all good
+exit 0
