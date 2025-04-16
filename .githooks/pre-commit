@@ -8,10 +8,15 @@ if git diff --cached --name-only | grep -qE '^server\.pid$$'; then
   exit 1
 fi
 
-# 2) If it exists in the working directory at all, reject
+# 2) If it exists in the working directory at all, prompt the user
 if [ -f server.pid ]; then
-  echo >&2 "✖  ERROR: server.pid found in working tree. Please remove it before committing."
-  exit 1
+  echo >&2 "⚠  WARNING: server.pid found in working tree."
+  printf "Do you still want to continue with the commit? (y/n): "
+  read answer
+  case "$answer" in
+    [Yy]*) ;;
+    *) echo "Aborting commit."; exit 1 ;;
+  esac
 fi
 
 # all good

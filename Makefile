@@ -144,6 +144,7 @@ setup-py:
 ## setup         Initialize both Go and Python environments
 setup:
 	@echo "Setting up the servers..."
+	chmod +x .githooks/pre-commit
 	(cd go_server && go mod tidy)
 	$(MAKE) setup-py
 	$(MAKE) proto-py
