@@ -60,6 +60,10 @@ server:
 scrape:
 	$(ACTIVATE_VENV) && python3 src/__main__.py
 
+## remote        Run the web server and scraper, save logs and detach the process
+remote:
+	$(ACTIVATE_VENV) && python3 src scrape server > ./output.log 2>&1 &
+
 ## backup        Run the web backup
 backup:
 	$(ACTIVATE_VENV) && \
