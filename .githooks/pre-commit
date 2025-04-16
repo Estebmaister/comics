@@ -12,7 +12,7 @@ fi
 if [ -f server.pid ]; then
   echo >&2 "⚠  WARNING: server.pid found in working tree."
   printf "Do you still want to continue with the commit? (y/n): "
-  read answer
+  read answer </dev/tty
   case "$answer" in
     [Yy]*) ;;
     *) echo "Aborting commit."; exit 1 ;;
