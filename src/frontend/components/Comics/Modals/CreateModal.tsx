@@ -1,15 +1,31 @@
-import { useState, useEffect, useRef, FormEvent } from 'react';
+import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import db_classes from '../../../../db/db_classes.json'
 import { handleInputChange, ComicModalProps } from './helpers';
 
+const createComicEmpty = {
+  title: '',
+  track: false,
+  current_chap: 0,
+  viewed_chap: 0,
+  cover: 'https://',
+  description: '',
+  author: '',
+
+  com_type: 3,
+  status: 2,
+  published_in: 0,
+  genres: 0,
+};
+
 const formType = (field: string) => {
   switch (field) {
+    case 'track':
+      return 'checkbox';
     case 'viewed_chap':
     case 'current_chap':
-    case 'rating':
       return 'number';
     case 'cover':
       return 'url';
@@ -18,32 +34,25 @@ const formType = (field: string) => {
     case 'published_in':
     case 'genres':
       return 'select';
-    case 'id':
-    case 'last_update':
-    case 'deleted':
-    case 'track':
-      return 'none';
     default:
       return 'text';
   }
 }
 
-const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement | null>(null);
+
+const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
+  const focusInputRef = useRef<HTMLInputElement>();
+  const [formState, setFormState] = useState(createComicEmpty);
+
   useEffect(() => {
-    if (isOpen && focusInputRef.current) {
+    if (isOpen && focusInputRef?.current) {
       setTimeout(() => { focusInputRef.current?.focus(); }, 0);
     }
   }, [isOpen]);
 
-  const [formState, setFormState] = useState(comic);
-  useEffect(() => {
-    setFormState(comic);
-  }, [comic]);
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (await onSubmit(formState)) setFormState(comic);
+    if (await onSubmit(formState)) setFormState(createComicEmpty);
   };
 
   return (
@@ -65,11 +74,11 @@ const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, on
         )}
 
         <div className='form-row'>
-          <button className='basic-button' type='submit'>UPDATE</button>
+          <button className='basic-button' type='submit'>CREATE</button>
         </div>
       </form>
     </Modal>
   );
 };
 
-export default EditComicModal;
+export default CreateComicModal;

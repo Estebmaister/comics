@@ -25,7 +25,7 @@ const mergeComic: (baseID: number, mergingID: number, server?: string) => Promis
 
 const MergeComic = () => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState<any>(null);
+  const [comicFormData, setComicFormData] = useState<Record<string, any>>({});
   const [msg, setMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);
@@ -43,7 +43,7 @@ const MergeComic = () => {
   };
 
   // Send information to the server and renders a msg from response
-  const handleFormSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: Record<string, any>) => {
     setComicFormData(data);
     setHideMsg(false);
     setShowMsg(true);

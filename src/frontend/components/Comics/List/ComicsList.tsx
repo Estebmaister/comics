@@ -1,15 +1,15 @@
 import { Comic } from '../types';
-import { ComicCard } from '../Card/ComicCard';
-import { loadMsgs } from '../../../util/ServerHelpers';
 import { CSS_CLASSES } from '../constants';
+import ComicCard from '../Card/ComicCard';
+import LoadMsgs from '../../Loaders/LoadMsgs';
 
 interface ComicsListProps {
   comics: Comic[];
-  loadMsg: string;
+  loadMsg: string | JSX.Element;
   queryFilter: string;
 }
 
-export const ComicsList: React.FC<ComicsListProps> = ({
+const ComicsList: React.FC<ComicsListProps> = ({
   comics,
   loadMsg,
   queryFilter
@@ -17,7 +17,7 @@ export const ComicsList: React.FC<ComicsListProps> = ({
   if (comics.length === 0) {
     return (
       <h1 className={CSS_CLASSES.serverMessage}>
-        {loadMsg || loadMsgs.empty(queryFilter)}
+        {loadMsg || LoadMsgs.empty(queryFilter)}
       </h1>
     );
   }
@@ -25,11 +25,13 @@ export const ComicsList: React.FC<ComicsListProps> = ({
   return (
     <ul className={CSS_CLASSES.comicList}>
       {comics.map((comic) => (
-        <ComicCard 
-          comic={comic} 
-          key={comic.id} 
+        <ComicCard
+          comic={comic}
+          key={comic.id}
         />
       ))}
     </ul>
   );
 };
+
+export default ComicsList;

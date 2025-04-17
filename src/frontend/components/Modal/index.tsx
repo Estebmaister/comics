@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState, KeyboardEvent } from 'react';
 import './Modal.css';
 
-const Modal = ({ isOpen, hasCloseBtn = true, onClose, children }: any) => {
+const Modal = ({ isOpen, hasCloseBtn = true, onClose, children }: Record<string, any>) => {
   const [isModalOpen, setModalOpen] = useState(isOpen);
-  const modalRef = useRef<any>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
 
   const handleCloseModal = () => {
     if (onClose) onClose();

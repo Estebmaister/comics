@@ -6,8 +6,8 @@ import config from '../../../util/Config';
 import db_classes from '../../../../db/db_classes.json';
 
 const SERVER = config.SERVER;
-const edit: (comic: any, server?: string) => Promise<[any | null, string]> =
-  async (comic: any, server = SERVER) => {
+const edit: (comic: Record<string, any>, server?: string) => Promise<[Record<string, any> | undefined, string]> =
+  async (comic: Record<string, any>, server = SERVER) => {
     let newData;
     let msg = '';
     comic.last_update = new Date().getTime();
@@ -24,22 +24,22 @@ const edit: (comic: any, server?: string) => Promise<[any | null, string]> =
       .then((data) => {
         console.debug(data);
         if (data?.message !== undefined) {
-          newData = null;
+          newData = undefined;
           msg = data.message;
         }
         else newData = data;
       })
       .catch((err) => {
         console.debug(err.message);
-        newData = null;
+        newData = undefined;
         msg = err.message;
       });
     return [newData, msg];
   };
 
 const EditComic = (props: {
-  comic: any,
-  setComic: { (value: SetStateAction<any>): void; },
+  comic: Record<string, any>,
+  setComic: { (value: SetStateAction<Record<string, any>>): void; },
   setViewed: { (value: SetStateAction<boolean>): void; },
 }) => {
   const { comic, setComic, setViewed } = props;
@@ -65,7 +65,7 @@ const EditComic = (props: {
     setHideMsg(false);
     setShowMsg(true);
 
-    if (newData != null) {
+    if (newData !== undefined) {
       setComic(newData);
       setViewed(newData?.viewed_chap);
       handleCloseEditComicModal();

@@ -3,14 +3,14 @@ import styles from './ComicCard.module.css'
 import BrokenImage from '../../../assets/404.jpg'
 import { Types, Statuses } from '../../../util/ComicClasses';
 import { trackComic, checkoutComic, delComic } from '../../../util/ServerHelpers';
-import { genresHandler, publishersHandler } from './helpers';
+import { genresHandler, publishersHandler } from './ComicFormatters';
 import EditComic from '../Edition/EditComic';
-import CopyableSpan from '../components/CopyableSpan';
+import CopyableSpan from './CopyableSpan';
 
 // TODO: Research a solution for image sourcing
 // const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
 
-export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
+const ComicCard = (props: { comic: Record<string, any>; }): JSX.Element | null => {
   const [comic, setComic] = useState(props.comic);
   const { id, cover, current_chap } = comic;
   const [viewedChap, setViewedChap] = useState(comic.viewed_chap);
@@ -87,3 +87,5 @@ export const ComicCard = (props: { comic: any; }): JSX.Element | null => {
     <EditComic comic={comic} setComic={setComic} setViewed={setViewedChap} />
   </li>)
 };
+
+export default ComicCard;

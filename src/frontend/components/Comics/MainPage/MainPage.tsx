@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import '../../css/main.css';
+import '../../../css/main.css';
 
-import { NavigationBar } from './components/NavigationBar';
-import { ComicsList } from './components/ComicsList';
-import CreateComic from './Edition/CreateComic';
-import MergeComic from './Edition/MergeComic';
-import ScrapeButton from './Edition/ScrapeButton';
-import { dataFetch } from '../../util/ServerHelpers';
-import { Comic, PaginationState } from './types';
-import { calculateInlineComics } from './utils';
-import { COMICS_PER_ROW, REFRESH_INTERVAL } from './constants';
+import { NavigationBar } from '../List/NavigationBar';
+import ComicsList from '../List/ComicsList';
+import CreateComic from '../Edition/CreateComic';
+import MergeComic from '../Edition/MergeComic';
+import ScrapeButton from '../Edition/ScrapeButton';
+import { dataFetch } from '../../../util/ServerHelpers';
+import { Comic, PaginationState } from '../types';
+import { calculateInlineComics } from '../utils';
+import { COMICS_PER_ROW, REFRESH_INTERVAL } from '../constants';
 
 export function ComicsMainPage() {
   // URL parameters and state
   const [searchParams, setSearchParams] = useSearchParams();
   const [webComics, setWebComics] = useState<Comic[]>([]);
   const [paginationDict, setPaginationDict] = useState<PaginationState>({});
-  const [loadMsg, setLoadMsg] = useState('');
+  const [loadMsg, setLoadMsg] = useState<string | JSX.Element>('');
 
   // Parse URL parameters
   const onlyUnchecked = searchParams.get('onlyUnchecked') === 'true';

@@ -2,7 +2,7 @@ const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 const InputDiv = (
   { focusInputRef, type, field, value, handleInputChange,
-    selectOptDict = {}, multiple = undefined, className = 'form-row' }: any
+    selectOptDict = {}, multiple = undefined, className = 'form-row' }: Record<string, any>
 ): JSX.Element | null => {
   const fieldTitle = capitalize(field).split('_').join(' ');
   if (field === 'titles' && typeof (value) === 'object') value = value.join('|');

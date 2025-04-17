@@ -21,7 +21,7 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = event.target;
-    let newEntry: any;
+    let newEntry: string | number | boolean;
     if (type === 'select-one') newEntry = parseInt(value);
     else if (type === 'checkbox') newEntry = checked;
     else newEntry = value;

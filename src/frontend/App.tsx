@@ -1,7 +1,7 @@
 import { Component, ChangeEvent } from 'react';
 import rawComics from '../db/comics.json';
 import { Comic } from '@pb/comics';
-import { ComicCard } from './modules/Comics/Card/ComicCard';
+import ComicCard from './components/Comics/Card/ComicCard';
 
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
@@ -15,7 +15,7 @@ typedComicsJSON = typedComicsJSON.sort((a, b) => {
   return bTimestamp - aTimestamp;
 });
 
-const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean) =>
+const filter_comics = (comics: Record<string, any>[], filter_word: string, tracked_only: boolean) =>
   comics.filter((com) => {
     for (const title of com.titles) {
       if (tracked_only && !com.track) {
@@ -31,7 +31,7 @@ const filter_comics = (comics: any[], filter_word: string, tracked_only: boolean
 type searchState = {
   username: string,
   search_string: string,
-  f_comics: any[], // A slice with current filtered comics.
+  f_comics: Record<string, any>[], // A slice with current filtered comics.
   tracked_only: boolean,
   // Pagination
   from: number,
@@ -88,7 +88,7 @@ class SearchDiv extends Component<{}, searchState> {
 
     const FROM = reset_pag ? 0 : this.state.from;
     const LIMIT = this.state.limit;
-    let filtered_comics: any[];
+    let filtered_comics: Record<string, any>[];
     let new_total: number;
 
     if (filter_word !== '' || this.state.tracked_only === true) {
@@ -190,7 +190,7 @@ class SearchDiv extends Component<{}, searchState> {
       </div>
 
       <ul className='comic-list'> {
-        this.state.f_comics.map((item: { id: number; }, _i: number) =>
+        this.state.f_comics.map((item) =>
           <ComicCard comic={item} key={item.id} />
         )
       } </ul>

@@ -3,7 +3,7 @@ import { SetURLSearchParams } from 'react-router-dom';
 import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER, CSS_CLASSES } from '../constants';
 import { handleOnlyTracked, handleOnlyUnchecked, handleSearchInput } from '../utils';
 import { PaginationData } from '../types';
-import PaginationButtons from '../PaginationButtons';
+import PaginationButtons from './PaginationButtons';
 
 interface NavigationBarProps {
   onlyTracked: boolean;
@@ -70,7 +70,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
         negativeMsg={BUTTON_TEXT.tracked(total)}
         className={`${CSS_CLASSES.basicButton} ${CSS_CLASSES.allTrackButton}`}
       />
-      
+
       <ConditionalButton
         showFlag={onlyTracked}
         condFlag={onlyUnchecked}

@@ -220,10 +220,10 @@ def merge_comics(base_id: int, merging_id: int) -> (dict, str):
     if base_id == merging_id:
         return None, 'Cannot merge comic with itself'
     with Session() as session:
-        comic = session.query(ComicDB).get(base_id)
+        comic: ComicDB | None = session.query(ComicDB).get(base_id)
         if comic is None:
             return None, COMIC_NOT_FOUND.format(base_id)
-        d_comic = session.query(ComicDB).get(merging_id)
+        d_comic: ComicDB | None = session.query(ComicDB).get(merging_id)
         if d_comic is None:
             return None, COMIC_NOT_FOUND.format(merging_id)
         if d_comic.com_type != 0 and comic.com_type != d_comic.com_type:
@@ -254,7 +254,7 @@ def merge_comics(base_id: int, merging_id: int) -> (dict, str):
             comic.current_chap = d_comic.current_chap
         if comic.viewed_chap < d_comic.viewed_chap:
             comic.viewed_chap = d_comic.viewed_chap
-        if not comic.track & d_comic.track:
+        if not comic.track and d_comic.track:
             comic.track = d_comic.track
         if comic.rating == 0:
             comic.rating = d_comic.rating

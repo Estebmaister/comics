@@ -6,7 +6,7 @@ import config from '../../../util/Config';
 import db_classes from '../../../../db/db_classes.json';
 
 const SERVER = config.SERVER;
-const create: (comic: any, server?: string) => Promise<string> = async (comic, server = SERVER) => {
+const create: (comic: Record<string, any>, server?: string) => Promise<string> = async (comic, server = SERVER) => {
   let msg = '';
   const last_update = { last_update: new Date().getTime() }
   const titles = { titles: [comic.title] };
@@ -33,7 +33,7 @@ const create: (comic: any, server?: string) => Promise<string> = async (comic, s
 
 const CreateComic = () => {
   const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState<any>(null);
+  const [comicFormData, setComicFormData] = useState<Record<string, any>>({});
   const [msg, setMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
   const [hideMsg, setHideMsg] = useState(false);

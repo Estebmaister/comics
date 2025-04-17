@@ -1,11 +1,16 @@
-import { SetStateAction } from 'react';
-import Loaders from '../modules/Loaders';
+import { SetStateAction, Dispatch } from 'react';
+import LoadMsgs from '../components/Loaders/LoadMsgs';
 import config from './Config';
+import { Comic } from '../components/Comics/types';
 
 const SERVER = config.SERVER;
 
 const dataFetch = (
-  setters: { setWebComics: any; setPaginationDict: any; setLoadMsg: any; },
+  setters: { 
+    setWebComics: Dispatch<SetStateAction<Comic[]>>,
+    setPaginationDict: (value: Record<string, any>) => void; 
+    setLoadMsg: (value: string | JSX.Element) => void; 
+  },
   from: number, limit: number, queryFilter: string,
   onlyTracked: boolean, onlyUnchecked: boolean
 ) => {
@@ -15,7 +20,7 @@ const dataFetch = (
   const URL = `${BASE_URL}?from=${from}&limit=${limit}&only_tracked=${onlyTracked}&only_unchecked=${onlyUnchecked}`;
   const { setWebComics, setPaginationDict, setLoadMsg } = setters;
   console.debug(URL);
-  setLoadMsg(loadMsgs.wait);
+  setLoadMsg(LoadMsgs.wait);
   fetch(URL, {
     method: 'GET',
     headers: { 'accept': 'application/json' },
@@ -32,13 +37,13 @@ const dataFetch = (
     })
     .then((data) => {
       if (data['message'] !== undefined) {
-        setLoadMsg(loadMsgs.server);
+        setLoadMsg(LoadMsgs.server);
         setWebComics([]);
       } else setWebComics(data);
       console.debug('Response succeed', data);
     })
     .catch((err) => {
-      setLoadMsg(loadMsgs.network);
+      setLoadMsg(LoadMsgs.network);
       console.log(err.message);
     });
 };
@@ -106,14 +111,4 @@ const delComic = (
     });
 };
 
-const loadMsgs = {
-  network: <>
-    {'Network error in attempt to connect the server'}
-    <Loaders selector='lamp' />
-  </>,
-  server: <>{'Server internal error'} <Loaders selector='battery' /></>,
-  wait: <>{'Waking up server ...'} <Loaders selector='line-fw' /></>,
-  empty: (queryFilter: any) => `No comics found for title: ${queryFilter}`
-}
-
-export { dataFetch, trackComic, checkoutComic, delComic, loadMsgs };
+export { dataFetch, trackComic, checkoutComic, delComic };
