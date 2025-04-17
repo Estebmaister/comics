@@ -386,6 +386,33 @@
     "deleted": false
   },
   {
+    "id": 41,
+    "titles": [
+      "Return of the unrivaled spear knight",
+      "Return of the legendary spear knight"
+    ],
+    "current_chap": 169,
+    "cover": "https://gg.asuracomic.net/storage/media/49/conversions/62df3d3f-thumb-small.webp",
+    "last_update": "2025-04-12T18:44:09+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      1,
+      2,
+      17,
+      19
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Jo Huang,Studio Ignis,Teacher Jo",
+    "track": true,
+    "viewed_chap": 139,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 43,
     "titles": [
       "Academy\u2019s undercover professor"
@@ -1881,7 +1908,7 @@
     ],
     "current_chap": 128,
     "cover": "https://gg.asuracomic.net/storage/media/46/conversions/c20e9fb0-thumb-small.webp",
-    "last_update": "2025-04-17T06:01:27+00:00",
+    "last_update": "2025-04-17T06:17:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -3377,7 +3404,7 @@
     ],
     "current_chap": 57,
     "cover": "https://gg.asuracomic.net/storage/media/137/conversions/badd8629-thumb-small.webp",
-    "last_update": "2025-04-17T06:01:27+00:00",
+    "last_update": "2025-04-17T06:17:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -3402,7 +3429,7 @@
     ],
     "current_chap": 68,
     "cover": "https://gg.asuracomic.net/storage/media/296/conversions/01J7T6WWJR91P2Q26YR40RDGHC-thumb-small.webp",
-    "last_update": "2025-04-17T06:01:27+00:00",
+    "last_update": "2025-04-17T06:17:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -7540,6 +7567,29 @@
     "deleted": false
   },
   {
+    "id": 2443,
+    "titles": [
+      "2 dome no jinsei wa oshi no shokuryo desu ?"
+    ],
+    "current_chap": 16,
+    "cover": "https://img-r1.2xstorage.com/thumb/2-dome-no-jinsei-wa-oshi-no-shokuryo-desu.webp",
+    "last_update": "2025-04-17T06:18:03+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kurakura",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 2459,
     "titles": [
       "Sigrid"
@@ -8674,6 +8724,29 @@
     ],
     "description": "",
     "author": "Jangtan  ,  What The Hell",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 2941,
+    "titles": [
+      "Dong gun"
+    ],
+    "current_chap": 161,
+    "cover": "https://img-r1.2xstorage.com/thumb/dong-gun.webp",
+    "last_update": "2025-04-17T06:18:03+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Dan-Ee Lee, Ji-Woo Shin",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -10149,6 +10222,29 @@
     "deleted": false
   },
   {
+    "id": 3579,
+    "titles": [
+      "Kyatapi land"
+    ],
+    "current_chap": 20,
+    "cover": "https://img-r1.2xstorage.com/thumb/kyatapi-land.webp",
+    "last_update": "2025-04-17T06:18:03+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "Kyata",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 3597,
     "titles": [
       "A golden fate that transcends time"
@@ -10640,7 +10736,7 @@
     ],
     "current_chap": 62,
     "cover": "https://gg.asuracomic.net/storage/media/272899/conversions/01JMQ4JZ5Z3Y2ECZ8MZ400865A-thumb-small.webp",
-    "last_update": "2025-04-17T06:01:27+00:00",
+    "last_update": "2025-04-17T06:17:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -12027,13 +12123,14 @@
     "titles": [
       "The strongest raised by dragons"
     ],
-    "current_chap": 24,
+    "current_chap": 25,
     "cover": "https://readermc.org/images/thumbnails/The Strongest Raised by Dragons.webp",
-    "last_update": "2025-04-15T02:21:06+00:00",
+    "last_update": "2025-04-17T06:18:03+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
-      19
+      19,
+      17
     ],
     "genres": [
       0
@@ -13217,7 +13314,7 @@
     ],
     "current_chap": 7,
     "cover": "https://gg.asuracomic.net/storage/media/285459/conversions/01JR86HQYMB9MMBPA3H5RZ7EEE-thumb-small.webp",
-    "last_update": "2025-04-17T06:01:27+00:00",
+    "last_update": "2025-04-17T06:17:58+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32548,6 +32645,29 @@
     "deleted": false
   },
   {
+    "id": 5467,
+    "titles": [
+      "The seven knights of the marronnier kingdom"
+    ],
+    "current_chap": 16,
+    "cover": "https://img-r1.2xstorage.com/thumb/the-seven-knights-of-the-marronnier-kingdom.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 5468,
     "titles": [
       "The villain family's new daughter-in-law"
@@ -32555,6 +32675,29 @@
     "current_chap": 43,
     "cover": "https://img-r1.2xstorage.com/thumb/the-villain-family-s-new-daughter-in-law.webp",
     "last_update": "2025-04-17T06:01:25+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5468,
+    "titles": [
+      "Possessed by a cotton ball"
+    ],
+    "current_chap": 15,
+    "cover": "https://img-r1.2xstorage.com/thumb/possessed-by-a-cotton-ball.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32594,13 +32737,13 @@
     "deleted": false
   },
   {
-    "id": 2941,
+    "id": 5469,
     "titles": [
-      "Dong gun"
+      "What happens when the second male lead goes on strike"
     ],
-    "current_chap": 161,
-    "cover": "https://img-r1.2xstorage.com/thumb/dong-gun.webp",
-    "last_update": "2025-04-17T06:01:41+00:00",
+    "current_chap": 76,
+    "cover": "https://img-r1.2xstorage.com/thumb/what-happens-when-the-second-male-lead-goes-on-strike.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32610,7 +32753,7 @@
       0
     ],
     "description": "",
-    "author": "Dan-Ee Lee, Ji-Woo Shin",
+    "author": "",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -32624,6 +32767,29 @@
     "current_chap": 4,
     "cover": "https://img-r1.2xstorage.com/thumb/gravity-falls.webp",
     "last_update": "2025-04-17T06:01:25+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5470,
+    "titles": [
+      "Captive love: the knight captain i took care of seems to be doting on me"
+    ],
+    "current_chap": 53,
+    "cover": "https://img-r1.2xstorage.com/thumb/captive-love-the-knight-captain-i-took-care-of-seems-to-be-doting-on-me.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32663,6 +32829,29 @@
     "deleted": false
   },
   {
+    "id": 5471,
+    "titles": [
+      "Illusion blessing"
+    ],
+    "current_chap": 30,
+    "cover": "https://img-r1.2xstorage.com/thumb/illusion-blessing.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 5472,
     "titles": [
       "The villainess refuses to flirt with the male lead"
@@ -32670,6 +32859,29 @@
     "current_chap": 86,
     "cover": "https://img-r1.2xstorage.com/thumb/the-villainess-refuses-to-flirt-with-the-male-lead.webp",
     "last_update": "2025-04-17T06:01:25+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5472,
+    "titles": [
+      "My master likes to be spanked"
+    ],
+    "current_chap": 32,
+    "cover": "https://img-r1.2xstorage.com/thumb/my-master-likes-to-be-spanked.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32709,6 +32921,29 @@
     "deleted": false
   },
   {
+    "id": 5473,
+    "titles": [
+      "Kuni ni saikyou no barrier wo hattara heiwa ni narisugite tsuihou saremashita. sono barrier, eizoku janai yo?"
+    ],
+    "current_chap": 11,
+    "cover": "https://img-r1.2xstorage.com/thumb/kuni-ni-saikyou-no-barrier-wo-hattara-heiwa-ni-narisugite-tsuihou-saremashita-sono-barrier-eizoku-janai-yo.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 5474,
     "titles": [
       "The stone thrown in the lake"
@@ -32716,6 +32951,29 @@
     "current_chap": 32,
     "cover": "https://img-r1.2xstorage.com/thumb/the-stone-thrown-in-the-lake.webp",
     "last_update": "2025-04-17T06:01:25+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5474,
+    "titles": [
+      "Ventablack"
+    ],
+    "current_chap": 26,
+    "cover": "https://img-r1.2xstorage.com/thumb/ventablack.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32755,6 +33013,29 @@
     "deleted": false
   },
   {
+    "id": 5475,
+    "titles": [
+      "The villain family's new daughter-in-law"
+    ],
+    "current_chap": 43,
+    "cover": "https://img-r1.2xstorage.com/thumb/the-villain-family-s-new-daughter-in-law.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 5476,
     "titles": [
       "Noah's contract: i'm an npc in another world"
@@ -32778,13 +33059,13 @@
     "deleted": false
   },
   {
-    "id": 3579,
+    "id": 5476,
     "titles": [
-      "Kyatapi land"
+      "The inspection has changed"
     ],
-    "current_chap": 20,
-    "cover": "https://img-r1.2xstorage.com/thumb/kyatapi-land.webp",
-    "last_update": "2025-04-17T06:01:41+00:00",
+    "current_chap": 33,
+    "cover": "https://img-r1.2xstorage.com/thumb/the-inspection-has-changed.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
@@ -32794,7 +33075,7 @@
       0
     ],
     "description": "",
-    "author": "Kyata",
+    "author": "",
     "track": false,
     "viewed_chap": 0,
     "rating": 0,
@@ -32824,6 +33105,29 @@
     "deleted": false
   },
   {
+    "id": 5477,
+    "titles": [
+      "Gravity falls"
+    ],
+    "current_chap": 4,
+    "cover": "https://img-r1.2xstorage.com/thumb/gravity-falls.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
     "id": 5478,
     "titles": [
       "Asura's verdict"
@@ -32831,6 +33135,190 @@
     "current_chap": 11,
     "cover": "https://img-r1.2xstorage.com/thumb/asura-s-verdict.webp",
     "last_update": "2025-04-17T06:01:25+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5478,
+    "titles": [
+      "Hero has returned (fungback)"
+    ],
+    "current_chap": 154,
+    "cover": "https://img-r1.2xstorage.com/thumb/hero-has-returned-fungback.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5479,
+    "titles": [
+      "The villainess refuses to flirt with the male lead"
+    ],
+    "current_chap": 86,
+    "cover": "https://img-r1.2xstorage.com/thumb/the-villainess-refuses-to-flirt-with-the-male-lead.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5480,
+    "titles": [
+      "Sisters at war"
+    ],
+    "current_chap": 98,
+    "cover": "https://img-r1.2xstorage.com/thumb/sisters-at-war.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5481,
+    "titles": [
+      "The stone thrown in the lake"
+    ],
+    "current_chap": 32,
+    "cover": "https://img-r1.2xstorage.com/thumb/the-stone-thrown-in-the-lake.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5482,
+    "titles": [
+      "Oishinbo: \u00e0 la carte"
+    ],
+    "current_chap": 157,
+    "cover": "https://img-r1.2xstorage.com/thumb/oishinbo-a-la-carte.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5483,
+    "titles": [
+      "Noah's contract: i'm an npc in another world"
+    ],
+    "current_chap": 10,
+    "cover": "https://img-r1.2xstorage.com/thumb/noah-s-contract-i-m-an-npc-in-another-world.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5484,
+    "titles": [
+      "Absolute person in every corner"
+    ],
+    "current_chap": 26,
+    "cover": "https://img-r1.2xstorage.com/thumb/absolute-person-in-every-corner.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
+    "com_type": 3,
+    "status": 2,
+    "published_in": [
+      17
+    ],
+    "genres": [
+      0
+    ],
+    "description": "",
+    "author": "",
+    "track": false,
+    "viewed_chap": 0,
+    "rating": 0,
+    "deleted": false
+  },
+  {
+    "id": 5485,
+    "titles": [
+      "Asura's verdict"
+    ],
+    "current_chap": 11,
+    "cover": "https://img-r1.2xstorage.com/thumb/asura-s-verdict.webp",
+    "last_update": "2025-04-17T06:17:57+00:00",
     "com_type": 3,
     "status": 2,
     "published_in": [
