@@ -67,8 +67,8 @@ remote:
 		exit 1; \
 	fi
 	@echo "Running detached web server and scraper, logs will be saved to ./output.log"
-	@echo "PID will be saved to ./server.pid"
 	$(ACT_VENV) && (python3 src scrape server > ./output.log 2>&1 & echo $$! > ./server.pid)
+	@echo "PID $$(cat ./server.pid) saved to ./server.pid"
 
 ## stop          Stop the background process using the PID file
 stop:
@@ -78,7 +78,7 @@ stop:
 		i=0; \
 		while ps -p $$PID > /dev/null; do \
 			kill $$PID > /dev/null 2>&1; \
-			printf "\rKilling process $$PID... %s" $${SPIN:$$i%4:1}; \
+			printf "\rKilling process $$PID... %s" $$(echo $$SPIN | cut -c $$(($$i % 4 + 1))); \
 			i=$$((i + 1)); \
 			sleep 0.3; \
 		done; \
