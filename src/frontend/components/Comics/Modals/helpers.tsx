@@ -20,9 +20,6 @@ export function handleInputChange<T extends Record<string, any>>(
     else if (type === 'select-multiple') newEntry = Object
       .values(selectedOptions)?.map((options: any) => +options.value);
     else newEntry = value;
-    setFormState(prevState => ({
-      ...prevState,
-      [name]: newEntry,
-    }));
+    setFormState(prevState => ({ ...prevState, [name]: newEntry, }));
   };
 };

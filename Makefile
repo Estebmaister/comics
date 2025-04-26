@@ -1,6 +1,8 @@
 # Define phony targets (targets that don't represent actual files)
-.PHONY: activate venv venvclean start server scrape update-py \
-        setup proto-py proto-go clean migrate-up migrate-down test help
+.PHONY: activate venv venvclean start deploy server scrape remote stop \
+				backup repopulate db_update update-py setup-py setup clean \
+				proto-py proto-go migrate-up migrate-down test-front test-py test-go \
+				dockerize docker chokidar help
 
 # Enable running multiple commands in a recipe using a single shell
 .ONESHELL:
@@ -103,9 +105,25 @@ db_update:
 	$(ACT_VENV) && \
 	python3 -c 'from src.db.db_update import main; main()'
 
-## py-test       Run python tests
-test-py:
-	$(ACT_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
+## update-py     Update all Python dependencies to latest versions
+update-py:
+	$(ACT_VENV) && \
+	cat requirements.txt | cut -f1 -d= | xargs pip install -U && \
+	pip freeze > requirements.txt
+
+## setup-py      Initialize Python environment and dependencies
+setup-py:
+	@echo "\nPython setup..."
+	$(ACT_VENV) && pip install -r requirements.txt
+
+## setup         Initialize both Go and Python environments
+setup:
+	@echo "Setting up the servers..."
+	chmod +x .githooks/pre-commit
+	(cd go_server && go mod tidy)
+	$(MAKE) setup-py
+	$(MAKE) proto-py
+	$(MAKE) proto-go
 
 # Protobuf configuration
 # Directory containing .proto files
@@ -129,26 +147,6 @@ GO_SERVICE_OUT := $(GO_OUT)
 PROTOC := protoc
 PYTHON_GRPC := python3 -m grpc_tools.protoc
 GO_GRPC := protoc-gen-go-grpc
-
-## update-py     Update all Python dependencies to latest versions
-update-py:
-	$(ACT_VENV) && \
-	cat requirements.txt | cut -f1 -d= | xargs pip install -U && \
-	pip freeze > requirements.txt
-
-## setup-py      Initialize Python environment and dependencies
-setup-py:
-	@echo "\nPython setup..."
-	$(ACT_VENV) && pip install -r requirements.txt
-
-## setup         Initialize both Go and Python environments
-setup:
-	@echo "Setting up the servers..."
-	chmod +x .githooks/pre-commit
-	(cd go_server && go mod tidy)
-	$(MAKE) setup-py
-	$(MAKE) proto-py
-	$(MAKE) proto-go
 
 ## proto-py      Generate Python Protobuf files from definitions
 proto-py:
@@ -196,9 +194,17 @@ migrate-up:
 migrate-down:
 	go run go_server/cmd/migrate/main.go down
 
-## test          Run all Go tests
-test:
+## test-go       Run all Go tests
+test-go:
 	go test -v go_server/...
+
+## test-front    Run all Frontend tests
+test-front:
+	npm run test
+
+## test-py       Run all Python tests
+test-py:
+	$(ACT_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
 
 ## clean         Clean up all generated files and caches
 clean:
@@ -208,3 +214,15 @@ clean:
 	@rm -rf $(GO_PROTO_OUT)/*.pb.go
 	@rm -rf $(GO_SERVICE_OUT)/*.pb.go
 	find . -type d -name "__pycache__" -exec rm -r {} +
+
+## dockerize    Build Docker image
+dockerize:
+	docker build -t comic-tracker .
+
+## docker       Run Docker container
+docker:
+	docker run -p 5001:5001 comic-tracker
+
+## chokidar     Run Docker container with chokidar
+chokidar:
+	docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5001:5001 comic-tracker

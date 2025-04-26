@@ -93,14 +93,15 @@ def create_comic(comic: ComicDB, session: SessionType = None) -> (dict | None):
             with Session() as s:
                 s.add(comic)
                 s.commit()
+                comicJSON = comic.toJSON()
         else:
             session.add(comic)
             session.commit()
-        comicJSON = comic.toJSON()
+            comicJSON = comic.toJSON()
         load_comics.append(comicJSON)
         save_comics_file(load_comics)
     except Exception as err:
-        log.error('Failed to create comic (%s): %s', str(err), comic)
+        log.error('Failed to create comic: %s', err)
         return None
 
     log.info('Created new entry: %s', json.dumps(comicJSON))

@@ -16,8 +16,8 @@ const createComicEmpty = {
 
   com_type: 3,
   status: 2,
-  published_in: 0,
-  genres: 0,
+  published_in: ['0'],
+  genres: ['0'],
 };
 
 const formType = (field: string) => {
@@ -39,9 +39,8 @@ const formType = (field: string) => {
   }
 }
 
-
 const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement>();
+  const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(createComicEmpty);
 
   useEffect(() => {
@@ -70,6 +69,8 @@ const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose
             type={formType(kField)}
             handleInputChange={handleInputChange(setFormState)}
             multiple={kField === 'genres' || kField === 'published_in'}
+            required={kField === 'title'}
+            focus={kField === 'title'}
           />
         )}
 

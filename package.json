@@ -32,16 +32,11 @@
     }
   },
   "scripts": {
-    "dockerize": "docker build -t comic-tracker .",
-    "docker": "docker run -p 5001:5001 comic-tracker",
-    "chokidar": "docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5001:5001 comic-tracker",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "server": "python3 src/__main__.py server",
-    "scrape": "python3 src/__main__.py",
     "build": "react-scripts build",
-    "test": "CI=true react-scripts test && python3 test",
+    "test": "CI=true react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

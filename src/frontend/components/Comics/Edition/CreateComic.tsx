@@ -10,9 +10,7 @@ const create: (comic: Record<string, any>, server?: string) => Promise<string> =
   let msg = '';
   const last_update = { last_update: new Date().getTime() }
   const titles = { titles: [comic.title] };
-  const genres = { genres: [comic.genres] };
-  const published_in = { published_in: [comic.published_in] };
-  const data = { ...comic, ...last_update, ...titles, ...genres, ...published_in }
+  const data = { ...comic, ...last_update, ...titles }
   console.debug(JSON.stringify(data))
   await fetch(`${server}/comics`, {
     method: 'POST',

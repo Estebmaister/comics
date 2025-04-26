@@ -10,7 +10,7 @@ const mergeEmptyDict = {
 };
 
 const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement | null>(null);
+  const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
@@ -19,11 +19,11 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
     }
   }, [isOpen]);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked, type } = event.target;
-    let newEntry: string | number | boolean;
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = event.target;
+    let newEntry: string | number | string[];
     if (type === 'select-one') newEntry = parseInt(value);
-    else if (type === 'checkbox') newEntry = checked;
+    else if (type === 'checkbox') newEntry = value;
     else newEntry = value;
     setFormState((prevFormData) => ({
       ...prevFormData,
@@ -48,6 +48,8 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
             focusInputRef={focusInputRef}
             className={'form-row'}
             type={'number'}
+            required={true}
+            focus={kField === 'baseID'}
             handleInputChange={handleInputChange} />
         )}
 
