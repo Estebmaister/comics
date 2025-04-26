@@ -3,9 +3,9 @@ import { SetURLSearchParams } from 'react-router-dom';
 import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER, CSS_CLASSES } from '../constants';
 import { handleOnlyTracked, handleOnlyUnchecked, handleSearchInput } from '../utils';
 import { PaginationData } from '../types';
-import PaginationButtons from './PaginationButtons';
+import PagButtons from './PagButtons';
 
-interface NavigationBarProps {
+interface NavBarProps {
   onlyTracked: boolean;
   onlyUnchecked: boolean;
   total: number;
@@ -48,7 +48,7 @@ const ConditionalButton: React.FC<ConditionalButtonProps> = ({
   );
 };
 
-export const NavigationBar: React.FC<NavigationBarProps> = ({
+export const NavBar: React.FC<NavBarProps> = ({
   onlyTracked,
   onlyUnchecked,
   total,
@@ -89,7 +89,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
         onChange={handleInputChange}
       />
 
-      <PaginationButtons pagD={paginationData} />
+      <PagButtons pagD={paginationData} />
     </div>
   );
 };

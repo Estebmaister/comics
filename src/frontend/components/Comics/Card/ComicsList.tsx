@@ -1,6 +1,6 @@
 import { Comic } from '../types';
 import { CSS_CLASSES } from '../constants';
-import ComicCard from '../Card/ComicCard';
+import ComicCard from './ComicCard';
 import LoadMsgs from '../../Loaders/LoadMsgs';
 
 interface ComicsListProps {

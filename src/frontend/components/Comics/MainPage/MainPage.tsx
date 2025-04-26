@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../../../css/main.css';
 
-import { NavigationBar } from '../List/NavigationBar';
-import ComicsList from '../List/ComicsList';
+import { NavBar } from '../Navigation/NavBar';
+import ComicsList from '../Card/ComicsList';
 import CreateComic from '../Edition/CreateComic';
 import MergeComic from '../Edition/MergeComic';
 import ScrapeButton from '../Edition/ScrapeButton';
@@ -58,7 +58,7 @@ export function ComicsMainPage() {
 
   return (
     <>
-      <NavigationBar
+      <NavBar
         onlyTracked={onlyTracked}
         onlyUnchecked={onlyUnchecked}
         total={total}

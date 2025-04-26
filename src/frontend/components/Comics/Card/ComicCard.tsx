@@ -43,8 +43,8 @@ const ComicCard = (props: { comic: Record<string, any>; }): JSX.Element | null =
 
     {isHovering && (
       <CopyableSpan
-        copyText={id}
-        text={`ID: ${id}`}
+        textToCopy={id}
+        textToShow={`ID: ${id}`}
         className={styles.hoverID}
         onMouseOver={handleMouseOver}
         onFocus={handleMouseOver}

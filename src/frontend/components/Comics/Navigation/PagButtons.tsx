@@ -36,7 +36,7 @@ const handlePagination = (
   }, { replace: false });
 }
 
-export default function PaginationButtons({ pagD }: { pagD: PaginationData }) {
+export default function PagButtons({ pagD }: { pagD: PaginationData }) {
   return (<div className='div-pagination-buttons'>
     <button className={'basic-button bar-button reverse-button' +
       (pagD.onFirstPage ? ' disabled-button' : '')}
