@@ -175,6 +175,8 @@ cython_debug/
 .env.production.local
 todo
 server.pid
+tls/*.key
+tls/*.csr
 
 # logs
 *.log

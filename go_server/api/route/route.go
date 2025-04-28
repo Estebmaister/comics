@@ -122,7 +122,7 @@ func swaggerRouter(env *bootstrap.Env, basePath string, group *gin.RouterGroup) 
 	docs.SwaggerInfo.Host = env.HostURL
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	log.Info().
-		Str("URL", "http://"+env.AddressHTTP+":"+env.PortHTTP+"/swagger/index.html").
+		Str("URL", "https://"+env.AddressHTTP+":"+env.PortHTTP+"/swagger/index.html").
 		Msg("Swagger")
 
 	// Swagger API documentation

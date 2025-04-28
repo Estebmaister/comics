@@ -56,7 +56,14 @@ func main() {
 	// Running the server
 	srvErr := make(chan error, 1)
 	go func() {
-		srvErr <- g.Run(app.Env.AddressHTTP + ":" + app.Env.PortHTTP)
+		// check if certs exist:
+		certFile, keyFile := "../tls/comics.crt", "../tls/comics.key"
+		if _, err := os.Stat(certFile); os.IsNotExist(err) {
+			log.Warn().Msg("Failed to load X509 key pair, serving HTTP instead")
+			srvErr <- g.Run(app.Env.AddressHTTP + ":" + app.Env.PortHTTP)
+			return
+		}
+		srvErr <- g.RunTLS(app.Env.AddressHTTP+":"+app.Env.PortHTTP, certFile, keyFile)
 	}()
 
 	// Initialize the file comics database
