@@ -71,7 +71,8 @@ def run_server() -> None:
         http_server = WSGIServer(('0.0.0.0', PORT), SERVER)
         http_server.serve_forever()
     # Development
-    SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG)
+    SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG,
+               ssl_context=("./tls/comics.crt", "./tls/comics.key"))
 
 
 if 'server' in sys.argv and 'scrape' in sys.argv:

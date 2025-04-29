@@ -98,13 +98,17 @@ Should be triggered with every commit to the main branch on github repo
 
 ### Running frontend
 
+> TIP: Check the `tls` folder to configure certificates for https local mode
 ```sh
 npm install
+
 npm start
+# or
+npm run start:dev # runs in https local mode
 ```
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [https://localhost:3000](https://localhost:3000) to view it in the browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
