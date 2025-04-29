@@ -15,4 +15,5 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = localhost
 DNS.2 = realme.persian-nominal.ts.net
+DNS.3 = mac.persian-nominal.ts.net
 IP.1 = 127.0.0.1
