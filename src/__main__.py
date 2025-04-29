@@ -49,19 +49,18 @@ def run_server() -> None:
         SERVER,
         resources={
             r'/comics/*': {'origins': [
-                'http://localhost:*',
+                'http[s]://localhost:*',
                 'https://estebmaister.github.io/*',
                 # Tailscale magiclink and DNS
-                r'http://.*\.persian-nominal\.ts\.net(:\d+)?',
-                'http://100.103.47.96/*'
+                r'http[s]://.*\.persian-nominal\.ts\.net(:\d+)?',
+                'http[s]://100.103.47.96/*'
             ]},
             '/scrape': {'origins': [
-                'http://localhost:*',
+                'http[s]://localhost:*',
                 'https://estebmaister.github.io/*',
                 # Tailscale magiclink and DNS
-                r'http://.*\.persian-nominal\.ts\.net(:\d+)?',
-                'http://realme.persian-nominal.ts.net*',
-                'http://100.103.47.96/*'
+                r'http[s]://.*\.persian-nominal\.ts\.net(:\d+)?',
+                'http[s]://100.103.47.96/*'
             ]},
             r'/health/*': {'origins': '*'},
         }
