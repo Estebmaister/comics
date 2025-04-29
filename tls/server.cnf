@@ -5,10 +5,11 @@ req_extensions = v3_ext
 distinguished_name = req_distinguished_name
 
 [req_distinguished_name]
-CN = localhost
+CN = Comic Root CA
 
 [v3_ext]
-keyUsage = critical,digitalSignature,keyEncipherment,nonRepudiation,dataEncipherment
+basicConstraints = critical, CA:true
+keyUsage = critical, keyCertSign, cRLSign, digitalSignature,keyEncipherment,nonRepudiation,dataEncipherment
 extendedKeyUsage = critical,serverAuth,clientAuth
 subjectAltName = @alt_names
 
