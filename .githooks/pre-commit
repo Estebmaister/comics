@@ -33,11 +33,31 @@ if ! command -v curl &> /dev/null; then
     exit 1
 fi
 
-# 3) Run lint_ai.sh
-./.githooks/lint_ai.sh
+# 3) Start generate_docs.sh in background
+./.githooks/generate_docs.sh &
+pid1=$!
 
-# 4) Run generate_docs.sh
-./.githooks/generate_docs.sh
+# 4) Start lint_ai.sh in background
+./.githooks/lint_ai.sh &
+pid2=$!
 
-# all good
+# Wait for all background jobs to complete
+wait $pid1
+status1=$?
+
+wait $pid2
+status2=$?
+
+# Check exit codes
+if [ $status1 -ne 0 ]; then
+  echo "❌ generate_docs.sh failed." >&2
+  exit 1
+fi
+
+if [ $status2 -ne 0 ]; then
+  echo "❌ lint_ai.sh failed." >&2
+  exit 1
+fi
+
+echo "✅ All pre-commit tasks finished successfully."
 exit 0
