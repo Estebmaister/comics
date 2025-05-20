@@ -98,7 +98,9 @@ Should be triggered with every commit to the main branch on github repo
 
 ### Running frontend
 
-> TIP: Check the `tls` folder to configure certificates for https local mode
+> [!TIP]
+> Check the `tls` folder to configure certificates for https local mode
+
 ```sh
 npm install
 

@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+set -e
+
+AI_URL="http://localhost:11434/api/generate"
+AI_MODEL="phi4"
+
+# Assume $diff contains the Git diff output (with newlines)
+diff=$(git diff --cached)
+prompt="Write a concise git commit message, which output will be used as the commit message.
+\n\nWithout quotes, based on the following diff:\n\n$diff"
+
+# Build JSON safely using jq
+json=$(jq -n --arg model "$AI_MODEL" \
+  --arg prompt "$prompt" \
+  '{model: $model, prompt: $prompt, stream: false}')
+
+# Call Ollama API
+msg=$(curl -s -X POST $AI_URL \
+  -H "Content-Type: application/json" \
+  -d "$json" | jq -r .response)
+
+echo "$msg" > .git/COMMIT_EDITMSG

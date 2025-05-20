@@ -2,6 +2,9 @@
 #
 # pre-commit — abort if server.pid exists or is staged
 
+# Make sure we're operating from the repo root
+cd "$(git rev-parse --show-toplevel)"
+
 # 1) If it's staged for commit, reject
 if git diff --cached --name-only | grep -qE '^server\.pid$$'; then
   echo >&2 "✖  ERROR: You must not commit server.pid"
@@ -18,6 +21,23 @@ if [ -f server.pid ]; then
     *) echo "Aborting commit."; exit 1 ;;
   esac
 fi
+
+## Ensure required tools are available
+if ! command -v jq &> /dev/null; then
+    echo "❌ Error: jq is not installed or not in PATH" >&2
+    exit 1
+fi
+
+if ! command -v curl &> /dev/null; then
+    echo "❌ Error: curl is not installed or not in PATH" >&2
+    exit 1
+fi
+
+# 3) Run lint_ai.sh
+./.githooks/lint_ai.sh
+
+# 4) Run generate_docs.sh
+./.githooks/generate_docs.sh
 
 # all good
 exit 0
