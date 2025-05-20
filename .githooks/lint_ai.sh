@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "\nRunning AI lint for security logic and performance...\n\n"
+printf "Running AI lint for security logic and performance...\n\n"
 
 AI_URL="http://localhost:11434/api/generate"
 AI_MODEL="phi4"
@@ -18,12 +18,12 @@ if [ -z "$lint_diff" ]; then
 fi
 
 # Build prompt
-prompt="Given the following git diff, identify any logic, performance, or security issues:\n\n$lint_diff"
+lint_prompt="Given the following git diff, identify any logic, performance, or security issues:\n\n$lint_diff"
 
 # Prepare the JSON payload
 json_lint_payload=$(jq -n \
   --arg model "$AI_MODEL" \
-  --arg prompt "$prompt" \
+  --arg prompt "$lint_prompt" \
   --argjson stream false \
   '{model: $model, prompt: $prompt, stream: $stream}')
 

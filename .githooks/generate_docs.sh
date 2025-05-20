@@ -1,7 +1,7 @@
 # generate_docs.sh
 #!/bin/bash
 
-printf "\nGenerating changelog...\n\n"
+printf "Generating changelog...\n\n"
 
 AI_URL="http://localhost:11434/api/generate"
 AI_MODEL="phi4"
@@ -14,14 +14,14 @@ set -e
 ch_diff=$(git diff HEAD~1)
 
 # Build prompt
-prompt="Generate a concise changelog entry, 
+ch_prompt="Generate a concise changelog entry, 
 which output will be directly added to the changelog .md file, 
 for the following diff:\n\n$ch_diff"
 
 # Prepare the JSON payload
 json_changelog_payload=$(jq -n \
   --arg model "$AI_MODEL" \
-  --arg prompt "$prompt" \
+  --arg prompt "$ch_prompt" \
   --argjson stream false \
   '{model: $model, prompt: $prompt, stream: $stream}')
 
