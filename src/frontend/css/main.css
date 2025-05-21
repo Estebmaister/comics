@@ -80,7 +80,7 @@ body {
   color: var(--secondary-color);
 
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   background: var(--color-deg-5);
   background-attachment: fixed;
@@ -253,12 +253,6 @@ p {
   color: #888
 }
 
-.tooltip_div {
-  margin-top: 100px;
-  position: relative;
-  display: inline-block;
-}
-
 /* Phone portrait view */
 @media only screen and (orientation: portrait) {
   body {
@@ -272,29 +266,4 @@ p {
   .comic-list {
     margin-top: 3em;
   }
-
-  body {
-    min-height: 0px;
-  }
-}
-
-.tooltip_div .tooltip {
-  visibility: hidden;
-  width: 170px;
-  background-color: blue;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  left: 50%;
-  margin-left: -60px;
-}
-
-.tooltip_div:hover .tooltip {
-  visibility: visible;
 }
