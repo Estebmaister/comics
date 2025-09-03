@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, JSX } from "react";
 
 const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 

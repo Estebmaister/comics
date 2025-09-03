@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import styles from './ComicCard.module.css'
 import BrokenImage from '../../../assets/404.jpg'
 import { Types, Statuses } from '../../../util/ComicClasses';

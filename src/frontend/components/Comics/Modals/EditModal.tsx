@@ -29,7 +29,7 @@ const formType = (field: string) => {
 }
 
 const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement>(null);
+  const focusInputRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
       setTimeout(() => { focusInputRef.current?.focus(); }, 0);

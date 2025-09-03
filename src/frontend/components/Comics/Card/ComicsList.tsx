@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Comic } from '../types';
 import { CSS_CLASSES } from '../constants';
 import ComicCard from './ComicCard';

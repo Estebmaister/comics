@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch } from 'react';
+import { SetStateAction, Dispatch, JSX } from 'react';
 import LoadMsgs from '../components/Loaders/LoadMsgs';
 import config from './Config';
 import { Comic } from '../components/Comics/types';

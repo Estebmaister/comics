@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../../../css/main.css';
 
