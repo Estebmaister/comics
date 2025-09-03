@@ -32,8 +32,8 @@ lint_response=$(curl -s -X POST $AI_URL \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
   -d "$json_lint_payload") || {
-    printf "❌ Error: Failed to get a response from the AI service when linting.\n\n" >&2
-    exit 1
+    printf "⚠️ Warning: Failed to get a response from the AI service when linting.\n\n" >&2
+    exit 0
 }
 
 # Extract and display the response

@@ -5,10 +5,12 @@ import ComicCard from './components/Comics/Card/ComicCard';
 
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
 
-let typedComicsJSON: Comic[] = rawComics.map((comic) => ({
-  ...comic,
-  last_update: new Date(comic.last_update), // Convert ISO string to Date
-}));
+let typedComicsJSON: Comic[] = rawComics.map((comic) => (
+  {
+    ...comic,
+    last_update: new Date(comic.last_update || '') // Convert ISO string to Date
+  }
+));
 typedComicsJSON = typedComicsJSON.sort((a, b) => {
   const aTimestamp = a.last_update?.getTime() ?? 0;
   const bTimestamp = b.last_update?.getTime() ?? 0;
