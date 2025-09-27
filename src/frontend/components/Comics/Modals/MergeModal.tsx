@@ -10,7 +10,7 @@ const mergeEmptyDict = {
 };
 
 const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement>({} as HTMLInputElement);
+  const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
