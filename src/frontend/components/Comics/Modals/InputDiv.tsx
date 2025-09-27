@@ -38,7 +38,7 @@ const InputDiv = (
           )}
         </select> :
         <input
-          ref={focus ? focusInputRef : undefined}
+          ref={focus ? (focusInputRef as React.Ref<HTMLInputElement>) : undefined}
           required={required}
           min={0}
           max={field === 'rating' ? 5 : undefined}
