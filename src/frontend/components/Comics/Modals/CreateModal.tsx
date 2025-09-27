@@ -40,7 +40,7 @@ const formType = (field: string) => {
 }
 
 const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
-  const focusInputRef = useRef<HTMLInputElement>({} as HTMLInputElement);
+  const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(createComicEmpty);
 
   useEffect(() => {

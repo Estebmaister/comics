@@ -3,7 +3,7 @@ import { ChangeEvent, JSX } from "react";
 const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 interface InputDivProps {
-  focusInputRef?: React.RefObject<HTMLInputElement>;
+  focusInputRef?: React.RefObject<HTMLInputElement | null>;
   type: string;
   field: string;
   value: string | number | string[] | boolean;
