@@ -1,10 +1,14 @@
 import { Component, ChangeEvent } from 'react';
-import rawComics from '../db/comics.json';
+import rawComicsJson from '../db/comics.json';
 import { Comic } from '@pb/comics';
 import ComicCard from './components/Comics/Card/ComicCard';
 
 export const COMIC_SEARCH_PLACEHOLDER = "Search by comic name";
+type ComicJSON = Omit<Comic, 'last_update'> & {
+  last_update: string;
+};
 
+const rawComics = rawComicsJson as ComicJSON[];
 let typedComicsJSON: Comic[] = rawComics.map((comic) => (
   {
     ...comic,
@@ -204,4 +208,4 @@ export const App = () => {
   return <>
     <SearchDiv />
   </>
-}
+};
