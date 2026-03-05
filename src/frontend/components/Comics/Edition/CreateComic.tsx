@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import CreateComicModal from '../Modals/CreateModal';
+import React, { lazy, Suspense, useState } from 'react';
 import OpMsg from './OpMsg';
 import './CreateComic.css';
 import config from '../../../util/Config';
 import db_classes from '../../../../db/db_classes.json';
+import Loaders from '../../Loaders';
 
 const SERVER = config.SERVER;
+const CreateComicModal = lazy(() => import('../Modals/CreateModal'));
 const create: (comic: Record<string, any>, server?: string) => Promise<string> = async (comic, server = SERVER) => {
   let msg = '';
   const last_update = { last_update: new Date().getTime() }
@@ -78,11 +79,13 @@ const CreateComic = () => {
       setHideMsg={setHideMsg}
     />
 
-    <CreateComicModal
-      isOpen={isCreateComicModalOpen}
-      onSubmit={handleFormSubmit}
-      onClose={handleCloseCreateComicModal}
-    />
+    <Suspense fallback={<Loaders selector="line-fw" />}>
+      <CreateComicModal
+        isOpen={isCreateComicModalOpen}
+        onSubmit={handleFormSubmit}
+        onClose={handleCloseCreateComicModal}
+      />
+    </Suspense>
   </>);
 };
 

@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
-import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER, CSS_CLASSES } from '../constants';
+import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER } from '../constants';
 import { handleOnlyTracked, handleOnlyUnchecked, handleSearchInput } from '../utils';
 import { PaginationData } from '../types';
 import PagButtons from './PagButtons';
@@ -61,35 +61,37 @@ export const NavBar: React.FC<NavBarProps> = ({
   };
 
   return (
-    <div className={CSS_CLASSES.navBar}>
-      <ConditionalButton
-        condFlag={onlyTracked}
-        extraClass={CSS_CLASSES.reverseButton}
-        onClick={handleOnlyTracked(setSearchParams, onlyTracked)}
-        positiveMsg={BUTTON_TEXT.all(total)}
-        negativeMsg={BUTTON_TEXT.tracked(total)}
-        className={`${CSS_CLASSES.basicButton} ${CSS_CLASSES.allTrackButton}`}
-      />
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-slate-200/20 bg-slate-950/80 shadow-halo backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-wrap items-center gap-2 px-3 py-3 sm:px-4 lg:px-6">
+        <ConditionalButton
+          condFlag={onlyTracked}
+          extraClass="reverse-button"
+          onClick={handleOnlyTracked(setSearchParams, onlyTracked)}
+          positiveMsg={BUTTON_TEXT.all(total)}
+          negativeMsg={BUTTON_TEXT.tracked(total)}
+          className="basic-button min-w-[8.75rem]"
+        />
 
-      <ConditionalButton
-        showFlag={onlyTracked}
-        condFlag={onlyUnchecked}
-        onClick={handleOnlyUnchecked(setSearchParams, onlyUnchecked)}
-        positiveMsg={BUTTON_TEXT.noFilter}
-        negativeMsg={BUTTON_TEXT.unchecked}
-        className={`${CSS_CLASSES.basicButton} ${CSS_CLASSES.barButton}`}
-        extraClass={CSS_CLASSES.reverseButton}
-      />
+        <ConditionalButton
+          showFlag={onlyTracked}
+          condFlag={onlyUnchecked}
+          onClick={handleOnlyUnchecked(setSearchParams, onlyUnchecked)}
+          positiveMsg={BUTTON_TEXT.noFilter}
+          negativeMsg={BUTTON_TEXT.unchecked}
+          className="basic-button min-w-[6.5rem]"
+          extraClass="reverse-button"
+        />
 
-      <input
-        className={CSS_CLASSES.searchBox}
-        placeholder={COMIC_SEARCH_PLACEHOLDER}
-        type="text"
-        value={queryFilter}
-        onChange={handleInputChange}
-      />
+        <input
+          className="w-full flex-1 rounded-xl border border-slate-300/25 bg-white/90 px-4 py-2 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-cyan-500 focus:bg-white focus:ring-2 focus:ring-cyan-400/40 sm:w-auto sm:min-w-[250px] md:text-base"
+          placeholder={COMIC_SEARCH_PLACEHOLDER}
+          type="text"
+          value={queryFilter}
+          onChange={handleInputChange}
+        />
 
-      <PagButtons pagD={paginationData} />
-    </div>
+        <PagButtons pagD={paginationData} />
+      </div>
+    </header>
   );
 };

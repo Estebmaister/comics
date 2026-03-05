@@ -15,17 +15,17 @@ const CopyableSpan: React.FC<CopyableSpanProps> = ({
   onMouseOver, onFocus, onMouseOut, onBlur
 }) => {
   return (
-    <span
+    <button
+      type="button"
       onClick={() => handleCopyToClipboard(textToCopy)}
       className={className}
-      style={{ cursor: 'pointer' }}
       onMouseOver={onMouseOver}
       onFocus={onFocus}
       onMouseOut={onMouseOut}
       onBlur={onBlur}
     >
       {textToShow}
-    </span>
+    </button>
   );
 };
 

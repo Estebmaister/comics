@@ -44,6 +44,24 @@ def general_field_parser(body, field, _type):
         return f'[{field}]: if set should be a {_type}. '
     return ''
 
+def chapters_parser(body: dict) -> str:
+    err_msg: str = ''
+    if 'viewed_chap' in body:
+        try:
+            viewed = int(body['viewed_chap'])
+            if viewed < 0:
+                err_msg += '[viewed_chap]: must be >= 0. '
+        except ValueError:
+            return '[viewed_chap]: if set should be a int. '
+    if 'current_chap' in body:
+        try:
+            current = int(body['current_chap'])
+            if current < 0:
+                err_msg += '[current_chap]: must be >= 0. '
+        except ValueError:
+            return '[current_chap]: if set should be a int. '
+    return err_msg
+
 
 def put_body_parser(json_body: dict) -> str:
     if type(json_body) is not dict:
@@ -56,7 +74,9 @@ def put_body_parser(json_body: dict) -> str:
     err_msg += general_field_parser(json_body, 'description', str)
     err_msg += general_field_parser(json_body, 'track', bool)
     err_msg += general_field_parser(json_body, 'viewed_chap', int)
+    err_msg += general_field_parser(json_body, 'current_chap', int)
     err_msg += general_field_parser(json_body, 'com_type', int)
     err_msg += general_field_parser(json_body, 'status', int)
     err_msg += general_field_parser(json_body, 'rating', int)
+    err_msg += chapters_parser(json_body)
     return err_msg

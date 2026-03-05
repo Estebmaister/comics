@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session as SessionType
 from sqlalchemy.sql import text
 
 from db import ComicDB, Session, Statuses, Types, load_comics, save_comics_file
+from helpers.text import normalize_text
 from helpers.logger import logger
 
 # Configure logging
@@ -168,6 +169,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
 
 
 def comics_like_title(title: str, session: SessionType = None) -> (List[ComicDB]):
+    title = normalize_text(title)
 
     if session is not None:
         return session.query(ComicDB).filter(
@@ -188,6 +190,7 @@ def comics_by_title_no_case(
     only_tracked: bool = False, only_unchecked: bool = False,
     full_query: bool = False
 ) -> (List[ComicDB], Pagination):
+    title = normalize_text(title)
     with Session() as session:
         partial_result = session.query(ComicDB).filter(
             ComicDB.titles.ilike(f"%{title.lower()}%")

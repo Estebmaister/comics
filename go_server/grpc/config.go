@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net"
 	"net/http"
@@ -14,15 +15,18 @@ import (
 	"github.com/rs/zerolog/log"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 // Config holds all server configuration
 type Config struct {
-	GRPCPort      int
-	MetricsPort   int
-	DatabaseURL   string
-	JaegerURL     string
-	EnableTracing bool
+	GRPCPort         int
+	MetricsPort      int
+	DatabaseURL      string
+	JaegerURL        string
+	EnableTracing    bool
+	PathToServerCert string
+	PathToServerKey  string
 }
 
 // DefaultConfig returns a default server configuration
@@ -32,6 +36,22 @@ func DefaultConfig() *Config {
 		MetricsPort:   2112,
 		EnableTracing: true,
 	}
+}
+
+// loadTLSCredentials loads the TLS credentials from the certificate and key files
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// Load server's certificate and private key
+	serverCert, err := tls.LoadX509KeyPair("path/to/server-cert.pem", "path/to/server-key.pem")
+	if err != nil {
+		return nil, fmt.Errorf("cannot load server key pair: %w", err)
+	}
+
+	// Create the credentials and return it
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+	}
+	creds := credentials.NewTLS(config)
+	return creds, nil
 }
 
 // Server represents our gRPC server instance
@@ -54,8 +74,15 @@ func New(ctx context.Context, cfg *Config) (*Server, error) {
 	// Create health checker
 	healthChecker := health.NewHealthChecker(comicsRepo.Client())
 
+	// Load server TLS credentials
+	creds, err := loadTLSCredentials()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load TLS credentials: %w", err)
+	}
+
 	// Create gRPC server with interceptors
 	grpcServer := grpc.NewServer(
+		grpc.Creds(creds),
 		grpc.UnaryInterceptor(middleware.UnaryServerLoggingInterceptor()),
 		grpc.StreamInterceptor(middleware.StreamServerLoggingInterceptor()),
 		grpc.StatsHandler(otelgrpc.NewServerHandler()),

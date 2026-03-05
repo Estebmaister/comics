@@ -12,6 +12,7 @@ from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
                      merge_comics, sql_check, update_comic_by_id)
 from helpers.logger import logger
 from helpers.server import put_body_parser
+from helpers.text import normalize_text
 from scrape import async_scrape_wrapper
 
 log = logger(__name__)
@@ -259,7 +260,7 @@ class ComicTitle(Resource):
                 "Invalid pagination parameters in search - offset or limit")
             api.abort(400, 'Pagination parameters type different from int')
 
-        title = title.strip()
+        title = normalize_text(title)
         if title == '':
             log.warning("Empty title in search request")
             api.abort(400, 'Title cannot be empty')

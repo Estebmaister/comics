@@ -19,7 +19,9 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
     }
   }, [isOpen]);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = event.target;
     let newEntry: string | number | string[];
     if (type === 'select-one') newEntry = parseInt(value);

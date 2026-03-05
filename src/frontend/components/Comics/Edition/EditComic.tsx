@@ -1,11 +1,13 @@
-import { useState, SetStateAction } from 'react';
-import EditComicModal from '../Modals/EditModal';
+import { lazy, Suspense, useState } from 'react';
 import OpMsg from './OpMsg';
 import './EditComic.css';
 import config from '../../../util/Config';
 import db_classes from '../../../../db/db_classes.json';
+import { useComicCard } from '../Card/ComicCardContext';
+import Loaders from '../../Loaders';
 
 const SERVER = config.SERVER;
+const EditComicModal = lazy(() => import('../Modals/EditModal'));
 const edit: (comic: Record<string, any>, server?: string) => Promise<[Record<string, any> | undefined, string]> =
   async (comic: Record<string, any>, server = SERVER) => {
     let newData;
@@ -37,12 +39,8 @@ const edit: (comic: Record<string, any>, server?: string) => Promise<[Record<str
     return [newData, msg];
   };
 
-const EditComic = (props: {
-  comic: Record<string, any>,
-  setComic: { (value: SetStateAction<Record<string, any>>): void; },
-  setViewed: { (value: SetStateAction<boolean>): void; },
-}) => {
-  const { comic, setComic, setViewed } = props;
+const EditComic = () => {
+  const { comic, setComic, setViewedChap } = useComicCard();
   const [isEditComicModalOpen, setIsEditComicModalOpen] = useState(false);
   const [msg, setMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
@@ -67,7 +65,7 @@ const EditComic = (props: {
 
     if (newData !== undefined) {
       setComic(newData);
-      setViewed(newData?.viewed_chap);
+      setViewedChap(newData?.viewed_chap);
       handleCloseEditComicModal();
       setFailMsg(false);
       return true;
@@ -78,7 +76,7 @@ const EditComic = (props: {
 
   return (<>
     <button
-      className={'edit-button basic-button reverse-button'}
+      className='edit-button'
       onClick={handleOpenEditComicModal}
     >
       EDIT
@@ -96,12 +94,14 @@ const EditComic = (props: {
       title={comic?.titles}
     />
 
-    <EditComicModal
-      comic={comic}
-      isOpen={isEditComicModalOpen}
-      onSubmit={handleFormSubmit}
-      onClose={handleCloseEditComicModal}
-    />
+    <Suspense fallback={<Loaders selector="line-fw" />}>
+      <EditComicModal
+        comic={comic}
+        isOpen={isEditComicModalOpen}
+        onSubmit={handleFormSubmit}
+        onClose={handleCloseEditComicModal}
+      />
+    </Suspense>
   </>);
 };
 

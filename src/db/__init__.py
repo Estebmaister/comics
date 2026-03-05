@@ -16,6 +16,7 @@ from sqlalchemy import (URL, Boolean, Column, Integer, Sequence, String,
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.sql import text
 
+from helpers.text import normalize_text
 
 @unique
 class Engines(IntEnum):
@@ -258,10 +259,10 @@ class ComicDB(Base):
 
     def set_titles(self, titles: Union[str, List[str]]) -> None:
         if type(titles) is list:
-            titles = [title.capitalize() for title in titles]
+            titles = [normalize_text(title).capitalize() for title in titles]
             self.titles = str("|".join(titles))
         elif type(titles) is str:
-            self.titles = str(titles).capitalize()
+            self.titles = normalize_text(titles).capitalize()
 
     def get_published_in(self) -> List[Publishers]:
         return [Publishers(int(p)) for p in str(self.published_in).split("|")]

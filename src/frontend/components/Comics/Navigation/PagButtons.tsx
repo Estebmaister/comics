@@ -37,27 +37,39 @@ const handlePagination = (
 }
 
 export default function PagButtons({ pagD }: { pagD: PaginationData }) {
-  return (<div className='div-pagination-buttons'>
-    <button className={'basic-button bar-button reverse-button' +
-      (pagD.onFirstPage ? ' disabled-button' : '')}
-      disabled={pagD.onFirstPage} onClick={() => handlePagination('first', pagD)}>
-      First
-    </button>
-    <button className={'basic-button bar-button reverse-button' +
-      (pagD.onFirstPage ? ' disabled-button' : '')}
-      disabled={pagD.onFirstPage} onClick={() => handlePagination('prev', pagD)}>
-      Prev
-    </button>
-    <button className={'pag-button'}> {pagD.currentPage} </button>
-    <button className={'basic-button bar-button' +
-      (pagD.onLastPage ? ' disabled-button' : '')}
-      disabled={pagD.onLastPage} onClick={() => handlePagination('next', pagD)}>
-      Next
-    </button>
-    <button className={'basic-button bar-button' +
-      (pagD.onLastPage ? ' disabled-button' : '')}
-      disabled={pagD.onLastPage} onClick={() => handlePagination('last', pagD)}>
-      Last ({pagD.totalPages})
-    </button>
-  </div>);
+  return (
+    <div className="ml-auto flex w-full items-center justify-center gap-1 sm:w-auto sm:justify-end">
+      <button
+        className="basic-button reverse-button min-w-[4.2rem]"
+        disabled={pagD.onFirstPage}
+        onClick={() => handlePagination('first', pagD)}
+      >
+        First
+      </button>
+      <button
+        className="basic-button reverse-button min-w-[4.2rem]"
+        disabled={pagD.onFirstPage}
+        onClick={() => handlePagination('prev', pagD)}
+      >
+        Prev
+      </button>
+      <span className="inline-flex min-w-[2.7rem] items-center justify-center rounded-lg border border-slate-200/20 bg-slate-950/70 px-2 py-1 text-sm font-semibold text-slate-100">
+        {pagD.currentPage}
+      </span>
+      <button
+        className="basic-button min-w-[4.2rem]"
+        disabled={pagD.onLastPage}
+        onClick={() => handlePagination('next', pagD)}
+      >
+        Next
+      </button>
+      <button
+        className="basic-button min-w-[5.6rem]"
+        disabled={pagD.onLastPage}
+        onClick={() => handlePagination('last', pagD)}
+      >
+        Last ({pagD.totalPages})
+      </button>
+    </div>
+  );
 };
