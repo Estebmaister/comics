@@ -1,7 +1,33 @@
 .edit-button {
   position: absolute;
-  background-color: #302c2b;
-  width: 3em;
-  top: 1.6em;
-  left: 115px
+  top: 0.36rem;
+  right: 0.36rem;
+  z-index: 4;
+  min-width: 2.72rem;
+  height: 1.62rem;
+  padding: 0 0.38rem;
+  border: 1px solid rgb(148 163 184 / 46%);
+  border-radius: 9999px;
+  background-color: rgb(30 41 59 / 72%);
+  color: rgb(226 232 240 / 92%);
+  backdrop-filter: blur(2px);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: 140ms ease;
+}
+
+.edit-button:hover,
+.edit-button:focus-visible {
+  background-color: rgb(30 41 59 / 90%);
+}
+
+@media (max-width: 640px) {
+  .edit-button {
+    min-width: 2.52rem;
+    height: 1.48rem;
+    font-size: 0.64rem;
+  }
 }

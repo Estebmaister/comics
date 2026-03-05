@@ -13,7 +13,8 @@ from dotenv import load_dotenv
 from termcolor import colored
 
 # Load environment variables
-load_dotenv(override=True)
+# Keep shell-provided runtime variables (for local deploy/test toggles).
+load_dotenv(override=False)
 
 UPDATE = 31
 

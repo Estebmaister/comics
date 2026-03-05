@@ -1,9 +1,29 @@
 .span-loader {
-  position: relative;
-  top: -4em;
-  left: -1em;
-  display: block;
-  width: 5em;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.span-loader .div-load {
+  margin: 0;
+}
+
+.span-loader .battery {
+  --loader-color: #f8fafc;
+  transform: scale(0.9);
+  transform-origin: center;
+  background: rgb(2 6 23 / 64%);
+  border-color: #f8fafc;
+  box-shadow:
+    0 0 0 1px rgb(2 6 23 / 78%),
+    0 0 14px rgb(248 250 252 / 45%);
+}
+
+.span-loader .battery::after {
+  border-color: #f8fafc;
 }
 
 .button-scrape {
@@ -17,6 +37,9 @@
   position: fixed;
   bottom: 16em;
   right: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-scrape:after {
@@ -62,11 +85,20 @@
   transition: 0.2s;
 }
 
+.button-scrape:disabled {
+  cursor: wait;
+  border-color: #f8fafc;
+}
+
+.button-scrape:disabled::before,
+.button-scrape:disabled::after {
+  opacity: 0;
+}
+
 /* Phone portrait view */
 @media only screen and (orientation: portrait) {
-  .span-loader {
-    top: -3.5em;
-    left: -1.5em;
+  .span-loader .battery {
+    transform: scale(0.76);
   }
 
   .button-scrape {

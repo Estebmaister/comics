@@ -10,7 +10,7 @@
   height: 24px;
   display: inline-block;
   position: relative;
-  border: 1px solid var(--secondary-color, white);
+  border: 1px solid var(--loader-color, var(--secondary-color, white));
 }
 
 .battery::after {
@@ -20,7 +20,7 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  border: 1px solid var(--secondary-color, white);
+  border: 1px solid var(--loader-color, var(--secondary-color, white));
   width: 5px;
   height: 12px;
 }
@@ -43,30 +43,31 @@
   }
 
   25% {
-    box-shadow: 11px 0 var(--secondary-color, white), 22px 0 rgba(255, 255, 255, 0), 33px 0 rgba(255, 255, 255, 0), 44px 0 rgba(255, 255, 255, 0);
+    box-shadow: 11px 0 var(--loader-color, var(--secondary-color, white)), 22px 0 rgba(255, 255, 255, 0), 33px 0 rgba(255, 255, 255, 0), 44px 0 rgba(255, 255, 255, 0);
   }
 
   50% {
-    box-shadow: 11px 0 var(--secondary-color, white), 22px 0 var(--secondary-color, white), 33px 0 rgba(255, 255, 255, 0), 44px 0 rgba(255, 255, 255, 0);
+    box-shadow: 11px 0 var(--loader-color, var(--secondary-color, white)), 22px 0 var(--loader-color, var(--secondary-color, white)), 33px 0 rgba(255, 255, 255, 0), 44px 0 rgba(255, 255, 255, 0);
   }
 
   75% {
-    box-shadow: 11px 0 var(--secondary-color, white), 22px 0 var(--secondary-color, white), 33px 0 var(--secondary-color, white), 44px 0 rgba(255, 255, 255, 0);
+    box-shadow: 11px 0 var(--loader-color, var(--secondary-color, white)), 22px 0 var(--loader-color, var(--secondary-color, white)), 33px 0 var(--loader-color, var(--secondary-color, white)), 44px 0 rgba(255, 255, 255, 0);
   }
 
   100% {
-    box-shadow: 11px 0 var(--secondary-color, white), 22px 0 var(--secondary-color, white), 33px 0 var(--secondary-color, white), 44px 0 var(--secondary-color, white);
+    box-shadow: 11px 0 var(--loader-color, var(--secondary-color, white)), 22px 0 var(--loader-color, var(--secondary-color, white)), 33px 0 var(--loader-color, var(--secondary-color, white)), 44px 0 var(--loader-color, var(--secondary-color, white));
   }
 }
 
 .lamp {
   width: 4px;
   height: 86px;
-  background: var(--secondary-color, white);
+  background: linear-gradient(180deg, #f8fafc 0%, #cbd5e1 100%);
+  box-shadow: 0 0 8px rgb(248 250 252 / 42%);
   margin: auto;
   position: relative;
   animation: shake 1s linear infinite alternate,
-    lightup 1s linear infinite;
+    lightup 1.2s ease-in-out infinite;
   transform-origin: 0 0;
 }
 
@@ -79,9 +80,10 @@
   width: 32px;
   height: 16px;
   box-sizing: border-box;
-  border: 5px solid #FF3D00;
+  border: 5px solid #f97316;
   border-top: none;
   border-radius: 0 0 20px 20px;
+  box-shadow: 0 0 12px rgb(249 115 22 / 62%);
 }
 
 .lamp::after {
@@ -90,10 +92,16 @@
   bottom: 0;
   position: absolute;
   transform: translateX(-50%);
-  width: 64px;
-  height: 32px;
+  width: 68px;
+  height: 36px;
   border-radius: 50px 50px 0 0;
-  background: var(--secondary-color, white);
+  background: radial-gradient(ellipse at center bottom,
+      rgb(255 247 214 / 98%) 0%,
+      rgb(253 186 116 / 95%) 50%,
+      rgb(249 115 22 / 65%) 100%);
+  box-shadow:
+    0 -2px 16px rgb(253 186 116 / 72%),
+    0 0 28px rgb(249 115 22 / 46%);
 }
 
 @keyframes shake {
@@ -110,15 +118,17 @@
 
   0%,
   20%,
-  40% {
-    opacity: 0
+  40%,
+  70% {
+    opacity: 0.38;
   }
 
   10%,
   30%,
   50%,
+  85%,
   100% {
-    opacity: 1
+    opacity: 1;
   }
 }
 

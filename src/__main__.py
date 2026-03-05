@@ -45,24 +45,19 @@ def scrapping(recurrence: int = default_recurrence) -> None:
 
 
 def run_server() -> None:
+    allowed_origins = [
+        r'https?://localhost(:\d+)?',
+        r'https://estebmaister.github.io',
+        # Tailscale magiclink and DNS
+        r'https?://.*\.persian-nominal\.ts\.net(:\d+)?',
+        r'https?://100\.103\.47\.96(:\d+)?',
+    ]
     CORS(
         SERVER,
         resources={
-            r'/comics/*': {'origins': [
-                'http[s]://localhost:*',
-                'https://estebmaister.github.io/*',
-                # Tailscale magiclink and DNS
-                r'http[s]://.*\.persian-nominal\.ts\.net(:\d+)?',
-                'http[s]://100.103.47.96/*'
-            ]},
-            '/scrape': {'origins': [
-                'http[s]://localhost:*',
-                'https://estebmaister.github.io/*',
-                # Tailscale magiclink and DNS
-                r'http[s]://.*\.persian-nominal\.ts\.net(:\d+)?',
-                'http[s]://100.103.47.96/*'
-            ]},
-            r'/health/*': {'origins': '*'},
+            r'/comics.*': {'origins': allowed_origins},
+            r'/scrape.*': {'origins': allowed_origins},
+            r'/health.*': {'origins': '*'},
         }
     )
 

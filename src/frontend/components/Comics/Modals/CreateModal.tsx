@@ -24,6 +24,8 @@ const formType = (field: string) => {
   switch (field) {
     case 'track':
       return 'checkbox';
+    case 'description':
+      return 'textarea';
     case 'viewed_chap':
     case 'current_chap':
       return 'number';
@@ -56,26 +58,32 @@ const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+      <form className='comic-modal-form' onSubmit={handleSubmit}>
+        <header className='modal-form-header'>
+          <h2>Create Comic</h2>
+          <p>Use pipe `|` only when entering multiple alternate titles manually.</p>
+        </header>
 
-        {Object.entries(formState).map(([kField, value], _i) =>
-          <InputDiv
-            key={kField}
-            value={value}
-            field={kField}
-            focusInputRef={focusInputRef}
-            selectOptDict={db_classes}
-            className={'form-row'}
-            type={formType(kField)}
-            handleInputChange={handleInputChange(setFormState)}
-            multiple={kField === 'genres' || kField === 'published_in'}
-            required={kField === 'title'}
-            focus={kField === 'title'}
-          />
-        )}
+        <div className='form-grid'>
+          {Object.entries(formState).map(([kField, value], _i) =>
+            <InputDiv
+              key={kField}
+              value={value}
+              field={kField}
+              focusInputRef={focusInputRef}
+              selectOptDict={db_classes}
+              className={`form-row${kField === 'description' ? ' form-row-span-2' : ''}`}
+              type={formType(kField)}
+              handleInputChange={handleInputChange(setFormState)}
+              multiple={kField === 'genres' || kField === 'published_in'}
+              required={kField === 'title'}
+              focus={kField === 'title'}
+            />
+          )}
+        </div>
 
-        <div className='form-row'>
-          <button className='basic-button' type='submit'>CREATE</button>
+        <div className='form-actions'>
+          <button className='basic-button' type='submit'>Create</button>
         </div>
       </form>
     </Modal>

@@ -7,6 +7,8 @@ import { handleInputChange, ComicModalProps } from './helpers';
 
 const formType = (field: string) => {
   switch (field) {
+    case 'description':
+      return 'textarea';
     case 'viewed_chap':
     case 'current_chap':
     case 'rating':
@@ -46,24 +48,30 @@ const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, on
 
   return (
     <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+      <form className='comic-modal-form' onSubmit={handleSubmit}>
+        <header className='modal-form-header'>
+          <h2>Edit Comic</h2>
+          <p>Keep fields compact on desktop while preserving mobile usability.</p>
+        </header>
 
-        {Object.entries(formState).map(([kField, value], _i) =>
-          <InputDiv
-            key={kField}
-            value={value}
-            field={kField}
-            focusInputRef={focusInputRef}
-            selectOptDict={db_classes}
-            className={'form-row'}
-            type={formType(kField)}
-            handleInputChange={handleInputChange(setFormState)}
-            multiple={kField === 'genres' || kField === 'published_in'}
-          />
-        )}
+        <div className='form-grid'>
+          {Object.entries(formState).map(([kField, value], _i) =>
+            <InputDiv
+              key={kField}
+              value={value}
+              field={kField}
+              focusInputRef={focusInputRef}
+              selectOptDict={db_classes}
+              className={`form-row${kField === 'description' || kField === 'titles' ? ' form-row-span-2' : ''}`}
+              type={formType(kField)}
+              handleInputChange={handleInputChange(setFormState)}
+              multiple={kField === 'genres' || kField === 'published_in'}
+            />
+          )}
+        </div>
 
-        <div className='form-row'>
-          <button className='basic-button' type='submit'>UPDATE</button>
+        <div className='form-actions'>
+          <button className='basic-button' type='submit'>Update</button>
         </div>
       </form>
     </Modal>
