@@ -6,6 +6,11 @@ import { RailActionButton } from '../Actions/FloatingActionRail';
 import type { MergeComicFormState } from '../types';
 
 const SERVER = config.SERVER;
+const emptyMergeComicFormState: MergeComicFormState = {
+  baseID: 0,
+  mergingID: 0,
+};
+
 const mergeComic = async (
   baseID: number,
   mergingID: number,
@@ -34,7 +39,7 @@ interface MergeComicProps {
 
 const MergeComic = ({ onSuccess }: MergeComicProps) => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState<MergeComicFormState | null>(null);
+  const [comicFormData, setComicFormData] = useState<MergeComicFormState>(emptyMergeComicFormState);
   const toast = useToast();
 
   const handleOpenMergeComicModal = () => {
@@ -51,6 +56,7 @@ const MergeComic = ({ onSuccess }: MergeComicProps) => {
     setComicFormData(data);
     const resultMsg = await mergeComic(data?.baseID, data?.mergingID);
     if (resultMsg === '') {
+      setComicFormData(emptyMergeComicFormState);
       handleCloseMergeComicModal();
       toast.success({
         title: 'Comics merged',
@@ -71,19 +77,23 @@ const MergeComic = ({ onSuccess }: MergeComicProps) => {
     <RailActionButton
       eyebrow="Combine"
       title="Merge"
-      description={comicFormData ? `${comicFormData.baseID} <- ${comicFormData.mergingID}` : 'Merge duplicate records'}
+      description={
+        comicFormData.baseID || comicFormData.mergingID
+          ? `${comicFormData.baseID || 'Base'} <- ${comicFormData.mergingID || 'Duplicate'}`
+          : 'Merge duplicate records'
+      }
       tone="warm"
       onClick={handleOpenMergeComicModal}
       aria-label="Merge comics"
     />
 
-    {isMergeComicModalOpen ? (
-      <MergeComicModal
-        isOpen={isMergeComicModalOpen}
-        onSubmit={handleFormSubmit}
-        onClose={handleCloseMergeComicModal}
-      />
-    ) : null}
+    <MergeComicModal
+      isOpen={isMergeComicModalOpen}
+      formState={comicFormData}
+      onFormStateChange={setComicFormData}
+      onSubmit={handleFormSubmit}
+      onClose={handleCloseMergeComicModal}
+    />
   </>);
 };
 

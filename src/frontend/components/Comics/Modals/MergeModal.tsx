@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
 import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
@@ -10,9 +10,19 @@ const mergeEmptyDict: MergeComicFormState = {
   mergingID: 0,
 };
 
-const MergeComicModal: React.FC<ComicModalProps<MergeComicFormState>> = ({ onSubmit, isOpen, onClose }) => {
+interface MergeComicModalProps extends ComicModalProps<MergeComicFormState> {
+  formState: MergeComicFormState;
+  onFormStateChange: Dispatch<SetStateAction<MergeComicFormState>>;
+}
+
+const MergeComicModal: React.FC<MergeComicModalProps> = ({
+  formState,
+  onFormStateChange,
+  onSubmit,
+  isOpen,
+  onClose,
+}) => {
   const focusInputRef = useRef<HTMLInputElement>(null);
-  const [formState, setFormState] = useState(mergeEmptyDict);
 
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
@@ -25,10 +35,10 @@ const MergeComicModal: React.FC<ComicModalProps<MergeComicFormState>> = ({ onSub
   ) => {
     const { name, value, type } = event.target;
     let newEntry: string | number | string[];
-    if (type === 'select-one') newEntry = parseInt(value);
+    if (type === 'select-one' || type === 'number') newEntry = value === '' ? 0 : parseInt(value, 10);
     else if (type === 'checkbox') newEntry = value;
     else newEntry = value;
-    setFormState((prevFormData) => ({
+    onFormStateChange((prevFormData) => ({
       ...prevFormData,
       [name]: newEntry,
     }));
@@ -36,7 +46,7 @@ const MergeComicModal: React.FC<ComicModalProps<MergeComicFormState>> = ({ onSub
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (await onSubmit(formState)) setFormState(mergeEmptyDict);
+    if (await onSubmit(formState)) onFormStateChange(mergeEmptyDict);
   };
 
   return (
