@@ -10,7 +10,8 @@ from typing import Callable, Dict
 
 from sqlalchemy.orm import Session as SessionType
 
-from db import Publishers, Session
+from db import Publishers, Session, load_comics, save_comics_file
+from db.repo import rebuild_json_backup_from_db
 from helpers.alert import send_reminder
 from helpers.logger import logger
 from scrape.asura import scrape_asura
@@ -19,6 +20,7 @@ from scrape.flame import scrape_flame
 from scrape.manganato import scrape_manganato
 from scrape.manhuaplus import scrape_manhuaplus
 from scrape.realm import scrape_realm
+from scrape.scrapper import DiscoveryRunState
 from scrape.url_switch import publisher_url_pairs
 
 # Configure logging
@@ -36,9 +38,11 @@ async def async_scrape_wrapper():
         try:
             await async_scrape(session)
             session.commit()
+            save_comics_file(load_comics)
         except Exception as e:
             session.rollback()
             log.error(f'Scraping error: {e}')
+            rebuild_json_backup_from_db()
         finally:
             session.close()
             send_reminder()
@@ -47,23 +51,37 @@ async def async_scrape_wrapper():
 
 async def async_scrape(session: SessionType) -> None:
     """Asynchronously scrape all configured publisher URLs."""
-    tasks = [scrape_switch(pub, url, session)
+    run_state = DiscoveryRunState()
+    tasks = [scrape_switch(pub, url, session, run_state)
              for pub, url in publisher_url_pairs]
     await asyncio.gather(*tasks)
 
 
-async def scrape_switch(publisher: str, url: str, session: SessionType) -> None:
+async def scrape_switch(
+    publisher: str,
+    url: str,
+    session: SessionType,
+    run_state: DiscoveryRunState,
+) -> None:
     """Route scraping request to appropriate scraping function."""
     scrape_func = SCRAPE_FUNCTIONS.get(publisher, func_pending)
-    await scrape_func(url, session)
+    await scrape_func(url, session, run_state)
 
 
-async def func_pending(url: str, session: SessionType) -> None:
+async def func_pending(
+    url: str,
+    session: SessionType,
+    run_state: DiscoveryRunState,
+) -> None:
     """Placeholder for pending scraper implementation."""
     pass
 
 
-async def site_closed(url: str, session: SessionType) -> None:
+async def site_closed(
+    url: str,
+    session: SessionType,
+    run_state: DiscoveryRunState,
+) -> None:
     """Handler for closed/inactive sites."""
     pass
 

@@ -7,10 +7,11 @@ and metadata, and manages their storage in both database and JSON formats.
 
 from __future__ import annotations
 
+import asyncio
 import os
 import re
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Dict, List, Optional
 
@@ -18,12 +19,12 @@ import cloudscraper
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import Session
 
-from db import (ComicDB, Publishers, Statuses, Types, load_comics,
-                save_comics_file)
-from db.helpers import manage_multi_finds
-from db.repo import comics_like_title, create_comic
+from db import ComicDB, Publishers, Statuses, Types, load_comics
+from db.identity import merge_unique_values
+from db.repo import comics_by_identity_key, create_comic, rebuild_json_backup_from_db
 from helpers.alert import add_alert
 from helpers.logger import logger
+from helpers.text import normalize_text
 from scrape.url_switch import url_switch
 
 # Configure logging
@@ -65,6 +66,20 @@ class ScrapedComic:
     author: str = ''
 
 
+@dataclass
+class DiscoveryRunState:
+    seen_publisher_keys: set[tuple[int, str]] = field(default_factory=set)
+    lock: asyncio.Lock = field(default_factory=asyncio.Lock)
+
+
+class _AsyncNoopLock:
+    async def __aenter__(self) -> None:
+        return None
+
+    async def __aexit__(self, exc_type, exc, tb) -> bool:
+        return False
+
+
 async def scrape_url(url: str, debug_pattern: str = ' ') -> BeautifulSoup:
     """
     Scrape content from a URL with error handling and optional debug output.
@@ -103,7 +118,12 @@ def _save_debug_output(soup: BeautifulSoup) -> None:
         file.write(soup.prettify())
 
 
-async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers, session: Session) -> None:
+async def register_comic(
+    scraped_comic: ScrapedComic,
+    publisher: Publishers,
+    session: Session,
+    run_state: DiscoveryRunState | None = None,
+) -> None:
     """
     Register or update a comic in the database and JSON storage.
 
@@ -116,61 +136,68 @@ async def register_comic(scraped_comic: ScrapedComic, publisher: Publishers, ses
     if not normalized_comic:
         return
 
-    # Fetch existing records
-    db_comics = comics_like_title(str(normalized_comic.titles), session)
-    json_comics = [
-        comic for comic in load_comics if str(normalized_comic.titles) in comic["titles"]
-    ]
+    lock = run_state.lock if run_state is not None else _AsyncNoopLock()
+    publisher_key = (int(publisher), normalized_comic.identity_key)
 
-    # Handle multiple matches
-    db_comics, final_title = manage_multi_finds(
-        db_comics, int(normalized_comic.com_type), str(normalized_comic.titles))
-    normalized_comic.set_titles(final_title)
+    async with lock:
+        if run_state is not None and publisher_key in run_state.seen_publisher_keys:
+            log.debug(
+                'Skipping duplicate discovery within run for %s (%s)',
+                normalized_comic.titles,
+                publisher.name,
+            )
+            return
+        if run_state is not None:
+            run_state.seen_publisher_keys.add(publisher_key)
 
-    if not db_comics:
-        create_comic(normalized_comic, session)
-        return
+        try:
+            with session.begin_nested():
+                db_comics = comics_by_identity_key(
+                    normalized_comic.identity_key, session
+                )
+                if not db_comics:
+                    create_comic(normalized_comic, session)
+                    return
 
-    if len(db_comics) != 1:
-        log.error(
-            'Found %d matches for title: %s - cannot process',
-            len(db_comics), normalized_comic.titles
-        )
-        for db_comic in db_comics:
-            log.error('ID: %s, Titles: %s', db_comic.id, db_comic.titles)
-        return
+                if len(db_comics) > 1:
+                    log.warning(
+                        'Found %d duplicates for identity %s, using canonical comic ID %s',
+                        len(db_comics),
+                        normalized_comic.identity_key,
+                        db_comics[0].id,
+                    )
 
-    # Update existing comic
-    await _update_existing_comic(db_comics[0], json_comics, normalized_comic, publisher)
-
-    # Save changes in memory
-    try:
-        session.flush()
-    except Exception as e:
-        session.rollback()
-        log.error('Failed to flush session: %s, rolling back on comic %s', str(
-            e), normalized_comic.titles)
-        return
-    save_comics_file(load_comics)
+                await _update_existing_comic(
+                    db_comics[0], normalized_comic, publisher
+                )
+                session.flush()
+        except Exception as error:
+            if run_state is not None:
+                run_state.seen_publisher_keys.discard(publisher_key)
+            rebuild_json_backup_from_db(session, persist_file=False)
+            log.error(
+                'Failed to register comic %s: %s',
+                normalized_comic.titles,
+                error,
+            )
 
 
 async def _update_existing_comic(
     db_comic: ComicDB,
-    json_comics: List[Dict],
     comic: ComicDB,
     publisher: Publishers
 ) -> None:
     """Update an existing comic entry with new information."""
-    # Ensure JSON record exists
-    if not json_comics:
-        json_comics = _ensure_json_record(db_comic)
-
-    json_comic = json_comics[0]
+    json_comic = _ensure_json_record(db_comic)[0]
 
     # Update publisher if new
     if publisher not in db_comic.get_published_in():
-        db_comic.published_in += f'|{publisher}'
-        json_comic['published_in'].append(publisher)
+        merged_publishers = merge_unique_values(
+            [int(pub) for pub in db_comic.get_published_in()],
+            [int(publisher)],
+        )
+        db_comic.set_published_in(merged_publishers)
+        json_comic['published_in'] = db_comic.get_published_in()
         log.info('%s: Added new publisher: %s',
                  db_comic.titles, publisher.name)
 
@@ -309,8 +336,7 @@ def _normalize_comic_data(scraped_comic: ScrapedComic, publisher: Publishers) ->
         return None
 
     # Clean title
-    clean_title = scraped_comic.title.strip().capitalize()
-    clean_title = clean_title.replace('(novel)', ' - novel')
+    clean_title = normalize_text(scraped_comic.title)
 
     # Normalize cover URL
     cover_url = _parse_cover_url(scraped_comic.cover_url, publisher)

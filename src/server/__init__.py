@@ -7,9 +7,11 @@ from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from db import ComicDB, comic_swagger_model
-from db.repo import (all_comics, comic_by_id, comics_by_title_no_case,
-                     comics_like_title, create_comic, delete_comic_by_id,
-                     merge_comics, sql_check, update_comic_by_id)
+from db.identity import normalize_title_variants
+from db.repo import (all_comics, canonical_comic_by_titles, comic_by_id,
+                     comics_by_title_no_case, create_comic,
+                     delete_comic_by_id, merge_comics, sql_check,
+                     update_comic_by_id)
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from helpers.text import normalize_text
@@ -132,15 +134,20 @@ class ComicList(Resource):
                 "Invalid titles format in create comic request: %s", body['titles'])
             api.abort(400, 'titles should be a non-empty list of strings')
 
-        for title in body['titles']:
-            title = title.capitalize()
-            db_comic = comics_like_title(title, None)
-            if db_comic is not None:
-                for comic in db_comic:
-                    if title in comic.get_titles():
-                        log.warning(
-                            "Attempted to create duplicate comic: %s", title)
-                        api.abort(400, 'Comic is already in the database')
+        normalized_titles = normalize_title_variants(
+            body['titles'],
+            int(body.get('com_type', 0)),
+        )
+        existing_comic = canonical_comic_by_titles(
+            normalized_titles,
+            int(body.get('com_type', 0)),
+        )
+        if existing_comic is not None:
+            log.warning(
+                "Attempted to create duplicate comic: %s",
+                normalized_titles[0] if normalized_titles else body['titles'][0],
+            )
+            api.abort(400, 'Comic is already in the database')
         if ('description' in body and
                 type(body['description']) is not str):
             log.warning("Invalid description type in create comic request")
@@ -264,17 +271,25 @@ class ComicTitle(Resource):
         if title == '':
             log.warning("Empty title in search request")
             api.abort(400, 'Title cannot be empty')
-        comics_list, pagination = comics_by_title_no_case(
-            title, int(offset), int(limit),
-            tracked, unchecked, full_query
-        )
+        if full_query:
+            comics_list = comics_by_title_no_case(
+                title, int(offset), int(limit),
+                tracked, unchecked, full_query
+            )
+            pagination = None
+        else:
+            comics_list, pagination = comics_by_title_no_case(
+                title, int(offset), int(limit),
+                tracked, unchecked, full_query
+            )
         resp = make_response([comic.toJSON() for comic in comics_list])
-        resp.headers[
-            'access-control-expose-headers'
-        ] = 'total-comics,total-pages,current-page'
-        resp.headers['total-comics'] = pagination.total_records
-        resp.headers['total-pages'] = pagination.total_pages
-        resp.headers['current-page'] = pagination.current_page
+        if pagination is not None:
+            resp.headers[
+                'access-control-expose-headers'
+            ] = 'total-comics,total-pages,current-page'
+            resp.headers['total-comics'] = pagination.total_records
+            resp.headers['total-pages'] = pagination.total_pages
+            resp.headers['current-page'] = pagination.current_page
         return resp
 
 

@@ -5,19 +5,42 @@ set -e
 AI_URL="http://localhost:11434/api/generate"
 AI_MODEL="phi4"
 
-# Assume $diff contains the Git diff output (with newlines)
-diff=$(git diff --cached)
-prompt="Write a concise git commit message, which output will be used as the commit message.
-\n\nWithout quotes, based on the following diff:\n\n$diff"
+COMMIT_MSG_FILE="${1:-.git/COMMIT_EDITMSG}"
 
-# Build JSON safely using jq
-json=$(jq -n --arg model "$AI_MODEL" \
-  --arg prompt "$prompt" \
-  '{model: $model, prompt: $prompt, stream: false}')
+if git diff --cached --quiet; then
+  exit 0
+fi
 
-# Call Ollama API
-msg=$(curl -s -X POST $AI_URL \
+tmp_prompt=$(mktemp) || exit 0
+tmp_payload=$(mktemp) || exit 0
+trap 'rm -f "$tmp_prompt" "$tmp_payload"' EXIT
+
+{
+  printf '%s\n\n' "Write a concise git commit message, which output will be used as the commit message."
+  printf '%s\n\n' "Without quotes, based on the following diff:"
+  git diff --cached
+} > "$tmp_prompt" || exit 0
+
+if ! jq -n \
+  --arg model "$AI_MODEL" \
+  --rawfile prompt "$tmp_prompt" \
+  --argjson stream false \
+  '{model: $model, prompt: $prompt, stream: $stream}' > "$tmp_payload"; then
+  exit 0
+fi
+
+if ! response=$(curl -sS -f --connect-timeout 3 --max-time 120 -X POST "$AI_URL" \
   -H "Content-Type: application/json" \
-  -d "$json" | jq -r .response)
+  --data-binary @"$tmp_payload" 2>/dev/null); then
+  exit 0
+fi
 
-echo "$msg" > .git/COMMIT_EDITMSG
+if ! msg=$(printf '%s' "$response" | jq -r '.response // empty' 2>/dev/null); then
+  exit 0
+fi
+
+if [ -z "$msg" ]; then
+  exit 0
+fi
+
+printf '%s\n' "$msg" > "$COMMIT_MSG_FILE"

@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 
 from db import Publishers
 from helpers.logger import logger
-from scrape.scrapper import ScrapedComic, register_comic, scrape_url
+from scrape.scrapper import DiscoveryRunState, ScrapedComic, register_comic, scrape_url
 
 # Configure logging
 log = logger(__name__)
@@ -71,7 +71,11 @@ def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
         return None
 
 
-async def scrape_demonic(url: str, session: Session) -> None:
+async def scrape_demonic(
+    url: str,
+    session: Session,
+    run_state: DiscoveryRunState | None = None,
+) -> None:
     """
     Scrape comics from DemonicScans website.
 
@@ -90,4 +94,4 @@ async def scrape_demonic(url: str, session: Session) -> None:
     for comic_div in comic_divs:
         comic = extract_comic_info(comic_div)
         if comic:
-            await register_comic(comic, PUBLISHER, session)
+            await register_comic(comic, PUBLISHER, session, run_state)

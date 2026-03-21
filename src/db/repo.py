@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session as SessionType
 from sqlalchemy.sql import text
 
 from db import ComicDB, Session, Statuses, Types, load_comics, save_comics_file
+from db.identity import build_identity_key, build_identity_key_from_titles
 from helpers.text import normalize_text
 from helpers.logger import logger
 
@@ -89,24 +90,42 @@ def delete_comic_by_id(id: int) -> (int):
 
 
 def create_comic(comic: ComicDB, session: SessionType = None) -> (dict | None):
-    try:
-        if session is None:
+    if session is None:
+        try:
             with Session() as s:
                 s.add(comic)
                 s.commit()
                 comicJSON = comic.toJSON()
-        else:
-            session.add(comic)
-            session.commit()
-            comicJSON = comic.toJSON()
+            load_comics.append(comicJSON)
+            save_comics_file(load_comics)
+        except Exception as err:
+            log.error('Failed to create comic: %s', err)
+            return None
+    else:
+        session.add(comic)
+        session.flush()
+        comicJSON = comic.toJSON()
         load_comics.append(comicJSON)
-        save_comics_file(load_comics)
-    except Exception as err:
-        log.error('Failed to create comic: %s', err)
-        return None
 
     log.info('Created new entry: %s', json.dumps(comicJSON))
     return comicJSON
+
+
+def rebuild_json_backup_from_db(
+    session: SessionType = None,
+    *,
+    persist_file: bool = True,
+) -> List[dict]:
+    if session is None:
+        with Session() as current_session:
+            comics = current_session.query(ComicDB).order_by(ComicDB.id).all()
+    else:
+        comics = session.query(ComicDB).order_by(ComicDB.id).all()
+
+    load_comics[:] = [comic.toJSON() for comic in comics]
+    if persist_file:
+        save_comics_file(load_comics)
+    return load_comics
 
 
 def update_comic_by_id(id: int, body: dict) -> (dict | None):
@@ -151,6 +170,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
         comic.com_type = int(body.get('com_type', comic.com_type))
         comic.status = int(body.get('status', comic.status))
         comic.rating = int(body.get('rating', comic.rating))
+        comic.normalize_titles()
 
         json_comic["author"] = comic.author
         json_comic["cover"] = comic.cover
@@ -158,6 +178,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
         json_comic["track"] = bool(comic.track)
         json_comic["viewed_chap"] = comic.viewed_chap
         json_comic["current_chap"] = comic.current_chap
+        json_comic["titles"] = comic.get_titles()
         json_comic["com_type"] = Types(comic.com_type)
         json_comic["status"] = Statuses(comic.status)
         json_comic["rating"] = comic.rating
@@ -177,12 +198,59 @@ def comics_like_title(title: str, session: SessionType = None) -> (List[ComicDB]
         ).order_by(
             ComicDB.last_update.desc(), ComicDB.id
         ).all()
-    with Session() as session:
-        return session.query(ComicDB).filter(
+
+    with Session() as current_session:
+        return current_session.query(ComicDB).filter(
             ComicDB.titles.like(f"%{title}%")
         ).order_by(
             ComicDB.last_update.desc(), ComicDB.id
         ).all()
+
+
+def comics_by_identity_key(
+    identity_key: str,
+    session: SessionType = None,
+) -> List[ComicDB]:
+    if not identity_key:
+        return []
+
+    if session is not None:
+        return session.query(ComicDB).filter(
+            ComicDB.identity_key == identity_key
+        ).order_by(ComicDB.id).all()
+
+    with Session() as current_session:
+        return current_session.query(ComicDB).filter(
+            ComicDB.identity_key == identity_key
+        ).order_by(ComicDB.id).all()
+
+
+def canonical_comic_by_identity_key(
+    identity_key: str,
+    session: SessionType = None,
+) -> ComicDB | None:
+    matches = comics_by_identity_key(identity_key, session)
+    if not matches:
+        return None
+    return matches[0]
+
+
+def canonical_comic_by_title(
+    title: str,
+    com_type: int = 0,
+    session: SessionType = None,
+) -> ComicDB | None:
+    identity_key = build_identity_key(title, com_type)
+    return canonical_comic_by_identity_key(identity_key, session)
+
+
+def canonical_comic_by_titles(
+    titles: List[str] | str,
+    com_type: int = 0,
+    session: SessionType = None,
+) -> ComicDB | None:
+    identity_key = build_identity_key_from_titles(titles, com_type)
+    return canonical_comic_by_identity_key(identity_key, session)
 
 
 def comics_by_title_no_case(

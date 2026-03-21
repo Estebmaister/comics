@@ -33,10 +33,10 @@ json_changelog_payload=$(printf "%s" "$ch_prompt" | jq -Rs \
 tmp_payload=$(mktemp)
 printf "%s" "$json_changelog_payload" > "$tmp_payload"
 
-# Send the request using --data-binary with @file
-changelog_response=$(curl -s -X POST "$AI_URL" \
+# Send the request using --data-binary with @file (-f: treat HTTP errors as failure; timeouts when Ollama is down)
+changelog_response=$(curl -sS -f --connect-timeout 3 --max-time 120 -X POST "$AI_URL" \
   -H "Content-Type: application/json" \
-  --data-binary @"$tmp_payload") || {
+  --data-binary @"$tmp_payload" 2>/dev/null) || {
     printf "⚠️ Warning: Failed to get a response from the AI service when generating changelog.\n\n" >&2
     rm -f "$tmp_payload"
     exit 0
@@ -46,9 +46,9 @@ changelog_response=$(curl -s -X POST "$AI_URL" \
 rm -f "$tmp_payload"
 
 # Extract the response text with better error checking
-changelog_entry=$(printf "%s" "$changelog_response" | tr '\n' '§' | jq -r '.response' | tr '§' '\n') || {
-    printf "❌ Error: Failed to extract changelog text from API response.\n\n" >&2
-    exit 1
+changelog_entry=$(printf "%s" "$changelog_response" | tr '\n' '§' | jq -r '.response // empty' | tr '§' '\n' 2>/dev/null) || {
+    printf "⚠️ Warning: Failed to extract changelog text from API response.\n\n" >&2
+    exit 0
 }
 
 # Define the changelog file path

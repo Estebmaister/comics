@@ -15,15 +15,13 @@ Returns:
 """
 
 import datetime
-from typing import List, Optional
+from typing import List
 
 from sqlalchemy.exc import IntegrityError
 
-# Import helper function for handling multiple comic finds
-from src.db.helpers import manage_multi_finds
-
 # Import database models and utilities
-from . import ComicDB, Session, Types, load_comics, save_comics_file
+from . import ComicDB, Session, load_comics, save_comics_file
+from .repo import canonical_comic_by_titles
 
 
 class IDTracker:
@@ -90,7 +88,7 @@ def create_comic_db_instance(comic: dict) -> ComicDB:
     )
 
 
-def find_existing_comic(title: str) -> List[ComicDB]:
+def find_existing_comic(titles: List[str], com_type: int) -> List[ComicDB]:
     """
     Searches database for comics with matching title.
 
@@ -101,9 +99,10 @@ def find_existing_comic(title: str) -> List[ComicDB]:
         List[ComicDB]: List of matching comics
     """
     with Session() as session:
-        return session.query(ComicDB).filter(
-            ComicDB.titles.like(f"%{title}%")
-        ).all()
+        comic = canonical_comic_by_titles(titles, com_type, session)
+        if comic is None:
+            return []
+        return [comic]
 
 
 def process_comic(comic: dict, session) -> bool:
@@ -119,15 +118,7 @@ def process_comic(comic: dict, session) -> bool:
     """
     try:
         first_title: str = comic['titles'][0]
-
-        # Search database for comics with similar titles
-        db_comic = find_existing_comic(first_title)
-
-        # Handle cases where multiple comics with similar titles are found
-        if len(db_comic) > 1:
-            db_comic, _ = manage_multi_finds(
-                db_comic, Types(comic['com_type']), first_title
-            )
+        db_comic = find_existing_comic(comic['titles'], comic['com_type'])
 
         # Add new comic if not found in database
         if len(db_comic) == 0:
@@ -182,7 +173,7 @@ def main() -> int:
             # Process the comic
             if process_comic(comic, session):
                 comics_processed += 1
-                if len(find_existing_comic(comic['titles'][0])) == 0:
+                if len(find_existing_comic(comic['titles'], comic['com_type'])) == 0:
                     comics_added += 1
                 else:
                     comics_existing += 1

@@ -12,11 +12,12 @@ from dotenv import load_dotenv
 from flask_restx import Model
 from flask_restx import fields as sf
 from sqlalchemy import (URL, Boolean, Column, Integer, Sequence, String,
-                        create_engine)
+                        create_engine, event)
+from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.sql import text
 
-from helpers.text import normalize_text
+from db.identity import build_identity_key_from_titles, normalize_title_variants
 
 @unique
 class Engines(IntEnum):
@@ -116,10 +117,26 @@ seq = Sequence('comic_id_seq')
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
-if not DB_ENGINE or DB_ENGINE == Engines.SQLITE:
-    session.execute(text('PRAGMA case_sensitive_like = true'))
-    session.execute(text('PRAGMA journal_mode = WAL'))
-    session.execute(text('PRAGMA wal_checkpoint(FULL)'))
+def _setup_sqlite_pragmas() -> None:
+    if DB_ENGINE and DB_ENGINE != Engines.SQLITE:
+        return
+    try:
+        session.execute(text('PRAGMA case_sensitive_like = true'))
+        session.execute(text('PRAGMA journal_mode = WAL'))
+        session.execute(text('PRAGMA wal_checkpoint(FULL)'))
+    except DatabaseError as err:
+        msg = str(err).lower()
+        if 'malformed' in msg or 'disk image is malformed' in msg:
+            guidance = (
+                f"SQLite DB is corrupted: {db_file}. "
+                "Recover with sqlite3 .recover or restore from backup."
+            )
+            log.critical(guidance)
+            raise RuntimeError(guidance) from err
+        raise
+
+
+_setup_sqlite_pragmas()
 
 
 @unique
@@ -206,6 +223,7 @@ class ComicDB(Base):
     last_update = Column(Integer,   default=lambda: int(time.time()))
     published_in = Column(String(50), default="0")
     genres = Column(String(50),     default="0")
+    identity_key = Column(String(255), nullable=False, default="")
     com_type = Column(Integer,      nullable=False, default=0)
     status = Column(Integer,        nullable=False, default=0)
     current_chap = Column(Integer,  nullable=False, default=0)
@@ -230,15 +248,16 @@ class ComicDB(Base):
         track:        int = 0,
         viewed_chap:  int = 0,
         rating:       int = 0,
+        deleted:      bool = False,
 
     ):
         self.id = id
-        self.titles = str(titles)
         self.current_chap = int(current_chap)
         self.cover = str(cover)
         self.last_update = int(last_update)
         self.com_type = int(com_type)
         self.status = int(status)
+        self.set_titles(titles)
         if isinstance(published_in, list):
             self.set_published_in(published_in)
         else:
@@ -251,18 +270,25 @@ class ComicDB(Base):
         self.author = str(author)
         self.track = int(track)
         self.viewed_chap = int(viewed_chap)
-        self.rating = 0
-        self.deleted = False
+        self.rating = int(rating)
+        self.deleted = bool(deleted)
+        self.refresh_identity_key()
 
     def get_titles(self) -> List[str]:
         return str(self.titles).split("|")
 
     def set_titles(self, titles: Union[str, List[str]]) -> None:
-        if type(titles) is list:
-            titles = [normalize_text(title).capitalize() for title in titles]
-            self.titles = str("|".join(titles))
-        elif type(titles) is str:
-            self.titles = normalize_text(titles).capitalize()
+        normalized_titles = normalize_title_variants(titles, self.com_type)
+        self.titles = "|".join(normalized_titles)
+        self.refresh_identity_key()
+
+    def normalize_titles(self) -> None:
+        self.set_titles(self.get_titles())
+
+    def refresh_identity_key(self) -> None:
+        self.identity_key = build_identity_key_from_titles(
+            self.titles, self.com_type
+        )
 
     def get_published_in(self) -> List[Publishers]:
         return [Publishers(int(p)) for p in str(self.published_in).split("|")]
@@ -298,6 +324,13 @@ class ComicDB(Base):
         )
 
 
+@event.listens_for(ComicDB, "before_insert")
+@event.listens_for(ComicDB, "before_update")
+def _normalize_comic_identity(_, __, target: ComicDB) -> None:
+    target.normalize_titles()
+    target.refresh_identity_key()
+
+
 comic_swagger_model = Model('Comic', {
     'id':           sf.Integer(readonly=True, description='Comic unique identifier'),
     'titles':       sf.List(sf.String(), required=True, description='Comic titles'),
@@ -316,6 +349,106 @@ comic_swagger_model = Model('Comic', {
 
 # Create tables if they don't exist
 Base.metadata.create_all(engine)
+
+
+def _sqlite_table_columns(table_name: str) -> List[str]:
+    with engine.begin() as connection:
+        rows = connection.execute(text(f"PRAGMA table_info({table_name})"))
+        return [row[1] for row in rows]
+
+
+def _count_duplicate_identity_groups() -> int:
+    with engine.begin() as connection:
+        query = text(
+            """
+            SELECT COUNT(*) FROM (
+                SELECT identity_key
+                FROM comics
+                WHERE identity_key != '' AND deleted = 0
+                GROUP BY identity_key
+                HAVING COUNT(*) > 1
+            )
+            """
+        )
+        return int(connection.execute(query).scalar() or 0)
+
+
+def _backfill_identity_keys() -> None:
+    with engine.begin() as connection:
+        rows = connection.execute(
+            text(
+                """
+                SELECT id, titles, com_type
+                FROM comics
+                WHERE COALESCE(identity_key, '') = ''
+                """
+            )
+        ).mappings().all()
+        for row in rows:
+            identity_key = build_identity_key_from_titles(
+                row["titles"], row["com_type"]
+            )
+            connection.execute(
+                text(
+                    """
+                    UPDATE comics
+                    SET identity_key = :identity_key
+                    WHERE id = :comic_id
+                    """
+                ),
+                {
+                    "identity_key": identity_key,
+                    "comic_id": row["id"],
+                },
+            )
+
+
+def _ensure_sqlite_identity_schema() -> None:
+    if DB_ENGINE != Engines.SQLITE:
+        return
+
+    columns = _sqlite_table_columns("comics")
+    if "identity_key" not in columns:
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    """
+                    ALTER TABLE comics
+                    ADD COLUMN identity_key VARCHAR(255) NOT NULL DEFAULT ''
+                    """
+                )
+            )
+
+    with engine.begin() as connection:
+        connection.execute(
+            text(
+                """
+                CREATE INDEX IF NOT EXISTS idx_comics_identity_key
+                ON comics (identity_key)
+                """
+            )
+        )
+
+    _backfill_identity_keys()
+
+    if _count_duplicate_identity_groups() == 0:
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    """
+                    CREATE UNIQUE INDEX IF NOT EXISTS uq_comics_identity_key
+                    ON comics (identity_key)
+                    WHERE deleted = 0
+                    """
+                )
+            )
+    else:
+        log.warning(
+            "identity_key duplicates still exist; skipping unique index creation"
+        )
+
+
+_ensure_sqlite_identity_schema()
 
 if DB_ENGINE == Engines.POSTGRES:
     seq.create(bind=engine)

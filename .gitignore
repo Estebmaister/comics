@@ -188,3 +188,6 @@ yarn-error.log*
 # sqlite write-ahead logging
 *.db-wal
 *.db-shm
+
+# generated DB recovery snapshots
+src/db/recovery/
