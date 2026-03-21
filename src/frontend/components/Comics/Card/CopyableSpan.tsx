@@ -1,28 +1,21 @@
 import React from 'react';
 
 interface CopyableSpanProps {
-  textToCopy: string,
+  textToCopy: string | number,
   textToShow?: string,
   className?: string,
-  onMouseOver?: () => void,
-  onFocus?: () => void,
-  onMouseOut?: () => void,
-  onBlur?: () => void
+  ariaLabel?: string,
 }
 
 const CopyableSpan: React.FC<CopyableSpanProps> = ({
-  textToCopy, textToShow, className,
-  onMouseOver, onFocus, onMouseOut, onBlur
+  textToCopy, textToShow, className, ariaLabel,
 }) => {
   return (
     <button
       type="button"
-      onClick={() => handleCopyToClipboard(textToCopy)}
+      onClick={() => handleCopyToClipboard(String(textToCopy))}
       className={className}
-      onMouseOver={onMouseOver}
-      onFocus={onFocus}
-      onMouseOut={onMouseOut}
-      onBlur={onBlur}
+      aria-label={ariaLabel ?? `Copy ${textToCopy}`}
     >
       {textToShow}
     </button>

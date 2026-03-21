@@ -2,10 +2,10 @@
 export const COMIC_SEARCH_PLACEHOLDER = 'Search by comic name';
 
 // Layout Constants
-export const COMIC_CARD_WIDTH = 490;
-export const MAIN_PAGE_PADDING = 30;
-export const COMIC_CARD_ESTIMATED_ROW_HEIGHT = 220;
-export const VIEWPORT_RESERVED_HEIGHT = 140;
+export const DESKTOP_TWO_COLUMN_MIN_WIDTH = 900;
+export const DESKTOP_THREE_COLUMN_MIN_WIDTH = 1600;
+export const COMIC_CARD_ESTIMATED_ROW_HEIGHT = 250;
+export const VIEWPORT_RESERVED_HEIGHT = 180;
 
 // Time Constants (in milliseconds)
 export const REFRESH_INTERVAL = 3 * 60 * 1000; // 3 minutes

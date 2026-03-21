@@ -4,6 +4,7 @@ import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import db_classes from '../../../../db/db_classes.json'
 import { handleInputChange, ComicModalProps } from './helpers';
+import type { Comic } from '../types';
 
 const formType = (field: string) => {
   switch (field) {
@@ -30,7 +31,7 @@ const formType = (field: string) => {
   }
 }
 
-const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, onClose }) => {
+const EditComicModal: React.FC<ComicModalProps<Comic>> = ({ comic, isOpen, onSubmit, onClose }) => {
   const focusInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isOpen && focusInputRef.current) {
@@ -38,12 +39,12 @@ const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, on
     }
   }, [isOpen]);
 
-  const [formState, setFormState] = useState(comic || {});
-  useEffect(() => setFormState(comic || {}), [comic]);
+  const [formState, setFormState] = useState<Comic>(comic as Comic);
+  useEffect(() => setFormState(comic as Comic), [comic]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (await onSubmit(formState)) setFormState(comic || {});
+    if (await onSubmit(formState)) setFormState((comic ?? formState) as Comic);
   };
 
   return (
@@ -51,7 +52,7 @@ const EditComicModal: React.FC<ComicModalProps> = ({ comic, isOpen, onSubmit, on
       <form className='comic-modal-form' onSubmit={handleSubmit}>
         <header className='modal-form-header'>
           <h2>Edit Comic</h2>
-          <p>Keep fields compact on desktop while preserving mobile usability.</p>
+          <p>Keep the data accurate without losing reading rhythm. Longer fields expand cleanly, and the action footer stays anchored while you scroll.</p>
         </header>
 
         <div className='form-grid'>

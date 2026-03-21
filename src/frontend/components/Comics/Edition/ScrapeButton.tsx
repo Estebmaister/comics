@@ -1,10 +1,10 @@
-import React, { useState, SetStateAction } from 'react';
-import Loaders from '../../Loaders';
-import './ScrapeButton.css';
+import React, { SetStateAction, useState } from 'react';
 import config from '../../../util/Config';
+import { useToast } from '../../Toast/ToastProvider';
+import { RailActionButton } from '../Actions/FloatingActionRail';
 
 const SERVER = config.SERVER;
-const SHOW_MESSAGE_TIMEOUT = config.SHOW_MESSAGE_TIMEOUT;
+
 const scrape = async (
   setShowLoader: { (value: SetStateAction<boolean>): void; },
   server = SERVER
@@ -26,56 +26,43 @@ const scrape = async (
     });
   setShowLoader(false);
   return success;
+};
+
+interface ScrapeButtonProps {
+  onSuccess?: () => void;
 }
 
-const ScrapeButton = () => {
-  const [showMsg, setShowMsg] = useState(false);
+const ScrapeButton = ({ onSuccess }: ScrapeButtonProps) => {
   const [showLoader, setShowLoader] = useState(false);
-  const [hideMsg, setHideMsg] = useState(false);
-  const [failMsg, setFailMsg] = useState(false);
+  const toast = useToast();
 
   const handleOpenScrapeButtonModal = async () => {
-    setShowMsg(false);
-    setFailMsg(false);
-
     if (await scrape(setShowLoader)) {
-      setFailMsg(false);
-      setHideMsg(false);
-      setShowMsg(true);
-      setTimeout(() => window.location.reload(), SHOW_MESSAGE_TIMEOUT);
+      toast.success({
+        title: 'Catalog refreshed',
+        description: 'Scraping finished and the comics list was refreshed.',
+      });
+      onSuccess?.();
       return;
     }
-    setHideMsg(false);
-    setFailMsg(true);
-    setShowMsg(true);
+
+    toast.error({
+      title: 'Scrape failed',
+      description: 'The backend could not finish the scrape request.',
+    });
   };
 
-  const timerHide = () => {
-    setTimeout(() => setHideMsg(true), SHOW_MESSAGE_TIMEOUT);
-    return true;
-  }
-
-  return (<>
-    <button
-      className={'button-scrape'}
+  return (
+    <RailActionButton
+      eyebrow="Sync"
+      title={showLoader ? 'Scraping' : 'Scrape'}
+      description={showLoader ? 'Refreshing catalog data...' : 'Refresh scraped sources'}
+      tone="neutral"
       onClick={handleOpenScrapeButtonModal}
       disabled={showLoader}
-    >
-      {showLoader &&
-        (<span className={'span-loader'}> <Loaders selector='battery' /> </span>)
-      }
-    </button>
-
-    {(showMsg && timerHide()) && (
-      <div className={
-        `msg-box ${hideMsg ? 'msg-hide' : ''} ${failMsg ? 'msg-fail' : ''}`
-      }>
-        <b>Scrape</b> function trigger{' '}
-        <b>{failMsg ? 'failed' : 'succeeded'}.</b>
-      </div>
-    )}
-
-  </>);
+      aria-label="Scrape sources"
+    />
+  );
 };
 
 export default ScrapeButton;

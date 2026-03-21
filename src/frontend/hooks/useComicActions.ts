@@ -1,12 +1,13 @@
 import { useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { checkoutComic, delComic, trackComic } from '../util/ServerHelpers';
+import type { Comic } from '../components/Comics/types';
 
 type UseComicActionsArgs = {
   comicId: number;
   currentChap: number;
   isTracked: boolean;
-  setComic: Dispatch<SetStateAction<Record<string, any>>>;
+  setComic: Dispatch<SetStateAction<Comic>>;
   setViewedChap: Dispatch<SetStateAction<number>>;
   setCheck: Dispatch<SetStateAction<boolean>>;
   setDel: Dispatch<SetStateAction<boolean>>;

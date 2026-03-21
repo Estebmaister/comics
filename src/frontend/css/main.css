@@ -10,13 +10,32 @@
     --secondary-color: #0f172a;
     --contrast-color: #f8fafc;
     --shadow: #334155;
-    --basic-button: #0f766ecf;
-    --reverse-button: #b45309d9;
+    --surface-0: #030712;
+    --surface-1: #0b1222;
+    --surface-2: #101a31;
+    --surface-3: #15203b;
+    --surface-glass: rgb(15 23 42 / 72%);
+    --border-subtle: rgb(148 163 184 / 18%);
+    --border-strong: rgb(148 163 184 / 34%);
+    --basic-button: linear-gradient(135deg, rgb(13 148 136 / 0.95), rgb(15 118 110 / 0.9));
+    --reverse-button: linear-gradient(135deg, rgb(249 115 22 / 0.95), rgb(180 83 9 / 0.88));
     --disabled-button: #475569;
     --success-color: #86efac;
     --success-border: #166534;
     --fail-color: #fca5a5;
     --fail-border: #991b1b;
+    --accent-cyan: #22d3ee;
+    --accent-teal: #14b8a6;
+    --accent-amber: #fb923c;
+    --focus-ring: rgb(34 211 238 / 34%);
+    --nav-height: 5.1rem;
+    --layer-card-overlay: 10;
+    --layer-nav: 40;
+    --layer-floating: 50;
+    --layer-toast: 60;
+    --layer-modal: 70;
+    --motion-fast: 160ms ease;
+    --motion-medium: 260ms ease;
   }
 
   *,
@@ -41,11 +60,11 @@
     color: var(--contrast-color);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #020617;
+    background-color: var(--surface-0);
     background-image:
-      radial-gradient(circle at 15% 0%, rgb(34 211 238 / 25%), transparent 42%),
-      radial-gradient(circle at 85% 5%, rgb(251 146 60 / 18%), transparent 38%),
-      linear-gradient(140deg, #020617 0%, #0f172a 48%, #111827 100%);
+      radial-gradient(circle at 12% 0%, rgb(34 211 238 / 16%), transparent 34%),
+      radial-gradient(circle at 88% 8%, rgb(251 146 60 / 14%), transparent 28%),
+      linear-gradient(145deg, #020617 0%, #081120 42%, #0d172b 100%);
     background-attachment: fixed;
   }
 
@@ -78,16 +97,25 @@
 
 @layer components {
   .basic-button {
-    @apply inline-flex items-center justify-center rounded-xl border border-slate-900/40 px-3 py-2 text-[0.72rem] font-semibold tracking-wide text-slate-100 transition duration-200;
-    background-color: var(--basic-button);
-    box-shadow: 0 8px 22px rgb(15 23 42 / 34%);
+    @apply inline-flex items-center justify-center rounded-xl border border-slate-900/50 px-3 py-2 text-[0.72rem] font-semibold tracking-wide text-slate-100;
+    background: var(--basic-button);
+    box-shadow:
+      0 12px 28px rgb(2 6 23 / 32%),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
+    transition:
+      transform var(--motion-fast),
+      filter var(--motion-fast),
+      box-shadow var(--motion-fast);
   }
 
   .basic-button:hover:not(:disabled),
   .basic-button:focus-visible:not(:disabled) {
     filter: brightness(1.08);
     transform: translateY(-1px);
-    box-shadow: 0 12px 26px rgb(15 23 42 / 45%);
+    box-shadow:
+      0 16px 32px rgb(2 6 23 / 40%),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+    outline: none;
   }
 
   .basic-button:disabled {
@@ -97,7 +125,7 @@
   }
 
   .reverse-button {
-    background-color: var(--reverse-button);
+    background: var(--reverse-button);
   }
 
   .text {
@@ -113,6 +141,18 @@
   .server {
     @apply mt-28 px-4 text-center text-xl font-semibold text-slate-100;
     text-shadow: 0 4px 12px rgb(15 23 42 / 70%);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   @media only screen and (max-width: 640px) {

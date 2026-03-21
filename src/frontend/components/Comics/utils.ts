@@ -1,22 +1,19 @@
 import { SetURLSearchParams } from 'react-router-dom';
 import {
   COMIC_CARD_ESTIMATED_ROW_HEIGHT,
-  COMIC_CARD_WIDTH,
-  MAIN_PAGE_PADDING,
+  DESKTOP_TWO_COLUMN_MIN_WIDTH,
+  DESKTOP_THREE_COLUMN_MIN_WIDTH,
   VIEWPORT_RESERVED_HEIGHT,
 } from './constants';
 
 /**
- * Calculate the number of comics that can fit in one row based on window width
+ * Calculate the number of comics that can fit in one row based on the
+ * premium-card desktop thresholds.
  */
 export const calculateInlineComics = (width = window.innerWidth): number => {
-  const inlineComicsWOP = Math.floor(width / COMIC_CARD_WIDTH);
-  if (inlineComicsWOP <= 0 || width <= 0) return 1;
-  const inlineComics = width - (COMIC_CARD_WIDTH * inlineComicsWOP + MAIN_PAGE_PADDING) >= 0
-    ? inlineComicsWOP
-    : inlineComicsWOP - 1;
-  // Keep pagination predictable: 3 columns max.
-  return Math.min(3, Math.max(1, inlineComics));
+  if (width >= DESKTOP_THREE_COLUMN_MIN_WIDTH) return 3;
+  if (width >= DESKTOP_TWO_COLUMN_MIN_WIDTH) return 2;
+  return 1;
 };
 
 /**

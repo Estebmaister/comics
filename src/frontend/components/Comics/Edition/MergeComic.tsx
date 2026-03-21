@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import MergeComicModal from '../Modals/MergeModal';
-import './MergeComic.css';
 import config from '../../../util/Config';
-import OpMsg from './OpMsg';
+import { useToast } from '../../Toast/ToastProvider';
+import { RailActionButton } from '../Actions/FloatingActionRail';
+import type { MergeComicFormState } from '../types';
 
 const SERVER = config.SERVER;
-const mergeComic: (baseID: number, mergingID: number, server?: string) => Promise<string> = async (baseID: number, mergingID: number, server = SERVER) => {
+const mergeComic = async (
+  baseID: number,
+  mergingID: number,
+  server = SERVER
+): Promise<string> => {
   let msg = '';
   await fetch(`${server}/comics/${baseID}/${mergingID}`, {
     method: 'PATCH',
@@ -21,20 +26,19 @@ const mergeComic: (baseID: number, mergingID: number, server?: string) => Promis
       msg = err.message;
     });
   return msg;
+};
+
+interface MergeComicProps {
+  onSuccess?: () => void;
 }
 
-const MergeComic = () => {
+const MergeComic = ({ onSuccess }: MergeComicProps) => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState<Record<string, any>>({});
-  const [msg, setMsg] = useState('');
-  const [showMsg, setShowMsg] = useState(false);
-  const [hideMsg, setHideMsg] = useState(false);
-  const [failMsg, setFailMsg] = useState(false);
+  const [comicFormData, setComicFormData] = useState<MergeComicFormState | null>(null);
+  const toast = useToast();
 
   const handleOpenMergeComicModal = () => {
     setIsMergeComicModalOpen(true);
-    setShowMsg(false);
-    setFailMsg(false);
   };
 
   // Set the modal boolean to false as a function to be passed
@@ -43,42 +47,43 @@ const MergeComic = () => {
   };
 
   // Send information to the server and renders a msg from response
-  const handleFormSubmit = async (data: Record<string, any>) => {
+  const handleFormSubmit = async (data: MergeComicFormState) => {
     setComicFormData(data);
-    setHideMsg(false);
-    setShowMsg(true);
-
     const resultMsg = await mergeComic(data?.baseID, data?.mergingID);
-    setMsg(resultMsg);
     if (resultMsg === '') {
       handleCloseMergeComicModal();
-      setFailMsg(false);
+      toast.success({
+        title: 'Comics merged',
+        description: `Merged comic ${data.mergingID} into ${data.baseID}.`,
+      });
+      onSuccess?.();
       return true;
     }
-    setFailMsg(true);
+
+    toast.error({
+      title: 'Merge failed',
+      description: resultMsg || `Unable to merge ${data.baseID} and ${data.mergingID}.`,
+    });
     return false;
   };
 
   return (<>
-    <button className={'button-merge'} onClick={handleOpenMergeComicModal}>
-    </button>
-
-    <OpMsg
-      comicType={comicFormData?.baseID + ' &'}
-      title={comicFormData?.mergingID}
-      msg={msg}
-      operation="merging"
-      showMsg={showMsg}
-      hideMsg={hideMsg}
-      failMsg={failMsg}
-      setHideMsg={setHideMsg}
+    <RailActionButton
+      eyebrow="Combine"
+      title="Merge"
+      description={comicFormData ? `${comicFormData.baseID} <- ${comicFormData.mergingID}` : 'Merge duplicate records'}
+      tone="warm"
+      onClick={handleOpenMergeComicModal}
+      aria-label="Merge comics"
     />
 
-    <MergeComicModal
-      isOpen={isMergeComicModalOpen}
-      onSubmit={handleFormSubmit}
-      onClose={handleCloseMergeComicModal}
-    />
+    {isMergeComicModalOpen ? (
+      <MergeComicModal
+        isOpen={isMergeComicModalOpen}
+        onSubmit={handleFormSubmit}
+        onClose={handleCloseMergeComicModal}
+      />
+    ) : null}
   </>);
 };
 

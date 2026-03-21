@@ -6,7 +6,7 @@ interface InputDivProps {
   focusInputRef?: React.RefObject<HTMLInputElement | null>;
   type: string;
   field: string;
-  value: string | number | string[] | boolean;
+  value: unknown;
   handleInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   selectOptDict?: Record<string, string[]>;
   multiple?: boolean;
@@ -20,7 +20,15 @@ const InputDiv = (
     selectOptDict, multiple, className = 'form-row' }: InputDivProps
 ): JSX.Element | null => {
   const fieldTitle = capitalize(field).split('_').join(' ');
-  if (field === 'titles' && typeof (value) === 'object') value = value.join('|');
+  let normalizedValue = value;
+  if (field === 'titles' && Array.isArray(normalizedValue)) normalizedValue = normalizedValue.join('|');
+  const fieldValue = Array.isArray(normalizedValue)
+    ? normalizedValue.map((entry) => String(entry))
+    : typeof normalizedValue === 'boolean'
+      ? (normalizedValue ? 'true' : 'false')
+      : typeof normalizedValue === 'string' || typeof normalizedValue === 'number'
+        ? normalizedValue
+        : '';
   if (type === 'none') return null;
   const rowClassName = `${className}${type === 'checkbox' ? ' checkbox-row' : ''}`;
 
@@ -33,8 +41,8 @@ const InputDiv = (
           type={type}
           id={field}
           name={field}
-          value={typeof value === 'boolean' ? (value ? 'true' : 'false') : value}
-          checked={value === 'true' || value === true}
+          value={fieldValue}
+          checked={normalizedValue === 'true' || normalizedValue === true}
           onChange={handleInputChange}
         />
         <label htmlFor={field}> {fieldTitle} </label>
@@ -49,7 +57,7 @@ const InputDiv = (
         <select
           id={field}
           name={field}
-          value={typeof value === 'boolean' ? (value ? 'true' : 'false') : value}
+          value={fieldValue}
           onChange={handleInputChange}
           multiple={multiple}
           size={multiple ? 4 : undefined}
@@ -63,7 +71,7 @@ const InputDiv = (
             required={required}
             id={field}
             name={field}
-            value={typeof value === 'boolean' ? (value ? 'true' : 'false') : value}
+            value={fieldValue}
             onChange={handleInputChange}
             rows={3}
           /> :
@@ -75,7 +83,7 @@ const InputDiv = (
           type={type}
           id={field}
           name={field}
-          value={typeof value === 'boolean' ? (value ? 'true' : 'false') : value}
+          value={fieldValue}
           onChange={handleInputChange}
         />
       }

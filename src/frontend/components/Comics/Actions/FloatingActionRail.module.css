@@ -1,0 +1,112 @@
+.railShell {
+  position: fixed;
+  right: 1.2rem;
+  bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+  z-index: var(--layer-floating);
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+  padding: 0.85rem;
+  border: 1px solid rgb(148 163 184 / 16%);
+  border-radius: 1.4rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 10%), transparent 46%),
+    radial-gradient(circle at 100% 100%, rgb(251 146 60 / 9%), transparent 40%),
+    linear-gradient(160deg, rgb(7 11 23 / 88%), rgb(14 19 37 / 88%));
+  box-shadow:
+    0 24px 60px rgb(2 6 23 / 50%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+  backdrop-filter: blur(18px);
+}
+
+.actionButton {
+  min-width: 12rem;
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.78rem 0.9rem;
+  border: 1px solid rgb(148 163 184 / 18%);
+  border-radius: 1rem;
+  background: rgb(15 23 42 / 72%);
+  color: #f8fafc;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+
+.actionButton:hover:not(:disabled),
+.actionButton:focus-visible:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgb(148 163 184 / 38%);
+  background: rgb(15 23 42 / 90%);
+  box-shadow: 0 16px 32px rgb(2 6 23 / 35%);
+  outline: none;
+}
+
+.actionButton:disabled {
+  cursor: wait;
+  opacity: 0.76;
+}
+
+.actionEyebrow {
+  color: #94a3b8;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.actionTitle {
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.actionDescription {
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.toneCool {
+  box-shadow: inset 0 0 0 1px rgb(34 211 238 / 0.06);
+}
+
+.toneWarm {
+  box-shadow: inset 0 0 0 1px rgb(251 146 60 / 0.08);
+}
+
+.toneNeutral {
+  box-shadow: inset 0 0 0 1px rgb(148 163 184 / 0.08);
+}
+
+@media (max-width: 767px) {
+  .railShell {
+    right: 0.75rem;
+    left: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .rail {
+    flex-direction: row;
+    padding: 0.55rem;
+    gap: 0.5rem;
+    border-radius: 1.15rem;
+  }
+
+  .actionButton {
+    min-width: 0;
+    flex: 1;
+    padding: 0.72rem;
+  }
+
+  .actionDescription {
+    font-size: 0.68rem;
+  }
+}

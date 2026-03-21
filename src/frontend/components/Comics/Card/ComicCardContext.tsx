@@ -1,9 +1,10 @@
 import { createContext, useContext } from 'react';
 import type { Dispatch, SetStateAction, ReactNode } from 'react';
+import type { Comic } from '../types';
 
 type ComicCardContextValue = {
-  comic: Record<string, any>;
-  setComic: Dispatch<SetStateAction<Record<string, any>>>;
+  comic: Comic;
+  setComic: Dispatch<SetStateAction<Comic>>;
   setViewedChap: Dispatch<SetStateAction<number>>;
 };
 

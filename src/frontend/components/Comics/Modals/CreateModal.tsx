@@ -4,8 +4,9 @@ import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import db_classes from '../../../../db/db_classes.json'
 import { handleInputChange, ComicModalProps } from './helpers';
+import type { CreateComicFormState } from '../types';
 
-const createComicEmpty = {
+const createComicEmpty: CreateComicFormState = {
   title: '',
   track: false,
   current_chap: 0,
@@ -16,8 +17,8 @@ const createComicEmpty = {
 
   com_type: 3,
   status: 2,
-  published_in: ['0'],
-  genres: ['0'],
+  published_in: [0],
+  genres: [0],
 };
 
 const formType = (field: string) => {
@@ -41,7 +42,7 @@ const formType = (field: string) => {
   }
 }
 
-const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
+const CreateComicModal: React.FC<ComicModalProps<CreateComicFormState>> = ({ onSubmit, isOpen, onClose }) => {
   const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(createComicEmpty);
 
@@ -61,7 +62,7 @@ const CreateComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose
       <form className='comic-modal-form' onSubmit={handleSubmit}>
         <header className='modal-form-header'>
           <h2>Create Comic</h2>
-          <p>Use pipe `|` only when entering multiple alternate titles manually.</p>
+          <p>Use pipe `|` only when entering multiple alternate titles manually. The footer stays pinned so the primary action never disappears.</p>
         </header>
 
         <div className='form-grid'>

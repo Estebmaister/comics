@@ -1,229 +1,405 @@
 .comicCard {
   position: relative;
-  width: min(100%, 476px);
+  width: min(100%, 520px);
+  min-height: 274px;
   margin: 0 auto;
-  padding: 0.66rem;
-  border-radius: 0.9rem;
-  border: 1px solid rgb(148 163 184 / 22%);
-  box-shadow: 0 12px 28px rgb(2 6 23 / 45%);
+  padding: 0.9rem;
+  border: 1px solid rgb(148 163 184 / 14%);
+  border-radius: 1.55rem;
   background:
-    radial-gradient(circle at 95% 100%, rgb(30 58 138 / 22%), transparent 44%),
-    linear-gradient(120deg, rgb(15 23 42 / 94%), rgb(24 24 44 / 92%));
+    linear-gradient(150deg, rgb(8 13 26 / 96%), rgb(15 23 42 / 92%));
+  box-shadow:
+    0 26px 62px rgb(2 6 23 / 40%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
   overflow: hidden;
 }
 
-.cardRow {
-  display: flex;
-  gap: 0.64rem;
-  align-items: flex-start;
-}
-
-.posterDiv {
-  position: relative;
-  flex: 0 0 128px;
-  width: 128px;
-  border-radius: 0.36rem;
-}
-
-.poster {
-  display: block;
-  width: 100%;
-  height: 182px;
-  object-fit: cover;
-  border: 1px solid rgb(203 213 225 / 38%);
-  border-radius: 0.36rem;
-}
-
-.hoverID {
+.cardGlow {
   position: absolute;
-  left: 0.45rem;
-  bottom: 0.45rem;
-  z-index: 4;
-  min-width: 4.9rem;
-  padding: 0.2rem 0.34rem !important;
-  font-size: 0.62rem !important;
-  line-height: 1.1;
+  inset: 0;
+  background:
+    radial-gradient(circle at 8% 12%, rgb(34 211 238 / 0.08), transparent 28%),
+    radial-gradient(circle at 88% 88%, rgb(251 146 60 / 0.08), transparent 26%);
+  pointer-events: none;
+}
+
+.cardRow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.posterShell {
+  display: flex;
+}
+
+.posterFrame {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  border-radius: 1.15rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgb(15 23 42 / 88%), rgb(8 13 26 / 92%));
+  box-shadow:
+    0 18px 34px rgb(2 6 23 / 34%),
+    inset 0 0 0 1px rgb(148 163 184 / 0.18);
+}
+
+.posterImage,
+.posterFallback {
+  width: 100%;
+  height: 100%;
+  min-height: 246px;
+  display: block;
+}
+
+.posterImage {
+  object-fit: cover;
+}
+
+.posterFallback {
+  display: grid;
+  align-content: end;
+  gap: 0.5rem;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 18% 10%, rgb(34 211 238 / 0.2), transparent 28%),
+    radial-gradient(circle at 88% 88%, rgb(251 146 60 / 0.24), transparent 30%),
+    linear-gradient(165deg, rgb(15 23 42 / 0.98), rgb(17 24 39 / 0.92));
+}
+
+.posterFallbackBadge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: rgb(6 182 212 / 0.16);
+  color: #67e8f9;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.posterFallbackTitle {
+  color: #f8fafc;
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.posterFallbackMeta {
+  color: #cbd5e1;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.posterOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--layer-card-overlay);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.72rem;
+  pointer-events: none;
+}
+
+.overlayActions,
+.idChip {
+  opacity: 1;
+  transform: none;
+}
+
+.overlayActions {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: space-between;
+}
+
+.overlayButton {
+  pointer-events: auto;
+  min-width: 4rem;
+  height: 2rem;
+  padding: 0 0.78rem;
+  border: 1px solid rgb(248 250 252 / 0.12);
+  border-radius: 999px;
+  background: rgb(7 11 23 / 0.48);
+  color: #f8fafc;
+  backdrop-filter: blur(16px);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast);
+}
+
+.overlayButton:hover,
+.overlayButton:focus-visible {
+  background: rgb(7 11 23 / 0.8);
+  border-color: rgb(248 250 252 / 0.24);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.overlayButtonDanger {
+  background: rgb(127 29 29 / 0.46);
+}
+
+.overlayButtonDanger:hover,
+.overlayButtonDanger:focus-visible {
+  background: rgb(153 27 27 / 0.72);
+}
+
+.idChip {
+  pointer-events: auto;
+  align-self: flex-start;
+  padding: 0.42rem 0.68rem !important;
+  border-radius: 999px !important;
+  background: rgb(8 13 26 / 0.66) !important;
+  color: #e2e8f0 !important;
+  backdrop-filter: blur(16px);
+  font-size: 0.68rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .contentColumn {
-  flex: 1;
+  display: flex;
   min-width: 0;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.headingBlock {
   display: flex;
   flex-direction: column;
+  gap: 0.28rem;
 }
 
 .comicTitle {
   margin: 0;
-  max-height: 3.8rem;
-  overflow: auto;
   color: #f8fafc;
-  font-size: 1.2rem;
-  line-height: 1.12;
+  font-size: 1.5rem;
+  line-height: 1.06;
   font-weight: 800;
-  text-shadow: 0 2px 8px rgb(2 6 23 / 75%);
+  letter-spacing: -0.03em;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-.comicChapter {
-  margin: 0.42rem 0 0.16rem;
-  color: #f8fafc;
-  font-size: 0.94rem;
-  line-height: 1.12;
-  font-weight: 800;
-  text-shadow: 0 2px 10px rgb(2 6 23 / 75%);
-}
-
-.fieldLabel {
-  color: #e2e8f0;
-  font-weight: 800;
-}
-
-.chapterValue {
-  color: #f8fafc;
-  font-weight: 800;
-}
-
-.currentChapter {
-  color: #fb923c;
-  font-weight: 800;
-}
-
-.metaLine {
-  margin: 0.1rem 0;
-  max-width: 100%;
-  font-size: 0.83rem;
-  line-height: 1.2;
-  color: #d1d5db;
+.authorLine {
+  margin: 0;
+  color: #93c5fd;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.comicChapter {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.48rem;
+  color: #f8fafc;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.fieldLabel {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.chapterValue,
+.chapterProgress {
+  color: #f8fafc;
+  font-size: 1.3rem;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.chapterProgress {
+  color: #fb923c;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 0.8rem;
+  margin: 0;
+}
+
+.metaItem {
+  min-width: 0;
+}
+
+.metaItemWide {
+  grid-column: 1 / -1;
+}
+
+.metaLabel {
+  margin: 0 0 0.2rem;
+  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.metaValue {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.metaClamp {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .footerRow {
   margin-top: auto;
-  display: flex;
-  align-items: flex-end;
-  gap: 0.48rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  align-items: end;
 }
 
 .publisherText {
-  flex: 1;
-  min-width: 0;
   margin: 0;
-  padding: 0 0.12rem 0.06rem 0;
-  font-size: 0.83rem;
-  line-height: 1.2;
-  color: #d1d5db;
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  min-width: 0;
   text-align: left;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.publisherText::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
+.publisherLinks {
+  color: #dbeafe;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-.publisherText a {
+.publisherLinks a {
   color: #f8fafc;
-  font-weight: 700;
   text-decoration: none;
 }
 
-.publisherText a:hover {
+.publisherLinks a:hover,
+.publisherLinks a:focus-visible {
   color: #67e8f9;
   text-decoration: underline;
+  outline: none;
 }
 
 .actionsColumn {
   display: flex;
+  min-width: 7.3rem;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0.34rem;
+  gap: 0.52rem;
+  align-items: stretch;
 }
 
 .actionButton {
-  min-width: 4.8rem;
-  padding: 0.24rem 0.5rem !important;
-  font-size: 0.72rem !important;
-  line-height: 1.12;
-  border-radius: 0.72rem !important;
+  min-height: 2.4rem;
+  border-radius: 999px !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.03em;
 }
 
-.checkButton {
-  background-color: #b45309db;
+.checkoutButton {
+  background: linear-gradient(135deg, rgb(2 132 199 / 0.92), rgb(14 116 144 / 0.92));
 }
 
-.delButton {
-  position: absolute;
-  left: 0.36rem;
-  top: 0.36rem;
-  z-index: 4;
-  width: 1.62rem;
-  min-width: 1.62rem;
-  height: 1.62rem;
-  border: 1px solid rgb(148 163 184 / 46%);
-  border-radius: 9999px;
-  background-color: rgb(30 41 59 / 72%);
-  color: rgb(226 232 240 / 92%);
-  backdrop-filter: blur(2px);
-  font-size: 0.84rem;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  transition: 140ms ease;
+@media (hover: hover) and (pointer: fine) {
+  .overlayActions,
+  .idChip {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity var(--motion-fast),
+      transform var(--motion-fast);
+  }
+
+  .posterFrame:hover .overlayActions,
+  .posterFrame:hover .idChip,
+  .posterFrame:focus-within .overlayActions,
+  .posterFrame:focus-within .idChip {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.delButton:hover,
-.delButton:focus-visible {
-  background-color: rgb(30 41 59 / 90%);
+@media (max-width: 899px) {
+  .comicCard {
+    width: min(100%, 680px);
+  }
 }
 
 @media (max-width: 640px) {
   .comicCard {
-    padding: 0.56rem;
+    min-height: 0;
+    padding: 0.75rem;
+    border-radius: 1.2rem;
   }
 
   .cardRow {
-    gap: 0.54rem;
+    grid-template-columns: 124px minmax(0, 1fr);
+    gap: 0.82rem;
   }
 
-  .posterDiv {
-    flex-basis: 112px;
-    width: 112px;
-  }
-
-  .poster {
-    height: 160px;
+  .posterImage,
+  .posterFallback {
+    min-height: 212px;
   }
 
   .comicTitle {
-    font-size: 1.08rem;
-    max-height: 3.35rem;
+    font-size: 1.18rem;
   }
 
-  .comicChapter {
-    margin-top: 0.34rem;
-    font-size: 0.86rem;
+  .chapterValue,
+  .chapterProgress {
+    font-size: 1.05rem;
   }
 
-  .metaLine,
-  .publisherText {
-    font-size: 0.76rem;
+  .metaGrid {
+    grid-template-columns: 1fr;
+    gap: 0.48rem;
   }
 
-  .actionButton {
-    min-width: 4.3rem;
-    font-size: 0.69rem !important;
+  .footerRow {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
-  .delButton {
-    width: 1.48rem;
-    min-width: 1.48rem;
-    height: 1.48rem;
-    font-size: 0.79rem;
+  .actionsColumn {
+    min-width: 0;
+    width: 100%;
   }
 }

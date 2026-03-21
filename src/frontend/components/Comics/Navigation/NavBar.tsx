@@ -61,8 +61,8 @@ export const NavBar: React.FC<NavBarProps> = ({
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-slate-200/20 bg-slate-950/80 shadow-halo backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-[1500px] flex-wrap items-center gap-2 px-3 py-3 sm:px-4 lg:px-6">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-slate-200/10 bg-slate-950/70 shadow-halo backdrop-blur-xl">
+      <div className="mx-auto flex w-full max-w-[1560px] flex-wrap items-center gap-2.5 px-3 py-3 sm:px-4 lg:px-6">
         <ConditionalButton
           condFlag={onlyTracked}
           extraClass="reverse-button"
@@ -83,7 +83,7 @@ export const NavBar: React.FC<NavBarProps> = ({
         />
 
         <input
-          className="w-full flex-1 rounded-xl border border-slate-300/25 bg-white/90 px-4 py-2 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-cyan-500 focus:bg-white focus:ring-2 focus:ring-cyan-400/40 sm:w-auto sm:min-w-[250px] md:text-base"
+          className="w-full flex-1 rounded-2xl border border-slate-200/10 bg-slate-900/75 px-4 py-2.5 text-sm font-medium text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:bg-slate-900 focus:ring-4 focus:ring-cyan-400/10 sm:w-auto sm:min-w-[250px] md:text-base"
           placeholder={COMIC_SEARCH_PLACEHOLDER}
           type="text"
           value={queryFilter}

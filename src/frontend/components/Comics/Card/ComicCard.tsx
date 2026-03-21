@@ -1,29 +1,32 @@
 import { JSX, memo, useMemo, useState } from 'react';
-import styles from './ComicCard.module.css'
-import BrokenImage from '../../../assets/404.jpg'
+import styles from './ComicCard.module.css';
 import { Types, Statuses } from '../../../util/ComicClasses';
 import { genresHandler, publishersHandler } from './ComicFormatters';
 import EditComic from '../Edition/EditComic';
 import CopyableSpan from './CopyableSpan';
 import { useComicActions } from '../../../hooks/useComicActions';
 import { ComicCardProvider } from './ComicCardContext';
-
-// TODO: Research a solution for image sourcing
-// const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+import { ComicCover } from './ComicCover';
+import type { Comic } from '../types';
 
 interface ComicCardProps {
-  comic: Record<string, any>;
+  comic: Comic;
   onCheckoutSuccess?: () => void;
   onDeleteSuccess?: () => void;
 }
 
-const ComicCard = (props: ComicCardProps): JSX.Element | null => {
-  const [comic, setComic] = useState(props.comic);
-  const { id, cover, current_chap } = comic;
+const ComicCard = ({
+  comic: initialComic,
+  onCheckoutSuccess,
+  onDeleteSuccess,
+}: ComicCardProps): JSX.Element | null => {
+  const [comic, setComic] = useState(initialComic);
+  const { id, current_chap } = comic;
   const [viewedChap, setViewedChap] = useState<number>(comic.viewed_chap);
   const [check, setCheck] = useState(current_chap > viewedChap);
   const [del, setDel] = useState(false);
   const showCheckout = useMemo(() => comic.track && check, [comic.track, check]);
+  const title = comic.titles[0] ?? 'Unknown comic';
 
   const { handleCheckout, handleTrackToggle, handleDelete } = useComicActions({
     comicId: id,
@@ -33,87 +36,86 @@ const ComicCard = (props: ComicCardProps): JSX.Element | null => {
     setViewedChap,
     setCheck,
     setDel,
-    onCheckoutSuccess: props.onCheckoutSuccess,
-    onDeleteSuccess: props.onDeleteSuccess,
+    onCheckoutSuccess,
+    onDeleteSuccess,
   });
 
-  const [isHovering, setIsHovering] = useState(false);
-  const handleMouseOver = () => setIsHovering(true);;
-  const handleMouseOut = () => setIsHovering(false);
+  const genreText = useMemo(() => genresHandler(comic.genres), [comic.genres]);
+  const publisherLinks = useMemo(
+    () => publishersHandler(comic.published_in),
+    [comic.published_in]
+  );
 
   if (del) return null;
+
   return (
     <ComicCardProvider comic={comic} setComic={setComic} setViewedChap={setViewedChap}>
-      <li key={id} className={styles.comicCard}>
+      <li className={styles.comicCard}>
+        <div className={styles.cardGlow} />
+
         <div className={styles.cardRow}>
-          <div
-            className={styles.posterDiv}
-            style={{ backgroundImage: `url(${BrokenImage})` }}
-          >
-            <img className={styles.poster}
-              src={cover}
-              alt={comic.titles[0]}
-              datatype={cover}
-              loading="lazy"
-              decoding="async"
-              onError={(event) => event.currentTarget.src = BrokenImage}
-              onMouseOver={handleMouseOver}
-              onFocus={handleMouseOver}
-              onMouseOut={handleMouseOut}
-              onBlur={handleMouseOut}
+          <ComicCover comic={comic}>
+            <div className={styles.overlayActions}>
+              <button
+                className={`${styles.overlayButton} ${styles.overlayButtonDanger}`}
+                onClick={handleDelete}
+                aria-label={`Delete ${title}`}
+              >
+                Delete
+              </button>
+              <EditComic className={styles.overlayButton}>Edit</EditComic>
+            </div>
+
+            <CopyableSpan
+              textToCopy={id}
+              textToShow={`ID ${id}`}
+              className={styles.idChip}
+              ariaLabel={`Copy comic ID ${id}`}
             />
-
-            <button
-              className={styles.delButton}
-              onClick={handleDelete}
-            >
-              X
-            </button>
-            <EditComic />
-
-            {isHovering && (
-              <CopyableSpan
-                textToCopy={id}
-                textToShow={`ID: ${id}`}
-                className={`${styles.hoverID} basic-button`}
-                onMouseOver={handleMouseOver}
-                onFocus={handleMouseOver}
-                onMouseOut={handleMouseOut}
-                onBlur={handleMouseOut}
-              />
-            )}
-          </div>
+          </ComicCover>
 
           <div className={styles.contentColumn}>
-            <h3 className={styles.comicTitle}>{comic.titles[0]}</h3>
+            <div className={styles.headingBlock}>
+              <h3 className={styles.comicTitle}>{title}</h3>
+              <p className={styles.authorLine}>
+                {comic.author || 'Author unknown'}
+              </p>
+            </div>
 
             <p className={styles.comicChapter}>
-              <span className={styles.fieldLabel}>Chapter</span>{' '}
-              {comic.track && current_chap !== viewedChap ?
-                (<span className={styles.currentChapter}>{viewedChap}/ </span>)
-                : null}
-              <span className={styles.chapterValue}>{current_chap}</span>
+              <span className={styles.fieldLabel}>Chapter</span>
+              {comic.track && current_chap !== viewedChap ? (
+                <span className={styles.chapterProgress}>{viewedChap}/{current_chap}</span>
+              ) : (
+                <span className={styles.chapterValue}>{current_chap}</span>
+              )}
             </p>
 
-            <p className={styles.metaLine}>{comic.author}</p>
-            <p className={styles.metaLine}>
-              <span className={styles.fieldLabel}>Status:</span> {Statuses[comic.status]}
-            </p>
-            <p className={styles.metaLine}>
-              <span className={styles.fieldLabel}>Type:</span> {Types[comic.com_type]}
-            </p>
-            <p className={styles.metaLine}>
-              <span className={styles.fieldLabel}>Genres:</span> {genresHandler(comic.genres)}
-            </p>
+            <dl className={styles.metaGrid}>
+              <div className={styles.metaItem}>
+                <dt className={styles.metaLabel}>Status</dt>
+                <dd className={styles.metaValue}>{Statuses[comic.status]}</dd>
+              </div>
+              <div className={styles.metaItem}>
+                <dt className={styles.metaLabel}>Type</dt>
+                <dd className={styles.metaValue}>{Types[comic.com_type]}</dd>
+              </div>
+              <div className={`${styles.metaItem} ${styles.metaItemWide}`}>
+                <dt className={styles.metaLabel}>Genres</dt>
+                <dd className={`${styles.metaValue} ${styles.metaClamp}`}>{genreText}</dd>
+              </div>
+            </dl>
 
             <div className={styles.footerRow}>
               <p className={styles.publisherText}>
-                <span className={styles.fieldLabel}>Publishers:</span> {publishersHandler(comic.published_in)}
+                <span className={styles.fieldLabel}>Publishers</span>
+                <span className={styles.publisherLinks}>{publisherLinks}</span>
               </p>
-              <div className={styles.actionsColumn}>
+
+              <div className={styles.actionsColumn} data-testid="comic-footer-actions">
                 {showCheckout ? (
                   <button
-                    className={`${styles.actionButton} ${styles.checkButton} basic-button`}
+                    className={`${styles.actionButton} ${styles.checkoutButton} basic-button`}
                     onClick={handleCheckout}
                   >
                     Checkout

@@ -1,4 +1,4 @@
-import { JSX, useCallback, useEffect, useState } from 'react';
+import { JSX, startTransition, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../../../css/main.css';
 
@@ -11,6 +11,8 @@ import { dataFetch } from '../../../util/ServerHelpers';
 import { Comic, PaginationState } from '../types';
 import { calculatePageLimit } from '../utils';
 import { REFRESH_INTERVAL } from '../constants';
+import { FloatingActionRail } from '../Actions/FloatingActionRail';
+import { ToastProvider } from '../../Toast/ToastProvider';
 
 export function ComicsMainPage() {
   // URL parameters and state
@@ -43,11 +45,17 @@ export function ComicsMainPage() {
     onFirstPage, onLastPage, currentPage, totalPages
   };
 
+  const requestRefresh = useCallback(() => {
+    startTransition(() => {
+      setRefreshTick((value) => value + 1);
+    });
+  }, []);
+
   const handleFilteredMutationSuccess = useCallback(() => {
     // Only refill the page when both filters are active.
     if (!(onlyTracked && onlyUnchecked)) return;
-    setRefreshTick((value) => value + 1);
-  }, [onlyTracked, onlyUnchecked]);
+    requestRefresh();
+  }, [onlyTracked, onlyUnchecked, requestRefresh]);
 
   useEffect(() => {
     let rafId = 0;
@@ -110,27 +118,31 @@ export function ComicsMainPage() {
   ]);
 
   return (
-    <main className="min-h-screen pb-24">
-      <NavBar
-        onlyTracked={onlyTracked}
-        onlyUnchecked={onlyUnchecked}
-        total={total}
-        queryFilter={queryFilter}
-        setSearchParams={setSearchParams}
-        paginationData={paginationData}
-      />
+    <ToastProvider>
+      <main className="min-h-screen pb-24">
+        <NavBar
+          onlyTracked={onlyTracked}
+          onlyUnchecked={onlyUnchecked}
+          total={total}
+          queryFilter={queryFilter}
+          setSearchParams={setSearchParams}
+          paginationData={paginationData}
+        />
 
-      <ComicsList
-        comics={webComics}
-        loadMsg={loadMsg}
-        queryFilter={queryFilter}
-        onCheckoutSuccess={handleFilteredMutationSuccess}
-        onDeleteSuccess={handleFilteredMutationSuccess}
-      />
+        <ComicsList
+          comics={webComics}
+          loadMsg={loadMsg}
+          queryFilter={queryFilter}
+          onCheckoutSuccess={handleFilteredMutationSuccess}
+          onDeleteSuccess={handleFilteredMutationSuccess}
+        />
 
-      <MergeComic />
-      <CreateComic />
-      <ScrapeButton />
-    </main>
+        <FloatingActionRail>
+          <ScrapeButton onSuccess={requestRefresh} />
+          <MergeComic onSuccess={requestRefresh} />
+          <CreateComic onSuccess={requestRefresh} />
+        </FloatingActionRail>
+      </main>
+    </ToastProvider>
   );
 }

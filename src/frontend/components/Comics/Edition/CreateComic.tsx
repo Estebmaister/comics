@@ -1,18 +1,21 @@
 import React, { lazy, Suspense, useState } from 'react';
-import OpMsg from './OpMsg';
-import './CreateComic.css';
 import config from '../../../util/Config';
-import db_classes from '../../../../db/db_classes.json';
 import Loaders from '../../Loaders';
+import { useToast } from '../../Toast/ToastProvider';
+import { RailActionButton } from '../Actions/FloatingActionRail';
+import type { CreateComicFormState } from '../types';
 
 const SERVER = config.SERVER;
 const CreateComicModal = lazy(() => import('../Modals/CreateModal'));
-const create: (comic: Record<string, any>, server?: string) => Promise<string> = async (comic, server = SERVER) => {
+const create = async (
+  comic: CreateComicFormState,
+  server = SERVER
+): Promise<string> => {
   let msg = '';
-  const last_update = { last_update: new Date().getTime() }
+  const last_update = { last_update: new Date().getTime() };
   const titles = { titles: [comic.title] };
-  const data = { ...comic, ...last_update, ...titles }
-  console.debug(JSON.stringify(data))
+  const data = { ...comic, ...last_update, ...titles };
+  console.debug(JSON.stringify(data));
   await fetch(`${server}/comics`, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -30,62 +33,63 @@ const create: (comic: Record<string, any>, server?: string) => Promise<string> =
   return msg;
 };
 
-const CreateComic = () => {
+interface CreateComicProps {
+  onSuccess?: () => void;
+}
+
+const CreateComic = ({ onSuccess }: CreateComicProps) => {
   const [isCreateComicModalOpen, setIsCreateComicModalOpen] = useState(false);
-  const [comicFormData, setComicFormData] = useState<Record<string, any>>({});
-  const [msg, setMsg] = useState('');
-  const [showMsg, setShowMsg] = useState(false);
-  const [hideMsg, setHideMsg] = useState(false);
-  const [failMsg, setFailMsg] = useState(false);
+  const [comicFormData, setComicFormData] = useState<CreateComicFormState | null>(null);
+  const toast = useToast();
 
   const handleOpenCreateComicModal = () => {
     setIsCreateComicModalOpen(true);
-    setShowMsg(false);
-    setFailMsg(false);
   };
 
   const handleCloseCreateComicModal = () => {
     setIsCreateComicModalOpen(false);
   };
 
-  const handleFormSubmit = async (data: {}) => {
+  const handleFormSubmit = async (data: CreateComicFormState) => {
     setComicFormData(data);
     const resultMsg = await create(data);
-    setMsg(resultMsg);
-    setHideMsg(false);
-    setShowMsg(true);
 
     if (resultMsg === '') {
       handleCloseCreateComicModal();
-      setFailMsg(false);
+      toast.success({
+        title: 'Comic created',
+        description: `${data.title} is ready to track.`,
+      });
+      onSuccess?.();
       return true;
     }
-    setFailMsg(true);
+
+    toast.error({
+      title: 'Create failed',
+      description: resultMsg || `Unable to create ${data.title}.`,
+    });
     return false;
   };
 
   return (<>
-    <button className={'button-plus'} onClick={handleOpenCreateComicModal}>
-    </button>
-
-    <OpMsg
-      comicType={db_classes?.com_type[comicFormData?.com_type]}
-      title={comicFormData?.title}
-      msg={msg}
-      operation="creation"
-      showMsg={showMsg}
-      hideMsg={hideMsg}
-      failMsg={failMsg}
-      setHideMsg={setHideMsg}
+    <RailActionButton
+      eyebrow="Add"
+      title="Create"
+      description={comicFormData?.title ? `Last: ${comicFormData.title}` : 'Add a comic manually'}
+      tone="cool"
+      onClick={handleOpenCreateComicModal}
+      aria-label="Create comic"
     />
 
-    <Suspense fallback={<Loaders selector="line-fw" />}>
-      <CreateComicModal
-        isOpen={isCreateComicModalOpen}
-        onSubmit={handleFormSubmit}
-        onClose={handleCloseCreateComicModal}
-      />
-    </Suspense>
+    {isCreateComicModalOpen ? (
+      <Suspense fallback={<Loaders selector="line-fw" />}>
+        <CreateComicModal
+          isOpen={isCreateComicModalOpen}
+          onSubmit={handleFormSubmit}
+          onClose={handleCloseCreateComicModal}
+        />
+      </Suspense>
+    ) : null}
   </>);
 };
 

@@ -1,0 +1,91 @@
+.toastViewport {
+  position: fixed;
+  top: calc(var(--nav-height) + 0.85rem);
+  right: 1rem;
+  z-index: var(--layer-toast);
+  display: flex;
+  max-width: min(28rem, calc(100vw - 2rem));
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.toastCard {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: start;
+  padding: 0.9rem 0.95rem;
+  border: 1px solid rgb(148 163 184 / 22%);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 12%), transparent 48%),
+    linear-gradient(160deg, rgb(9 14 28 / 96%), rgb(16 24 42 / 94%));
+  box-shadow:
+    0 18px 48px rgb(2 6 23 / 58%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+  backdrop-filter: blur(20px);
+}
+
+.toastSuccess {
+  border-color: rgb(20 184 166 / 30%);
+}
+
+.toastError {
+  border-color: rgb(248 113 113 / 36%);
+}
+
+.toastInfo {
+  border-color: rgb(56 189 248 / 30%);
+}
+
+.toastCopy {
+  min-width: 0;
+}
+
+.toastTitle {
+  display: block;
+  color: #f8fafc;
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.toastDescription {
+  margin: 0.32rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.dismissButton {
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid rgb(148 163 184 / 24%);
+  border-radius: 999px;
+  background: rgb(15 23 42 / 65%);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast);
+}
+
+.dismissButton:hover,
+.dismissButton:focus-visible {
+  background: rgb(30 41 59 / 88%);
+  border-color: rgb(148 163 184 / 42%);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+@media (max-width: 640px) {
+  .toastViewport {
+    top: calc(var(--nav-height) + 0.65rem);
+    right: 0.75rem;
+    left: 0.75rem;
+    max-width: none;
+  }
+}

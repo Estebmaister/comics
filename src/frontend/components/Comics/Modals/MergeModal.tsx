@@ -3,13 +3,14 @@ import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
 import { ComicModalProps } from './helpers';
+import type { MergeComicFormState } from '../types';
 
-const mergeEmptyDict = {
+const mergeEmptyDict: MergeComicFormState = {
   baseID: 0,
   mergingID: 0,
 };
 
-const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose }) => {
+const MergeComicModal: React.FC<ComicModalProps<MergeComicFormState>> = ({ onSubmit, isOpen, onClose }) => {
   const focusInputRef = useRef<HTMLInputElement>(null);
   const [formState, setFormState] = useState(mergeEmptyDict);
 
@@ -39,8 +40,12 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
   };
 
   return (
-    <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+    <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose} size="compact">
+      <form className='comic-modal-form compact-form' onSubmit={handleSubmit}>
+        <header className='modal-form-header'>
+          <h2>Merge Comics</h2>
+          <p>Keep the base record on the left and move the duplicate into it. This dialog stays compact because the task should be fast and deliberate.</p>
+        </header>
 
         {Object.entries(formState).map(([kField, value], _i) =>
           <InputDiv
@@ -55,7 +60,7 @@ const MergeComicModal: React.FC<ComicModalProps> = ({ onSubmit, isOpen, onClose 
             handleInputChange={handleInputChange} />
         )}
 
-        <div className='form-row'>
+        <div className='form-actions'>
           <button className='basic-button' type='submit'>MERGE</button>
         </div>
       </form>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Genres, Publishers } from '../../../util/ComicClasses';
 import urlSwitchData from '../../../../scrape/url_switch.json';
+import type { ComicLookupValue } from '../types';
 
 const urlSwitch: { [key: string]: string[] } = urlSwitchData;
 
-export const publishersHandler = (publishers: string[]): React.ReactNode[] =>
+export const publishersHandler = (publishers: ComicLookupValue[]): React.ReactNode[] =>
   publishers.flatMap((id, index) => {
     const publisherName = Publishers[+id];
     const links = urlSwitch[publisherName];
@@ -17,5 +18,5 @@ export const publishersHandler = (publishers: string[]): React.ReactNode[] =>
     ];
   });
 
-export const genresHandler = (genres: string[]) =>
+export const genresHandler = (genres: ComicLookupValue[]) =>
   genres.map(id => Genres[+id]).join(', ');

@@ -1,34 +1,41 @@
 .modal::backdrop {
   background:
-    radial-gradient(circle at 30% 0%, rgb(15 23 42 / 65%), transparent 48%),
-    rgb(2 6 23 / 75%);
-  backdrop-filter: blur(2px);
+    radial-gradient(circle at 30% 0%, rgb(14 116 144 / 22%), transparent 44%),
+    radial-gradient(circle at 80% 10%, rgb(249 115 22 / 12%), transparent 34%),
+    rgb(2 6 23 / 78%);
+  backdrop-filter: blur(8px);
 }
 
 .modal {
-  width: min(96vw, 72rem);
+  width: min(96vw, 70rem);
   max-height: min(92vh, 58rem);
-  padding: 1.15rem 1.1rem 1rem;
-  border: 1px solid rgb(148 163 184 / 28%);
-  border-radius: 1rem;
+  padding: 1.25rem 1.2rem 1.1rem;
+  border: 1px solid rgb(148 163 184 / 18%);
+  border-radius: 1.25rem;
   color: #e2e8f0;
   background:
-    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 14%), transparent 50%),
-    radial-gradient(circle at 100% 100%, rgb(251 146 60 / 12%), transparent 46%),
-    linear-gradient(145deg, rgb(15 23 42 / 97%), rgb(17 24 39 / 96%));
+    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 11%), transparent 44%),
+    radial-gradient(circle at 100% 100%, rgb(251 146 60 / 9%), transparent 38%),
+    linear-gradient(155deg, rgb(7 11 23 / 98%), rgb(13 20 38 / 96%));
   position: fixed;
   inset: 0;
   margin: auto;
+  z-index: var(--layer-modal);
   box-shadow:
-    0 28px 80px rgb(2 6 23 / 62%),
-    0 0 0 1px rgb(15 23 42 / 55%);
+    0 32px 90px rgb(2 6 23 / 62%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
   overflow: hidden;
+}
+
+.modal-compact {
+  width: min(96vw, 34rem);
+  max-height: min(88vh, 28rem);
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 0.68rem;
-  right: 0.72rem;
+  top: 0.78rem;
+  right: 0.82rem;
   min-width: 5.8rem;
   z-index: 2;
 }
@@ -37,7 +44,7 @@
   .modal {
     width: calc(100vw - 0.9rem);
     max-height: calc(100vh - 0.9rem);
-    border-radius: 0.9rem;
+    border-radius: 1rem;
     padding: 1rem 0.84rem 0.84rem;
   }
 
