@@ -109,6 +109,7 @@ make test-go                # Go tests
   - per-comic work uses savepoints (`begin_nested`) so one bad entry does not invalidate the whole scrape
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
+- Combined `server + scrape` startup must disable Flask's debug reloader. Otherwise the stat reloader spawns a second process and the scraper loop starts twice.
 - Current duplicate repair entry point is `src/db/repair_identity_duplicates.py`. Run it in dry-run mode first, then `--apply` once the merge set looks correct.
 - When a historical duplicate group still conflicts on non-novel type, repair policy is `lowest id wins`. Use `--merge-ambiguous` to apply that rule and finish the dedupe pass.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.
