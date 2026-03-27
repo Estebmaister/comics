@@ -1,7 +1,8 @@
 .comicCard {
   position: relative;
-  width: min(100%, 520px);
-  min-height: 274px;
+  width: 100%;
+  max-width: 520px;
+  height: 19.1rem;
   margin: 0 auto;
   padding: 0.9rem;
   border: 1px solid rgb(148 163 184 / 14%);
@@ -29,17 +30,18 @@
   display: grid;
   grid-template-columns: 152px minmax(0, 1fr);
   gap: 1rem;
-  min-height: 100%;
+  height: 100%;
 }
 
 .posterShell {
   display: flex;
+  height: 100%;
 }
 
 .posterFrame {
   position: relative;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   border-radius: 1.15rem;
   overflow: hidden;
   background: linear-gradient(180deg, rgb(15 23 42 / 88%), rgb(8 13 26 / 92%));
@@ -52,7 +54,6 @@
 .posterFallback {
   width: 100%;
   height: 100%;
-  min-height: 246px;
   display: block;
 }
 
@@ -173,16 +174,21 @@
 }
 
 .contentColumn {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  height: 100%;
+  width: 100%;
   min-width: 0;
-  flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
 .headingBlock {
   display: flex;
   flex-direction: column;
-  gap: 0.28rem;
+  gap: 0.16rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .comicTitle {
@@ -192,30 +198,52 @@
   line-height: 1.06;
   font-weight: 800;
   letter-spacing: -0.03em;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  display: block;
+  min-height: calc(2 * 1.06em);
+  max-height: calc(3 * 1.06em);
+  overflow-y: auto;
+  padding-right: 0.14rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.comicTitle::-webkit-scrollbar {
+  width: 0;
+  display: none;
 }
 
 .authorLine {
   margin: 0;
+  min-height: 0.95rem;
+  width: min(100%, 15rem);
+  max-width: min(100%, 15rem);
   color: #93c5fd;
-  font-size: 0.84rem;
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.18;
   text-align: left;
+  display: block;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.authorLine::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .comicChapter {
   margin: 0;
   display: flex;
   align-items: baseline;
-  gap: 0.48rem;
+  gap: 0.42rem;
+  width: 100%;
+  min-width: 0;
   color: #f8fafc;
-  font-size: 1rem;
+  font-size: 0.94rem;
   line-height: 1.2;
   font-weight: 700;
 }
@@ -231,7 +259,7 @@
 .chapterValue,
 .chapterProgress {
   color: #f8fafc;
-  font-size: 1.3rem;
+  font-size: 1.24rem;
   line-height: 1.05;
   font-weight: 800;
 }
@@ -243,8 +271,11 @@
 .metaGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem 0.8rem;
+  gap: 0.36rem 0.72rem;
   margin: 0;
+  align-content: start;
+  width: 100%;
+  min-width: 0;
 }
 
 .metaItem {
@@ -258,7 +289,7 @@
 .metaLabel {
   margin: 0 0 0.2rem;
   color: #94a3b8;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -267,8 +298,8 @@
 .metaValue {
   margin: 0;
   color: #e2e8f0;
-  font-size: 0.88rem;
-  line-height: 1.35;
+  font-size: 0.84rem;
+  line-height: 1.22;
   font-weight: 600;
 }
 
@@ -280,30 +311,42 @@
 }
 
 .footerRow {
-  margin-top: auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.9rem;
+  grid-template-columns: minmax(0, 1fr) 6.7rem;
+  gap: 0.72rem;
   align-items: end;
+  min-height: 4.55rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .publisherText {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.32rem;
+  gap: 0.22rem;
   min-width: 0;
   text-align: left;
+  align-self: stretch;
+  justify-content: flex-end;
 }
 
 .publisherLinks {
   color: #dbeafe;
-  font-size: 0.84rem;
-  line-height: 1.45;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  font-size: 0.8rem;
+  line-height: 1.24;
+  display: block;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.publisherLinks::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .publisherLinks a {
@@ -319,18 +362,27 @@
 }
 
 .actionsColumn {
-  display: flex;
-  min-width: 7.3rem;
-  flex-direction: column;
-  gap: 0.52rem;
+  display: grid;
+  min-width: 6.7rem;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.38rem;
   align-items: stretch;
+  justify-content: end;
+  min-height: 4.55rem;
 }
 
 .actionButton {
-  min-height: 2.4rem;
+  min-height: 2.08rem;
   border-radius: 999px !important;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.03em;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.025em;
+}
+
+.actionButtonPlaceholder {
+  min-height: 2.08rem;
+  border-radius: 999px;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .checkoutButton {
@@ -358,48 +410,232 @@
 
 @media (max-width: 899px) {
   .comicCard {
-    width: min(100%, 680px);
+    max-width: 680px;
+    height: 18.35rem;
   }
 }
 
 @media (max-width: 640px) {
   .comicCard {
-    min-height: 0;
-    padding: 0.75rem;
-    border-radius: 1.2rem;
+    height: 14.1rem;
+    padding: 0.68rem;
+    border-radius: 1.18rem;
   }
 
   .cardRow {
-    grid-template-columns: 124px minmax(0, 1fr);
-    gap: 0.82rem;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 0.72rem;
   }
 
-  .posterImage,
-  .posterFallback {
-    min-height: 212px;
+  .posterOverlay {
+    padding: 0.52rem;
+  }
+
+  .overlayActions {
+    gap: 0.3rem;
+  }
+
+  .overlayButton {
+    min-width: 2.9rem;
+    height: 1.72rem;
+    padding: 0 0.52rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.045em;
+  }
+
+  .overlayButtonDanger {
+    width: 1.72rem;
+    min-width: 1.72rem;
+    padding: 0;
+    font-size: 0;
+    color: transparent;
+    text-indent: -9999px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .overlayButtonDanger::before {
+    content: 'X';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #f8fafc;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-indent: 0;
+  }
+
+  .idChip {
+    padding: 0.3rem 0.5rem !important;
+    font-size: 0.56rem !important;
+  }
+
+  .contentColumn {
+    gap: 0.32rem;
+  }
+
+  .headingBlock {
+    gap: 0.1rem;
   }
 
   .comicTitle {
-    font-size: 1.18rem;
+    font-size: 1.1rem;
+    line-height: 1.04;
+    min-height: calc(2 * 1.04em);
+    max-height: calc(2 * 1.04em);
+  }
+
+  .authorLine {
+    width: 100%;
+    max-width: 100%;
+    min-height: 0.82rem;
+    font-size: 0.72rem;
+  }
+
+  .comicChapter {
+    gap: 0.32rem;
+    font-size: 0.88rem;
+  }
+
+  .fieldLabel {
+    font-size: 0.61rem;
+    letter-spacing: 0.11em;
   }
 
   .chapterValue,
   .chapterProgress {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .metaGrid {
-    grid-template-columns: 1fr;
-    gap: 0.48rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.34rem 0.48rem;
+  }
+
+  .metaLabel {
+    margin: 0 0 0.14rem;
+    font-size: 0.56rem;
+  }
+
+  .metaValue {
+    font-size: 0.74rem;
+    line-height: 1.16;
+  }
+
+  .metaClamp {
+    -webkit-line-clamp: 1;
   }
 
   .footerRow {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr) 5.35rem;
+    gap: 0.55rem;
+    min-height: 4.08rem;
+  }
+
+  .publisherText {
+    gap: 0.16rem;
+  }
+
+  .publisherLinks {
+    font-size: 0.72rem;
+    line-height: 1.18;
   }
 
   .actionsColumn {
-    min-width: 0;
-    width: 100%;
+    min-width: 5.35rem;
+    width: auto;
+    gap: 0.24rem;
+    min-height: 4.08rem;
+  }
+
+  .actionButton {
+    min-height: 1.8rem;
+    padding: 0.45rem 0.7rem !important;
+    font-size: 0.64rem !important;
+  }
+
+  .actionButtonPlaceholder {
+    min-height: 1.8rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .comicCard {
+    height: 13.8rem;
+    padding: 0.62rem;
+  }
+
+  .cardRow {
+    grid-template-columns: 102px minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+
+  .posterOverlay {
+    padding: 0.44rem;
+  }
+
+  .overlayButton {
+    min-width: 2.65rem;
+    height: 1.62rem;
+    padding: 0 0.42rem;
+    font-size: 0.54rem;
+  }
+
+  .overlayButtonDanger {
+    width: 1.62rem;
+    min-width: 1.62rem;
+  }
+
+  .idChip {
+    padding: 0.28rem 0.44rem !important;
+    font-size: 0.52rem !important;
+  }
+
+  .comicTitle {
+    font-size: 1.02rem;
+  }
+
+  .authorLine {
+    font-size: 0.68rem;
+  }
+
+  .fieldLabel {
+    font-size: 0.56rem;
+  }
+
+  .chapterValue,
+  .chapterProgress {
+    font-size: 0.96rem;
+  }
+
+  .metaValue {
+    font-size: 0.71rem;
+  }
+
+  .footerRow {
+    grid-template-columns: minmax(0, 1fr) 5.05rem;
+    gap: 0.42rem;
+    min-height: 3.82rem;
+  }
+
+  .publisherLinks {
+    font-size: 0.68rem;
+  }
+
+  .actionsColumn {
+    min-width: 5.05rem;
+    gap: 0.2rem;
+    min-height: 3.82rem;
+  }
+
+  .actionButtonPlaceholder {
+    min-height: 1.68rem;
+  }
+
+  .actionButton {
+    min-height: 1.68rem;
+    font-size: 0.6rem !important;
   }
 }

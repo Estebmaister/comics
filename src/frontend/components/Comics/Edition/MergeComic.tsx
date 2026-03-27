@@ -40,19 +40,23 @@ interface MergeComicProps {
 const MergeComic = ({ onSuccess }: MergeComicProps) => {
   const [isMergeComicModalOpen, setIsMergeComicModalOpen] = useState(false);
   const [comicFormData, setComicFormData] = useState<MergeComicFormState>(emptyMergeComicFormState);
+  const [submitError, setSubmitError] = useState('');
   const toast = useToast();
 
   const handleOpenMergeComicModal = () => {
+    setSubmitError('');
     setIsMergeComicModalOpen(true);
   };
 
   // Set the modal boolean to false as a function to be passed
   const handleCloseMergeComicModal = () => {
+    setSubmitError('');
     setIsMergeComicModalOpen(false);
   };
 
   // Send information to the server and renders a msg from response
   const handleFormSubmit = async (data: MergeComicFormState) => {
+    setSubmitError('');
     setComicFormData(data);
     const resultMsg = await mergeComic(data?.baseID, data?.mergingID);
     if (resultMsg === '') {
@@ -66,10 +70,7 @@ const MergeComic = ({ onSuccess }: MergeComicProps) => {
       return true;
     }
 
-    toast.error({
-      title: 'Merge failed',
-      description: resultMsg || `Unable to merge ${data.baseID} and ${data.mergingID}.`,
-    });
+    setSubmitError(resultMsg || `Unable to merge ${data.baseID} and ${data.mergingID}.`);
     return false;
   };
 
@@ -90,6 +91,7 @@ const MergeComic = ({ onSuccess }: MergeComicProps) => {
     <MergeComicModal
       isOpen={isMergeComicModalOpen}
       formState={comicFormData}
+      submissionError={submitError}
       onFormStateChange={setComicFormData}
       onSubmit={handleFormSubmit}
       onClose={handleCloseMergeComicModal}

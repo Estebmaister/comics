@@ -148,6 +148,23 @@
   letter-spacing: 0.02em;
 }
 
+.form-feedback {
+  margin: 0;
+  padding: 0.72rem 0.82rem;
+  border: 1px solid rgb(248 113 113 / 26%);
+  border-radius: 0.92rem;
+  background:
+    linear-gradient(180deg, rgb(127 29 29 / 0.28), rgb(69 10 10 / 0.18));
+  color: #fecaca;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.form-feedback-error {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.03);
+}
+
 .comic-modal-form.compact-form {
   max-height: calc(min(88vh, 28rem) - 3rem);
   padding-top: 2.2rem;

@@ -38,33 +38,33 @@ const handlePagination = (
 
 export default function PagButtons({ pagD }: { pagD: PaginationData }) {
   return (
-    <div className="ml-auto flex w-full items-center justify-center gap-1 sm:w-auto sm:justify-end">
+    <div className="grid w-full grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1fr)] items-center gap-1.5 sm:ml-auto sm:flex sm:w-auto sm:justify-end sm:gap-1">
       <button
-        className="basic-button reverse-button min-w-[4.2rem]"
+        className="basic-button reverse-button min-h-[2.35rem] min-w-0 px-2.5 text-[0.7rem] leading-none sm:min-w-[4.2rem] sm:px-3 sm:text-[0.72rem]"
         disabled={pagD.onFirstPage}
         onClick={() => handlePagination('first', pagD)}
       >
         First
       </button>
       <button
-        className="basic-button reverse-button min-w-[4.2rem]"
+        className="basic-button reverse-button min-h-[2.35rem] min-w-0 px-2.5 text-[0.7rem] leading-none sm:min-w-[4.2rem] sm:px-3 sm:text-[0.72rem]"
         disabled={pagD.onFirstPage}
         onClick={() => handlePagination('prev', pagD)}
       >
         Prev
       </button>
-      <span className="inline-flex min-w-[2.7rem] items-center justify-center rounded-lg border border-slate-200/20 bg-slate-950/70 px-2 py-1 text-sm font-semibold text-slate-100">
+      <span className="inline-flex min-h-[2.35rem] min-w-[2.3rem] items-center justify-center rounded-xl border border-slate-200/20 bg-slate-950/70 px-2 py-1 text-[0.82rem] font-semibold text-slate-100 sm:min-w-[2.7rem] sm:text-sm">
         {pagD.currentPage}
       </span>
       <button
-        className="basic-button min-w-[4.2rem]"
+        className="basic-button min-h-[2.35rem] min-w-0 px-2.5 text-[0.7rem] leading-none sm:min-w-[4.2rem] sm:px-3 sm:text-[0.72rem]"
         disabled={pagD.onLastPage}
         onClick={() => handlePagination('next', pagD)}
       >
         Next
       </button>
       <button
-        className="basic-button min-w-[5.6rem]"
+        className="basic-button min-h-[2.35rem] min-w-0 px-2.5 text-[0.7rem] leading-none sm:min-w-[5.6rem] sm:px-3 sm:text-[0.72rem]"
         disabled={pagD.onLastPage}
         onClick={() => handlePagination('last', pagD)}
       >

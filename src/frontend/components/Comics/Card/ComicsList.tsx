@@ -27,8 +27,8 @@ const ComicsList: React.FC<ComicsListProps> = ({
   }
 
   return (
-    <section className="px-2.5 pb-44 pt-28 sm:px-4 sm:pb-32 sm:pt-32 lg:px-6 xl:px-8">
-      <ul className="mx-auto grid w-full max-w-[1640px] grid-cols-1 gap-4 md:gap-5 min-[900px]:grid-cols-2 min-[1600px]:grid-cols-3">
+    <section className="px-2.5 pb-20 pt-[10.5rem] sm:px-4 sm:pb-24 sm:pt-20 lg:px-6 xl:px-8">
+      <ul className="mx-auto grid w-full max-w-[1640px] grid-cols-1 gap-2.5 sm:gap-4 md:gap-5 min-[900px]:grid-cols-2 min-[1600px]:grid-cols-3">
         {comics.map((comic) => (
           <ComicCard
             comic={comic}

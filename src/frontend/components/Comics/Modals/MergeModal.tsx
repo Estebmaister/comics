@@ -12,11 +12,13 @@ const mergeEmptyDict: MergeComicFormState = {
 
 interface MergeComicModalProps extends ComicModalProps<MergeComicFormState> {
   formState: MergeComicFormState;
+  submissionError?: string;
   onFormStateChange: Dispatch<SetStateAction<MergeComicFormState>>;
 }
 
 const MergeComicModal: React.FC<MergeComicModalProps> = ({
   formState,
+  submissionError,
   onFormStateChange,
   onSubmit,
   isOpen,
@@ -56,6 +58,12 @@ const MergeComicModal: React.FC<MergeComicModalProps> = ({
           <h2>Merge Comics</h2>
           <p>Keep the base record on the left and move the duplicate into it. This dialog stays compact because the task should be fast and deliberate.</p>
         </header>
+
+        {submissionError ? (
+          <p className='form-feedback form-feedback-error' role='alert'>
+            {submissionError}
+          </p>
+        ) : null}
 
         {Object.entries(formState).map(([kField, value], _i) =>
           <InputDiv

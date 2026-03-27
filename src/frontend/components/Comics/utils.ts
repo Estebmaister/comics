@@ -3,6 +3,9 @@ import {
   COMIC_CARD_ESTIMATED_ROW_HEIGHT,
   DESKTOP_TWO_COLUMN_MIN_WIDTH,
   DESKTOP_THREE_COLUMN_MIN_WIDTH,
+  MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT,
+  MOBILE_VIEWPORT_RESERVED_HEIGHT,
+  PHONE_VIEWPORT_MAX_WIDTH,
   VIEWPORT_RESERVED_HEIGHT,
 } from './constants';
 
@@ -28,7 +31,13 @@ export const calculatePageLimit = (
 ): number => {
   const columns = calculateInlineComics(width);
   if (columns >= 3) return 9;
-  if (columns === 1) return 3;
+  if (columns === 1) {
+    if (width > PHONE_VIEWPORT_MAX_WIDTH) return 3;
+
+    const usableHeight = Math.max(0, height - MOBILE_VIEWPORT_RESERVED_HEIGHT);
+    const possibleRows = Math.floor(usableHeight / MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT);
+    return possibleRows >= 3 ? 3 : 2;
+  }
 
   const usableHeight = Math.max(0, height - VIEWPORT_RESERVED_HEIGHT);
   const possibleRows = Math.floor(usableHeight / COMIC_CARD_ESTIMATED_ROW_HEIGHT);

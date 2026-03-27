@@ -3,6 +3,119 @@
   right: 1.2rem;
   bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
   z-index: var(--layer-floating);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
+  pointer-events: none;
+}
+
+.railShellOpen {
+  z-index: calc(var(--layer-floating) + 1);
+}
+
+.launcher {
+  pointer-events: auto;
+  position: relative;
+  width: 3.6rem;
+  height: 3.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(148 163 184 / 20%);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 10%), transparent 46%),
+    radial-gradient(circle at 100% 100%, rgb(251 146 60 / 9%), transparent 40%),
+    linear-gradient(160deg, rgb(7 11 23 / 88%), rgb(14 19 37 / 88%));
+  box-shadow:
+    0 24px 60px rgb(2 6 23 / 50%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+  backdrop-filter: blur(18px);
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+
+.launcher:hover,
+.launcher:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgb(148 163 184 / 38%);
+  box-shadow:
+    0 24px 54px rgb(2 6 23 / 58%),
+    inset 0 1px 0 rgb(255 255 255 / 0.06);
+  outline: none;
+}
+
+.launcherIcon {
+  position: relative;
+  width: 1.3rem;
+  height: 1rem;
+}
+
+.launcherLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: #f8fafc;
+  transition:
+    top var(--motion-fast),
+    transform var(--motion-fast),
+    opacity var(--motion-fast);
+}
+
+.launcherLine:nth-child(1) {
+  top: 0;
+}
+
+.launcherLine:nth-child(2) {
+  top: calc(50% - 1px);
+}
+
+.launcherLine:nth-child(3) {
+  top: calc(100% - 2px);
+}
+
+.launcherOpen .launcherLine:nth-child(1) {
+  top: calc(50% - 1px);
+  transform: rotate(45deg);
+}
+
+.launcherOpen .launcherLine:nth-child(2) {
+  opacity: 0;
+}
+
+.launcherOpen .launcherLine:nth-child(3) {
+  top: calc(50% - 1px);
+  transform: rotate(-45deg);
+}
+
+.railPanel {
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.8rem);
+  width: min(22rem, calc(100vw - 1.5rem));
+  opacity: 0;
+  transform: translateY(0.65rem) scale(0.98);
+  transform-origin: bottom right;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-medium),
+    transform var(--motion-medium),
+    visibility var(--motion-medium);
+}
+
+.railPanelOpen {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
 }
 
 .rail {
@@ -88,13 +201,21 @@
 
 @media (max-width: 767px) {
   .railShell {
-    right: 0.75rem;
-    left: 0.75rem;
-    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    right: 0.55rem;
+    bottom: calc(0.45rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .launcher {
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 0.95rem;
+  }
+
+  .railPanel {
+    width: min(20rem, calc(100vw - 1.5rem));
   }
 
   .rail {
-    flex-direction: row;
     padding: 0.55rem;
     gap: 0.5rem;
     border-radius: 1.15rem;
@@ -102,7 +223,6 @@
 
   .actionButton {
     min-width: 0;
-    flex: 1;
     padding: 0.72rem;
   }
 

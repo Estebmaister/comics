@@ -120,7 +120,9 @@ const ComicCard = ({
                   >
                     Checkout
                   </button>
-                ) : null}
+                ) : (
+                  <span className={styles.actionButtonPlaceholder} aria-hidden="true" />
+                )}
                 <button
                   className={`${styles.actionButton} basic-button${comic.track ? ' reverse-button' : ''}`}
                   onClick={handleTrackToggle}
