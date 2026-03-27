@@ -6,7 +6,6 @@ import { useComicCard } from '../Card/ComicCardContext';
 import Loaders from '../../Loaders';
 import { useToast } from '../../Toast/ToastProvider';
 import type { Comic } from '../types';
-import './EditComic.css';
 
 const SERVER = config.SERVER;
 const EditComicModal = lazy(() => import('../Modals/EditModal'));
@@ -84,7 +83,7 @@ const EditComic = ({ className, children }: EditComicProps) => {
 
   return (<>
     <button
-      className={className ?? 'edit-button'}
+      className={className ?? 'basic-button neutral-button'}
       onClick={handleOpenEditComicModal}
     >
       {children ?? 'Edit'}

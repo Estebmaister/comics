@@ -5,14 +5,12 @@
   height: 19.1rem;
   margin: 0 auto;
   padding: 0.9rem;
-  border: 1px solid rgb(148 163 184 / 14%);
-  border-radius: 1.55rem;
-  background:
-    linear-gradient(150deg, rgb(8 13 26 / 96%), rgb(15 23 42 / 92%));
-  box-shadow:
-    0 26px 62px rgb(2 6 23 / 40%),
-    inset 0 1px 0 rgb(255 255 255 / 0.04);
+  border: 1px solid var(--border-softest);
+  border-radius: var(--radius-card);
+  background: var(--surface-panel-strong);
+  box-shadow: var(--shadow-panel-soft);
   overflow: hidden;
+  color: var(--primary-color);
 }
 
 .cardGlow {
@@ -44,10 +42,10 @@
   height: 100%;
   border-radius: 1.15rem;
   overflow: hidden;
-  background: linear-gradient(180deg, rgb(15 23 42 / 88%), rgb(8 13 26 / 92%));
+  background: var(--surface-panel-soft);
   box-shadow:
     0 18px 34px rgb(2 6 23 / 34%),
-    inset 0 0 0 1px rgb(148 163 184 / 0.18);
+    inset 0 0 0 1px var(--border-subtle);
 }
 
 .posterImage,
@@ -127,11 +125,14 @@
   min-width: 4rem;
   height: 2rem;
   padding: 0 0.78rem;
-  border: 1px solid rgb(248 250 252 / 0.12);
-  border-radius: 999px;
-  background: rgb(7 11 23 / 0.48);
-  color: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: rgb(7 11 23 / 0.54);
+  color: var(--primary-color);
   backdrop-filter: blur(16px);
+  box-shadow:
+    0 10px 22px rgb(2 6 23 / 22%),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -146,7 +147,7 @@
 .overlayButton:hover,
 .overlayButton:focus-visible {
   background: rgb(7 11 23 / 0.8);
-  border-color: rgb(248 250 252 / 0.24);
+  border-color: var(--border-strong);
   transform: translateY(-1px);
   outline: none;
 }
@@ -165,8 +166,8 @@
   align-self: flex-start;
   padding: 0.42rem 0.68rem !important;
   border-radius: 999px !important;
-  background: rgb(8 13 26 / 0.66) !important;
-  color: #e2e8f0 !important;
+  background: rgb(8 13 26 / 0.7) !important;
+  color: var(--text-muted) !important;
   backdrop-filter: blur(16px);
   font-size: 0.68rem !important;
   text-transform: uppercase;
@@ -193,7 +194,7 @@
 
 .comicTitle {
   margin: 0;
-  color: #f8fafc;
+  color: var(--primary-color);
   font-size: 1.5rem;
   line-height: 1.06;
   font-weight: 800;
@@ -242,14 +243,14 @@
   gap: 0.42rem;
   width: 100%;
   min-width: 0;
-  color: #f8fafc;
+  color: var(--primary-color);
   font-size: 0.94rem;
   line-height: 1.2;
   font-weight: 700;
 }
 
 .fieldLabel {
-  color: #94a3b8;
+  color: var(--text-subtle);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -258,7 +259,7 @@
 
 .chapterValue,
 .chapterProgress {
-  color: #f8fafc;
+  color: var(--primary-color);
   font-size: 1.24rem;
   line-height: 1.05;
   font-weight: 800;
@@ -288,7 +289,7 @@
 
 .metaLabel {
   margin: 0 0 0.2rem;
-  color: #94a3b8;
+  color: var(--text-subtle);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -297,7 +298,7 @@
 
 .metaValue {
   margin: 0;
-  color: #e2e8f0;
+  color: var(--text-muted);
   font-size: 0.84rem;
   line-height: 1.22;
   font-weight: 600;
@@ -332,7 +333,7 @@
 }
 
 .publisherLinks {
-  color: #dbeafe;
+  color: var(--text-muted);
   font-size: 0.8rem;
   line-height: 1.24;
   display: block;
@@ -350,7 +351,7 @@
 }
 
 .publisherLinks a {
-  color: #f8fafc;
+  color: var(--primary-color);
   text-decoration: none;
 }
 

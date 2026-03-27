@@ -1,16 +1,19 @@
 .comic-modal-form {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1rem;
   max-height: calc(min(92vh, 58rem) - 3.9rem);
   overflow: auto;
-  padding-top: 2.4rem;
-  padding-right: 0.2rem;
+  padding-top: 2.55rem;
+  padding-right: 0.3rem;
+  scrollbar-width: thin;
 }
 
 .modal-form-header {
   margin: 0;
+  padding-bottom: 0.9rem;
   padding-right: 6rem;
+  border-bottom: 1px solid var(--border-softest);
 }
 
 .modal-form-header h2 {
@@ -24,7 +27,7 @@
 .modal-form-header p {
   margin: 0.32rem 0 0;
   font-size: 0.82rem;
-  color: #94a3b8;
+  color: var(--text-subtle);
   text-align: left;
   line-height: 1.5;
 }
@@ -44,7 +47,7 @@
 .form-row label {
   font-size: 0.74rem;
   letter-spacing: 0.08em;
-  color: #cbd5e1;
+  color: var(--text-muted);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -56,10 +59,9 @@
   width: 100%;
   display: block;
   border-radius: 0.88rem;
-  border: 1px solid rgb(148 163 184 / 24%);
-  background:
-    linear-gradient(180deg, rgb(15 23 42 / 92%), rgb(11 18 32 / 92%));
-  color: #f8fafc;
+  border: 1px solid var(--border-softest);
+  background: var(--surface-field);
+  color: var(--primary-color);
   font-size: 0.9rem;
   line-height: 1.35;
   padding: 0.68rem 0.78rem;
@@ -68,7 +70,7 @@
 
 .form-row input::placeholder,
 .form-row textarea::placeholder {
-  color: #94a3b8;
+  color: var(--text-subtle);
 }
 
 .form-row textarea {
@@ -102,9 +104,9 @@
 .form-row textarea:focus {
   border-color: rgb(6 182 212 / 72%);
   box-shadow:
-    0 0 0 4px rgb(6 182 212 / 14%),
+    var(--shadow-focus),
     inset 0 1px 0 rgb(255 255 255 / 0.04);
-  background-color: rgb(15 23 42 / 94%);
+  background: linear-gradient(180deg, rgb(15 23 42 / 98%), rgb(11 18 32 / 96%));
   outline: none;
 }
 
@@ -113,6 +115,10 @@
   align-items: center;
   gap: 0.5rem;
   min-height: 2.15rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border-softest);
+  border-radius: 0.95rem;
+  background: var(--surface-panel-soft);
 }
 
 .form-row.checkbox-row label {
@@ -137,9 +143,10 @@
   bottom: 0;
   z-index: 1;
   margin-top: 0.25rem;
-  padding-top: 0.9rem;
+  padding-top: 1rem;
   padding-bottom: 0.15rem;
-  background: linear-gradient(180deg, rgb(7 11 23 / 0%), rgb(7 11 23 / 94%) 34%);
+  background:
+    linear-gradient(180deg, rgb(7 11 23 / 0%), rgb(7 11 23 / 94%) 34%);
 }
 
 .form-actions .basic-button {
@@ -151,10 +158,9 @@
 .form-feedback {
   margin: 0;
   padding: 0.72rem 0.82rem;
-  border: 1px solid rgb(248 113 113 / 26%);
+  border: 1px solid rgb(248 113 113 / 22%);
   border-radius: 0.92rem;
-  background:
-    linear-gradient(180deg, rgb(127 29 29 / 0.28), rgb(69 10 10 / 0.18));
+  background: var(--surface-danger);
   color: #fecaca;
   font-size: 0.82rem;
   line-height: 1.45;
@@ -168,6 +174,27 @@
 .comic-modal-form.compact-form {
   max-height: calc(min(88vh, 28rem) - 3rem);
   padding-top: 2.2rem;
+}
+
+@media (max-width: 640px) {
+  .comic-modal-form {
+    gap: 0.85rem;
+    padding-top: 2.2rem;
+    padding-right: 0.15rem;
+  }
+
+  .modal-form-header {
+    padding-bottom: 0.72rem;
+    padding-right: 5.3rem;
+  }
+
+  .modal-form-header h2 {
+    font-size: 1.08rem;
+  }
+
+  .form-row.checkbox-row {
+    padding: 0.62rem 0.72rem;
+  }
 }
 
 @media (min-width: 960px) {

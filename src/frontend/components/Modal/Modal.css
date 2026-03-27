@@ -2,7 +2,7 @@
   background:
     radial-gradient(circle at 30% 0%, rgb(14 116 144 / 22%), transparent 44%),
     radial-gradient(circle at 80% 10%, rgb(249 115 22 / 12%), transparent 34%),
-    rgb(2 6 23 / 78%);
+    var(--surface-backdrop);
   backdrop-filter: blur(8px);
 }
 
@@ -10,22 +10,20 @@
   width: min(96vw, 70rem);
   max-height: min(92vh, 58rem);
   padding: 1.25rem 1.2rem 1.1rem;
-  border: 1px solid rgb(148 163 184 / 18%);
-  border-radius: 1.25rem;
-  color: #e2e8f0;
-  background:
-    radial-gradient(circle at 0% 0%, rgb(34 211 238 / 11%), transparent 44%),
-    radial-gradient(circle at 100% 100%, rgb(251 146 60 / 9%), transparent 38%),
-    linear-gradient(155deg, rgb(7 11 23 / 98%), rgb(13 20 38 / 96%));
+  border: 1px solid var(--border-softest);
+  border-radius: calc(var(--radius-panel) + 0.1rem);
+  color: var(--text-muted);
+  background: var(--surface-panel-strong);
   position: fixed;
   inset: 0;
   margin: auto;
   z-index: var(--layer-modal);
   pointer-events: auto;
   box-shadow:
-    0 32px 90px rgb(2 6 23 / 62%),
-    inset 0 1px 0 rgb(255 255 255 / 0.04);
+    var(--shadow-panel),
+    0 32px 90px rgb(2 6 23 / 62%);
   overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 .modal-compact {

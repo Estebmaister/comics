@@ -53,7 +53,7 @@ export default function PagButtons({ pagD }: { pagD: PaginationData }) {
       >
         Prev
       </button>
-      <span className="inline-flex min-h-[2.35rem] min-w-[2.3rem] items-center justify-center rounded-xl border border-slate-200/20 bg-slate-950/70 px-2 py-1 text-[0.82rem] font-semibold text-slate-100 sm:min-w-[2.7rem] sm:text-sm">
+      <span className="page-indicator min-w-[2.3rem] px-2 py-1 text-[0.82rem] font-semibold sm:min-w-[2.7rem] sm:text-sm">
         {pagD.currentPage}
       </span>
       <button

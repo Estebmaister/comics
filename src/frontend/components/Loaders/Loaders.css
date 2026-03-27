@@ -1,5 +1,6 @@
 .div-load {
-  margin: 5%;
+  margin: 0.5rem auto 0;
+  min-height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +11,10 @@
   height: 24px;
   display: inline-block;
   position: relative;
-  border: 1px solid var(--loader-color, var(--secondary-color, white));
+  border: 1px solid var(--loader-color, var(--accent-cyan));
+  box-shadow:
+    0 0 14px rgb(34 211 238 / 18%),
+    inset 0 1px 0 rgb(255 255 255 / 0.05);
 }
 
 .battery::after {
@@ -20,7 +24,7 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  border: 1px solid var(--loader-color, var(--secondary-color, white));
+  border: 1px solid var(--loader-color, var(--accent-cyan));
   width: 5px;
   height: 12px;
 }
@@ -62,8 +66,8 @@
 .lamp {
   width: 4px;
   height: 86px;
-  background: linear-gradient(180deg, #f8fafc 0%, #cbd5e1 100%);
-  box-shadow: 0 0 8px rgb(248 250 252 / 42%);
+  background: linear-gradient(180deg, #e2e8f0 0%, #67e8f9 100%);
+  box-shadow: 0 0 10px rgb(103 232 249 / 40%);
   margin: auto;
   position: relative;
   animation: shake 1s linear infinite alternate,
@@ -80,10 +84,10 @@
   width: 32px;
   height: 16px;
   box-sizing: border-box;
-  border: 5px solid #f97316;
+  border: 5px solid #fb923c;
   border-top: none;
   border-radius: 0 0 20px 20px;
-  box-shadow: 0 0 12px rgb(249 115 22 / 62%);
+  box-shadow: 0 0 14px rgb(251 146 60 / 72%);
 }
 
 .lamp::after {
@@ -96,12 +100,12 @@
   height: 36px;
   border-radius: 50px 50px 0 0;
   background: radial-gradient(ellipse at center bottom,
-      rgb(255 247 214 / 98%) 0%,
-      rgb(253 186 116 / 95%) 50%,
-      rgb(249 115 22 / 65%) 100%);
+      rgb(255 250 230 / 98%) 0%,
+      rgb(253 186 116 / 96%) 48%,
+      rgb(251 146 60 / 76%) 100%);
   box-shadow:
-    0 -2px 16px rgb(253 186 116 / 72%),
-    0 0 28px rgb(249 115 22 / 46%);
+    0 -2px 18px rgb(253 186 116 / 76%),
+    0 0 30px rgb(251 146 60 / 56%);
 }
 
 @keyframes shake {
@@ -137,8 +141,8 @@
   height: 4.8px;
   display: inline-block;
   position: relative;
-  background: var(--secondary-color, white);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  background: var(--loader-color, var(--accent-cyan));
+  box-shadow: 0 0 12px rgb(34 211 238 / 50%);
   box-sizing: border-box;
   animation: animFw 60s linear infinite;
 }
@@ -148,7 +152,7 @@
   content: '';
   width: 10px;
   height: 1px;
-  background: var(--secondary-color, white);
+  background: var(--loader-color, var(--accent-cyan));
   position: absolute;
   top: 9px;
   right: -2px;

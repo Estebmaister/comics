@@ -30,19 +30,25 @@ export const FloatingActionRail = ({ children }: FloatingActionRailProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
   const shellRef = useRef<HTMLElement | null>(null);
+  const launcherRef = useRef<HTMLButtonElement | null>(null);
+
+  const collapseRail = () => {
+    launcherRef.current?.focus();
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
 
     const handlePointerDown = (event: PointerEvent) => {
       if (!shellRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
+        collapseRail();
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
+        collapseRail();
       }
     };
 
@@ -56,7 +62,7 @@ export const FloatingActionRail = ({ children }: FloatingActionRailProps) => {
   }, [isOpen]);
 
   return (
-    <RailContext.Provider value={{ collapse: () => setIsOpen(false) }}>
+    <RailContext.Provider value={{ collapse: collapseRail }}>
       <aside
         ref={shellRef}
         className={`${styles.railShell}${isOpen ? ` ${styles.railShellOpen}` : ''}`}
@@ -65,12 +71,12 @@ export const FloatingActionRail = ({ children }: FloatingActionRailProps) => {
         <div
           id={panelId}
           className={`${styles.railPanel}${isOpen ? ` ${styles.railPanelOpen}` : ''}`}
-          aria-hidden={!isOpen}
         >
           <div className={styles.rail}>{children}</div>
         </div>
 
         <button
+          ref={launcherRef}
           type="button"
           className={`${styles.launcher}${isOpen ? ` ${styles.launcherOpen}` : ''}`}
           aria-controls={panelId}
