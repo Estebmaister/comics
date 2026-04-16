@@ -3,6 +3,7 @@
 import asyncio
 
 from flask import Flask, make_response, request
+from flask_cors import CORS
 from flask_restx import Api, Resource
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -21,6 +22,24 @@ log = logger(__name__)
 server = Flask(__name__)
 server.config["RESTX_MASK_SWAGGER"] = False
 server.wsgi_app = ProxyFix(server.wsgi_app)
+
+# Keep CORS configured at module import time so it is active no matter
+# how the app is started (python src, gunicorn, flask run, etc.).
+allowed_origins = [
+    r'https?://localhost(:\d+)?',
+    r'https://estebmaister.github.io',
+    # Tailscale magiclink and DNS
+    r'https?://.*\.persian-nominal\.ts\.net(:\d+)?',
+    r'https?://100\.103\.47\.96(:\d+)?',
+]
+CORS(
+    server,
+    resources={
+        r'/comics.*': {'origins': allowed_origins},
+        r'/scrape.*': {'origins': allowed_origins},
+        r'/health.*': {'origins': '*'},
+    }
+)
 api = Api(
     server, version='1.0', title='ComicMVC API',
     description='A Comic API capable enough to provide all CRUD ops and more')
@@ -300,7 +319,7 @@ class ComicMerge(Resource):
     '''Merge comics by id'''
 
     @ns.doc('merge_comics')
-    @ns.marshal_list_with(comic_swagger_model)
+    @ns.marshal_with(comic_swagger_model)
     def patch(self, base_id, merging_id):
         '''Merge two comics by their respective id'''
         comic, error = merge_comics(base_id, merging_id)

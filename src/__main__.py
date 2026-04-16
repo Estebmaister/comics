@@ -7,7 +7,6 @@ import threading
 import time
 from typing import Sequence
 
-from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 
 import helpers.logger
@@ -55,22 +54,6 @@ def scrapping(recurrence: int = default_recurrence) -> None:
 
 
 def run_server(*, use_reloader: bool | None = None) -> None:
-    allowed_origins = [
-        r'https?://localhost(:\d+)?',
-        r'https://estebmaister.github.io',
-        # Tailscale magiclink and DNS
-        r'https?://.*\.persian-nominal\.ts\.net(:\d+)?',
-        r'https?://100\.103\.47\.96(:\d+)?',
-    ]
-    CORS(
-        SERVER,
-        resources={
-            r'/comics.*': {'origins': allowed_origins},
-            r'/scrape.*': {'origins': allowed_origins},
-            r'/health.*': {'origins': '*'},
-        }
-    )
-
     # Production
     if PRODUCTION:
         http_server = WSGIServer(('0.0.0.0', PORT), SERVER)
