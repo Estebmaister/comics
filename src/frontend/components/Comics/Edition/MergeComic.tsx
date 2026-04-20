@@ -16,21 +16,37 @@ const mergeComic = async (
   mergingID: number,
   server = SERVER
 ): Promise<string> => {
-  let msg = '';
-  await fetch(`${server}/comics/${baseID}/${mergingID}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      if (data?.message !== undefined) msg = data.message;
-    })
-    .catch((err) => {
-      console.debug(err.message);
-      msg = err.message;
+  try {
+    const response = await fetch(`${server}/comics/${baseID}/${mergingID}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
     });
-  return msg;
+    const contentType = response.headers.get('content-type') ?? '';
+    const payload = contentType.includes('application/json')
+      ? await response.json()
+      : await response.text();
+
+    console.debug(payload);
+
+    if (!response.ok) {
+      if (payload && typeof payload === 'object' && 'message' in payload) {
+        return String(payload.message);
+      }
+      if (typeof payload === 'string' && payload.trim() !== '') {
+        return payload;
+      }
+      return `Merge request failed (${response.status})`;
+    }
+
+    if (payload && typeof payload === 'object' && 'message' in payload) {
+      return String(payload.message);
+    }
+    return '';
+  } catch (err) {
+    console.debug(err);
+    if (err instanceof Error) return err.message;
+    return 'Unexpected network error';
+  }
 };
 
 interface MergeComicProps {

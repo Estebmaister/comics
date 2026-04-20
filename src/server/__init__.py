@@ -5,6 +5,7 @@ import asyncio
 from flask import Flask, make_response, request
 from flask_cors import CORS
 from flask_restx import Api, Resource
+from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from db import ComicDB, comic_swagger_model
@@ -38,7 +39,9 @@ CORS(
         r'/comics.*': {'origins': allowed_origins},
         r'/scrape.*': {'origins': allowed_origins},
         r'/health.*': {'origins': '*'},
-    }
+    },
+    methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allow_headers=['Content-Type'],
 )
 api = Api(
     server, version='1.0', title='ComicMVC API',
@@ -312,7 +315,7 @@ class ComicTitle(Resource):
         return resp
 
 
-@ns.route('/<int:base_id>/<int:merging_id>')
+@ns.route('/<int:base_id>/<int:merging_id>', strict_slashes=False)
 @ns.response(404, COMIC_NOT_FOUND)
 @ns.response(400, 'Comics should be of the same type')
 class ComicMerge(Resource):
@@ -322,27 +325,16 @@ class ComicMerge(Resource):
     @ns.marshal_with(comic_swagger_model)
     def patch(self, base_id, merging_id):
         '''Merge two comics by their respective id'''
-        comic, error = merge_comics(base_id, merging_id)
+        comic, error, status_code = merge_comics(base_id, merging_id)
         if error is not None:
-            if 'Comics' in error:
-                return api.abort(400, error)
-            return api.abort(404, error)
+            api.abort(status_code, error)
         return comic
 
-    # def put(self, base_id, merging_id):
-    #     '''Merge two comics by their respective id'''
-    #     return self.patch(base_id, merging_id)
-
-
-# Route put option exposed but not available in swagger
-@server.route('/comics/<int:comic_id>/<int:comic_merging_id>/', methods=['PUT'])
-def merge_comics_by_id(comic_id, comic_merging_id):
-    comicJSON, error = merge_comics(comic_id, comic_merging_id)
-    if error is not None:
-        if 'Comics' in error:
-            return error, 400
-        return error, 404
-    return comicJSON, 200
+    @ns.doc('merge_comics_put')
+    @ns.marshal_with(comic_swagger_model)
+    def put(self, base_id, merging_id):
+        '''Backward-compatible alias for merge using PUT'''
+        return self.patch(base_id, merging_id)
 
 
 # API Error handling
@@ -374,3 +366,21 @@ def index_error(e):
 def type_error(e):
     server.logger.error(e)
     return {'message': 'Internal bad type creation, please report this err'}, 500
+
+
+def _unexpected_error_payload(e):
+    if isinstance(e, HTTPException):
+        message = getattr(e, 'description', None) or str(e)
+        return {'message': message}, e.code
+    server.logger.exception('Unhandled server error: %s', e)
+    return {'message': 'Internal server error while handling request'}, 500
+
+
+@api.errorhandler(Exception)
+def api_unexpected_error(e):
+    return _unexpected_error_payload(e)
+
+
+@server.errorhandler(Exception)
+def server_unexpected_error(e):
+    return _unexpected_error_payload(e)

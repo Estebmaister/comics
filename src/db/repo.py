@@ -1,12 +1,14 @@
 import json
 import math
-from typing import List
+from typing import Iterable, List, Sequence
 
 from sqlalchemy.orm import Session as SessionType
 from sqlalchemy.sql import text
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from db import ComicDB, Session, Statuses, Types, load_comics, save_comics_file
-from db.identity import build_identity_key, build_identity_key_from_titles
+from db.identity import (build_identity_key, build_identity_key_from_titles,
+                         merge_unique_values, normalize_title_variants)
 from helpers.text import normalize_text
 from helpers.logger import logger
 
@@ -285,75 +287,96 @@ def comics_by_title_no_case(
 
 
 COMIC_NOT_FOUND = 'Comic {} not found'
+MERGE_SELF_ERROR = 'Cannot merge comic with itself'
+MERGE_TYPE_ERROR = 'Comics to merge should be of the same type'
+MERGE_CONFLICT_ERROR = (
+    'Unable to merge comics because the merged record conflicts with an existing comic identity'
+)
+MERGE_DB_ERROR = 'Unable to merge comics due to a database error'
 
 
-def merge_comics(base_id: int, merging_id: int) -> (dict, str):
-    '''>>> merge_comics(10, 24) -> ComicJSON: dict, None - error msg '''
+def _merge_title_variants(
+    current_titles: Sequence[str] | str,
+    incoming_titles: Sequence[str] | str,
+    com_type: int,
+) -> List[str]:
+    return normalize_title_variants(
+        [*list(current_titles), *list(incoming_titles)],
+        com_type,
+    )
+
+
+def _merge_lookup_values(
+    current_values: Iterable[int],
+    incoming_values: Iterable[int],
+) -> List[int]:
+    return merge_unique_values(current_values, incoming_values)
+
+
+def merge_comics(base_id: int, merging_id: int) -> tuple[dict | None, str | None, int]:
+    '''>>> merge_comics(10, 24) -> ComicJSON: dict | None, error msg | None, status_code '''
     if base_id == merging_id:
-        return None, 'Cannot merge comic with itself'
+        return None, MERGE_SELF_ERROR, 400
     with Session() as session:
         comic: ComicDB | None = session.query(ComicDB).get(base_id)
         if comic is None:
-            return None, COMIC_NOT_FOUND.format(base_id)
+            return None, COMIC_NOT_FOUND.format(base_id), 404
         d_comic: ComicDB | None = session.query(ComicDB).get(merging_id)
         if d_comic is None:
-            return None, COMIC_NOT_FOUND.format(merging_id)
+            return None, COMIC_NOT_FOUND.format(merging_id), 404
         if d_comic.com_type != 0 and comic.com_type != d_comic.com_type:
-            return None, 'Comics to merge should be of the same type'
+            return None, MERGE_TYPE_ERROR, 400
+
         try:
-            json_comic = [
-                com for com in load_comics if comic.id == com["id"]][0]
-        except IndexError:
-            load_comics.append(comic.toJSON())
-            json_comic = [
-                com for com in load_comics if comic.id == com["id"]][0]
-        try:
-            dj_comic = [
-                com for com in load_comics if d_comic.id == com["id"]][0]
-        except IndexError:
-            load_comics.append(d_comic.toJSON())
-            dj_comic = [
-                com for com in load_comics if d_comic.id == com["id"]][0]
+            comic.set_titles(
+                _merge_title_variants(
+                    comic.get_titles(),
+                    d_comic.get_titles(),
+                    comic.com_type,
+                )
+            )
+            comic.set_genres(
+                _merge_lookup_values(
+                    comic.get_genres(),
+                    d_comic.get_genres(),
+                )
+            )
+            comic.set_published_in(
+                _merge_lookup_values(
+                    comic.get_published_in(),
+                    d_comic.get_published_in(),
+                )
+            )
+            comic.current_chap = max(comic.current_chap, d_comic.current_chap)
+            comic.viewed_chap = max(comic.viewed_chap, d_comic.viewed_chap)
+            comic.track = int(bool(comic.track or d_comic.track))
+            comic.rating = comic.rating or d_comic.rating
+            comic.author = comic.author or d_comic.author
+            comic.description = comic.description or d_comic.description
+            comic.cover = comic.cover or d_comic.cover
 
-        titles = list(set(comic.get_titles() + d_comic.get_titles()))
-        comic.set_titles(titles)
-        genres = list(set(comic.get_genres() + d_comic.get_genres()))
-        comic.set_genres(genres)
-        publishers = list(
-            set(comic.get_published_in() + d_comic.get_published_in()))
-        comic.set_published_in(publishers)
-        if comic.current_chap < d_comic.current_chap:
-            comic.current_chap = d_comic.current_chap
-        if comic.viewed_chap < d_comic.viewed_chap:
-            comic.viewed_chap = d_comic.viewed_chap
-        if not comic.track and d_comic.track:
-            comic.track = d_comic.track
-        if comic.rating == 0:
-            comic.rating = d_comic.rating
-        if comic.author == '':
-            comic.author = d_comic.author
-        if comic.description == '':
-            comic.description = d_comic.description
-        if comic.cover == '':
-            comic.cover = d_comic.cover
+            session.delete(d_comic)
+            session.flush()
+            comicJSON = comic.toJSON()
+            session.commit()
+        except IntegrityError as err:
+            session.rollback()
+            log.exception(
+                'Merge conflict for comics %s <- %s: %s',
+                base_id,
+                merging_id,
+                err,
+            )
+            return None, MERGE_CONFLICT_ERROR, 409
+        except SQLAlchemyError as err:
+            session.rollback()
+            log.exception(
+                'Database error merging comics %s <- %s: %s',
+                base_id,
+                merging_id,
+                err,
+            )
+            return None, MERGE_DB_ERROR, 500
 
-        session.delete(d_comic)
-        session.commit()
-        comicJSON = comic.toJSON()
-
-        json_comic["titles"] = titles
-        json_comic["genres"] = genres
-        json_comic["published_in"] = publishers
-        json_comic["com_type"] = Types(comic.com_type)
-        json_comic["viewed_chap"] = comic.viewed_chap
-        json_comic["current_chap"] = comic.current_chap
-        json_comic["track"] = bool(comic.track)
-        json_comic["rating"] = comic.rating
-        json_comic["author"] = comic.author
-        json_comic["description"] = comic.description
-        json_comic["cover"] = comic.cover
-
-        load_comics.remove(dj_comic)
-        save_comics_file(load_comics)
-
-        return comicJSON, None
+        rebuild_json_backup_from_db(persist_file=True)
+        return comicJSON, None, 200
