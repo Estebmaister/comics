@@ -120,4 +120,22 @@ const delComic = (
     });
 };
 
-export { dataFetch, trackComic, checkoutComic, delComic };
+const reportCoverVisibility = async (
+  id: number,
+  cover: string,
+  cover_visible: boolean,
+  server = SERVER,
+): Promise<Comic | undefined> => {
+  const response = await fetch(`${server}/comics/${id}/cover-visibility`, {
+    method: "PATCH",
+    body: JSON.stringify({ cover, cover_visible }),
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  if (!response.ok || data?.message !== undefined) {
+    throw new Error(data?.message ?? `Cover visibility update failed (${response.status})`);
+  }
+  return data;
+};
+
+export { dataFetch, trackComic, checkoutComic, delComic, reportCoverVisibility };

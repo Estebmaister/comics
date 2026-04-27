@@ -24,6 +24,7 @@ const formType = (field: string) => {
     case 'id':
     case 'last_update':
     case 'deleted':
+    case 'cover_visible':
     case 'track':
       return 'none';
     default:

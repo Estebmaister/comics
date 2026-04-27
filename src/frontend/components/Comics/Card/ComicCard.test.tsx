@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import ComicCard from './ComicCard';
 import type { Comic } from '../types';
 import { ToastProvider } from '../../Toast/ToastProvider';
@@ -34,6 +34,13 @@ beforeAll(() => {
   });
 });
 
+beforeEach(() => {
+  global.fetch = jest.fn(() => Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({ ...comicFixture, cover_visible: false }),
+  })) as jest.Mock;
+});
+
 test('renders overlay controls and footer action lane', () => {
   render(
     <ToastProvider>
@@ -63,4 +70,29 @@ test('copies the comic id and shows themed fallback when the cover fails', async
   fireEvent.error(screen.getByRole('img', { name: /rise from the bottom/i }));
   expect(screen.getByTestId('poster-fallback')).toBeTruthy();
   expect(screen.getByText(/cover unavailable/i)).toBeTruthy();
+
+  await waitFor(() => {
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringMatching(/\/comics\/15816\/cover-visibility$/),
+      expect.objectContaining({
+        method: 'PATCH',
+        body: JSON.stringify({
+          cover: 'https://example.com/cover.jpg',
+          cover_visible: false,
+        }),
+      })
+    );
+  });
+});
+
+test('shows fallback immediately when cover is marked invisible', () => {
+  render(
+    <ToastProvider>
+      <ComicCard comic={{ ...comicFixture, cover_visible: false }} />
+    </ToastProvider>
+  );
+
+  expect(screen.queryByRole('img', { name: /rise from the bottom/i })).toBeNull();
+  expect(screen.getByTestId('poster-fallback')).toBeTruthy();
+  expect(global.fetch).not.toHaveBeenCalled();
 });

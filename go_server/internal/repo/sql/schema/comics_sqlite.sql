@@ -4,6 +4,7 @@ CREATE TABLE comics (
   author        TEXT,
   description   TEXT,
   cover         TEXT,
+  cover_visible BOOLEAN NOT NULL DEFAULT 1,
   published_in  TEXT    NOT NULL DEFAULT '0',
   genres        TEXT    NOT NULL DEFAULT '0',
   com_type      INTEGER NOT NULL DEFAULT 0,

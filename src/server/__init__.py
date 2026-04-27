@@ -13,7 +13,7 @@ from db.identity import normalize_title_variants
 from db.repo import (all_comics, canonical_comic_by_titles, comic_by_id,
                      comics_by_title_no_case, create_comic,
                      delete_comic_by_id, merge_comics, sql_check,
-                     update_comic_by_id)
+                     update_comic_by_id, update_cover_visibility_by_id)
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from helpers.text import normalize_text
@@ -247,6 +247,33 @@ class ComicID(Resource):
         log.debug("Updating comic: %s", body)
 
         comicJSON = update_comic_by_id(id, body)
+        if comicJSON is None:
+            api.abort(404, COMIC_NOT_FOUND.format(id))
+        return comicJSON
+
+
+@ns.route('/<int:id>/cover-visibility')
+@ns.response(404, COMIC_NOT_FOUND)
+@ns.param('id', 'The comic identifier')
+class ComicCoverVisibility(Resource):
+    '''Updates browser cover visibility for a comic'''
+
+    @ns.doc('update_comic_cover_visibility')
+    @ns.marshal_with(comic_swagger_model)
+    def patch(self, id):
+        body = request.json
+        if not body:
+            api.abort(400, 'Body payload is necessary')
+        if type(body.get('cover')) is not str or body.get('cover') == '':
+            api.abort(400, 'cover is necessary and should be a non-empty string')
+        if type(body.get('cover_visible')) is not bool:
+            api.abort(400, 'cover_visible is necessary and should be a boolean')
+
+        comicJSON = update_cover_visibility_by_id(
+            id,
+            body['cover'],
+            body['cover_visible'],
+        )
         if comicJSON is None:
             api.abort(404, COMIC_NOT_FOUND.format(id))
         return comicJSON

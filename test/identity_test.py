@@ -4,6 +4,8 @@ from src.db import ComicDB, Types
 from src.db.identity import (
     build_identity_key,
     normalize_title_variants,
+    title_match_key,
+    titles_are_prefix_match,
 )
 from src.scrape.scrapper import ScrapedComic, _normalize_comic_data
 
@@ -34,6 +36,20 @@ class TestIdentityHelpers(unittest.TestCase):
         )
 
         self.assertEqual(titles, ["The world's best engineer"])
+
+    def test_title_match_key_ignores_leading_article_and_spacing(self):
+        self.assertEqual(
+            title_match_key("The holy emperor's grandson is a necromancer"),
+            title_match_key("Holy emperor's grandsonis a necromancer"),
+        )
+
+    def test_titles_are_prefix_match_handles_truncated_source_title(self):
+        self.assertTrue(
+            titles_are_prefix_match(
+                "The holy emperor's grandson is a necr",
+                "Holy emperor's grandson is a necromancer",
+            )
+        )
 
 
 class TestComicIdentity(unittest.TestCase):

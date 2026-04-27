@@ -73,6 +73,7 @@ def put_body_parser(json_body: dict) -> str:
     err_msg += general_field_parser(json_body, 'author', str)
     err_msg += general_field_parser(json_body, 'description', str)
     err_msg += general_field_parser(json_body, 'track', bool)
+    err_msg += general_field_parser(json_body, 'cover_visible', bool)
     err_msg += general_field_parser(json_body, 'viewed_chap', int)
     err_msg += general_field_parser(json_body, 'current_chap', int)
     err_msg += general_field_parser(json_body, 'com_type', int)

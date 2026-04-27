@@ -13,28 +13,29 @@ import (
 
 const createComic = `-- name: CreateComic :one
 INSERT INTO comics (
-  titles, author, description, cover, 
+  titles, author, description, cover, cover_visible,
   com_type, status, published_in, genres, 
   current_chap, viewed_chap, last_update, track
 ) VALUES (
-  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 )
-RETURNING id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update
+RETURNING id, titles, author, description, cover, cover_visible, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update
 `
 
 type CreateComicParams struct {
-	Titles      string
-	Author      sql.NullString
-	Description sql.NullString
-	Cover       sql.NullString
-	ComType     int64
-	Status      int64
-	PublishedIn string
-	Genres      string
-	CurrentChap int64
-	ViewedChap  int64
-	LastUpdate  time.Time
-	Track       bool
+	Titles       string
+	Author       sql.NullString
+	Description  sql.NullString
+	Cover        sql.NullString
+	CoverVisible bool
+	ComType      int64
+	Status       int64
+	PublishedIn  string
+	Genres       string
+	CurrentChap  int64
+	ViewedChap   int64
+	LastUpdate   time.Time
+	Track        bool
 }
 
 func (q *Queries) CreateComic(ctx context.Context, arg CreateComicParams) (Comic, error) {
@@ -43,6 +44,7 @@ func (q *Queries) CreateComic(ctx context.Context, arg CreateComicParams) (Comic
 		arg.Author,
 		arg.Description,
 		arg.Cover,
+		arg.CoverVisible,
 		arg.ComType,
 		arg.Status,
 		arg.PublishedIn,
@@ -59,6 +61,7 @@ func (q *Queries) CreateComic(ctx context.Context, arg CreateComicParams) (Comic
 		&i.Author,
 		&i.Description,
 		&i.Cover,
+		&i.CoverVisible,
 		&i.PublishedIn,
 		&i.Genres,
 		&i.ComType,
@@ -84,7 +87,7 @@ func (q *Queries) DeleteComicByID(ctx context.Context, id int64) error {
 }
 
 const getComicByID = `-- name: GetComicByID :one
-SELECT id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
+SELECT id, titles, author, description, cover, cover_visible, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
 WHERE id = ? LIMIT 1
 `
 
@@ -97,6 +100,7 @@ func (q *Queries) GetComicByID(ctx context.Context, id int64) (Comic, error) {
 		&i.Author,
 		&i.Description,
 		&i.Cover,
+		&i.CoverVisible,
 		&i.PublishedIn,
 		&i.Genres,
 		&i.ComType,
@@ -112,7 +116,7 @@ func (q *Queries) GetComicByID(ctx context.Context, id int64) (Comic, error) {
 }
 
 const getComics = `-- name: GetComics :many
-SELECT id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
+SELECT id, titles, author, description, cover, cover_visible, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
 ORDER BY last_update DESC
 LIMIT ? OFFSET ?
 `
@@ -137,6 +141,7 @@ func (q *Queries) GetComics(ctx context.Context, arg GetComicsParams) ([]Comic, 
 			&i.Author,
 			&i.Description,
 			&i.Cover,
+			&i.CoverVisible,
 			&i.PublishedIn,
 			&i.Genres,
 			&i.ComType,
@@ -162,7 +167,7 @@ func (q *Queries) GetComics(ctx context.Context, arg GetComicsParams) ([]Comic, 
 }
 
 const getComicsByTitle = `-- name: GetComicsByTitle :many
-SELECT id, titles, author, description, cover, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
+SELECT id, titles, author, description, cover, cover_visible, published_in, genres, com_type, status, rating, current_chap, viewed_chap, track, deleted, last_update FROM comics
 WHERE titles LIKE '%' || ? || '%'
 ORDER BY last_update DESC
 LIMIT ? OFFSET ?
@@ -189,6 +194,7 @@ func (q *Queries) GetComicsByTitle(ctx context.Context, arg GetComicsByTitlePara
 			&i.Author,
 			&i.Description,
 			&i.Cover,
+			&i.CoverVisible,
 			&i.PublishedIn,
 			&i.Genres,
 			&i.ComType,
@@ -230,6 +236,7 @@ UPDATE comics
   author = ?,
   description = ?,
   cover = ?,
+  cover_visible = ?,
   com_type = ?,
   status = ?,
   rating = ?,
@@ -244,21 +251,22 @@ WHERE id = ?
 `
 
 type UpdateComicByIDParams struct {
-	Titles      string
-	Author      sql.NullString
-	Description sql.NullString
-	Cover       sql.NullString
-	ComType     int64
-	Status      int64
-	Rating      int64
-	PublishedIn string
-	Genres      string
-	CurrentChap int64
-	ViewedChap  int64
-	LastUpdate  time.Time
-	Track       bool
-	Deleted     bool
-	ID          int64
+	Titles       string
+	Author       sql.NullString
+	Description  sql.NullString
+	Cover        sql.NullString
+	CoverVisible bool
+	ComType      int64
+	Status       int64
+	Rating       int64
+	PublishedIn  string
+	Genres       string
+	CurrentChap  int64
+	ViewedChap   int64
+	LastUpdate   time.Time
+	Track        bool
+	Deleted      bool
+	ID           int64
 }
 
 func (q *Queries) UpdateComicByID(ctx context.Context, arg UpdateComicByIDParams) error {
@@ -267,6 +275,7 @@ func (q *Queries) UpdateComicByID(ctx context.Context, arg UpdateComicByIDParams
 		arg.Author,
 		arg.Description,
 		arg.Cover,
+		arg.CoverVisible,
 		arg.ComType,
 		arg.Status,
 		arg.Rating,

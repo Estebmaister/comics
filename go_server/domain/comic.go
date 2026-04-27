@@ -12,21 +12,22 @@ const (
 
 // Comic model
 type Comic struct {
-	ID          int       `json:"id"`
-	Titles      []string  `json:"titles"`
-	Author      string    `json:"author"`
-	Description string    `json:"description"`
-	Cover       string    `json:"cover"`
-	ComType     int       `json:"com_type"`
-	Status      int       `json:"status"`
-	Publishers  []int     `json:"published_in"`
-	Genres      []int     `json:"genres"`
-	Rating      int       `json:"rating"`
-	CurrentChap int       `json:"current_chap"`
-	ViewedChap  int       `json:"viewed_chap"`
-	Track       bool      `json:"track"`
-	LastUpdate  time.Time `json:"last_update"`
-	Deleted     bool      `json:"deleted"`
+	ID           int       `json:"id"`
+	Titles       []string  `json:"titles"`
+	Author       string    `json:"author"`
+	Description  string    `json:"description"`
+	Cover        string    `json:"cover"`
+	CoverVisible bool      `json:"cover_visible"`
+	ComType      int       `json:"com_type"`
+	Status       int       `json:"status"`
+	Publishers   []int     `json:"published_in"`
+	Genres       []int     `json:"genres"`
+	Rating       int       `json:"rating"`
+	CurrentChap  int       `json:"current_chap"`
+	ViewedChap   int       `json:"viewed_chap"`
+	Track        bool      `json:"track"`
+	LastUpdate   time.Time `json:"last_update"`
+	Deleted      bool      `json:"deleted"`
 }
 
 // ComicStore interface abstracts comic repository operations

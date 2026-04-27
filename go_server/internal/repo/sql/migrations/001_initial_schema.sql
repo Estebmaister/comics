@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS comics (
     author        VARCHAR(255)    NULL,
     description   VARCHAR(2083)   NULL,
     cover         VARCHAR(2083)   NULL,
+    cover_visible BOOLEAN         NOT NULL DEFAULT true,
     published_in  INTEGER[]       NOT NULL,
     genres        INTEGER[]       NOT NULL,
     com_type      INTEGER         NOT NULL DEFAULT 0,

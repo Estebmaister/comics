@@ -54,7 +54,12 @@ const ComicCard = ({
         <div className={styles.cardGlow} />
 
         <div className={styles.cardRow}>
-          <ComicCover comic={comic}>
+          <ComicCover
+            comic={comic}
+            onCoverVisibilityChange={(cover_visible) => {
+              setComic((prev) => ({ ...prev, cover_visible }));
+            }}
+          >
             <div className={styles.overlayActions}>
               <button
                 className={`${styles.overlayButton} ${styles.overlayButtonDanger}`}

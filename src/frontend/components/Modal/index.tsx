@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState, KeyboardEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import './Modal.css';
 
 interface ModalProps {
@@ -16,44 +17,59 @@ const Modal = ({
   onClose,
   children,
 }: ModalProps) => {
-  const [isModalOpen, setModalOpen] = useState(isOpen);
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     if (onClose) onClose();
-    setModalOpen(false);
-  };
+  }, [onClose]);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') handleCloseModal();
-  };
+  useLayoutEffect(() => {
+    if (!isOpen) return undefined;
 
-  useEffect(() => { setModalOpen(isOpen) }, [isOpen]);
+    previouslyFocusedRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+
+    return () => {
+      previouslyFocusedRef.current?.focus();
+      previouslyFocusedRef.current = null;
+    };
+  }, [isOpen]);
 
   useEffect(() => {
-    const modalElement = modalRef.current;
-    if (isModalOpen) modalElement?.showModal?.();
-    else modalElement?.close?.();
-  }, [isModalOpen]);
+    if (!isOpen) return undefined;
 
-  return (
-    <dialog
-      ref={modalRef}
-      onKeyDown={handleKeyDown}
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') handleCloseModal();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleCloseModal, isOpen]);
+
+  if (!isOpen) return null;
+
+  return createPortal(
+    <div
+      className="modal-backdrop"
       onClick={(event) => {
         if (event.target === event.currentTarget) handleCloseModal();
       }}
-      className={`modal ${size === 'compact' ? 'modal-compact' : ''}`.trim()}
-      aria-modal="true"
     >
-      {hasCloseBtn && (
-        <button onClick={handleCloseModal}
-          className="basic-button reverse-button modal-close-btn" >
-          CLOSE
-        </button>
-      )}
-      {children}
-    </dialog>
+      <div
+        className={`modal ${size === 'compact' ? 'modal-compact' : ''}`.trim()}
+        role="dialog"
+        aria-modal="true"
+      >
+        {hasCloseBtn && (
+          <button onClick={handleCloseModal}
+            className="basic-button reverse-button modal-close-btn" >
+            CLOSE
+          </button>
+        )}
+        {children}
+      </div>
+    </div>,
+    document.body,
   );
 };
 

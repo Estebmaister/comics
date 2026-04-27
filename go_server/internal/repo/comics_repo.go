@@ -40,6 +40,13 @@ var (
 // Implement UserStore methods for UserRepo
 var _ Closable = (*ComicsRepo)(nil)
 
+func coverVisibleValue(comic *pb.Comic) bool {
+	if comic.CoverVisible == nil {
+		return true
+	}
+	return comic.GetCoverVisible()
+}
+
 // ComicsRepo implements UserStore for PostgreSQL
 type ComicsRepo struct {
 	cl      *pgxpool.Pool
@@ -236,10 +243,10 @@ func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
 		return r.withRetry(ctx, "CreateComic", func() error {
 			query := `
 			INSERT INTO comics (
-				titles, author, description, type, status, cover,
+				titles, author, description, type, status, cover, cover_visible,
 				current_chap, last_update, publishers, genres,
 				track, viewed_chap, deleted
-			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
 			RETURNING id`
 
 			publishers := make([]int32, len(comic.PublishedIn))
@@ -261,6 +268,7 @@ func (r *ComicsRepo) CreateComic(ctx context.Context, comic *pb.Comic) error {
 				comic.ComType,
 				comic.Status,
 				comic.Cover,
+				coverVisibleValue(comic),
 				comic.CurrentChap,
 				time.Now(),
 				publishers,
@@ -285,14 +293,15 @@ func (r *ComicsRepo) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 				type = $4,
 				status = $5,
 				cover = $6,
-				current_chap = $7,
-				last_update = $8,
-				publishers = $9,
-				genres = $10,
-				track = $11,
-				viewed_chap = $12,
-				deleted = $13
-			WHERE id = $14
+				cover_visible = $7,
+				current_chap = $8,
+				last_update = $9,
+				publishers = $10,
+				genres = $11,
+				track = $12,
+				viewed_chap = $13,
+				deleted = $14
+			WHERE id = $15
 			RETURNING id`
 
 			publishers := make([]int32, len(comic.PublishedIn))
@@ -315,6 +324,7 @@ func (r *ComicsRepo) UpdateComic(ctx context.Context, comic *pb.Comic) error {
 				comic.ComType,
 				comic.Status,
 				comic.Cover,
+				coverVisibleValue(comic),
 				comic.CurrentChap,
 				time.Now(),
 				publishers,
@@ -359,11 +369,12 @@ func (r *ComicsRepo) GetComicByID(ctx context.Context, id uint32) (*pb.Comic, er
 	err := r.withSpan(ctx, "GetComicByID", func(ctx context.Context) error {
 		return r.withRetry(ctx, "GetComicByID", func() error {
 			query := `
-			SELECT id, titles, author, description, type, status, cover, current_chap,
+			SELECT id, titles, author, description, type, status, cover, cover_visible, current_chap,
 				last_update, publishers, genres, track, viewed_chap, deleted
 			FROM comics
 			WHERE id = $1`
 
+			var coverVisible bool
 			var lastUpdate time.Time
 			var publishers, genres []int32
 
@@ -375,6 +386,7 @@ func (r *ComicsRepo) GetComicByID(ctx context.Context, id uint32) (*pb.Comic, er
 				&comic.ComType,
 				&comic.Status,
 				&comic.Cover,
+				&coverVisible,
 				&comic.CurrentChap,
 				&lastUpdate,
 				&publishers,
@@ -392,6 +404,7 @@ func (r *ComicsRepo) GetComicByID(ctx context.Context, id uint32) (*pb.Comic, er
 			}
 
 			comic.LastUpdate = timestamppb.New(lastUpdate)
+			comic.CoverVisible = &coverVisible
 			comic.PublishedIn = make([]pb.Publisher, len(publishers))
 			comic.Genres = make([]pb.Genre, len(genres))
 
@@ -435,7 +448,7 @@ func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedO
 
 			// Get paginated results
 			query := fmt.Sprintf(`
-				SELECT id, titles, author, description, type, status, cover, current_chap,
+				SELECT id, titles, author, description, type, status, cover, cover_visible, current_chap,
 					last_update, publishers, genres, track, viewed_chap, deleted
 				FROM comics
 				%s
@@ -451,6 +464,7 @@ func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedO
 
 			for rows.Next() {
 				var comic pb.Comic
+				var coverVisible bool
 				var lastUpdate time.Time
 				var publishers, genres []int32
 
@@ -462,6 +476,7 @@ func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedO
 					&comic.ComType,
 					&comic.Status,
 					&comic.Cover,
+					&coverVisible,
 					&comic.CurrentChap,
 					&lastUpdate,
 					&publishers,
@@ -475,6 +490,7 @@ func (r *ComicsRepo) GetComics(ctx context.Context, page, pageSize int, trackedO
 				}
 
 				comic.LastUpdate = timestamppb.New(lastUpdate)
+				comic.CoverVisible = &coverVisible
 				comic.PublishedIn = make([]pb.Publisher, len(publishers))
 				comic.Genres = make([]pb.Genre, len(genres))
 
@@ -511,7 +527,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 
 	// Prepare the base query with search conditions
 	baseQuery := `
-		SELECT id, titles, author, description, type, status, cover, current_chap,
+		SELECT id, titles, author, description, type, status, cover, cover_visible, current_chap,
 			last_update, publishers, genres, track, viewed_chap, deleted
 		FROM comics
 		WHERE 
@@ -551,6 +567,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 
 	for rows.Next() {
 		var comic pb.Comic
+		var coverVisible bool
 		var lastUpdate time.Time
 		var publishers, genres []int32
 
@@ -562,6 +579,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 			&comic.ComType,
 			&comic.Status,
 			&comic.Cover,
+			&coverVisible,
 			&comic.CurrentChap,
 			&lastUpdate,
 			&publishers,
@@ -575,6 +593,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 		}
 
 		comic.LastUpdate = timestamppb.New(lastUpdate)
+		comic.CoverVisible = &coverVisible
 		comic.PublishedIn = make([]pb.Publisher, len(publishers))
 		comic.Genres = make([]pb.Genre, len(genres))
 
@@ -599,7 +618,7 @@ func (r *ComicsRepo) SearchComics(ctx context.Context, query string, page, pageS
 func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics []*pb.Comic, err error) {
 	err = r.withSpan(ctx, "GetComicsByTitle", func(ctx context.Context) error {
 		query := `
-			SELECT id, titles, author, description, type, status, cover, current_chap,
+			SELECT id, titles, author, description, type, status, cover, cover_visible, current_chap,
 				last_update, publishers, genres, track, viewed_chap, deleted
 			FROM comics
 			WHERE titles ILIKE $1 AND deleted = false`
@@ -612,6 +631,7 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 
 		for rows.Next() {
 			var comic pb.Comic
+			var coverVisible bool
 			var lastUpdate time.Time
 			var publishers, genres []int32
 
@@ -623,6 +643,7 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 				&comic.ComType,
 				&comic.Status,
 				&comic.Cover,
+				&coverVisible,
 				&comic.CurrentChap,
 				&lastUpdate,
 				&publishers,
@@ -636,6 +657,7 @@ func (r *ComicsRepo) GetComicsByTitle(ctx context.Context, title string) (comics
 			}
 
 			comic.LastUpdate = timestamppb.New(lastUpdate)
+			comic.CoverVisible = &coverVisible
 			comic.PublishedIn = make([]pb.Publisher, len(publishers))
 			comic.Genres = make([]pb.Genre, len(genres))
 

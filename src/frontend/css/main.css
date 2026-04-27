@@ -70,8 +70,8 @@
     --layer-card-overlay: 10;
     --layer-nav: 40;
     --layer-floating: 50;
-    --layer-toast: 60;
     --layer-modal: 70;
+    --layer-toast: 80;
     --motion-fast: 160ms ease;
     --motion-medium: 260ms ease;
   }

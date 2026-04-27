@@ -43,9 +43,10 @@ message Comic {
   bool track = 13;
   uint32 viewed_chap = 14;
   bool deleted = 15;
+  optional bool cover_visible = 16;
 
   // Reserved fields for future use
-  reserved 16 to 20;
+  reserved 17 to 20;
   reserved "views";
 }
 

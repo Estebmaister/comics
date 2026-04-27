@@ -15,11 +15,11 @@ LIMIT ? OFFSET ?;
 
 -- name: CreateComic :one
 INSERT INTO comics (
-  titles, author, description, cover, 
+  titles, author, description, cover, cover_visible,
   com_type, status, published_in, genres, 
   current_chap, viewed_chap, last_update, track
 ) VALUES (
-  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 )
 RETURNING *;
 
@@ -29,6 +29,7 @@ UPDATE comics
   author = ?,
   description = ?,
   cover = ?,
+  cover_visible = ?,
   com_type = ?,
   status = ?,
   rating = ?,

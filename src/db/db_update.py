@@ -36,6 +36,10 @@ def add_columns_to_db() -> None:
         '''.format(db_name)
         session.execute(text(query))
 
+        query = '''ALTER TABLE {} ADD COLUMN cover_visible BOOLEAN DEFAULT true;
+        '''.format(db_name)
+        session.execute(text(query))
+
         # Commit all changes to database
         session.commit()
         print("Database update completed successfully")
@@ -48,6 +52,7 @@ def add_columns_to_json() -> None:
             comic['last_update'], tz=timezone.utc).isoformat()
         comic['rating'] = 0
         comic['deleted'] = False
+        comic['cover_visible'] = True
 
     # Save updated comics to JSON file
     save_comics_file(load_comics)

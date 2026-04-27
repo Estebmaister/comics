@@ -10,19 +10,20 @@ import (
 )
 
 type Comic struct {
-	ID          int64
-	Titles      string
-	Author      sql.NullString
-	Description sql.NullString
-	Cover       sql.NullString
-	PublishedIn string
-	Genres      string
-	ComType     int64
-	Status      int64
-	Rating      int64
-	CurrentChap int64
-	ViewedChap  int64
-	Track       bool
-	Deleted     bool
-	LastUpdate  time.Time
+	ID           int64
+	Titles       string
+	Author       sql.NullString
+	Description  sql.NullString
+	Cover        sql.NullString
+	CoverVisible bool
+	PublishedIn  string
+	Genres       string
+	ComType      int64
+	Status       int64
+	Rating       int64
+	CurrentChap  int64
+	ViewedChap   int64
+	Track        bool
+	Deleted      bool
+	LastUpdate   time.Time
 }

@@ -8,7 +8,8 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from db import ComicDB, Session, Statuses, Types, load_comics, save_comics_file
 from db.identity import (build_identity_key, build_identity_key_from_titles,
-                         merge_unique_values, normalize_title_variants)
+                         merge_unique_values, normalize_title_variants,
+                         titles_are_prefix_match)
 from helpers.text import normalize_text
 from helpers.logger import logger
 
@@ -130,6 +131,42 @@ def rebuild_json_backup_from_db(
     return load_comics
 
 
+def sync_json_backup_records(
+    updated_records: Iterable[dict] = (),
+    deleted_ids: Iterable[int] = (),
+    *,
+    persist_file: bool = True,
+) -> List[dict]:
+    deleted_id_set = {int(deleted_id) for deleted_id in deleted_ids}
+    if deleted_id_set:
+        load_comics[:] = [
+            comic for comic in load_comics
+            if int(comic.get("id", -1)) not in deleted_id_set
+        ]
+
+    record_by_id = {
+        int(comic["id"]): comic
+        for comic in load_comics
+        if "id" in comic
+    }
+    for record in updated_records:
+        record_by_id[int(record["id"])] = record
+
+    load_comics[:] = sorted(record_by_id.values(), key=lambda comic: int(comic["id"]))
+    if persist_file:
+        save_comics_file(load_comics)
+    return load_comics
+
+
+def _ensure_json_record_for_comic(comic: ComicDB) -> dict:
+    for json_comic in load_comics:
+        if comic.id == json_comic["id"]:
+            return json_comic
+    json_comic = comic.toJSON()
+    load_comics.append(json_comic)
+    return json_comic
+
+
 def update_comic_by_id(id: int, body: dict) -> (dict | None):
     '''>>> update_comic_by_id(10) -> jsonComic | None'''
     with Session() as session:
@@ -137,12 +174,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
         if comic is None:
             log.info('No comic found by ID %s', id)
             return None
-        try:
-            json_comic = [com for com in load_comics if id == com["id"]][0]
-        except IndexError:
-            log.debug('Comic ID %s not found in JSON backup, adding it', id)
-            load_comics.append(comic.toJSON())
-            json_comic = [com for com in load_comics if id == com["id"]][0]
+        json_comic = _ensure_json_record_for_comic(comic)
 
         titles = body.get('titles')
         if titles is not None:
@@ -164,7 +196,12 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
             json_comic["published_in"] = publishers
 
         comic.author = body.get('author', comic.author)
+        previous_cover = comic.cover
         comic.cover = body.get('cover', comic.cover)
+        if 'cover_visible' in body:
+            comic.cover_visible = bool(body['cover_visible'])
+        elif comic.cover != previous_cover:
+            comic.cover_visible = True
         comic.description = body.get('description', comic.description)
         comic.track = int(body.get('track', comic.track))
         comic.viewed_chap = int(body.get('viewed_chap', comic.viewed_chap))
@@ -176,6 +213,7 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
 
         json_comic["author"] = comic.author
         json_comic["cover"] = comic.cover
+        json_comic["cover_visible"] = bool(comic.cover_visible)
         json_comic["description"] = comic.description
         json_comic["track"] = bool(comic.track)
         json_comic["viewed_chap"] = comic.viewed_chap
@@ -189,6 +227,34 @@ def update_comic_by_id(id: int, body: dict) -> (dict | None):
         session.commit()
         save_comics_file(load_comics)
         return comicJSON
+
+
+def update_cover_visibility_by_id(
+    id: int,
+    cover: str,
+    cover_visible: bool,
+) -> dict | None:
+    with Session() as session:
+        comic: ComicDB | None = session.query(ComicDB).get(id)
+        if comic is None:
+            log.info('No comic found by ID %s', id)
+            return None
+
+        if comic.cover == cover:
+            comic.cover_visible = bool(cover_visible)
+            json_comic = _ensure_json_record_for_comic(comic)
+            json_comic["cover_visible"] = bool(comic.cover_visible)
+            session.commit()
+            sync_json_backup_records([comic.toJSON()])
+            return comic.toJSON()
+
+        log.debug(
+            'Ignoring stale cover visibility report for comic %s: %s != %s',
+            id,
+            cover,
+            comic.cover,
+        )
+        return comic.toJSON()
 
 
 def comics_like_title(title: str, session: SessionType = None) -> (List[ComicDB]):
@@ -225,6 +291,42 @@ def comics_by_identity_key(
         return current_session.query(ComicDB).filter(
             ComicDB.identity_key == identity_key
         ).order_by(ComicDB.id).all()
+
+
+def comics_by_title_prefix(
+    title: str,
+    com_type: int,
+    session: SessionType = None,
+) -> List[ComicDB]:
+    normalized_titles = normalize_title_variants([title], com_type)
+    if not normalized_titles:
+        return []
+
+    normalized_title = normalized_titles[0].lower()
+    first_word = normalized_title.split(" ", 1)[0]
+
+    query_filters = (
+        ComicDB.com_type == int(com_type),
+        ComicDB.deleted == 0,
+        ComicDB.titles.ilike(f"%{first_word}%"),
+    )
+
+    if session is not None:
+        candidates = session.query(ComicDB).filter(*query_filters).order_by(ComicDB.id).all()
+    else:
+        with Session() as current_session:
+            candidates = current_session.query(ComicDB).filter(
+                *query_filters
+            ).order_by(ComicDB.id).all()
+
+    return [
+        comic
+        for comic in candidates
+        if any(
+            titles_are_prefix_match(normalized_title, stored_title)
+            for stored_title in comic.get_titles()
+        )
+    ]
 
 
 def canonical_comic_by_identity_key(
@@ -313,6 +415,22 @@ def _merge_lookup_values(
     return merge_unique_values(current_values, incoming_values)
 
 
+def _is_cover_visible(comic: ComicDB) -> bool:
+    return bool(getattr(comic, "cover_visible", True))
+
+
+def _merge_cover_values(base_comic: ComicDB, duplicate_comic: ComicDB) -> tuple[str, bool]:
+    if base_comic.cover and _is_cover_visible(base_comic):
+        return base_comic.cover, True
+    if duplicate_comic.cover and _is_cover_visible(duplicate_comic):
+        return duplicate_comic.cover, True
+    if base_comic.cover:
+        return base_comic.cover, _is_cover_visible(base_comic)
+    if duplicate_comic.cover:
+        return duplicate_comic.cover, _is_cover_visible(duplicate_comic)
+    return "", True
+
+
 def merge_comics(base_id: int, merging_id: int) -> tuple[dict | None, str | None, int]:
     '''>>> merge_comics(10, 24) -> ComicJSON: dict | None, error msg | None, status_code '''
     if base_id == merging_id:
@@ -353,7 +471,7 @@ def merge_comics(base_id: int, merging_id: int) -> tuple[dict | None, str | None
             comic.rating = comic.rating or d_comic.rating
             comic.author = comic.author or d_comic.author
             comic.description = comic.description or d_comic.description
-            comic.cover = comic.cover or d_comic.cover
+            comic.cover, comic.cover_visible = _merge_cover_values(comic, d_comic)
 
             session.delete(d_comic)
             session.flush()
@@ -378,5 +496,9 @@ def merge_comics(base_id: int, merging_id: int) -> tuple[dict | None, str | None
             )
             return None, MERGE_DB_ERROR, 500
 
-        rebuild_json_backup_from_db(persist_file=True)
+        sync_json_backup_records(
+            updated_records=[comicJSON],
+            deleted_ids=[merging_id],
+            persist_file=True,
+        )
         return comicJSON, None, 200

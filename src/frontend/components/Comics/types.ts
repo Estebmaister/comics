@@ -6,6 +6,7 @@ export interface Comic {
   id: number;
   titles: string[];
   cover: string;
+  cover_visible?: boolean;
   author: string;
   current_chap: number;
   viewed_chap: number;

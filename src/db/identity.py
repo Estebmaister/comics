@@ -11,6 +11,8 @@ NOVEL_IDENTITY_PREFIX = "novel:"
 SERIES_IDENTITY_PREFIX = "series:"
 
 _NOVEL_MARKER_RE = re.compile(r"\(\s*novel\s*\)|-\s*novel\s*$", re.IGNORECASE)
+_LEADING_ARTICLE_RE = re.compile(r"^(the|a|an)\s+", re.IGNORECASE)
+_NON_MATCH_CHAR_RE = re.compile(r"[^a-z0-9]+")
 
 
 def split_title_values(titles: str | Sequence[str] | None) -> List[str]:
@@ -75,6 +77,18 @@ def primary_title_from_titles(titles: str | Sequence[str] | None) -> str:
 
 def normalize_primary_title(title: str) -> str:
     return strip_novel_marker(title).lower()
+
+
+def title_match_key(title: str) -> str:
+    normalized = normalize_primary_title(title)
+    normalized = _LEADING_ARTICLE_RE.sub("", normalized)
+    return _NON_MATCH_CHAR_RE.sub("", normalized)
+
+
+def titles_are_prefix_match(incoming_title: str, stored_title: str) -> bool:
+    incoming_key = title_match_key(incoming_title)
+    stored_key = title_match_key(stored_title)
+    return bool(incoming_key and stored_key and stored_key.startswith(incoming_key))
 
 
 def build_identity_key(primary_title: str, com_type: int | None = 0) -> str:

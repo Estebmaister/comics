@@ -46,9 +46,9 @@ LIMIT ? OFFSET ?;
 -- name: InsertComic :one
 -- TODO: implement transaction to create comics
 INSERT INTO comics (
-  author, description, cover, com_type, status, 
-  current_chap, viewed_chap, track, deleted, last_update )
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	  author, description, cover, cover_visible, com_type, status,
+	  current_chap, viewed_chap, track, deleted, last_update )
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 RETURNING id;
 -- name: InsertTitle :exec
 INSERT INTO titles      (comic_id, title)     VALUES (?, ?);
@@ -62,8 +62,8 @@ INSERT INTO genres      (comic_id, genre)     VALUES (?, ?); -- CreateComic end
 -- name: UpdateComicByID :exec
 -- TODO: implement transaction to update comics
 UPDATE comics 
-  set author = ?, description = ?, cover = ?, com_type = ?, status = ?,
-  current_chap = ?, viewed_chap = ?, track = ?, deleted = ?, last_update = ?
+	  set author = ?, description = ?, cover = ?, cover_visible = ?, com_type = ?, status = ?,
+	  current_chap = ?, viewed_chap = ?, track = ?, deleted = ?, last_update = ?
 WHERE id = ?; -- delete and re-insert all title, publisher, genre if needed, UpdateComic end
 
 

@@ -22,7 +22,8 @@ for path in (ROOT, SRC):
         sys.path.insert(0, path_str)
 
 from db import ComicDB, Session, Types, comic_file, db_file
-from db.identity import merge_unique_values, normalize_title_variants
+from db.identity import (merge_unique_values, normalize_title_variants,
+                         title_match_key, titles_are_prefix_match)
 from db.repo import rebuild_json_backup_from_db
 
 
@@ -66,6 +67,20 @@ def _prefer_text(current_value: str, incoming_value: str) -> str:
     return current_value
 
 
+def _prefer_cover(canonical: ComicDB, duplicate: ComicDB) -> tuple[str, bool]:
+    canonical_visible = bool(getattr(canonical, "cover_visible", True))
+    duplicate_visible = bool(getattr(duplicate, "cover_visible", True))
+    if canonical.cover and canonical_visible:
+        return canonical.cover, canonical_visible
+    if duplicate.cover and duplicate_visible:
+        return duplicate.cover, duplicate_visible
+    if canonical.cover:
+        return canonical.cover, canonical_visible
+    if duplicate.cover:
+        return duplicate.cover, duplicate_visible
+    return "", True
+
+
 def _backup_storage() -> Path:
     recovery_dir = Path("src/db/recovery")
     recovery_dir.mkdir(parents=True, exist_ok=True)
@@ -77,18 +92,86 @@ def _backup_storage() -> Path:
     return backup_dir
 
 
-def _load_duplicate_groups(session) -> List[DuplicateGroup]:
+def _group_matches_title_like(group: DuplicateGroup, title_like: str) -> bool:
+    if not title_like:
+        return True
+    needle = title_like.lower()
+    return any(
+        needle in title.lower()
+        for comic in group.comics
+        for title in comic.get_titles()
+    )
+
+
+def _load_duplicate_groups(session, title_like: str = "") -> List[DuplicateGroup]:
     grouped: Dict[str, List[ComicDB]] = defaultdict(list)
     comics = session.query(ComicDB).filter(ComicDB.deleted == 0).order_by(ComicDB.id).all()
     for comic in comics:
         if comic.identity_key:
             grouped[comic.identity_key].append(comic)
 
-    return [
+    groups = [
         DuplicateGroup(identity_key=identity_key, comics=matches)
         for identity_key, matches in grouped.items()
         if len(matches) > 1
     ]
+    return [group for group in groups if _group_matches_title_like(group, title_like)]
+
+
+def _load_title_prefix_duplicate_groups(session, title_like: str = "") -> List[DuplicateGroup]:
+    query = session.query(ComicDB).filter(ComicDB.deleted == 0).order_by(ComicDB.id)
+    if title_like:
+        query = query.filter(ComicDB.titles.ilike(f"%{title_like}%"))
+    comics = query.all()
+    bucketed: Dict[tuple[int, str], List[ComicDB]] = defaultdict(list)
+    title_keys: Dict[int, List[str]] = {}
+    minimum_key_length = 18
+
+    for comic in comics:
+        keys = [
+            key for key in (title_match_key(title) for title in comic.get_titles())
+            if len(key) >= minimum_key_length
+        ]
+        if not keys:
+            continue
+        title_keys[int(comic.id)] = keys
+        for key in keys:
+            bucketed[(int(comic.com_type), key[:minimum_key_length])].append(comic)
+
+    groups: List[DuplicateGroup] = []
+    seen_group_keys: set[tuple[int, ...]] = set()
+    for (comic_type, bucket), matches in bucketed.items():
+        if len(matches) < 2:
+            continue
+
+        grouped_ids: set[int] = set()
+        for comic in matches:
+            comic_keys = title_keys.get(int(comic.id), [])
+            if any(
+                titles_are_prefix_match(source_key, target_key)
+                or titles_are_prefix_match(target_key, source_key)
+                for other in matches
+                if other.id != comic.id
+                for source_key in comic_keys
+                for target_key in title_keys.get(int(other.id), [])
+            ):
+                grouped_ids.add(int(comic.id))
+
+        if len(grouped_ids) < 2:
+            continue
+
+        group_key = tuple(sorted(grouped_ids))
+        if group_key in seen_group_keys:
+            continue
+        seen_group_keys.add(group_key)
+        groups.append(
+            DuplicateGroup(
+                identity_key=f"title-prefix:{comic_type}:{bucket}",
+                comics=[comic for comic in matches if int(comic.id) in grouped_ids],
+            )
+        )
+
+    return groups
 
 
 def _merge_group(session, group: DuplicateGroup) -> int:
@@ -121,7 +204,7 @@ def _merge_group(session, group: DuplicateGroup) -> int:
 
         canonical.author = _prefer_text(canonical.author, duplicate.author)
         canonical.description = _prefer_text(canonical.description, duplicate.description)
-        canonical.cover = _prefer_text(canonical.cover, duplicate.cover)
+        canonical.cover, canonical.cover_visible = _prefer_cover(canonical, duplicate)
 
         session.delete(duplicate)
         merged_count += 1
@@ -181,16 +264,27 @@ def main() -> int:
             "smart-quote cleanup, even for rows that are already unique."
         ),
     )
+    parser.add_argument(
+        "--title-like",
+        default="",
+        help="Restrict duplicate repair to comics whose stored titles contain this text.",
+    )
     args = parser.parse_args()
 
     with Session() as session:
-        groups = _load_duplicate_groups(session)
+        groups = _load_duplicate_groups(session, args.title_like)
+        title_prefix_groups = _load_title_prefix_duplicate_groups(session, args.title_like)
         clear_groups = [group for group in groups if not group.ambiguous]
         ambiguous_groups = [group for group in groups if group.ambiguous]
-        merge_groups = clear_groups + ambiguous_groups if args.merge_ambiguous else clear_groups
+        merge_groups = clear_groups + title_prefix_groups
+        if args.merge_ambiguous:
+            merge_groups += ambiguous_groups
         title_normalizations = _load_catalog_title_normalizations(session)
 
         print(f"Duplicate identity groups: {len(groups)}")
+        print(f"Title prefix duplicate groups: {len(title_prefix_groups)}")
+        if args.title_like:
+            print(f"Title filter: {args.title_like}")
         print(f"Clear merge groups: {len(clear_groups)}")
         print(f"Ambiguous review groups: {len(ambiguous_groups)}")
         print(f"Merge target groups: {len(merge_groups)}")
@@ -220,7 +314,7 @@ def main() -> int:
         session.commit()
         rebuild_json_backup_from_db()
 
-        remaining_groups = _load_duplicate_groups(session)
+        remaining_groups = _load_duplicate_groups(session, args.title_like)
         if not remaining_groups:
             _ensure_identity_unique_index(session)
             session.commit()

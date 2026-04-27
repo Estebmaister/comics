@@ -285,6 +285,10 @@ func (m *Comic) validate(all bool) error {
 
 	// no validation rules for Deleted
 
+	if m.CoverVisible != nil {
+		// no validation rules for CoverVisible
+	}
+
 	if len(errors) > 0 {
 		return ComicMultiError(errors)
 	}

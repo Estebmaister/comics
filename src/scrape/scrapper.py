@@ -21,7 +21,8 @@ from sqlalchemy.orm import Session
 
 from db import ComicDB, Publishers, Statuses, Types, load_comics
 from db.identity import merge_unique_values
-from db.repo import comics_by_identity_key, create_comic, rebuild_json_backup_from_db
+from db.repo import (comics_by_identity_key, comics_by_title_prefix,
+                     create_comic, rebuild_json_backup_from_db)
 from helpers.alert import add_alert
 from helpers.logger import logger
 from helpers.text import normalize_text
@@ -52,6 +53,11 @@ RESTRICTED_COVER_PUBLISHERS = {
     Publishers.ManhuaPlus,
     Publishers.ReaperScans,
     Publishers.Manganato
+}
+
+PREFERRED_COVER_PUBLISHER = Publishers.DemonicScans
+LOW_PRIORITY_COVER_PUBLISHERS = {
+    Publishers.Manganato,
 }
 
 
@@ -155,6 +161,26 @@ async def register_comic(
                 db_comics = comics_by_identity_key(
                     normalized_comic.identity_key, session
                 )
+                if not db_comics:
+                    prefix_matches = comics_by_title_prefix(
+                        normalized_comic.get_titles()[0],
+                        normalized_comic.com_type,
+                        session,
+                    )
+                    if len(prefix_matches) == 1:
+                        db_comics = prefix_matches
+                        log.info(
+                            'Resolved truncated scrape title %s to comic ID %s (%s)',
+                            normalized_comic.titles,
+                            db_comics[0].id,
+                            db_comics[0].titles,
+                        )
+                    elif len(prefix_matches) > 1:
+                        log.warning(
+                            'Found %d prefix matches for scraped title %s; creating separate record',
+                            len(prefix_matches),
+                            normalized_comic.titles,
+                        )
                 if not db_comics:
                     create_comic(normalized_comic, session)
                     return
@@ -280,40 +306,53 @@ async def _update_cover_if_needed(
     publisher: Publishers
 ) -> None:
     """
-    Update comic cover URL based on publisher rules.
+    Update comic cover URL based on source priority.
 
-    Some publishers have specific rules about when covers should be updated,
-    either due to load restrictions or reliability of cover URLs.
+    Demonic Scans is the preferred source. Manganato is backed by Nelomanga and
+    is treated as low priority because its covers can fail browser hotlinking.
+    Browser-reported invisible covers are replaced by any usable new cover.
     """
+    if not _should_update_cover(db_comic, cover, publisher):
+        return
+
+    _apply_cover_update(db_comic, json_comic, cover)
+
+
+def _apply_cover_update(db_comic: ComicDB, json_comic: Dict, cover: str) -> None:
+    db_comic.cover = cover
+    db_comic.cover_visible = True
+    json_comic['cover'] = cover
+    json_comic['cover_visible'] = True
+
+
+def _should_update_cover(
+    db_comic: ComicDB,
+    cover: str,
+    publisher: Publishers,
+) -> bool:
     if not cover or db_comic.cover == cover:
-        return
-
-    # Update if no existing cover
+        return False
     if not db_comic.cover:
-        db_comic.cover = cover
-        json_comic['cover'] = cover
-        return
+        return True
+    if not getattr(db_comic, "cover_visible", True):
+        return True
+    if publisher == PREFERRED_COVER_PUBLISHER:
+        return True
 
-    # Update if current publisher is not restricted but comic is available
-    # on restricted publishers
-    if (publisher not in RESTRICTED_COVER_PUBLISHERS and
-        any(pub in db_comic.get_published_in()
-            for pub in RESTRICTED_COVER_PUBLISHERS)):
-        db_comic.cover = cover
-        json_comic['cover'] = cover
-        return
+    publishers = set(db_comic.get_published_in())
+    if PREFERRED_COVER_PUBLISHER in publishers:
+        return False
 
-    # Update for specific publishers that need regular cover updates
-    if publisher in COVER_UPDATE_PUBLISHERS and publisher not in RESTRICTED_COVER_PUBLISHERS:
-        db_comic.cover = cover
-        json_comic['cover'] = cover
+    if publisher in LOW_PRIORITY_COVER_PUBLISHERS:
+        return not any(
+            pub not in LOW_PRIORITY_COVER_PUBLISHERS and pub != Publishers.Unknown
+            for pub in publishers
+        )
 
-    # Update for restricted publishers when there is no other publisher
-    if publisher in RESTRICTED_COVER_PUBLISHERS and not any(
-        pub not in RESTRICTED_COVER_PUBLISHERS for pub in db_comic.get_published_in()
-    ):
-        db_comic.cover = cover
-        json_comic['cover'] = cover
+    if any(pub in publishers for pub in LOW_PRIORITY_COVER_PUBLISHERS):
+        return True
+
+    return publisher in COVER_UPDATE_PUBLISHERS and publisher not in RESTRICTED_COVER_PUBLISHERS
 
 
 def _normalize_comic_data(scraped_comic: ScrapedComic, publisher: Publishers) -> Optional[ComicDB]:

@@ -19,11 +19,11 @@ LIMIT $1 OFFSET $2;
 
 -- name: CreateComic :one
 INSERT INTO comics (
-  titles, author, description, cover, 
+  titles, author, description, cover, cover_visible,
   com_type, status, published_in, genres, 
   current_chap, viewed_chap, last_update, track
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
 )
 RETURNING *;
 
@@ -33,15 +33,16 @@ UPDATE comics
   author = $3,
   description = $4,
   cover = $5,
-  com_type = $6,
-  status = $7,
-  published_in = $8,
-  genres = $9,
-  current_chap = $10,
-  viewed_chap = $11,
-  last_update = $12,
-  track = $13,
-  deleted = $14
+  cover_visible = $6,
+  com_type = $7,
+  status = $8,
+  published_in = $9,
+  genres = $10,
+  current_chap = $11,
+  viewed_chap = $12,
+  last_update = $13,
+  track = $14,
+  deleted = $15
 WHERE id = $1;
 
 -- name: SoftDeleteComicByID :exec

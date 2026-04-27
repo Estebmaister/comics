@@ -9,19 +9,20 @@ import (
 )
 
 type Comic struct {
-	ID          int32
-	Titles      []string
-	Author      pgtype.Text
-	Description pgtype.Text
-	Cover       pgtype.Text
-	PublishedIn []int32
-	Genres      []int32
-	ComType     int32
-	Status      int32
-	Rating      int32
-	CurrentChap int32
-	ViewedChap  int32
-	Track       bool
-	Deleted     bool
-	LastUpdate  pgtype.Date
+	ID           int32
+	Titles       []string
+	Author       pgtype.Text
+	Description  pgtype.Text
+	Cover        pgtype.Text
+	CoverVisible bool
+	PublishedIn  []int32
+	Genres       []int32
+	ComType      int32
+	Status       int32
+	Rating       int32
+	CurrentChap  int32
+	ViewedChap   int32
+	Track        bool
+	Deleted      bool
+	LastUpdate   pgtype.Date
 }

@@ -51,20 +51,31 @@ DB_NAME: str = os.getenv('DB_NAME', 'comics')
 DB_PASS: str = os.getenv('DB_PASS', 'My0th3rS3lf')
 DB_HOST: str = os.getenv('DB_HOST', '127.0.0.1')
 DB_PORT: str = os.getenv('DB_PORT', '3306')
-db_file = os.path.join(os.path.dirname(__file__), "comics.db")
+db_file = os.getenv(
+    "DB_FILE",
+    os.path.join(os.path.dirname(__file__), "comics.db"),
+)
 ssl_ca = os.path.join(
     os.path.dirname(__file__), "DigiCertGlobalRootG2.crt.pem")
 comic_file = os.path.join(os.path.dirname(__file__), "comics.json")
 load_comics = []
 
+
+def apply_comic_json_defaults(comics: List[dict]) -> List[dict]:
+    for comic in comics:
+        comic.setdefault("cover_visible", True)
+    return comics
+
 with open(comic_file) as js_file:
     js_read_file = js_file.read()
     if js_read_file != "":
         load_comics = json.loads(js_read_file)
+    apply_comic_json_defaults(load_comics)
     load_comics.sort(key=lambda a: a["id"])
 
 
 def save_comics_file(load_comics):
+    apply_comic_json_defaults(load_comics)
     with open(comic_file, "w") as js_file:
         js_file.write(json.dumps(load_comics, indent=2))
 
@@ -213,13 +224,14 @@ class ComicDB(Base):
     __tablename__ = 'comics'
     id = Column(
         Integer, primary_key=True,
-        autoincrement='auto' if Engines.MYSQL == DB_ENGINE else False,
-        server_default=None if Engines.MYSQL == DB_ENGINE else seq.next_value()
+        autoincrement=DB_ENGINE in (Engines.SQLITE, Engines.MYSQL),
+        server_default=seq.next_value() if Engines.POSTGRES == DB_ENGINE else None
     )
     titles = Column(String(2083),   nullable=False)
     description = Column(String(2000), default="")
     author = Column(String(150),    default="")
     cover = Column(String(2083),    default="")
+    cover_visible = Column(Boolean, nullable=False, default=True)
     last_update = Column(Integer,   default=lambda: int(time.time()))
     published_in = Column(String(50), default="0")
     genres = Column(String(50),     default="0")
@@ -249,6 +261,7 @@ class ComicDB(Base):
         viewed_chap:  int = 0,
         rating:       int = 0,
         deleted:      bool = False,
+        cover_visible: bool = True,
 
     ):
         self.id = id
@@ -272,6 +285,7 @@ class ComicDB(Base):
         self.viewed_chap = int(viewed_chap)
         self.rating = int(rating)
         self.deleted = bool(deleted)
+        self.cover_visible = bool(cover_visible)
         self.refresh_identity_key()
 
     def get_titles(self) -> List[str]:
@@ -310,6 +324,7 @@ class ComicDB(Base):
             titles=self.get_titles(),
             current_chap=self.current_chap,
             cover=self.cover,
+            cover_visible=bool(self.cover_visible),
             last_update=last_update,
             com_type=Types(self.com_type),
             status=Statuses(self.status),
@@ -336,6 +351,7 @@ comic_swagger_model = Model('Comic', {
     'titles':       sf.List(sf.String(), required=True, description='Comic titles'),
     'current_chap': sf.Integer(required=True, description='Comic current chapter'),
     'cover':        sf.String(required=True, description='Comic cover img'),
+    'cover_visible': sf.Boolean(description='Whether the cover loaded in a browser'),
     'published_in': sf.List(sf.Integer(), description='Comic publishers, ex: [1]'),
     'author':       sf.String(description='Comic author', default=''),
     'description':  sf.String(description='Comic details', default=''),
@@ -408,6 +424,18 @@ def _ensure_sqlite_identity_schema() -> None:
         return
 
     columns = _sqlite_table_columns("comics")
+    if "cover_visible" not in columns:
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    """
+                    ALTER TABLE comics
+                    ADD COLUMN cover_visible BOOLEAN NOT NULL DEFAULT 1
+                    """
+                )
+            )
+        columns = _sqlite_table_columns("comics")
+
     if "identity_key" not in columns:
         with engine.begin() as connection:
             connection.execute(

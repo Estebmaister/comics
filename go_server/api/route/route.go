@@ -68,6 +68,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	{ // All Public APIs
 		swaggerRouter(env, basePath, publicRouter)
 		metricsRouter(userRepo, publicRouter)
+		comicsRouter(publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
 		refreshTokenRouter(authController, publicRouter)

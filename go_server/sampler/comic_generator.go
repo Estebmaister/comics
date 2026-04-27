@@ -11,22 +11,24 @@ import (
 // NewComic generates a new comic with random values
 func NewComic() *pb.Comic {
 	currentChapter := uint32(randomUInt(0, 1000)) // #nosec G115
+	coverVisible := true
 	comic := &pb.Comic{
-		Id:          NewComicID(),
-		Titles:      NewTitles(),
-		Author:      NewAuthor(),
-		Description: NewDescription(),
-		ComType:     NewType(),
-		Status:      NewStatus(),
-		Cover:       NewCover(),
-		CurrentChap: currentChapter,
-		LastUpdate:  timestamppb.New(randomTimestamp()),
-		PublishedIn: NewPublishers(),
-		Genres:      NewGenres(),
-		Rating:      NewRating(),
-		Track:       randomBool(),
-		ViewedChap:  uint32(randomUInt(0, currentChapter)), // #nosec G115
-		Deleted:     randomBool(),
+		Id:           NewComicID(),
+		Titles:       NewTitles(),
+		Author:       NewAuthor(),
+		Description:  NewDescription(),
+		ComType:      NewType(),
+		Status:       NewStatus(),
+		Cover:        NewCover(),
+		CoverVisible: &coverVisible,
+		CurrentChap:  currentChapter,
+		LastUpdate:   timestamppb.New(randomTimestamp()),
+		PublishedIn:  NewPublishers(),
+		Genres:       NewGenres(),
+		Rating:       NewRating(),
+		Track:        randomBool(),
+		ViewedChap:   uint32(randomUInt(0, currentChapter)), // #nosec G115
+		Deleted:      randomBool(),
 	}
 	return comic
 }

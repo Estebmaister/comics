@@ -9,6 +9,7 @@ COMIC_PAYLOAD = {
     "titles": ["Base title"],
     "current_chap": 12,
     "cover": "https://example.com/cover.webp",
+    "cover_visible": True,
     "last_update": "2026-01-01T00:00:00+00:00",
     "com_type": 3,
     "status": 2,
@@ -63,6 +64,41 @@ class TestMergeEndpoint(unittest.TestCase):
             response.get_json(),
             {"message": "Internal server error while handling request"},
         )
+
+    @patch.object(server_module, "update_cover_visibility_by_id")
+    def test_cover_visibility_route_accepts_patch(self, visibility_mock):
+        visibility_mock.return_value = {
+            **COMIC_PAYLOAD,
+            "cover_visible": False,
+        }
+
+        response = self.client.patch(
+            "/comics/1/cover-visibility",
+            json={
+                "cover": COMIC_PAYLOAD["cover"],
+                "cover_visible": False,
+            },
+            headers={"Origin": self.origin},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        visibility_mock.assert_called_once_with(
+            1,
+            COMIC_PAYLOAD["cover"],
+            False,
+        )
+        self.assertEqual(response.get_json()["cover_visible"], False)
+
+    @patch.object(server_module, "update_cover_visibility_by_id")
+    def test_cover_visibility_route_rejects_invalid_payload(self, visibility_mock):
+        response = self.client.patch(
+            "/comics/1/cover-visibility",
+            json={"cover": COMIC_PAYLOAD["cover"]},
+            headers={"Origin": self.origin},
+        )
+
+        self.assertEqual(response.status_code, 400)
+        visibility_mock.assert_not_called()
 
 
 if __name__ == "__main__":

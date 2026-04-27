@@ -84,7 +84,8 @@ def create_comic_db_instance(comic: dict) -> ComicDB:
         int(comic['track']),
         comic['viewed_chap'],
         comic['rating'],
-        comic['deleted']
+        comic['deleted'],
+        comic.get('cover_visible', True)
     )
 
 

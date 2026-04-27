@@ -1,36 +1,32 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import MergeComic from './MergeComic';
 import { ToastProvider } from '../../Toast/ToastProvider';
 
-beforeAll(() => {
-  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
-    configurable: true,
-    value: function showModal() {
-      this.setAttribute('open', '');
-    },
-  });
-
-  Object.defineProperty(HTMLDialogElement.prototype, 'close', {
-    configurable: true,
-    value: function close() {
-      this.removeAttribute('open');
-    },
-  });
-});
-
-test('keeps merge draft values when the modal is closed and reopened', () => {
+test('keeps merge draft values when the modal is closed and reopened', async () => {
   render(
     <ToastProvider>
       <MergeComic />
     </ToastProvider>
   );
 
-  fireEvent.click(screen.getByRole('button', { name: /merge comics/i }));
+  const mergeButton = screen.getByRole('button', { name: /merge comics/i });
+
+  mergeButton.focus();
+  fireEvent.click(mergeButton);
+  expect(screen.getByRole('dialog')).toBeTruthy();
+  await waitFor(() => {
+    expect(document.activeElement).toBe(screen.getByLabelText(/baseid/i));
+  });
+
   fireEvent.change(screen.getByLabelText(/baseid/i), { target: { value: '579' } });
   fireEvent.click(screen.getByRole('button', { name: /close/i }));
+  expect(document.activeElement).toBe(mergeButton);
 
-  fireEvent.click(screen.getByRole('button', { name: /merge comics/i }));
+  fireEvent.click(mergeButton);
 
   const baseInput = screen.getByLabelText(/baseid/i) as HTMLInputElement;
   expect(baseInput.value).toBe('579');
+  await waitFor(() => {
+    expect(document.activeElement).toBe(baseInput);
+  });
 });

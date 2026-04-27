@@ -1,9 +1,16 @@
-.modal::backdrop {
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-modal);
+  display: grid;
+  place-items: center;
+  padding: 0.45rem;
   background:
     radial-gradient(circle at 30% 0%, rgb(14 116 144 / 22%), transparent 44%),
     radial-gradient(circle at 80% 10%, rgb(249 115 22 / 12%), transparent 34%),
     var(--surface-backdrop);
   backdrop-filter: blur(8px);
+  pointer-events: auto;
 }
 
 .modal {
@@ -14,10 +21,8 @@
   border-radius: calc(var(--radius-panel) + 0.1rem);
   color: var(--text-muted);
   background: var(--surface-panel-strong);
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  z-index: var(--layer-modal);
+  position: relative;
+  z-index: 1;
   pointer-events: auto;
   box-shadow:
     var(--shadow-panel),
