@@ -1,0 +1,1 @@
+function r(c){return s=>{const e=s.target,{name:o,value:a,type:n}=e;let t;n==="select-one"?t=parseInt(a):n==="checkbox"&&e instanceof HTMLInputElement?t=e.checked:n==="select-multiple"&&e instanceof HTMLSelectElement?t=Array.from(e.selectedOptions).map(l=>+l.value):t=a,c(l=>({...l,[o]:t}))}}export{r as h};
