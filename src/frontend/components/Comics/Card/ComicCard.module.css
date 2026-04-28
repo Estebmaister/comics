@@ -200,12 +200,13 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   display: block;
-  min-height: calc(2 * 1.06em);
-  max-height: calc(3 * 1.06em);
+  height: calc(2.45 * 1.06em);
   overflow-y: auto;
   padding-right: 0.14rem;
+  overflow-wrap: anywhere;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 
 .comicTitle::-webkit-scrollbar {
@@ -391,6 +392,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .overlayActions,
   .idChip {
     opacity: 0;
@@ -485,7 +487,7 @@
     font-size: 1.1rem;
     line-height: 1.04;
     min-height: calc(2 * 1.04em);
-    max-height: calc(2 * 1.04em);
+    max-height: calc(2.18 * 1.04em);
   }
 
   .authorLine {

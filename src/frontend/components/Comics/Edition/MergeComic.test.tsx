@@ -15,18 +15,18 @@ test('keeps merge draft values when the modal is closed and reopened', async () 
   fireEvent.click(mergeButton);
   expect(screen.getByRole('dialog')).toBeTruthy();
   await waitFor(() => {
-    expect(document.activeElement).toBe(screen.getByLabelText(/baseid/i));
+    expect(screen.getByLabelText(/baseid/i)).toHaveFocus();
   });
 
   fireEvent.change(screen.getByLabelText(/baseid/i), { target: { value: '579' } });
   fireEvent.click(screen.getByRole('button', { name: /close/i }));
-  expect(document.activeElement).toBe(mergeButton);
+  expect(mergeButton).toHaveFocus();
 
   fireEvent.click(mergeButton);
 
   const baseInput = screen.getByLabelText(/baseid/i) as HTMLInputElement;
   expect(baseInput.value).toBe('579');
   await waitFor(() => {
-    expect(document.activeElement).toBe(baseInput);
+    expect(baseInput).toHaveFocus();
   });
 });
