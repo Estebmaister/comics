@@ -192,8 +192,8 @@ chmod +x .githooks/pre-commit  # Ensure hooks are executable
 
 ### Frontend (.env)
 
-- `REACT_APP_PY_SERVER`: Python server URL (default: http://localhost:5001)
-- `REACT_APP_EXTERNAL_HOST`: External host for deployment configurations
+- `VITE_PY_SERVER`: Python server URL (default: http://localhost:5001)
+- `VITE_EXTERNAL_HOST`: External host for deployment configurations
 
 ### Backend
 

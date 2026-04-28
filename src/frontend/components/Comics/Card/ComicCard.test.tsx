@@ -1,13 +1,14 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { vi } from 'vitest';
 import ComicCard from './ComicCard';
 import type { Comic } from '../types';
 import { ToastProvider } from '../../Toast/ToastProvider';
 
-jest.mock('../../../hooks/useComicActions', () => ({
+vi.mock('../../../hooks/useComicActions', () => ({
   useComicActions: () => ({
-    handleCheckout: jest.fn(),
-    handleTrackToggle: jest.fn(),
-    handleDelete: jest.fn(),
+    handleCheckout: vi.fn(),
+    handleTrackToggle: vi.fn(),
+    handleDelete: vi.fn(),
   }),
 }));
 
@@ -29,16 +30,16 @@ const comicFixture: Comic = {
 beforeAll(() => {
   Object.assign(navigator, {
     clipboard: {
-      writeText: jest.fn(),
+      writeText: vi.fn(),
     },
   });
 });
 
 beforeEach(() => {
-  global.fetch = jest.fn(() => Promise.resolve({
+  global.fetch = vi.fn(() => Promise.resolve({
     ok: true,
     json: () => Promise.resolve({ ...comicFixture, cover_visible: false }),
-  })) as jest.Mock;
+  })) as unknown as typeof fetch;
 });
 
 test('renders overlay controls and footer action lane', () => {

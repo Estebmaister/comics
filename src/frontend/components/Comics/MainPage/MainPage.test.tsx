@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import { ComicsMainPage } from './MainPage';
 import { COMIC_SEARCH_PLACEHOLDER } from '../constants';
 
-jest.mock('react-router-dom', () => ({
-  useSearchParams: () => [new URLSearchParams(), jest.fn()],
-}), { virtual: true });
+vi.mock('react-router-dom', () => ({
+  useSearchParams: () => [new URLSearchParams(), vi.fn()],
+}));
 
-jest.mock('../../../util/ServerHelpers', () => ({
-  dataFetch: jest.fn(),
+vi.mock('../../../util/ServerHelpers', () => ({
+  dataFetch: vi.fn(),
 }));
 
 test(`renders "${COMIC_SEARCH_PLACEHOLDER}"`, () => {
