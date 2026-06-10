@@ -1,17 +1,23 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, memo, useCallback, useMemo, useState } from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
 import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER } from '../constants';
-import { handleOnlyTracked, handleOnlyUnchecked, handleSearchInput } from '../utils';
+import { handleOnlyTracked, handleOnlyUnchecked } from '../utils';
 import { PaginationData } from '../types';
 import PagButtons from './PagButtons';
+import { SortFilterModal } from './SortFilterModal';
 
 interface NavBarProps {
   onlyTracked: boolean;
   onlyUnchecked: boolean;
   total: number;
   queryFilter: string;
+  onQueryFilterChange: (value: string) => void;
   setSearchParams: SetURLSearchParams;
   paginationData: PaginationData;
+  ratingMin?: number;
+  ratingMax?: number;
+  sortBy?: string;
+  sortDir?: string;
 }
 
 interface ConditionalButtonProps {
@@ -48,31 +54,53 @@ const ConditionalButton: React.FC<ConditionalButtonProps> = ({
   );
 };
 
-export const NavBar: React.FC<NavBarProps> = ({
+const NavBarComponent: React.FC<NavBarProps> = ({
   onlyTracked,
   onlyUnchecked,
   total,
   queryFilter,
+  onQueryFilterChange,
   setSearchParams,
-  paginationData
+  paginationData,
+  ratingMin,
+  ratingMax,
+  sortBy,
+  sortDir,
 }) => {
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleSearchInput(setSearchParams, e?.target?.value);
-  };
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    onQueryFilterChange(e?.target?.value ?? '');
+  }, [onQueryFilterChange]);
+
+  const [isSortFilterOpen, setIsSortFilterOpen] = useState(false);
+  const initialSortFilterState = useMemo(() => ({
+    ratingMin,
+    ratingMax,
+    sortBy: (sortBy === 'rating' || sortBy === 'id') ? sortBy : 'last_update',
+    sortDir: sortDir === 'asc' ? 'asc' : 'desc',
+  }), [ratingMax, ratingMin, sortBy, sortDir]);
+
+  const filterLabelParts = useMemo(() => {
+    const parts: string[] = [];
+    if (ratingMin !== undefined) parts.push(`R≥${ratingMin}`);
+    if (ratingMax !== undefined) parts.push(`R≤${ratingMax}`);
+    if (sortBy === 'rating') parts.push(`Sort:Rating`);
+    else if (sortBy === 'id') parts.push(`Sort:ID`);
+    return parts;
+  }, [ratingMax, ratingMin, sortBy]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-40">
-      <div className="mx-auto w-full max-w-[1560px] px-2.5 pt-2.5 sm:px-4 sm:pt-2 lg:px-6">
-        <div className="app-toolbar px-3 py-2.5 sm:px-4 sm:py-2">
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
-            <div className={`${onlyTracked ? 'grid grid-cols-2' : 'flex'} w-full gap-2 sm:flex sm:w-auto`}>
+      <div className="mx-auto w-full max-w-[1560px] px-2.5 pt-2 sm:px-3.5 sm:pt-1.5 lg:px-5">
+        <div className="app-toolbar px-2.5 py-2 sm:px-3 sm:py-1.5">
+          <div className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-1.5">
+            <div className={`${onlyTracked ? 'grid grid-cols-2' : 'flex'} w-full gap-1.5 sm:flex sm:w-auto`}>
               <ConditionalButton
                 condFlag={onlyTracked}
                 extraClass="reverse-button"
                 onClick={handleOnlyTracked(setSearchParams, onlyTracked)}
                 positiveMsg={BUTTON_TEXT.all(total)}
                 negativeMsg={BUTTON_TEXT.tracked(total)}
-                className="basic-button w-full min-h-[2.5rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.3rem] sm:min-w-[8.5rem] sm:px-3.5 sm:text-[0.76rem]"
+                className="basic-button w-full min-h-[2.4rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.2rem] sm:min-w-[7.2rem] sm:px-3 sm:text-[0.75rem]"
               />
 
               <ConditionalButton
@@ -81,25 +109,44 @@ export const NavBar: React.FC<NavBarProps> = ({
                 onClick={handleOnlyUnchecked(setSearchParams, onlyUnchecked)}
                 positiveMsg={BUTTON_TEXT.noFilter}
                 negativeMsg={BUTTON_TEXT.unchecked}
-                className="basic-button w-full min-h-[2.5rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.3rem] sm:min-w-[6.2rem] sm:px-3.5 sm:text-[0.76rem]"
+                className="basic-button w-full min-h-[2.4rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.2rem] sm:min-w-[5.8rem] sm:px-3 sm:text-[0.75rem]"
                 extraClass="reverse-button"
               />
             </div>
 
             <input
-              className="app-field px-4 py-2.5 text-sm font-medium sm:flex-1 sm:min-h-[2.55rem] sm:min-w-[250px] sm:py-2 md:text-base"
+              className="app-field px-3.5 py-2 text-sm font-medium sm:flex-1 sm:min-h-[2.4rem] sm:min-w-[220px] sm:py-1.5 md:text-base"
               placeholder={COMIC_SEARCH_PLACEHOLDER}
               type="text"
               value={queryFilter}
               onChange={handleInputChange}
             />
 
-            <div className="w-full sm:ml-auto sm:w-auto">
+            <div className="grid w-full grid-cols-2 gap-1.5 sm:ml-auto sm:flex sm:w-auto sm:items-center sm:gap-1.5">
+              <button
+                className="basic-button neutral-button w-full min-h-[2.4rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.2rem] sm:min-w-[6rem] sm:px-3 sm:text-[0.75rem]"
+                type="button"
+                onClick={() => setIsSortFilterOpen(true)}
+                aria-label="Open sort and filter options"
+              >
+                Sort/Filter{filterLabelParts.length ? ` (${filterLabelParts.join(' · ')})` : ''}
+              </button>
               <PagButtons pagD={paginationData} />
             </div>
           </div>
         </div>
       </div>
+
+      {isSortFilterOpen ? (
+        <SortFilterModal
+          isOpen={isSortFilterOpen}
+          onClose={() => setIsSortFilterOpen(false)}
+          setSearchParams={setSearchParams}
+          initialState={initialSortFilterState}
+        />
+      ) : null}
     </header>
   );
 };
+
+export const NavBar = memo(NavBarComponent);

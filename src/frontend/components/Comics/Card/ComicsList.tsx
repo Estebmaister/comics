@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, memo } from 'react';
 import { Comic } from '../types';
 import ComicCard from './ComicCard';
 import LoadMsgs from '../../Loaders/LoadMsgs';
@@ -42,4 +42,4 @@ const ComicsList: React.FC<ComicsListProps> = ({
   );
 };
 
-export default ComicsList;
+export default memo(ComicsList);

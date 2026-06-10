@@ -52,6 +52,25 @@ pip-review --auto
 > GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY=1 GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1 GRPC_PYTHON_BUILD_SYSTEM_CARES=1 CFLAGS+=" -U__ANDROID_API__ -D__ANDROID_API__=30 -include unistd.h" LDFLAGS+=" -llog" pip install grpcio
 > ```
 
+### Make commands
+
+```sh
+make help
+make start
+make go-server
+make test-go
+make vet-go
+make build-go
+make test-front
+make build-front
+make verify
+make import-postgres
+```
+
+`make verify` runs the Go test/vet/build checks plus the frontend test/build
+checks. `make import-postgres` imports `src/db/comics.db` into the Postgres
+target configured in the ignored Go env file.
+
 ### Running scrapper
 
 ```sh
@@ -80,8 +99,16 @@ python src/__main__.py server debug
 ### Running Go server
 
 ```sh
-(cd go_server && go run ./cmd/server/main.go)
+cd go_server
+cp local.env .env
+go run ./cmd/server
 ```
+
+The Go server listens on `https://localhost:8081` for local development when
+`tls/comics.crt` and `tls/comics.key` are present. It requires MongoDB for
+auth/profile routes and a writable comics DB. SQLite is configured with
+`COMICS_SQLITE_PATH`; Postgres is configured with `COMICS_DB_DRIVER=postgres`
+and `COMICS_POSTGRES_URL` in ignored local env files.
 
 ### Deployment on Heroku
 

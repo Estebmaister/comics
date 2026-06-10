@@ -16,3 +16,9 @@ CREATE TABLE comics (
   deleted       BOOLEAN NOT NULL DEFAULT 0,
   last_update   DATE    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_comics_active_update
+  ON comics(deleted, last_update DESC, id);
+
+CREATE INDEX IF NOT EXISTS idx_comics_active_track_update
+  ON comics(deleted, track, last_update DESC, id);

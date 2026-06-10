@@ -12,6 +12,7 @@ export const MOBILE_VIEWPORT_RESERVED_HEIGHT = 168;
 
 // Time Constants (in milliseconds)
 export const REFRESH_INTERVAL = 3 * 60 * 1000; // 3 minutes
+export const SEARCH_DEBOUNCE_MS = 300;
 
 // Button Text
 export const BUTTON_TEXT = {

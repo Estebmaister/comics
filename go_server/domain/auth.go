@@ -8,6 +8,12 @@ import (
 	"github.com/google/uuid"
 )
 
+var (
+	ErrCredentialsAlreadyExist = errors.New("already exist")
+	ErrInvalidCredentials      = errors.New("invalid credentials")
+	ErrUserNotFound            = errors.New("user not found")
+)
+
 // UserServicer defines methods for authentication and user management
 type UserServicer interface {
 	Login(ctx context.Context, user LoginRequest) (*User, error)
@@ -15,6 +21,17 @@ type UserServicer interface {
 	Update(ctx context.Context, dbUser *User, updateUser UpdateRequest) error
 	GetByID(ctx context.Context, id uuid.UUID) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
+}
+
+type AuthUseCase interface {
+	GetAccessTokenExpirySeconds() int
+	GetRefreshTokenExpirySeconds() int
+	GetUserByJWT(ctx context.Context, accessToken string) (*User, error)
+	Login(ctx context.Context, accessToken string, user LoginRequest) (*AuthResponse, error)
+	LoginByOAuthEmail(ctx context.Context, email string) (*AuthResponse, error)
+	UpdateProfile(ctx context.Context, accessToken string, user UpdateRequest) (*AuthResponse, error)
+	Register(ctx context.Context, user SignUpRequest) (*AuthResponse, error)
+	RefreshToken(ctx context.Context, refreshToken string, role string) (*AuthResponse, error)
 }
 
 // APIResponse define the base generic API response

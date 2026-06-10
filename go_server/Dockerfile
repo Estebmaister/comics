@@ -22,7 +22,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o 
 
 FROM alpine:3.21
 
-RUN apk update && apk upgrade
+RUN apk update && apk upgrade && apk add --no-cache curl ca-certificates tzdata
 
 # Import certs from builder
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
@@ -48,13 +48,13 @@ USER appuser
 # Set environment variables for host, port and health check path
 ENV HTTP_PORT=8081
 ENV HTTP_ADDRESS=0.0.0.0
-ENV HEALTHCHECK_PATH=/health
+ENV HEALTHCHECK_PATH=/ready
 
 # Expose the application port
 EXPOSE ${HTTP_PORT}
 
 # Configure health check using environment variables
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-CMD curl --fail http://${HTTP_ADDRESS}:${HTTP_PORT}${HEALTHCHECK_PATH} || exit 1
+CMD curl --fail http://127.0.0.1:${HTTP_PORT}${HEALTHCHECK_PATH} || exit 1
 
 CMD [ "./server" ]

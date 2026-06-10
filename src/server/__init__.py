@@ -28,6 +28,7 @@ server.wsgi_app = ProxyFix(server.wsgi_app)
 # how the app is started (python src, gunicorn, flask run, etc.).
 allowed_origins = [
     r'https?://localhost(:\d+)?',
+    r'https?://127\.0\.0\.1(:\d+)?',
     r'https://estebmaister.github.io',
     # Tailscale magiclink and DNS
     r'https?://.*\.persian-nominal\.ts\.net(:\d+)?',
@@ -114,6 +115,10 @@ class ComicList(Resource):
         unchecked = request.args.get(
             "only_unchecked", "false").lower() == "true"
         full_query = request.args.get("full", "false").lower() == "true"
+        rating_min = request.args.get("rating_min")
+        rating_max = request.args.get("rating_max")
+        sort_by = request.args.get("sort_by", "last_update")
+        sort_dir = request.args.get("sort_dir", "desc")
 
         log.debug("Comics list request - offset: %s, limit: %s, tracked: %s, unchecked: %s, full: %s",
                   offset, limit, tracked, unchecked, full_query)
@@ -123,10 +128,19 @@ class ComicList(Resource):
         except ValueError:
             log.warning("Invalid pagination parameters - offset or limit")
             api.abort(400, 'Pagination parameters type different from int')
+        try:
+            rating_min_value = int(rating_min) if rating_min not in (None, "") else None
+            rating_max_value = int(rating_max) if rating_max not in (None, "") else None
+        except ValueError:
+            api.abort(400, 'rating_min and rating_max must be integers')
 
         comics_list, pagination = all_comics(
             int(offset), int(limit),
-            tracked, unchecked, full_query
+            tracked, unchecked, full_query,
+            rating_min=rating_min_value,
+            rating_max=rating_max_value,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
         )
         resp = make_response([comic.toJSON() for comic in comics_list])
         resp.headers[
@@ -309,12 +323,21 @@ class ComicTitle(Resource):
         unchecked = request.args.get(
             "only_unchecked", "false").lower() == "true"
         full_query = request.args.get("full", "false").lower() == "true"
+        rating_min = request.args.get("rating_min")
+        rating_max = request.args.get("rating_max")
+        sort_by = request.args.get("sort_by", "last_update")
+        sort_dir = request.args.get("sort_dir", "desc")
         try:
             int(offset), int(limit)
         except ValueError:
             log.warning(
                 "Invalid pagination parameters in search - offset or limit")
             api.abort(400, 'Pagination parameters type different from int')
+        try:
+            rating_min_value = int(rating_min) if rating_min not in (None, "") else None
+            rating_max_value = int(rating_max) if rating_max not in (None, "") else None
+        except ValueError:
+            api.abort(400, 'rating_min and rating_max must be integers')
 
         title = normalize_text(title)
         if title == '':
@@ -323,13 +346,21 @@ class ComicTitle(Resource):
         if full_query:
             comics_list = comics_by_title_no_case(
                 title, int(offset), int(limit),
-                tracked, unchecked, full_query
+                tracked, unchecked, full_query,
+                rating_min=rating_min_value,
+                rating_max=rating_max_value,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
             )
             pagination = None
         else:
             comics_list, pagination = comics_by_title_no_case(
                 title, int(offset), int(limit),
-                tracked, unchecked, full_query
+                tracked, unchecked, full_query,
+                rating_min=rating_min_value,
+                rating_max=rating_max_value,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
             )
         resp = make_response([comic.toJSON() for comic in comics_list])
         if pagination is not None:

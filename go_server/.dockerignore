@@ -1,0 +1,7 @@
+.env
+.observability/
+.DS_Store
+server
+tmp/
+*.log
+*.log.gz

@@ -2,9 +2,13 @@ package bootstrap
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"comics/domain"
 	"comics/internal/logger"
+	comicrepo "comics/internal/repo/comics"
+	"comics/internal/usecase"
 
 	"github.com/rs/zerolog/log"
 )
@@ -20,11 +24,20 @@ type ClosableUserStore interface {
 	domain.UserStore
 }
 
+type comicServiceCloser struct {
+	domain.ComicUseCase
+}
+
+func (s comicServiceCloser) Close(_ context.Context) error {
+	return s.ComicUseCase.Close()
+}
+
 // Application is the main application struct
 type Application struct {
-	Env      *Env
-	UserRepo ClosableUserStore
-	Shutters []func(context.Context) error
+	Env          *Env
+	UserRepo     ClosableUserStore
+	ComicService domain.ComicUseCase
+	Shutters     []func(context.Context) error
 }
 
 // MustLoadApp loads the application from the environment variables
@@ -47,16 +60,43 @@ func MustLoadApp(ctx context.Context) Application {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize user repo")
 	}
+	if err := userRepo.Ping(ctx); err != nil {
+		log.Fatal().Err(err).Msg("Failed to ping user repo")
+	}
+
+	comicService, err := newComicStore(env)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to initialize comic store")
+	}
 
 	// Return the application
 	return Application{
-		Env:      env,
-		UserRepo: userRepo,
+		Env:          env,
+		UserRepo:     userRepo,
+		ComicService: comicService,
 		Shutters: []func(context.Context) error{
+			comicServiceCloser{comicService}.Close,
 			userRepo.Close,
 			loggerClose,
 		},
 	}
+}
+
+func newComicStore(env *Env) (domain.ComicUseCase, error) {
+	var repo domain.ComicRepository
+	var err error
+	switch strings.ToLower(strings.TrimSpace(env.ComicsDBDriver)) {
+	case "", "sqlite":
+		repo, err = comicrepo.NewSQLiteComicRepository(env.ComicsSQLitePath)
+	case "postgres", "postgresql":
+		repo, err = comicrepo.NewPostgresComicRepository(env.ComicsPostgresURL)
+	default:
+		return nil, fmt.Errorf("unknown comics DB driver %q", env.ComicsDBDriver)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return usecase.NewComicService(repo), nil
 }
 
 // Close closes the application resources

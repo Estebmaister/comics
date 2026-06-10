@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"errors"
 	"time"
 )
 
@@ -10,42 +11,91 @@ const (
 	COMICS = "comics"
 )
 
+var (
+	ErrComicNotFound       = errors.New("comic not found")
+	ErrInvalidComicPayload = errors.New("invalid comic payload")
+	ErrInvalidComicMerge   = errors.New("invalid comic merge")
+)
+
 // Comic model
 type Comic struct {
-	ID           int       `json:"id"`
-	Titles       []string  `json:"titles"`
-	Author       string    `json:"author"`
-	Description  string    `json:"description"`
-	Cover        string    `json:"cover"`
-	CoverVisible bool      `json:"cover_visible"`
-	ComType      int       `json:"com_type"`
-	Status       int       `json:"status"`
-	Publishers   []int     `json:"published_in"`
-	Genres       []int     `json:"genres"`
-	Rating       int       `json:"rating"`
-	CurrentChap  int       `json:"current_chap"`
-	ViewedChap   int       `json:"viewed_chap"`
-	Track        bool      `json:"track"`
-	LastUpdate   time.Time `json:"last_update"`
-	Deleted      bool      `json:"deleted"`
+	ID           int
+	Titles       []string
+	CurrentChap  int
+	Cover        string
+	CoverVisible bool
+	LastUpdate   time.Time
+	ComType      int
+	Status       int
+	PublishedIn  []int
+	Genres       []int
+	Description  string
+	Author       string
+	Track        bool
+	ViewedChap   int
+	Rating       int
+	Deleted      bool
 }
 
-// ComicStore interface abstracts comic repository operations
-type ComicStore interface {
-	ComicReader
-	ComicWriter
+type ComicPatch struct {
+	Titles              *[]string
+	CurrentChap         *int
+	Cover               *string
+	CoverVisible        *bool
+	ComType             *int
+	Status              *int
+	PublishedIn         *[]int
+	Genres              *[]int
+	Description         *string
+	Author              *string
+	Track               *bool
+	ViewedChap          *int
+	Rating              *int
+	Deleted             *bool
+	CoverVisiblePresent bool
 }
 
-// ComicReader interface abstracts comic read operations
-type ComicReader interface {
-	GetByID(ctx context.Context, id int) (*Comic, error)
-	List(ctx context.Context, page, pageSize int) ([]Comic, error)
-	SearchByTitle(ctx context.Context, title string, page, pageSize int) ([]Comic, error)
+type ComicListQuery struct {
+	Offset        int
+	Limit         int
+	SearchTitle   string
+	OnlyTracked   bool
+	OnlyUnchecked bool
+	Full          bool
+	RatingMin     *int
+	RatingMax     *int
+	SortBy        string
+	SortDir       string
 }
 
-// ComicWriter interface abstracts comic write operations
-type ComicWriter interface {
-	Create(ctx context.Context, comic *Comic) error
-	Update(ctx context.Context, comic *Comic) error
+type ComicListResult struct {
+	Comics      []Comic
+	Total       int
+	TotalPages  int
+	CurrentPage int
+}
+
+type ComicRepository interface {
+	Ping(ctx context.Context) error
+	Close() error
+	List(ctx context.Context, query ComicListQuery) (ComicListResult, error)
+	Get(ctx context.Context, id int) (Comic, error)
+	Create(ctx context.Context, comic Comic) (Comic, error)
+	Update(ctx context.Context, comic Comic) (Comic, error)
 	Delete(ctx context.Context, id int) error
+	SetCoverVisibility(ctx context.Context, id int, visible bool) (Comic, error)
+	WithTx(ctx context.Context, fn func(ComicRepository) error) error
+}
+
+type ComicUseCase interface {
+	Ping(ctx context.Context) error
+	Close() error
+	List(ctx context.Context, query ComicListQuery) (ComicListResult, error)
+	Search(ctx context.Context, query ComicListQuery) (ComicListResult, error)
+	Get(ctx context.Context, id int) (Comic, error)
+	Create(ctx context.Context, comic Comic) (Comic, error)
+	Update(ctx context.Context, id int, patch ComicPatch) (Comic, error)
+	Delete(ctx context.Context, id int) error
+	UpdateCoverVisibility(ctx context.Context, id int, cover string, visible bool) (Comic, error)
+	Merge(ctx context.Context, baseID int, mergingID int) (Comic, error)
 }

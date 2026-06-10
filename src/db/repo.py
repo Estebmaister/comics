@@ -31,20 +31,42 @@ def sql_check() -> any:
         return session.execute(text('SELECT 1'))
 
 
-def all_comics(_from: int = 0, limit: int = 20,
-               only_tracked: bool = False, only_unchecked: bool = False,
-               full_query: bool = False
-               ) -> (List[ComicDB], Pagination):
+def all_comics(
+    _from: int = 0,
+    limit: int = 20,
+    only_tracked: bool = False,
+    only_unchecked: bool = False,
+    full_query: bool = False,
+    rating_min: int | None = None,
+    rating_max: int | None = None,
+    sort_by: str = "last_update",
+    sort_dir: str = "desc",
+) -> (List[ComicDB], Pagination):
     '''List all comics with pagination, optional filters
     >>> all_comics(0, 20, False, False, False) -> (List[ComicDB], Pagination)
     '''
+    sort_by = (sort_by or "last_update").strip().lower()
+    sort_dir = (sort_dir or "desc").strip().lower()
+    if sort_by not in ("last_update", "rating", "id"):
+        sort_by = "last_update"
+    if sort_dir not in ("asc", "desc"):
+        sort_dir = "desc"
+
+    def _apply_order(query):
+        if sort_by == "rating":
+            primary = ComicDB.rating.asc() if sort_dir == "asc" else ComicDB.rating.desc()
+            return query.order_by(primary, ComicDB.last_update.desc(), ComicDB.id)
+        if sort_by == "id":
+            primary = ComicDB.id.asc() if sort_dir == "asc" else ComicDB.id.desc()
+            return query.order_by(primary)
+        primary = ComicDB.last_update.asc() if sort_dir == "asc" else ComicDB.last_update.desc()
+        return query.order_by(primary, ComicDB.id)
+
     with Session() as session:
         if full_query:
-            return session.query(ComicDB).all()
+            return _apply_order(session.query(ComicDB)).all()
 
-        partial_result = session.query(ComicDB).order_by(
-            ComicDB.last_update.desc(), ComicDB.id
-        )
+        partial_result = _apply_order(session.query(ComicDB))
     if only_tracked:
         if only_unchecked:
             partial_result = partial_result.filter(
@@ -53,6 +75,11 @@ def all_comics(_from: int = 0, limit: int = 20,
             )
         else:
             partial_result = partial_result.filter(ComicDB.track == 1)
+
+    if rating_min is not None:
+        partial_result = partial_result.filter(ComicDB.rating >= int(rating_min))
+    if rating_max is not None:
+        partial_result = partial_result.filter(ComicDB.rating <= int(rating_max))
     total = partial_result.count()
     if limit < 1:  # limit must be at least 1
         log.warning("Invalid pagination parameters - limit: %s", limit)
@@ -360,15 +387,34 @@ def canonical_comic_by_titles(
 def comics_by_title_no_case(
     title: str, _from: int = 0, limit: int = 20,
     only_tracked: bool = False, only_unchecked: bool = False,
-    full_query: bool = False
+    full_query: bool = False,
+    rating_min: int | None = None,
+    rating_max: int | None = None,
+    sort_by: str = "last_update",
+    sort_dir: str = "desc",
 ) -> (List[ComicDB], Pagination):
     title = normalize_text(title)
+    sort_by = (sort_by or "last_update").strip().lower()
+    sort_dir = (sort_dir or "desc").strip().lower()
+    if sort_by not in ("last_update", "rating", "id"):
+        sort_by = "last_update"
+    if sort_dir not in ("asc", "desc"):
+        sort_dir = "desc"
+
+    def _apply_order(query):
+        if sort_by == "rating":
+            primary = ComicDB.rating.asc() if sort_dir == "asc" else ComicDB.rating.desc()
+            return query.order_by(primary, ComicDB.last_update.desc(), ComicDB.id)
+        if sort_by == "id":
+            primary = ComicDB.id.asc() if sort_dir == "asc" else ComicDB.id.desc()
+            return query.order_by(primary)
+        primary = ComicDB.last_update.asc() if sort_dir == "asc" else ComicDB.last_update.desc()
+        return query.order_by(primary, ComicDB.id)
+
     with Session() as session:
-        partial_result = session.query(ComicDB).filter(
+        partial_result = _apply_order(session.query(ComicDB).filter(
             ComicDB.titles.ilike(f"%{title.lower()}%")
-        ).order_by(
-            ComicDB.last_update.desc(), ComicDB.id
-        )
+        ))
     if only_tracked:
         if only_unchecked:
             partial_result = partial_result.filter(
@@ -377,6 +423,10 @@ def comics_by_title_no_case(
             )
         else:
             partial_result = partial_result.filter(ComicDB.track == 1)
+    if rating_min is not None:
+        partial_result = partial_result.filter(ComicDB.rating >= int(rating_min))
+    if rating_max is not None:
+        partial_result = partial_result.filter(ComicDB.rating <= int(rating_max))
     if full_query:
         return partial_result.all()
 

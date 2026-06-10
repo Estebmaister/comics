@@ -10,7 +10,6 @@ import (
 	"comics/api/controller"
 	"comics/bootstrap"
 	"comics/domain"
-	"comics/internal/repo"
 	"comics/sampler"
 
 	"github.com/gin-gonic/gin"
@@ -70,7 +69,7 @@ func handleGoogleCallback(ac *controller.AuthControl) func(c *gin.Context) {
 		}
 
 		resp, err := ac.LoginByOAuthEmail(c.Request.Context(), googleDTO.Email)
-		if errors.Is(err, repo.ErrNotFound) {
+		if errors.Is(err, domain.ErrUserNotFound) {
 			resp, err = ac.Register(c.Request.Context(), domain.SignUpRequest{
 				Email: googleDTO.Email,
 			})

@@ -50,7 +50,11 @@ DB_USER: str = os.getenv('DB_USER', 'esteb')
 DB_NAME: str = os.getenv('DB_NAME', 'comics')
 DB_PASS: str = os.getenv('DB_PASS', 'My0th3rS3lf')
 DB_HOST: str = os.getenv('DB_HOST', '127.0.0.1')
-DB_PORT: str = os.getenv('DB_PORT', '3306')
+DB_PORT: str = os.getenv(
+    'DB_PORT',
+    '5432' if DB_ENGINE == Engines.POSTGRES else '3306',
+)
+DB_SSLMODE: str = os.getenv('DB_SSLMODE', 'require')
 db_file = os.getenv(
     "DB_FILE",
     os.path.join(os.path.dirname(__file__), "comics.db"),
@@ -91,7 +95,8 @@ def _engine_creation():
             password=DB_PASS,
             host=DB_HOST,
             port=int(DB_PORT),
-            database=DB_NAME
+            database=DB_NAME,
+            query={'sslmode': DB_SSLMODE} if DB_SSLMODE else {},
         )
         CONNECT_ARGS = {}
 
@@ -479,10 +484,12 @@ def _ensure_sqlite_identity_schema() -> None:
 _ensure_sqlite_identity_schema()
 
 if DB_ENGINE == Engines.POSTGRES:
-    seq.create(bind=engine)
+    seq.create(bind=engine, checkfirst=True)
     last_record = session.query(ComicDB).order_by(ComicDB.id.desc()).first()
     last_id = last_record.id if last_record else 0
-    session.execute(text(f"SELECT setval('comic_id_seq', {last_id})"))
+    session.execute(text("SELECT setval('comic_id_seq', :last_id)"),
+                    {"last_id": last_id})
+    session.commit()
 
 db_classes_file = os.path.join(os.path.dirname(__file__), "db_classes.json")
 

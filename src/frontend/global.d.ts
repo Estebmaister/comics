@@ -3,8 +3,9 @@
 // src/frontend/globals.d.ts
 
 interface ImportMetaEnv {
-  readonly VITE_EXTERNAL_HOST: string;
-  readonly VITE_PY_SERVER: string;
+  readonly VITE_API_SERVER?: string;
+  readonly VITE_EXTERNAL_HOST?: string;
+  readonly VITE_PY_SERVER?: string;
   readonly VITE_REMOTE_PY_SERVER?: string;
 }
 

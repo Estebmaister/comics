@@ -5,24 +5,36 @@ import (
 	"errors"
 	"io"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"time"
 
-	"comics/internal/service"
+	"comics/bootstrap"
+	"comics/domain"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
 )
 
-func comicsRouter(group *gin.RouterGroup) {
-	comics, err := service.NewSQLiteComicService(os.Getenv("COMICS_SQLITE_PATH"))
-	if err != nil {
-		log.Warn().Err(err).Msg("Comic REST routes disabled")
-		return
-	}
+type comicJSON struct {
+	ID           int      `json:"id"`
+	Titles       []string `json:"titles"`
+	CurrentChap  int      `json:"current_chap"`
+	Cover        string   `json:"cover"`
+	CoverVisible bool     `json:"cover_visible"`
+	LastUpdate   string   `json:"last_update"`
+	ComType      int      `json:"com_type"`
+	Status       int      `json:"status"`
+	PublishedIn  []int    `json:"published_in"`
+	Genres       []int    `json:"genres"`
+	Description  string   `json:"description"`
+	Author       string   `json:"author"`
+	Track        bool     `json:"track"`
+	ViewedChap   int      `json:"viewed_chap"`
+	Rating       int      `json:"rating"`
+	Deleted      bool     `json:"deleted"`
+}
 
+func comicsRouter(env *bootstrap.Env, comics domain.ComicUseCase, group *gin.RouterGroup) {
 	group.GET("/health/db", func(c *gin.Context) {
 		if err := comics.Ping(c.Request.Context()); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "database unavailable"})
@@ -31,7 +43,7 @@ func comicsRouter(group *gin.RouterGroup) {
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
 
-	group.GET("/scrape", proxyPythonScrape)
+	group.GET("/scrape", proxyPythonScrape(env))
 
 	group.GET("/comics", listComics(comics))
 	group.POST("/comics", createComic(comics))
@@ -40,61 +52,103 @@ func comicsRouter(group *gin.RouterGroup) {
 	group.DELETE("/comics/:id", deleteComic(comics))
 	group.PATCH("/comics/:id/cover-visibility", updateCoverVisibility(comics))
 	group.GET("/comics/search/:title", searchComics(comics))
-	group.PATCH("/comics/:base_id/:merging_id", mergeComics(comics))
-	group.PUT("/comics/:base_id/:merging_id", mergeComics(comics))
+	group.PATCH("/comics/:id/:merging_id", mergeComics(comics))
+	group.PUT("/comics/:id/:merging_id", mergeComics(comics))
 }
 
-func listComics(comics *service.SQLiteComicService) gin.HandlerFunc {
+func listComics(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		result, err := comics.List(
-			c.Request.Context(),
-			queryInt(c, "from", 0),
-			queryInt(c, "limit", 20),
-			queryBool(c, "only_tracked"),
-			queryBool(c, "only_unchecked"),
-			queryBool(c, "full"),
-		)
+		from, ok := queryInt(c, "from", 0)
+		if !ok {
+			return
+		}
+		limit, ok := queryInt(c, "limit", 20)
+		if !ok {
+			return
+		}
+		ratingMin, ok := queryOptionalInt(c, "rating_min")
+		if !ok {
+			return
+		}
+		ratingMax, ok := queryOptionalInt(c, "rating_max")
+		if !ok {
+			return
+		}
+		result, err := comics.List(c.Request.Context(), domain.ComicListQuery{
+			Offset:        from,
+			Limit:         limit,
+			OnlyTracked:   queryBool(c, "only_tracked"),
+			OnlyUnchecked: queryBool(c, "only_unchecked"),
+			Full:          queryBool(c, "full"),
+			RatingMin:     ratingMin,
+			RatingMax:     ratingMax,
+			SortBy:        strings.TrimSpace(c.DefaultQuery("sort_by", "")),
+			SortDir:       strings.TrimSpace(c.DefaultQuery("sort_dir", "")),
+		})
 		writeComicList(c, result, err)
 	}
 }
 
-func searchComics(comics *service.SQLiteComicService) gin.HandlerFunc {
+func searchComics(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		title := strings.TrimSpace(c.Param("title"))
 		if title == "" {
 			c.JSON(http.StatusBadRequest, gin.H{"message": "Title cannot be empty"})
 			return
 		}
-		result, err := comics.Search(
-			c.Request.Context(),
-			title,
-			queryInt(c, "from", 0),
-			queryInt(c, "limit", 20),
-			queryBool(c, "only_tracked"),
-			queryBool(c, "only_unchecked"),
-			queryBool(c, "full"),
-		)
+		from, ok := queryInt(c, "from", 0)
+		if !ok {
+			return
+		}
+		limit, ok := queryInt(c, "limit", 20)
+		if !ok {
+			return
+		}
+		ratingMin, ok := queryOptionalInt(c, "rating_min")
+		if !ok {
+			return
+		}
+		ratingMax, ok := queryOptionalInt(c, "rating_max")
+		if !ok {
+			return
+		}
+		result, err := comics.Search(c.Request.Context(), domain.ComicListQuery{
+			Offset:        from,
+			Limit:         limit,
+			SearchTitle:   title,
+			OnlyTracked:   queryBool(c, "only_tracked"),
+			OnlyUnchecked: queryBool(c, "only_unchecked"),
+			Full:          queryBool(c, "full"),
+			RatingMin:     ratingMin,
+			RatingMax:     ratingMax,
+			SortBy:        strings.TrimSpace(c.DefaultQuery("sort_by", "")),
+			SortDir:       strings.TrimSpace(c.DefaultQuery("sort_dir", "")),
+		})
 		writeComicList(c, result, err)
 	}
 }
 
-func getComic(comics *service.SQLiteComicService) gin.HandlerFunc {
+func getComic(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		comic, err := comics.Get(c.Request.Context(), pathInt(c, "id"))
+		id, ok := pathInt(c, "id")
+		if !ok {
+			return
+		}
+		comic, err := comics.Get(c.Request.Context(), id)
 		writeComic(c, comic, err)
 	}
 }
 
-func createComic(comics *service.SQLiteComicService) gin.HandlerFunc {
+func createComic(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body map[string]any
 		if err := c.ShouldBindJSON(&body); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"message": "Body payload is necessary"})
 			return
 		}
-		comic := service.ComicJSON{CoverVisible: true}
+		comic := domain.Comic{CoverVisible: true}
 		applyComicPatch(&comic, body)
-		if len(comic.Titles) == 0 || comic.Titles[0] == "" {
+		if !hasNonEmptyTitle(comic.Titles) {
 			c.JSON(http.StatusBadRequest, gin.H{"message": "titles should be a non-empty list of strings"})
 			return
 		}
@@ -103,29 +157,92 @@ func createComic(comics *service.SQLiteComicService) gin.HandlerFunc {
 	}
 }
 
-func updateComic(comics *service.SQLiteComicService) gin.HandlerFunc {
+func updateComic(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body map[string]any
 		if err := c.ShouldBindJSON(&body); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"message": "Body payload is necessary"})
 			return
 		}
-		id := pathInt(c, "id")
-		current, err := comics.Get(c.Request.Context(), id)
-		if err != nil {
-			writeComic(c, current, err)
+		id, ok := pathInt(c, "id")
+		if !ok {
 			return
 		}
-		applyComicPatch(&current, body)
-		comic, err := comics.Update(c.Request.Context(), id, current)
+		patch := comicPatch(body)
+		if patch.Titles != nil && !hasNonEmptyTitle(*patch.Titles) {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "titles should be a non-empty list of strings"})
+			return
+		}
+		comic, err := comics.Update(c.Request.Context(), id, patch)
 		writeComic(c, comic, err)
 	}
 }
 
-func deleteComic(comics *service.SQLiteComicService) gin.HandlerFunc {
+func comicPatch(body map[string]any) domain.ComicPatch {
+	patch := domain.ComicPatch{}
+	if titles, ok := stringSlice(body["titles"]); ok {
+		patch.Titles = &titles
+	}
+	if value, ok := stringValue(body["cover"]); ok {
+		patch.Cover = &value
+	}
+	if value, ok := stringValue(body["description"]); ok {
+		patch.Description = &value
+	}
+	if value, ok := stringValue(body["author"]); ok {
+		patch.Author = &value
+	}
+	if value, ok := intValue(body["current_chap"]); ok {
+		patch.CurrentChap = &value
+	}
+	if value, ok := intValue(body["viewed_chap"]); ok {
+		patch.ViewedChap = &value
+	}
+	if value, ok := intValue(body["com_type"]); ok {
+		patch.ComType = &value
+	}
+	if value, ok := intValue(body["status"]); ok {
+		patch.Status = &value
+	}
+	if value, ok := intValue(body["rating"]); ok {
+		patch.Rating = &value
+	}
+	if value, ok := boolValue(body["track"]); ok {
+		patch.Track = &value
+	}
+	if value, ok := boolValue(body["deleted"]); ok {
+		patch.Deleted = &value
+	}
+	if value, ok := boolValue(body["cover_visible"]); ok {
+		patch.CoverVisible = &value
+		patch.CoverVisiblePresent = true
+	}
+	if values, ok := intSlice(body["published_in"]); ok {
+		patch.PublishedIn = &values
+	}
+	if values, ok := intSlice(body["genres"]); ok {
+		patch.Genres = &values
+	}
+	return patch
+}
+
+func hasNonEmptyTitle(titles []string) bool {
+	for _, title := range titles {
+		if strings.TrimSpace(title) != "" {
+			return true
+		}
+	}
+	return false
+}
+
+func deleteComic(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		err := comics.Delete(c.Request.Context(), pathInt(c, "id"))
-		if errors.Is(err, service.ErrComicNotFound) {
+		id, ok := pathInt(c, "id")
+		if !ok {
+			return
+		}
+		err := comics.Delete(c.Request.Context(), id)
+		if errors.Is(err, domain.ErrComicNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"message": "Comic not found"})
 			return
 		}
@@ -137,7 +254,7 @@ func deleteComic(comics *service.SQLiteComicService) gin.HandlerFunc {
 	}
 }
 
-func updateCoverVisibility(comics *service.SQLiteComicService) gin.HandlerFunc {
+func updateCoverVisibility(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body struct {
 			Cover        string `json:"cover"`
@@ -147,9 +264,13 @@ func updateCoverVisibility(comics *service.SQLiteComicService) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"message": "cover and cover_visible are required"})
 			return
 		}
+		id, ok := pathInt(c, "id")
+		if !ok {
+			return
+		}
 		comic, err := comics.UpdateCoverVisibility(
 			c.Request.Context(),
-			pathInt(c, "id"),
+			id,
 			body.Cover,
 			*body.CoverVisible,
 		)
@@ -157,14 +278,22 @@ func updateCoverVisibility(comics *service.SQLiteComicService) gin.HandlerFunc {
 	}
 }
 
-func mergeComics(comics *service.SQLiteComicService) gin.HandlerFunc {
+func mergeComics(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		baseID, ok := pathInt(c, "id")
+		if !ok {
+			return
+		}
+		mergingID, ok := pathInt(c, "merging_id")
+		if !ok {
+			return
+		}
 		comic, err := comics.Merge(
 			c.Request.Context(),
-			pathInt(c, "base_id"),
-			pathInt(c, "merging_id"),
+			baseID,
+			mergingID,
 		)
-		if err != nil && strings.Contains(err.Error(), "same type") {
+		if errors.Is(err, domain.ErrInvalidComicMerge) {
 			c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
@@ -172,7 +301,7 @@ func mergeComics(comics *service.SQLiteComicService) gin.HandlerFunc {
 	}
 }
 
-func writeComicList(c *gin.Context, result service.ComicListResult, err error) {
+func writeComicList(c *gin.Context, result domain.ComicListResult, err error) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -181,75 +310,99 @@ func writeComicList(c *gin.Context, result service.ComicListResult, err error) {
 	c.Header("total-comics", strconv.Itoa(result.Total))
 	c.Header("total-pages", strconv.Itoa(result.TotalPages))
 	c.Header("current-page", strconv.Itoa(result.CurrentPage))
-	c.JSON(http.StatusOK, result.Comics)
+	c.JSON(http.StatusOK, comicJSONList(result.Comics))
 }
 
-func writeComic(c *gin.Context, comic service.ComicJSON, err error) {
+func writeComic(c *gin.Context, comic domain.Comic, err error) {
 	writeComicWithStatus(c, comic, err, http.StatusOK)
 }
 
-func writeComicWithStatus(c *gin.Context, comic service.ComicJSON, err error, status int) {
-	if errors.Is(err, service.ErrComicNotFound) {
+func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status int) {
+	if errors.Is(err, domain.ErrComicNotFound) {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Comic not found"})
 		return
 	}
+	if errors.Is(err, domain.ErrInvalidComicPayload) {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-	c.JSON(status, comic)
+	c.JSON(status, toComicJSON(comic))
 }
 
-func proxyPythonScrape(c *gin.Context) {
-	pythonURL := strings.TrimRight(os.Getenv("PY_BACKEND_URL"), "/")
-	if pythonURL == "" {
-		c.JSON(http.StatusNotImplemented, gin.H{"message": "Python scrape backend is not configured"})
-		return
-	}
+func proxyPythonScrape(env *bootstrap.Env) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		pythonURL := strings.TrimRight(env.PythonBackendURL, "/")
+		if pythonURL == "" {
+			c.JSON(http.StatusNotImplemented, gin.H{"message": "Python scrape backend is not configured"})
+			return
+		}
 
-	client := &http.Client{Timeout: 30 * time.Minute}
-	req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodGet, pythonURL+"/scrape", nil)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-		return
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
-		return
-	}
-	defer resp.Body.Close()
+		client := &http.Client{Timeout: 30 * time.Minute}
+		req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodGet, pythonURL+"/scrape", nil)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+		resp, err := client.Do(req)
+		if err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+			return
+		}
+		defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
-		return
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+			return
+		}
+		contentType := resp.Header.Get("Content-Type")
+		if contentType == "" {
+			contentType = "application/json"
+		}
+		c.DataFromReader(resp.StatusCode, int64(len(body)), contentType, bytes.NewReader(body), nil)
 	}
-	contentType := resp.Header.Get("Content-Type")
-	if contentType == "" {
-		contentType = "application/json"
-	}
-	c.DataFromReader(resp.StatusCode, int64(len(body)), contentType, bytes.NewReader(body), nil)
 }
 
-func queryInt(c *gin.Context, key string, fallback int) int {
+func queryInt(c *gin.Context, key string, fallback int) (int, bool) {
 	value, err := strconv.Atoi(c.DefaultQuery(key, strconv.Itoa(fallback)))
 	if err != nil {
-		return fallback
+		c.JSON(http.StatusBadRequest, gin.H{"message": key + " should be a valid integer"})
+		return 0, false
 	}
-	return value
+	return value, true
 }
 
 func queryBool(c *gin.Context, key string) bool {
 	return strings.EqualFold(c.DefaultQuery(key, "false"), "true")
 }
 
-func pathInt(c *gin.Context, key string) int {
-	value, _ := strconv.Atoi(c.Param(key))
-	return value
+func queryOptionalInt(c *gin.Context, key string) (*int, bool) {
+	raw, exists := c.GetQuery(key)
+	if !exists || strings.TrimSpace(raw) == "" {
+		return nil, true
+	}
+	value, err := strconv.Atoi(raw)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": key + " should be a valid integer"})
+		return nil, false
+	}
+	return &value, true
 }
 
-func applyComicPatch(comic *service.ComicJSON, patch map[string]any) {
+func pathInt(c *gin.Context, key string) (int, bool) {
+	value, err := strconv.Atoi(c.Param(key))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": key + " should be a valid integer"})
+		return 0, false
+	}
+	return value, true
+}
+
+func applyComicPatch(comic *domain.Comic, patch map[string]any) {
 	if titles, ok := stringSlice(patch["titles"]); ok {
 		comic.Titles = titles
 	}
@@ -283,12 +436,51 @@ func applyComicPatch(comic *service.ComicJSON, patch map[string]any) {
 	if value, ok := boolValue(patch["cover_visible"]); ok {
 		comic.CoverVisible = value
 	}
+	if value, ok := boolValue(patch["deleted"]); ok {
+		comic.Deleted = value
+	}
 	if values, ok := intSlice(patch["published_in"]); ok {
 		comic.PublishedIn = values
 	}
 	if values, ok := intSlice(patch["genres"]); ok {
 		comic.Genres = values
 	}
+}
+
+func toComicJSON(comic domain.Comic) comicJSON {
+	return comicJSON{
+		ID:           comic.ID,
+		Titles:       comic.Titles,
+		CurrentChap:  comic.CurrentChap,
+		Cover:        comic.Cover,
+		CoverVisible: comic.CoverVisible,
+		LastUpdate:   formatComicTime(comic.LastUpdate),
+		ComType:      comic.ComType,
+		Status:       comic.Status,
+		PublishedIn:  comic.PublishedIn,
+		Genres:       comic.Genres,
+		Description:  comic.Description,
+		Author:       comic.Author,
+		Track:        comic.Track,
+		ViewedChap:   comic.ViewedChap,
+		Rating:       comic.Rating,
+		Deleted:      comic.Deleted,
+	}
+}
+
+func comicJSONList(comics []domain.Comic) []comicJSON {
+	items := make([]comicJSON, 0, len(comics))
+	for _, comic := range comics {
+		items = append(items, toComicJSON(comic))
+	}
+	return items
+}
+
+func formatComicTime(value time.Time) string {
+	if value.IsZero() {
+		return ""
+	}
+	return value.UTC().Format(time.RFC3339)
 }
 
 func stringValue(value any) (string, bool) {

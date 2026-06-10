@@ -139,7 +139,7 @@ make test-go                # Go tests
 
 - Python 3.8+ with virtual environment support
 - Node.js 16+ and npm
-- Go 1.19+ (for Go backend)
+- Go 1.24.1 (for Go backend)
 - Protocol Buffers compiler (`protoc`)
 - Local AI service (localhost:11434) for pre-commit hooks
 

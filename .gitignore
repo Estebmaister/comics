@@ -175,6 +175,7 @@ cython_debug/
 .env.production.local
 todo
 server.pid
+go_server/server
 tls/*.key
 tls/*.csr
 
@@ -191,3 +192,7 @@ yarn-error.log*
 
 # generated DB recovery snapshots
 src/db/recovery/
+
+# local browser verification screenshots
+.local-screenshots/
+.playwright-mcp/

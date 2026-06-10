@@ -1,7 +1,9 @@
 package route
 
 import (
+	"context"
 	"net/http"
+	"strings"
 
 	"comics/api/controller"
 	"comics/api/middleware"
@@ -9,8 +11,8 @@ import (
 	"comics/docs"
 	"comics/domain"
 	"comics/internal/health"
-	"comics/internal/service"
 	"comics/internal/tokenutil"
+	"comics/internal/usecase"
 
 	"github.com/gin-gonic/gin"
 	"github.com/penglongli/gin-metrics/ginmetrics"
@@ -39,11 +41,16 @@ const (
 )
 
 // Setup configures the gin routes of the server
-func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
+func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUseCase, g *gin.Engine) {
 
 	// Starting user service and inject it into auth controller
-	userService := service.NewUserService(userRepo, env)
-	authController := controller.NewAuthControl(userService, env)
+	userService := usecase.NewUserService(userRepo)
+	authController := controller.NewAuthControl(usecase.NewAuthService(userService, usecase.AuthConfig{
+		AccessTokenExpiryHour:  env.JWTConfig.AccessTokenExpiryHour,
+		RefreshTokenExpiryHour: env.JWTConfig.RefreshTokenExpiryHour,
+		AccessTokenSecret:      env.JWTConfig.AccessTokenSecret,
+		RefreshTokenSecret:     env.JWTConfig.RefreshTokenSecret,
+	}))
 
 	// get global Monitor object
 	m := ginmetrics.GetMonitor()
@@ -52,6 +59,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	g.Use(   // adds HTTP tracer instrumentation and request logging for the whole router
 		otelgin.Middleware(tracingServiceName),
 		middleware.LoggerMiddleware(),
+		corsMiddleware(env.CORSAllowedOrigins),
 	)
 
 	g.Static("/static", "./static") // Serve static files (CSS, JS, images)
@@ -67,8 +75,8 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 	setOAuth2(env, authController, publicRouter)
 	{ // All Public APIs
 		swaggerRouter(env, basePath, publicRouter)
-		metricsRouter(userRepo, publicRouter)
-		comicsRouter(publicRouter)
+		metricsRouter(compositePinger{userRepo, comics}, publicRouter)
+		comicsRouter(env, comics, publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
 		refreshTokenRouter(authController, publicRouter)
@@ -103,11 +111,11 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, g *gin.Engine) {
 //	@Success		200	string	string	"Metrics: \#TYPE & \#HELP"
 //	@Failure		503	string	string	"Service unavailable"
 //	@Router			/metrics [get]
-func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
+func metricsRouter(readyPinger health.Pinger, group *gin.RouterGroup) {
 	prometheus.MustRegister(collectors.NewBuildInfoCollector())
 	// prometheus.MustRegister(collectors.NewGoCollector())
 	group.GET("/metrics", gin.WrapH(promhttp.Handler()))
-	healthy := health.NewHealthChecker(userRepo)
+	healthy := health.NewHealthChecker(readyPinger)
 
 	// Register health check handlers
 	group.GET("/health", gin.WrapH(healthy.LivenessHandler()))
@@ -117,13 +125,51 @@ func metricsRouter(userRepo domain.UserStore, group *gin.RouterGroup) {
 	healthy.Start()
 }
 
+type compositePinger []health.Pinger
+
+func (p compositePinger) Ping(ctx context.Context) error {
+	for _, item := range p {
+		if err := item.Ping(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func corsMiddleware(allowedOrigins string) gin.HandlerFunc {
+	origins := map[string]struct{}{}
+	for _, value := range strings.Split(allowedOrigins, ",") {
+		origin := strings.TrimSpace(value)
+		if origin != "" {
+			origins[origin] = struct{}{}
+		}
+	}
+
+	return func(c *gin.Context) {
+		origin := c.GetHeader("Origin")
+		if _, ok := origins[origin]; ok {
+			c.Header("Access-Control-Allow-Origin", origin)
+			c.Header("Access-Control-Allow-Credentials", "true")
+			c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept")
+			c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+			c.Header("Access-Control-Expose-Headers", "total-comics,total-pages,current-page")
+			c.Header("Vary", "Origin")
+		}
+		if c.Request.Method == http.MethodOptions {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		c.Next()
+	}
+}
+
 func swaggerRouter(env *bootstrap.Env, basePath string, group *gin.RouterGroup) {
 	// Setting runtine values in SwaggerInfo
 	docs.SwaggerInfo.BasePath = basePath
 	docs.SwaggerInfo.Host = env.HostURL
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	log.Info().
-		Str("URL", "https://"+env.AddressHTTP+":"+env.PortHTTP+"/swagger/index.html").
+		Str("URL", env.ServerScheme()+"://"+env.AddressHTTP+":"+env.PortHTTP+"/swagger/index.html").
 		Msg("Swagger")
 
 	// Swagger API documentation

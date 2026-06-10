@@ -8,7 +8,17 @@ import (
 
 var (
 	// Add sensitive field patterns (in lowercase for simplicity)
-	sensitivePatterns = []string{"secret", "password", "pass", "token", "key"}
+	sensitivePatterns = []string{
+		"secret",
+		"password",
+		"pass",
+		"token",
+		"key",
+		"postgresurl",
+		"databaseurl",
+		"connectionstring",
+		"dsn",
+	}
 )
 
 // Sanitize is the public entry point that sanitizes the provided value.

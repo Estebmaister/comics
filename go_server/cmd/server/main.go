@@ -9,7 +9,6 @@ import (
 	"comics/api/route"
 	"comics/bootstrap"
 	_ "comics/docs"
-	"comics/internal/repo/sql/sqlite"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -51,27 +50,27 @@ func main() {
 	g := gin.New()
 	g.Use(gin.Recovery())
 	// Route binding
-	route.Setup(app.Env, app.UserRepo, g)
+	route.Setup(app.Env, app.UserRepo, app.ComicService, g)
 
 	// Running the server
 	srvErr := make(chan error, 1)
 	go func() {
-		// check if certs exist:
-		certFile, keyFile := "../tls/comics.crt", "../tls/comics.key"
-		if _, err := os.Stat(certFile); os.IsNotExist(err) {
-			log.Warn().Msg("Failed to load X509 key pair, serving HTTP instead")
-			srvErr <- g.Run(app.Env.AddressHTTP + ":" + app.Env.PortHTTP)
+		certFile, keyFile := app.Env.HTTPTLSCertFile, app.Env.HTTPTLSKeyFile
+		addr := app.Env.AddressHTTP + ":" + app.Env.PortHTTP
+		if app.Env.HasHTTPSTLSFiles() {
+			log.Info().Str("url", "https://"+addr).Msg("Serving HTTPS")
+			srvErr <- g.RunTLS(addr, certFile, keyFile)
 			return
 		}
-		srvErr <- g.RunTLS(app.Env.AddressHTTP+":"+app.Env.PortHTTP, certFile, keyFile)
+		if certFile != "" || keyFile != "" {
+			log.Warn().
+				Str("cert", certFile).
+				Str("key", keyFile).
+				Msg("TLS certificate or key unavailable, serving HTTP instead")
+		}
+		log.Info().Str("url", "http://"+addr).Msg("Serving HTTP")
+		srvErr <- g.Run(addr)
 	}()
-
-	// Initialize the file comics database
-	sqliteDBPath := "../src/db/comics.db"
-	_, sqliteErr := sqlite.NewSQLiteUserRepo(sqliteDBPath)
-	if sqliteErr != nil {
-		log.Error().Err(sqliteErr).Msg("Failed to initialize SQLite database")
-	}
 
 	// Wait for interruption
 	select {

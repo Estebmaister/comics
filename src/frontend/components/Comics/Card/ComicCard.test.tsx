@@ -97,3 +97,26 @@ test('shows fallback immediately when cover is marked invisible', () => {
   expect(screen.getByTestId('poster-fallback')).toBeTruthy();
   expect(global.fetch).not.toHaveBeenCalled();
 });
+
+test('syncs visible card state when refreshed comic props change', () => {
+  const { rerender } = render(
+    <ToastProvider>
+      <ComicCard comic={comicFixture} />
+    </ToastProvider>
+  );
+
+  expect(screen.getByText('48/62')).toBeTruthy();
+
+  rerender(
+    <ToastProvider>
+      <ComicCard comic={{
+        ...comicFixture,
+        current_chap: 80,
+        viewed_chap: 79,
+        last_update: 2,
+      }} />
+    </ToastProvider>
+  );
+
+  expect(screen.getByText('79/80')).toBeTruthy();
+});

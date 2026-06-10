@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import type { Dispatch, SetStateAction, ReactNode } from 'react';
 import type { Comic } from '../types';
 
@@ -15,11 +15,18 @@ export const ComicCardProvider = ({
   setComic,
   setViewedChap,
   children,
-}: ComicCardContextValue & { children: ReactNode }) => (
-  <ComicCardContext.Provider value={{ comic, setComic, setViewedChap }}>
-    {children}
-  </ComicCardContext.Provider>
-);
+}: ComicCardContextValue & { children: ReactNode }) => {
+  const value = useMemo(
+    () => ({ comic, setComic, setViewedChap }),
+    [comic, setComic, setViewedChap]
+  );
+
+  return (
+    <ComicCardContext.Provider value={value}>
+      {children}
+    </ComicCardContext.Provider>
+  );
+};
 
 export const useComicCard = () => {
   const context = useContext(ComicCardContext);

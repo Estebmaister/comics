@@ -1,8 +1,9 @@
 # Define phony targets (targets that don't represent actual files)
-.PHONY: activate venv venvclean start deploy server scrape remote stop \
+.PHONY: activate venv venvclean start deploy server go-server scrape remote stop \
 				backup repopulate db_update update-py setup-py setup clean \
-				proto-py proto-go migrate-up migrate-down test-front test-py test-go \
-				dockerize docker chokidar help
+				proto-py proto-go migrate-up migrate-down test-front build-front \
+				test-py test-go vet-go build-go import-postgres verify-go verify-front \
+				verify dockerize docker chokidar help
 
 # Enable running multiple commands in a recipe using a single shell
 .ONESHELL:
@@ -20,13 +21,12 @@ help:
 	@echo "Available targets:"
 	@awk '\
 		BEGIN { \
-			cmd_width = 14; \
+			cmd_width = 16; \
 		} \
 		/^##/ { \
-			line = substr($$0, 4); \
-			cmd = substr(line, 1, cmd_width); \
-			desc = substr(line, cmd_width + 1); \
-			gsub(/^[ \t]+/, "", desc); \
+			cmd = $$2; \
+			desc = $$0; \
+			sub(/^##[ \t]+[^ \t]+[ \t]+/, "", desc); \
 			printf "$(CYAN)%-*s$(RESET) %s\n", cmd_width, cmd, desc; \
 		}' $(MAKEFILE_LIST)
 
@@ -57,6 +57,10 @@ deploy:
 ## server        Start the backend server
 server:
 	$(ACT_VENV) && python3 src/__main__.py server
+
+## go-server     Start the Go REST server
+go-server:
+	$(MAKE) -C go_server run
 
 ## scrape        Run the web scraper
 scrape:
@@ -188,23 +192,50 @@ proto-js:
 
 ## migrate-up    Run database migrations forward
 migrate-up:
-	go run go_server/cmd/migrate/main.go up
+	cd go_server && go run ./cmd/migrate up
 
 ## migrate-down  Roll back database migrations
 migrate-down:
-	go run go_server/cmd/migrate/main.go down
+	cd go_server && go run ./cmd/migrate down
 
 ## test-go       Run all Go tests
 test-go:
-	go test -v go_server/...
+	cd go_server && go test ./...
+
+## vet-go        Run Go vet
+vet-go:
+	cd go_server && go vet ./...
+
+## build-go      Build the Go REST server and Postgres importer
+build-go:
+	cd go_server && mkdir -p tmp
+	cd go_server && go build -o tmp/server ./cmd/server
+	cd go_server && go build -o tmp/import_comics_postgres ./cmd/import_comics_postgres
+
+## import-postgres Import SQLite comics into configured Postgres target
+import-postgres:
+	cd go_server && go run ./cmd/import_comics_postgres
 
 ## test-front    Run all Frontend tests
 test-front:
 	npm run test
 
+## build-front   Build the frontend
+build-front:
+	npm run build
+
 ## test-py       Run all Python tests
 test-py:
 	$(ACT_VENV) && env PYTHONPATH=src python3 -m pytest test/*_test.py -v
+
+## verify-go     Run Go test, vet, and build checks
+verify-go: test-go vet-go build-go
+
+## verify-front  Run frontend test and build checks
+verify-front: test-front build-front
+
+## verify        Run release-path checks
+verify: verify-go verify-front
 
 ## clean         Clean up all generated files and caches
 clean:

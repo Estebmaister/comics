@@ -5,27 +5,24 @@ import { RailActionButton } from '../Actions/FloatingActionRail';
 
 const SERVER = config.SERVER;
 
-const scrape = async (
+export const scrape = async (
   setShowLoader: { (value: SetStateAction<boolean>): void; },
   server = SERVER
 ) => {
-  let success = true;
   setShowLoader(true);
-  await fetch(`${server}/scrape`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      if (data?.message === 'Internal Server Error') success = false;
-    })
-    .catch((err) => {
-      console.debug(err.message);
-      success = false;
+  try {
+    const response = await fetch(`${server}/scrape`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
     });
-  setShowLoader(false);
-  return success;
+
+    const data = await response.json().catch(() => null);
+    return response.ok && data?.message !== 'Internal Server Error';
+  } catch (err) {
+    return false;
+  } finally {
+    setShowLoader(false);
+  }
 };
 
 interface ScrapeButtonProps {
