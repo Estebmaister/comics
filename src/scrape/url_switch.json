@@ -2,7 +2,8 @@
   "Asura":        
     [
       "https://asurascans.com/",
-      "https://asurascans.com/page/2"
+      "https://asurascans.com/page/2",
+      "https://asurascans.com/page/3"
     ],
   "NightScans":   
     [
@@ -76,6 +77,7 @@
   "DemonicScans":
     [
       "https://demonicscans.org/index.php",
-      "https://demonicscans.org/lastupdates.php?list=2"
+      "https://demonicscans.org/lastupdates.php?list=2",
+      "https://demonicscans.org/lastupdates.php?list=3"
     ]
 }

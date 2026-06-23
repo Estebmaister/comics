@@ -1,7 +1,9 @@
 import json
 import logging
 import os
+import shutil
 import signal
+import sqlite3
 import sys
 import time
 from datetime import datetime, timezone
@@ -40,11 +42,19 @@ engines = {
 load_dotenv()
 log = logging.getLogger(__name__)
 
-try:
-    DB_ENGINE: Engines = engines[os.getenv('DB_ENGINE')]
-except:
-    log.warning('DB_ENGINE env var malformed, defaulting to sqlite')
-    DB_ENGINE: Engines = Engines.SQLITE
+_raw_db_engine = os.getenv('DB_ENGINE', '')
+_normalized_db_engine = (
+    str(_raw_db_engine).strip().lower().split('#', 1)[0].strip().strip('"\'')
+)
+if _normalized_db_engine in engines:
+    DB_ENGINE: Engines = engines[_normalized_db_engine]
+else:
+    if str(_raw_db_engine).strip():
+        log.warning(
+            'DB_ENGINE env var malformed (%r), defaulting to sqlite',
+            _raw_db_engine,
+        )
+    DB_ENGINE = Engines.SQLITE
 
 DB_USER: str = os.getenv('DB_USER', 'esteb')
 DB_NAME: str = os.getenv('DB_NAME', 'comics')
@@ -113,7 +123,10 @@ def _engine_creation():
 
     else:
         DB_URL = f'sqlite:///{db_file}'
-        CONNECT_ARGS = {'check_same_thread': False}
+        CONNECT_ARGS = {
+            'check_same_thread': False,
+            'timeout': 30,
+        }
 
     return create_engine(
         DB_URL,
@@ -133,26 +146,32 @@ seq = Sequence('comic_id_seq')
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
+
+
+def _sqlite_sidecar_paths() -> List[str]:
+    return [db_file, f'{db_file}-wal', f'{db_file}-shm']
+
+
+def _sqlite_integrity_ok() -> bool:
+    if DB_ENGINE != Engines.SQLITE:
+        return True
+    if not os.path.exists(db_file):
+        return True
+    try:
+        with sqlite3.connect(db_file) as connection:
+            row = connection.execute('PRAGMA integrity_check').fetchone()
+        return bool(row and row[0] == 'ok')
+    except sqlite3.DatabaseError:
+        return False
+
+
 def _setup_sqlite_pragmas() -> None:
     if DB_ENGINE and DB_ENGINE != Engines.SQLITE:
         return
-    try:
-        session.execute(text('PRAGMA case_sensitive_like = true'))
-        session.execute(text('PRAGMA journal_mode = WAL'))
-        session.execute(text('PRAGMA wal_checkpoint(FULL)'))
-    except DatabaseError as err:
-        msg = str(err).lower()
-        if 'malformed' in msg or 'disk image is malformed' in msg:
-            guidance = (
-                f"SQLite DB is corrupted: {db_file}. "
-                "Recover with sqlite3 .recover or restore from backup."
-            )
-            log.critical(guidance)
-            raise RuntimeError(guidance) from err
-        raise
-
-
-_setup_sqlite_pragmas()
+    session.execute(text('PRAGMA case_sensitive_like = true'))
+    session.execute(text('PRAGMA busy_timeout = 30000'))
+    session.execute(text('PRAGMA journal_mode = WAL'))
+    session.execute(text('PRAGMA wal_checkpoint(FULL)'))
 
 
 @unique
@@ -368,6 +387,105 @@ comic_swagger_model = Model('Comic', {
     'viewed_chap':  sf.Integer(description='Comic viewed chapter')
 })
 
+def _enum_to_int(value: Any) -> int:
+    if hasattr(value, 'value'):
+        return int(value.value)
+    return int(value)
+
+
+def _comic_db_from_json_record(comic: dict) -> ComicDB:
+    last_update = comic['last_update']
+    if isinstance(last_update, str):
+        last_update_ts = int(datetime.fromisoformat(last_update).timestamp())
+    else:
+        last_update_ts = int(last_update)
+
+    published_in = comic.get('published_in', '0')
+    if isinstance(published_in, list):
+        published_in = [Publishers(_enum_to_int(publisher)) for publisher in published_in]
+    elif isinstance(published_in, str) and '|' in published_in:
+        published_in = [
+            Publishers(int(publisher))
+            for publisher in published_in.split('|')
+            if publisher
+        ]
+
+    genres = comic.get('genres', '0')
+    if isinstance(genres, list):
+        genres = [Genres(_enum_to_int(genre)) for genre in genres]
+    elif isinstance(genres, str) and '|' in genres:
+        genres = [Genres(int(genre)) for genre in genres.split('|') if genre]
+
+    titles = comic['titles']
+    if isinstance(titles, list):
+        titles = '|'.join(titles)
+
+    return ComicDB(
+        comic['id'],
+        titles,
+        comic['current_chap'],
+        comic.get('cover', ''),
+        last_update_ts,
+        _enum_to_int(comic['com_type']),
+        _enum_to_int(comic['status']),
+        published_in,
+        genres,
+        comic.get('description', ''),
+        comic.get('author', ''),
+        int(bool(comic.get('track', 0))),
+        comic.get('viewed_chap', 0),
+        comic.get('rating', 0),
+        bool(comic.get('deleted', False)),
+        bool(comic.get('cover_visible', True)),
+    )
+
+
+def _relocate_corrupt_sqlite_files() -> None:
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+    for path in _sqlite_sidecar_paths():
+        if os.path.exists(path):
+            shutil.move(path, f'{path}.corrupt.{stamp}')
+
+
+def _rebuild_sqlite_from_json() -> None:
+    global engine, session, Session
+    if not load_comics:
+        raise RuntimeError(
+            f'SQLite database is corrupt and comics.json is empty: {db_file}'
+        )
+
+    log.warning(
+        'Rebuilding corrupt SQLite database from comics.json (%d records)',
+        len(load_comics),
+    )
+    session.close()
+    engine.dispose()
+    _relocate_corrupt_sqlite_files()
+    engine = _engine_creation()
+    Session.configure(bind=engine)
+    session = Session()
+    Base.metadata.create_all(engine)
+
+    with Session() as db_session:
+        for comic_data in load_comics:
+            db_session.add(_comic_db_from_json_record(comic_data))
+        db_session.commit()
+    engine.dispose()
+    engine = _engine_creation()
+    Session.configure(bind=engine)
+    session = Session()
+
+
+def _ensure_sqlite_healthy() -> None:
+    if DB_ENGINE != Engines.SQLITE:
+        return
+    if not _sqlite_integrity_ok():
+        _rebuild_sqlite_from_json()
+    _setup_sqlite_pragmas()
+
+
+_ensure_sqlite_healthy()
+
 # Create tables if they don't exist
 Base.metadata.create_all(engine)
 
@@ -481,7 +599,21 @@ def _ensure_sqlite_identity_schema() -> None:
         )
 
 
-_ensure_sqlite_identity_schema()
+def _run_sqlite_identity_schema() -> None:
+    try:
+        _ensure_sqlite_identity_schema()
+    except DatabaseError as err:
+        if 'malformed' not in str(err).lower():
+            raise
+        log.warning(
+            'SQLite error during identity schema migration; rebuilding from JSON'
+        )
+        _rebuild_sqlite_from_json()
+        _setup_sqlite_pragmas()
+        _ensure_sqlite_identity_schema()
+
+
+_run_sqlite_identity_schema()
 
 if DB_ENGINE == Engines.POSTGRES:
     seq.create(bind=engine, checkfirst=True)

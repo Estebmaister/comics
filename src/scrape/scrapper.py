@@ -355,6 +355,19 @@ def _should_update_cover(
     return publisher in COVER_UPDATE_PUBLISHERS and publisher not in RESTRICTED_COVER_PUBLISHERS
 
 
+def _parse_chapter_number(chapter: str) -> Optional[int]:
+    """Extract the most relevant chapter number from scraped chapter text."""
+    text = str(chapter).strip()
+    if not text:
+        return None
+    if text.isdigit():
+        return int(text)
+    matches = re.findall(r'\d+', text)
+    if matches:
+        return int(matches[-1])
+    return None
+
+
 def _normalize_comic_data(scraped_comic: ScrapedComic, publisher: Publishers) -> Optional[ComicDB]:
     """
     Clean and normalize comic data for consistency.
@@ -366,12 +379,13 @@ def _normalize_comic_data(scraped_comic: ScrapedComic, publisher: Publishers) ->
     Returns:
         ComicDB object containing normalized comic information
     """
-    # Extract chapter number
-    try:
-        chapter_num = int(re.findall(r'\d+', scraped_comic.chapter)[0])
-    except (ValueError, IndexError) as error:
-        log.error('Failed to parse chapter number "%s" for "%s": %s',
-                  scraped_comic.chapter, scraped_comic.title, error)
+    chapter_num = _parse_chapter_number(scraped_comic.chapter)
+    if chapter_num is None:
+        log.error(
+            'Failed to parse chapter number "%s" for "%s"',
+            scraped_comic.chapter,
+            scraped_comic.title,
+        )
         return None
 
     # Clean title
