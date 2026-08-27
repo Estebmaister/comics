@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"comics/domain"
+	"comics/internal/identity"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "modernc.org/sqlite"
@@ -229,6 +230,26 @@ func (r *SQLComicRepository) Get(ctx context.Context, id int) (domain.Comic, err
 	return comic, err
 }
 
+func (r *SQLComicRepository) GetByIdentityKey(ctx context.Context, identityKey string) (domain.Comic, error) {
+	if strings.TrimSpace(identityKey) == "" {
+		return domain.Comic{}, domain.ErrComicNotFound
+	}
+	deletedFilter := "deleted = 0"
+	if r.dialect == dialectPostgres {
+		deletedFilter = "deleted = false"
+	}
+	row := r.queryRow(
+		ctx,
+		baseComicSelect()+" WHERE identity_key = "+r.placeholder(1)+" AND "+deletedFilter+" LIMIT 1",
+		identityKey,
+	)
+	comic, err := scanComic(row)
+	if errors.Is(err, sql.ErrNoRows) {
+		return domain.Comic{}, domain.ErrComicNotFound
+	}
+	return comic, err
+}
+
 func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
 	now := time.Now().Unix()
 	if r.dialect == dialectPostgres {
@@ -269,8 +290,8 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 		`INSERT INTO comics (
 			titles, current_chap, cover, last_update, com_type, status,
 			published_in, genres, description, author, track, viewed_chap,
-			rating, deleted, cover_visible
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			rating, deleted, cover_visible, identity_key
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		strings.Join(comic.Titles, "|"),
 		comic.CurrentChap,
 		comic.Cover,
@@ -286,6 +307,7 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 		comic.Rating,
 		boolInt(comic.Deleted),
 		coverVisibleOrDefault(comic),
+		comicIdentityKey(comic),
 	)
 	if err != nil {
 		return domain.Comic{}, err
@@ -339,7 +361,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		`UPDATE comics SET titles = ?, current_chap = ?, cover = ?, last_update = ?,
 			com_type = ?, status = ?, published_in = ?, genres = ?, description = ?,
 			author = ?, track = ?, viewed_chap = ?, rating = ?, deleted = ?,
-			cover_visible = ?
+			cover_visible = ?, identity_key = ?
 		WHERE id = ?`,
 		strings.Join(comic.Titles, "|"),
 		comic.CurrentChap,
@@ -356,6 +378,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		comic.Rating,
 		boolInt(comic.Deleted),
 		comic.CoverVisible,
+		comicIdentityKey(comic),
 		comic.ID,
 	)
 	if err != nil {
@@ -625,9 +648,5 @@ func coverVisibleOrDefault(comic domain.Comic) bool {
 }
 
 func comicIdentityKey(comic domain.Comic) string {
-	title := ""
-	if len(comic.Titles) > 0 {
-		title = comic.Titles[0]
-	}
-	return fmt.Sprintf("%d:%s", comic.ComType, strings.ToLower(strings.TrimSpace(title)))
+	return identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
 }

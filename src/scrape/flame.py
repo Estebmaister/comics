@@ -1,10 +1,10 @@
 """
 Flame Scans scraper module.
 
-This module handles scraping comic information from Flame Scans website.
-It extracts chapter numbers, titles, cover images and other metadata.
+The site uses Mantine SeriesCard components instead of legacy div.bsx cards.
 """
 
+import re
 from typing import Optional
 
 from bs4 import Tag
@@ -14,57 +14,56 @@ from db import Publishers
 from helpers.logger import logger
 from scrape.scrapper import DiscoveryRunState, ScrapedComic, register_comic, scrape_url
 
-# Configure logging
 log = logger(__name__)
 
-# Publisher-specific constants
 PUBLISHER = Publishers.FlameScans
 DEFAULT_COMIC_TYPE = 'manhwa'
 DEFAULT_STATUS = 'ongoing'
 
-# CSS Selectors
-COMIC_CLASS = 'bsx'
-COMIC_INFO_CLASS = 'bigor'
-TITLE_CLASS = 'tt'
-CHAPTER_LIST_CLASS = 'chapter-list'
+CHAPTER_RE = re.compile(r'Chapter\s+(\d+)', re.IGNORECASE)
+COVER_RE = re.compile(r'uploads%2Fimages%2Fseries%2F\d+%2F[^&"]+')
+
+
+def _parse_flame_cover(card_html: str) -> str:
+    match = COVER_RE.search(card_html)
+    if not match:
+        return ''
+    path = match.group(0).replace('%2F', '/').replace('%3F', '?')
+    return f'https://flamecomics.xyz/{path}'
 
 
 def extract_comic_info(comic_div: Tag) -> Optional[ScrapedComic]:
-    """
-    Extract comic information from a comic box div.
-
-    Args:
-        comic_div: BeautifulSoup Tag containing comic information
-
-    Returns:
-        ScrapedComic object if extraction successful, None otherwise
-    """
+    """Extract comic information from a SeriesCard chapter container."""
     title = 'Unknown'
     try:
-        # Extract cover image
-        cover = comic_div.a.div.img['src']
-
-        # Extract comic info div
-        comic_info = comic_div.select(f'div.{COMIC_INFO_CLASS}')[0]
-
-        # Extract title
-        title = comic_info.select(f'div.{TITLE_CLASS}')[0].text.strip()
-
-        # Extract chapter information
-        chapter_elements = comic_info.select(f'div.{CHAPTER_LIST_CLASS}')
-        if not chapter_elements:
-            log.debug('Skipping recommended comic: %s', title)
+        link = comic_div.find('a', class_=lambda c: c and 'chapterImageLink' in c)
+        if not link:
             return None
 
-        # Extract chapter number
-        chap = chapter_elements[0].a.div.div.text.strip()
+        title = (link.get('title') or '').strip()
+        if not title:
+            img = link.find('img')
+            title = (img.get('alt') or '').strip() if img else ''
+        if not title:
+            return None
+
+        card_html = str(comic_div)
+        chapter_match = CHAPTER_RE.search(card_html)
+        if not chapter_match:
+            log.debug('Skipping Flame comic without chapter: %s', title)
+            return None
+
+        status = DEFAULT_STATUS
+        card_text = comic_div.get_text(' ', strip=True).lower()
+        if 'completed' in card_text:
+            status = 'completed'
 
         return ScrapedComic(
-            chapter=chap,
+            chapter=chapter_match.group(1),
             title=title,
-            cover_url=cover,
+            cover_url=_parse_flame_cover(card_html),
             com_type=DEFAULT_COMIC_TYPE,
-            status=DEFAULT_STATUS
+            status=status,
         )
 
     except (ValueError, IndexError, KeyError, AttributeError) as error:
@@ -77,21 +76,14 @@ async def scrape_flame(
     session: Session,
     run_state: DiscoveryRunState | None = None,
 ) -> None:
-    """
-    Scrape comics from Flame Scans website.
-
-    Args:
-        url: URL of the Flame Scans page to scrape
-    """
+    """Scrape comics from Flame Scans website."""
     soup = await scrape_url(url)
 
-    # Find all comic box divs
-    comic_divs = soup.find_all(class_=COMIC_CLASS)
+    comic_divs = soup.find_all(class_=lambda c: c and 'chapterCardContainer' in c)
     if not comic_divs:
         log.error('No comics found on page: %s', url)
         return
 
-    # Process each comic div
     for comic_div in comic_divs:
         comic = extract_comic_info(comic_div)
         if comic:

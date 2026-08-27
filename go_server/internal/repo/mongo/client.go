@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"comics/internal/metrics"
@@ -42,13 +41,7 @@ type mongoClient struct {
 func newMongoClient(_ context.Context, cfg *repo.DBConfig, dbMetrics *metrics.Metrics,
 ) (*mongoClient, error) {
 	// Prepare connection URI
-	uri := fmt.Sprintf(
-		"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=Sandbox",
-		cfg.User, cfg.Pass, cfg.Addr)
-
-	if cfg.User == "" || cfg.Pass == "" {
-		uri = cfg.Addr
-	}
+	uri := buildMongoURI(cfg)
 
 	// Prepare client options
 	clientOptions := options.Client().

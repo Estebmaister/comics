@@ -1,5 +1,5 @@
 # Alpine-based Go image (Smallest)
-FROM golang:1.24-alpine3.21 AS builder
+FROM golang:1.26-alpine3.21 AS builder
 
 # Installing git + SSL ca certificates
 # Git is required for fetching the dependencies
@@ -55,6 +55,6 @@ EXPOSE ${HTTP_PORT}
 
 # Configure health check using environment variables
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-CMD curl --fail http://127.0.0.1:${HTTP_PORT}${HEALTHCHECK_PATH} || exit 1
+  CMD curl --fail http://127.0.0.1:${HTTP_PORT}${HEALTHCHECK_PATH} || exit 1
 
 CMD [ "./server" ]

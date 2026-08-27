@@ -38,7 +38,7 @@ DEFAULT_STATUS = 'ongoing'
 # Islands that carry catalog data and the key holding the comic collection.
 # ``chapters`` islands describe latest chapter releases; ``items`` islands
 # describe full series entries.
-ISLAND_COLLECTION_KEYS = ('chapters', 'items')
+ISLAND_COLLECTION_KEYS = ('chapters', 'items', 'initialSeries')
 
 
 def _astro_decode(value: Any) -> Any:
@@ -82,7 +82,7 @@ def _comic_from_entry(entry: Dict[str, Any]) -> Optional[ScrapedComic]:
         return None
 
     title = entry.get('comic_name') or entry.get('title')
-    cover = entry.get('comic_cover') or entry.get('cover_url') or ''
+    cover = entry.get('comic_cover') or entry.get('cover_url') or entry.get('cover') or ''
     com_type = entry.get('type') or DEFAULT_COMIC_TYPE
     status = entry.get('status') or DEFAULT_STATUS
 

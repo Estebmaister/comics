@@ -6,161 +6,165 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/estebmaister/comics)
 ![GitHub top language](https://img.shields.io/github/languages/top/estebmaister/comics)
 ![GitHub language count](https://img.shields.io/github/languages/count/estebmaister/comics)
-## Scrapper and Server deployment (Python and Go)
+
+## Quick start
+
+```sh
+make setup
+cp local.env .env
+make doctor
+
+# terminal 1 — Go API (comics + auth + scrape)
+make go-run
+
+# terminal 2 — Vite frontend
+make front-dev
+
+# before pushing
+make check
+```
+
+Run `make` or `make help` for the full grouped command list. Per-target detail:
+`make help TARGET=py-server`.
+
+## Make commands
+
+The root [`Makefile`](Makefile) is the canonical developer reference. Common targets:
+
+| Area | Targets |
+|------|---------|
+| Setup | `setup`, `setup-venv`, `setup-front`, `setup-go`, `doctor` |
+| Frontend | `front-dev`, `front-dev-https`, `front-build`, `front-test`, `front-deploy` |
+| Python | `py-server`, `py-scrape`, `py-daemon`, `py-daemon-stop` |
+| Go | `go-run`, `go-test`, `go-import-postgres` |
+| Database | `db-backup`, `db-restore`, `db-check`, `db-repair-identity`, `db-audit-covers` |
+| Quality | `check`, `check-go`, `check-front`, `contract-test`, `py-test` |
+
+`make check` runs Go test/vet/build (including HTTP contract tests), frontend test/build, and Python pytest.
+
+## Scrapper and Server deployment (Go primary)
+
+Production and local development default to the Go server on port `8081`. It serves
+comics REST, JWT auth/profile, metrics, and native publisher scrapers. Python
+Flask/scrape remain available for legacy workflows and contract-fixture generation.
 
 ### Virtual environment (Optional)
 
 ```sh
-# Install pip env manager
-sudo apt install python3-venv
-## python -m pip install --upgrade pip
-
-# Create the env
-python -m venv comics_env
-# Activate the env
-source comics_env/bin/activate
-# Deactivate
-deactivate
+make setup-venv
+make setup-shell   # prints activation command
 ```
 
 > [!IMPORTANT]
-> For corrupted virtual env:
+> For a corrupted virtual env:
 > ```sh
-> rm -rf comics_env
-> python3 -m venv comics_env
-> source comics_env/bin/activate
+> make setup-venv-clean
+> make setup-venv
 > ```
 
 ### Installing dependencies
 
 ```sh
-pip install -r requirements.txt
-
-# after installing new dependencies run
-pip freeze > requirements.txt
-
-## check updates
-pip-review --local
-## apply them
-pip-review --auto
+make setup          # Python + Go + frontend + protobuf
+make deps-py-upgrade   # bump Python deps and rewrite requirements.txt
 ```
-
-> [!NOTE]
-> On termux there are several dependencies that need to be installed manually, and they can take hours to install.
-> ```sh
-> pkg install c-ares
-> GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY=1 GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1 GRPC_PYTHON_BUILD_SYSTEM_CARES=1 CFLAGS+=" -U__ANDROID_API__ -D__ANDROID_API__=30 -include unistd.h" LDFLAGS+=" -llog" pip install grpcio
-> ```
-
-### Make commands
-
-```sh
-make help
-make start
-make go-server
-make test-go
-make vet-go
-make build-go
-make test-front
-make build-front
-make verify
-make import-postgres
-```
-
-`make verify` runs the Go test/vet/build checks plus the frontend test/build
-checks. `make import-postgres` imports `src/db/comics.db` into the Postgres
-target configured in the ignored Go env file.
 
 ### Running scrapper
 
 ```sh
-python src
+make py-scrape      # one pass
+make py-daemon      # server + scraper loop in background (./output.log)
+make py-daemon-stop
 ```
 
 ### Running tests
 
 ```sh
-python -m unittest discover -s tests
+make py-test
+make front-test
+make go-test
+make check          # all release-path checks
 ```
+
+### Running Python server
 
 ```sh
-env PYTHONPATH=src python3 -m pytest src/*/*_test.py -v
+make py-server
 ```
 
-### Running server
+Set `PRODUCTION=true` on Render/production hosts to use gevent instead of the Flask dev server.
+Set `DB_ENGINE=sqlite` explicitly to avoid env parsing warnings.
 
-```sh
-npm run server
-
-# Or for debug
-python src/__main__.py server debug
-```
+On startup, corrupt SQLite files are rebuilt automatically from `src/db/comics.json`.
 
 ### Running Go server
 
 ```sh
-cd go_server
-cp local.env .env
-go run ./cmd/server
+cp go_server/local.env go_server/.env
+make go-run
 ```
 
-The Go server listens on `https://localhost:8081` for local development when
-`tls/comics.crt` and `tls/comics.key` are present. It requires MongoDB for
-auth/profile routes and a writable comics DB. SQLite is configured with
-`COMICS_SQLITE_PATH`; Postgres is configured with `COMICS_DB_DRIVER=postgres`
-and `COMICS_POSTGRES_URL` in ignored local env files.
+The Go server listens on `https://localhost:8081` when `tls/comics.crt` and `tls/comics.key`
+are present. See [`go_server/README.md`](go_server/README.md) for MongoDB, Postgres, and env details.
+
+Import SQLite into Postgres:
+
+```sh
+make go-import-postgres
+```
 
 ### Deployment on Heroku
 
 ```sh
 git push heroku
-heroku logs --tail # debug
+heroku logs --tail
 ```
 
 ### Deployment on Render
 
-Should be triggered with every commit to the main branch on github repo
+Triggered on pushes to `main`. Typical settings:
 
-## Interface deployment (React JS)
+- Start command: `python ./src server`
+- Env: `PRODUCTION=true`, `DB_ENGINE=sqlite`, `PORT` from Render
+- Ensure `src/db/comics.json` ships with the deploy (SQLite recovery source)
+
+### Production Docker (SSH workflow)
+
+On merge to `main`, CI can SSH to the host, `git pull`, and `docker compose up -d`.
+See [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
+
+## Interface deployment (React + Vite)
 
 ### Running frontend
 
 > [!TIP]
-> Check the `tls` folder to configure certificates for https local mode
+> Check the `tls` folder for HTTPS local development certificates.
 
 ```sh
-npm install
-
-npm start
-# or
-npm run start:dev # runs in https local mode
+make front-dev          # http://localhost:3000
+make front-dev-https    # https://localhost:3000 (requires ./tls/comics.crt + .key)
 ```
 
-Runs the app in the development mode.\
-Open the Vite URL printed in the terminal to view it in the browser.
+Open the Vite URL printed in the terminal. The page reloads on file changes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Frontend API env (`.env`):
+
+- `VITE_API_SERVER` — preferred API base URL
+- `VITE_PY_SERVER` — legacy fallback for the Python backend
 
 ### Running tests
 
 ```sh
-npm test
+make front-test
+# or watch mode:
+npm run test:watch
 ```
-
-Runs the frontend test suite once. Use `npm run test:watch` for watch mode.\
 
 ### Running build and deployment
 
 ```sh
-npm run build
-
-# GH-pages
-npm run deploy && git push origin
+make front-build
+make front-deploy && git push origin   # GitHub Pages
 ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Production build output goes to `build/`.

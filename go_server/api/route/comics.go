@@ -1,15 +1,13 @@
 package route
 
 import (
-	"bytes"
+	"context"
 	"errors"
-	"io"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"comics/bootstrap"
 	"comics/domain"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +32,7 @@ type comicJSON struct {
 	Deleted      bool     `json:"deleted"`
 }
 
-func comicsRouter(env *bootstrap.Env, comics domain.ComicUseCase, group *gin.RouterGroup) {
+func comicsRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 	group.GET("/health/db", func(c *gin.Context) {
 		if err := comics.Ping(c.Request.Context()); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "database unavailable"})
@@ -43,7 +41,7 @@ func comicsRouter(env *bootstrap.Env, comics domain.ComicUseCase, group *gin.Rou
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
 
-	group.GET("/scrape", proxyPythonScrape(env))
+	group.GET("/scrape", runScrape(comics))
 
 	group.GET("/comics", listComics(comics))
 	group.POST("/comics", createComic(comics))
@@ -326,6 +324,10 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	if errors.Is(err, domain.ErrDuplicateComic) {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Comic is already in the database"})
+		return
+	}
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -333,37 +335,15 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 	c.JSON(status, toComicJSON(comic))
 }
 
-func proxyPythonScrape(env *bootstrap.Env) gin.HandlerFunc {
+func runScrape(comics domain.ComicUseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		pythonURL := strings.TrimRight(env.PythonBackendURL, "/")
-		if pythonURL == "" {
-			c.JSON(http.StatusNotImplemented, gin.H{"message": "Python scrape backend is not configured"})
-			return
-		}
-
-		client := &http.Client{Timeout: 30 * time.Minute}
-		req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodGet, pythonURL+"/scrape", nil)
-		if err != nil {
+		ctx, cancel := context.WithTimeout(c.Request.Context(), 30*time.Minute)
+		defer cancel()
+		if err := comics.Scrape(ctx); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 			return
 		}
-		resp, err := client.Do(req)
-		if err != nil {
-			c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
-			return
-		}
-		defer resp.Body.Close()
-
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			c.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
-			return
-		}
-		contentType := resp.Header.Get("Content-Type")
-		if contentType == "" {
-			contentType = "application/json"
-		}
-		c.DataFromReader(resp.StatusCode, int64(len(body)), contentType, bytes.NewReader(body), nil)
+		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	}
 }
 

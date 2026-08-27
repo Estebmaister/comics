@@ -2,10 +2,13 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
 	"comics/domain"
+	"comics/internal/identity"
+	"comics/internal/scrape"
 )
 
 const (
@@ -52,6 +55,20 @@ func (s *ComicService) Create(ctx context.Context, comic domain.Comic) (domain.C
 	if !hasNonEmptyTitle(comic.Titles) {
 		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
 	}
+	comic.Titles = identity.NormalizeTitleVariants(comic.Titles, comic.ComType)
+	if !hasNonEmptyTitle(comic.Titles) {
+		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
+	}
+	identityKey := identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
+	if identityKey != "" {
+		existing, err := s.repo.GetByIdentityKey(ctx, identityKey)
+		if err != nil && !errors.Is(err, domain.ErrComicNotFound) {
+			return domain.Comic{}, err
+		}
+		if err == nil && existing.ID != 0 {
+			return domain.Comic{}, domain.ErrDuplicateComic
+		}
+	}
 	if comic.Cover == "" {
 		comic.CoverVisible = true
 	}
@@ -72,6 +89,10 @@ func (s *ComicService) Update(ctx context.Context, id int, patch domain.ComicPat
 
 func (s *ComicService) Delete(ctx context.Context, id int) error {
 	return s.repo.Delete(ctx, id)
+}
+
+func (s *ComicService) Scrape(ctx context.Context) error {
+	return scrape.RunAll(ctx, s.repo, nil)
 }
 
 func (s *ComicService) UpdateCoverVisibility(

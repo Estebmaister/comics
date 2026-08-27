@@ -1,11 +1,11 @@
 ## Project Overview
 
-A full-stack comic book tracking application with multi-source web scraping, dual-language backend (Python/Go), and React frontend. The application automatically scrapes comic metadata from various sources and provides a tracking interface for users.
+A full-stack comic book tracking application with multi-source web scraping, Go-primary backend (Gin), legacy Python tooling, and React frontend. Production targets a single Go application for comics REST, auth, and native scrapers.
 
 ## Architecture Overview
 
 - **Frontend**: React 19 + TypeScript + React Router
-- **Backend**: Flask (Python) + Gin (Go) + gRPC
+- **Backend**: Gin (Go, primary) + Flask (Python, legacy) + gRPC
 - **Database**: SQLite (primary) with JSON backup storage
 - **Data Pipeline**: Multi-site web scrapers with data normalization
 - **Deployment**: GitHub Pages (frontend), Koyeb/Heroku/Render (backend)
@@ -34,27 +34,52 @@ A full-stack comic book tracking application with multi-source web scraping, dua
 
 ## Key Development Commands
 
+Run `make` or `make help` for the grouped target list. Detail: `make help TARGET=<name>`.
+
+### Setup
+
+```bash
+make setup                  # venv + Python + Go + frontend + protobuf + git hooks
+make setup-venv             # Create Python virtual environment
+make setup-front            # npm ci
+make setup-go               # go mod tidy
+make doctor                 # Validate venv, node_modules, env files, DB integrity
+make status                 # Daemon PID, log path, default dev URLs
+```
+
 ### Frontend Development
 
 ```bash
-npm start                   # HTTP dev server (localhost:3000)
-npm run start:dev           # HTTPS dev server (requires TLS certs in ./tls/)
-npm test                    # Run Jest tests
-npm run build               # Production build
-npm run deploy              # Deploy to GitHub Pages
+make front-dev              # Vite HTTP dev server (localhost:3000)
+make front-dev-https        # Vite HTTPS dev server (requires TLS certs in ./tls/)
+make front-test             # Vitest single run
+make front-build            # Production build to build/
+make front-deploy           # Deploy to GitHub Pages
 ```
 
-### Backend Development (via Makefile)
+### Python Backend (via Makefile)
 
 ```bash
-make setup                  # Full project setup (Python + Go + protobuf)
-make venv                   # Create Python virtual environment
-make server                 # Start Flask server (localhost:5001)
-make scrape                 # Run web scrapers to collect comic data
-make remote                 # Run server+scraper in background (saves PID)
-make stop                   # Stop background server using PID file
-make db_update              # Update database from scraped data
-make backup                 # Backup database to JSON format
+make go-run                 # Go REST API (localhost:8081) — comics, auth, scrape
+make py-server              # Legacy Flask/gevent API (localhost:5001)
+make py-scrape              # Legacy Python scrapers (one pass)
+make py-daemon              # Legacy server + scraper in background (./server.pid)
+make py-daemon-stop         # Stop background daemon
+make db-backup              # Export SQLite to timestamped JSON backup
+make db-restore             # Rebuild SQLite from comics.json
+make db-check               # PRAGMA integrity_check
+make db-repair-identity     # Dry-run duplicate repair (APPLY=1 to merge)
+make db-audit-covers        # Probe cover URLs (ARGS="--apply" to persist)
+```
+
+### Go Backend (via Makefile)
+
+```bash
+make go-run                 # Gin server with air hot reload (:8081)
+make go-test                # Go tests
+make go-import-postgres     # Import SQLite comics into Postgres
+make go-migrate-up          # Run SQL migrations forward
+make go-migrate-down        # Roll back SQL migrations
 ```
 
 ### Protocol Buffer Generation
@@ -65,12 +90,23 @@ make proto-js               # Generate JavaScript/TypeScript bindings
 make proto-go               # Generate Go gRPC bindings
 ```
 
-### Testing
+### Testing and release checks
 
 ```bash
-make test-front             # Frontend Jest tests
-make test-py                # Python pytest tests
-make test-go                # Go tests
+make py-test                # Python pytest suite
+make front-test             # Vitest
+make go-test                # Go tests
+make check                  # All release-path checks (Go + frontend + Python)
+make check-go               # go-test + go-vet + go-build
+make check-front            # front-test + front-build
+```
+
+### Docker
+
+```bash
+make docker-build           # Build Docker image
+make docker-run             # Run Docker container
+make docker-dev             # Run with src bind-mount and polling
 ```
 
 ## Database Structure
@@ -109,8 +145,8 @@ make test-go                # Go tests
   - per-comic work uses savepoints (`begin_nested`) so one bad entry does not invalidate the whole scrape
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
-- Combined `server + scrape` startup must disable Flask's debug reloader. Otherwise the stat reloader spawns a second process and the scraper loop starts twice.
-- Current duplicate repair entry point is `src/db/repair_identity_duplicates.py`. Run it in dry-run mode first, then `--apply` once the merge set looks correct.
+- Combined `py-daemon` startup must disable Flask's debug reloader. `make py-daemon` uses `server scrape` combined mode which stays single-process.
+- Current duplicate repair entry point: `make db-repair-identity` (dry-run) or `make db-repair-identity APPLY=1`. Under the hood: `src/db/repair_identity_duplicates.py`.
 - When a historical duplicate group still conflicts on non-novel type, repair policy is `lowest id wins`. Use `--merge-ambiguous` to apply that rule and finish the dedupe pass.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.
 
@@ -146,19 +182,23 @@ make test-go                # Go tests
 ### Initial Setup
 
 ```bash
-# Clone and setup everything
-make setup                  # Handles Python venv, Go modules, protobuf generation
+make setup                  # venv, Python, Go, frontend, protobuf, git hooks
+cp local.env .env           # Python backend env (optional but recommended)
+make doctor                 # Validate the environment
+```
 
-# Manual setup steps if needed:
-make venv                   # Python virtual environment
-npm install                 # Frontend dependencies
-(cd go_server && go mod tidy)  # Go dependencies
+Manual steps if needed:
+
+```bash
+make setup-venv
+make setup-front
+make setup-go
 ```
 
 ### HTTPS Development (Frontend)
 
 - Requires TLS certificates in `./tls/` directory
-- `comics.crt` and `comics.key` files needed for `npm run start:dev`
+- `comics.crt` and `comics.key` files needed for `make front-dev-https`
 - Allows testing features requiring secure context
 
 ## Pre-commit Hooks and AI Integration
@@ -192,21 +232,27 @@ chmod +x .githooks/pre-commit  # Ensure hooks are executable
 
 ### Frontend (.env)
 
-- `VITE_PY_SERVER`: Python server URL (default: http://localhost:5001)
+- `VITE_API_SERVER`: preferred API base URL for local/production frontend builds
+- `VITE_PY_SERVER`: legacy fallback Python server URL (default: http://localhost:5001)
 - `VITE_EXTERNAL_HOST`: External host for deployment configurations
 
 ### Backend
 
-- `DB_ENGINE`: Database engine selection (sqlite/postgresql)
+- `DB_ENGINE`: Database engine selection (`sqlite`, `postgresql`, `postgres`, `mysql`)
+- `PRODUCTION`: Set `true` on Render/production to use gevent instead of Flask dev server
 - `DEBUG`: Enable debug mode
+- `PORT`: HTTP listen port (default 5001)
+- `DB_FILE`: SQLite path (default `src/db/comics.db`)
 - Database-specific credentials for PostgreSQL/MySQL support
+
+Corrupt SQLite on startup is rebuilt automatically from `src/db/comics.json`.
 
 ## Container Support
 
 ```bash
-make dockerize              # Build Docker image
-make docker                 # Run Docker container
-make chokidar               # Run with file watching for development
+make docker-build           # Build Docker image
+make docker-run             # Run Docker container
+make docker-dev             # Run with file watching for development
 ```
 
 ## Deployment
@@ -214,14 +260,14 @@ make chokidar               # Run with file watching for development
 ### Frontend
 
 - **Target**: GitHub Pages (https://estebmaister.github.io/comics)
-- **Trigger**: Automatic on push to main branch via `npm run deploy`
+- **Command**: `make front-deploy`
 - **Configuration**: `homepage` field in package.json
 
 ### Backend Options
 
+- **Render**: `python ./src server` with `PRODUCTION=true`, `DB_ENGINE=sqlite`
 - **Heroku**: Via `git push heroku`
-- **Render**: Automatic deployment on main branch pushes
-- **Docker**: Containerized deployment support
+- **Docker/SSH production**: `docker compose up -d` on host after merge to main
 
 ## File Structure Highlights
 
@@ -246,10 +292,12 @@ make chokidar               # Run with file watching for development
 
 ### Adding New Comic Scrapers
 
-1. Create scraper module in `src/scrape/`
-2. Keep it extraction-only and return `ScrapedComic` values
-3. Register it in `src/scrape/__init__.py`
-4. Let `src/scrape/scrapper.py` handle normalization, identity matching, and persistence
+Go (production): add publisher module under `go_server/internal/scrape/`, register in
+`runner.go`, and add fixture tests beside the extractor.
+
+Python (legacy/fixtures): create scraper module in `src/scrape/`, register in
+`src/scrape/__init__.py`, and keep extraction-only logic with centralized register flow in
+`src/scrape/scrapper.py`.
 
 ### Frontend Component Development
 
@@ -270,7 +318,7 @@ make chokidar               # Run with file watching for development
 
 ## Testing Notes
 
-- `npm test -- --watchAll=false` is the quickest frontend regression pass.
+- `npm test -- --watchAll=false` or `make front-test` is the quickest frontend regression pass.
 - React 19 will warn if lazily loaded modal components resolve during tests without `act(...)`; avoid that by only rendering lazy modal components when they are open, or by awaiting them explicitly in tests.
 - Add focused tests for layout math (`utils.ts`), toast timing, and card fallback states when touching the comics UI.
 - Backend duplicate-prevention tests live alongside scraper tests; cover smart-quote normalization, novel/comic identity splits, and scrape normalization boundaries when changing discovery logic.

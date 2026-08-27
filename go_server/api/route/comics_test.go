@@ -2,13 +2,13 @@ package route
 
 import (
 	"bytes"
+	"context"
 	"database/sql"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
 	"testing"
 
-	"comics/bootstrap"
 	"comics/domain"
 	comicrepo "comics/internal/repo/comics"
 	"comics/internal/usecase"
@@ -42,7 +42,8 @@ func newTestComicService(t *testing.T) domain.ComicUseCase {
 			viewed_chap INTEGER NOT NULL DEFAULT 0,
 			rating INTEGER NOT NULL DEFAULT 0,
 			deleted BOOLEAN NOT NULL DEFAULT 0,
-			cover_visible BOOLEAN NOT NULL DEFAULT 1
+			cover_visible BOOLEAN NOT NULL DEFAULT 1,
+			identity_key TEXT NOT NULL DEFAULT ''
 		)
 	`)
 	if err != nil {
@@ -64,7 +65,7 @@ func newTestComicService(t *testing.T) domain.ComicUseCase {
 func TestComicsRouterRejectsInvalidPathID(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
-	comicsRouter(&bootstrap.Env{}, newTestComicService(t), router.Group("/"))
+	comicsRouter(newTestComicService(t), router.Group("/"))
 
 	req := httptest.NewRequest(http.MethodGet, "/comics/not-a-number", nil)
 	res := httptest.NewRecorder()
@@ -78,7 +79,7 @@ func TestComicsRouterRejectsInvalidPathID(t *testing.T) {
 func TestComicsRouterRejectsInvalidPaginationQuery(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
-	comicsRouter(&bootstrap.Env{}, newTestComicService(t), router.Group("/"))
+	comicsRouter(newTestComicService(t), router.Group("/"))
 
 	for _, path := range []string{
 		"/comics?from=bad",
@@ -99,7 +100,7 @@ func TestComicsRouterRejectsInvalidPaginationQuery(t *testing.T) {
 func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
-	comicsRouter(&bootstrap.Env{}, newTestComicService(t), router.Group("/"))
+	comicsRouter(newTestComicService(t), router.Group("/"))
 
 	createReq := httptest.NewRequest(
 		http.MethodPost,
@@ -126,18 +127,57 @@ func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
 	}
 }
 
-func TestScrapeReturnsNotImplementedWithoutPythonBackend(t *testing.T) {
+func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
-	comicsRouter(&bootstrap.Env{}, newTestComicService(t), router.Group("/"))
+	comicsRouter(newTestComicService(t), router.Group("/"))
+
+	createReq := httptest.NewRequest(
+		http.MethodPost,
+		"/comics",
+		bytes.NewBufferString(`{"titles":["Duplicate hero"],"com_type":3}`),
+	)
+	createReq.Header.Set("Content-Type", "application/json")
+	createRes := httptest.NewRecorder()
+	router.ServeHTTP(createRes, createReq)
+	if createRes.Code != http.StatusCreated {
+		t.Fatalf("expected create 201, got %d: %s", createRes.Code, createRes.Body.String())
+	}
+
+	dupReq := httptest.NewRequest(
+		http.MethodPost,
+		"/comics",
+		bytes.NewBufferString(`{"titles":["duplicate hero"],"com_type":3}`),
+	)
+	dupReq.Header.Set("Content-Type", "application/json")
+	dupRes := httptest.NewRecorder()
+	router.ServeHTTP(dupRes, dupReq)
+	if dupRes.Code != http.StatusBadRequest {
+		t.Fatalf("expected duplicate 400, got %d: %s", dupRes.Code, dupRes.Body.String())
+	}
+}
+
+func TestScrapeReturnsSuccessWithMockRunner(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+	svc := &scrapeStubComicService{ComicUseCase: newTestComicService(t)}
+	comicsRouter(svc, router.Group("/"))
 
 	req := httptest.NewRequest(http.MethodGet, "/scrape", nil)
 	res := httptest.NewRecorder()
 	router.ServeHTTP(res, req)
 
-	if res.Code != http.StatusNotImplemented {
-		t.Fatalf("expected 501, got %d: %s", res.Code, res.Body.String())
+	if res.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", res.Code, res.Body.String())
 	}
+}
+
+type scrapeStubComicService struct {
+	domain.ComicUseCase
+}
+
+func (s *scrapeStubComicService) Scrape(context.Context) error {
+	return nil
 }
 
 func TestCORSMiddlewareAllowsConfiguredOrigin(t *testing.T) {

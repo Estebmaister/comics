@@ -2,6 +2,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, vi } from 'vitest';
 import { ComicsMainPage } from './MainPage';
+import { AuthProvider } from '../../../context/AuthContext';
+import { appBasename } from '../../../util/RouterBasename';
 import { COMIC_SEARCH_PLACEHOLDER, REFRESH_INTERVAL, SEARCH_DEBOUNCE_MS } from '../constants';
 import { dataFetch } from '../../../util/ServerHelpers';
 
@@ -31,8 +33,10 @@ const emptyComicsResult = {
 };
 
 const renderPage = () => render(
-  <MemoryRouter>
-    <ComicsMainPage />
+  <MemoryRouter basename={appBasename} initialEntries={[appBasename ? `${appBasename}/` : '/']}>
+    <AuthProvider>
+      <ComicsMainPage />
+    </AuthProvider>
   </MemoryRouter>
 );
 

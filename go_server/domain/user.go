@@ -14,14 +14,14 @@ const (
 
 // User model
 type User struct {
-	ID        uuid.UUID `bson:"_id"`
-	Username  string    `bson:"username"`
-	Email     string    `bson:"email"`
+	ID        uuid.UUID `bson:"_id" json:"id"`
+	Username  string    `bson:"username" json:"username"`
+	Email     string    `bson:"email" json:"email"`
 	Password  string    `bson:"password" json:"-"`
-	Role      string    `bson:"role"`
-	CreatedAt time.Time `bson:"created_at"`
-	UpdatedAt time.Time `bson:"updated_at"`
-	Active    bool      `bson:"active"`
+	Role      string    `bson:"role" json:"role"`
+	CreatedAt time.Time `bson:"created_at" json:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
+	Active    bool      `bson:"active" json:"active"`
 }
 
 // UserStore interface abstracts user repository operations

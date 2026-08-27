@@ -2,8 +2,23 @@
   "Asura":        
     [
       "https://asurascans.com/",
-      "https://asurascans.com/page/2",
-      "https://asurascans.com/page/3"
+      "https://asurascans.com/browse/comics?page=1",
+      "https://asurascans.com/browse/comics?page=2",
+      "https://asurascans.com/browse/comics?page=3",
+      "https://asurascans.com/browse/comics?page=4",
+      "https://asurascans.com/browse/comics?page=5",
+      "https://asurascans.com/browse/comics?page=6",
+      "https://asurascans.com/browse/comics?page=7",
+      "https://asurascans.com/browse/comics?page=8",
+      "https://asurascans.com/browse/comics?page=9",
+      "https://asurascans.com/browse/comics?page=10",
+      "https://asurascans.com/browse/comics?page=11",
+      "https://asurascans.com/browse/comics?page=12",
+      "https://asurascans.com/browse/comics?page=13",
+      "https://asurascans.com/browse/comics?page=14",
+      "https://asurascans.com/browse/comics?page=15",
+      "https://asurascans.com/browse/comics?page=16",
+      "https://asurascans.com/browse/comics?page=17"
     ],
   "NightScans":   
     [
@@ -11,7 +26,12 @@
     ],
   "ManhuaPlus":   
     [
-      "https://manhuaplus.com/"
+      "https://manhuaplus.com/",
+      "https://manhuaplus.com/page/2/",
+      "https://manhuaplus.com/page/3/",
+      "https://manhuaplus.com/page/4/",
+      "https://manhuaplus.com/page/5/",
+      "https://manhuaplus.com/page/6/"
     ],
   "ReaperScans":  
     [
@@ -68,7 +88,7 @@
     ],
   "Manganato":    
     [
-      "https://nelomanga.net/"       
+      "https://nelomanga.net/"
     ],
   "FirstKiss":    
     [
@@ -78,6 +98,23 @@
     [
       "https://demonicscans.org/index.php",
       "https://demonicscans.org/lastupdates.php?list=2",
-      "https://demonicscans.org/lastupdates.php?list=3"
+      "https://demonicscans.org/lastupdates.php?list=3",
+      "https://demonicscans.org/lastupdates.php?list=4",
+      "https://demonicscans.org/lastupdates.php?list=5",
+      "https://demonicscans.org/lastupdates.php?list=6",
+      "https://demonicscans.org/lastupdates.php?list=7",
+      "https://demonicscans.org/lastupdates.php?list=8",
+      "https://demonicscans.org/lastupdates.php?list=9",
+      "https://demonicscans.org/lastupdates.php?list=10",
+      "https://demonicscans.org/lastupdates.php?list=11",
+      "https://demonicscans.org/lastupdates.php?list=12",
+      "https://demonicscans.org/lastupdates.php?list=13",
+      "https://demonicscans.org/lastupdates.php?list=14",
+      "https://demonicscans.org/lastupdates.php?list=15",
+      "https://demonicscans.org/lastupdates.php?list=16",
+      "https://demonicscans.org/lastupdates.php?list=17",
+      "https://demonicscans.org/lastupdates.php?list=18",
+      "https://demonicscans.org/lastupdates.php?list=19",
+      "https://demonicscans.org/lastupdates.php?list=20"
     ]
 }

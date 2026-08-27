@@ -3,9 +3,11 @@ package usecase
 import (
 	"context"
 	"errors"
+	"fmt"
 	"testing"
 
 	"comics/domain"
+	"comics/internal/identity"
 )
 
 type memoryComicRepo struct {
@@ -52,6 +54,19 @@ func (r *memoryComicRepo) Get(_ context.Context, id int) (domain.Comic, error) {
 		return domain.Comic{}, domain.ErrComicNotFound
 	}
 	return comic, nil
+}
+
+func (r *memoryComicRepo) GetByIdentityKey(_ context.Context, identityKey string) (domain.Comic, error) {
+	for _, comic := range r.comics {
+		if comic.Deleted {
+			continue
+		}
+		key := identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
+		if key == identityKey {
+			return comic, nil
+		}
+	}
+	return domain.Comic{}, domain.ErrComicNotFound
 }
 
 func (r *memoryComicRepo) Create(_ context.Context, comic domain.Comic) (domain.Comic, error) {
@@ -213,12 +228,25 @@ func TestComicServiceMergeRules(t *testing.T) {
 	}
 }
 
+func TestComicServiceCreateRejectsDuplicate(t *testing.T) {
+	ctx := context.Background()
+	repo := newMemoryComicRepo()
+	svc := NewComicService(repo)
+	if _, err := svc.Create(ctx, domain.Comic{Titles: []string{"Solo leveling"}, ComType: 3}); err != nil {
+		t.Fatal(err)
+	}
+	_, err := svc.Create(ctx, domain.Comic{Titles: []string{"Solo Leveling"}, ComType: 3})
+	if !errors.Is(err, domain.ErrDuplicateComic) {
+		t.Fatalf("expected duplicate error, got %v", err)
+	}
+}
+
 func TestComicServiceNormalizesPagination(t *testing.T) {
 	ctx := context.Background()
 	repo := newMemoryComicRepo()
 	svc := NewComicService(repo)
 	for i := 0; i < 105; i++ {
-		if _, err := svc.Create(ctx, domain.Comic{Titles: []string{"title"}}); err != nil {
+		if _, err := svc.Create(ctx, domain.Comic{Titles: []string{fmt.Sprintf("title-%d", i)}}); err != nil {
 			t.Fatal(err)
 		}
 	}

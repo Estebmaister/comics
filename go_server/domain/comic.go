@@ -13,6 +13,7 @@ const (
 
 var (
 	ErrComicNotFound       = errors.New("comic not found")
+	ErrDuplicateComic      = errors.New("comic is already in the database")
 	ErrInvalidComicPayload = errors.New("invalid comic payload")
 	ErrInvalidComicMerge   = errors.New("invalid comic merge")
 )
@@ -80,6 +81,7 @@ type ComicRepository interface {
 	Close() error
 	List(ctx context.Context, query ComicListQuery) (ComicListResult, error)
 	Get(ctx context.Context, id int) (Comic, error)
+	GetByIdentityKey(ctx context.Context, identityKey string) (Comic, error)
 	Create(ctx context.Context, comic Comic) (Comic, error)
 	Update(ctx context.Context, comic Comic) (Comic, error)
 	Delete(ctx context.Context, id int) error
@@ -98,4 +100,5 @@ type ComicUseCase interface {
 	Delete(ctx context.Context, id int) error
 	UpdateCoverVisibility(ctx context.Context, id int, cover string, visible bool) (Comic, error)
 	Merge(ctx context.Context, baseID int, mergingID int) (Comic, error)
+	Scrape(ctx context.Context) error
 }

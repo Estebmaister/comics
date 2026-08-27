@@ -5,6 +5,7 @@ import { handleOnlyTracked, handleOnlyUnchecked } from '../utils';
 import { PaginationData } from '../types';
 import PagButtons from './PagButtons';
 import { SortFilterModal } from './SortFilterModal';
+import { AuthNav } from '../../Auth/AuthNav';
 
 interface NavBarProps {
   onlyTracked: boolean;
@@ -123,6 +124,7 @@ const NavBarComponent: React.FC<NavBarProps> = ({
             />
 
             <div className="grid w-full grid-cols-2 gap-1.5 sm:ml-auto sm:flex sm:w-auto sm:items-center sm:gap-1.5">
+              <AuthNav />
               <button
                 className="basic-button neutral-button w-full min-h-[2.4rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.2rem] sm:min-w-[6rem] sm:px-3 sm:text-[0.75rem]"
                 type="button"
