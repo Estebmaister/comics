@@ -1,5 +1,5 @@
 # Local dev compose from go_server/ only. Production SSH deploy uses ../Dockerfile at repo root.
-FROM golang:1.24-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 # Installing git + SSL ca certificates
 # Git is required for fetching the dependencies

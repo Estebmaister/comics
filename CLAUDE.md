@@ -172,7 +172,7 @@ make docker-down            # Stop compose stack
 
 - Python 3.8+ with virtual environment support
 - Node.js 16+ and npm
-- Go 1.24.1 (for Go backend)
+- Go 1.26.5+ (for Go backend; `GOTOOLCHAIN=auto` if local Go is older)
 - Protocol Buffers compiler (`protoc`)
 - Local AI service (localhost:11434) for pre-commit hooks
 
