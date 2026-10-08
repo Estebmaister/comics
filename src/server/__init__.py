@@ -34,7 +34,6 @@ CORS(
     server,
     resources={
         r'/comics.*': {'origins': allowed_origins},
-        r'/scrape.*': {'origins': allowed_origins},
         r'/health.*': {'origins': '*'},
     },
     methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -45,7 +44,6 @@ api = Api(
     description='A Comic API capable enough to provide all CRUD ops and more')
 api.logger = log
 health_ns = api.namespace('health', description='Service health')
-scrape_ns = api.namespace('scrape', description='Scrape operations')
 ns = api.namespace('comics', description='Comic operations')
 api.add_model('Comic', comic_swagger_model)
 COMIC_NOT_FOUND = 'Comic {} not found'
@@ -66,16 +64,6 @@ class HealthDB(Resource):
     def get(self):
         sql_check()
         return {'message': 'success'}
-
-
-@scrape_ns.route('')
-class Scrape(Resource):
-    '''Deprecated — scraping runs in the Go API'''
-
-    def get(self):
-        return {
-            'message': 'Python scrape removed; use Go GET /scrape or make go-scrape',
-        }, 410
 
 
 # RESTful API routes

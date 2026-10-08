@@ -128,3 +128,22 @@ func IsScrapeInProgress(err error) bool {
 	var inProgress *ErrScrapeInProgress
 	return errors.As(err, &inProgress)
 }
+
+// RunStatus is a point-in-time view of coordinator state (for /scrape/status).
+type RunStatus struct {
+	Running             bool
+	ActiveSource        Source
+	LastCompletedAt     time.Time
+	LastCompletedSource Source
+}
+
+func (c *Coordinator) Snapshot() RunStatus {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return RunStatus{
+		Running:             c.busy,
+		ActiveSource:        c.busySource,
+		LastCompletedAt:     c.lastCompletedAt,
+		LastCompletedSource: c.lastCompletedSource,
+	}
+}

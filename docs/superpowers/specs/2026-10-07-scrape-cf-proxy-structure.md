@@ -112,5 +112,5 @@ proto/                  # gRPC (partial; defer consolidation)
 |-------|------|
 | P0 | Docs + Demonic lists 21–50; Manganato home-only |
 | P1 | Unify `url_switch.json`; Makefile `check` fails on drift |
-| P2 | Split `publishers.go`; drop `src/scrape` from `py-daemon` default |
-| P3 | Nelomanga listing when CF strategy exists; remove Python scrape package |
+| P2 | Split `publishers.go` as file grows |
+| P3 | Nelomanga listing when CF strategy exists |

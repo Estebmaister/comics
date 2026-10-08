@@ -101,4 +101,13 @@ type ComicUseCase interface {
 	UpdateCoverVisibility(ctx context.Context, id int, cover string, visible bool) (Comic, error)
 	Merge(ctx context.Context, baseID int, mergingID int) (Comic, error)
 	Scrape(ctx context.Context) error
+	ScrapeStatus(ctx context.Context) (ScrapeStatus, error)
+}
+
+// ScrapeStatus reports background/manual scrape activity for the UI.
+type ScrapeStatus struct {
+	Running             bool
+	Source              string
+	LastCompletedAt     *time.Time
+	LastCompletedSource string
 }

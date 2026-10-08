@@ -42,6 +42,7 @@ func comicsRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
 
+	group.GET("/scrape/status", scrapeStatus(comics))
 	group.GET("/scrape", runScrape(comics))
 
 	group.GET("/comics", listComics(comics))
@@ -334,6 +335,25 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 		return
 	}
 	c.JSON(status, toComicJSON(comic))
+}
+
+func scrapeStatus(comics domain.ComicUseCase) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		status, err := comics.ScrapeStatus(c.Request.Context())
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+		body := gin.H{
+			"running":               status.Running,
+			"source":                status.Source,
+			"last_completed_source": status.LastCompletedSource,
+		}
+		if status.LastCompletedAt != nil {
+			body["last_completed_at"] = status.LastCompletedAt.UTC().Format(time.RFC3339)
+		}
+		c.JSON(http.StatusOK, body)
+	}
 }
 
 func runScrape(comics domain.ComicUseCase) gin.HandlerFunc {

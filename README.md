@@ -25,7 +25,7 @@ make check
 ```
 
 Run `make` or `make help` for the full grouped command list. Per-target detail:
-`make help TARGET=py-server`.
+`make help TARGET=go-run`.
 
 ## Make commands
 
@@ -35,8 +35,8 @@ The root [`Makefile`](Makefile) is the canonical developer reference. Common tar
 |------|---------|
 | Setup | `setup`, `setup-venv`, `setup-front`, `setup-go`, `doctor` |
 | Frontend | `front-dev`, `front-dev-https`, `front-build`, `front-test`, `front-deploy` |
-| Python | `py-server`, `py-scrape`, `py-daemon`, `py-daemon-stop` |
-| Go | `go-run`, `go-test`, `go-import-postgres` |
+| Python | `py-test`, `db-backup`, `db-restore`, `db-repair-identity` |
+| Go | `go-run`, `go-scrape`, `go-test`, `go-import-postgres` |
 | Database | `db-backup`, `db-restore`, `db-check`, `db-repair-identity`, `db-audit-covers` |
 | Quality | `check`, `check-go`, `check-front`, `contract-test`, `py-test` |
 
@@ -46,7 +46,7 @@ The root [`Makefile`](Makefile) is the canonical developer reference. Common tar
 
 Production and local development default to the Go server on port `8081`. It serves
 comics REST, JWT auth/profile, metrics, and native publisher scrapers. Python
-Flask/scrape remain available for legacy workflows and contract-fixture generation.
+remains for DB maintenance scripts and pytest (registration helpers in `src/db/scraped_register.py`).
 
 ### Virtual environment (Optional)
 
@@ -69,12 +69,11 @@ make setup          # Python + Go + frontend + protobuf
 make deps-py-upgrade   # bump Python deps and rewrite requirements.txt
 ```
 
-### Running scrapper
+### Running scraper
 
 ```sh
-make py-scrape      # one pass
-make py-daemon      # server + scraper loop in background (./output.log)
-make py-daemon-stop
+make go-scrape      # one pass (CLI)
+make go-run         # API + periodic scrape (SCRAPE_INTERVAL default 10m)
 ```
 
 ### Running tests
@@ -85,15 +84,6 @@ make front-test
 make go-test
 make check          # all release-path checks
 ```
-
-### Running Python server
-
-```sh
-make py-server
-```
-
-Set `PRODUCTION=true` on Render/production hosts to use gevent instead of the Flask dev server.
-Set `DB_ENGINE=sqlite` explicitly to avoid env parsing warnings.
 
 On startup, corrupt SQLite files are rebuilt automatically from `src/db/comics.json`.
 

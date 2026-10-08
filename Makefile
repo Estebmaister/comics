@@ -3,7 +3,6 @@
 # Define phony targets (targets that don't represent actual files)
 .PHONY: help setup setup-venv setup-venv-clean setup-shell setup-py setup-go setup-front \
 				deps-py-upgrade front-dev front-dev-https front-build front-test front-deploy \
-				py-server py-scrape py-daemon py-daemon-stop \
 				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres mongo-up mongo-init \
 				db-backup db-restore db-check db-repair-identity db-audit-covers \
 				py-test check check-go check-front check-py \
@@ -26,7 +25,7 @@ DIM := \033[2m
 BOLD := \033[1m
 RESET := \033[0m
 
-# Per-target detail: make help TARGET=py-server
+# Per-target detail: make help TARGET=go-run
 TARGET ?=
 
 help:
@@ -63,12 +62,12 @@ help:
 			fi; \
 		done; \
 		echo "$(DIM)Env templates: local.env (Python/Render), go_server/local.env (Go), .env (local copy)$(RESET)"; \
-		echo "$(DIM)Default ports: front :3000, py-server :5001, go-run :8081$(RESET)"; \
+		echo "$(DIM)Default ports: front :3000, go-run :8081$(RESET)"; \
 		echo "$(DIM)Detail: make help TARGET=<name>   Validate: make doctor$(RESET)"; \
 	fi
 
 ## @util:help              Show grouped targets, or `make help TARGET=<name>` for details
-##? help  Example: make help TARGET=py-server
+##? help  Example: make help TARGET=go-run
 
 # ---------------------------------------------------------------------------
 # Setup
@@ -148,52 +147,6 @@ front-test:
 ##? front-deploy  Runs predeploy build, then gh-pages push to build/
 front-deploy:
 	npm run deploy
-
-# ---------------------------------------------------------------------------
-# Python backend
-# ---------------------------------------------------------------------------
-
-## @python:py-server           Start Python Flask/gevent API (port 5001)
-##? py-server  Port: 5001 (HTTPS in dev when ./tls/comics.crt exists)
-##? py-server  Env: PRODUCTION, DEBUG, DB_ENGINE, PORT, DB_FILE
-##? py-server  Example: cp local.env .env && make py-server
-py-server:
-	$(ACT_VENV) && python3 src/__main__.py server
-
-## @python:py-scrape            Deprecated alias for native Go scrape
-py-scrape:
-	@echo "$(DIM)py-scrape -> go-scrape (Python scrapers removed)$(RESET)"
-	$(MAKE) go-scrape
-
-## @python:py-daemon            Run legacy Flask server in background (./server.pid)
-##? py-daemon  Logs: ./output.log  Stop with: make py-daemon-stop
-##? py-daemon  For API+periodic scrape use: make go-run (SCRAPE_INTERVAL default 10m)
-py-daemon:
-	@if [ -f ./server.pid ]; then \
-		echo "Daemon already running. Use 'make py-daemon-stop' to stop it."; \
-		exit 1; \
-	fi
-	@echo "Starting detached py-server; logs -> ./output.log (scraping: make go-run)"
-	$(ACT_VENV) && (python3 src/__main__.py server > ./output.log 2>&1 & echo $$! > ./server.pid)
-	@echo "PID $$(cat ./server.pid) saved to ./server.pid"
-
-## @python:py-daemon-stop       Stop background server+scraper using ./server.pid
-py-daemon-stop:
-	@if [ -f ./server.pid ]; then \
-		PID=$$(cat ./server.pid); \
-		SPIN='|/-\\'; \
-		i=0; \
-		while ps -p $$PID > /dev/null 2>&1; do \
-			kill $$PID > /dev/null 2>&1; \
-			printf "\rStopping process $$PID... %s" $$(echo $$SPIN | cut -c $$(($$i % 4 + 1))); \
-			i=$$((i + 1)); \
-			sleep 0.3; \
-		done; \
-		echo "\nProcess $$PID stopped."; \
-		rm ./server.pid; \
-	else \
-		echo "No PID file found."; \
-	fi
 
 # ---------------------------------------------------------------------------
 # Go backend
@@ -397,32 +350,21 @@ doctor:
 	echo "Environment check:"; \
 	if [ -d "$(VENV_DIR)" ]; then echo "  [ok] $(VENV_DIR)/"; else echo "  [!!] missing $(VENV_DIR)/ — run make setup-venv"; failed=1; fi; \
 	if [ -d node_modules ]; then echo "  [ok] node_modules/"; else echo "  [!!] missing node_modules/ — run make setup-front"; failed=1; fi; \
-	if [ -f .env ] || [ -f local.env ]; then echo "  [ok] Python env template (.env or local.env)"; else echo "  [??] no .env or local.env — copy local.env to .env for py-server"; fi; \
+	if [ -f .env ] || [ -f local.env ]; then echo "  [ok] Python env template (.env or local.env)"; else echo "  [??] no .env or local.env — copy local.env for db-* / py-test"; fi; \
 	if [ -f go_server/.env ] || [ -f go_server/local.env ]; then echo "  [ok] Go env template"; else echo "  [??] no go_server/.env — needed for go-run/postgres workflows"; fi; \
-	if [ -f tls/comics.crt ] && [ -f tls/comics.key ]; then echo "  [ok] TLS certs for HTTPS dev"; else echo "  [..] no TLS certs — front-dev-https and py-server HTTPS unavailable"; fi; \
+	if [ -f tls/comics.crt ] && [ -f tls/comics.key ]; then echo "  [ok] TLS certs for HTTPS dev"; else echo "  [..] no TLS certs — front-dev-https / go-run HTTPS unavailable"; fi; \
 	if [ -f "$(DB_FILE)" ]; then \
 		result=$$(sqlite3 "$(DB_FILE)" "PRAGMA integrity_check;" 2>/dev/null || echo "error"); \
 		if [ "$$result" = "ok" ]; then echo "  [ok] $(DB_FILE) integrity"; else echo "  [!!] $(DB_FILE) integrity: $$result"; failed=1; fi; \
 	else echo "  [??] $(DB_FILE) not found"; fi; \
 	exit $$failed
 
-## @util:status                 Show daemon PID, log path, and default dev URLs
+## @util:status                 Show default dev URLs and Go scrape interval hint
 status:
 	@echo "Dev URLs:"; \
-	echo "  frontend   http://localhost:3000"; \
-	echo "  py-server  https://localhost:5001"; \
-	echo "  go-run     https://localhost:8081"; \
-	echo ""; \
-	if [ -f ./server.pid ]; then \
-		PID=$$(cat ./server.pid); \
-		if ps -p $$PID > /dev/null 2>&1; then \
-			echo "py-daemon: running (PID $$PID, log ./output.log)"; \
-		else \
-			echo "py-daemon: stale PID file (PID $$PID not running)"; \
-		fi; \
-	else \
-		echo "py-daemon: not running (no ./server.pid)"; \
-	fi
+	echo "  frontend   http://localhost:3000/comics/"; \
+	echo "  go-run     https://localhost:8081 (SCRAPE_INTERVAL default 10m in go_server/.env)"; \
+	echo "  go-scrape  one-shot publisher pass (no HTTP server)"
 
 ## @util:clean                  Remove generated protobuf files and __pycache__
 clean:

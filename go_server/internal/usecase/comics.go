@@ -103,6 +103,22 @@ func (s *ComicService) Scrape(ctx context.Context) error {
 	return s.scrapeCoord.Run(ctx, scrape.SourceManual)
 }
 
+func (s *ComicService) ScrapeStatus(_ context.Context) (domain.ScrapeStatus, error) {
+	snap := s.scrapeCoord.Snapshot()
+	status := domain.ScrapeStatus{
+		Running: snap.Running,
+		LastCompletedSource: string(snap.LastCompletedSource),
+	}
+	if snap.Running {
+		status.Source = string(snap.ActiveSource)
+	}
+	if !snap.LastCompletedAt.IsZero() {
+		t := snap.LastCompletedAt
+		status.LastCompletedAt = &t
+	}
+	return status, nil
+}
+
 func (s *ComicService) UpdateCoverVisibility(
 	ctx context.Context,
 	id int,

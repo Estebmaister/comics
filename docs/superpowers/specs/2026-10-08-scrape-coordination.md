@@ -66,7 +66,8 @@ Default interval: **10m** (`SCRAPE_INTERVAL=10m`). Disable with `SCRAPE_INTERVAL
 - **409** — scrape already running; body includes `source` (`manual` | `automatic` | `cli`).
 - **500** — scrape failed mid-run.
 
-Optional follow-up: `GET /scrape/status` for UI (not required for v1).
+`GET /scrape/status` returns `{ running, source, last_completed_at, last_completed_source }`
+for the UI scrape button and polling while a run is active.
 
 ## Implementation map (Go)
 
@@ -83,8 +84,8 @@ Optional follow-up: `GET /scrape/status` for UI (not required for v1).
 
 | Phase | Action |
 |-------|--------|
-| **Now** | Remove `server scrape` / background scrape thread from `src/__main__.py`; point `make py-scrape` at Go; Flask `/scrape` returns **410** with pointer to Go API. |
-| **Next** | Delete `src/scrape/*.py` publisher modules after porting remaining pytest fixtures to Go or extracting shared test helpers. |
-| **Last** | Drop `cloudscraper` dependency and `scrape` imports from Flask. |
+| **Done** | Python publisher scrapers removed; registration helpers live in `src/db/scraped_register.py`; `url_switch.json` kept for the frontend. |
+| **Done** | Flask `/scrape` removed; use Go `GET /scrape` and `GET /scrape/status`. |
+| **Done** | `cloudscraper` removed from `requirements.txt`. |
 
 Production path: **Go `make go-run`** with `SCRAPE_INTERVAL` replaces **`py-daemon`**.

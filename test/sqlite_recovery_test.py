@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from db import _comic_db_from_json_record, _rebuild_sqlite_from_json, _sqlite_integrity_ok
-from src.scrape.scrapper import _parse_chapter_number
+from src.db.scraped_register import _parse_chapter_number
 
 
 class TestChapterParsing(unittest.TestCase):

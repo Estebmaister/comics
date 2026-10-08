@@ -7,7 +7,7 @@ from src.db.identity import (
     title_match_key,
     titles_are_prefix_match,
 )
-from src.scrape.scrapper import ScrapedComic, _normalize_comic_data
+from src.db.scraped_register import ScrapedComic, _normalize_comic_data
 
 
 class TestIdentityHelpers(unittest.TestCase):

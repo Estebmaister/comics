@@ -1,22 +1,21 @@
 """
-Comic scraper module for fetching and processing comic information from various publishers.
+Register scraped comic payloads into SQLite (Python DB tests and legacy helpers).
 
-This module handles web scraping of comic information, including chapters, titles,
-and metadata, and manages their storage in both database and JSON formats.
+Publisher HTTP scraping lives in the Go server; this module only normalizes and
+persists discovery rows.
 """
 
 from __future__ import annotations
 
 import asyncio
-import os
+import json
 import re
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Dict, List, Optional
 
-import cloudscraper
-from bs4 import BeautifulSoup
 from sqlalchemy.orm import Session
 
 from db import ComicDB, Publishers, Statuses, Types, load_comics
@@ -26,18 +25,20 @@ from db.repo import (comics_by_identity_key, comics_by_title_prefix,
 from helpers.alert import add_alert
 from helpers.logger import logger
 from helpers.text import normalize_text
-from scrape.url_switch import url_switch
 
-# Configure logging
 log = logger(__name__)
 
-# Constants
-CHAPS_FILE = os.path.join(os.path.dirname(__file__), "../db/chaps.html")
-REQUEST_TIMEOUT = 10  # seconds
 MINIMUM_COVER_URL_LENGTH = 10
+_URL_SWITCH_PATH = Path(__file__).resolve().parent.parent / "scrape" / "url_switch.json"
+_PUBLISHER_URLS: dict[str, list[str]] | None = None
 
-# Initialize scraper with modern browser configuration
-scraper = cloudscraper.create_scraper(browser='chrome')
+
+def _publisher_url_switch() -> dict[str, list[str]]:
+    global _PUBLISHER_URLS
+    if _PUBLISHER_URLS is None:
+        with _URL_SWITCH_PATH.open(encoding="utf-8") as handle:
+            _PUBLISHER_URLS = json.load(handle)
+    return _PUBLISHER_URLS
 
 # Publisher-specific configurations
 COVER_UPDATE_PUBLISHERS = {
@@ -84,44 +85,6 @@ class _AsyncNoopLock:
 
     async def __aexit__(self, exc_type, exc, tb) -> bool:
         return False
-
-
-async def scrape_url(url: str, debug_pattern: str = ' ') -> BeautifulSoup:
-    """
-    Scrape content from a URL with error handling and optional debug output.
-
-    Args:
-        url: Target URL to scrape
-        debug_pattern: Pattern to trigger debug output saving
-
-    Returns:
-        BeautifulSoup object containing parsed HTML
-        Empty BeautifulSoup object if scraping fails
-    """
-    try:
-        with scraper.get(url, timeout=REQUEST_TIMEOUT) as response:
-            if response.status_code != 200:
-                log.warning('HTTP %s: Failed to fetch %s',
-                            response.status_code, url)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            if debug_pattern in url:
-                await _save_debug_output(soup)
-            return soup
-
-    except Exception as err:
-        log.warning(
-            'Error %s while fetching %s: %s',
-            type(err).__name__,
-            url,
-            str(err)
-        )
-        return BeautifulSoup('', 'html.parser')
-
-
-def _save_debug_output(soup: BeautifulSoup) -> None:
-    """Save scraped content to debug file."""
-    with open(CHAPS_FILE, 'w+') as file:
-        file.write(soup.prettify())
 
 
 async def register_comic(
@@ -417,7 +380,7 @@ def _parse_cover_url(cover: str, publisher: Publishers) -> str:
     if 'http' in cover:
         return cover[cover.find('http'):]
     elif cover.startswith('/'):
-        base_url = url_switch.get(publisher.name, [''])[0]
+        base_url = _publisher_url_switch().get(publisher.name, [''])[0]
         return base_url + cover
 
     if len(cover) < MINIMUM_COVER_URL_LENGTH:

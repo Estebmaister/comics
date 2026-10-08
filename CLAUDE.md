@@ -57,14 +57,9 @@ make front-build            # Production build to build/
 make front-deploy           # Deploy to GitHub Pages
 ```
 
-### Python Backend (via Makefile)
+### Python (DB tools + tests)
 
 ```bash
-make go-run                 # Go REST API (localhost:8081) — comics, auth, scrape
-make py-server              # Legacy Flask/gevent API (localhost:5001)
-make py-scrape              # Legacy Python scrapers (one pass)
-make py-daemon              # Legacy server + scraper in background (./server.pid)
-make py-daemon-stop         # Stop background daemon
 make db-backup              # Export SQLite to timestamped JSON backup
 make db-restore             # Rebuild SQLite from comics.json
 make db-check               # PRAGMA integrity_check
@@ -75,7 +70,8 @@ make db-audit-covers        # Probe cover URLs (ARGS="--apply" to persist)
 ### Go Backend (via Makefile)
 
 ```bash
-make go-run                 # Gin server with air hot reload (:8081)
+make go-run                 # Gin server with air hot reload (:8081); SCRAPE_INTERVAL default 10m
+make go-scrape              # One native scrape pass (no HTTP server)
 make go-test                # Go tests
 make go-import-postgres     # Import SQLite comics into Postgres
 make go-migrate-up          # Run SQL migrations forward
@@ -131,7 +127,7 @@ make docker-dev             # Run with src bind-mount and polling
 1. **Web Scraping**: Multiple specialized scrapers extract data
 2. **Processing**: `normalize_text()` and identity-key normalization run before duplicate checks
 3. **Storage**: SQLite is canonical for runtime; `comics.json` is regenerated/persisted from the DB state after successful writes
-4. **API**: REST endpoints via Flask, gRPC protocol available
+4. **API**: REST via Go Gin (primary); gRPC partial
 
 ### Discovery Identity Rules
 
@@ -145,7 +141,7 @@ make docker-dev             # Run with src bind-mount and polling
   - per-comic work uses savepoints (`begin_nested`) so one bad entry does not invalidate the whole scrape
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
-- Combined `py-daemon` startup must disable Flask's debug reloader. `make py-daemon` uses `server scrape` combined mode which stays single-process.
+- Periodic scraping: `SCRAPE_INTERVAL` on `make go-run`; manual `GET /scrape` and `GET /scrape/status` share one coordinator (see `docs/superpowers/specs/2026-10-08-scrape-coordination.md`).
 - Current duplicate repair entry point: `make db-repair-identity` (dry-run) or `make db-repair-identity APPLY=1`. Under the hood: `src/db/repair_identity_duplicates.py`.
 - When a historical duplicate group still conflicts on non-novel type, repair policy is `lowest id wins`. Use `--merge-ambiguous` to apply that rule and finish the dedupe pass.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.
@@ -163,8 +159,8 @@ make docker-dev             # Run with src bind-mount and polling
 
 ### Scraper Architecture
 
-- Location: `src/scrape/` directory
-- Each scraper handles site-specific HTML parsing and data extraction
+- Location: `go_server/internal/scrape/` (production); `src/scrape/url_switch.json` for publisher URLs (frontend + Go embed)
+- Each Go publisher module handles site-specific HTML parsing
 - Built-in error handling and retry logic
 - Automatic data normalization to common schema
 - Runtime dedupe is centralized in `src/scrape/scrapper.py`; publisher-specific modules should stay extraction-only
@@ -295,9 +291,7 @@ make docker-dev             # Run with file watching for development
 Go (production): add publisher module under `go_server/internal/scrape/`, register in
 `runner.go`, and add fixture tests beside the extractor.
 
-Python (legacy/fixtures): create scraper module in `src/scrape/`, register in
-`src/scrape/__init__.py`, and keep extraction-only logic with centralized register flow in
-`src/scrape/scrapper.py`.
+Python registration tests use `src/db/scraped_register.py` (no HTTP scrapers).
 
 ### Frontend Component Development
 

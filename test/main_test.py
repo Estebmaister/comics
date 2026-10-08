@@ -12,8 +12,8 @@ class TestEntryPoint(unittest.TestCase):
         run_server.assert_called_once_with()
 
     @patch.object(entrypoint.sys, 'exit')
-    def test_main_scrape_flag_points_to_go(self, exit_mock):
-        entrypoint.main(['scrape'])
+    def test_main_without_server_exits(self, exit_mock):
+        entrypoint.main([])
         exit_mock.assert_called_once_with(2)
 
 

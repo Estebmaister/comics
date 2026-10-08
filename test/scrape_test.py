@@ -4,7 +4,7 @@ import unittest
 from src.db import ComicDB, Publishers, Session, Types
 from src.db.helpers import manage_multi_finds
 from src.db.repo import comics_by_title_prefix
-from src.scrape.scrapper import ScrapedComic, _parse_type, _should_update_cover, register_comic
+from src.db.scraped_register import ScrapedComic, _parse_type, _should_update_cover, register_comic
 
 
 class TestScrapTypes(unittest.TestCase):

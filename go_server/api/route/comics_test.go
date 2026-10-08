@@ -180,6 +180,25 @@ func (s *scrapeStubComicService) Scrape(context.Context) error {
 	return nil
 }
 
+func (s *scrapeStubComicService) ScrapeStatus(context.Context) (domain.ScrapeStatus, error) {
+	return domain.ScrapeStatus{}, nil
+}
+
+func TestScrapeStatusEndpoint(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+	svc := newTestComicService(t)
+	comicsRouter(svc, router.Group("/"))
+
+	req := httptest.NewRequest(http.MethodGet, "/scrape/status", nil)
+	res := httptest.NewRecorder()
+	router.ServeHTTP(res, req)
+
+	if res.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", res.Code, res.Body.String())
+	}
+}
+
 func TestCORSMiddlewareAllowsConfiguredOrigin(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()

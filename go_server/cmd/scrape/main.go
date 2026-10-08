@@ -1,4 +1,4 @@
-// One-shot publisher scrape (legacy: make py-scrape).
+// One-shot publisher scrape (make go-scrape).
 package main
 
 import (

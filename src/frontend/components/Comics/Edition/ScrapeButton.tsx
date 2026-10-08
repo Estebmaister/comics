@@ -1,9 +1,31 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
 import config from '../../../util/Config';
 import { useToast } from '../../Toast/ToastProvider';
 import { RailActionButton } from '../Actions/FloatingActionRail';
 
 const SERVER = config.SERVER;
+
+export type ScrapeStatusResponse = {
+  running: boolean;
+  source?: string;
+  last_completed_at?: string;
+  last_completed_source?: string;
+};
+
+export const fetchScrapeStatus = async (server = SERVER): Promise<ScrapeStatusResponse | null> => {
+  try {
+    const response = await fetch(`${server}/scrape/status`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) {
+      return null;
+    }
+    return await response.json() as ScrapeStatusResponse;
+  } catch {
+    return null;
+  }
+};
 
 export const scrape = async (
   setShowLoader: { (value: SetStateAction<boolean>): void; },
@@ -35,9 +57,54 @@ interface ScrapeButtonProps {
 
 const ScrapeButton = ({ onSuccess }: ScrapeButtonProps) => {
   const [showLoader, setShowLoader] = useState(false);
+  const [remoteRunning, setRemoteRunning] = useState(false);
   const toast = useToast();
 
+  const refreshRemoteStatus = useCallback(async () => {
+    const status = await fetchScrapeStatus();
+    if (status?.running) {
+      setRemoteRunning(true);
+      setShowLoader(true);
+      return true;
+    }
+    setRemoteRunning(false);
+    setShowLoader(false);
+    return false;
+  }, []);
+
+  useEffect(() => {
+    void refreshRemoteStatus();
+  }, [refreshRemoteStatus]);
+
+  useEffect(() => {
+    if (!showLoader && !remoteRunning) {
+      return undefined;
+    }
+    const interval = window.setInterval(() => {
+      void fetchScrapeStatus().then((status) => {
+        if (!status?.running) {
+          setRemoteRunning(false);
+          setShowLoader(false);
+        }
+      });
+    }, 2500);
+    return () => window.clearInterval(interval);
+  }, [showLoader, remoteRunning]);
+
   const handleOpenScrapeButtonModal = async () => {
+    const status = await fetchScrapeStatus();
+    if (status?.running) {
+      setRemoteRunning(true);
+      setShowLoader(true);
+      toast.info({
+        title: 'Scrape already running',
+        description: status.source
+          ? `A ${status.source} scrape is in progress.`
+          : 'Another scrape is in progress.',
+      });
+      return;
+    }
+
     const result = await scrape(setShowLoader);
     if (result.ok) {
       toast.success({
@@ -49,6 +116,8 @@ const ScrapeButton = ({ onSuccess }: ScrapeButtonProps) => {
     }
 
     if (result.busy) {
+      setRemoteRunning(true);
+      setShowLoader(true);
       toast.info({
         title: 'Scrape already running',
         description: result.source
@@ -64,14 +133,16 @@ const ScrapeButton = ({ onSuccess }: ScrapeButtonProps) => {
     });
   };
 
+  const busy = showLoader || remoteRunning;
+
   return (
     <RailActionButton
       eyebrow="Sync"
-      title={showLoader ? 'Scraping' : 'Scrape'}
-      description={showLoader ? 'Refreshing catalog data...' : 'Refresh scraped sources'}
+      title={busy ? 'Scraping' : 'Scrape'}
+      description={busy ? 'Refreshing catalog data...' : 'Refresh scraped sources'}
       tone="neutral"
       onClick={handleOpenScrapeButtonModal}
-      disabled={showLoader}
+      disabled={busy}
       aria-label="Scrape sources"
     />
   );

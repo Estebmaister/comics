@@ -1,4 +1,4 @@
-# src/__main__.py
+# src/__main__.py — legacy Flask entry (Docker image). Use Go API for local dev.
 
 import os
 import sys
@@ -21,12 +21,10 @@ def _has_cli_flag(flag: str, argv: Sequence[str] | None = None) -> bool:
 
 
 def run_server(*, use_reloader: bool | None = None) -> None:
-    # Production
     if PRODUCTION:
         http_server = WSGIServer(('0.0.0.0', PORT), SERVER)
         http_server.serve_forever()
         return
-    # Development
     if use_reloader is None:
         use_reloader = DEBUG
     SERVER.run(host='0.0.0.0', port=PORT, debug=DEBUG,
@@ -38,17 +36,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     if _has_cli_flag('server', argv):
         run_server()
         return
-    if _has_cli_flag('scrape', argv):
-        log.error(
-            'Python scrape CLI removed; use Go: make go-scrape '
-            '(or enable SCRAPE_INTERVAL on make go-run)'
-        )
-        sys.exit(2)
-        return
-    log.error(
-        'Unknown entrypoint. Use: python3 src server  '
-        '(scraping: make go-scrape / Go GET /scrape)'
-    )
+    log.error('Use make go-run for the primary API. Legacy Flask: python3 src server')
     sys.exit(2)
 
 
