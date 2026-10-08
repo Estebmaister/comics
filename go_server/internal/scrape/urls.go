@@ -32,7 +32,6 @@ func publisherURLPairs() ([][2]string, error) {
 	active := []string{
 		"ManhuaPlus",
 		"Asura",
-		"FlameScans",
 		"RealmScans",
 		"DemonicScans",
 		"Manganato",

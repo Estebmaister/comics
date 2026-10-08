@@ -3,7 +3,6 @@ package scrape
 import (
 	"context"
 	"encoding/json"
-	"log/slog"
 	"regexp"
 	"strconv"
 	"strings"
@@ -49,13 +48,7 @@ func scrapeAsuraPage(
 				continue
 			}
 			seen[key] = struct{}{}
-			if err := register(comic, publisherID); err != nil {
-				slog.Warn("scrape register failed",
-					"publisher", "Asura",
-					"title", comic.Title,
-					"error", err,
-				)
-			}
+			_ = register(comic, publisherID)
 		}
 	})
 	return nil
@@ -349,6 +342,15 @@ func scrapeRealmPage(
 	return nil
 }
 
+func pickDemonicTitle(titleLink *goquery.Selection) string {
+	visible := strings.TrimSpace(strings.ReplaceAll(titleLink.Text(), "...", ""))
+	attr := strings.TrimSpace(strings.ReplaceAll(titleLink.AttrOr("title", ""), "...", ""))
+	if len(attr) >= len(visible) {
+		return attr
+	}
+	return visible
+}
+
 func scrapeDemonicPage(
 	ctx context.Context,
 	url string,
@@ -367,11 +369,7 @@ func scrapeDemonicPage(
 			comicInt = comicDiv.Find("div.flex-row").Children().Eq(1)
 		}
 		titleLink := comicInt.Find("h2 a").First()
-		title := strings.TrimSpace(titleLink.Text())
-		if title == "" {
-			title = strings.TrimSpace(titleLink.AttrOr("title", ""))
-		}
-		title = strings.ReplaceAll(title, "...", "")
+		title := pickDemonicTitle(titleLink)
 		comType := "manhwa"
 		if _, hasStyle := comicDiv.Attr("style"); hasStyle {
 			title += " - novel"

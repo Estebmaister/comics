@@ -21,7 +21,7 @@ import (
 const (
 	dialectSQLite       = "sqlite"
 	dialectPostgres     = "postgres"
-	sqliteBusyTimeoutMS = 5000
+	sqliteBusyTimeoutMS = 30000
 	postgresComicSchema = `
 CREATE SEQUENCE IF NOT EXISTS comic_id_seq;
 
@@ -123,7 +123,12 @@ func sqliteDSN(path string) string {
 	if strings.Contains(path, "?") {
 		separator = "&"
 	}
-	return fmt.Sprintf("%s%s_pragma=busy_timeout%%3d%d", path, separator, sqliteBusyTimeoutMS)
+	return fmt.Sprintf(
+		"%s%s_pragma=journal_mode%%3dWAL&_pragma=busy_timeout%%3d%d",
+		path,
+		separator,
+		sqliteBusyTimeoutMS,
+	)
 }
 
 func ensureSQLitePerformanceIndexes(db *sql.DB) error {

@@ -4,7 +4,7 @@
 .PHONY: help setup setup-venv setup-venv-clean setup-shell setup-py setup-go setup-front \
 				deps-py-upgrade front-dev front-dev-https front-build front-test front-deploy \
 				py-server py-scrape py-daemon py-daemon-stop \
-				go-run go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres mongo-up mongo-init \
+				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres mongo-up mongo-init \
 				db-backup db-restore db-check db-repair-identity db-audit-covers \
 				py-test check check-go check-front check-py \
 				proto-py proto-go proto-js \
@@ -204,6 +204,10 @@ py-daemon-stop:
 go-run:
 	$(MAKE) -C go_server go-run
 
+## @go:go-scrape               Run one native Go scrape pass (no HTTP server)
+go-scrape:
+	$(MAKE) -C go_server go-scrape
+
 ## @go:go-test                 Run all Go tests
 go-test:
 	$(MAKE) -C go_server go-test
@@ -270,7 +274,7 @@ db-check:
 ##? db-repair-identity  Apply merges: make db-repair-identity APPLY=1
 db-repair-identity:
 	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
-	python3 src/db/repair_identity_duplicates.py $(REPAIR_FLAGS) $(ARGS)
+	python3 -P src/db/repair_identity_duplicates.py $(REPAIR_FLAGS) $(ARGS)
 
 ## @database:db-audit-covers    Probe cover URLs and optionally mark failures invisible
 ##? db-audit-covers  Apply updates: make db-audit-covers ARGS="--apply"

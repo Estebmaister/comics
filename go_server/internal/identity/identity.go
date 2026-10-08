@@ -115,6 +115,17 @@ func TitleMatchKey(title string) string {
 	return nonMatchCharRe.ReplaceAllString(normalized, "")
 }
 
+// TitlesArePrefixMatch reports whether one normalized title key is a prefix of the
+// other (truncated publisher listings vs full title). Mirrors Python identity.py.
+func TitlesArePrefixMatch(incomingTitle string, storedTitle string) bool {
+	incomingKey := TitleMatchKey(incomingTitle)
+	storedKey := TitleMatchKey(storedTitle)
+	if incomingKey == "" || storedKey == "" {
+		return false
+	}
+	return strings.HasPrefix(storedKey, incomingKey) || strings.HasPrefix(incomingKey, storedKey)
+}
+
 func BuildIdentityKey(primaryTitle string, comType int) string {
 	normalizedTitle := NormalizePrimaryTitle(primaryTitle)
 	if normalizedTitle == "" {

@@ -51,6 +51,13 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 			return err
 		}
 		if errors.Is(err, domain.ErrComicNotFound) {
+			prefixMatch, ok, lookupErr := findComicByTitlePrefix(ctx, txRepo, normalized)
+			if lookupErr != nil {
+				return lookupErr
+			}
+			if ok {
+				return updateExistingComic(ctx, txRepo, prefixMatch, normalized, publisherID)
+			}
 			_, err = txRepo.Create(ctx, domain.Comic{
 				Titles:      normalized.Titles,
 				CurrentChap: normalized.CurrentChap,
@@ -75,6 +82,12 @@ func updateExistingComic(
 	publisherID int,
 ) error {
 	updated := existing
+	comType := existing.ComType
+	if normalized.ComType != ComTypeUnknown {
+		comType = normalized.ComType
+	}
+	updated.Titles = mergeTitleVariants(existing.Titles, normalized.Titles, comType)
+	updated.ComType = comType
 	updated.PublishedIn = mergeUniqueInts(existing.PublishedIn, []int{publisherID})
 	if normalized.CurrentChap > existing.CurrentChap {
 		updated.CurrentChap = normalized.CurrentChap

@@ -84,7 +84,7 @@ func normalizeScrapedComic(raw ScrapedComic, publisherID int) (normalizedComic, 
 	if !ok {
 		return normalizedComic{}, false
 	}
-	title := identity.NormalizeText(raw.Title)
+	title := identity.NormalizeText(strings.ReplaceAll(raw.Title, "...", ""))
 	if title == "" {
 		return normalizedComic{}, false
 	}

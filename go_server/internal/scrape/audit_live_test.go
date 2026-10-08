@@ -12,7 +12,7 @@ func TestAuditLivePublishers(t *testing.T) {
 		t.Skip("set AUDIT_SCRAPE=1 to probe live publisher pages")
 	}
 	ctx := context.Background()
-	fetcher := NewHTTPFetcher()
+	fetcher := NewPageFetcher()
 	pairs, err := publisherURLPairs()
 	if err != nil {
 		t.Fatal(err)

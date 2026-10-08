@@ -3,35 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import react from '@vitejs/plugin-react';
-import type { Connect } from 'vite';
-import { defineConfig, type Plugin } from 'vite';
+import { defineConfig } from 'vite';
+
+import { comicsBaseRedirectPlugin } from './dev/proxy/comicsBaseRedirect';
+import { goApiDevProxy } from './dev/proxy/viteProxy';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
-const goApiTarget = process.env.VITE_GO_API_TARGET ?? 'https://localhost:8081';
-
-function comicsBaseRedirectPlugin(): Plugin {
-  const redirect: Connect.NextHandleFunction = (req, res, next) => {
-    const url = req.url ?? '';
-    if (url === '/comics' || url.startsWith('/comics?')) {
-      const query = url.slice('/comics'.length);
-      res.statusCode = 301;
-      res.setHeader('Location', `/comics/${query}`);
-      res.end();
-      return;
-    }
-    next();
-  };
-
-  return {
-    name: 'comics-base-redirect',
-    configureServer(server) {
-      server.middlewares.use(redirect);
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use(redirect);
-    },
-  };
-}
 
 function getHttpsConfig() {
   if (process.env.HTTPS !== 'true') return undefined;
@@ -62,24 +39,10 @@ export default defineConfig({
   },
   server: {
     https: getHttpsConfig(),
-    proxy: {
-      '/api': {
-        target: goApiTarget,
-        changeOrigin: true,
-        secure: false,
-        rewrite: (requestPath) => requestPath.replace(/^\/api/, ''),
-      },
-    },
+    proxy: goApiDevProxy(),
   },
   preview: {
-    proxy: {
-      '/api': {
-        target: goApiTarget,
-        changeOrigin: true,
-        secure: false,
-        rewrite: (requestPath) => requestPath.replace(/^\/api/, ''),
-      },
-    },
+    proxy: goApiDevProxy(),
   },
   test: {
     environment: 'jsdom',
@@ -87,4 +50,3 @@ export default defineConfig({
     setupFiles: './src/setupTests.ts',
   },
 });
-

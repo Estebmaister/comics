@@ -57,6 +57,9 @@ type Env struct {
 	HTTPTLSCertFile    string        `mapstructure:"HTTP_TLS_CERT_FILE"`
 	HTTPTLSKeyFile     string        `mapstructure:"HTTP_TLS_KEY_FILE"`
 	InitCtxTimeout     time.Duration `mapstructure:"INIT_TIMEOUT"`
+	// SCRAPE_INTERVAL enables a background scrape loop in cmd/server (0 = off).
+	// Python parity: standalone scrape uses 10m; py-daemon server+scrape uses 100m.
+	ScrapeInterval time.Duration `mapstructure:"SCRAPE_INTERVAL"`
 }
 
 // JWTConfig holds the configuration for the JW Token
@@ -132,6 +135,7 @@ func setDefaults() {
 	viper.SetDefault("GRPC_PORT", defaultGRPCPort)
 	viper.SetDefault("HOST_URL", defaultHTTPAddr+":"+defaultHTTPPort)
 	viper.SetDefault("INIT_TIMEOUT", defaultCtxTimeout)
+	viper.SetDefault("SCRAPE_INTERVAL", time.Duration(0))
 	viper.SetDefault("COMICS_DB_DRIVER", "sqlite")
 	viper.SetDefault("COMICS_SQLITE_PATH", filepath.Join("..", "src", "db", "comics.db"))
 	viper.SetDefault("CORS_ALLOWED_ORIGINS",
@@ -168,6 +172,7 @@ func bindEnvKeys() {
 		"GRPC_PORT",
 		"HOST_URL",
 		"INIT_TIMEOUT",
+		"SCRAPE_INTERVAL",
 		"GOOGLE_CLIENT_ID",
 		"GOOGLE_CLIENT_SECRET",
 		"COMICS_DB_DRIVER",

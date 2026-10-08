@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help setup-go setup-tools go-run go-run-plain go-test go-vet go-build \
+.PHONY: help setup-go setup-tools go-run go-run-plain go-scrape go-test go-vet go-build \
 				go-migrate-up go-migrate-down go-import-postgres contract-test check-go \
 				mongo-up mongo-down mongo-init sqlc swag lint vuln doctor status clean
 
@@ -89,6 +89,10 @@ go-run:
 ## @server:go-run-plain        Start API with air hot reload (no debugger)
 go-run-plain:
 	$(TOOL_GO) air -c .air.plain.toml server
+
+## @server:go-scrape           Run one native scrape pass (no HTTP server)
+go-scrape:
+	go run ./cmd/scrape
 
 # ---------------------------------------------------------------------------
 # Database

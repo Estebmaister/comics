@@ -1,0 +1,43 @@
+name: Deploy on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy_production:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set git config
+        run: git config core.sharedRepository true
+
+      - name: Deploy on production
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/dev/
+            if [ -d 'comics' ]; then
+                cd comics
+                git pull --ff-only origin main
+                docker compose build --no-cache
+                docker system prune -f
+                docker compose up -d
+            else
+                git clone git@github.com:estebmaister/comics.git comics
+                cd comics
+                docker compose up -d
+            fi

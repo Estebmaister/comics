@@ -32,6 +32,14 @@ func TestNormalizeTitleVariantsUsesSentenceCase(t *testing.T) {
 	}
 }
 
+func TestTitlesArePrefixMatchTruncatedScrape(t *testing.T) {
+	short := "The strongest assassin gets transferr"
+	long := "The strongest assassin gets transferred to another world with his whole class"
+	if !identity.TitlesArePrefixMatch(short, long) {
+		t.Fatal("expected truncated title to prefix-match full title")
+	}
+}
+
 func TestBuildIdentityKeyFromTitles(t *testing.T) {
 	key := identity.BuildIdentityKeyFromTitles(
 		[]string{"The duke's daughter tames the beast"},

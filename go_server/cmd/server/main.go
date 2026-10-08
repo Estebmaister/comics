@@ -9,6 +9,7 @@ import (
 	"comics/api/route"
 	"comics/bootstrap"
 	_ "comics/docs"
+	"comics/internal/scrape"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -51,6 +52,15 @@ func main() {
 	g.Use(gin.Recovery())
 	// Route binding
 	route.Setup(app.Env, app.UserRepo, app.ComicService, g)
+
+	if app.Env.ScrapeInterval > 0 {
+		scheduler := scrape.NewPeriodicScheduler(
+			scrape.PeriodicConfig{Interval: app.Env.ScrapeInterval},
+			app.ComicService.Scrape,
+		)
+		scheduler.Start(ctx)
+		log.Info().Dur("interval", app.Env.ScrapeInterval).Msg("Background scrape scheduler enabled")
+	}
 
 	// Running the server
 	srvErr := make(chan error, 1)

@@ -91,7 +91,7 @@ SCRAPE_FUNCTIONS: Dict[str, Callable] = {
     # Publishers.ReaperScans.name: 		scrape_reaper,  # TODO: outdated
     Publishers.ManhuaPlus.name: 		scrape_manhuaplus,
     Publishers.Asura.name: 				scrape_asura,
-    Publishers.FlameScans.name: 		scrape_flame,
+    Publishers.FlameScans.name: 		site_closed,  # flamecomics.xyz redirects to Discord
     Publishers.RealmScans.name: 		scrape_realm,
     Publishers.DemonicScans.name: 	    scrape_demonic,
     Publishers.Manganato.name: 			scrape_manganato,

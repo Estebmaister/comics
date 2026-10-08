@@ -335,7 +335,11 @@ class ComicDB(Base):
         self.published_in = "|".join([str(int(p)) for p in pubs])
 
     def get_genres(self) -> List[Genres]:
-        return [Genres(int(g)) for g in str(self.genres).split("|")]
+        return [
+            Genres(int(g))
+            for g in str(self.genres).split("|")
+            if str(g).strip() != ""
+        ]
 
     def set_genres(self, genres: List[Genres]) -> None:
         self.genres = "|".join([str(int(g)) for g in genres])

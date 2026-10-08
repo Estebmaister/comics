@@ -5,7 +5,7 @@ Swagger, metrics, and SQLite/Postgres-backed comics REST routes.
 
 ## Requirements
 
-- Go 1.24.1
+- Go 1.26+
 - MongoDB for auth/profile data
 - Writable comics DB: SQLite at `COMICS_SQLITE_PATH` or Postgres at
   `COMICS_POSTGRES_URL`
@@ -15,8 +15,29 @@ Swagger, metrics, and SQLite/Postgres-backed comics REST routes.
 ```sh
 cd go_server
 cp local.env .env
-go run ./cmd/server
+# Edit .env: set DB_PASS for Atlas user esteb
+make doctor
+make go-run
 ```
+
+**MongoDB Atlas** (matches `mongosh "mongodb+srv://sandbox.ux3yw.mongodb.net/" --username esteb`):
+
+```env
+DB_ADDR=mongodb+srv://sandbox.ux3yw.mongodb.net/
+DB_USER=esteb
+DB_PASS=your_mongodb_password
+DB_NAME=comics
+```
+
+**Local Docker** (offline dev): `make mongo-up`, `make mongo-init`, then use
+`DB_ADDR=mongodb://localhost:27017` and `DB_PASS=localdev` in `.env`.
+
+Run `make` or `make help` for the full grouped target list. Per-target detail:
+`make help TARGET=go-run`.
+
+`make go-run` starts air with Delve on `127.0.0.1:2345` for IDE attach. Use
+`make go-run-plain` when you do not need a debugger. After upgrading Go, run
+`make setup-tools` once to refresh Delve and other dev tools.
 
 Default local endpoints:
 
@@ -30,8 +51,20 @@ Local development uses `../tls/comics.crt` and `../tls/comics.key` when those
 files exist. Production deploys should leave `HTTP_TLS_CERT_FILE` and
 `HTTP_TLS_KEY_FILE` blank and rely on platform TLS termination.
 
-`/scrape` proxies to `PY_BACKEND_URL` when configured. When it is blank, the
-route returns `501` so the Python scraper dependency is explicit.
+`/scrape` runs the native Go scraper pipeline against SQLite or Postgres. Python
+is no longer required for scrape operations.
+
+- One-shot: `make go-scrape` (from repo root) or `make go-scrape` in `go_server/`.
+- Periodic (like `py-daemon`): set `SCRAPE_INTERVAL` in `go_server/.env` when
+  running `make go-run` (e.g. `100m` for combined server+scrape parity, `10m`
+  for standalone `py-scrape` parity). Overlapping runs are skipped.
+
+Scrape HTTP uses a Go Chrome TLS client (`tls-client`, same idea as Python
+`cloudscraper`). Nelomanga listing is on hold (Cloudflare); see
+`docs/superpowers/specs/2026-10-07-scrape-cf-proxy-structure.md`.
+
+FlameScans is inactive (`flamecomics.xyz` currently redirects away from the
+catalog).
 
 ## Docker Run
 
@@ -60,7 +93,7 @@ Import the SQLite source of truth into Postgres:
 
 ```sh
 cd go_server
-go run ./cmd/import_comics_postgres
+make go-import-postgres
 ```
 
 The importer creates the Python-compatible Postgres schema, backs up any
@@ -87,12 +120,11 @@ The Go server allows local HTTP and HTTPS Vite origins by default through
 ## Important Env
 
 - `HTTP_ADDRESS`, `HTTP_PORT`, `HOST_URL`: HTTP bind and public host values.
-- `DB_ADDR`, `DB_NAME`, `DB_TABLE_USERS`: MongoDB user/auth store.
+- `DB_ADDR`, `DB_NAME`, `DB_TABLE_USERS`: MongoDB user/auth store (`DB_USER` / `DB_PASS` for authenticated local dev; see `local.env`).
 - `ACCESS_TOKEN_SECRET`, `REFRESH_TOKEN_SECRET`: JWT signing secrets.
 - `COMICS_DB_DRIVER`: `sqlite` or `postgres`.
 - `COMICS_SQLITE_PATH`: SQLite comics DB path.
 - `COMICS_POSTGRES_URL`: Postgres comics DB URL with `sslmode=require` when needed.
-- `PY_BACKEND_URL`: optional Python backend for scraper proxy.
 - `CORS_ALLOWED_ORIGINS`: comma-separated browser origins allowed to call Go.
 - `HTTP_TLS_CERT_FILE`, `HTTP_TLS_KEY_FILE`: local TLS cert/key paths; blank in production.
 - `VITE_API_SERVER`: frontend API base URL override for local Go development.
@@ -127,11 +159,31 @@ the merge, patch, pagination, and validation rules live in the comics use case.
 
 ## Checks
 
+From the repo root:
+
 ```sh
-go test ./...
-go vet ./...
-go build ./cmd/server
+make check-go
+make contract-test
 ```
+
+From `go_server/`:
+
+```sh
+make help
+make doctor
+make check-go
+```
+
+Common targets:
+
+- `make go-run` — air hot reload with Delve on `127.0.0.1:2345`
+- `make go-run-plain` — air hot reload without debugger
+- `make go-test` / `make go-vet` / `make go-build`
+- `make contract-test` — comics REST parity tests
+- `make swag` — regenerate Swagger after annotation changes
+
+If Delve reports a Go version mismatch after upgrading the toolchain, run
+`make setup-tools` to refresh dev tools from `tool.go.mod`.
 
 ## Generated Docs
 

@@ -4,6 +4,8 @@ go 1.26.5
 
 require (
 	github.com/PuerkitoBio/goquery v1.12.0
+	github.com/bogdanfinn/fhttp v0.6.9
+	github.com/bogdanfinn/tls-client v1.16.0
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/envoyproxy/protoc-gen-validate v1.3.3
 	github.com/gin-gonic/gin v1.12.0
@@ -44,9 +46,16 @@ require (
 )
 
 require (
+	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.4 // indirect
+	github.com/bdandy/go-errors v1.2.2 // indirect
+	github.com/bdandy/go-socks4 v1.2.3 // indirect
+	github.com/bogdanfinn/quic-go-utls v1.0.10-utls // indirect
+	github.com/bogdanfinn/utls v1.7.8-barnius // indirect
+	github.com/bogdanfinn/websocket v1.5.6-barnius // indirect
 	github.com/bytedance/gopkg v0.1.4 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
+	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/containerd/errdefs v1.0.0 // indirect
 	github.com/containerd/errdefs/pkg v0.3.0 // indirect
 	github.com/go-openapi/swag/conv v0.27.0 // indirect
@@ -61,6 +70,7 @@ require (
 	github.com/moby/sys/atomicwriter v0.1.0 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.60.0 // indirect
+	github.com/tam7t/hpkp v0.0.0-20160821193359-2b70b4024ed5 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/mod v0.38.0 // indirect
 )
