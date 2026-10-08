@@ -8,6 +8,7 @@ import (
 	"comics/domain"
 	"comics/internal/logger"
 	comicrepo "comics/internal/repo/comics"
+	"comics/internal/scrape"
 	"comics/internal/usecase"
 
 	"github.com/rs/zerolog/log"
@@ -37,6 +38,7 @@ type Application struct {
 	Env          *Env
 	UserRepo     ClosableUserStore
 	ComicService domain.ComicUseCase
+	ScrapeCoord  *scrape.Coordinator
 	Shutters     []func(context.Context) error
 }
 
@@ -64,7 +66,7 @@ func MustLoadApp(ctx context.Context) Application {
 		log.Fatal().Err(err).Msg("Failed to ping user repo")
 	}
 
-	comicService, err := newComicStore(env)
+	comicService, scrapeCoord, err := newComicStore(env)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to initialize comic store")
 	}
@@ -74,6 +76,7 @@ func MustLoadApp(ctx context.Context) Application {
 		Env:          env,
 		UserRepo:     userRepo,
 		ComicService: comicService,
+		ScrapeCoord:  scrapeCoord,
 		Shutters: []func(context.Context) error{
 			comicServiceCloser{comicService}.Close,
 			userRepo.Close,
@@ -82,7 +85,7 @@ func MustLoadApp(ctx context.Context) Application {
 	}
 }
 
-func newComicStore(env *Env) (domain.ComicUseCase, error) {
+func newComicStore(env *Env) (domain.ComicUseCase, *scrape.Coordinator, error) {
 	var repo domain.ComicRepository
 	var err error
 	switch strings.ToLower(strings.TrimSpace(env.ComicsDBDriver)) {
@@ -91,12 +94,13 @@ func newComicStore(env *Env) (domain.ComicUseCase, error) {
 	case "postgres", "postgresql":
 		repo, err = comicrepo.NewPostgresComicRepository(env.ComicsPostgresURL)
 	default:
-		return nil, fmt.Errorf("unknown comics DB driver %q", env.ComicsDBDriver)
+		return nil, nil, fmt.Errorf("unknown comics DB driver %q", env.ComicsDBDriver)
 	}
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return usecase.NewComicService(repo), nil
+	coord := scrape.NewCoordinator(repo)
+	return usecase.NewComicService(repo, coord), coord, nil
 }
 
 // Close closes the application resources

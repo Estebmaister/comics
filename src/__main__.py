@@ -1,16 +1,12 @@
 # src/__main__.py
 
-import asyncio
 import os
 import sys
-import threading
-import time
 from typing import Sequence
 
 from gevent.pywsgi import WSGIServer
 
 import helpers.logger
-from scrape import scrapes
 from server import server as SERVER
 
 log = helpers.logger.get_logger(__name__)
@@ -18,39 +14,10 @@ PORT: int = int(os.getenv('PORT', 5001))
 DEBUG: bool = os.getenv('DEBUG', 'false') == 'true'
 PRODUCTION: bool = os.getenv('PRODUCTION', 'false') == 'true'
 
-default_recurrence = 600  # 10 minutes
-
 
 def _has_cli_flag(flag: str, argv: Sequence[str] | None = None) -> bool:
     args = argv if argv is not None else sys.argv[1:]
     return flag in args
-
-
-def _is_combined_server_scrape_mode(argv: Sequence[str] | None = None) -> bool:
-    return _has_cli_flag('server', argv) and _has_cli_flag('scrape', argv)
-
-
-def run_async_scrape() -> None:
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        loop.run_until_complete(scrapping(10*default_recurrence))
-    finally:
-        # Close the loop
-        loop.close()
-
-
-def scrapping(recurrence: int = default_recurrence) -> None:
-    scrape_cont = 1
-    log.info('Scraping started...')
-    while True:
-        time_started = time.time()
-        scrapes()
-
-        time_req = round((time.time() - time_started), 2)
-        print(f'{scrape_cont} ({time_req})', end='\n', flush=True)
-        scrape_cont += 1
-        time.sleep(recurrence)
 
 
 def run_server(*, use_reloader: bool | None = None) -> None:
@@ -68,20 +35,21 @@ def run_server(*, use_reloader: bool | None = None) -> None:
 
 
 def main(argv: Sequence[str] | None = None) -> None:
-    if _is_combined_server_scrape_mode(argv):
-        thread = threading.Thread(
-            target=run_async_scrape,
-            daemon=True,
-            name='scrape-loop',
-        )
-        thread.start()
-        # Flask's debug reloader forks a second process, which would start a
-        # second scraper loop. Combined mode must stay single-process.
-        run_server(use_reloader=False)
-    elif _has_cli_flag('server', argv):
+    if _has_cli_flag('server', argv):
         run_server()
-    else:
-        scrapping()
+        return
+    if _has_cli_flag('scrape', argv):
+        log.error(
+            'Python scrape CLI removed; use Go: make go-scrape '
+            '(or enable SCRAPE_INTERVAL on make go-run)'
+        )
+        sys.exit(2)
+        return
+    log.error(
+        'Unknown entrypoint. Use: python3 src server  '
+        '(scraping: make go-scrape / Go GET /scrape)'
+    )
+    sys.exit(2)
 
 
 if __name__ == '__main__':

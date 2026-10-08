@@ -1,7 +1,5 @@
 # server/__init__.py
 
-import asyncio
-
 from flask import Flask, make_response, request
 from flask_cors import CORS
 from flask_restx import Api, Resource
@@ -17,8 +15,6 @@ from db.repo import (all_comics, canonical_comic_by_titles, comic_by_id,
 from helpers.logger import logger
 from helpers.server import put_body_parser
 from helpers.text import normalize_text
-from scrape import async_scrape_wrapper
-
 log = logger(__name__)
 server = Flask(__name__)
 server.config["RESTX_MASK_SWAGGER"] = False
@@ -74,16 +70,12 @@ class HealthDB(Resource):
 
 @scrape_ns.route('')
 class Scrape(Resource):
-    '''Runs the scrapper worker'''
+    '''Deprecated — scraping runs in the Go API'''
 
     def get(self):
-        # Use asyncio's default event loop
-        try:
-            asyncio.run(async_scrape_wrapper())
-            return {'message': 'success'}
-        except Exception as e:
-            log.error(f'Scraping error: {e}')
-            return {'message': f'error: str(e)'}, 500
+        return {
+            'message': 'Python scrape removed; use Go GET /scrape or make go-scrape',
+        }, 410
 
 
 # RESTful API routes

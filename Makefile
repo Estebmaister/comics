@@ -160,20 +160,21 @@ front-deploy:
 py-server:
 	$(ACT_VENV) && python3 src/__main__.py server
 
-## @python:py-scrape            Run one scraper pass (no HTTP server)
+## @python:py-scrape            Deprecated alias for native Go scrape
 py-scrape:
-	$(ACT_VENV) && python3 src/__main__.py
+	@echo "$(DIM)py-scrape -> go-scrape (Python scrapers removed)$(RESET)"
+	$(MAKE) go-scrape
 
-## @python:py-daemon            Run server + scraper loop in background (./server.pid)
+## @python:py-daemon            Run legacy Flask server in background (./server.pid)
 ##? py-daemon  Logs: ./output.log  Stop with: make py-daemon-stop
-##? py-daemon  Env: same as py-server; disables Flask debug reloader
+##? py-daemon  For API+periodic scrape use: make go-run (SCRAPE_INTERVAL default 10m)
 py-daemon:
 	@if [ -f ./server.pid ]; then \
 		echo "Daemon already running. Use 'make py-daemon-stop' to stop it."; \
 		exit 1; \
 	fi
-	@echo "Starting detached py-server + py-scrape; logs -> ./output.log"
-	$(ACT_VENV) && (python3 src/__main__.py server scrape > ./output.log 2>&1 & echo $$! > ./server.pid)
+	@echo "Starting detached py-server; logs -> ./output.log (scraping: make go-run)"
+	$(ACT_VENV) && (python3 src/__main__.py server > ./output.log 2>&1 & echo $$! > ./server.pid)
 	@echo "PID $$(cat ./server.pid) saved to ./server.pid"
 
 ## @python:py-daemon-stop       Stop background server+scraper using ./server.pid

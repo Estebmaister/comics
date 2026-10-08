@@ -17,11 +17,19 @@ const (
 )
 
 type ComicService struct {
-	repo domain.ComicRepository
+	repo        domain.ComicRepository
+	scrapeCoord *scrape.Coordinator
 }
 
-func NewComicService(repo domain.ComicRepository) *ComicService {
-	return &ComicService{repo: repo}
+func NewComicService(repo domain.ComicRepository, scrapeCoord *scrape.Coordinator) *ComicService {
+	if scrapeCoord == nil {
+		scrapeCoord = scrape.NewCoordinator(repo)
+	}
+	return &ComicService{repo: repo, scrapeCoord: scrapeCoord}
+}
+
+func (s *ComicService) ScrapeCoordinator() *scrape.Coordinator {
+	return s.scrapeCoord
 }
 
 func (s *ComicService) Ping(ctx context.Context) error {
@@ -92,7 +100,7 @@ func (s *ComicService) Delete(ctx context.Context, id int) error {
 }
 
 func (s *ComicService) Scrape(ctx context.Context) error {
-	return scrape.RunAll(ctx, s.repo, nil)
+	return s.scrapeCoord.Run(ctx, scrape.SourceManual)
 }
 
 func (s *ComicService) UpdateCoverVisibility(

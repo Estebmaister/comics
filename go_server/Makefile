@@ -143,9 +143,13 @@ swag:
 # Quality
 # ---------------------------------------------------------------------------
 
-## @quality:go-test           Run all Go tests
+## @quality:go-test           Run all Go tests (unit; mongo uses -tags=integration)
 go-test:
 	go test ./...
+
+## @quality:go-test-integration  Run Mongo testcontainers tests (requires Docker)
+go-test-integration:
+	go test -tags=integration ./internal/repo/mongo/...
 
 ## @quality:contract-test      Run HTTP contract tests for comics REST parity
 contract-test:

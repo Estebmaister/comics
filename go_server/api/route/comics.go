@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"comics/domain"
+	"comics/internal/scrape"
 
 	"github.com/gin-gonic/gin"
 )
@@ -340,6 +341,16 @@ func runScrape(comics domain.ComicUseCase) gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(c.Request.Context(), 30*time.Minute)
 		defer cancel()
 		if err := comics.Scrape(ctx); err != nil {
+			if scrape.IsScrapeInProgress(err) {
+				var busy *scrape.ErrScrapeInProgress
+				if errors.As(err, &busy) {
+					c.JSON(http.StatusConflict, gin.H{
+						"message": "scrape already in progress",
+						"source":  busy.Running,
+					})
+					return
+				}
+			}
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 			return
 		}

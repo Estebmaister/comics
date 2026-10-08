@@ -104,6 +104,7 @@ proto/                  # gRPC (partial; defer consolidation)
 2. **Publisher module split** (optional): `scrape/publishers/asura.go` etc. instead of single `publishers.go` as file grows.
 3. **Fetch layer:** `fetch.go` (stdlib tests), `chrome_fetch.go` (production TLS client).
 4. Delete Python scrape path only when Go audit (`AUDIT_SCRAPE=1`) matches per-publisher counts and `/scrape` is sole production path.
+5. Scrape single-flight and periodic cooldown: `docs/superpowers/specs/2026-10-08-scrape-coordination.md`.
 
 **Suggested phases**
 

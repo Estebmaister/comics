@@ -17,9 +17,13 @@ export const scrape = async (
     });
 
     const data = await response.json().catch(() => null);
-    return response.ok && data?.message !== 'Internal Server Error';
+    if (response.status === 409) {
+      return { ok: false as const, busy: true, source: data?.source as string | undefined };
+    }
+    const ok = response.ok && data?.message !== 'Internal Server Error';
+    return { ok, busy: false as const };
   } catch (err) {
-    return false;
+    return { ok: false, busy: false as const };
   } finally {
     setShowLoader(false);
   }
@@ -34,12 +38,23 @@ const ScrapeButton = ({ onSuccess }: ScrapeButtonProps) => {
   const toast = useToast();
 
   const handleOpenScrapeButtonModal = async () => {
-    if (await scrape(setShowLoader)) {
+    const result = await scrape(setShowLoader);
+    if (result.ok) {
       toast.success({
         title: 'Catalog refreshed',
         description: 'Scraping finished and the comics list was refreshed.',
       });
       onSuccess?.();
+      return;
+    }
+
+    if (result.busy) {
+      toast.info({
+        title: 'Scrape already running',
+        description: result.source
+          ? `A ${result.source} scrape is in progress. Try again later.`
+          : 'Another scrape is in progress. Try again later.',
+      });
       return;
     }
 

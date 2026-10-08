@@ -1,6 +1,10 @@
 package bootstrap
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"testing"
+)
 
 func TestSanitizeRedactsPostgresURL(t *testing.T) {
 	type config struct {
@@ -26,6 +30,32 @@ func TestSanitizeRedactsPostgresURL(t *testing.T) {
 }
 
 func TestApplyLocalTLSDefaultsUsesSharedCertificateInDevelopment(t *testing.T) {
+	root := t.TempDir()
+	tlsDir := filepath.Join(root, "tls")
+	if err := os.MkdirAll(tlsDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(tlsDir, "comics.crt"), []byte("test-cert"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(tlsDir, "comics.key"), []byte("test-key"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	goServerDir := filepath.Join(root, "go_server")
+	if err := os.Mkdir(goServerDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chdir(goServerDir); err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		_ = os.Chdir(wd)
+	}()
+
 	env := &Env{AppEnv: Development}
 	env.applyLocalTLSDefaults()
 

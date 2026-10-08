@@ -10,7 +10,7 @@ import (
 func TestPeriodicSchedulerRunsWithoutOverlap(t *testing.T) {
 	var runs atomic.Int32
 	block := make(chan struct{})
-	scheduler := NewPeriodicScheduler(PeriodicConfig{Interval: 20 * time.Millisecond}, func(ctx context.Context) error {
+	coord := NewCoordinatorWithRunner(func(ctx context.Context) error {
 		runs.Add(1)
 		select {
 		case <-block:
@@ -18,6 +18,7 @@ func TestPeriodicSchedulerRunsWithoutOverlap(t *testing.T) {
 		}
 		return nil
 	})
+	scheduler := NewPeriodicScheduler(PeriodicConfig{Interval: 20 * time.Millisecond}, coord)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -28,7 +29,7 @@ func TestPeriodicSchedulerRunsWithoutOverlap(t *testing.T) {
 		t.Fatalf("expected first run to start, got %d", runs.Load())
 	}
 	close(block)
-	time.Sleep(35 * time.Millisecond)
+	time.Sleep(45 * time.Millisecond)
 	if runs.Load() < 2 {
 		t.Fatalf("expected at least two runs, got %d", runs.Load())
 	}

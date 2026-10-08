@@ -56,7 +56,7 @@ func main() {
 	if app.Env.ScrapeInterval > 0 {
 		scheduler := scrape.NewPeriodicScheduler(
 			scrape.PeriodicConfig{Interval: app.Env.ScrapeInterval},
-			app.ComicService.Scrape,
+			app.ScrapeCoord,
 		)
 		scheduler.Start(ctx)
 		log.Info().Dur("interval", app.Env.ScrapeInterval).Msg("Background scrape scheduler enabled")

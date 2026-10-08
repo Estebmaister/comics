@@ -4,7 +4,7 @@ import { BUTTON_TEXT, COMIC_SEARCH_PLACEHOLDER } from '../constants';
 import { handleOnlyTracked, handleOnlyUnchecked } from '../utils';
 import { PaginationData } from '../types';
 import PagButtons from './PagButtons';
-import { SortFilterModal } from './SortFilterModal';
+import { SortFilterModal, type SortFilterState } from './SortFilterModal';
 import { AuthNav } from '../../Auth/AuthNav';
 
 interface NavBarProps {
@@ -73,10 +73,10 @@ const NavBarComponent: React.FC<NavBarProps> = ({
   }, [onQueryFilterChange]);
 
   const [isSortFilterOpen, setIsSortFilterOpen] = useState(false);
-  const initialSortFilterState = useMemo(() => ({
+  const initialSortFilterState = useMemo((): SortFilterState => ({
     ratingMin,
     ratingMax,
-    sortBy: (sortBy === 'rating' || sortBy === 'id') ? sortBy : 'last_update',
+    sortBy: sortBy === 'rating' || sortBy === 'id' ? sortBy : 'last_update',
     sortDir: sortDir === 'asc' ? 'asc' : 'desc',
   }), [ratingMax, ratingMin, sortBy, sortDir]);
 

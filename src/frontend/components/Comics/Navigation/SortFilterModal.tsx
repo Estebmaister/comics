@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import type { SetURLSearchParams } from 'react-router-dom';
 import Modal from '../../Modal';
 
-type SortBy = 'last_update' | 'rating' | 'id';
-type SortDir = 'desc' | 'asc';
+export type SortBy = 'last_update' | 'rating' | 'id';
+export type SortDir = 'desc' | 'asc';
 
-type SortFilterState = {
+export type SortFilterState = {
   ratingMin?: number;
   ratingMax?: number;
   sortBy: SortBy;

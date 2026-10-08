@@ -57,7 +57,7 @@ func newTestComicService(t *testing.T) domain.ComicUseCase {
 	if err != nil {
 		t.Fatal(err)
 	}
-	comics := usecase.NewComicService(repo)
+	comics := usecase.NewComicService(repo, nil)
 	t.Cleanup(func() { _ = comics.Close() })
 	return comics
 }

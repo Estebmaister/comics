@@ -55,9 +55,10 @@ files exist. Production deploys should leave `HTTP_TLS_CERT_FILE` and
 is no longer required for scrape operations.
 
 - One-shot: `make go-scrape` (from repo root) or `make go-scrape` in `go_server/`.
-- Periodic (like `py-daemon`): set `SCRAPE_INTERVAL` in `go_server/.env` when
-  running `make go-run` (e.g. `100m` for combined server+scrape parity, `10m`
-  for standalone `py-scrape` parity). Overlapping runs are skipped.
+- Periodic: `SCRAPE_INTERVAL` defaults to **10m** in `go_server/.env` (`0` disables).
+  Manual `GET /scrape`, CLI, and automatic runs share a single coordinator (no overlap;
+  manual resets the automatic cooldown). See
+  `docs/superpowers/specs/2026-10-08-scrape-coordination.md`.
 
 Scrape HTTP uses a Go Chrome TLS client (`tls-client`, same idea as Python
 `cloudscraper`). Nelomanga listing is on hold (Cloudflare); see

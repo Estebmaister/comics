@@ -108,7 +108,7 @@ func (r *memoryComicRepo) WithTx(ctx context.Context, fn func(domain.ComicReposi
 
 func TestComicServiceUpdateRespectsExplicitZeroAndEmptyValues(t *testing.T) {
 	ctx := context.Background()
-	svc := NewComicService(newMemoryComicRepo())
+	svc := NewComicService(newMemoryComicRepo(), nil)
 	created, err := svc.Create(ctx, domain.Comic{
 		Titles:      []string{"Original"},
 		CurrentChap: 10,
@@ -156,7 +156,7 @@ func TestComicServiceUpdateRespectsExplicitZeroAndEmptyValues(t *testing.T) {
 
 func TestComicServiceCoverVisibilityPrecedence(t *testing.T) {
 	ctx := context.Background()
-	svc := NewComicService(newMemoryComicRepo())
+	svc := NewComicService(newMemoryComicRepo(), nil)
 	created, err := svc.Create(ctx, domain.Comic{
 		Titles:       []string{"Cover precedence"},
 		Cover:        "old.webp",
@@ -193,7 +193,7 @@ func TestComicServiceCoverVisibilityPrecedence(t *testing.T) {
 func TestComicServiceMergeRules(t *testing.T) {
 	ctx := context.Background()
 	repo := newMemoryComicRepo()
-	svc := NewComicService(repo)
+	svc := NewComicService(repo, nil)
 	base, err := svc.Create(ctx, domain.Comic{
 		Titles:       []string{"Base"},
 		CurrentChap:  10,
@@ -231,7 +231,7 @@ func TestComicServiceMergeRules(t *testing.T) {
 func TestComicServiceCreateRejectsDuplicate(t *testing.T) {
 	ctx := context.Background()
 	repo := newMemoryComicRepo()
-	svc := NewComicService(repo)
+	svc := NewComicService(repo, nil)
 	if _, err := svc.Create(ctx, domain.Comic{Titles: []string{"Solo leveling"}, ComType: 3}); err != nil {
 		t.Fatal(err)
 	}
@@ -244,7 +244,7 @@ func TestComicServiceCreateRejectsDuplicate(t *testing.T) {
 func TestComicServiceNormalizesPagination(t *testing.T) {
 	ctx := context.Background()
 	repo := newMemoryComicRepo()
-	svc := NewComicService(repo)
+	svc := NewComicService(repo, nil)
 	for i := 0; i < 105; i++ {
 		if _, err := svc.Create(ctx, domain.Comic{Titles: []string{fmt.Sprintf("title-%d", i)}}); err != nil {
 			t.Fatal(err)
