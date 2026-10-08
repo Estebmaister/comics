@@ -7,7 +7,7 @@
 				db-backup db-restore db-check db-repair-identity db-audit-covers \
 				py-test check check-go check-front check-py \
 				proto-py proto-go proto-js \
-				docker-build docker-run docker-dev clean doctor status
+				docker-build docker-run docker-dev docker-down clean doctor status
 
 # Enable running multiple commands in a recipe using a single shell
 .ONESHELL:
@@ -327,17 +327,22 @@ check:
 # Docker
 # ---------------------------------------------------------------------------
 
-## @docker:docker-build         Build comic-tracker Docker image
+## @docker:docker-build         Build Go API Docker image (tag: comics-go-api)
 docker-build:
-	docker build -t comic-tracker .
+	docker build -t comics-go-api -f Dockerfile .
 
-## @docker:docker-run           Run comic-tracker container on port 5001
+## @docker:docker-run           Start API + Mongo via docker compose (port 8081)
+##? docker-run  Requires go_server/.env with DB secrets for Atlas, or local Mongo only
 docker-run:
-	docker run -p 5001:5001 comic-tracker
+	docker compose up --build comics_server
 
-## @docker:docker-dev           Run container with src bind-mount and file polling
+## @docker:docker-dev           Foreground compose stack (API + Mongo, SQLite in src/db)
 docker-dev:
-	docker run -e CHOKIDAR_USEPOLLING=true -v ${PWD}/src/:/code/src/ -p 5001:5001 comic-tracker
+	docker compose up --build
+
+## @docker:docker-down          Stop compose stack
+docker-down:
+	docker compose down
 
 # ---------------------------------------------------------------------------
 # Utility

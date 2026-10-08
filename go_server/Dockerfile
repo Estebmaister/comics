@@ -1,5 +1,5 @@
-# Alpine-based Go image (Smallest)
-FROM golang:1.26-alpine3.21 AS builder
+# Local dev compose from go_server/ only. Production SSH deploy uses ../Dockerfile at repo root.
+FROM golang:1.24-alpine AS builder
 
 # Installing git + SSL ca certificates
 # Git is required for fetching the dependencies
@@ -7,6 +7,7 @@ FROM golang:1.26-alpine3.21 AS builder
 RUN apk update && apk add --no-cache git make ca-certificates tzdata && update-ca-certificates
 
 WORKDIR /app
+ENV GOTOOLCHAIN=auto
 
 # Copying go.mod & go.sum in previous layer for caching
 COPY go.mod go.sum ./

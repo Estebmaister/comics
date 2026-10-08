@@ -69,14 +69,21 @@ catalog).
 
 ## Docker Run
 
+**Production / SSH deploy** (repo root):
+
+```sh
+cp go_server/local.env go_server/.env   # configure secrets on the host
+docker compose up -d --build             # Dockerfile at repo root, port 8081
+```
+
+**Local compose from `go_server/`** (same stack, build context inside `go_server/`):
+
 ```sh
 cd go_server
 docker compose up --build
 ```
 
-The compose file starts MongoDB, waits for it to be healthy, mounts the root
-SQLite DB directory as writable at `/data`, and exposes the HTTP server on
-`http://localhost:8081`.
+Both mount `../src/db` as writable `/data` for SQLite and expose HTTP on port `8081`.
 
 ## Comics Database
 

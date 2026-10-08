@@ -100,9 +100,10 @@ make check-front            # front-test + front-build
 ### Docker
 
 ```bash
-make docker-build           # Build Docker image
-make docker-run             # Run Docker container
-make docker-dev             # Run with src bind-mount and polling
+make docker-build           # Build Go API image (comics-go-api)
+make docker-run             # Compose: API + Mongo (:8081)
+make docker-dev             # Foreground compose stack
+make docker-down            # Stop compose stack
 ```
 
 ## Database Structure
@@ -261,7 +262,7 @@ make docker-dev             # Run with file watching for development
 
 ### Backend Options
 
-- **Render**: `python ./src server` with `PRODUCTION=true`, `DB_ENGINE=sqlite`
+- **Render / Docker**: root `Dockerfile` + `docker compose` (Go API on `:8081`)
 - **Heroku**: Via `git push heroku`
 - **Docker/SSH production**: `docker compose up -d` on host after merge to main
 

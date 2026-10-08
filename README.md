@@ -110,17 +110,25 @@ git push heroku
 heroku logs --tail
 ```
 
-### Deployment on Render
+### Deployment on Render / Koyeb
 
-Triggered on pushes to `main`. Typical settings:
+Prefer the Go binary or root Docker image:
 
-- Start command: `python ./src server`
-- Env: `PRODUCTION=true`, `DB_ENGINE=sqlite`, `PORT` from Render
-- Ensure `src/db/comics.json` ships with the deploy (SQLite recovery source)
+- Build: `docker build -t comics-go-api -f Dockerfile .`
+- Listen: `HTTP_PORT=8081`, mount writable `src/db` → `/data/comics.db`
+- Env: MongoDB (`DB_ADDR`, `DB_USER`, `DB_PASS`), JWT secrets, `COMICS_SQLITE_PATH=/data/comics.db`
+- Optional: `SCRAPE_INTERVAL=10m` for background publisher sync
 
 ### Production Docker (SSH workflow)
 
-On merge to `main`, CI can SSH to the host, `git pull`, and `docker compose up -d`.
+On merge to `main`, CI can SSH to the host, `git pull`, and `docker compose up -d --build`.
+
+```sh
+cp go_server/local.env go_server/.env   # set DB_PASS, JWT secrets on the host
+make docker-dev                         # local smoke test (API :8081, Mongo :27017)
+```
+
+SQLite lives on the host at `src/db/comics.db` (mounted into the container at `/data`).
 See [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
 
 ## Interface deployment (React + Vite)

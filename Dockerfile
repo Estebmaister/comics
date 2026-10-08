@@ -1,37 +1,42 @@
-# set base image (host OS)
-FROM python:3.10.12 AS builder
+# Production image: Go comics API (replaces legacy Python Flask on :5001).
+# Build context: repository root (see docker-compose.yaml).
 
-# copy the dependencies file to the working directory
-COPY requirements.txt .
+FROM golang:1.24-alpine AS builder
 
-# install dependencies
-RUN pip install --user -r requirements.txt
+RUN apk add --no-cache git ca-certificates tzdata
 
-# second unnamed stage
-FROM python:3.10.12-slim
-# set the working directory in the container
-WORKDIR /code
+WORKDIR /app
+ENV GOTOOLCHAIN=auto
+COPY go_server/go.mod go_server/go.sum ./
+RUN go mod download
+COPY go_server/ .
 
-# copy only the dependencies installation from the 1st stage image
-COPY --from=builder /root/.local /root/.local
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server
 
-# installing packages and removing cache afterwards
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+FROM alpine:3.21
 
-# copy the content of the local src directory to the working directory
-COPY src .
+RUN apk add --no-cache curl ca-certificates tzdata \
+	&& addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# update PATH environment variable
-ENV PATH=/root/.local:$PATH
+WORKDIR /app
+COPY --from=builder /server .
+COPY go_server/templates ./templates
+COPY go_server/static ./static
+COPY go_server/docs ./docs
 
-EXPOSE 5001
+RUN chown -R appuser:appgroup /app
 
-HEALTHCHECK CMD curl --fail http://localhost:5001/health/
+USER appuser
 
-# command to run on container start
-ENTRYPOINT [ "python", ".", "server" ]
+ENV HTTP_ADDRESS=0.0.0.0
+ENV HTTP_PORT=8081
+ENV COMICS_DB_DRIVER=sqlite
+ENV COMICS_SQLITE_PATH=/data/comics.db
+ENV HEALTHCHECK_PATH=/health
+
+EXPOSE 8081
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+	CMD curl --fail "http://127.0.0.1:${HTTP_PORT}${HEALTHCHECK_PATH}" || exit 1
+
+CMD ["./server"]
