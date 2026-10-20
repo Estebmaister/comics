@@ -8,7 +8,8 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from db import ComicDB, Session, Statuses, Types, load_comics, save_comics_file
 from db.identity import (build_identity_key, build_identity_key_from_titles,
-                         merge_unique_values, normalize_title_variants,
+                         is_novel_identity, merge_unique_values,
+                         normalize_title_variants, title_match_key,
                          titles_are_prefix_match)
 from helpers.text import normalize_text
 from helpers.logger import logger
@@ -320,7 +321,20 @@ def comics_by_identity_key(
         ).order_by(ComicDB.id).all()
 
 
-def comics_by_title_prefix(
+def _incoming_is_novel(com_type: int) -> bool:
+    return int(com_type) == int(Types.Novel)
+
+
+def _comic_in_lookup_scope(comic: ComicDB, com_type: int) -> bool:
+    comic_is_novel = int(comic.com_type) == int(Types.Novel) or any(
+        is_novel_identity(stored_title, comic.com_type)
+        for stored_title in comic.get_titles()
+    )
+    incoming_is_novel = _incoming_is_novel(com_type)
+    return comic_is_novel == incoming_is_novel
+
+
+def _title_lookup_candidates(
     title: str,
     com_type: int,
     session: SessionType = None,
@@ -331,12 +345,16 @@ def comics_by_title_prefix(
 
     normalized_title = normalized_titles[0].lower()
     first_word = normalized_title.split(" ", 1)[0]
-
     query_filters = (
-        ComicDB.com_type == int(com_type),
         ComicDB.deleted == 0,
         ComicDB.titles.ilike(f"%{first_word}%"),
     )
+    if _incoming_is_novel(com_type):
+        query_filters = (
+            ComicDB.com_type == int(Types.Novel),
+            ComicDB.deleted == 0,
+            ComicDB.titles.ilike(f"%{first_word}%"),
+        )
 
     if session is not None:
         candidates = session.query(ComicDB).filter(*query_filters).order_by(ComicDB.id).all()
@@ -346,9 +364,43 @@ def comics_by_title_prefix(
                 *query_filters
             ).order_by(ComicDB.id).all()
 
+    return [comic for comic in candidates if _comic_in_lookup_scope(comic, com_type)]
+
+
+def comics_by_title_exact(
+    title: str,
+    com_type: int,
+    session: SessionType = None,
+) -> List[ComicDB]:
+    normalized_titles = normalize_title_variants([title], com_type)
+    if not normalized_titles:
+        return []
+
+    incoming_key = title_match_key(normalized_titles[0])
+    if not incoming_key:
+        return []
+
     return [
         comic
-        for comic in candidates
+        for comic in _title_lookup_candidates(title, com_type, session)
+        if any(title_match_key(stored_title) == incoming_key for stored_title in comic.get_titles())
+    ]
+
+
+def comics_by_title_prefix(
+    title: str,
+    com_type: int,
+    session: SessionType = None,
+) -> List[ComicDB]:
+    normalized_titles = normalize_title_variants([title], com_type)
+    if not normalized_titles:
+        return []
+
+    normalized_title = normalized_titles[0].lower()
+
+    return [
+        comic
+        for comic in _title_lookup_candidates(title, com_type, session)
         if any(
             titles_are_prefix_match(normalized_title, stored_title)
             for stored_title in comic.get_titles()

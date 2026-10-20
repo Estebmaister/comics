@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"comics/domain"
@@ -196,6 +197,46 @@ func TestScrapeStatusEndpoint(t *testing.T) {
 
 	if res.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d: %s", res.Code, res.Body.String())
+	}
+}
+
+func TestIntValueAcceptsString(t *testing.T) {
+	value, ok := intValue("7")
+	if !ok || value != 7 {
+		t.Fatalf("expected parsed string int, got ok=%v value=%d", ok, value)
+	}
+}
+
+func TestUpdateComicAcceptsStringViewedChap(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+	comicsRouter(newTestComicService(t), router.Group("/"))
+
+	createReq := httptest.NewRequest(
+		http.MethodPost,
+		"/comics",
+		bytes.NewBufferString(`{"titles":["Trapped"],"com_type":3,"current_chap":80,"cover":"cover.webp","track":true}`),
+	)
+	createReq.Header.Set("Content-Type", "application/json")
+	createRes := httptest.NewRecorder()
+	router.ServeHTTP(createRes, createReq)
+	if createRes.Code != http.StatusCreated {
+		t.Fatalf("create expected 201, got %d: %s", createRes.Code, createRes.Body.String())
+	}
+
+	patchReq := httptest.NewRequest(
+		http.MethodPut,
+		"/comics/1",
+		bytes.NewBufferString(`{"viewed_chap":"7"}`),
+	)
+	patchReq.Header.Set("Content-Type", "application/json")
+	patchRes := httptest.NewRecorder()
+	router.ServeHTTP(patchRes, patchReq)
+	if patchRes.Code != http.StatusOK {
+		t.Fatalf("update expected 200, got %d: %s", patchRes.Code, patchRes.Body.String())
+	}
+	if !strings.Contains(patchRes.Body.String(), `"viewed_chap":7`) {
+		t.Fatalf("expected viewed_chap in response, got %s", patchRes.Body.String())
 	}
 }
 

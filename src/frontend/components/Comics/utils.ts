@@ -21,9 +21,9 @@ export const calculateInlineComics = (width = window.innerWidth): number => {
 
 /**
  * Calculate page size using both width and height.
- * - 3 columns => 9 cards
- * - 2 columns => 6 or 8 cards (height dependent, always even)
- * - 1 column => 3 cards
+ * - 3 columns => 9 cards (3×3 grid)
+ * - 2 columns => height-dependent row count
+ * - 1 column => 2–3 cards on narrow viewports
  */
 export const calculatePageLimit = (
   width = window.innerWidth,
@@ -41,7 +41,7 @@ export const calculatePageLimit = (
 
   const usableHeight = Math.max(0, height - VIEWPORT_RESERVED_HEIGHT);
   const possibleRows = Math.floor(usableHeight / COMIC_CARD_ESTIMATED_ROW_HEIGHT);
-  const rows = Math.max(3, Math.min(4, possibleRows));
+  const rows = Math.max(2, Math.min(4, possibleRows));
   return columns * rows;
 };
 

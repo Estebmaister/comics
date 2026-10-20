@@ -17,7 +17,11 @@ export function handleInputChange<T extends object>(
     const target = event.target;
     const { name, value, type } = target;
     let newEntry: string | number | boolean | number[];
-    if (type === 'select-one') newEntry = parseInt(value);
+    if (type === 'select-one') newEntry = parseInt(value, 10);
+    else if (type === 'number') {
+      const parsed = Number(value);
+      newEntry = Number.isFinite(parsed) ? parsed : 0;
+    }
     else if (type === 'checkbox' && target instanceof HTMLInputElement) newEntry = target.checked;
     else if (type === 'select-multiple' && target instanceof HTMLSelectElement) {
       newEntry = Array.from(target.selectedOptions).map((option) => +option.value);

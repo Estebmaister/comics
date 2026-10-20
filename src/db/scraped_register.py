@@ -20,8 +20,9 @@ from sqlalchemy.orm import Session
 
 from db import ComicDB, Publishers, Statuses, Types, load_comics
 from db.identity import merge_unique_values
-from db.repo import (comics_by_identity_key, comics_by_title_prefix,
-                     create_comic, rebuild_json_backup_from_db)
+from db.repo import (comics_by_identity_key, comics_by_title_exact,
+                     comics_by_title_prefix, create_comic,
+                     rebuild_json_backup_from_db)
 from helpers.alert import add_alert
 from helpers.logger import logger
 from helpers.text import normalize_text
@@ -124,6 +125,19 @@ async def register_comic(
                 db_comics = comics_by_identity_key(
                     normalized_comic.identity_key, session
                 )
+                if not db_comics:
+                    exact_matches = comics_by_title_exact(
+                        normalized_comic.get_titles()[0],
+                        normalized_comic.com_type,
+                        session,
+                    )
+                    if len(exact_matches) == 1:
+                        db_comics = exact_matches
+                        log.info(
+                            'Resolved exact title match for %s to comic ID %s',
+                            normalized_comic.titles,
+                            db_comics[0].id,
+                        )
                 if not db_comics:
                     prefix_matches = comics_by_title_prefix(
                         normalized_comic.get_titles()[0],

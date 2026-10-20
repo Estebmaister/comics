@@ -74,6 +74,7 @@
     --layer-toast: 80;
     --motion-fast: 160ms ease;
     --motion-medium: 260ms ease;
+    --floating-rail-clearance: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   }
 
   *,
@@ -85,6 +86,7 @@
   }
 
   html {
+    height: 100%;
     -moz-text-size-adjust: none;
     -webkit-text-size-adjust: none;
     color-scheme: dark;
@@ -93,12 +95,12 @@
   }
 
   #root {
-    min-height: 100dvh;
+    min-height: 100%;
   }
 
   body {
     margin: 0;
-    min-height: 100dvh;
+    min-height: 100%;
     width: 100%;
     font-family: 'Space Grotesk', sans-serif;
     color: var(--contrast-color);
@@ -184,8 +186,35 @@
 
   .app-shell {
     position: relative;
-    min-height: 100dvh;
     isolation: isolate;
+  }
+
+  .app-shell:has(.comics-empty-state) {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .comics-empty-state {
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding:
+      calc(var(--nav-height) + 1rem)
+      1rem
+      var(--floating-rail-clearance);
+  }
+
+  .comics-empty-state .server {
+    margin: 0;
+  }
+
+  .comics-list-shell {
+    padding-bottom: var(--floating-rail-clearance);
   }
 
   .app-toolbar {

@@ -20,14 +20,16 @@ const ComicsList: React.FC<ComicsListProps> = ({
 }) => {
   if (comics.length === 0) {
     return (
-      <h1 className="server">
-        {loadMsg || LoadMsgs.empty(queryFilter)}
-      </h1>
+      <section className="comics-empty-state" aria-live="polite">
+        <h1 className="server">
+          {loadMsg || LoadMsgs.empty(queryFilter)}
+        </h1>
+      </section>
     );
   }
 
   return (
-    <section className="px-2.5 pb-20 pt-[calc(var(--nav-height)+0.6rem)] sm:px-4 sm:pb-24 sm:pt-[calc(var(--nav-height)+0.85rem)] lg:px-6 xl:px-8">
+    <section className="comics-list-shell px-2.5 pt-[calc(var(--nav-height)+0.6rem)] sm:px-4 sm:pt-[calc(var(--nav-height)+0.85rem)] lg:px-6 xl:px-8">
       <ul className="mx-auto grid w-full max-w-[1640px] grid-cols-1 gap-2.5 sm:gap-4 md:gap-5 min-[900px]:grid-cols-2 min-[1600px]:grid-cols-3">
         {comics.map((comic) => (
           <ComicCard

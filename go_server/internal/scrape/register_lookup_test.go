@@ -38,3 +38,47 @@ func TestFindComicByTitlePrefixResolvesTruncatedTitle(t *testing.T) {
 		t.Fatalf("expected prefix match, got ok=%v id=%d err=%v", ok, got.ID, err)
 	}
 }
+
+func TestFindComicByExactTitleKeyMatchesAcrossNonNovelTypes(t *testing.T) {
+	title := "Catastrophic necromancer"
+	repo := &prefixLookupRepo{
+		listResult: domain.ComicListResult{
+			Comics: []domain.Comic{{
+				ID:      3546,
+				Titles:  []string{title},
+				ComType: ComTypeManhua,
+			}},
+		},
+	}
+	normalized := normalizedComic{
+		Titles:      []string{title},
+		ComType:     ComTypeManhwa,
+		CurrentChap: 315,
+	}
+	got, ok, err := findComicByExactTitleKey(context.Background(), repo, normalized)
+	if err != nil || !ok || got.ID != 3546 {
+		t.Fatalf("expected exact cross-type match, got ok=%v id=%d err=%v", ok, got.ID, err)
+	}
+}
+
+func TestFindComicByTitlePrefixMatchesAcrossNonNovelTypes(t *testing.T) {
+	full := "Catastrophic necromancer"
+	short := "Catastrophic necroman"
+	repo := &prefixLookupRepo{
+		listResult: domain.ComicListResult{
+			Comics: []domain.Comic{{
+				ID:      3546,
+				Titles:  []string{full},
+				ComType: ComTypeManhua,
+			}},
+		},
+	}
+	normalized := normalizedComic{
+		Titles:  []string{short},
+		ComType: ComTypeManhwa,
+	}
+	got, ok, err := findComicByTitlePrefix(context.Background(), repo, normalized)
+	if err != nil || !ok || got.ID != 3546 {
+		t.Fatalf("expected prefix cross-type match, got ok=%v id=%d err=%v", ok, got.ID, err)
+	}
+}

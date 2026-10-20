@@ -15,41 +15,103 @@ func scrapeTitleMatchesStored(scrapedTitle string, storedTitle string) bool {
 	return incomingKey != "" && storedKey != "" && strings.HasPrefix(storedKey, incomingKey)
 }
 
-func findComicByTitlePrefix(
-	ctx context.Context,
-	repo domain.ComicRepository,
+func comicInLookupScope(comic domain.Comic, incomingComType int) bool {
+	comicIsNovel := comic.ComType == ComTypeNovel
+	for _, stored := range comic.Titles {
+		if identity.IsNovelIdentity(stored, comic.ComType) {
+			comicIsNovel = true
+			break
+		}
+	}
+	incomingIsNovel := incomingComType == ComTypeNovel
+	return comicIsNovel == incomingIsNovel
+}
+
+func collectTitleLookupMatches(
+	result domain.ComicListResult,
 	normalized normalizedComic,
-) (domain.Comic, bool, error) {
+	match func(primary string, stored string) bool,
+) []domain.Comic {
 	if len(normalized.Titles) == 0 {
-		return domain.Comic{}, false, nil
+		return nil
 	}
 	primary := normalized.Titles[0]
-	words := strings.Fields(primary)
-	if len(words) == 0 {
-		return domain.Comic{}, false, nil
-	}
-	result, err := repo.List(ctx, domain.ComicListQuery{
-		SearchTitle: words[0],
-		Limit:       200,
-	})
-	if err != nil {
-		return domain.Comic{}, false, err
-	}
 	var matches []domain.Comic
 	for _, comic := range result.Comics {
 		if comic.Deleted {
 			continue
 		}
-		if normalized.ComType != ComTypeUnknown && comic.ComType != normalized.ComType {
+		if !comicInLookupScope(comic, normalized.ComType) {
 			continue
 		}
 		for _, stored := range comic.Titles {
-			if scrapeTitleMatchesStored(primary, stored) {
+			if match(primary, stored) {
 				matches = append(matches, comic)
 				break
 			}
 		}
 	}
+	return matches
+}
+
+func listTitleLookupCandidates(
+	ctx context.Context,
+	repo domain.ComicRepository,
+	normalized normalizedComic,
+) (domain.ComicListResult, error) {
+	if len(normalized.Titles) == 0 {
+		return domain.ComicListResult{}, nil
+	}
+	words := strings.Fields(normalized.Titles[0])
+	if len(words) == 0 {
+		return domain.ComicListResult{}, nil
+	}
+	return repo.List(ctx, domain.ComicListQuery{
+		SearchTitle: words[0],
+		Limit:       200,
+	})
+}
+
+func findComicByExactTitleKey(
+	ctx context.Context,
+	repo domain.ComicRepository,
+	normalized normalizedComic,
+) (domain.Comic, bool, error) {
+	result, err := listTitleLookupCandidates(ctx, repo, normalized)
+	if err != nil {
+		return domain.Comic{}, false, err
+	}
+	incomingKey := identity.TitleMatchKey(normalized.Titles[0])
+	if incomingKey == "" {
+		return domain.Comic{}, false, nil
+	}
+	matches := collectTitleLookupMatches(
+		result,
+		normalized,
+		func(_ string, stored string) bool {
+			return identity.TitleMatchKey(stored) == incomingKey
+		},
+	)
+	if len(matches) != 1 {
+		return domain.Comic{}, false, nil
+	}
+	return matches[0], true, nil
+}
+
+func findComicByTitlePrefix(
+	ctx context.Context,
+	repo domain.ComicRepository,
+	normalized normalizedComic,
+) (domain.Comic, bool, error) {
+	result, err := listTitleLookupCandidates(ctx, repo, normalized)
+	if err != nil {
+		return domain.Comic{}, false, err
+	}
+	matches := collectTitleLookupMatches(
+		result,
+		normalized,
+		scrapeTitleMatchesStored,
+	)
 	if len(matches) != 1 {
 		return domain.Comic{}, false, nil
 	}

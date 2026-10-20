@@ -69,6 +69,22 @@ class TestScrapTitles(unittest.TestCase):
         self.assertEqual(len(db_comics), 1)
         self.assertEqual(db_comics[0].titles, title_expected)
 
+    def test_title_prefix_finds_cross_type_non_novel(self):
+        with Session() as session:
+            full_title = "Catastrophic necromancer"
+            truncated_title = "Catastrophic necroman"
+            session.add(ComicDB(None, full_title, 315, com_type=Types.Manhua))
+            session.add(ComicDB(None, truncated_title, 315, com_type=Types.Manhwa))
+            session.commit()
+
+            matches = comics_by_title_prefix(truncated_title, Types.Manhwa, session)
+
+            self.assertEqual(len(matches), 2)
+            self.assertEqual(
+                sorted(comic.com_type for comic in matches),
+                sorted([Types.Manhua, Types.Manhwa]),
+            )
+
     def test_title_prefix_finds_full_title_same_type(self):
         with Session() as session:
             full_title = "I became the tyrant of a defense game"

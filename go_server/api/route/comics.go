@@ -510,6 +510,14 @@ func intValue(value any) (int, bool) {
 		return int(typed), true
 	case int:
 		return typed, true
+	case int64:
+		return int(typed), true
+	case string:
+		parsed, err := strconv.Atoi(strings.TrimSpace(typed))
+		if err != nil {
+			return 0, false
+		}
+		return parsed, true
 	default:
 		return 0, false
 	}

@@ -175,6 +175,7 @@ cython_debug/
 .env.production.local
 todo
 server.pid
+.dev/
 go_server/server
 tls/*.key
 tls/*.csr

@@ -230,7 +230,7 @@ export function ComicsMainPage() {
 
   return (
     <ToastProvider>
-      <main className="app-shell min-h-screen pb-24">
+      <main className="app-shell">
         <NavBar
           onlyTracked={onlyTracked}
           onlyUnchecked={onlyUnchecked}

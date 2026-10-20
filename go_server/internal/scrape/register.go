@@ -51,6 +51,13 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 			return err
 		}
 		if errors.Is(err, domain.ErrComicNotFound) {
+			exactMatch, ok, lookupErr := findComicByExactTitleKey(ctx, txRepo, normalized)
+			if lookupErr != nil {
+				return lookupErr
+			}
+			if ok {
+				return updateExistingComic(ctx, txRepo, exactMatch, normalized, publisherID)
+			}
 			prefixMatch, ok, lookupErr := findComicByTitlePrefix(ctx, txRepo, normalized)
 			if lookupErr != nil {
 				return lookupErr
@@ -83,7 +90,7 @@ func updateExistingComic(
 ) error {
 	updated := existing
 	comType := existing.ComType
-	if normalized.ComType != ComTypeUnknown {
+	if comType == ComTypeUnknown && normalized.ComType != ComTypeUnknown {
 		comType = normalized.ComType
 	}
 	updated.Titles = mergeTitleVariants(existing.Titles, normalized.Titles, comType)
@@ -95,9 +102,6 @@ func updateExistingComic(
 	}
 	if normalized.Author != "" && existing.Author == "" {
 		updated.Author = normalized.Author
-	}
-	if normalized.ComType != ComTypeUnknown && existing.ComType == ComTypeUnknown {
-		updated.ComType = normalized.ComType
 	}
 	if normalized.Status != StatusUnknown {
 		updated.Status = normalized.Status

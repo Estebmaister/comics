@@ -14,11 +14,11 @@ make setup
 cp local.env .env
 make doctor
 
-# terminal 1 — Go API (comics + auth + scrape)
-make go-run
+# one command — Go API + Vite (background, logs in .dev/logs/)
+make dev-up
 
-# terminal 2 — Vite frontend
-make front-dev
+# or two terminals: make go-run  +  make front-dev
+# stop background stack: make dev-down
 
 # before pushing
 make check

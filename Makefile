@@ -7,6 +7,7 @@
 				db-backup db-restore db-check db-repair-identity db-audit-covers \
 				py-test check check-go check-front check-py \
 				proto-py proto-go proto-js \
+				dev-up dev-down dev-status dev-logs dev-restart \
 				docker-build docker-run docker-dev docker-down clean doctor status
 
 # Enable running multiple commands in a recipe using a single shell
@@ -119,6 +120,33 @@ deps-py-upgrade:
 	pip freeze > requirements.txt
 
 # ---------------------------------------------------------------------------
+# Full-stack dev (Go + Vite)
+# ---------------------------------------------------------------------------
+
+## @util:dev-up                 Start Go API + frontend in background (.dev/logs)
+##? dev-up  Ensures go_server/.env; starts Docker Mongo when DB_ADDR is local
+##? dev-up  URLs: http://localhost:3000/comics/  API https://localhost:8081
+dev-up:
+	@./dev/stack.sh up
+
+## @util:dev-down               Stop processes started by dev-up
+dev-down:
+	@./dev/stack.sh down
+
+## @util:dev-status             Show dev-up PIDs and health hints
+dev-status:
+	@./dev/stack.sh status
+
+## @util:dev-logs               Tail Go + frontend logs from dev-up
+dev-logs:
+	@./dev/stack.sh logs
+
+## @util:dev-restart            dev-down then dev-up
+dev-restart: dev-down
+	@sleep 1
+	@$(MAKE) dev-up
+
+# ---------------------------------------------------------------------------
 # Frontend
 # ---------------------------------------------------------------------------
 
@@ -225,7 +253,8 @@ db-check:
 	test "$$result" = "ok"
 
 ## @database:db-repair-identity Audit/repair duplicate identity_key groups (dry-run default)
-##? db-repair-identity  Apply merges: make db-repair-identity APPLY=1
+##? db-repair-identity  Export plan: make db-repair-identity ARGS="--export-plan src/db/recovery/merge-plan.json"
+##? db-repair-identity  Apply approved plan: make db-repair-identity APPLY=1 ARGS="--import-plan src/db/recovery/merge-plan.json"
 db-repair-identity:
 	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
 	python3 -P src/db/repair_identity_duplicates.py $(REPAIR_FLAGS) $(ARGS)
@@ -364,12 +393,18 @@ doctor:
 	else echo "  [??] $(DB_FILE) not found"; fi; \
 	exit $$failed
 
-## @util:status                 Show default dev URLs and Go scrape interval hint
+## @util:status                 Show dev stack state or default URLs
 status:
-	@echo "Dev URLs:"; \
-	echo "  frontend   http://localhost:3000/comics/"; \
-	echo "  go-run     https://localhost:8081 (SCRAPE_INTERVAL default 10m in go_server/.env)"; \
-	echo "  go-scrape  one-shot publisher pass (no HTTP server)"
+	@if [ -f .dev/pids/go.pid ] || [ -f .dev/pids/front.pid ]; then \
+		./dev/stack.sh status; \
+	else \
+		echo "Dev stack not running (use: make dev-up)"; \
+		echo ""; \
+		echo "  make dev-up     start API + frontend in background"; \
+		echo "  make dev-down   stop background dev stack"; \
+		echo "  make go-run     foreground Go API only (air + debugger)"; \
+		echo "  make front-dev  foreground Vite only"; \
+	fi
 
 ## @util:clean                  Remove generated protobuf files and __pycache__
 clean:

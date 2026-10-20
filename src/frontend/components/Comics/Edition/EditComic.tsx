@@ -65,7 +65,7 @@ const EditComic = ({ className, children }: EditComicProps) => {
 
     if (newData !== undefined) {
       setComic(newData);
-      setViewedChap(newData?.viewed_chap);
+      setViewedChap(Number(newData.viewed_chap ?? 0));
       handleCloseEditComicModal();
       toast.success({
         title: 'Comic updated',

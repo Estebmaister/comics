@@ -71,6 +71,10 @@ const ComicCard = ({
     setDel(false);
   }, [initialComic]);
 
+  useEffect(() => {
+    setCheck(current_chap > viewedChap);
+  }, [current_chap, viewedChap]);
+
   const { handleCheckout, handleTrackToggle, handleDelete } = useComicActions({
     comicId: id,
     currentChap: current_chap,
