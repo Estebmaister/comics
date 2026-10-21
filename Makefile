@@ -258,6 +258,15 @@ db-check:
 	echo "$(DB_FILE): $$result"; \
 	test "$$result" = "ok"
 
+## @database:db-reindex          Repair SQLite index corruption (checkpoint + REINDEX + VACUUM)
+##? db-reindex  Env: DB_FILE (default src/db/comics.db)
+db-reindex:
+	@if [ ! -f "$(DB_FILE)" ]; then \
+		echo "Database not found: $(DB_FILE)"; \
+		exit 1; \
+	fi
+	@sqlite3 "$(DB_FILE)" "PRAGMA wal_checkpoint(TRUNCATE); REINDEX; VACUUM; PRAGMA integrity_check;"
+
 ## @database:db-repair-identity Audit/repair duplicate identity_key groups (dry-run default)
 ##? db-repair-identity  Export plan: make db-repair-identity ARGS="--export-plan src/db/recovery/merge-plan.json"
 ##? db-repair-identity  Apply approved plan: make db-repair-identity APPLY=1 ARGS="--import-plan src/db/recovery/merge-plan.json"

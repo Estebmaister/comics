@@ -87,6 +87,10 @@ func NewSQLiteComicRepository(path string) (*SQLComicRepository, error) {
 		db.Close()
 		return nil, err
 	}
+	if err := configureSQLiteDB(db); err != nil {
+		db.Close()
+		return nil, err
+	}
 	if err := ensureSQLitePerformanceIndexes(db); err != nil {
 		db.Close()
 		return nil, err

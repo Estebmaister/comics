@@ -206,3 +206,44 @@ func TestSQLComicRepositoryRatingFilterAndSort(t *testing.T) {
 		t.Fatalf("expected highest rated comic first, got %#v", result.Comics[0])
 	}
 }
+
+func TestSQLiteOpensWithIntegrityCheck(t *testing.T) {
+	dbPath := filepath.Join(t.TempDir(), "comics.db")
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.Exec(`
+		CREATE TABLE comics (
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			titles TEXT NOT NULL,
+			current_chap INTEGER NOT NULL DEFAULT 0,
+			cover TEXT NOT NULL DEFAULT '',
+			last_update INTEGER NOT NULL,
+			com_type INTEGER NOT NULL DEFAULT 0,
+			status INTEGER NOT NULL DEFAULT 0,
+			published_in TEXT NOT NULL DEFAULT '',
+			genres TEXT NOT NULL DEFAULT '',
+			description TEXT NOT NULL DEFAULT '',
+			author TEXT NOT NULL DEFAULT '',
+			track INTEGER NOT NULL DEFAULT 0,
+			viewed_chap INTEGER NOT NULL DEFAULT 0,
+			rating INTEGER NOT NULL DEFAULT 0,
+			deleted INTEGER NOT NULL DEFAULT 0,
+			cover_visible INTEGER NOT NULL DEFAULT 1,
+			identity_key TEXT NOT NULL DEFAULT ''
+		)
+	`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := db.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	repo, err := NewSQLiteComicRepository(dbPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer repo.Close()
+}
