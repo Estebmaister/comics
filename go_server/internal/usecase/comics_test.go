@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"testing"
+	"time"
 
 	"comics/domain"
 	"comics/internal/identity"
@@ -104,6 +105,53 @@ func (r *memoryComicRepo) SetCoverVisibility(_ context.Context, id int, visible 
 
 func (r *memoryComicRepo) WithTx(_ context.Context, fn func(domain.ComicRepository) error) error {
 	return fn(r)
+}
+
+func TestComicServiceUpdateLastUpdateFollowsCurrentChap(t *testing.T) {
+	ctx := context.Background()
+	repo := newMemoryComicRepo()
+	svc := NewComicService(repo, nil)
+	created, err := svc.Create(ctx, domain.Comic{
+		Titles:      []string{"Chapter clock"},
+		CurrentChap: 10,
+		ComType:     3,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	fixed := time.Unix(1_700_000_000, 0).UTC()
+	seed := created
+	seed.LastUpdate = fixed
+	if _, err := repo.Update(ctx, seed); err != nil {
+		t.Fatal(err)
+	}
+
+	viewed := 8
+	updated, err := svc.Update(ctx, created.ID, domain.ComicPatch{ViewedChap: &viewed})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if updated.LastUpdate.Unix() != fixed.Unix() {
+		t.Fatalf("viewed_chap update should not bump last_update, got %d", updated.LastUpdate.Unix())
+	}
+
+	track := true
+	updated, err = svc.Update(ctx, created.ID, domain.ComicPatch{Track: &track})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if updated.LastUpdate.Unix() != fixed.Unix() {
+		t.Fatalf("track update should not bump last_update, got %d", updated.LastUpdate.Unix())
+	}
+
+	nextChap := 11
+	updated, err = svc.Update(ctx, created.ID, domain.ComicPatch{CurrentChap: &nextChap})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !updated.LastUpdate.After(fixed) {
+		t.Fatalf("current_chap change should bump last_update, had %v now %v", fixed, updated.LastUpdate)
+	}
 }
 
 func TestComicServiceUpdateRespectsExplicitZeroAndEmptyValues(t *testing.T) {

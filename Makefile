@@ -77,9 +77,15 @@ help:
 ## @setup:setup              Full onboarding: venv, Python, Go, frontend, protobuf, git hooks
 ##? setup  Run once after cloning to install all toolchain dependencies.
 ##? setup  Example: make setup && cp local.env .env && make doctor
-setup: setup-venv setup-py setup-go setup-front proto-py proto-go
-	@chmod +x .githooks/pre-commit
+setup: setup-venv setup-py setup-go setup-front proto-py proto-go setup-hooks
 	@echo "Setup complete. Run 'make doctor' to validate the environment."
+
+## @setup:setup-hooks         Point git at .githooks and mark hook scripts executable
+##? setup-hooks  Sets core.hooksPath=.githooks. AI hooks stay off unless COMICS_HOOKS_AI=1.
+setup-hooks:
+	@git config core.hooksPath .githooks
+	@chmod +x .githooks/pre-commit .githooks/prepare-commit-msg .githooks/generate_docs.sh .githooks/lint_ai.sh
+	@echo "Git hooks: .githooks (see .githooks/README.md)"
 
 $(VENV_DIR)/touchfile: requirements.txt
 	test -d "$(VENV_DIR)" || python3 -m venv "$(VENV_DIR)"

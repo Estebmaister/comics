@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"comics/domain"
 	"comics/internal/identity"
@@ -91,7 +92,14 @@ func (s *ComicService) Update(ctx context.Context, id int, patch domain.ComicPat
 	if err != nil {
 		return domain.Comic{}, err
 	}
+	previousChap := current.CurrentChap
+	previousLastUpdate := current.LastUpdate
 	applyComicPatch(&current, patch)
+	if current.CurrentChap != previousChap {
+		current.LastUpdate = time.Now().UTC()
+	} else {
+		current.LastUpdate = previousLastUpdate
+	}
 	return s.repo.Update(ctx, current)
 }
 
@@ -154,7 +162,14 @@ func (s *ComicService) Merge(ctx context.Context, baseID int, mergingID int) (do
 			return fmt.Errorf("%w: comics to merge should be of the same type", domain.ErrInvalidComicMerge)
 		}
 
+		previousChap := base.CurrentChap
+		previousLastUpdate := base.LastUpdate
 		merged = mergeComicValues(base, duplicate)
+		if merged.CurrentChap != previousChap {
+			merged.LastUpdate = time.Now().UTC()
+		} else {
+			merged.LastUpdate = previousLastUpdate
+		}
 		if _, err = repo.Update(ctx, merged); err != nil {
 			return err
 		}

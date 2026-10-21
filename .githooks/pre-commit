@@ -1,63 +1,50 @@
 #!/usr/bin/env sh
-#
-# pre-commit — abort if server.pid exists or is staged
+# Fast safety checks; optional Ollama tasks when COMICS_HOOKS_AI=1.
 
-# Make sure we're operating from the repo root
-cd "$(git rev-parse --show-toplevel)"
+set -e
 
-# 1) If it's staged for commit, reject
-if git diff --cached --name-only | grep -qE '^server\.pid$$'; then
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT"
+
+# shellcheck source=/dev/null
+. "$ROOT/.githooks/common.sh"
+
+# Reject committing server.pid
+if git diff --cached --name-only | grep -qE '^server\.pid$'; then
   echo >&2 "✖  ERROR: You must not commit server.pid"
   exit 1
 fi
 
-# 2) If it exists in the working directory at all, prompt the user
 if [ -f server.pid ]; then
-  echo >&2 "⚠  WARNING: server.pid found in working tree."
-  printf "Do you still want to continue with the commit? (y/n): "
-  read answer </dev/tty
-  case "$answer" in
-    [Yy]*) ;;
-    *) echo "Aborting commit."; exit 1 ;;
-  esac
+  if [ -t 0 ]; then
+    echo >&2 "⚠  WARNING: server.pid found in working tree."
+    printf "Continue with commit? (y/n): "
+    read -r answer </dev/tty
+    case "$answer" in
+      [Yy]*) ;;
+      *) echo "Aborting commit."; exit 1 ;;
+    esac
+  else
+    echo >&2 "⚠  WARNING: server.pid present (non-interactive commit; continuing)."
+  fi
 fi
 
-## Ensure required tools are available
-if ! command -v jq &> /dev/null; then
-    echo "❌ Error: jq is not installed or not in PATH" >&2
-    exit 1
+if comics_skip_hooks; then
+  exit 0
 fi
 
-if ! command -v curl &> /dev/null; then
-    echo "❌ Error: curl is not installed or not in PATH" >&2
-    exit 1
+if ! comics_ai_hooks_enabled; then
+  exit 0
 fi
 
-# 3) Start generate_docs.sh in background
+# Optional AI tasks (see .githooks/README.md)
 ./.githooks/generate_docs.sh &
 pid1=$!
-
-# 4) Start lint_ai.sh in background
 ./.githooks/lint_ai.sh &
 pid2=$!
 
-# Wait for all background jobs to complete
-wait $pid1
-status1=$?
+wait "$pid1" || true
+wait "$pid2" || true
 
-wait $pid2
-status2=$?
-
-# Check exit codes
-if [ $status1 -ne 0 ]; then
-  echo "❌ generate_docs.sh failed." >&2
-  exit 1
-fi
-
-if [ $status2 -ne 0 ]; then
-  echo "❌ lint_ai.sh failed." >&2
-  exit 1
-fi
-
-echo "✅ All pre-commit tasks finished successfully."
+echo "✅ Pre-commit finished (AI hooks were advisory only)."
 exit 0

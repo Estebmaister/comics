@@ -15,7 +15,7 @@ const edit = async (
 ): Promise<[Comic | undefined, string]> => {
   let newData: Comic | undefined;
   let msg = '';
-  const { deleted, track, ...data } = { ...comic, last_update: new Date().getTime() };
+  const { deleted, track, ...data } = comic;
   console.debug(JSON.stringify(data));
 
   await fetch(`${server}/comics/${comic.id}`, {

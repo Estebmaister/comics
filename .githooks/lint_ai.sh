@@ -1,54 +1,39 @@
-#!/bin/bash
+#!/usr/bin/env sh
+# Advisory AI review of staged diff; never fails the commit.
 
-printf "Running AI lint for security logic and performance...\n\n"
+ROOT=$(git rev-parse --show-toplevel)
+# shellcheck source=/dev/null
+. "$ROOT/.githooks/common.sh"
 
-AI_URL="http://localhost:11434/api/generate"
-AI_MODEL="phi4"
+comics_cd_root || exit 0
 
-set -e
+if [ "${COMICS_AI_LINT:-}" != "1" ]; then
+  exit 0
+fi
+
+if ! comics_ai_hooks_enabled; then
+  printf "⚠️  COMICS_AI_LINT=1 but COMICS_HOOKS_AI is unset or jq/curl missing; skipping.\n\n" >&2
+  exit 0
+fi
 
 if git diff --cached --quiet; then
-  printf "No staged changes detected.\n\n"
   exit 0
 fi
 
-tmp_prompt=$(mktemp) || {
-  printf "⚠️ Warning: Could not create temp file for AI lint; skipping.\n\n" >&2
-  exit 0
-}
-tmp_payload=$(mktemp) || {
-  rm -f "$tmp_prompt"
-  printf "⚠️ Warning: Could not create temp file for AI lint; skipping.\n\n" >&2
-  exit 0
-}
-cleanup() { rm -f "$tmp_prompt" "$tmp_payload"; }
-trap cleanup EXIT
+printf "Running AI lint (advisory)...\n\n"
+
+tmp_prompt=$(mktemp) || exit 0
+trap 'rm -f "$tmp_prompt"' EXIT
 
 {
-  printf '%s\n\n' "Given the following git diff, identify any logic, performance, or security issues:"
-  git diff --cached
-} > "$tmp_prompt"
+  printf '%s\n\n' "Review this staged git diff for logic, performance, or security issues. Be brief; say if nothing stands out."
+  comics_staged_diff
+} > "$tmp_prompt" || exit 0
 
-if ! jq -n \
-  --arg model "$AI_MODEL" \
-  --rawfile prompt "$tmp_prompt" \
-  --argjson stream false \
-  '{model: $model, prompt: $prompt, stream: $stream}' > "$tmp_payload"; then
-  printf "⚠️ Warning: Failed to build AI lint request.\n\n" >&2
+lint_text=$(comics_ollama_generate "$tmp_prompt") || {
+  printf "⚠️  AI lint: Ollama unreachable or failed; skipping.\n\n" >&2
   exit 0
-fi
+}
 
-if ! lint_response=$(curl -sS -f --connect-timeout 3 --max-time 120 -X POST "$AI_URL" \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
-  --data-binary @"$tmp_payload" 2>/dev/null); then
-  printf "⚠️ Warning: Failed to get a response from the AI service when linting (service unreachable or offline).\n\n" >&2
-  exit 0
-fi
-
-if ! lint_text=$(printf "%s" "$lint_response" | tr '\n' '§' | jq -r '.response // empty' | tr '§' '\n' 2>/dev/null); then
-  printf "⚠️ Warning: Failed to extract lint text from API response.\n\n" >&2
-  exit 0
-fi
-
-printf "%s\n\n" "$lint_text"
+[ -n "$lint_text" ] && printf '%s\n\n' "$lint_text"
+exit 0

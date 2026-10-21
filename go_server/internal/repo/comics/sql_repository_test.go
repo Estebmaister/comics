@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"comics/domain"
 
@@ -86,6 +87,49 @@ func TestSQLComicRepositoryListSearchAndMapping(t *testing.T) {
 	}
 	if strings.Join(result.Comics[0].Titles, "|") != "The sample hero" {
 		t.Fatalf("expected title mapping, got %#v", result.Comics[0].Titles)
+	}
+}
+
+func TestSQLComicRepositoryUpdatePersistsComicLastUpdate(t *testing.T) {
+	ctx := context.Background()
+	repo := newTestSQLiteRepo(t)
+	created, err := repo.Create(ctx, domain.Comic{
+		Titles:      []string{"Timestamp hero"},
+		CurrentChap: 10,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	before, err := repo.Get(ctx, created.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fixed := time.Unix(1_700_000_000, 0).UTC()
+	stored := before
+	stored.LastUpdate = fixed
+	if _, err := repo.Update(ctx, stored); err != nil {
+		t.Fatal(err)
+	}
+
+	unchanged := stored
+	unchanged.ViewedChap = 9
+	updated, err := repo.Update(ctx, unchanged)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if updated.LastUpdate.Unix() != fixed.Unix() {
+		t.Fatalf("expected last_update to stay %d, got %d", fixed.Unix(), updated.LastUpdate.Unix())
+	}
+
+	bumped := updated
+	bumped.CurrentChap = 11
+	bumped.LastUpdate = time.Unix(1_800_000_000, 0).UTC()
+	updated, err = repo.Update(ctx, bumped)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if updated.LastUpdate.Unix() != 1_800_000_000 {
+		t.Fatalf("expected persisted last_update 1800000000, got %d", updated.LastUpdate.Unix())
 	}
 }
 

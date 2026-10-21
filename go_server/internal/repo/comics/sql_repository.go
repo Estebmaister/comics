@@ -325,7 +325,7 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 }
 
 func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
-	now := time.Now().Unix()
+	lastUpdate := comicLastUpdateUnix(comic)
 	if r.dialect == dialectPostgres {
 		result, err := r.exec(
 			ctx,
@@ -337,7 +337,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 			strings.Join(comic.Titles, "|"),
 			comic.CurrentChap,
 			comic.Cover,
-			now,
+			lastUpdate,
 			comic.ComType,
 			comic.Status,
 			joinInts(comic.PublishedIn),
@@ -371,7 +371,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		strings.Join(comic.Titles, "|"),
 		comic.CurrentChap,
 		comic.Cover,
-		now,
+		lastUpdate,
 		comic.ComType,
 		comic.Status,
 		joinInts(comic.PublishedIn),
@@ -636,6 +636,13 @@ func parseLastUpdate(value string) time.Time {
 		return parsed.UTC()
 	}
 	return time.Time{}
+}
+
+func comicLastUpdateUnix(comic domain.Comic) int64 {
+	if comic.LastUpdate.IsZero() {
+		return time.Now().Unix()
+	}
+	return comic.LastUpdate.Unix()
 }
 
 func boolInt(value bool) int {

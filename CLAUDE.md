@@ -201,22 +201,15 @@ make setup-go
 
 ## Pre-commit Hooks and AI Integration
 
-### Automated Hooks
+### Hooks
 
-- **Location**: `.githooks/pre-commit`
-- **Features**:
-  - AI-powered security/performance analysis
-  - Automated changelog generation
-  - Code review assistance
-- **Requirements**:
-  - Local AI service running on `localhost:11434` (phi4 model)
-  - `jq`, `curl` command-line tools
+- **Location**: `.githooks/` (`make setup-hooks` sets `core.hooksPath`)
+- **Always**: block `server.pid` commits; optional TTY prompt if `server.pid` exists locally
+- **Opt-in AI** (`COMICS_HOOKS_AI=1` + feature flags): Ollama on `localhost:11434` (phi4), `jq`, `curl`
+  - Does **not** replace `git commit -m` messages; interactive assist appends `#` comment suggestions only
+  - Changelog uses the **staged** diff and is not auto-staged unless `COMICS_AI_CHANGELOG_STAGE=1`
 
-### Hook Configuration
-
-```bash
-chmod +x .githooks/pre-commit  # Ensure hooks are executable
-```
+See `.githooks/README.md` for env vars (`COMICS_SKIP_HOOKS`, `COMICS_AI_LINT`, etc.).
 
 ## Current Technical Debt and Known Issues
 

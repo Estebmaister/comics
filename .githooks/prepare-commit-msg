@@ -1,46 +1,57 @@
 #!/usr/bin/env sh
+# Optional AI commit message assist — never replaces -m / merge / squash messages.
 
 set -e
 
-AI_URL="http://localhost:11434/api/generate"
-AI_MODEL="phi4"
+ROOT=$(git rev-parse --show-toplevel)
+# shellcheck source=/dev/null
+. "$ROOT/.githooks/common.sh"
 
-COMMIT_MSG_FILE="${1:-.git/COMMIT_EDITMSG}"
+COMMIT_MSG_FILE="${1:?}"
+SOURCE="${2:-}"
 
 if git diff --cached --quiet; then
   exit 0
 fi
 
+# Respect explicit messages and automated commit flows.
+case "$SOURCE" in
+  message|merge|squash|commit)
+    exit 0
+    ;;
+esac
+
+if comics_commit_msg_has_subject "$COMMIT_MSG_FILE"; then
+  exit 0
+fi
+
+if ! comics_ai_hooks_enabled; then
+  exit 0
+fi
+
+if [ "${COMICS_AI_COMMIT_MSG:-}" = "0" ]; then
+  exit 0
+fi
+
+# Default: only assist interactive (template) commits when COMICS_HOOKS_AI=1.
+if [ "${COMICS_AI_COMMIT_MSG:-}" != "1" ] && [ "$SOURCE" != "template" ] && [ -n "$SOURCE" ]; then
+  exit 0
+fi
+
 tmp_prompt=$(mktemp) || exit 0
-tmp_payload=$(mktemp) || exit 0
-trap 'rm -f "$tmp_prompt" "$tmp_payload"' EXIT
+trap 'rm -f "$tmp_prompt"' EXIT
 
 {
-  printf '%s\n\n' "Write a concise git commit message, which output will be used as the commit message."
-  printf '%s\n\n' "Without quotes, based on the following diff:"
-  git diff --cached
+  printf '%s\n\n' "Write a concise git commit message (subject line, optional body). Output only the message text, no quotes."
+  printf '%s\n\n' "Staged diff:"
+  comics_staged_diff
 } > "$tmp_prompt" || exit 0
 
-if ! jq -n \
-  --arg model "$AI_MODEL" \
-  --rawfile prompt "$tmp_prompt" \
-  --argjson stream false \
-  '{model: $model, prompt: $prompt, stream: $stream}' > "$tmp_payload"; then
-  exit 0
-fi
+msg=$(comics_ollama_generate "$tmp_prompt") || exit 0
+[ -n "$msg" ] || exit 0
 
-if ! response=$(curl -sS -f --connect-timeout 3 --max-time 120 -X POST "$AI_URL" \
-  -H "Content-Type: application/json" \
-  --data-binary @"$tmp_payload" 2>/dev/null); then
-  exit 0
-fi
-
-if ! msg=$(printf '%s' "$response" | jq -r '.response // empty' 2>/dev/null); then
-  exit 0
-fi
-
-if [ -z "$msg" ]; then
-  exit 0
-fi
-
-printf '%s\n' "$msg" > "$COMMIT_MSG_FILE"
+# Append as comments so the user can edit; # lines are stripped from the final commit.
+{
+  printf '\n'
+  printf '%s\n' "$msg" | sed 's/^/# /'
+} >> "$COMMIT_MSG_FILE"

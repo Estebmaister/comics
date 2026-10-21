@@ -1,66 +1,53 @@
-# generate_docs.sh
-#!/bin/bash
+#!/usr/bin/env sh
+# Optional AI changelog file (not staged unless COMICS_AI_CHANGELOG_STAGE=1).
 
-printf "Generating changelog...\n\n"
-
-AI_URL="http://localhost:11434/api/generate"
-AI_MODEL="phi4"
-CHANGELOG_DIR="changelog"
-
-# Ensure the script exits immediately if a command exits with a non-zero status
 set -e
 
-# Get the diff between the last commit and current state
-ch_diff=$(git diff HEAD~1)
+ROOT=$(git rev-parse --show-toplevel)
+# shellcheck source=/dev/null
+. "$ROOT/.githooks/common.sh"
 
-# Build prompt safely (pipe instead of huge arg "... $ch_diff")
-ch_prompt=$(cat <<EOF
-Generate a concise changelog entry,
-which output will be directly added to the changelog .md file,
-for the following diff:
+comics_cd_root || exit 0
 
-$ch_diff
-EOF
-)
+if [ "${COMICS_AI_CHANGELOG:-}" != "1" ]; then
+  exit 0
+fi
 
-# Prepare the JSON payload (avoid long --argjson usage)
-json_changelog_payload=$(printf "%s" "$ch_prompt" | jq -Rs \
-  --arg model "$AI_MODEL" \
-  --argjson stream false \
-  '{model: $model, prompt: ., stream: $stream}')
+if ! comics_ai_hooks_enabled; then
+  printf "⚠️  COMICS_AI_CHANGELOG=1 but COMICS_HOOKS_AI is unset or jq/curl missing; skipping changelog.\n\n" >&2
+  exit 0
+fi
 
-# Write the payload to a temp file instead of inline
-tmp_payload=$(mktemp)
-printf "%s" "$json_changelog_payload" > "$tmp_payload"
+if git diff --cached --quiet; then
+  exit 0
+fi
 
-# Send the request using --data-binary with @file (-f: treat HTTP errors as failure; timeouts when Ollama is down)
-changelog_response=$(curl -sS -f --connect-timeout 3 --max-time 120 -X POST "$AI_URL" \
-  -H "Content-Type: application/json" \
-  --data-binary @"$tmp_payload" 2>/dev/null) || {
-    printf "⚠️ Warning: Failed to get a response from the AI service when generating changelog.\n\n" >&2
-    rm -f "$tmp_payload"
-    exit 0
+printf "Generating changelog (staged diff)...\n\n"
+
+CHANGELOG_DIR="changelog"
+tmp_prompt=$(mktemp) || exit 0
+trap 'rm -f "$tmp_prompt"' EXIT
+
+{
+  printf '%s\n\n' "Generate a concise changelog entry for the following staged diff. Use markdown bullets."
+  comics_staged_diff
+} > "$tmp_prompt" || exit 0
+
+changelog_entry=$(comics_ollama_generate "$tmp_prompt") || {
+  printf "⚠️  Changelog: Ollama unreachable or failed; skipping.\n\n" >&2
+  exit 0
 }
 
-# Clean up
-rm -f "$tmp_payload"
+[ -n "$changelog_entry" ] || exit 0
 
-# Extract the response text with better error checking
-changelog_entry=$(printf "%s" "$changelog_response" | tr '\n' '§' | jq -r '.response // empty' | tr '§' '\n' 2>/dev/null) || {
-    printf "⚠️ Warning: Failed to extract changelog text from API response.\n\n" >&2
-    exit 0
-}
-
-# Define the changelog file path
 changelog_file="$CHANGELOG_DIR/$(date +%Y-%m-%d_%H-%M-%S).md"
-
-# Create the changelog directory if it doesn't exist
 mkdir -p "$CHANGELOG_DIR"
+printf '%s\n' "$changelog_entry" > "$changelog_file"
+printf "✅ Changelog written: %s\n\n" "$changelog_file"
 
-# Write the changelog entry to the file
-echo "$changelog_entry" > "$changelog_file"
+if [ "${COMICS_AI_CHANGELOG_STAGE:-}" = "1" ]; then
+  git add "$changelog_file"
+  printf "   (staged — unset COMICS_AI_CHANGELOG_STAGE to write without staging)\n\n"
+fi
 
-printf "✅ Changelog generated: $changelog_file\n\n"
-
-# Stage the changelog file
-git add "$changelog_file"
+exit 0
