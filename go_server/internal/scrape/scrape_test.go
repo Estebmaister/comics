@@ -52,11 +52,11 @@ func TestExtractAsuraComicsFromProps(t *testing.T) {
 	comics := extractAsuraComicsFromProps(map[string]any{
 		"chapters": []any{
 			map[string]any{
-				"comic_name": "Hero",
-				"number":     12,
+				"comic_name":  "Hero",
+				"number":      12,
 				"comic_cover": "https://example.com/a.webp",
-				"type":       "manhwa",
-				"status":     "ongoing",
+				"type":        "manhwa",
+				"status":      "ongoing",
 			},
 		},
 	})

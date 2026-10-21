@@ -25,7 +25,7 @@ func TestAuditLivePublishers(t *testing.T) {
 			continue
 		}
 		count := 0
-		err := scraper(ctx, url, publisherIDs[publisher], fetcher, func(raw ScrapedComic, _ int) error {
+		err := scraper(ctx, url, publisherIDs[publisher], fetcher, func(_ ScrapedComic, _ int) error {
 			count++
 			return nil
 		})

@@ -12,7 +12,7 @@ type prefixLookupRepo struct {
 	listResult domain.ComicListResult
 }
 
-func (p *prefixLookupRepo) List(ctx context.Context, query domain.ComicListQuery) (domain.ComicListResult, error) {
+func (p *prefixLookupRepo) List(_ context.Context, _ domain.ComicListQuery) (domain.ComicListResult, error) {
 	return p.listResult, nil
 }
 

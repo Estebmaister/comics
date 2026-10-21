@@ -1,8 +1,21 @@
-linters:
-  enable:
-    - revive
-    - staticcheck
-    - gosec
-    - errcheck
 run:
   timeout: 5m
+
+linters:
+  enable:
+    - errcheck
+    - gofmt
+    - goimports
+    - gosimple
+    - gosec
+    - revive
+    - staticcheck
+
+linters-settings:
+  gosec:
+    excludes:
+      - G101
+
+issues:
+  exclude-dirs:
+    - pkg/pb

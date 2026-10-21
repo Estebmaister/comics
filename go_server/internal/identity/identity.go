@@ -26,9 +26,7 @@ func SplitTitleValues(titles string) []string {
 	}
 	parts := strings.Split(titles, "|")
 	out := make([]string, 0, len(parts))
-	for _, part := range parts {
-		out = append(out, part)
-	}
+	out = append(out, parts...)
 	return out
 }
 

@@ -10,7 +10,7 @@ import (
 
 func TestCoordinatorRejectsOverlappingManual(t *testing.T) {
 	var active atomic.Int32
-	coord := NewCoordinatorWithRunner(func(ctx context.Context) error {
+	coord := NewCoordinatorWithRunner(func(_ context.Context) error {
 		active.Add(1)
 		time.Sleep(50 * time.Millisecond)
 		active.Add(-1)

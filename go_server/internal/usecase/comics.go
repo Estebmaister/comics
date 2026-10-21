@@ -106,7 +106,7 @@ func (s *ComicService) Scrape(ctx context.Context) error {
 func (s *ComicService) ScrapeStatus(_ context.Context) (domain.ScrapeStatus, error) {
 	snap := s.scrapeCoord.Snapshot()
 	status := domain.ScrapeStatus{
-		Running: snap.Running,
+		Running:             snap.Running,
 		LastCompletedSource: string(snap.LastCompletedSource),
 	}
 	if snap.Running {

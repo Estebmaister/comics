@@ -48,6 +48,7 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 
 	// Create the credentials and return it
 	config := &tls.Config{
+		MinVersion:   tls.VersionTLS12,
 		Certificates: []tls.Certificate{serverCert},
 	}
 	creds := credentials.NewTLS(config)

@@ -19,11 +19,11 @@ import (
 )
 
 var (
-	oauthStateString = sampler.RandomString() // A random string for CSRF protection
-	googleTokenURL   = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
-	logInPath        = "/login"
-	signUpPath       = "/signup"
-	callbackPath     = "/auth/callback"
+	oauthStateString  = sampler.RandomString() // A random string for CSRF protection
+	googleUserInfoURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
+	logInPath         = "/login"
+	signUpPath        = "/signup"
+	callbackPath      = "/auth/callback"
 )
 
 var googleOauthConfig = &oauth2.Config{
@@ -95,7 +95,7 @@ type googleDTO struct {
 	Email         string `json:"email"`
 	FamilyName    string `json:"family_name"`
 	GivenName     string `json:"given_name"`
-	Id            string `json:"id"`
+	ID            string `json:"id"`
 	Name          string `json:"name"`
 	Picture       string `json:"picture"`
 	VerifiedEmail bool   `json:"verified_email"`
@@ -116,7 +116,7 @@ func extractGoogleDTO(c *gin.Context) *googleDTO {
 		return nil
 	}
 
-	response, err := http.Get(googleTokenURL + token.AccessToken)
+	response, err := http.Get(googleUserInfoURL + token.AccessToken)
 	if err != nil {
 		log.Err(err).Msgf("Failed getting user info, token: %v", token)
 		return nil

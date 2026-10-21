@@ -165,13 +165,11 @@ go-build:
 	go build -o $(SERVER_BIN) ./cmd/server
 	go build -o $(IMPORT_BIN) ./cmd/import_comics_postgres
 
-## @quality:check-go          Run go-test, contract-test, go-vet, and go-build
-check-go: go-test contract-test go-vet go-build
+## @quality:check-go          Run go-test, contract-test, go-vet, go-build, and lint
+check-go: go-test contract-test go-vet go-build lint
 
-## @quality:lint              Run golint, staticcheck, and golangci-lint
+## @quality:lint              Run golangci-lint (format + revive/staticcheck/gosec)
 lint:
-	$(TOOL_GO) golint -set_exit_status ./...
-	$(TOOL_GO) staticcheck ./...
 	$(TOOL_GO) golangci-lint run
 
 ## @quality:vuln               Run govulncheck, trivy, and gosec security scans

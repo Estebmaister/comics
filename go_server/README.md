@@ -5,7 +5,7 @@ Swagger, metrics, and SQLite/Postgres-backed comics REST routes.
 
 ## Requirements
 
-- Go 1.26+
+- Go 1.27+
 - MongoDB for auth/profile data
 - Writable comics DB: SQLite at `COMICS_SQLITE_PATH` or Postgres at
   `COMICS_POSTGRES_URL`

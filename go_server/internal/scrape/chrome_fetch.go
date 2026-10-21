@@ -17,8 +17,8 @@ const maxFetchBodyBytes = 20 << 20
 // ChromeTLSFetcher uses a Chrome TLS/JA3 profile and cookie jar, similar to Python
 // cloudscraper.create_scraper(browser='chrome').
 type ChromeTLSFetcher struct {
-	once   sync.Once
-	client tls_client.HttpClient
+	once    sync.Once
+	client  tls_client.HttpClient
 	initErr error
 }
 

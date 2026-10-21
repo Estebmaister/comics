@@ -102,7 +102,7 @@ func (r *memoryComicRepo) SetCoverVisibility(_ context.Context, id int, visible 
 	return comic, nil
 }
 
-func (r *memoryComicRepo) WithTx(ctx context.Context, fn func(domain.ComicRepository) error) error {
+func (r *memoryComicRepo) WithTx(_ context.Context, fn func(domain.ComicRepository) error) error {
 	return fn(r)
 }
 

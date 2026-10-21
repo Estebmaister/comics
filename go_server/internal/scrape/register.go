@@ -66,14 +66,14 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 				return updateExistingComic(ctx, txRepo, prefixMatch, normalized, publisherID)
 			}
 			_, err = txRepo.Create(ctx, domain.Comic{
-				Titles:      normalized.Titles,
-				CurrentChap: normalized.CurrentChap,
-				Cover:       normalized.Cover,
+				Titles:       normalized.Titles,
+				CurrentChap:  normalized.CurrentChap,
+				Cover:        normalized.Cover,
 				CoverVisible: normalized.Cover != "",
-				ComType:     normalized.ComType,
-				Status:      normalized.Status,
-				Author:      normalized.Author,
-				PublishedIn: []int{publisherID},
+				ComType:      normalized.ComType,
+				Status:       normalized.Status,
+				Author:       normalized.Author,
+				PublishedIn:  []int{publisherID},
 			})
 			return err
 		}

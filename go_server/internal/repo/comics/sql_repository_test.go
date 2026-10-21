@@ -145,10 +145,10 @@ func TestSQLComicRepositoryRatingFilterAndSort(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	min := 4
+	ratingMin := 4
 	result, err := repo.List(ctx, domain.ComicListQuery{
 		Limit:     20,
-		RatingMin: &min,
+		RatingMin: &ratingMin,
 		SortBy:    "rating",
 		SortDir:   "desc",
 	})

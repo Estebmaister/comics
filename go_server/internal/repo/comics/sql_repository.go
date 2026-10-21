@@ -14,7 +14,7 @@ import (
 	"comics/domain"
 	"comics/internal/identity"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/jackc/pgx/v5/stdlib" // register pgx driver for postgres DSNs
 	_ "modernc.org/sqlite"
 )
 

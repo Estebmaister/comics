@@ -324,8 +324,9 @@ proto-js:
 py-test:
 	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) python3 -m pytest test/*_test.py -v
 
-## @quality:check-go             Run go-test, contract-test, go-vet, and go-build
+## @quality:check-go             Run go-test, contract-test, go-vet, go-build, and golangci-lint
 check-go: go-test contract-test go-vet go-build
+	$(MAKE) -C go_server lint
 
 ## @quality:check-front          Run front-test and front-build
 check-front: front-test front-build
