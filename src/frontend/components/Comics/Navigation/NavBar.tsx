@@ -6,6 +6,7 @@ import { PaginationData } from '../types';
 import PagButtons from './PagButtons';
 import { SortFilterModal, type SortFilterState } from './SortFilterModal';
 import { AuthNav } from '../../Auth/AuthNav';
+import { useMeasuredNavHeight } from '../../../hooks/useMeasuredNavHeight';
 
 interface NavBarProps {
   onlyTracked: boolean;
@@ -89,8 +90,10 @@ const NavBarComponent: React.FC<NavBarProps> = ({
     return parts;
   }, [ratingMax, ratingMin, sortBy]);
 
+  const headerRef = useMeasuredNavHeight<HTMLElement>();
+
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-40">
       <div className="mx-auto w-full max-w-[1560px] px-2.5 pt-2 sm:px-3.5 sm:pt-1.5 lg:px-5">
         <div className="app-toolbar px-2.5 py-2 sm:px-3 sm:py-1.5">
           <div className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-1.5">
@@ -123,16 +126,18 @@ const NavBarComponent: React.FC<NavBarProps> = ({
               onChange={handleInputChange}
             />
 
-            <div className="grid w-full grid-cols-2 gap-1.5 sm:ml-auto sm:flex sm:w-auto sm:items-center sm:gap-1.5">
-              <AuthNav />
-              <button
-                className="basic-button neutral-button w-full min-h-[2.4rem] min-w-0 px-3 text-[0.72rem] leading-none sm:w-auto sm:min-h-[2.2rem] sm:min-w-[6rem] sm:px-3 sm:text-[0.75rem]"
-                type="button"
-                onClick={() => setIsSortFilterOpen(true)}
-                aria-label="Open sort and filter options"
-              >
-                Sort/Filter{filterLabelParts.length ? ` (${filterLabelParts.join(' · ')})` : ''}
-              </button>
+            <div className="flex w-full flex-col gap-1 sm:ml-auto sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-1.5">
+              <div className="flex w-full min-w-0 items-center gap-1.5 sm:w-auto">
+                <AuthNav className="auth-nav-toolbar" />
+                <button
+                  className="basic-button neutral-button ml-auto w-full min-h-[2.4rem] min-w-0 shrink-0 px-3 text-[0.72rem] leading-none max-sm:max-w-[9.5rem] sm:ml-0 sm:w-auto sm:min-h-[2.2rem] sm:min-w-[6rem] sm:px-3 sm:text-[0.75rem]"
+                  type="button"
+                  onClick={() => setIsSortFilterOpen(true)}
+                  aria-label="Open sort and filter options"
+                >
+                  Sort/Filter{filterLabelParts.length ? ` (${filterLabelParts.join(' · ')})` : ''}
+                </button>
+              </div>
               <PagButtons pagD={paginationData} />
             </div>
           </div>

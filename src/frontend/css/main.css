@@ -109,8 +109,8 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--surface-0);
     background-image:
-      radial-gradient(circle at 12% 0%, rgb(34 211 238 / 16%), transparent 34%),
-      radial-gradient(circle at 88% 8%, rgb(251 146 60 / 14%), transparent 28%),
+      radial-gradient(circle at 12% 0%, rgb(34 211 238 / 10%), transparent 34%),
+      radial-gradient(circle at 88% 8%, rgb(251 146 60 / 8%), transparent 28%),
       linear-gradient(145deg, #020617 0%, #081120 42%, #0d172b 100%);
     background-attachment: fixed;
   }
@@ -307,7 +307,7 @@
 
   @media only screen and (max-width: 640px) {
     :root {
-      --nav-height: 9.9rem;
+      --nav-height: 11rem;
     }
 
     .text {

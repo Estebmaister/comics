@@ -10,6 +10,7 @@ import MergeComic from '../Edition/MergeComic';
 import ScrapeButton from '../Edition/ScrapeButton';
 import { ComicListFetchError, dataFetch, isAbortError } from '../../../util/ServerHelpers';
 import { Comic, PaginationState } from '../types';
+import { NAV_HEIGHT_UPDATED_EVENT } from '../../../hooks/useMeasuredNavHeight';
 import { calculatePageLimit, handleSearchInput } from '../utils';
 import { REFRESH_INTERVAL, SEARCH_DEBOUNCE_MS } from '../constants';
 import { FloatingActionRail } from '../Actions/FloatingActionRail';
@@ -171,7 +172,7 @@ export function ComicsMainPage() {
 
   useEffect(() => {
     let rafId = 0;
-    const handleResize = () => {
+    const syncPageLimit = () => {
       cancelAnimationFrame(rafId);
       rafId = window.requestAnimationFrame(() => {
         const nextLimit = calculatePageLimit(window.innerWidth, window.innerHeight);
@@ -179,10 +180,12 @@ export function ComicsMainPage() {
       });
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', syncPageLimit);
+    window.addEventListener(NAV_HEIGHT_UPDATED_EVENT, syncPageLimit);
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', syncPageLimit);
+      window.removeEventListener(NAV_HEIGHT_UPDATED_EVENT, syncPageLimit);
     };
   }, []);
 

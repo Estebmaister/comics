@@ -18,8 +18,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 8% 12%, rgb(34 211 238 / 0.08), transparent 28%),
-    radial-gradient(circle at 88% 88%, rgb(251 146 60 / 0.08), transparent 26%);
+    radial-gradient(circle at 8% 12%, rgb(34 211 238 / 0.04), transparent 28%),
+    radial-gradient(circle at 88% 88%, rgb(251 146 60 / 0.04), transparent 26%);
+  opacity: 0.55;
   pointer-events: none;
 }
 
@@ -30,6 +31,7 @@
   grid-template-columns: 152px minmax(0, 1fr);
   gap: 1rem;
   height: 100%;
+  min-height: 0;
 }
 
 .posterShell {
@@ -65,10 +67,12 @@
   align-content: end;
   gap: 0.5rem;
   padding: 1rem;
-  background:
-    radial-gradient(circle at 18% 10%, rgb(34 211 238 / 0.2), transparent 28%),
-    radial-gradient(circle at 88% 88%, rgb(251 146 60 / 0.24), transparent 30%),
-    linear-gradient(165deg, rgb(15 23 42 / 0.98), rgb(17 24 39 / 0.92));
+  background: transparent;
+}
+
+.posterFrame:has([data-testid='poster-fallback']) {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--border-subtle);
 }
 
 .posterFallbackBadge {
@@ -182,6 +186,8 @@
   height: 100%;
   width: 100%;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   gap: 0.55rem;
 }
 
@@ -348,6 +354,8 @@
   align-content: start;
   width: 100%;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .metaItem {
@@ -378,7 +386,7 @@
 .metaClamp {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 
@@ -387,7 +395,6 @@
   grid-template-columns: minmax(0, 1fr) 6.7rem;
   gap: 0.72rem;
   align-items: end;
-  min-height: 4.55rem;
   width: 100%;
   min-width: 0;
 }
@@ -400,7 +407,7 @@
   min-width: 0;
   text-align: left;
   align-self: stretch;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .publisherLinks {
@@ -435,15 +442,32 @@
 
 .actionsColumn {
   display: grid;
-  min-width: 6.7rem;
+  min-width: 0;
+  max-width: 6.7rem;
+  width: 100%;
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 0.38rem;
   align-items: stretch;
   justify-content: end;
+  justify-self: end;
   min-height: 4.55rem;
 }
 
+.actionsColumn:not(:has(.checkoutButton)) {
+  grid-template-rows: auto;
+  min-height: 0;
+  align-content: end;
+}
+
+.actionsColumn:not(:has(.checkoutButton)) .actionButtonPlaceholder {
+  display: none;
+}
+
 .actionButton {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 2.08rem;
   border-radius: 999px !important;
   font-size: 0.72rem !important;
@@ -549,6 +573,15 @@
     gap: 0.32rem;
   }
 
+  .posterFrame:has([data-testid='poster-fallback']) {
+    box-shadow: none;
+  }
+
+  .footerRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4.65rem);
+    gap: 0.4rem;
+  }
+
   .headingBlock {
     gap: 0.1rem;
   }
@@ -618,12 +651,6 @@
     -webkit-line-clamp: 1;
   }
 
-  .footerRow {
-    grid-template-columns: minmax(0, 1fr) 5.35rem;
-    gap: 0.55rem;
-    min-height: 4.08rem;
-  }
-
   .publisherText {
     gap: 0.16rem;
   }
@@ -634,16 +661,27 @@
   }
 
   .actionsColumn {
-    min-width: 5.35rem;
-    width: auto;
+    max-width: 4.65rem;
     gap: 0.24rem;
-    min-height: 4.08rem;
+    min-height: 3.6rem;
+  }
+
+  .actionsColumn:not(:has(.checkoutButton)) {
+    min-height: 0;
+  }
+
+  .actionButton:hover,
+  .actionButton:focus-visible {
+    transform: none;
   }
 
   .actionButton {
     min-height: 1.8rem;
-    padding: 0.45rem 0.7rem !important;
+    padding: 0.4rem 0.35rem !important;
     font-size: 0.64rem !important;
+    box-shadow:
+      0 6px 14px rgb(2 6 23 / 22%),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
   }
 
   .actionButtonPlaceholder {
@@ -705,9 +743,8 @@
   }
 
   .footerRow {
-    grid-template-columns: minmax(0, 1fr) 5.05rem;
-    gap: 0.42rem;
-    min-height: 3.82rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 4.45rem);
+    gap: 0.35rem;
   }
 
   .publisherLinks {
@@ -715,9 +752,13 @@
   }
 
   .actionsColumn {
-    min-width: 5.05rem;
+    max-width: 4.45rem;
     gap: 0.2rem;
-    min-height: 3.82rem;
+    min-height: 3.45rem;
+  }
+
+  .actionsColumn:not(:has(.checkoutButton)) {
+    min-height: 0;
   }
 
   .actionButtonPlaceholder {
@@ -726,6 +767,7 @@
 
   .actionButton {
     min-height: 1.68rem;
+    padding: 0.35rem 0.28rem !important;
     font-size: 0.6rem !important;
   }
 }

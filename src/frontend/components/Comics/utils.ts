@@ -4,10 +4,39 @@ import {
   DESKTOP_TWO_COLUMN_MIN_WIDTH,
   DESKTOP_THREE_COLUMN_MIN_WIDTH,
   MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT,
-  MOBILE_VIEWPORT_RESERVED_HEIGHT,
+  MOBILE_LIST_TOP_PADDING_PX,
+  MOBILE_NAV_HEIGHT_FALLBACK_PX,
+  MOBILE_PAGE_LIMIT_BUFFER_PX,
   PHONE_VIEWPORT_MAX_WIDTH,
   VIEWPORT_RESERVED_HEIGHT,
 } from './constants';
+
+export type PageLimitOptions = {
+  navHeightPx?: number;
+};
+
+/**
+ * Parse --nav-height from the document (px from ResizeObserver or rem fallback).
+ */
+export function readNavHeightPx(): number {
+  if (typeof document === 'undefined') {
+    return MOBILE_NAV_HEIGHT_FALLBACK_PX;
+  }
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--nav-height').trim();
+  if (!raw) {
+    return MOBILE_NAV_HEIGHT_FALLBACK_PX;
+  }
+  if (raw.endsWith('px')) {
+    const parsed = Number.parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed : MOBILE_NAV_HEIGHT_FALLBACK_PX;
+  }
+  if (raw.endsWith('rem')) {
+    const parsed = Number.parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed * 16 : MOBILE_NAV_HEIGHT_FALLBACK_PX;
+  }
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed : MOBILE_NAV_HEIGHT_FALLBACK_PX;
+}
 
 /**
  * Calculate the number of comics that can fit in one row based on the
@@ -19,6 +48,15 @@ export const calculateInlineComics = (width = window.innerWidth): number => {
   return 1;
 };
 
+function mobilePageLimit(height: number, navHeightPx: number): number {
+  const usable = Math.max(
+    0,
+    height - navHeightPx - MOBILE_LIST_TOP_PADDING_PX - MOBILE_PAGE_LIMIT_BUFFER_PX,
+  );
+  const fractionalRows = usable / MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT;
+  return fractionalRows >= 2.5 ? 3 : 2;
+}
+
 /**
  * Calculate page size using both width and height.
  * - 3 columns => 9 cards (3×3 grid)
@@ -27,16 +65,16 @@ export const calculateInlineComics = (width = window.innerWidth): number => {
  */
 export const calculatePageLimit = (
   width = window.innerWidth,
-  height = window.innerHeight
+  height = window.innerHeight,
+  options: PageLimitOptions = {},
 ): number => {
   const columns = calculateInlineComics(width);
   if (columns >= 3) return 9;
   if (columns === 1) {
     if (width > PHONE_VIEWPORT_MAX_WIDTH) return 3;
 
-    const usableHeight = Math.max(0, height - MOBILE_VIEWPORT_RESERVED_HEIGHT);
-    const possibleRows = Math.floor(usableHeight / MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT);
-    return possibleRows >= 3 ? 3 : 2;
+    const navHeightPx = options.navHeightPx ?? readNavHeightPx();
+    return mobilePageLimit(height, navHeightPx);
   }
 
   const usableHeight = Math.max(0, height - VIEWPORT_RESERVED_HEIGHT);

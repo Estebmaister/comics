@@ -93,3 +93,29 @@
   border: 0;
   cursor: pointer;
 }
+
+.auth-nav-toolbar {
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.auth-nav-toolbar a,
+.auth-nav-toolbar button {
+  padding: 0.15rem 0;
+}
+
+@media (max-width: 640px) {
+  .auth-nav-toolbar {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .auth-nav-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+}

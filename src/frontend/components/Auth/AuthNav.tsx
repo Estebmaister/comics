@@ -2,11 +2,15 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Auth.css';
 
-export const AuthNav = () => {
+type AuthNavProps = {
+  className?: string;
+};
+
+export const AuthNav = ({ className = '' }: AuthNavProps) => {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <div className="auth-nav">
+    <div className={`auth-nav ${className}`.trim()}>
       <Link to="/">Comics</Link>
       {isAuthenticated ? (
         <>
