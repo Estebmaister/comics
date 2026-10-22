@@ -136,7 +136,7 @@ func setDefaults() {
 	viper.SetDefault("INIT_TIMEOUT", defaultCtxTimeout)
 	viper.SetDefault("SCRAPE_INTERVAL", 10*time.Minute)
 	viper.SetDefault("COMICS_DB_DRIVER", "sqlite")
-	viper.SetDefault("COMICS_SQLITE_PATH", filepath.Join("..", "src", "db", "comics.db"))
+	viper.SetDefault("COMICS_SQLITE_PATH", filepath.Join("..", "db", "comics.db"))
 	viper.SetDefault("CORS_ALLOWED_ORIGINS",
 		"http://localhost:3000,https://localhost:3000,http://127.0.0.1:3000,https://127.0.0.1:3000,https://estebmaister.github.io")
 	viper.SetDefault("DB_ADDR", "localhost:27017")

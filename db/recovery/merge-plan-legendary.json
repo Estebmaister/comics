@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-10-20T21:29:03.047073+00:00",
+  "group_count": 2,
+  "low_risk_count": 0,
+  "review_count": 2,
+  "cross_type_count": 0,
+  "groups": [
+    {
+      "group_id": "title-prefix:3:legendaryheroisana",
+      "reason": "title_prefix",
+      "cross_type": false,
+      "com_type": 3,
+      "com_types": [
+        3
+      ],
+      "canonical_id": 3730,
+      "canonical_com_type": 3,
+      "merge_ids": [
+        12426,
+        32384,
+        32392
+      ],
+      "ids": [
+        3730,
+        12426,
+        32384,
+        32392
+      ],
+      "titles": [
+        [
+          "The legendary hero is an academy honor student",
+          "The legendary hero is an academy hono",
+          "The legendary hero is an academy honors student"
+        ],
+        [
+          "Legendary hero is an academy honors student"
+        ],
+        [
+          "The legendary hero is an academy honors student"
+        ],
+        [
+          "The legendary hero is an academy hono"
+        ]
+      ],
+      "identity_keys": [
+        "series:the legendary hero is an academy honor student",
+        "series:legendary hero is an academy honors student",
+        "series:the legendary hero is an academy honors student",
+        "series:the legendary hero is an academy hono"
+      ],
+      "current_chap": [
+        76,
+        50,
+        109,
+        82
+      ],
+      "chapter_spread": 59,
+      "chapter_ratio": 0.4587,
+      "signals": {
+        "title_prefix": true,
+        "exact_title": true,
+        "chapters_close": false,
+        "chapters_far": true
+      },
+      "risk": "review",
+      "approved": true
+    },
+    {
+      "group_id": "title-prefix:4:legendaryheroisana",
+      "reason": "title_prefix",
+      "cross_type": false,
+      "com_type": 4,
+      "com_types": [
+        4
+      ],
+      "canonical_id": 3763,
+      "canonical_com_type": 4,
+      "merge_ids": [
+        32314
+      ],
+      "ids": [
+        3763,
+        32314
+      ],
+      "titles": [
+        [
+          "The legendary hero is an academy honor student - novel",
+          "The legendary hero is an academy hono"
+        ],
+        [
+          "The legendary hero is an academy hono - novel"
+        ]
+      ],
+      "identity_keys": [
+        "novel:the legendary hero is an academy honor student",
+        "novel:the legendary hero is an academy hono"
+      ],
+      "current_chap": [
+        336,
+        50
+      ],
+      "chapter_spread": 286,
+      "chapter_ratio": 0.1488,
+      "signals": {
+        "title_prefix": true,
+        "exact_title": true,
+        "chapters_close": false,
+        "chapters_far": true
+      },
+      "risk": "review",
+      "approved": true
+    }
+  ]
+}

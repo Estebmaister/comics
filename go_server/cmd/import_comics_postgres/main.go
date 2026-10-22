@@ -48,7 +48,7 @@ func main() {
 		_ = godotenv.Load("../.env")
 	}
 
-	sqlitePath := firstNonEmpty(os.Getenv("COMICS_SQLITE_PATH"), "../src/db/comics.db")
+	sqlitePath := firstNonEmpty(os.Getenv("COMICS_SQLITE_PATH"), "../db/comics.db")
 	postgresURL := os.Getenv("COMICS_POSTGRES_URL")
 	if postgresURL == "" {
 		postgresURL = os.Getenv("DATABASE_URL")
