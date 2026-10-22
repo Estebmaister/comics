@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from 'react';
 import type { ReactNode } from 'react';
 import config from '../../../util/Config';
-import db_classes from '../../../../db/db_classes.json';
+import db_classes from '../../../../../db/db_classes.json';
 import { useComicCard } from '../Card/ComicCardContext';
 import Loaders from '../../Loaders';
 import { useToast } from '../../Toast/ToastProvider';

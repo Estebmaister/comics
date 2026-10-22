@@ -50,7 +50,12 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await act(async () => {
+    vi.runOnlyPendingTimers();
+    await Promise.resolve();
+  });
+  vi.clearAllTimers();
   vi.useRealTimers();
 });
 

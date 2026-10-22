@@ -7,6 +7,7 @@ export const DESKTOP_THREE_COLUMN_MIN_WIDTH = 1600;
 export const PHONE_VIEWPORT_MAX_WIDTH = 640;
 // Card grid row stride: fixed card height (19.1rem) + sm grid gap (1rem) at 16px root.
 export const COMIC_CARD_ESTIMATED_ROW_HEIGHT = 322;
+/** @deprecated Use measured --nav-height + list padding in utils.ts */
 export const VIEWPORT_RESERVED_HEIGHT = 180;
 // Mobile: 14.1rem card + gap-2.5 (0.625rem) at 16px root.
 export const MOBILE_COMIC_CARD_HEIGHT_REM = 14.1;

@@ -83,18 +83,18 @@ cd go_server
 docker compose up --build
 ```
 
-Both mount `../src/db` as writable `/data` for SQLite and expose HTTP on port `8081`.
+Both mount `../db` as writable `/data` for SQLite and expose HTTP on port `8081`.
 
 ## Comics Database
 
-SQLite remains the rollback/source database at `../src/db/comics.db`. To run
+SQLite remains the rollback/source database at `../db/comics.db`. To run
 the Go REST API against Postgres, create ignored `go_server/.env` from
 `local.env` and set:
 
 ```env
 COMICS_DB_DRIVER=postgres
 COMICS_POSTGRES_URL=postgresql://USER:PASSWORD@HOST/DB?sslmode=require
-COMICS_SQLITE_PATH=../src/db/comics.db
+COMICS_SQLITE_PATH=../db/comics.db
 ```
 
 Import the SQLite source of truth into Postgres:
@@ -112,7 +112,7 @@ Current SQLite source size is about 9.9 MiB for 31,444 comics. Expected
 Postgres size with table and index overhead is roughly 10-20 MiB.
 
 Rollback is config-only unless Postgres data must be restored: set
-`COMICS_DB_DRIVER=sqlite` and keep `COMICS_SQLITE_PATH=../src/db/comics.db`.
+`COMICS_DB_DRIVER=sqlite` and keep `COMICS_SQLITE_PATH=../db/comics.db`.
 
 ## Frontend Against Go
 

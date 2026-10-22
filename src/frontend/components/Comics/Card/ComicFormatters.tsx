@@ -1,6 +1,6 @@
 import React from 'react';
 import { Genres, Publishers } from '../../../util/ComicClasses';
-import urlSwitchData from '../../../../scrape/url_switch.json';
+import urlSwitchData from '@config/url_switch.json';
 import type { ComicLookupValue } from '../types';
 
 const urlSwitch: { [key: string]: string[] } = urlSwitchData;

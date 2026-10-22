@@ -66,6 +66,7 @@ func TestExtractAsuraComicsFromProps(t *testing.T) {
 }
 
 func extractAsuraComicsFromProps(props map[string]any) []ScrapedComic {
+	latestBySlug := buildAsuraLatestChapterBySlug(props)
 	comics := make([]ScrapedComic, 0)
 	for _, key := range []string{"chapters", "items"} {
 		collection, ok := props[key].([]any)
@@ -77,12 +78,57 @@ func extractAsuraComicsFromProps(props map[string]any) []ScrapedComic {
 			if !ok {
 				continue
 			}
-			if comic, ok := comicFromAsuraEntry(item); ok {
+			if comic, ok := comicFromAsuraEntry(item, latestBySlug); ok {
 				comics = append(comics, comic)
 			}
 		}
 	}
 	return comics
+}
+
+func TestAsuraCapsNovelChapterCountOnSeriesCard(t *testing.T) {
+	props := map[string]any{
+		"chapters": []any{
+			map[string]any{
+				"comic_name":       "I Became the First Prince: Legend of Sword's Song",
+				"comic_slug":       "i-became-the-first-prince-legend-of-swords-song",
+				"comic_public_url": "/comics/i-became-the-first-prince-legend-of-swords-song-11fe7da3",
+				"number":           58,
+				"type":             "manhwa",
+				"status":           "ongoing",
+			},
+		},
+		"initialSeries": []any{
+			map[string]any{
+				"title":         "I Became the First Prince: Legend of Sword's Song",
+				"slug":          "i-became-the-first-prince-legend-of-swords-song",
+				"chapter_count": 259,
+				"cover_url":     "https://cdn.asurascans.com/cover.webp",
+				"type":          "manhwa",
+				"status":        "ongoing",
+			},
+		},
+	}
+	latestBySlug := buildAsuraLatestChapterBySlug(props)
+	comic, ok := comicFromAsuraEntry(props["initialSeries"].([]any)[0].(map[string]any), latestBySlug)
+	if !ok {
+		t.Fatal("expected series comic")
+	}
+	if comic.Chapter != "58" {
+		t.Fatalf("expected chapter 58 from feed cap, got %q", comic.Chapter)
+	}
+}
+
+func TestAsuraSkipsNovelURLSeries(t *testing.T) {
+	_, ok := comicFromAsuraEntry(map[string]any{
+		"title":         "I Became the First Prince: Legend of Sword's Song",
+		"chapter_count": 259,
+		"public_url":    "/novels/i-became-the-first-prince-legend-of-swords-song",
+		"type":          "novel",
+	}, nil)
+	if ok {
+		t.Fatal("expected novel entry to be skipped")
+	}
 }
 
 func TestExtractAsuraInitialSeries(t *testing.T) {

@@ -150,8 +150,8 @@ func ensureSQLitePerformanceIndexes(db *sql.DB) error {
 func findSQLiteComicDB() string {
 	candidates := []string{
 		os.Getenv("COMICS_SQLITE_PATH"),
-		filepath.Join("..", "src", "db", "comics.db"),
-		filepath.Join("src", "db", "comics.db"),
+		filepath.Join("..", "db", "comics.db"),
+		filepath.Join("db", "comics.db"),
 	}
 	for _, candidate := range candidates {
 		if candidate == "" {

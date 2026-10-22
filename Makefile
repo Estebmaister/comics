@@ -1,24 +1,20 @@
 .DEFAULT_GOAL := help
 
 # Define phony targets (targets that don't represent actual files)
-.PHONY: help setup setup-venv setup-venv-clean setup-shell setup-py setup-go setup-front \
-				deps-py-upgrade front-dev front-dev-https front-build front-test front-deploy \
+.PHONY: help setup setup-go setup-front \
+				front-dev front-dev-https front-build front-test front-deploy \
 				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres mongo-up mongo-init \
-				db-backup db-restore db-check db-repair-identity db-audit-covers \
-				py-test check check-go check-front check-py \
-				proto-py proto-go proto-js \
+				db-backup db-restore db-check db-reindex \
+				check check-go check-front \
+				proto-go proto-js \
 				dev-up dev-down dev-status dev-logs dev-restart \
 				docker-build docker-run docker-dev docker-down clean doctor status
 
 # Enable running multiple commands in a recipe using a single shell
 .ONESHELL:
 
-# Virtual environment configuration
-VENV_DIR := comics_env
-ACT_VENV := . ./$(VENV_DIR)/bin/activate
-PYTHONPATH := src
-DB_FILE ?= src/db/comics.db
-REPAIR_FLAGS := $(if $(APPLY),--apply,)
+DB_FILE ?= db/comics.db
+COMICS_JSON ?= db/comics.json
 
 # Colors for help text
 CYAN := \033[36m
@@ -42,11 +38,10 @@ help:
 	else \
 		echo "$(BOLD)Comics — available targets$(RESET)"; \
 		echo ""; \
-		for section in setup frontend python go database proto quality deploy docker util; do \
+		for section in setup frontend go database proto quality deploy docker util; do \
 			case "$$section" in \
 				setup) label="Setup";; \
 				frontend) label="Frontend";; \
-				python) label="Python";; \
 				go) label="Go";; \
 				database) label="Database";; \
 				proto) label="Protobuf";; \
@@ -62,7 +57,7 @@ help:
 				echo ""; \
 			fi; \
 		done; \
-		echo "$(DIM)Env templates: local.env (Python/Render), go_server/local.env (Go), .env (local copy)$(RESET)"; \
+		echo "$(DIM)Env templates: local.env (optional), go_server/local.env (Go), .env (local copy)$(RESET)"; \
 		echo "$(DIM)Default ports: front :3000, go-run :8081$(RESET)"; \
 		echo "$(DIM)Detail: make help TARGET=<name>   Validate: make doctor$(RESET)"; \
 	fi
@@ -74,10 +69,10 @@ help:
 # Setup
 # ---------------------------------------------------------------------------
 
-## @setup:setup              Full onboarding: venv, Python, Go, frontend, protobuf, git hooks
-##? setup  Run once after cloning to install all toolchain dependencies.
-##? setup  Example: make setup && cp local.env .env && make doctor
-setup: setup-venv setup-py setup-go setup-front proto-py proto-go setup-hooks
+## @setup:setup              Onboarding: Go, frontend, protobuf, git hooks
+##? setup  Run once after cloning to install toolchain dependencies.
+##? setup  Example: make setup && cp go_server/local.env go_server/.env && make doctor
+setup: setup-go setup-front proto-go setup-hooks
 	@echo "Setup complete. Run 'make doctor' to validate the environment."
 
 ## @setup:setup-hooks         Point git at .githooks and mark hook scripts executable
@@ -86,28 +81,6 @@ setup-hooks:
 	@git config core.hooksPath .githooks
 	@chmod +x .githooks/pre-commit .githooks/prepare-commit-msg .githooks/generate_docs.sh .githooks/lint_ai.sh
 	@echo "Git hooks: .githooks (see .githooks/README.md)"
-
-$(VENV_DIR)/touchfile: requirements.txt
-	test -d "$(VENV_DIR)" || python3 -m venv "$(VENV_DIR)"
-	$(ACT_VENV) && pip install --upgrade --requirement requirements.txt
-	touch "$(VENV_DIR)/touchfile"
-
-## @setup:setup-venv         Create Python virtual environment from requirements.txt
-##? setup-venv  Creates comics_env/ and installs Python dependencies.
-setup-venv: $(VENV_DIR)/touchfile
-
-## @setup:setup-venv-clean    Remove the Python virtual environment
-setup-venv-clean:
-	rm -rf $(VENV_DIR)
-
-## @setup:setup-shell         Print virtual environment activation command
-setup-shell:
-	@echo "Run '$(ACT_VENV)' to activate the virtual environment."
-
-## @setup:setup-py            Install Python dependencies into the virtualenv
-setup-py:
-	@echo "Python setup..."
-	$(ACT_VENV) && pip install -r requirements.txt
 
 ## @setup:setup-go            Install and tidy Go module dependencies
 setup-go:
@@ -118,12 +91,6 @@ setup-go:
 setup-front:
 	@echo "Frontend setup..."
 	npm ci
-
-## @setup:deps-py-upgrade      Upgrade Python deps and rewrite requirements.txt
-deps-py-upgrade:
-	$(ACT_VENV) && \
-	cat requirements.txt | cut -f1 -d= | xargs pip install -U && \
-	pip freeze > requirements.txt
 
 # ---------------------------------------------------------------------------
 # Full-stack dev (Go + Vite)
@@ -157,15 +124,10 @@ dev-restart: dev-down
 # ---------------------------------------------------------------------------
 
 ## @frontend:front-dev         Start Vite dev server (http://localhost:3000)
-##? front-dev  Port: 3000
-##? front-dev  Env: VITE_API_SERVER=/api (default proxy to Go :8081)
-##? front-dev  Example: make front-dev
 front-dev:
 	npm run start
 
 ## @frontend:front-dev-https   Start Vite HTTPS dev server (requires ./tls/comics.crt + .key)
-##? front-dev-https  Port: 3000 (HTTPS)
-##? front-dev-https  Requires TLS files in ./tls/
 front-dev-https:
 	npm run start:dev
 
@@ -178,7 +140,6 @@ front-test:
 	npm run test
 
 ## @deploy:front-deploy         Build and publish frontend to GitHub Pages
-##? front-deploy  Runs predeploy build, then gh-pages push to build/
 front-deploy:
 	npm run deploy
 
@@ -187,8 +148,6 @@ front-deploy:
 # ---------------------------------------------------------------------------
 
 ## @go:go-run                  Start Go REST server with air hot reload (port 8081)
-##? go-run  Port: 8081 (HTTPS when ../tls/comics.crt exists)
-##? go-run  Env: go_server/.env from go_server/local.env
 go-run:
 	$(MAKE) -C go_server go-run
 
@@ -220,8 +179,7 @@ go-migrate-up:
 go-migrate-down:
 	$(MAKE) -C go_server go-migrate-down
 
-## @go:go-import-postgres      Import src/db/comics.db into configured Postgres target
-##? go-import-postgres  Configure COMICS_POSTGRES_URL in go_server/.env
+## @go:go-import-postgres      Import db/comics.db into configured Postgres target
 go-import-postgres:
 	$(MAKE) -C go_server go-import-postgres
 
@@ -237,18 +195,29 @@ mongo-init:
 # Database
 # ---------------------------------------------------------------------------
 
-## @database:db-backup         Export SQLite comics to timestamped JSON in src/db/backups/
+## @database:db-backup         SQLite backup file under db/backups/
 db-backup:
-	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
-	python3 -c 'from db.backup_db import backup_database; backup_database()'
+	@mkdir -p db/backups
+	@ts=$$(date +%Y%m%d_%H%M%S); \
+	dest="db/backups/comics_backup_$${ts}.db"; \
+	sqlite3 "$(DB_FILE)" ".backup '$${dest}'"; \
+	echo "Backup: $${dest}"
 
-## @database:db-restore         Rebuild SQLite from src/db/comics.json
+## @database:db-restore         Restore SQLite from BACKUP=db/backups/<file>.db
 db-restore:
-	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
-	python3 -c 'from db.repopulate_db import main; main()'
+	@if [ -z "$(BACKUP)" ]; then \
+		echo "Set BACKUP=db/backups/<file>.db"; \
+		exit 1; \
+	fi
+	@if [ ! -f "$(BACKUP)" ]; then \
+		echo "Backup not found: $(BACKUP)"; \
+		exit 1; \
+	fi
+	@cp "$(BACKUP)" "$(DB_FILE)"
+	@echo "Restored $(DB_FILE) from $(BACKUP)"
 
 ## @database:db-check           Run PRAGMA integrity_check on comics.db
-##? db-check  Env: DB_FILE (default src/db/comics.db)
+##? db-check  Env: DB_FILE (default db/comics.db)
 db-check:
 	@if [ ! -f "$(DB_FILE)" ]; then \
 		echo "Database not found: $(DB_FILE)"; \
@@ -259,7 +228,7 @@ db-check:
 	test "$$result" = "ok"
 
 ## @database:db-reindex          Repair SQLite index corruption (checkpoint + REINDEX + VACUUM)
-##? db-reindex  Env: DB_FILE (default src/db/comics.db)
+##? db-reindex  Env: DB_FILE (default db/comics.db)
 db-reindex:
 	@if [ ! -f "$(DB_FILE)" ]; then \
 		echo "Database not found: $(DB_FILE)"; \
@@ -267,48 +236,17 @@ db-reindex:
 	fi
 	@sqlite3 "$(DB_FILE)" "PRAGMA wal_checkpoint(TRUNCATE); REINDEX; VACUUM; PRAGMA integrity_check;"
 
-## @database:db-repair-identity Audit/repair duplicate identity_key groups (dry-run default)
-##? db-repair-identity  Export plan: make db-repair-identity ARGS="--export-plan src/db/recovery/merge-plan.json"
-##? db-repair-identity  Apply approved plan: make db-repair-identity APPLY=1 ARGS="--import-plan src/db/recovery/merge-plan.json"
-db-repair-identity:
-	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
-	python3 -P src/db/repair_identity_duplicates.py $(REPAIR_FLAGS) $(ARGS)
-
-## @database:db-audit-covers    Probe cover URLs and optionally mark failures invisible
-##? db-audit-covers  Apply updates: make db-audit-covers ARGS="--apply"
-db-audit-covers:
-	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) \
-	python3 src/db/audit_cover_visibility.py $(ARGS)
-
 # ---------------------------------------------------------------------------
 # Protobuf
 # ---------------------------------------------------------------------------
 
 PROTO_DIR := proto
 PROTO_FILES := $(wildcard $(PROTO_DIR)/*.proto)
-PYTHON_OUT := src/pb
-PYTHON_PROTO_OUT := $(PYTHON_OUT)
-PYTHON_SERVICE_OUT := $(PYTHON_OUT)
 JS_OUT := src/frontend/pb
 GO_OUT := go_server/pkg/pb
 GO_PROTO_OUT := $(GO_OUT)
 GO_SERVICE_OUT := $(GO_OUT)
 PROTOC := protoc
-PYTHON_GRPC := python3 -m grpc_tools.protoc
-
-## @proto:proto-py              Generate Python gRPC/protobuf bindings
-proto-py:
-	@echo "Installing Python Protobuf dependencies..."
-	$(ACT_VENV) && pip install grpcio==1.70.0 grpcio-tools==1.70.0
-	@echo "Generating Python Protobuf files..."
-	@mkdir -p $(PYTHON_PROTO_OUT) $(PYTHON_SERVICE_OUT)
-	$(ACT_VENV) && \
-	$(PYTHON_GRPC) -I$(PROTO_DIR) \
-		--python_out=$(PYTHON_OUT) \
-		--pyi_out=$(PYTHON_OUT) \
-		--grpc_python_out=$(PYTHON_OUT) \
-		$(PROTO_FILES)
-	@touch $(PYTHON_PROTO_OUT)/__init__.py $(PYTHON_SERVICE_OUT)/__init__.py
 
 ## @proto:proto-go              Generate Go protobuf bindings
 proto-go:
@@ -335,10 +273,6 @@ proto-js:
 # Quality
 # ---------------------------------------------------------------------------
 
-## @quality:py-test             Run Python pytest suite (PYTHONPATH=src)
-py-test:
-	$(ACT_VENV) && env PYTHONPATH=$(PYTHONPATH) python3 -m pytest test/*_test.py -v
-
 ## @quality:check-go             Run go-test, contract-test, go-vet, go-build, and golangci-lint
 check-go: go-test contract-test go-vet go-build
 	$(MAKE) -C go_server lint
@@ -346,11 +280,7 @@ check-go: go-test contract-test go-vet go-build
 ## @quality:check-front          Run front-test and front-build
 check-front: front-test front-build
 
-## @quality:check-py             Alias for py-test
-check-py: py-test
-
-## @quality:check                Run all release-path checks (Go + frontend + Python)
-##? check  Pre-push gate: check-go, check-front, check-py
+## @quality:check                Run all release-path checks (Go + frontend)
 check:
 	@failed=0; \
 	echo "== check-go =="; \
@@ -358,9 +288,6 @@ check:
 	echo ""; \
 	echo "== check-front =="; \
 	$(MAKE) check-front || failed=1; \
-	echo ""; \
-	echo "== check-py =="; \
-	$(MAKE) check-py || failed=1; \
 	echo ""; \
 	if [ $$failed -ne 0 ]; then \
 		echo "check FAILED"; \
@@ -377,11 +304,10 @@ docker-build:
 	docker build -t comics-go-api -f Dockerfile .
 
 ## @docker:docker-run           Start API + Mongo via docker compose (port 8081)
-##? docker-run  Requires go_server/.env with DB secrets for Atlas, or local Mongo only
 docker-run:
 	docker compose up --build comics_server
 
-## @docker:docker-dev           Foreground compose stack (API + Mongo, SQLite in src/db)
+## @docker:docker-dev           Foreground compose stack (API + Mongo, SQLite in db/)
 docker-dev:
 	docker compose up --build
 
@@ -393,15 +319,12 @@ docker-down:
 # Utility
 # ---------------------------------------------------------------------------
 
-## @util:doctor                Validate local environment (venv, node_modules, env files)
-##? doctor  Exits non-zero when critical setup pieces are missing
+## @util:doctor                Validate local environment (node_modules, env files, DB)
 doctor:
 	@failed=0; \
 	echo "Environment check:"; \
-	if [ -d "$(VENV_DIR)" ]; then echo "  [ok] $(VENV_DIR)/"; else echo "  [!!] missing $(VENV_DIR)/ — run make setup-venv"; failed=1; fi; \
 	if [ -d node_modules ]; then echo "  [ok] node_modules/"; else echo "  [!!] missing node_modules/ — run make setup-front"; failed=1; fi; \
-	if [ -f .env ] || [ -f local.env ]; then echo "  [ok] Python env template (.env or local.env)"; else echo "  [??] no .env or local.env — copy local.env for db-* / py-test"; fi; \
-	if [ -f go_server/.env ] || [ -f go_server/local.env ]; then echo "  [ok] Go env template"; else echo "  [??] no go_server/.env — needed for go-run/postgres workflows"; fi; \
+	if [ -f go_server/.env ] || [ -f go_server/local.env ]; then echo "  [ok] Go env template"; else echo "  [??] no go_server/.env — needed for go-run"; fi; \
 	if [ -f tls/comics.crt ] && [ -f tls/comics.key ]; then echo "  [ok] TLS certs for HTTPS dev"; else echo "  [..] no TLS certs — front-dev-https / go-run HTTPS unavailable"; fi; \
 	if [ -f "$(DB_FILE)" ]; then \
 		result=$$(sqlite3 "$(DB_FILE)" "PRAGMA integrity_check;" 2>/dev/null || echo "error"); \
@@ -425,8 +348,6 @@ status:
 ## @util:clean                  Remove generated protobuf files and __pycache__
 clean:
 	@echo "Cleaning generated files..."
-	@rm -rf $(PYTHON_PROTO_OUT)/*_pb2*.py
-	@rm -rf $(PYTHON_SERVICE_OUT)/*_pb2*.py
 	@rm -rf $(GO_PROTO_OUT)/*.pb.go
 	@rm -rf $(GO_SERVICE_OUT)/*.pb.go
 	find . -type d -name "__pycache__" -exec rm -r {} + 2>/dev/null || true

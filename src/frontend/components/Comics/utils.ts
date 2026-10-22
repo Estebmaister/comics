@@ -8,8 +8,14 @@ import {
   MOBILE_NAV_HEIGHT_FALLBACK_PX,
   MOBILE_PAGE_LIMIT_BUFFER_PX,
   PHONE_VIEWPORT_MAX_WIDTH,
-  VIEWPORT_RESERVED_HEIGHT,
 } from './constants';
+
+const DESKTOP_MIN_ROWS = 2;
+const DESKTOP_MAX_ROWS = 4;
+/** When ~2.15+ desktop card rows fit, prefer 3 rows (matches ~900px-tall viewports). */
+const DESKTOP_THREE_ROW_FRACTION = 2.15;
+/** Need ~3.75+ fractional rows before using a fourth row. */
+const DESKTOP_FOUR_ROW_FRACTION = 3.75;
 
 export type PageLimitOptions = {
   navHeightPx?: number;
@@ -48,20 +54,35 @@ export const calculateInlineComics = (width = window.innerWidth): number => {
   return 1;
 };
 
+function listViewportMargin(navHeightPx: number): number {
+  return navHeightPx + MOBILE_LIST_TOP_PADDING_PX + MOBILE_PAGE_LIMIT_BUFFER_PX;
+}
+
 function mobilePageLimit(height: number, navHeightPx: number): number {
-  const usable = Math.max(
-    0,
-    height - navHeightPx - MOBILE_LIST_TOP_PADDING_PX - MOBILE_PAGE_LIMIT_BUFFER_PX,
-  );
+  const usable = Math.max(0, height - listViewportMargin(navHeightPx));
   const fractionalRows = usable / MOBILE_COMIC_CARD_ESTIMATED_ROW_HEIGHT;
   return fractionalRows >= 2.5 ? 3 : 2;
 }
 
 /**
- * Calculate page size using both width and height.
- * - 3 columns => 9 cards (3×3 grid)
- * - 2 columns => height-dependent row count
- * - 1 column => 2–3 cards on narrow viewports
+ * Desktop / tablet row count from viewport height (19.1rem cards + grid gap).
+ */
+export function desktopRowCount(height: number, navHeightPx: number): number {
+  const usable = Math.max(0, height - listViewportMargin(navHeightPx));
+  const fractionalRows = usable / COMIC_CARD_ESTIMATED_ROW_HEIGHT;
+
+  if (fractionalRows < DESKTOP_THREE_ROW_FRACTION) {
+    return DESKTOP_MIN_ROWS;
+  }
+  if (fractionalRows < DESKTOP_FOUR_ROW_FRACTION) {
+    return 3;
+  }
+  return DESKTOP_MAX_ROWS;
+}
+
+/**
+ * Calculate page size using both width and height (columns × rows).
+ * Phone (≤640px) uses shorter mobile card stride; wider layouts use desktop cards.
  */
 export const calculatePageLimit = (
   width = window.innerWidth,
@@ -69,17 +90,13 @@ export const calculatePageLimit = (
   options: PageLimitOptions = {},
 ): number => {
   const columns = calculateInlineComics(width);
-  if (columns >= 3) return 9;
-  if (columns === 1) {
-    if (width > PHONE_VIEWPORT_MAX_WIDTH) return 3;
+  const navHeightPx = options.navHeightPx ?? readNavHeightPx();
 
-    const navHeightPx = options.navHeightPx ?? readNavHeightPx();
+  if (columns === 1 && width <= PHONE_VIEWPORT_MAX_WIDTH) {
     return mobilePageLimit(height, navHeightPx);
   }
 
-  const usableHeight = Math.max(0, height - VIEWPORT_RESERVED_HEIGHT);
-  const possibleRows = Math.floor(usableHeight / COMIC_CARD_ESTIMATED_ROW_HEIGHT);
-  const rows = Math.max(2, Math.min(4, possibleRows));
+  const rows = desktopRowCount(height, navHeightPx);
   return columns * rows;
 };
 

@@ -24,7 +24,7 @@ services:
       - 8081:8081
       - 8082:8082
     volumes:
-      - ../src/db:/data
+      - ../db:/data
       - ./.observability/log:/app/.observability/log
     depends_on:
       mongodb:

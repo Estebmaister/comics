@@ -1,5 +1,5 @@
 # Production / SSH deploy stack (see .github/workflows/ci-cd.yml).
-# API on :8081, MongoDB for auth, SQLite comics DB mounted from ./src/db.
+# API on :8081, MongoDB for auth, SQLite comics DB mounted from ./db.
 
 services:
   comics_server:
@@ -24,7 +24,7 @@ services:
       - "8081:8081"
       - "8082:8082"
     volumes:
-      - ./src/db:/data
+      - ./db:/data
     depends_on:
       mongodb:
         condition: service_healthy

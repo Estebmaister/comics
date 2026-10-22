@@ -32,6 +32,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@pb': path.resolve(rootDir, 'src/frontend/pb'),
+      '@config': path.resolve(rootDir, 'config'),
     },
   },
   build: {

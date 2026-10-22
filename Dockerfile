@@ -10,6 +10,7 @@ ENV GOTOOLCHAIN=auto
 COPY go_server/go.mod go_server/go.sum ./
 RUN go mod download
 COPY go_server/ .
+COPY config/url_switch.json ./config/url_switch.json
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server
 
@@ -23,6 +24,7 @@ COPY --from=builder /server .
 COPY go_server/templates ./templates
 COPY go_server/static ./static
 COPY go_server/docs ./docs
+COPY config/url_switch.json ./config/url_switch.json
 
 RUN chown -R appuser:appgroup /app
 
@@ -32,6 +34,7 @@ ENV HTTP_ADDRESS=0.0.0.0
 ENV HTTP_PORT=8081
 ENV COMICS_DB_DRIVER=sqlite
 ENV COMICS_SQLITE_PATH=/data/comics.db
+ENV COMICS_URL_SWITCH=/app/config/url_switch.json
 ENV HEALTHCHECK_PATH=/health
 
 EXPOSE 8081

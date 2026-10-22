@@ -59,6 +59,7 @@ func extractAsuraComics(rawProps string) []ScrapedComic {
 	if err != nil {
 		return nil
 	}
+	latestBySlug := buildAsuraLatestChapterBySlug(props)
 	comics := make([]ScrapedComic, 0)
 	for _, key := range []string{"chapters", "items", "initialSeries"} {
 		collection, ok := props[key].([]any)
@@ -70,7 +71,7 @@ func extractAsuraComics(rawProps string) []ScrapedComic {
 			if !ok {
 				continue
 			}
-			if comic, ok := comicFromAsuraEntry(item); ok {
+			if comic, ok := comicFromAsuraEntry(item, latestBySlug); ok {
 				comics = append(comics, comic)
 			}
 		}
@@ -78,7 +79,85 @@ func extractAsuraComics(rawProps string) []ScrapedComic {
 	return comics
 }
 
-func comicFromAsuraEntry(entry map[string]any) (ScrapedComic, bool) {
+// Asura browse payloads sometimes put the linked novel's total chapter_count on the
+// manhwa series card while the chapters feed carries the real latest manhwa number.
+func buildAsuraLatestChapterBySlug(props map[string]any) map[string]int {
+	out := map[string]int{}
+	collection, ok := props["chapters"].([]any)
+	if !ok {
+		return out
+	}
+	for _, entry := range collection {
+		item, ok := entry.(map[string]any)
+		if !ok {
+			continue
+		}
+		slug := asuraEntrySlug(item)
+		if slug == "" {
+			continue
+		}
+		chapter := firstAnyString(item, "number")
+		if chapter == "" {
+			if name := firstString(item, "name"); name != "" && chapterNameDigitsRe.MatchString(name) {
+				chapter = name
+			}
+		}
+		parsed, ok := parseChapterNumber(chapter)
+		if !ok {
+			continue
+		}
+		if parsed > out[slug] {
+			out[slug] = parsed
+		}
+	}
+	return out
+}
+
+func asuraEntryPublicURL(entry map[string]any) string {
+	return firstString(entry, "comic_public_url", "public_url")
+}
+
+func asuraEntrySlug(entry map[string]any) string {
+	if slug := firstString(entry, "comic_slug", "slug"); slug != "" {
+		return strings.ToLower(slug)
+	}
+	return ""
+}
+
+func isAsuraNovelEntry(entry map[string]any) bool {
+	if strings.EqualFold(firstString(entry, "type"), "novel") {
+		return true
+	}
+	return strings.Contains(strings.ToLower(asuraEntryPublicURL(entry)), "/novels/")
+}
+
+func capAsuraSeriesChapterCount(entry map[string]any, chapter string, latestBySlug map[string]int) string {
+	if chapter == "" || len(latestBySlug) == 0 {
+		return chapter
+	}
+	slug := asuraEntrySlug(entry)
+	if slug == "" {
+		return chapter
+	}
+	latest, ok := latestBySlug[slug]
+	if !ok || latest <= 0 {
+		return chapter
+	}
+	parsed, ok := parseChapterNumber(chapter)
+	if !ok {
+		return chapter
+	}
+	const inflationMargin = 5
+	if parsed > latest+inflationMargin {
+		return strconv.Itoa(latest)
+	}
+	return chapter
+}
+
+func comicFromAsuraEntry(entry map[string]any, latestBySlug map[string]int) (ScrapedComic, bool) {
+	if isAsuraNovelEntry(entry) {
+		return ScrapedComic{}, false
+	}
 	title := firstString(entry, "comic_name", "title")
 	cover := firstString(entry, "comic_cover", "cover_url", "cover")
 	comType := firstString(entry, "type")
@@ -89,10 +168,15 @@ func comicFromAsuraEntry(entry map[string]any) (ScrapedComic, bool) {
 	if status == "" {
 		status = "ongoing"
 	}
-	chapter := firstAnyString(entry, "number", "chapter_count")
+	chapter := firstAnyString(entry, "number")
 	if chapter == "" {
-		if name := firstString(entry, "name"); name != "" && chapterNameDigitsRe.MatchString(name) {
-			chapter = name
+		chapter = firstAnyString(entry, "chapter_count")
+		if chapter == "" {
+			if name := firstString(entry, "name"); name != "" && chapterNameDigitsRe.MatchString(name) {
+				chapter = name
+			}
+		} else {
+			chapter = capAsuraSeriesChapterCount(entry, chapter, latestBySlug)
 		}
 	}
 	if title == "" || chapter == "" {

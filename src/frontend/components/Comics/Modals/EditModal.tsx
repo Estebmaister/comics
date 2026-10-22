@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, FormEvent } from 'react';
 import './Modal.css';
 import Modal from '../../Modal';
 import InputDiv from './InputDiv';
-import db_classes from '../../../../db/db_classes.json'
+import db_classes from '../../../../../db/db_classes.json'
 import { handleInputChange, ComicModalProps } from './helpers';
 import type { Comic } from '../types';
 

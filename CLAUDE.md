@@ -1,11 +1,11 @@
 ## Project Overview
 
-A full-stack comic book tracking application with multi-source web scraping, Go-primary backend (Gin), legacy Python tooling, and React frontend. Production targets a single Go application for comics REST, auth, and native scrapers.
+A full-stack comic book tracking application with multi-source web scraping, Go backend (Gin), and React frontend. Production is a single Go application for comics REST, auth, and native scrapers.
 
 ## Architecture Overview
 
 - **Frontend**: React 19 + TypeScript + React Router
-- **Backend**: Gin (Go, primary) + Flask (Python, legacy) + gRPC
+- **Backend**: Gin (Go)
 - **Database**: SQLite (primary) with JSON backup storage
 - **Data Pipeline**: Multi-site web scrapers with data normalization
 - **Deployment**: GitHub Pages (frontend), Koyeb/Heroku/Render (backend)
@@ -110,8 +110,8 @@ make docker-down            # Stop compose stack
 
 ### Comic Schema (SQLite + JSON)
 
-- **Primary DB**: `src/db/comics.db` (SQLite)
-- **Backup/Export**: `src/db/comics.json` (derived from SQLite after successful batch operations)
+- **Primary DB**: `db/comics.db` (SQLite)
+- **Backup/Export**: `db/comics.json` and timestamped files in `db/backups/` (from `make db-backup`; not used by Go at runtime)
 - **Key Fields**:
   - `id`: Unique comic identifier
   - `titles[]`: Multiple title variations for search flexibility
@@ -143,7 +143,7 @@ make docker-down            # Stop compose stack
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
 - Periodic scraping: `SCRAPE_INTERVAL` on `make go-run`; manual `GET /scrape` and `GET /scrape/status` share one coordinator (see `docs/superpowers/specs/2026-10-08-scrape-coordination.md`).
-- Current duplicate repair entry point: `make db-repair-identity` (dry-run). Export a review plan with `ARGS="--export-plan src/db/recovery/merge-plan.json"`; apply approved groups with `APPLY=1 ARGS="--import-plan ..."`. Under the hood: `src/db/repair_identity_duplicates.py`.
+- Current duplicate repair entry point: `make db-repair-identity` (dry-run). Export a review plan with `ARGS="--export-plan db/recovery/merge-plan.json"`; apply approved groups with `APPLY=1 ARGS="--import-plan ..."`. Under the hood: `src/db/repair_identity_duplicates.py`.
 - Non-novel cross-type duplicates (e.g. Manhua vs Manhwa with the same title) merge to the **lowest id**; canonical row keeps its `com_type`. Novel rows stay separate from comics.
 - Merge plans include chapter proximity signals (`chapter_spread`, `chapter_ratio`); far-apart chapters default to `risk: review`.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.
@@ -161,7 +161,7 @@ make docker-down            # Stop compose stack
 
 ### Scraper Architecture
 
-- Location: `go_server/internal/scrape/` (production); `src/scrape/url_switch.json` for publisher URLs (frontend + Go embed)
+- Publisher listing URLs: `config/url_switch.json` (Go scrape + frontend via `@config` alias)
 - Each Go publisher module handles site-specific HTML parsing
 - Built-in error handling and retry logic
 - Automatic data normalization to common schema
@@ -233,10 +233,10 @@ See `.githooks/README.md` for env vars (`COMICS_SKIP_HOOKS`, `COMICS_AI_LINT`, e
 - `PRODUCTION`: Set `true` on Render/production to use gevent instead of Flask dev server
 - `DEBUG`: Enable debug mode
 - `PORT`: HTTP listen port (default 5001)
-- `DB_FILE`: SQLite path (default `src/db/comics.db`)
+- `DB_FILE`: SQLite path (default `db/comics.db`)
 - Database-specific credentials for PostgreSQL/MySQL support
 
-Corrupt SQLite on startup is rebuilt automatically from `src/db/comics.json`.
+Go repairs corrupt SQLite on API startup (REINDEX/VACUUM; Python maintenance tools can rebuild from `COMICS_JSON` / `make db-restore`).
 
 ## Container Support
 
@@ -286,7 +286,7 @@ make docker-dev             # Run with file watching for development
 Go (production): add publisher module under `go_server/internal/scrape/`, register in
 `runner.go`, and add fixture tests beside the extractor.
 
-Python registration tests use `src/db/scraped_register.py` (no HTTP scrapers).
+Scrape registration is Go-only (`go_server/internal/scrape/`).
 
 ### Frontend Component Development
 

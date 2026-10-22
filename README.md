@@ -33,20 +33,19 @@ The root [`Makefile`](Makefile) is the canonical developer reference. Common tar
 
 | Area | Targets |
 |------|---------|
-| Setup | `setup`, `setup-venv`, `setup-front`, `setup-go`, `doctor` |
+| Setup | `setup`, `setup-front`, `setup-go`, `doctor` |
 | Frontend | `front-dev`, `front-dev-https`, `front-build`, `front-test`, `front-deploy` |
-| Python | `py-test`, `db-backup`, `db-restore`, `db-repair-identity` |
+| Database | `db-check`, `db-reindex`, `db-backup`, `db-restore` |
 | Go | `go-run`, `go-scrape`, `go-test`, `go-import-postgres` |
 | Database | `db-backup`, `db-restore`, `db-check`, `db-repair-identity`, `db-audit-covers` |
-| Quality | `check`, `check-go`, `check-front`, `contract-test`, `py-test` |
+| Quality | `check`, `check-go`, `check-front`, `contract-test` |
 
-`make check` runs Go test/vet/build (including HTTP contract tests), frontend test/build, and Python pytest.
+`make check` runs Go test/vet/build (including HTTP contract tests) and frontend test/build.
 
 ## Scrapper and Server deployment (Go primary)
 
 Production and local development default to the Go server on port `8081`. It serves
-comics REST, JWT auth/profile, metrics, and native publisher scrapers. Python
-remains for DB maintenance scripts and pytest (registration helpers in `src/db/scraped_register.py`).
+comics REST, JWT auth/profile, metrics, and native publisher scrapers. SQLite catalog data lives under `db/`; maintenance uses `make db-check`, `db-reindex`, and `db-backup`.
 
 ### Virtual environment (Optional)
 
@@ -85,7 +84,7 @@ make go-test
 make check          # all release-path checks
 ```
 
-On startup, corrupt SQLite files are rebuilt automatically from `src/db/comics.json`.
+SQLite lives at `db/comics.db`. Optional JSON export at `db/comics.json` is used by `make db-restore` / `make db-backup`, not by the Go API.
 
 ### Running Go server
 
@@ -115,7 +114,7 @@ heroku logs --tail
 Prefer the Go binary or root Docker image:
 
 - Build: `docker build -t comics-go-api -f Dockerfile .`
-- Listen: `HTTP_PORT=8081`, mount writable `src/db` → `/data/comics.db`
+- Listen: `HTTP_PORT=8081`, mount writable `db/` → `/data/comics.db`
 - Env: MongoDB (`DB_ADDR`, `DB_USER`, `DB_PASS`), JWT secrets, `COMICS_SQLITE_PATH=/data/comics.db`
 - Optional: `SCRAPE_INTERVAL=10m` for background publisher sync
 
@@ -128,7 +127,7 @@ cp go_server/local.env go_server/.env   # set DB_PASS, JWT secrets on the host
 make docker-dev                         # local smoke test (API :8081, Mongo :27017)
 ```
 
-SQLite lives on the host at `src/db/comics.db` (mounted into the container at `/data`).
+SQLite lives on the host at `db/comics.db` (mounted into the container at `/data`).
 See [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml).
 
 ## Interface deployment (React + Vite)

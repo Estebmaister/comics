@@ -46,3 +46,8 @@ declare module '*.svg' {
   const value: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
   export default value;
 }
+
+declare module '@config/url_switch.json' {
+  const value: { [key: string]: string[] };
+  export default value;
+}

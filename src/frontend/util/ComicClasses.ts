@@ -1,5 +1,5 @@
 // All these classes come from src/db/__init__.py
-import dbClasses from '../../db/db_classes.json';
+import dbClasses from '../../../db/db_classes.json';
 
 const assignArrayToDict = (array: string[]) =>
   Object.assign({}, ...array.map(
