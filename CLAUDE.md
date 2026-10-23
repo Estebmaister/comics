@@ -63,7 +63,9 @@ make front-deploy           # Deploy to GitHub Pages
 make db-backup              # Export SQLite to timestamped JSON backup
 make db-restore             # Rebuild SQLite from comics.json
 make db-check               # PRAGMA integrity_check
-make db-repair-identity     # Dry-run duplicate repair (APPLY=1 to merge)
+make go-dedupe              # Audit discovery-key collisions (ARGS="--export-plan db/recovery/merge-plan.json")
+make db-backup              # Before offline schema maintenance
+make go-db-maint ARGS="--drop-legacy-identity-key"  # After comic_title_keys is populated
 make db-audit-covers        # Probe cover URLs (ARGS="--apply" to persist)
 ```
 
@@ -132,10 +134,8 @@ make docker-down            # Stop compose stack
 
 ### Discovery Identity Rules
 
-- Discovery uniqueness is based on `identity_key`, not `LIKE '%title%'`.
-- `identity_key` is built from the normalized primary title plus a novel/comic scope:
-  - `series:<normalized-title>` for non-novels
-  - `novel:<normalized-title>` for novels
+- Discovery uniqueness is based on indexed `comic_title_keys` rows (one per title variant), not a single primary-title column.
+- `DiscoveryKey` uses `series:` or `novel:` plus `TitleMatchKey` (article-stripped, punctuation-normalized) for each stored title variant.
 - Scrapers must pass titles through `normalize_text()` before model creation. `ComicDB` also normalizes titles and refreshes `identity_key` on insert/update as a safety net.
 - Stored titles use sentence-case normalization via `.capitalize()`: first character uppercase, remaining characters lowercase. Preserve that convention when fixing data or adding alternate titles.
 - The scraper runs as a batched transaction:
@@ -143,7 +143,7 @@ make docker-down            # Stop compose stack
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
 - Periodic scraping: `SCRAPE_INTERVAL` on `make go-run`; manual `GET /scrape` and `GET /scrape/status` share one coordinator (see `docs/superpowers/specs/2026-10-08-scrape-coordination.md`).
-- Current duplicate repair entry point: `make db-repair-identity` (dry-run). Export a review plan with `ARGS="--export-plan db/recovery/merge-plan.json"`; apply approved groups with `APPLY=1 ARGS="--import-plan ..."`. Under the hood: `src/db/repair_identity_duplicates.py`.
+- Duplicate repair: `make go-dedupe` audits `comic_title_keys` collisions. Export with `ARGS="--export-plan db/recovery/merge-plan.json"`; apply approved groups with `ARGS="--import-plan db/recovery/merge-plan.json --apply"`.
 - Non-novel cross-type duplicates (e.g. Manhua vs Manhwa with the same title) merge to the **lowest id**; canonical row keeps its `com_type`. Novel rows stay separate from comics.
 - Merge plans include chapter proximity signals (`chapter_spread`, `chapter_ratio`); far-apart chapters default to `risk: review`.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.

@@ -32,8 +32,8 @@ func TestNormalizeScrapedComicParsesChapter(t *testing.T) {
 	if normalized.CurrentChap != 42 {
 		t.Fatalf("expected chapter 42, got %d", normalized.CurrentChap)
 	}
-	if normalized.IdentityKey != "series:sample hero" {
-		t.Fatalf("unexpected identity key %q", normalized.IdentityKey)
+	if len(normalized.Titles) != 1 || normalized.Titles[0] != "Sample hero" {
+		t.Fatalf("unexpected titles %#v", normalized.Titles)
 	}
 }
 
@@ -194,8 +194,7 @@ func newTestScrapeRepo(t *testing.T) domain.ComicRepository {
 			viewed_chap INTEGER NOT NULL DEFAULT 0,
 			rating INTEGER NOT NULL DEFAULT 0,
 			deleted BOOLEAN NOT NULL DEFAULT 0,
-			cover_visible BOOLEAN NOT NULL DEFAULT 1,
-			identity_key TEXT NOT NULL DEFAULT ''
+			cover_visible BOOLEAN NOT NULL DEFAULT 1
 		)
 	`)
 	if err != nil {

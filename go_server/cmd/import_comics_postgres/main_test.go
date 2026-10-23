@@ -34,16 +34,15 @@ func TestReadSourceComicsCountsSQLiteTruth(t *testing.T) {
 			viewed_chap INTEGER NOT NULL DEFAULT 0,
 			rating INTEGER NOT NULL DEFAULT 0,
 			deleted BOOLEAN NOT NULL DEFAULT 0,
-			identity_key TEXT NOT NULL DEFAULT '',
 			cover_visible BOOLEAN NOT NULL DEFAULT 1
 		);
 		INSERT INTO comics (
 			id, titles, current_chap, cover, last_update, com_type, status,
 			published_in, genres, description, author, track, viewed_chap,
-			rating, deleted, identity_key, cover_visible
+			rating, deleted, cover_visible
 		) VALUES
-			(10, 'Alpha', 3, '', 1, 1, 2, '1', '2', '', '', 1, 2, 0, 0, '1:alpha', 1),
-			(11, 'Beta', 1, '', 2, 1, 2, '1', '2', '', '', 0, 1, 0, 1, '1:beta', 0);
+			(10, 'Alpha', 3, '', 1, 1, 2, '1', '2', '', '', 1, 2, 0, 0, 1),
+			(11, 'Beta', 1, '', 2, 1, 2, '1', '2', '', '', 0, 1, 0, 1, 0);
 	`)
 	if err != nil {
 		t.Fatal(err)

@@ -81,7 +81,10 @@ type ComicRepository interface {
 	Close() error
 	List(ctx context.Context, query ComicListQuery) (ComicListResult, error)
 	Get(ctx context.Context, id int) (Comic, error)
-	GetByIdentityKey(ctx context.Context, identityKey string) (Comic, error)
+	FindComicsByDiscoveryTitleKeys(ctx context.Context, scope string, titleKeys []string) ([]Comic, error)
+	FindComicsByDiscoveryKeyToken(ctx context.Context, scope string, token string, limit int) ([]Comic, error)
+	SyncDiscoveryKeys(ctx context.Context, comicID int, comType int, titles []string) error
+	DeleteDiscoveryKeysForComic(ctx context.Context, comicID int) error
 	Create(ctx context.Context, comic Comic) (Comic, error)
 	Update(ctx context.Context, comic Comic) (Comic, error)
 	Delete(ctx context.Context, id int) error

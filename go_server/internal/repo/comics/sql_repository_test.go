@@ -38,8 +38,7 @@ func newTestSQLiteRepo(t *testing.T) *SQLComicRepository {
 			viewed_chap INTEGER NOT NULL DEFAULT 0,
 			rating INTEGER NOT NULL DEFAULT 0,
 			deleted BOOLEAN NOT NULL DEFAULT 0,
-			cover_visible BOOLEAN NOT NULL DEFAULT 1,
-			identity_key TEXT NOT NULL DEFAULT ''
+			cover_visible BOOLEAN NOT NULL DEFAULT 1
 		)
 	`)
 	if err != nil {
@@ -230,8 +229,7 @@ func TestSQLiteOpensWithIntegrityCheck(t *testing.T) {
 			viewed_chap INTEGER NOT NULL DEFAULT 0,
 			rating INTEGER NOT NULL DEFAULT 0,
 			deleted INTEGER NOT NULL DEFAULT 0,
-			cover_visible INTEGER NOT NULL DEFAULT 1,
-			identity_key TEXT NOT NULL DEFAULT ''
+			cover_visible INTEGER NOT NULL DEFAULT 1
 		)
 	`)
 	if err != nil {

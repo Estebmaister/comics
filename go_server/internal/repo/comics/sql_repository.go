@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"comics/domain"
-	"comics/internal/identity"
 
 	_ "github.com/jackc/pgx/v5/stdlib" // register pgx driver for postgres DSNs
 	_ "modernc.org/sqlite"
@@ -41,18 +40,12 @@ CREATE TABLE IF NOT EXISTS comics (
 	viewed_chap INTEGER NOT NULL DEFAULT 0,
 	rating INTEGER NOT NULL DEFAULT 0,
 	deleted BOOLEAN NOT NULL DEFAULT false,
-	identity_key TEXT NOT NULL DEFAULT '',
 	cover_visible BOOLEAN NOT NULL DEFAULT true
 );
 
 ALTER SEQUENCE comic_id_seq OWNED BY comics.id;
 ALTER TABLE comics ALTER COLUMN id SET DEFAULT nextval('comic_id_seq');
 
-CREATE UNIQUE INDEX IF NOT EXISTS uq_comics_identity_key
-	ON comics(identity_key)
-	WHERE deleted = false AND identity_key <> '';
-
-CREATE INDEX IF NOT EXISTS idx_comics_identity_key ON comics(identity_key);
 CREATE INDEX IF NOT EXISTS idx_comics_active_update ON comics(deleted, last_update DESC, id);
 CREATE INDEX IF NOT EXISTS idx_comics_active_track_update ON comics(deleted, track, last_update DESC, id);
 `
@@ -95,6 +88,10 @@ func NewSQLiteComicRepository(path string) (*SQLComicRepository, error) {
 		db.Close()
 		return nil, err
 	}
+	if err := ensureComicTitleKeysSchema(db); err != nil {
+		db.Close()
+		return nil, err
+	}
 	return &SQLComicRepository{db: db, dialect: dialectSQLite, ownsDB: true}, nil
 }
 
@@ -118,8 +115,10 @@ func NewPostgresComicRepository(url string) (*SQLComicRepository, error) {
 }
 
 func EnsurePostgresComicSchema(db *sql.DB) error {
-	_, err := db.Exec(postgresComicSchema)
-	return err
+	if _, err := db.Exec(postgresComicSchema); err != nil {
+		return err
+	}
+	return ensureComicTitleKeysSchema(db)
 }
 
 func sqliteDSN(path string) string {
@@ -239,26 +238,6 @@ func (r *SQLComicRepository) Get(ctx context.Context, id int) (domain.Comic, err
 	return comic, err
 }
 
-func (r *SQLComicRepository) GetByIdentityKey(ctx context.Context, identityKey string) (domain.Comic, error) {
-	if strings.TrimSpace(identityKey) == "" {
-		return domain.Comic{}, domain.ErrComicNotFound
-	}
-	deletedFilter := "deleted = 0"
-	if r.dialect == dialectPostgres {
-		deletedFilter = "deleted = false"
-	}
-	row := r.queryRow(
-		ctx,
-		baseComicSelect()+" WHERE identity_key = "+r.placeholder(1)+" AND "+deletedFilter+" LIMIT 1",
-		identityKey,
-	)
-	comic, err := scanComic(row)
-	if errors.Is(err, sql.ErrNoRows) {
-		return domain.Comic{}, domain.ErrComicNotFound
-	}
-	return comic, err
-}
-
 func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
 	now := time.Now().Unix()
 	if r.dialect == dialectPostgres {
@@ -268,8 +247,8 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 			`INSERT INTO comics (
 				titles, current_chap, cover, last_update, com_type, status,
 				published_in, genres, description, author, track, viewed_chap,
-				rating, deleted, cover_visible, identity_key
-			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+				rating, deleted, cover_visible
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
 			RETURNING id`,
 			strings.Join(comic.Titles, "|"),
 			comic.CurrentChap,
@@ -286,9 +265,11 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 			comic.Rating,
 			comic.Deleted,
 			coverVisibleOrDefault(comic),
-			comicIdentityKey(comic),
 		).Scan(&id)
 		if err != nil {
+			return domain.Comic{}, err
+		}
+		if err := r.SyncDiscoveryKeys(ctx, id, comic.ComType, comic.Titles); err != nil {
 			return domain.Comic{}, err
 		}
 		return r.Get(ctx, id)
@@ -299,8 +280,8 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 		`INSERT INTO comics (
 			titles, current_chap, cover, last_update, com_type, status,
 			published_in, genres, description, author, track, viewed_chap,
-			rating, deleted, cover_visible, identity_key
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			rating, deleted, cover_visible
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		strings.Join(comic.Titles, "|"),
 		comic.CurrentChap,
 		comic.Cover,
@@ -316,13 +297,15 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 		comic.Rating,
 		boolInt(comic.Deleted),
 		coverVisibleOrDefault(comic),
-		comicIdentityKey(comic),
 	)
 	if err != nil {
 		return domain.Comic{}, err
 	}
 	id, err := result.LastInsertId()
 	if err != nil {
+		return domain.Comic{}, err
+	}
+	if err := r.SyncDiscoveryKeys(ctx, int(id), comic.ComType, comic.Titles); err != nil {
 		return domain.Comic{}, err
 	}
 	return r.Get(ctx, int(id))
@@ -336,8 +319,8 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 			`UPDATE comics SET titles = $1, current_chap = $2, cover = $3, last_update = $4,
 				com_type = $5, status = $6, published_in = $7, genres = $8, description = $9,
 				author = $10, track = $11, viewed_chap = $12, rating = $13, deleted = $14,
-				cover_visible = $15, identity_key = $16
-			WHERE id = $17`,
+				cover_visible = $15
+			WHERE id = $16`,
 			strings.Join(comic.Titles, "|"),
 			comic.CurrentChap,
 			comic.Cover,
@@ -353,13 +336,15 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 			comic.Rating,
 			comic.Deleted,
 			comic.CoverVisible,
-			comicIdentityKey(comic),
 			comic.ID,
 		)
 		if err != nil {
 			return domain.Comic{}, err
 		}
 		if err := ensureRowsAffected(result); err != nil {
+			return domain.Comic{}, err
+		}
+		if err := r.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, comic.Titles); err != nil {
 			return domain.Comic{}, err
 		}
 		return r.Get(ctx, comic.ID)
@@ -370,7 +355,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		`UPDATE comics SET titles = ?, current_chap = ?, cover = ?, last_update = ?,
 			com_type = ?, status = ?, published_in = ?, genres = ?, description = ?,
 			author = ?, track = ?, viewed_chap = ?, rating = ?, deleted = ?,
-			cover_visible = ?, identity_key = ?
+			cover_visible = ?
 		WHERE id = ?`,
 		strings.Join(comic.Titles, "|"),
 		comic.CurrentChap,
@@ -387,7 +372,6 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		comic.Rating,
 		boolInt(comic.Deleted),
 		comic.CoverVisible,
-		comicIdentityKey(comic),
 		comic.ID,
 	)
 	if err != nil {
@@ -396,10 +380,16 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 	if err := ensureRowsAffected(result); err != nil {
 		return domain.Comic{}, err
 	}
+	if err := r.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, comic.Titles); err != nil {
+		return domain.Comic{}, err
+	}
 	return r.Get(ctx, comic.ID)
 }
 
 func (r *SQLComicRepository) Delete(ctx context.Context, id int) error {
+	if err := r.DeleteDiscoveryKeysForComic(ctx, id); err != nil {
+		return err
+	}
 	result, err := r.exec(ctx, "DELETE FROM comics WHERE id = "+r.placeholder(1), id)
 	if err != nil {
 		return err
@@ -661,8 +651,4 @@ func coverVisibleOrDefault(comic domain.Comic) bool {
 		return true
 	}
 	return comic.CoverVisible
-}
-
-func comicIdentityKey(comic domain.Comic) string {
-	return identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
 }

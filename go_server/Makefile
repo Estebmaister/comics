@@ -126,6 +126,14 @@ go-migrate-down:
 go-import-postgres:
 	go run ./cmd/import_comics_postgres
 
+## @database:go-dedupe            Audit discovery key collisions (pass ARGS for flags)
+go-dedupe:
+	go run ./cmd/dedupe $(ARGS)
+
+## @database:go-db-maint          Offline SQLite maintenance (e.g. ARGS="--drop-legacy-identity-key")
+go-db-maint:
+	COMICS_SQLITE_PATH=$${COMICS_SQLITE_PATH:-../db/comics.db} go run ./cmd/db_maint $(ARGS)
+
 # ---------------------------------------------------------------------------
 # Codegen
 # ---------------------------------------------------------------------------

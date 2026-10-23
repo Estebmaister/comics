@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS comics (
   cover_visible BOOLEAN NOT NULL DEFAULT true,
   published_in  TEXT    NOT NULL DEFAULT '',
   genres        TEXT    NOT NULL DEFAULT '',
-  identity_key  TEXT    NOT NULL DEFAULT '',
   com_type      INTEGER NOT NULL DEFAULT 0,
   status        INTEGER NOT NULL DEFAULT 0,
   rating        INTEGER NOT NULL DEFAULT 0,
@@ -23,11 +22,14 @@ CREATE TABLE IF NOT EXISTS comics (
 ALTER SEQUENCE comic_id_seq OWNED BY comics.id;
 ALTER TABLE comics ALTER COLUMN id SET DEFAULT nextval('comic_id_seq');
 
-CREATE UNIQUE INDEX IF NOT EXISTS uq_comics_identity_key
-  ON comics(identity_key)
-  WHERE deleted = false AND identity_key <> '';
+CREATE TABLE IF NOT EXISTS comic_title_keys (
+  comic_id  INTEGER NOT NULL REFERENCES comics(id) ON DELETE CASCADE,
+  scope     TEXT    NOT NULL,
+  title_key TEXT    NOT NULL,
+  PRIMARY KEY (scope, title_key)
+);
 
-CREATE INDEX IF NOT EXISTS idx_comics_identity_key ON comics(identity_key);
+CREATE INDEX IF NOT EXISTS idx_comic_title_keys_comic_id ON comic_title_keys(comic_id);
 CREATE INDEX IF NOT EXISTS idx_comics_active_update
   ON comics(deleted, last_update DESC, id);
 CREATE INDEX IF NOT EXISTS idx_comics_active_track_update

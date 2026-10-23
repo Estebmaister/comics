@@ -101,7 +101,6 @@ func normalizeScrapedComic(raw ScrapedComic, publisherID int) (normalizedComic, 
 		Status:      parseStatus(raw.Status),
 		Author:      identity.NormalizeText(raw.Author),
 		Publisher:   publisherID,
-		IdentityKey: identity.BuildIdentityKeyFromTitles(titles, comType),
 	}, true
 }
 
@@ -113,5 +112,4 @@ type normalizedComic struct {
 	Status      int
 	Author      string
 	Publisher   int
-	IdentityKey string
 }

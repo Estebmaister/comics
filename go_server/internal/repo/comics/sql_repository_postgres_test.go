@@ -6,34 +6,39 @@ import (
 	"testing"
 
 	"comics/domain"
+	"comics/internal/identity"
 )
 
-func TestPostgresComicRepositoryIdentityKey(t *testing.T) {
-	url := os.Getenv("COMICS_POSTGRES_TEST_URL")
+func TestPostgresComicRepositoryDiscoveryKeys(t *testing.T) {
+	url := os.Getenv("COMICS_POSTGRES_URL")
 	if url == "" {
-		t.Skip("COMICS_POSTGRES_TEST_URL not set")
+		url = os.Getenv("DATABASE_URL")
 	}
-	ctx := context.Background()
+	if url == "" {
+		t.Skip("COMICS_POSTGRES_URL not set")
+	}
+
 	repo, err := NewPostgresComicRepository(url)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { _ = repo.Close() })
+	defer repo.Close()
 
+	ctx := context.Background()
 	created, err := repo.Create(ctx, domain.Comic{
-		Titles:      []string{"Postgres hero"},
-		CurrentChap: 5,
+		Titles:      []string{"Postgres discovery hero"},
+		CurrentChap: 1,
 		ComType:     3,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	key := comicIdentityKey(created)
-	found, err := repo.GetByIdentityKey(ctx, key)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if found.ID != created.ID {
-		t.Fatalf("expected identity lookup for %q, got %#v", key, found)
+	defer func() { _ = repo.Delete(ctx, created.ID) }()
+
+	found, err := repo.FindComicsByDiscoveryTitleKeys(ctx, "series", []string{
+		identity.DiscoveryTitleKey(created.Titles[0]),
+	})
+	if err != nil || len(found) != 1 || found[0].ID != created.ID {
+		t.Fatalf("lookup failed: %#v err=%v", found, err)
 	}
 }

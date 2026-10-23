@@ -2,12 +2,12 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
 
 	"comics/domain"
+	"comics/internal/discovery"
 	"comics/internal/identity"
 	"comics/internal/scrape"
 )
@@ -68,13 +68,12 @@ func (s *ComicService) Create(ctx context.Context, comic domain.Comic) (domain.C
 	if !hasNonEmptyTitle(comic.Titles) {
 		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
 	}
-	identityKey := identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
-	if identityKey != "" {
-		existing, err := s.repo.GetByIdentityKey(ctx, identityKey)
-		if err != nil && !errors.Is(err, domain.ErrComicNotFound) {
+	for _, title := range comic.Titles {
+		existing, _, found, err := discovery.ResolveComic(ctx, s.repo, title, comic.ComType)
+		if err != nil {
 			return domain.Comic{}, err
 		}
-		if err == nil && existing.ID != 0 {
+		if found && existing.ID != 0 {
 			return domain.Comic{}, domain.ErrDuplicateComic
 		}
 	}

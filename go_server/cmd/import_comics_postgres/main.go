@@ -32,7 +32,6 @@ type sourceComic struct {
 	ViewedChap   int
 	Rating       int
 	Deleted      bool
-	IdentityKey  string
 	CoverVisible bool
 }
 
@@ -93,7 +92,7 @@ func importComics(ctx context.Context, sqlitePath string, postgresURL string) er
 	if err != nil {
 		return err
 	}
-	if err := replaceTargetComics(ctx, target, comics); err != nil {
+	if err := replaceTargetComics(ctx, target, postgresURL, comics); err != nil {
 		return err
 	}
 	targetCounts, err := countTargetComics(ctx, target)
@@ -117,7 +116,7 @@ func readSourceComics(ctx context.Context, db *sql.DB) ([]sourceComic, verifyCou
 	rows, err := db.QueryContext(ctx, `
 		SELECT id, titles, current_chap, cover, last_update, com_type, status,
 			published_in, genres, description, author, track, viewed_chap, rating,
-			deleted, identity_key, cover_visible
+			deleted, cover_visible
 		FROM comics
 		ORDER BY id`)
 	if err != nil {
@@ -145,7 +144,6 @@ func readSourceComics(ctx context.Context, db *sql.DB) ([]sourceComic, verifyCou
 			&comic.ViewedChap,
 			&comic.Rating,
 			&comic.Deleted,
-			&comic.IdentityKey,
 			&comic.CoverVisible,
 		); err != nil {
 			return nil, verifyCounts{}, err
@@ -165,7 +163,7 @@ func readSourceComics(ctx context.Context, db *sql.DB) ([]sourceComic, verifyCou
 	return comics, counts, rows.Err()
 }
 
-func replaceTargetComics(ctx context.Context, db *sql.DB, comics []sourceComic) error {
+func replaceTargetComics(ctx context.Context, db *sql.DB, postgresURL string, comics []sourceComic) error {
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -186,13 +184,16 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, comics []sourceComic) 
 	if _, err := tx.ExecContext(ctx, "TRUNCATE TABLE comics RESTART IDENTITY"); err != nil {
 		return err
 	}
+	if _, err := tx.ExecContext(ctx, "TRUNCATE TABLE comic_title_keys"); err != nil {
+		return err
+	}
 
 	stmt, err := tx.PrepareContext(ctx, `
 		INSERT INTO comics (
 			id, titles, current_chap, cover, last_update, com_type, status,
 			published_in, genres, description, author, track, viewed_chap, rating,
-			deleted, identity_key, cover_visible
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`)
+			deleted, cover_visible
+		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`)
 	if err != nil {
 		return err
 	}
@@ -216,7 +217,6 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, comics []sourceComic) 
 			comic.ViewedChap,
 			comic.Rating,
 			comic.Deleted,
-			comic.IdentityKey,
 			comic.CoverVisible,
 		); err != nil {
 			return fmt.Errorf("importing comic %d: %w", comic.ID, err)
@@ -225,7 +225,32 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, comics []sourceComic) 
 	if _, err := tx.ExecContext(ctx, "SELECT setval('comic_id_seq', COALESCE((SELECT MAX(id) FROM comics), 1), true)"); err != nil {
 		return err
 	}
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+
+	repo, err := comicrepo.NewPostgresComicRepository(postgresURL)
+	if err != nil {
+		return fmt.Errorf("reopen repo for discovery keys: %w", err)
+	}
+	defer repo.Close()
+	for _, comic := range comics {
+		if comic.Deleted {
+			continue
+		}
+		titles := splitImportTitles(comic.Titles)
+		if err := repo.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, titles); err != nil {
+			return fmt.Errorf("sync discovery keys for %d: %w", comic.ID, err)
+		}
+	}
+	return nil
+}
+
+func splitImportTitles(value string) []string {
+	if strings.TrimSpace(value) == "" {
+		return nil
+	}
+	return strings.Split(value, "|")
 }
 
 func countTargetComics(ctx context.Context, db *sql.DB) (verifyCounts, error) {

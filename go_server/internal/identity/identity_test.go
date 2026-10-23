@@ -14,10 +14,10 @@ func TestNovelAndSeriesIdentityKeysDiffer(t *testing.T) {
 	if comicKey == novelKey {
 		t.Fatalf("expected different keys for comic vs novel")
 	}
-	if comicKey != "series:a mercenary's rebirth among nobles" {
+	if comicKey != "series:mercenarysrebirthamongnobles" {
 		t.Fatalf("unexpected comic key: %q", comicKey)
 	}
-	if novelKey != "novel:a mercenary's rebirth among nobles" {
+	if novelKey != "novel:mercenarysrebirthamongnobles" {
 		t.Fatalf("unexpected novel key: %q", novelKey)
 	}
 }
@@ -40,12 +40,34 @@ func TestTitlesArePrefixMatchTruncatedScrape(t *testing.T) {
 	}
 }
 
+func TestTitlesMatchBySignificantTokensReorderedTitles(t *testing.T) {
+	a := "Return of the frozen player"
+	b := "The frozen player returns"
+	if !identity.TitlesMatchBySignificantTokens(a, b) {
+		t.Fatal("expected reordered frozen player titles to match")
+	}
+}
+
+func TestTitlesMatchBySignificantTokensDoesNotMergeDistinctPrinceTitles(t *testing.T) {
+	a := "I became the rogue first prince"
+	b := "I became the first prince: legend of sword's song"
+	if identity.TitlesMatchBySignificantTokens(a, b) {
+		t.Fatal("expected distinct prince titles not to token-match")
+	}
+}
+
 func TestBuildIdentityKeyFromTitles(t *testing.T) {
 	key := identity.BuildIdentityKeyFromTitles(
 		[]string{"The duke's daughter tames the beast"},
 		3,
 	)
-	if key != "series:the duke's daughter tames the beast" {
+	if key != "series:dukesdaughtertamesthebeast" {
 		t.Fatalf("unexpected key: %q", key)
+	}
+}
+
+func TestDiscoveryKeyUnifiesLeadingArticle(t *testing.T) {
+	if identity.DiscoveryKey("The executioner", 3) != identity.DiscoveryKey("Executioner", 3) {
+		t.Fatal("expected article-insensitive discovery keys")
 	}
 }

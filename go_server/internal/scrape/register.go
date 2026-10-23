@@ -2,12 +2,13 @@ package scrape
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"sync"
 	"time"
 
 	"comics/domain"
+	"comics/internal/discovery"
+	"comics/internal/identity"
 )
 
 type RunState struct {
@@ -36,48 +37,35 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 	if !ok {
 		return nil
 	}
-	key := fmt.Sprintf("%d|%s", publisherID, normalized.IdentityKey)
+	discoveryKey := identity.DiscoveryKey(normalized.Titles[0], normalized.ComType)
+	runKey := fmt.Sprintf("%d|%s", publisherID, discoveryKey)
 	r.run.mu.Lock()
-	if _, exists := r.run.seen[key]; exists {
+	if _, exists := r.run.seen[runKey]; exists {
 		r.run.mu.Unlock()
 		return nil
 	}
-	r.run.seen[key] = struct{}{}
+	r.run.seen[runKey] = struct{}{}
 	r.run.mu.Unlock()
 
 	return r.repo.WithTx(ctx, func(txRepo domain.ComicRepository) error {
-		existing, err := txRepo.GetByIdentityKey(ctx, normalized.IdentityKey)
-		if err != nil && !errors.Is(err, domain.ErrComicNotFound) {
+		existing, _, found, err := discovery.ResolveComic(ctx, txRepo, normalized.Titles[0], normalized.ComType)
+		if err != nil {
 			return err
 		}
-		if errors.Is(err, domain.ErrComicNotFound) {
-			exactMatch, ok, lookupErr := findComicByExactTitleKey(ctx, txRepo, normalized)
-			if lookupErr != nil {
-				return lookupErr
-			}
-			if ok {
-				return updateExistingComic(ctx, txRepo, exactMatch, normalized, publisherID)
-			}
-			prefixMatch, ok, lookupErr := findComicByTitlePrefix(ctx, txRepo, normalized)
-			if lookupErr != nil {
-				return lookupErr
-			}
-			if ok {
-				return updateExistingComic(ctx, txRepo, prefixMatch, normalized, publisherID)
-			}
-			_, err = txRepo.Create(ctx, domain.Comic{
-				Titles:       normalized.Titles,
-				CurrentChap:  normalized.CurrentChap,
-				Cover:        normalized.Cover,
-				CoverVisible: normalized.Cover != "",
-				ComType:      normalized.ComType,
-				Status:       normalized.Status,
-				Author:       normalized.Author,
-				PublishedIn:  []int{publisherID},
-			})
-			return err
+		if found {
+			return updateExistingComic(ctx, txRepo, existing, normalized, publisherID)
 		}
-		return updateExistingComic(ctx, txRepo, existing, normalized, publisherID)
+		_, err = txRepo.Create(ctx, domain.Comic{
+			Titles:       normalized.Titles,
+			CurrentChap:  normalized.CurrentChap,
+			Cover:        normalized.Cover,
+			CoverVisible: normalized.Cover != "",
+			ComType:      normalized.ComType,
+			Status:       normalized.Status,
+			Author:       normalized.Author,
+			PublishedIn:  []int{publisherID},
+		})
+		return err
 	})
 }
 

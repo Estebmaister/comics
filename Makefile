@@ -3,7 +3,7 @@
 # Define phony targets (targets that don't represent actual files)
 .PHONY: help setup setup-go setup-front \
 				front-dev front-dev-https front-build front-test front-deploy \
-				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres mongo-up mongo-init \
+				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
 				db-backup db-restore db-check db-reindex \
 				check check-go check-front \
 				proto-go proto-js \
@@ -182,6 +182,14 @@ go-migrate-down:
 ## @go:go-import-postgres      Import db/comics.db into configured Postgres target
 go-import-postgres:
 	$(MAKE) -C go_server go-import-postgres
+
+## @go:go-dedupe                 Audit/merge comics with discovery key collisions
+go-dedupe:
+	$(MAKE) -C go_server go-dedupe
+
+## @database:go-db-maint          Offline DB maintenance (backup first; see go-db-maint-help)
+go-db-maint:
+	$(MAKE) -C go_server go-db-maint ARGS="$(ARGS)"
 
 ## @go:mongo-up                 Start local MongoDB for Go auth (docker compose)
 mongo-up:

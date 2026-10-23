@@ -20,6 +20,13 @@ var (
 	nonMatchCharRe   = regexp.MustCompile(`[^a-z0-9]+`)
 )
 
+// significantTokenStopWords filters tokens that are too common to distinguish series.
+var significantTokenStopWords = map[string]struct{}{
+	"a": {}, "an": {}, "and": {}, "at": {}, "became": {}, "become": {}, "being": {},
+	"for": {}, "from": {}, "i": {}, "in": {}, "into": {}, "my": {}, "of": {}, "on": {},
+	"or": {}, "that": {}, "the": {}, "this": {}, "to": {}, "with": {},
+}
+
 func SplitTitleValues(titles string) []string {
 	if strings.TrimSpace(titles) == "" {
 		return nil
@@ -124,18 +131,140 @@ func TitlesArePrefixMatch(incomingTitle string, storedTitle string) bool {
 	return strings.HasPrefix(storedKey, incomingKey) || strings.HasPrefix(incomingKey, storedKey)
 }
 
-func BuildIdentityKey(primaryTitle string, comType int) string {
-	normalizedTitle := NormalizePrimaryTitle(primaryTitle)
-	if normalizedTitle == "" {
+func normalizeSignificantToken(word string) string {
+	word = strings.ToLower(strings.TrimSpace(word))
+	if word == "" {
 		return ""
 	}
-	prefix := SeriesIdentityPrefix
-	if IsNovelIdentity(primaryTitle, comType) {
-		prefix = NovelIdentityPrefix
+	if len(word) > 4 && strings.HasSuffix(word, "s") && !strings.HasSuffix(word, "ss") {
+		word = strings.TrimSuffix(word, "s")
 	}
-	return prefix + normalizedTitle
+	return word
 }
 
+// TitleSignificantTokenSet extracts discriminating words from a title for fuzzy matching
+// (reordered English titles, e.g. "Return of the frozen player" vs "The frozen player returns").
+func TitleSignificantTokenSet(title string) map[string]struct{} {
+	cleaned := strings.ToLower(StripNovelMarker(title))
+	parts := nonMatchCharRe.Split(cleaned, -1)
+	tokens := map[string]struct{}{}
+	for _, part := range parts {
+		token := normalizeSignificantToken(part)
+		if len(token) < 3 {
+			continue
+		}
+		if _, stop := significantTokenStopWords[token]; stop {
+			continue
+		}
+		tokens[token] = struct{}{}
+	}
+	return tokens
+}
+
+// TitlesMatchBySignificantTokens is true when every token from the smaller title appears
+// in the larger title (subset match), with at least two shared tokens when possible.
+func TitlesMatchBySignificantTokens(incomingTitle string, storedTitle string) bool {
+	incoming := TitleSignificantTokenSet(incomingTitle)
+	stored := TitleSignificantTokenSet(storedTitle)
+	if len(incoming) == 0 || len(stored) == 0 {
+		return false
+	}
+	smaller, larger := incoming, stored
+	if len(stored) < len(incoming) {
+		smaller, larger = stored, incoming
+	}
+	if len(smaller) == 1 {
+		token := ""
+		for t := range smaller {
+			token = t
+		}
+		_, ok := larger[token]
+		return ok
+	}
+	shared := 0
+	for token := range smaller {
+		if _, ok := larger[token]; ok {
+			shared++
+		}
+	}
+	if shared < len(smaller) {
+		return false
+	}
+	if len(smaller) >= 2 {
+		return true
+	}
+	return shared >= 1
+}
+
+// DiscoveryScope is the dedupe namespace for a title variant (comic vs novel).
+func DiscoveryScope(title string, comType int) string {
+	if IsNovelIdentity(title, comType) {
+		return strings.TrimSuffix(NovelIdentityPrefix, ":")
+	}
+	return strings.TrimSuffix(SeriesIdentityPrefix, ":")
+}
+
+// DiscoveryTitleKey is the normalized, article-stripped key stored in comic_title_keys.
+func DiscoveryTitleKey(title string) string {
+	return TitleMatchKey(title)
+}
+
+// DiscoveryKey is scope:titleKey (e.g. series:executioner).
+func DiscoveryKey(title string, comType int) string {
+	titleKey := DiscoveryTitleKey(title)
+	if titleKey == "" {
+		return ""
+	}
+	return DiscoveryScope(title, comType) + ":" + titleKey
+}
+
+// DiscoveryKeysForTitles returns unique discovery keys for all title variants.
+func DiscoveryKeysForTitles(titles []string, comType int) []string {
+	seen := map[string]struct{}{}
+	out := make([]string, 0, len(titles))
+	for _, title := range titles {
+		key := DiscoveryKey(title, comType)
+		if key == "" {
+			continue
+		}
+		if _, ok := seen[key]; ok {
+			continue
+		}
+		seen[key] = struct{}{}
+		out = append(out, key)
+	}
+	return out
+}
+
+// DiscoveryTitleKeysForTitles returns unique title_key values for all variants in a scope.
+func DiscoveryTitleKeysForTitles(titles []string, comType int) []string {
+	seen := map[string]struct{}{}
+	out := make([]string, 0, len(titles))
+	for _, title := range titles {
+		scope := DiscoveryScope(title, comType)
+		titleKey := DiscoveryTitleKey(title)
+		if titleKey == "" {
+			continue
+		}
+		scoped := scope + ":" + titleKey
+		if _, ok := seen[scoped]; ok {
+			continue
+		}
+		seen[scoped] = struct{}{}
+		out = append(out, titleKey)
+	}
+	return out
+}
+
+// BuildIdentityKey is deprecated; use DiscoveryKey.
+func BuildIdentityKey(primaryTitle string, comType int) string {
+	return DiscoveryKey(primaryTitle, comType)
+}
+
+// BuildIdentityKeyFromTitles is deprecated; use DiscoveryKeysForTitles.
 func BuildIdentityKeyFromTitles(titles []string, comType int) string {
-	return BuildIdentityKey(PrimaryTitleFromTitles(titles), comType)
+	if len(titles) == 0 {
+		return ""
+	}
+	return DiscoveryKey(PrimaryTitleFromTitles(titles), comType)
 }

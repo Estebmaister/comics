@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -57,17 +58,77 @@ func (r *memoryComicRepo) Get(_ context.Context, id int) (domain.Comic, error) {
 	return comic, nil
 }
 
-func (r *memoryComicRepo) GetByIdentityKey(_ context.Context, identityKey string) (domain.Comic, error) {
+func (r *memoryComicRepo) FindComicsByDiscoveryTitleKeys(
+	_ context.Context,
+	scope string,
+	titleKeys []string,
+) ([]domain.Comic, error) {
+	want := map[string]struct{}{}
+	for _, key := range titleKeys {
+		want[key] = struct{}{}
+	}
+	seen := map[int]struct{}{}
+	out := []domain.Comic{}
 	for _, comic := range r.comics {
 		if comic.Deleted {
 			continue
 		}
-		key := identity.BuildIdentityKeyFromTitles(comic.Titles, comic.ComType)
-		if key == identityKey {
-			return comic, nil
+		for _, title := range comic.Titles {
+			if identity.DiscoveryScope(title, comic.ComType) != scope {
+				continue
+			}
+			titleKey := identity.DiscoveryTitleKey(title)
+			if _, ok := want[titleKey]; !ok {
+				continue
+			}
+			if _, ok := seen[comic.ID]; ok {
+				break
+			}
+			seen[comic.ID] = struct{}{}
+			out = append(out, comic)
+			break
 		}
 	}
-	return domain.Comic{}, domain.ErrComicNotFound
+	return out, nil
+}
+
+func (r *memoryComicRepo) FindComicsByDiscoveryKeyToken(
+	_ context.Context,
+	scope string,
+	token string,
+	_ int,
+) ([]domain.Comic, error) {
+	token = strings.ToLower(strings.TrimSpace(token))
+	seen := map[int]struct{}{}
+	out := []domain.Comic{}
+	for _, comic := range r.comics {
+		if comic.Deleted {
+			continue
+		}
+		for _, title := range comic.Titles {
+			if identity.DiscoveryScope(title, comic.ComType) != scope {
+				continue
+			}
+			titleKey := identity.DiscoveryTitleKey(title)
+			if strings.Contains(titleKey, token) {
+				if _, ok := seen[comic.ID]; ok {
+					break
+				}
+				seen[comic.ID] = struct{}{}
+				out = append(out, comic)
+				break
+			}
+		}
+	}
+	return out, nil
+}
+
+func (r *memoryComicRepo) SyncDiscoveryKeys(context.Context, int, int, []string) error {
+	return nil
+}
+
+func (r *memoryComicRepo) DeleteDiscoveryKeysForComic(context.Context, int) error {
+	return nil
 }
 
 func (r *memoryComicRepo) Create(_ context.Context, comic domain.Comic) (domain.Comic, error) {

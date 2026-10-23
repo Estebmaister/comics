@@ -37,7 +37,7 @@ The root [`Makefile`](Makefile) is the canonical developer reference. Common tar
 | Frontend | `front-dev`, `front-dev-https`, `front-build`, `front-test`, `front-deploy` |
 | Database | `db-check`, `db-reindex`, `db-backup`, `db-restore` |
 | Go | `go-run`, `go-scrape`, `go-test`, `go-import-postgres` |
-| Database | `db-backup`, `db-restore`, `db-check`, `db-repair-identity`, `db-audit-covers` |
+| Database | `db-backup`, `db-restore`, `db-check`, `go-dedupe`, `db-audit-covers` |
 | Quality | `check`, `check-go`, `check-front`, `contract-test` |
 
 `make check` runs Go test/vet/build (including HTTP contract tests) and frontend test/build.
