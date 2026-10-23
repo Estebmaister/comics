@@ -22,6 +22,27 @@ CREATE TABLE IF NOT EXISTS comic_title_keys (
 CREATE INDEX IF NOT EXISTS idx_comic_title_keys_comic_id ON comic_title_keys(comic_id);
 `
 
+const (
+	sqlUpsertComicTitleKeySQLite           = `INSERT OR IGNORE INTO comic_title_keys (comic_id, scope, title_key) VALUES (?, ?, ?)`
+	sqlUpsertComicTitleKeyPostgres         = `INSERT INTO comic_title_keys (comic_id, scope, title_key) VALUES ($1, $2, $3) ON CONFLICT (scope, title_key) DO NOTHING`
+	sqlDeleteComicTitleKeysByComicSQLite   = `DELETE FROM comic_title_keys WHERE comic_id = ?`
+	sqlDeleteComicTitleKeysByComicPostgres = `DELETE FROM comic_title_keys WHERE comic_id = $1`
+)
+
+func upsertComicTitleKeySQL(dialect string) string {
+	if dialect == dialectSQLite {
+		return sqlUpsertComicTitleKeySQLite
+	}
+	return sqlUpsertComicTitleKeyPostgres
+}
+
+func deleteComicTitleKeysByComicSQL(dialect string) string {
+	if dialect == dialectSQLite {
+		return sqlDeleteComicTitleKeysByComicSQLite
+	}
+	return sqlDeleteComicTitleKeysByComicPostgres
+}
+
 func ensureComicTitleKeysSchema(db *sql.DB) error {
 	if _, err := db.Exec(comicTitleKeysDDL); err != nil {
 		return err
@@ -67,17 +88,7 @@ func fastBackfillComicTitleKeys(db *sql.DB, dialect string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	repo := &SQLComicRepository{db: db, tx: tx, dialect: dialect}
-
-	insertSQL := `INSERT INTO comic_title_keys (comic_id, scope, title_key) VALUES (` +
-		repo.placeholder(1) + `, ` + repo.placeholder(2) + `, ` + repo.placeholder(3) + `)`
-	if dialect == dialectSQLite {
-		insertSQL = `INSERT OR IGNORE INTO comic_title_keys (comic_id, scope, title_key) VALUES (` +
-			repo.placeholder(1) + `, ` + repo.placeholder(2) + `, ` + repo.placeholder(3) + `)`
-	} else {
-		insertSQL += ` ON CONFLICT (scope, title_key) DO NOTHING`
-	}
-	stmt, err := tx.PrepareContext(ctx, insertSQL)
+	stmt, err := tx.PrepareContext(ctx, upsertComicTitleKeySQL(dialect))
 	if err != nil {
 		_ = tx.Rollback()
 		return 0, err
@@ -208,18 +219,12 @@ func (r *SQLComicRepository) SyncDiscoveryKeys(ctx context.Context, comicID int,
 }
 
 func (r *SQLComicRepository) insertDiscoveryKey(ctx context.Context, comicID int, scope string, titleKey string) error {
-	query := `INSERT INTO comic_title_keys (comic_id, scope, title_key) VALUES (` + r.placeholder(1) + `, ` + r.placeholder(2) + `, ` + r.placeholder(3) + `)`
-	if r.dialect == dialectSQLite {
-		query = `INSERT OR IGNORE INTO comic_title_keys (comic_id, scope, title_key) VALUES (` + r.placeholder(1) + `, ` + r.placeholder(2) + `, ` + r.placeholder(3) + `)`
-	} else {
-		query += ` ON CONFLICT (scope, title_key) DO NOTHING`
-	}
-	_, err := r.exec(ctx, query, comicID, scope, titleKey)
+	_, err := r.exec(ctx, upsertComicTitleKeySQL(r.dialect), comicID, scope, titleKey)
 	return err
 }
 
 func (r *SQLComicRepository) DeleteDiscoveryKeysForComic(ctx context.Context, comicID int) error {
-	_, err := r.exec(ctx, `DELETE FROM comic_title_keys WHERE comic_id = `+r.placeholder(1), comicID)
+	_, err := r.exec(ctx, deleteComicTitleKeysByComicSQL(r.dialect), comicID)
 	return err
 }
 
