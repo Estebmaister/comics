@@ -111,11 +111,12 @@ heroku logs --tail
 
 ### Deployment on Render / Koyeb
 
-Prefer the Go binary or root Docker image:
+Prefer the root **Docker** image on Render (see [docs/deploy-render.md](docs/deploy-render.md) for migrating off the old Python service).
 
 - Build: `docker build -t comics-go-api -f Dockerfile .`
-- Listen: `HTTP_PORT=8081`, mount writable `db/` → `/data/comics.db`
-- Env: MongoDB (`DB_ADDR`, `DB_USER`, `DB_PASS`), JWT secrets, `COMICS_SQLITE_PATH=/data/comics.db`
+- Mount a persistent disk at `/data` → `COMICS_SQLITE_PATH=/data/comics.db`
+- Env: MongoDB (`DB_ADDR`, `DB_USER`, `DB_PASS`), JWT secrets, `HOST_URL`, `ENVIRONMENT=production`
+- Render sets `PORT`; leave `HTTP_PORT` unset so the Go server binds correctly
 - Optional: `SCRAPE_INTERVAL=10m` for background publisher sync
 
 ### Production Docker (SSH workflow)

@@ -31,7 +31,6 @@ RUN chown -R appuser:appgroup /app
 USER appuser
 
 ENV HTTP_ADDRESS=0.0.0.0
-ENV HTTP_PORT=8081
 ENV COMICS_DB_DRIVER=sqlite
 ENV COMICS_SQLITE_PATH=/data/comics.db
 ENV COMICS_URL_SWITCH=/app/config/url_switch.json
@@ -40,6 +39,6 @@ ENV HEALTHCHECK_PATH=/health
 EXPOSE 8081
 
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-	CMD curl --fail "http://127.0.0.1:${HTTP_PORT}${HEALTHCHECK_PATH}" || exit 1
+	CMD sh -c 'curl --fail "http://127.0.0.1:$${HTTP_PORT:-$${PORT:-8081}}$${HEALTHCHECK_PATH:-/health}"' || exit 1
 
 CMD ["./server"]

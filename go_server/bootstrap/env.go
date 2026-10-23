@@ -160,6 +160,21 @@ func setDefaults() {
 	viper.SetDefault("OTEL_SERVICE_NAME", "comics_service")
 	viper.SetDefault("OTEL_TRACES_SAMPLER_PERCENTAGE", 10)
 	viper.SetDefault("OTEL_EXPORTER_SECURE", false)
+	applyPlatformPortDefaults()
+}
+
+// applyPlatformPortDefaults maps Render/Heroku PORT to HTTP listen settings when HTTP_* are unset.
+func applyPlatformPortDefaults() {
+	port := strings.TrimSpace(os.Getenv("PORT"))
+	if port == "" {
+		return
+	}
+	if strings.TrimSpace(os.Getenv("HTTP_PORT")) == "" {
+		viper.SetDefault("HTTP_PORT", port)
+	}
+	if strings.TrimSpace(os.Getenv("HTTP_ADDRESS")) == "" {
+		viper.SetDefault("HTTP_ADDRESS", "0.0.0.0")
+	}
 }
 
 func bindEnvKeys() {
