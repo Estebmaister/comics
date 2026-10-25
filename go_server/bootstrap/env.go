@@ -76,6 +76,7 @@ func MustLoadEnv(_ context.Context) *Env {
 	viper.AutomaticEnv()       // Priority to read from environment variables
 	setDefaults()
 	bindEnvKeys()
+	applyLegacyJWTEnvAliases()
 	env := Env{}
 	jwtConfig := &JWTConfig{}
 	dbConfig := &repo.DBConfig{}
@@ -174,6 +175,28 @@ func applyPlatformPortDefaults() {
 	}
 	if strings.TrimSpace(os.Getenv("HTTP_ADDRESS")) == "" {
 		viper.SetDefault("HTTP_ADDRESS", "0.0.0.0")
+	}
+	if strings.TrimSpace(os.Getenv("ENVIRONMENT")) == "" {
+		viper.SetDefault("ENVIRONMENT", string(Production))
+	}
+}
+
+func applyLegacyJWTEnvAliases() {
+	if strings.TrimSpace(os.Getenv("ACCESS_TOKEN_SECRET")) == "" {
+		for _, key := range []string{"JWT_SECRET_KEY", "JWT_SECRET", "SECRET_KEY"} {
+			if v := strings.TrimSpace(os.Getenv(key)); v != "" {
+				_ = viper.BindEnv("ACCESS_TOKEN_SECRET", key)
+				break
+			}
+		}
+	}
+	if strings.TrimSpace(os.Getenv("REFRESH_TOKEN_SECRET")) == "" {
+		for _, key := range []string{"JWT_REFRESH_SECRET_KEY", "JWT_REFRESH_SECRET", "REFRESH_SECRET_KEY"} {
+			if v := strings.TrimSpace(os.Getenv(key)); v != "" {
+				_ = viper.BindEnv("REFRESH_TOKEN_SECRET", key)
+				break
+			}
+		}
 	}
 }
 

@@ -40,6 +40,8 @@ The Docker image sets `COMICS_SQLITE_PATH=/data/comics.db` by default.
 
 ### Environment variables
 
+The Go server **exits on startup** if required secrets are missing. After switching to Docker, open **Environment** and add at least the **required** rows below (the `.env` file is not in the image).
+
 Set in **Environment** (reuse secrets from the old Python service where names match):
 
 | Variable | Example / notes |
@@ -50,8 +52,8 @@ Set in **Environment** (reuse secrets from the old Python service where names ma
 | `DB_USER` | Mongo user |
 | `DB_PASS` | Mongo password |
 | `DB_NAME` | `comics` |
-| `ACCESS_TOKEN_SECRET` | strong secret |
-| `REFRESH_TOKEN_SECRET` | strong secret |
+| `ACCESS_TOKEN_SECRET` | **Required.** Long random string (generate: `openssl rand -hex 32`) |
+| `REFRESH_TOKEN_SECRET` | **Required.** Different long random string |
 | `CORS_ALLOWED_ORIGINS` | `https://estebmaister.github.io` (+ any dev origins you need) |
 | `SCRAPE_INTERVAL` | `10m` (optional background scrape) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | if Google login is enabled |
@@ -111,6 +113,7 @@ Same Mongo/JWT/`HOST_URL` variables as above.
 | Symptom | Fix |
 |---------|-----|
 | `requirements.txt` not found | Runtime is still Python — switch to **Docker** or **Go** and clear pip build command |
+| `missing required env values: ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET` | Add both secrets in Render **Environment**, save, redeploy. Legacy names `JWT_SECRET_KEY` / `JWT_REFRESH_SECRET_KEY` also work on recent builds |
 | Connection refused / deploy “live” but 502 | App not listening on Render’s `PORT` — unset `HTTP_PORT` in env; redeploy with latest Go bootstrap |
 | Empty catalog after deploy | Add disk at `/data` and restore `comics.db`, or run scrape |
 | Auth works, comics 401 | JWT secrets or `HOST_URL` mismatch vs frontend |
