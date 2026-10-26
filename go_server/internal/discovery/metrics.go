@@ -1,8 +1,6 @@
 package discovery
 
 import (
-	"sync"
-
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -54,11 +52,17 @@ func NewPrometheusObserver(registerer prometheus.Registerer) *PrometheusObserver
 			Help:      "Scrape registration outcomes (ambiguous matches are counted, not error-logged).",
 		}, []string{"result"}),
 	}
-	registerer.MustRegister(
-		observer.resolutionTotal,
-		observer.conflictTotal,
-		observer.scrapeRegistrationTotal,
-	)
+	if err := registerer.Register(observer.resolutionTotal); err != nil {
+		panic(err)
+	}
+	if err := registerer.Register(observer.conflictTotal); err != nil {
+		panic(err)
+	}
+	if err := registerer.Register(observer.scrapeRegistrationTotal); err != nil {
+		panic(err)
+	}
+	observer.resolutionTotal.WithLabelValues(string(OutcomeNotFound), string(MatchKind("none")))
+	observer.conflictTotal.WithLabelValues("unknown")
 	return observer
 }
 
@@ -77,14 +81,6 @@ func (o *PrometheusObserver) ObserveScrapeRegistration(result string) {
 	o.scrapeRegistrationTotal.WithLabelValues(result).Inc()
 }
 
-var (
-	defaultObserverOnce sync.Once
-	defaultObserver     Observer
-)
-
 func DefaultObserver() Observer {
-	defaultObserverOnce.Do(func() {
-		defaultObserver = NewPrometheusObserver(prometheus.DefaultRegisterer)
-	})
-	return defaultObserver
+	return NoopObserver{}
 }

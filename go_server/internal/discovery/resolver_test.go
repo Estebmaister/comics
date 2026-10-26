@@ -160,6 +160,7 @@ func TestResolverRecordsBoundedAmbiguityMetric(t *testing.T) {
 		strings.NewReader(`# HELP comics_discovery_resolution_total Discovery resolution outcomes.
 # TYPE comics_discovery_resolution_total counter
 comics_discovery_resolution_total{match_kind="discovery_key",outcome="ambiguous"} 1
+comics_discovery_resolution_total{match_kind="none",outcome="not_found"} 0
 `),
 		"comics_discovery_resolution_total",
 	)

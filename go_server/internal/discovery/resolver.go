@@ -43,7 +43,7 @@ func NewResolver(observer Observer) *Resolver {
 	return &Resolver{observer: observer}
 }
 
-var resolveComicResolver = NewResolver(DefaultObserver())
+var resolveComicResolver = NewResolver(NoopObserver{})
 
 // ResolveComic finds an existing comic for a scraped or created title.
 func ResolveComic(

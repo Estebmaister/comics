@@ -22,7 +22,8 @@ func TestAuditLiveDiscoveryIntegrity(t *testing.T) {
 	if path == "" {
 		path = "../../../db/comics.db"
 	}
-	before := fileDigestSet(t, path)
+	// WAL/SHM sidecars may change mtime on read-only open; fingerprint the main DB file only.
+	before := fileDigestSet(t, path, false)
 	repo, err := comicrepo.NewSQLiteComicRepositoryReadOnly(path)
 	if err != nil {
 		t.Fatal(err)
@@ -35,7 +36,7 @@ func TestAuditLiveDiscoveryIntegrity(t *testing.T) {
 	if closeErr != nil {
 		t.Fatal(closeErr)
 	}
-	after := fileDigestSet(t, path)
+	after := fileDigestSet(t, path, false)
 	if diff := cmp.Diff(before, after); diff != "" {
 		t.Fatalf("audit changed SQLite files (-before +after):\n%s", diff)
 	}
@@ -60,13 +61,15 @@ type fileDigest struct {
 	Hash    string
 }
 
-func fileDigestSet(t *testing.T, dbPath string) map[string]fileDigest {
+func fileDigestSet(t *testing.T, dbPath string, includeSidecars bool) map[string]fileDigest {
 	t.Helper()
 	paths := []string{dbPath}
-	for _, suffix := range []string{"-wal", "-shm"} {
-		candidate := dbPath + suffix
-		if _, err := os.Stat(candidate); err == nil {
-			paths = append(paths, candidate)
+	if includeSidecars {
+		for _, suffix := range []string{"-wal", "-shm"} {
+			candidate := dbPath + suffix
+			if _, err := os.Stat(candidate); err == nil {
+				paths = append(paths, candidate)
+			}
 		}
 	}
 	out := map[string]fileDigest{}
