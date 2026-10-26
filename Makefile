@@ -5,6 +5,7 @@
 				front-dev front-dev-https front-build front-test front-deploy \
 				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
 				db-backup db-restore db-check db-reindex \
+				db-audit-discovery db-export-discovery-plan db-validate-discovery-plan db-apply-discovery-plan db-audit-discovery-live \
 				check check-go check-front \
 				proto-go proto-js \
 				dev-up dev-down dev-status dev-logs dev-restart \
@@ -15,6 +16,12 @@
 
 DB_FILE ?= db/comics.db
 COMICS_JSON ?= db/comics.json
+DISCOVERY_PLAN ?= db/recovery/discovery-repair-20261026.json
+DISCOVERY_BACKUP ?=
+DISCOVERY_GROUP ?=
+DISCOVERY_ALL_APPROVED ?= 0
+CONFIRM ?=
+BACKUP_FILE ?=
 
 # Colors for help text
 CYAN := \033[36m
@@ -183,7 +190,7 @@ go-migrate-down:
 go-import-postgres:
 	$(MAKE) -C go_server go-import-postgres
 
-## @go:go-dedupe                 Audit/merge comics with discovery key collisions
+## @go:go-dedupe                 Audit, export, and validate discovery repair plans
 go-dedupe:
 	$(MAKE) -C go_server go-dedupe
 
@@ -203,13 +210,47 @@ mongo-init:
 # Database
 # ---------------------------------------------------------------------------
 
+## @database:db-audit-discovery Read-only discovery integrity summary
+db-audit-discovery:
+	$(MAKE) -C go_server go-dedupe ARGS="--audit --db ../$(DB_FILE)"
+
+## @database:db-export-discovery-plan Export an unapproved repair plan
+db-export-discovery-plan:
+	@mkdir -p "$$(dirname "$(DISCOVERY_PLAN)")"
+	$(MAKE) -C go_server go-dedupe ARGS="--export-plan ../$(DISCOVERY_PLAN) --db ../$(DB_FILE)"
+
+## @database:db-validate-discovery-plan Validate plan against current read-only audit
+db-validate-discovery-plan:
+	@test -f "$(DISCOVERY_PLAN)" || (echo "Plan not found: $(DISCOVERY_PLAN)"; exit 2)
+	$(MAKE) -C go_server go-dedupe ARGS="--validate-plan ../$(DISCOVERY_PLAN) --db ../$(DB_FILE)"
+
+## @database:db-apply-discovery-plan Apply reviewed repairs offline (CONFIRM=reviewed, DISCOVERY_BACKUP, group selector)
+db-apply-discovery-plan:
+	@test "$(CONFIRM)" = "reviewed" || (echo "Set CONFIRM=reviewed"; exit 2)
+	@test -n "$(DISCOVERY_BACKUP)" || (echo "Set DISCOVERY_BACKUP"; exit 2)
+	@test -n "$(DISCOVERY_GROUP)" -o "$(DISCOVERY_ALL_APPROVED)" = "1" || (echo "Set DISCOVERY_GROUP or DISCOVERY_ALL_APPROVED=1"; exit 2)
+	@selector=""; \
+	if [ -n "$(DISCOVERY_GROUP)" ]; then selector="--group-id $(DISCOVERY_GROUP)"; fi; \
+	if [ "$(DISCOVERY_ALL_APPROVED)" = "1" ]; then selector="--all-approved"; fi; \
+	COMICS_SQLITE_PATH="../$(DB_FILE)" $(MAKE) -C go_server go-db-maint \
+	  ARGS="--apply-discovery-plan ../$(DISCOVERY_PLAN) --backup ../$(DISCOVERY_BACKUP) --confirm-reviewed $$selector"
+
+## @database:db-audit-discovery-live Opt-in live catalog audit (no writes)
+db-audit-discovery-live:
+	cd go_server && AUDIT_DISCOVERY=1 COMICS_SQLITE_PATH=../$(DB_FILE) \
+	  go test ./cmd/dedupe -run TestAuditLiveDiscoveryIntegrity -count=1 -v
+
 ## @database:db-backup         SQLite backup file under db/backups/
 db-backup:
 	@mkdir -p db/backups
 	@ts=$$(date +%Y%m%d_%H%M%S); \
-	dest="db/backups/comics_backup_$${ts}.db"; \
+	dest="$(BACKUP_FILE)"; \
+	if [ -z "$$dest" ]; then dest="db/backups/comics_backup_$${ts}.db"; fi; \
+	if [ -e "$$dest" ]; then echo "Backup already exists: $$dest"; exit 2; fi; \
 	sqlite3 "$(DB_FILE)" ".backup '$${dest}'"; \
-	echo "Backup: $${dest}"
+	result=$$(sqlite3 -readonly "$$dest" "PRAGMA integrity_check;"); \
+	test "$$result" = "ok"; \
+	echo "Backup: $${dest} (integrity=ok)"
 
 ## @database:db-restore         Restore SQLite from BACKUP=db/backups/<file>.db
 db-restore:

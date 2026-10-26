@@ -143,7 +143,7 @@ make docker-down            # Stop compose stack
   - the real DB commit happens once at the end of the full scrape run
   - `comics.json` should only be written after that final commit succeeds
 - Periodic scraping: `SCRAPE_INTERVAL` on `make go-run`; bearer-admin manual `GET /scrape` and bearer-admin `GET /scrape/status` share one coordinator (see `docs/superpowers/specs/2026-10-08-scrape-coordination.md`).
-- Duplicate repair: `make go-dedupe` lists `comic_title_keys` collisions or `ARGS="--audit"` for read-only keyless integrity audit. Export collision merge hints with `ARGS="--export-plan db/recovery/merge-plan.json"`. Offline apply moves to `go-db-maint` (discovery repair plan).
+- Duplicate repair: `make db-audit-discovery`, `make db-export-discovery-plan`, `make db-validate-discovery-plan`, and guarded `make db-apply-discovery-plan` (requires `CONFIRM=reviewed`, `DISCOVERY_BACKUP`, and a group selector). Legacy collision export: `make go-dedupe ARGS="--export-collision-plan db/recovery/merge-plan.json"`.
 - Non-novel cross-type duplicates (e.g. Manhua vs Manhwa with the same title) merge to the **lowest id**; canonical row keeps its `com_type`. Novel rows stay separate from comics.
 - Merge plans include chapter proximity signals (`chapter_spread`, `chapter_ratio`); far-apart chapters default to `risk: review`.
 - Use `--normalize-all-titles` when you need a full-catalog title storage cleanup after dedupe. That pass rewrites stored title variants to the repo’s sentence-case convention and rebuilds `comics.json`.

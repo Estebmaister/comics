@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"flag"
 	"fmt"
@@ -14,10 +15,39 @@ import (
 
 func main() {
 	dropIdentity := flag.Bool("drop-legacy-identity-key", false, "drop comics.identity_key after comic_title_keys is populated")
+	applyPlan := flag.String("apply-discovery-plan", "", "apply a reviewed discovery repair plan")
+	backupPath := flag.String("backup", "", "verified pre-repair SQLite backup")
+	groupID := flag.String("group-id", "", "apply one approved group")
+	allApproved := flag.Bool("all-approved", false, "apply every explicitly approved group")
+	confirmReviewed := flag.Bool("confirm-reviewed", false, "confirm the plan received human review")
 	flag.Parse()
 
+	if *applyPlan != "" {
+		before, after, err := applyDiscoveryRepair(context.Background(), discoveryApplyOptions{
+			DBPath:          firstNonEmpty(os.Getenv("COMICS_SQLITE_PATH"), "../db/comics.db"),
+			PlanPath:        *applyPlan,
+			BackupPath:      *backupPath,
+			GroupID:         *groupID,
+			AllApproved:     *allApproved,
+			ConfirmReviewed: *confirmReviewed,
+		})
+		if err != nil {
+			fatal(err)
+		}
+		fmt.Printf(
+			"discovery repair applied: keyless %d -> %d conflicts %d -> %d restorable %d -> %d\n",
+			before.KeylessActive,
+			after.KeylessActive,
+			before.ActiveConflicts,
+			after.ActiveConflicts,
+			before.Restorable,
+			after.Restorable,
+		)
+		return
+	}
+
 	if !*dropIdentity {
-		fmt.Fprintln(os.Stderr, "usage: db_maint --drop-legacy-identity-key")
+		fmt.Fprintln(os.Stderr, "usage: db_maint --drop-legacy-identity-key | discovery repair flags")
 		os.Exit(2)
 	}
 

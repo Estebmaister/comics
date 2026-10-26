@@ -126,7 +126,7 @@ go-migrate-down:
 go-import-postgres:
 	go run ./cmd/import_comics_postgres
 
-## @database:go-dedupe            Audit discovery key collisions (pass ARGS for flags)
+## @database:go-dedupe            Discovery audit, repair plan export/validate, collision export (ARGS)
 go-dedupe:
 	go run ./cmd/dedupe $(ARGS)
 

@@ -45,7 +45,7 @@ func TestDedupeIntegrityAuditFixture(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	plan := buildPlan(collisions)
+	plan := buildCollisionPlan(collisions)
 	if plan.GroupCount != 0 {
 		t.Fatalf("expected no collisions in keyless-only fixture, got %d", plan.GroupCount)
 	}
