@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"comics/internal/repo/comics"
-	"comics/internal/usecase"
 )
 
 type mergePlan struct {
@@ -31,72 +30,64 @@ type mergeGroup struct {
 }
 
 func main() {
-	audit := flag.Bool("audit", false, "print discovery key collision summary")
-	exportPlan := flag.String("export-plan", "", "write merge plan JSON to path")
-	importPlan := flag.String("import-plan", "", "read merge plan JSON from path")
-	apply := flag.Bool("apply", false, "apply approved groups from import plan")
+	dbPath := flag.String("db", "", "sqlite database path (default: COMICS_SQLITE_PATH or db/comics.db)")
+	integrityAudit := flag.Bool("audit", false, "run read-only discovery integrity audit")
+	exportPlan := flag.String("export-plan", "", "write discovery key collision merge plan JSON to path")
 	flag.Parse()
 
 	ctx := context.Background()
-	repo, err := comics.NewSQLiteComicRepository("")
+	repo, err := comics.NewSQLiteComicRepositoryReadOnly(*dbPath)
 	if err != nil {
 		fatal(err)
 	}
 	defer repo.Close()
+
+	if *integrityAudit {
+		audit, err := repo.AuditDiscoveryIntegrity(ctx)
+		if err != nil {
+			fatal(err)
+		}
+		s := audit.Summary
+		fmt.Printf(
+			"discovery audit: total=%d active=%d keys=%d active_owners=%d keyless=%d conflicts=%d restorable=%d blocked=%d deleted_keys=%d orphan_keys=%d fingerprint=%s\n",
+			s.TotalComics,
+			s.ActiveComics,
+			s.KeyRows,
+			s.ActiveKeyOwners,
+			s.KeylessActive,
+			s.ActiveConflicts,
+			s.Restorable,
+			s.BlockedNoKey,
+			s.DeletedKeyRows,
+			s.OrphanKeyRows,
+			audit.DatabaseFingerprint,
+		)
+		return
+	}
 
 	collisions, err := repo.ListDiscoveryKeyCollisions(ctx)
 	if err != nil {
 		fatal(err)
 	}
 
-	if *importPlan == "" {
-		plan := buildPlan(collisions)
-		if *audit || *exportPlan == "" {
-			fmt.Printf("discovery collisions: %d groups\n", plan.GroupCount)
-			for _, group := range plan.Groups {
-				fmt.Printf("- %s %s:%s ids=%v canonical=%d merge=%v risk=%s\n",
-					group.Reason, group.Scope, group.TitleKey, group.IDs, group.CanonicalID, group.MergeIDs, group.Risk)
-			}
+	plan := buildPlan(collisions)
+	if *exportPlan == "" {
+		fmt.Printf("discovery collisions: %d groups\n", plan.GroupCount)
+		for _, group := range plan.Groups {
+			fmt.Printf("- %s %s:%s ids=%v canonical=%d merge=%v risk=%s\n",
+				group.Reason, group.Scope, group.TitleKey, group.IDs, group.CanonicalID, group.MergeIDs, group.Risk)
 		}
-		if *exportPlan != "" {
-			payload, err := json.MarshalIndent(plan, "", "  ")
-			if err != nil {
-				fatal(err)
-			}
-			if err := os.WriteFile(*exportPlan, payload, 0o600); err != nil {
-				fatal(err)
-			}
-			fmt.Printf("wrote %s\n", *exportPlan)
-		}
-		return
-	}
-	data, err := os.ReadFile(*importPlan)
-	if err != nil {
-		fatal(err)
-	}
-	var plan mergePlan
-	if err := json.Unmarshal(data, &plan); err != nil {
-		fatal(err)
-	}
-	if !*apply {
-		fmt.Printf("import plan loaded: %d groups (dry-run; pass --apply to merge)\n", len(plan.Groups))
 		return
 	}
 
-	svc := usecase.NewComicService(repo, nil)
-	applied := 0
-	for _, group := range plan.Groups {
-		if !group.Approved {
-			continue
-		}
-		for _, mergeID := range group.MergeIDs {
-			if _, err := svc.Merge(ctx, group.CanonicalID, mergeID); err != nil {
-				fatal(fmt.Errorf("merge %d into %d: %w", mergeID, group.CanonicalID, err))
-			}
-			applied++
-		}
+	payload, err := json.MarshalIndent(plan, "", "  ")
+	if err != nil {
+		fatal(err)
 	}
-	fmt.Printf("applied %d merges\n", applied)
+	if err := os.WriteFile(*exportPlan, payload, 0o600); err != nil {
+		fatal(err)
+	}
+	fmt.Printf("wrote %s\n", *exportPlan)
 }
 
 func buildPlan(collisions []comics.DiscoveryCollision) mergePlan {

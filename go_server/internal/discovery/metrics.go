@@ -18,16 +18,19 @@ const (
 type Observer interface {
 	ObserveResolution(outcome ResolutionOutcome, kind MatchKind)
 	ObserveConflict(operation string)
+	ObserveScrapeRegistration(result string)
 }
 
 type NoopObserver struct{}
 
-func (NoopObserver) ObserveResolution(ResolutionOutcome, MatchKind) {}
-func (NoopObserver) ObserveConflict(string)                         {}
+func (NoopObserver) ObserveResolution(ResolutionOutcome, MatchKind)   {}
+func (NoopObserver) ObserveConflict(string)                           {}
+func (NoopObserver) ObserveScrapeRegistration(string)                 {}
 
 type PrometheusObserver struct {
-	resolutionTotal *prometheus.CounterVec
-	conflictTotal   *prometheus.CounterVec
+	resolutionTotal      *prometheus.CounterVec
+	conflictTotal        *prometheus.CounterVec
+	scrapeRegistrationTotal *prometheus.CounterVec
 }
 
 func NewPrometheusObserver(registerer prometheus.Registerer) *PrometheusObserver {
@@ -44,8 +47,18 @@ func NewPrometheusObserver(registerer prometheus.Registerer) *PrometheusObserver
 			Name:      "key_conflicts_total",
 			Help:      "Typed discovery key conflicts by catalog operation.",
 		}, []string{"operation"}),
+		scrapeRegistrationTotal: prometheus.NewCounterVec(prometheus.CounterOpts{
+			Namespace: "comics",
+			Subsystem: "discovery",
+			Name:      "scrape_registration_total",
+			Help:      "Scrape registration outcomes (ambiguous matches are counted, not error-logged).",
+		}, []string{"result"}),
 	}
-	registerer.MustRegister(observer.resolutionTotal, observer.conflictTotal)
+	registerer.MustRegister(
+		observer.resolutionTotal,
+		observer.conflictTotal,
+		observer.scrapeRegistrationTotal,
+	)
 	return observer
 }
 
@@ -58,6 +71,10 @@ func (o *PrometheusObserver) ObserveResolution(outcome ResolutionOutcome, kind M
 
 func (o *PrometheusObserver) ObserveConflict(operation string) {
 	o.conflictTotal.WithLabelValues(operation).Inc()
+}
+
+func (o *PrometheusObserver) ObserveScrapeRegistration(result string) {
+	o.scrapeRegistrationTotal.WithLabelValues(result).Inc()
 }
 
 var (

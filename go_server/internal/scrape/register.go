@@ -65,6 +65,9 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 			discovery.ResolveOptions{},
 		)
 		if err != nil {
+			if errors.Is(err, domain.ErrAmbiguousComicMatch) {
+				r.observer.ObserveScrapeRegistration("ambiguous")
+			}
 			return err
 		}
 		if found {
