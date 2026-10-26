@@ -252,18 +252,18 @@ db-backup:
 	test "$$result" = "ok"; \
 	echo "Backup: $${dest} (integrity=ok)"
 
-## @database:db-restore         Restore SQLite from BACKUP=db/backups/<file>.db
+## @database:db-restore         Restore SQLite from BACKUP after API stop (CONFIRM_OFFLINE=yes)
 db-restore:
-	@if [ -z "$(BACKUP)" ]; then \
-		echo "Set BACKUP=db/backups/<file>.db"; \
-		exit 1; \
-	fi
-	@if [ ! -f "$(BACKUP)" ]; then \
-		echo "Backup not found: $(BACKUP)"; \
-		exit 1; \
-	fi
-	@cp "$(BACKUP)" "$(DB_FILE)"
-	@echo "Restored $(DB_FILE) from $(BACKUP)"
+	@test "$(CONFIRM_OFFLINE)" = "yes" || (echo "Set CONFIRM_OFFLINE=yes after stopping the API"; exit 2)
+	@test -n "$(BACKUP)" || (echo "Set BACKUP=db/backups/<file>.db"; exit 2)
+	@test -f "$(BACKUP)" || (echo "Backup not found: $(BACKUP)"; exit 1)
+	@result=$$(sqlite3 -readonly "$(BACKUP)" "PRAGMA integrity_check;"); \
+		test "$$result" = "ok" || (echo "Backup integrity failed: $$result" && exit 1)
+	@trap 'rm -f "$(DB_FILE).restore"' EXIT; \
+		cp "$(BACKUP)" "$(DB_FILE).restore"; \
+		rm -f "$(DB_FILE)-wal" "$(DB_FILE)-shm"; \
+		mv "$(DB_FILE).restore" "$(DB_FILE)"; \
+		echo "Restored $(DB_FILE) from $(BACKUP)"
 
 ## @database:db-check           Run PRAGMA integrity_check on comics.db
 ##? db-check  Env: DB_FILE (default db/comics.db)

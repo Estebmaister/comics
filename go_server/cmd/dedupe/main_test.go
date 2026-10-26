@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"database/sql"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	comicrepo "comics/internal/repo/comics"
@@ -11,6 +13,27 @@ import (
 
 	_ "modernc.org/sqlite"
 )
+
+func TestMakeTargetsExposeDiscoveryWorkflow(t *testing.T) {
+	command := exec.Command("make", "help")
+	command.Dir = filepath.Join("..", "..", "..")
+	output, err := command.CombinedOutput()
+	if err != nil {
+		t.Fatalf("make help failed: %v\n%s", err, output)
+	}
+	text := string(output)
+	for _, target := range []string{
+		"db-audit-discovery",
+		"db-export-discovery-plan",
+		"db-validate-discovery-plan",
+		"db-apply-discovery-plan",
+		"db-audit-discovery-live",
+	} {
+		if !strings.Contains(text, target) {
+			t.Fatalf("make help missing %s:\n%s", target, text)
+		}
+	}
+}
 
 func TestDedupeIntegrityAuditFixture(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "dedupe-audit.db")

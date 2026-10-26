@@ -101,6 +101,70 @@ func TestApplyDiscoveryRepairRejectsStalePlan(t *testing.T) {
 	}
 }
 
+func TestApplyDiscoveryRepairRollsBackBatchFailure(t *testing.T) {
+	dbPath, backupPath := seedRepairDB(t)
+	ctx := context.Background()
+
+	readRepo, err := comicrepo.NewSQLiteComicRepositoryReadOnly(dbPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	beforeAudit, err := readRepo.AuditDiscoveryIntegrity(ctx)
+	_ = readRepo.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	plan := repair.BuildPlan(beforeAudit, time.Now().UTC())
+	reviewedAt := time.Now().UTC().Format(time.RFC3339)
+	group3 := filterGroup(plan.Groups, "keyless:3")
+	group4 := filterGroup(plan.Groups, "keyless:4")
+	if len(group3) != 1 || len(group4) != 1 {
+		t.Fatal("expected keyless groups 3 and 4")
+	}
+	group3[0].Review = repair.Review{
+		Approved: true, Decision: repair.DecisionRestoreKeys,
+		Reviewer: "tester", ReviewedAt: reviewedAt,
+	}
+	group4[0].Review = repair.Review{
+		Approved: true, Decision: repair.DecisionRestoreKeys,
+		Reviewer: "tester", ReviewedAt: reviewedAt,
+	}
+	plan.Groups = []repair.Group{group3[0], group4[0]}
+	planPath := filepath.Join(t.TempDir(), "plan.json")
+	if err := repair.WritePlanFile(planPath, plan); err != nil {
+		t.Fatal(err)
+	}
+
+	_, _, err = applyDiscoveryRepair(ctx, discoveryApplyOptions{
+		DBPath:          dbPath,
+		PlanPath:        planPath,
+		BackupPath:      backupPath,
+		AllApproved:     true,
+		ConfirmReviewed: true,
+	})
+	if err == nil {
+		t.Fatal("expected batch apply to fail on blocked keyless restore")
+	}
+
+	readRepo, err = comicrepo.NewSQLiteComicRepositoryReadOnly(dbPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	afterAudit, err := readRepo.AuditDiscoveryIntegrity(ctx)
+	_ = readRepo.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if afterAudit.Summary.KeylessActive != beforeAudit.Summary.KeylessActive {
+		t.Fatalf("expected rollback to preserve keyless=%d, got %d",
+			beforeAudit.Summary.KeylessActive, afterAudit.Summary.KeylessActive)
+	}
+	if afterAudit.DatabaseFingerprint != beforeAudit.DatabaseFingerprint {
+		t.Fatalf("batch failure mutated database fingerprint")
+	}
+}
+
 func TestApplyDiscoveryRepairRequiresConfirm(t *testing.T) {
 	_, _, err := applyDiscoveryRepair(context.Background(), discoveryApplyOptions{
 		ConfirmReviewed: false,
