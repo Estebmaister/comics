@@ -76,10 +76,19 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUse
 	{ // All Public APIs
 		swaggerRouter(env, basePath, publicRouter)
 		metricsRouter(compositePinger{userRepo, comics}, publicRouter)
-		comicsRouter(comics, publicRouter)
+		catalogReadRouter(comics, publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
 		refreshTokenRouter(authController, publicRouter)
+	}
+
+	catalogAdmin := g.Group(basePath)
+	catalogAdmin.Use(
+		middleware.BearerAuthenticationMiddleware(env.JWTConfig.AccessTokenSecret),
+		middleware.RoleMiddleware(tokenutil.RoleAdmin),
+	)
+	{
+		catalogAdminRouter(comics, catalogAdmin)
 	}
 
 	protected := g.Group("/protected")

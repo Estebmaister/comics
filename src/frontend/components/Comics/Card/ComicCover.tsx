@@ -15,12 +15,14 @@ const getCoverBadge = (title: string) => title
 interface ComicCoverProps {
   comic: Comic;
   children: ReactNode;
+  canReportFailure?: boolean;
   onCoverVisibilityChange?: (coverVisible: boolean) => void;
 }
 
 export const ComicCover = ({
   comic,
   children,
+  canReportFailure = false,
   onCoverVisibilityChange,
 }: ComicCoverProps) => {
   const [imageFailed, setImageFailed] = useState(false);
@@ -33,12 +35,14 @@ export const ComicCover = ({
 
   const handleCoverError = () => {
     setImageFailed(true);
+    if (!canReportFailure) return;
+
     const failedCover = comic.cover;
     const failureKey = `${comic.id}:${failedCover}`;
     if (!failedCover || reportedFailuresRef.current.has(failureKey)) return;
 
     reportedFailuresRef.current.add(failureKey);
-    reportCoverVisibility(comic.id, failedCover, false)
+    void reportCoverVisibility(comic.id, failedCover, false)
       .then((updatedComic) => {
         if (updatedComic?.cover === failedCover) {
           onCoverVisibilityChange?.(updatedComic.cover_visible !== false);

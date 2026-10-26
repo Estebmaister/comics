@@ -1,8 +1,15 @@
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { storeAccessToken } from '../../../util/AuthHelpers';
 import { scrape } from './ScrapeButton';
 
 describe('scrape', () => {
+  beforeEach(() => {
+    sessionStorage.clear();
+    storeAccessToken('admin-access-token');
+  });
+
   afterEach(() => {
+    sessionStorage.clear();
     vi.unstubAllGlobals();
   });
 
@@ -49,5 +56,8 @@ describe('scrape', () => {
       ok: true,
       busy: false,
     });
+
+    const [, init] = vi.mocked(fetch).mock.calls[0];
+    expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer admin-access-token');
   });
 });

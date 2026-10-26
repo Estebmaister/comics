@@ -1,4 +1,5 @@
 import type { SetStateAction } from "react";
+import { apiErrorMessage, authorizedFetch } from "../api/client";
 import config from "./Config";
 import type { Comic, PaginationState } from "../components/Comics/types";
 
@@ -104,25 +105,29 @@ const dataFetch = async ({
   };
 };
 
-const trackComic = (
+const trackComic = async (
   tracked: boolean,
   id: number,
   setTrack: (value: boolean) => void,
   server = SERVER,
-) => {
-  fetch(`${server}/comics/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({ track: !tracked }),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      setTrack(!tracked);
-    })
-    .catch((err) => {
-      console.debug(err.message);
-    });
+): Promise<boolean> => {
+  try {
+    const response = await authorizedFetch(
+      `/comics/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ track: !tracked }),
+      },
+      server,
+    );
+    await response.json().catch(() => null);
+    if (!response.ok) return false;
+    setTrack(!tracked);
+    return true;
+  } catch (error) {
+    console.debug((error as Error)?.message ?? error);
+    return false;
+  }
 };
 
 const rateComic = async (
@@ -133,14 +138,16 @@ const rateComic = async (
 ): Promise<boolean> => {
   const next = Math.max(0, Math.min(5, Number.isFinite(rating) ? rating : 0));
   try {
-    const response = await fetch(`${server}/comics/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ rating: next }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json();
-    console.debug(data);
-    if (!response.ok || data?.message !== undefined) return false;
+    const response = await authorizedFetch(
+      `/comics/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ rating: next }),
+      },
+      server,
+    );
+    await response.json().catch(() => null);
+    if (!response.ok) return false;
     setComic((prev) => ({ ...prev, rating: next }));
     return true;
   } catch (err) {
@@ -149,50 +156,56 @@ const rateComic = async (
   }
 };
 
-const checkoutComic = (
-  curr_chap: number,
+const checkoutComic = async (
+  currChap: number,
   id: number,
   setCheck: (value: SetStateAction<boolean>) => void,
   setViewedChap: (value: SetStateAction<number>) => void,
   onSuccess?: () => void,
   server = SERVER,
-) => {
-  fetch(`${server}/comics/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({ viewed_chap: curr_chap }),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      setCheck(false);
-      setViewedChap(curr_chap);
-      onSuccess?.();
-    })
-    .catch((err) => {
-      console.debug(err.message);
-    });
+): Promise<boolean> => {
+  try {
+    const response = await authorizedFetch(
+      `/comics/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ viewed_chap: currChap }),
+      },
+      server,
+    );
+    await response.json().catch(() => null);
+    if (!response.ok) return false;
+    setCheck(false);
+    setViewedChap(currChap);
+    onSuccess?.();
+    return true;
+  } catch (error) {
+    console.debug((error as Error)?.message ?? error);
+    return false;
+  }
 };
 
-const delComic = (
+const delComic = async (
   id: number,
   setDelete: (value: SetStateAction<boolean>) => void,
   onSuccess?: () => void,
   server = SERVER,
-) => {
-  fetch(`${server}/comics/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      setDelete(true);
-      onSuccess?.();
-    })
-    .catch((err) => {
-      console.debug(err.message);
-    });
+): Promise<boolean> => {
+  try {
+    const response = await authorizedFetch(
+      `/comics/${id}`,
+      { method: "DELETE" },
+      server,
+    );
+    await response.json().catch(() => null);
+    if (!response.ok) return false;
+    setDelete(true);
+    onSuccess?.();
+    return true;
+  } catch (error) {
+    console.debug((error as Error)?.message ?? error);
+    return false;
+  }
 };
 
 const reportCoverVisibility = async (
@@ -201,16 +214,22 @@ const reportCoverVisibility = async (
   cover_visible: boolean,
   server = SERVER,
 ): Promise<Comic | undefined> => {
-  const response = await fetch(`${server}/comics/${id}/cover-visibility`, {
-    method: "PATCH",
-    body: JSON.stringify({ cover, cover_visible }),
-    headers: { "Content-Type": "application/json" },
-  });
-  const data = await response.json();
-  if (!response.ok || data?.message !== undefined) {
-    throw new Error(data?.message ?? `Cover visibility update failed (${response.status})`);
+  const response = await authorizedFetch(
+    `/comics/${id}/cover-visibility`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ cover, cover_visible }),
+    },
+    server,
+  );
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(apiErrorMessage(
+      data,
+      `Cover visibility update failed (${response.status})`,
+    ));
   }
-  return data;
+  return data as Comic;
 };
 
 export { dataFetch, trackComic, rateComic, checkoutComic, delComic, reportCoverVisibility, isAbortError };

@@ -11,10 +11,10 @@ PostgreSQL catalog storage, MongoDB-backed users, and native multi-publisher
 scraping.
 
 > [!IMPORTANT]
-> This document distinguishes **current behavior** from the **approved target**.
-> The target work is planned but not yet implemented. In particular, catalog
-> mutations and manual scraping are currently public; do not expose the API to
-> untrusted traffic until the security-boundary plan is complete.
+> This document distinguishes **current behavior** from the **approved target**
+> for ongoing hardening workstreams. Catalog list/get/search is public; catalog
+> mutations and scrape triggers require an **admin bearer JWT** (see
+> [`docs/security-boundary.md`](docs/security-boundary.md)).
 
 ## Quick Start
 
@@ -40,6 +40,14 @@ make check
 
 Run `make` or `make help` for the grouped target list. Use
 `make help TARGET=go-run` for target-specific guidance.
+
+### Catalog security
+
+Catalog list/get/search routes are public. Catalog create/update/delete,
+merge, cover updates, manual scrape, and scrape status require an admin access
+JWT sent as a bearer token. See
+[`docs/security-boundary.md`](docs/security-boundary.md) for the route policy,
+admin promotion, smoke checks, compatibility, and rollback.
 
 ## Architecture at a Glance
 

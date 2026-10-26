@@ -4,6 +4,14 @@ import ComicCard from './ComicCard';
 import type { Comic } from '../types';
 import { ToastProvider } from '../../Toast/ToastProvider';
 
+const authState = vi.hoisted(() => ({
+  isAdmin: true,
+}));
+
+vi.mock('../../../context/AuthContext', () => ({
+  useAuth: () => authState,
+}));
+
 vi.mock('../../../hooks/useComicActions', () => ({
   useComicActions: () => ({
     handleCheckout: vi.fn(),
@@ -36,6 +44,8 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
+  authState.isAdmin = true;
+  sessionStorage.setItem('comics_access_token', 'admin-access-token');
   global.fetch = vi.fn(() => Promise.resolve({
     ok: true,
     json: () => Promise.resolve({ ...comicFixture, cover_visible: false }),
@@ -84,6 +94,9 @@ test('copies the comic id and shows themed fallback when the cover fails', async
       })
     );
   });
+
+  const [, init] = vi.mocked(global.fetch).mock.calls[0];
+  expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer admin-access-token');
 });
 
 test('shows fallback immediately when cover is marked invisible', () => {
@@ -119,4 +132,27 @@ test('syncs visible card state when refreshed comic props change', () => {
   );
 
   expect(screen.getByText('79/80')).toBeTruthy();
+});
+
+test('keeps catalog data public but hides every mutation control for non-admins', async () => {
+  authState.isAdmin = false;
+  render(
+    <ToastProvider>
+      <ComicCard comic={comicFixture} />
+    </ToastProvider>
+  );
+
+  expect(screen.getByText('Rise from the bottom')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /copy comic id 15816/i })).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /delete rise from the bottom/i })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /edit/i })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /checkout/i })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /untrack/i })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /set rating/i })).not.toBeInTheDocument();
+
+  fireEvent.error(screen.getByAltText('Rise from the bottom'));
+  expect(screen.getByTestId('poster-fallback')).toBeInTheDocument();
+  await waitFor(() => {
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
 });

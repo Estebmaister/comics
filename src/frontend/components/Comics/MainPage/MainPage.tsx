@@ -16,8 +16,10 @@ import { REFRESH_INTERVAL, SEARCH_DEBOUNCE_MS } from '../constants';
 import { FloatingActionRail } from '../Actions/FloatingActionRail';
 import { ToastProvider } from '../../Toast/ToastProvider';
 import LoadMsgs from '../../Loaders/LoadMsgs';
+import { useAuth } from '../../../context/AuthContext';
 
 export function ComicsMainPage() {
+  const { isAdmin } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [webComics, setWebComics] = useState<Comic[]>([]);
   const [paginationDict, setPaginationDict] = useState<PaginationState>({});
@@ -256,11 +258,13 @@ export function ComicsMainPage() {
           onDeleteSuccess={handleFilteredMutationSuccess}
         />
 
-        <FloatingActionRail>
-          <ScrapeButton onSuccess={requestRefresh} />
-          <MergeComic onSuccess={requestRefresh} />
-          <CreateComic onSuccess={requestRefresh} />
-        </FloatingActionRail>
+        {isAdmin ? (
+          <FloatingActionRail>
+            <ScrapeButton onSuccess={requestRefresh} />
+            <MergeComic onSuccess={requestRefresh} />
+            <CreateComic onSuccess={requestRefresh} />
+          </FloatingActionRail>
+        ) : null}
       </main>
     </ToastProvider>
   );

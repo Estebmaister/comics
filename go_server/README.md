@@ -139,19 +139,29 @@ The Go server allows local HTTP and HTTPS Vite origins by default through
 
 ## Comics REST Routes
 
+Public:
+
 - `GET /comics`
-- `POST /comics`
 - `GET /comics/:id`
+- `GET /comics/search/:title`
+
+Admin bearer JWT required:
+
+- `POST /comics`
 - `PUT /comics/:id`
 - `DELETE /comics/:id`
 - `PATCH /comics/:id/cover-visibility`
-- `GET /comics/search/:title`
 - `PATCH /comics/:base_id/:merging_id`
 - `PUT /comics/:base_id/:merging_id`
+- `GET /scrape`
+- `GET /scrape/status`
 
 The merge route is registered in Gin as `/comics/:id/:merging_id` to avoid a
 wildcard conflict with `/comics/:id`; the first segment is still the base comic
-ID on the wire.
+ID on the wire. Admin API calls require an `Authorization` bearer value
+containing the access JWT; the browser cookie fallback is limited to
+profile/dashboard routes. Deployment, admin promotion, compatibility, and rollback are documented in
+[`../docs/security-boundary.md`](../docs/security-boundary.md).
 
 ## Architecture
 

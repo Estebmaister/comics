@@ -9,14 +9,59 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
+	"comics/api/middleware"
 	"comics/domain"
 	comicrepo "comics/internal/repo/comics"
+	"comics/internal/tokenutil"
 	"comics/internal/usecase"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	_ "modernc.org/sqlite"
 )
+
+const catalogTestAccessSecret = "catalog-test-access-secret"
+
+func newComicTestRouter(comics domain.ComicUseCase) *gin.Engine {
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+
+	public := router.Group("/")
+	catalogReadRouter(comics, public)
+
+	admin := router.Group("/")
+	admin.Use(
+		middleware.BearerAuthenticationMiddleware(catalogTestAccessSecret),
+		middleware.RoleMiddleware(tokenutil.RoleAdmin),
+	)
+	catalogAdminRouter(comics, admin)
+	return router
+}
+
+func catalogTokenForRole(t *testing.T, role string) string {
+	t.Helper()
+	token, err := tokenutil.GenerateTokenWithRole(
+		uuid.New(),
+		[]byte(catalogTestAccessSecret),
+		time.Minute,
+		role,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return token
+}
+
+func authorizeCatalogRequest(t *testing.T, req *http.Request, role string) {
+	t.Helper()
+	req.Header.Set(
+		middleware.KeyAuthorization,
+		"Bearer "+catalogTokenForRole(t, role),
+	)
+	req.Header.Set(middleware.KeyAccept, middleware.ContentTypeJSON)
+}
 
 func newTestComicService(t *testing.T) domain.ComicUseCase {
 	t.Helper()
@@ -63,9 +108,7 @@ func newTestComicService(t *testing.T) domain.ComicUseCase {
 }
 
 func TestComicsRouterRejectsInvalidPathID(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	comicsRouter(newTestComicService(t), router.Group("/"))
+	router := newComicTestRouter(newTestComicService(t))
 
 	req := httptest.NewRequest(http.MethodGet, "/comics/not-a-number", nil)
 	res := httptest.NewRecorder()
@@ -77,9 +120,7 @@ func TestComicsRouterRejectsInvalidPathID(t *testing.T) {
 }
 
 func TestComicsRouterRejectsInvalidPaginationQuery(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	comicsRouter(newTestComicService(t), router.Group("/"))
+	router := newComicTestRouter(newTestComicService(t))
 
 	for _, path := range []string{
 		"/comics?from=bad",
@@ -98,9 +139,7 @@ func TestComicsRouterRejectsInvalidPaginationQuery(t *testing.T) {
 }
 
 func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	comicsRouter(newTestComicService(t), router.Group("/"))
+	router := newComicTestRouter(newTestComicService(t))
 
 	createReq := httptest.NewRequest(
 		http.MethodPost,
@@ -108,6 +147,7 @@ func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
 		bytes.NewBufferString(`{"titles":["Original"]}`),
 	)
 	createReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, createReq, tokenutil.RoleAdmin)
 	createRes := httptest.NewRecorder()
 	router.ServeHTTP(createRes, createReq)
 	if createRes.Code != http.StatusCreated {
@@ -120,6 +160,7 @@ func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
 		bytes.NewBufferString(`{"titles":[]}`),
 	)
 	updateReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, updateReq, tokenutil.RoleAdmin)
 	updateRes := httptest.NewRecorder()
 	router.ServeHTTP(updateRes, updateReq)
 	if updateRes.Code != http.StatusBadRequest {
@@ -128,9 +169,7 @@ func TestComicsRouterRejectsExplicitEmptyTitleUpdate(t *testing.T) {
 }
 
 func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	comicsRouter(newTestComicService(t), router.Group("/"))
+	router := newComicTestRouter(newTestComicService(t))
 
 	createReq := httptest.NewRequest(
 		http.MethodPost,
@@ -138,6 +177,7 @@ func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
 		bytes.NewBufferString(`{"titles":["Duplicate hero"],"com_type":3}`),
 	)
 	createReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, createReq, tokenutil.RoleAdmin)
 	createRes := httptest.NewRecorder()
 	router.ServeHTTP(createRes, createReq)
 	if createRes.Code != http.StatusCreated {
@@ -150,6 +190,7 @@ func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
 		bytes.NewBufferString(`{"titles":["duplicate hero"],"com_type":3}`),
 	)
 	dupReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, dupReq, tokenutil.RoleAdmin)
 	dupRes := httptest.NewRecorder()
 	router.ServeHTTP(dupRes, dupReq)
 	if dupRes.Code != http.StatusBadRequest {
@@ -158,12 +199,11 @@ func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
 }
 
 func TestScrapeReturnsSuccessWithMockRunner(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
 	svc := &scrapeStubComicService{ComicUseCase: newTestComicService(t)}
-	comicsRouter(svc, router.Group("/"))
+	router := newComicTestRouter(svc)
 
 	req := httptest.NewRequest(http.MethodGet, "/scrape", nil)
+	authorizeCatalogRequest(t, req, tokenutil.RoleAdmin)
 	res := httptest.NewRecorder()
 	router.ServeHTTP(res, req)
 
@@ -185,12 +225,11 @@ func (s *scrapeStubComicService) ScrapeStatus(context.Context) (domain.ScrapeSta
 }
 
 func TestScrapeStatusEndpoint(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
 	svc := newTestComicService(t)
-	comicsRouter(svc, router.Group("/"))
+	router := newComicTestRouter(svc)
 
 	req := httptest.NewRequest(http.MethodGet, "/scrape/status", nil)
+	authorizeCatalogRequest(t, req, tokenutil.RoleAdmin)
 	res := httptest.NewRecorder()
 	router.ServeHTTP(res, req)
 
@@ -207,9 +246,7 @@ func TestIntValueAcceptsString(t *testing.T) {
 }
 
 func TestUpdateComicAcceptsStringViewedChap(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	comicsRouter(newTestComicService(t), router.Group("/"))
+	router := newComicTestRouter(newTestComicService(t))
 
 	createReq := httptest.NewRequest(
 		http.MethodPost,
@@ -217,6 +254,7 @@ func TestUpdateComicAcceptsStringViewedChap(t *testing.T) {
 		bytes.NewBufferString(`{"titles":["Trapped"],"com_type":3,"current_chap":80,"cover":"cover.webp","track":true}`),
 	)
 	createReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, createReq, tokenutil.RoleAdmin)
 	createRes := httptest.NewRecorder()
 	router.ServeHTTP(createRes, createReq)
 	if createRes.Code != http.StatusCreated {
@@ -229,6 +267,7 @@ func TestUpdateComicAcceptsStringViewedChap(t *testing.T) {
 		bytes.NewBufferString(`{"viewed_chap":"7"}`),
 	)
 	patchReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, patchReq, tokenutil.RoleAdmin)
 	patchRes := httptest.NewRecorder()
 	router.ServeHTTP(patchRes, patchReq)
 	if patchRes.Code != http.StatusOK {
@@ -260,5 +299,68 @@ func TestCORSMiddlewareAllowsConfiguredOrigin(t *testing.T) {
 	}
 	if got := res.Header().Get("Access-Control-Allow-Credentials"); got != "true" {
 		t.Fatalf("expected credentials CORS header, got %q", got)
+	}
+	if got := res.Header().Get("Access-Control-Allow-Headers"); !strings.Contains(got, "Authorization") {
+		t.Fatalf("expected Authorization in CORS allow headers, got %q", got)
+	}
+	if got := res.Header().Get("Access-Control-Allow-Methods"); !strings.Contains(got, "PATCH") {
+		t.Fatalf("expected mutation methods in CORS allow methods, got %q", got)
+	}
+}
+
+func TestUpdateCoverVisibilityAcceptsAdminBearer(t *testing.T) {
+	service := newTestComicService(t)
+	router := newComicTestRouter(service)
+
+	createReq := httptest.NewRequest(
+		http.MethodPost,
+		"/comics",
+		bytes.NewBufferString(`{"titles":["Cover test"],"cover":"cover.webp"}`),
+	)
+	createReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, createReq, tokenutil.RoleAdmin)
+	createRes := httptest.NewRecorder()
+	router.ServeHTTP(createRes, createReq)
+	if createRes.Code != http.StatusCreated {
+		t.Fatalf("create expected 201, got %d: %s", createRes.Code, createRes.Body.String())
+	}
+
+	coverReq := httptest.NewRequest(
+		http.MethodPatch,
+		"/comics/1/cover-visibility",
+		bytes.NewBufferString(`{"cover":"cover.webp","cover_visible":false}`),
+	)
+	coverReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, coverReq, tokenutil.RoleAdmin)
+	coverRes := httptest.NewRecorder()
+	router.ServeHTTP(coverRes, coverReq)
+
+	if coverRes.Code != http.StatusOK {
+		t.Fatalf("cover update expected 200, got %d: %s", coverRes.Code, coverRes.Body.String())
+	}
+	if !strings.Contains(coverRes.Body.String(), `"cover_visible":false`) {
+		t.Fatalf("expected hidden cover in response, got %s", coverRes.Body.String())
+	}
+}
+
+func TestMergePutAcceptsAdminBearer(t *testing.T) {
+	service := newTestComicService(t)
+	for _, comic := range []domain.Comic{
+		{Titles: []string{"Merge base"}, ComType: 3},
+		{Titles: []string{"Merge duplicate"}, ComType: 3},
+	} {
+		if _, err := service.Create(context.Background(), comic); err != nil {
+			t.Fatal(err)
+		}
+	}
+	router := newComicTestRouter(service)
+	req := httptest.NewRequest(http.MethodPut, "/comics/1/2", nil)
+	authorizeCatalogRequest(t, req, tokenutil.RoleAdmin)
+	res := httptest.NewRecorder()
+
+	router.ServeHTTP(res, req)
+
+	if res.Code != http.StatusOK {
+		t.Fatalf("PUT merge expected 200, got %d: %s", res.Code, res.Body.String())
 	}
 }

@@ -16,6 +16,10 @@ stays available for normal REST traffic.
 4. **DB concurrency**: scrapes and user CRUD share the same SQLite/Postgres store.
    Scrapes serialize **writes** inside the register path; readers and unrelated
    comic updates proceed under normal driver locking (SQLite WAL + busy timeout).
+5. **HTTP auth**: manual `GET /scrape` and operational `GET /scrape/status`
+   require an `Authorization` bearer JWT with subject role `admin`. Automatic
+   and CLI scrape sources do not pass through HTTP middleware. An anonymous or
+   cookie-only request returns `401`; an authenticated non-admin returns `403`.
 
 ## Sources
 
@@ -69,6 +73,11 @@ Default interval: **10m** (`SCRAPE_INTERVAL=10m`). Disable with `SCRAPE_INTERVAL
 `GET /scrape/status` returns `{ running, source, last_completed_at, last_completed_source }`
 for the UI scrape button and polling while a run is active.
 
+Manual `GET /scrape` and operational `GET /scrape/status` require an
+`Authorization` bearer JWT with subject role `admin`. Automatic and CLI scrape
+sources do not pass through HTTP middleware. An anonymous or cookie-only request
+returns `401`; an authenticated non-admin returns `403`.
+
 ## Implementation map (Go)
 
 | Piece | Package / file | Role |
@@ -85,7 +94,7 @@ for the UI scrape button and polling while a run is active.
 | Phase | Action |
 |-------|--------|
 | **Done** | Python publisher scrapers removed; registration helpers live in `src/db/scraped_register.py`; `url_switch.json` kept for the frontend. |
-| **Done** | Flask `/scrape` removed; use Go `GET /scrape` and `GET /scrape/status`. |
+| **Done** | Flask `/scrape` removed; use bearer-admin Go `GET /scrape` and `GET /scrape/status`. |
 | **Done** | `cloudscraper` removed from `requirements.txt`. |
 
 Production path: **Go `make go-run`** with `SCRAPE_INTERVAL` replaces **`py-daemon`**.

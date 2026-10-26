@@ -33,7 +33,7 @@ type comicJSON struct {
 	Deleted      bool     `json:"deleted"`
 }
 
-func comicsRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
+func catalogReadRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 	group.GET("/health/db", func(c *gin.Context) {
 		if err := comics.Ping(c.Request.Context()); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "database unavailable"})
@@ -42,16 +42,19 @@ func comicsRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
 
+	group.GET("/comics", listComics(comics))
+	group.GET("/comics/search/:title", searchComics(comics))
+	group.GET("/comics/:id", getComic(comics))
+}
+
+func catalogAdminRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 	group.GET("/scrape/status", scrapeStatus(comics))
 	group.GET("/scrape", runScrape(comics))
 
-	group.GET("/comics", listComics(comics))
 	group.POST("/comics", createComic(comics))
-	group.GET("/comics/:id", getComic(comics))
 	group.PUT("/comics/:id", updateComic(comics))
 	group.DELETE("/comics/:id", deleteComic(comics))
 	group.PATCH("/comics/:id/cover-visibility", updateCoverVisibility(comics))
-	group.GET("/comics/search/:title", searchComics(comics))
 	group.PATCH("/comics/:id/:merging_id", mergeComics(comics))
 	group.PUT("/comics/:id/:merging_id", mergeComics(comics))
 }

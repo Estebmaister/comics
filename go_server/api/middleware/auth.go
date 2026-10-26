@@ -36,37 +36,47 @@ func ExtractCookieAccessToken(c *gin.Context, headerToken *string) {
 	}
 }
 
-// AuthenticationMiddleware checks if the user has a valid JWT
+// AuthenticationMiddleware validates an access JWT and permits the existing
+// HttpOnly cookie fallback used by browser profile/dashboard routes.
 func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
+	return authenticationMiddleware(accessTokenSecret, true)
+}
+
+// BearerAuthenticationMiddleware validates only an Authorization bearer token.
+// API callers never fall back to browser cookies or redirects.
+func BearerAuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
+	return authenticationMiddleware(accessTokenSecret, false)
+}
+
+func authenticationMiddleware(accessTokenSecret string, allowCookie bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.GetHeader(KeyAuthorization)
-		ExtractCookieAccessToken(c, &tokenString)
+		if allowCookie {
+			ExtractCookieAccessToken(c, &tokenString)
+		}
+
 		if tokenString == "" {
-			// If call comes from browser redirect to login
-			if c.GetHeader(KeyAccept) != ContentTypeJSON {
+			if allowCookie && c.GetHeader(KeyAccept) != ContentTypeJSON {
 				c.Redirect(http.StatusFound, "/login")
+				c.Abort()
 				return
 			}
 
-			// Return unauthorized error
 			c.Error(fmt.Errorf("missing authentication token")) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing authentication token"})
 			c.Abort()
 			return
 		}
 
-		// The token should be prefixed with "Bearer "
 		tokenParts := strings.Split(tokenString, " ")
-		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-			c.Error(fmt.Errorf("invalid structure token: %s", tokenString)) // nolint:errcheck
+		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" || tokenParts[1] == "" {
+			c.Error(fmt.Errorf("invalid authentication token structure")) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid structure token"})
 			c.Abort()
 			return
 		}
 
-		tokenString = tokenParts[1]
-
-		claims, err := tokenutil.VerifyToken(tokenString, []byte(accessTokenSecret))
+		claims, err := tokenutil.VerifyToken(tokenParts[1], []byte(accessTokenSecret))
 		if err != nil {
 			c.Error(err) // nolint:errcheck
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authentication token"})
@@ -76,8 +86,7 @@ func AuthenticationMiddleware(accessTokenSecret string) gin.HandlerFunc {
 
 		c.Set(KeyUserID, claims.UserID)
 		c.Set(KeyRole, claims.Subject)
-
-		c.Next() // Proceed to the next handler if authorized
+		c.Next()
 	}
 }
 

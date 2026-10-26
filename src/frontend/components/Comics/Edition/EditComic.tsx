@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import type { ReactNode } from 'react';
+import { apiErrorMessage, authorizedFetch } from '../../../api/client';
 import config from '../../../util/Config';
 import db_classes from '../../../../../db/db_classes.json';
 import { useComicCard } from '../Card/ComicCardContext';
@@ -9,37 +10,39 @@ import type { Comic } from '../types';
 
 const SERVER = config.SERVER;
 const EditComicModal = lazy(() => import('../Modals/EditModal'));
-const edit = async (
+
+export const editComic = async (
   comic: Comic,
-  server = SERVER
+  server = SERVER,
 ): Promise<[Comic | undefined, string]> => {
-  let newData: Comic | undefined;
-  let msg = '';
-  const { deleted, track, ...data } = comic;
-  console.debug(JSON.stringify(data));
+  const { deleted, track, ...payload } = comic;
 
-  await fetch(`${server}/comics/${comic.id}`, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.debug(responseData);
-      if (responseData?.message !== undefined) {
-        newData = undefined;
-        msg = responseData.message;
-        return;
-      }
-      newData = responseData;
-    })
-    .catch((err) => {
-      console.debug(err.message);
-      newData = undefined;
-      msg = err.message;
-    });
-
-  return [newData, msg];
+  try {
+    const response = await authorizedFetch(
+      `/comics/${comic.id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      },
+      server,
+    );
+    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      return [
+        undefined,
+        apiErrorMessage(data, `Update request failed (${response.status})`),
+      ];
+    }
+    if (data === null || typeof data !== 'object') {
+      return [undefined, 'Update returned an invalid comic payload'];
+    }
+    return [data as Comic, ''];
+  } catch (error) {
+    return [
+      undefined,
+      error instanceof Error ? error.message : 'Unexpected network error',
+    ];
+  }
 };
 
 interface EditComicProps {
@@ -61,7 +64,7 @@ const EditComic = ({ className, children }: EditComicProps) => {
   };
 
   const handleFormSubmit = async (data: Comic) => {
-    const [newData, resultMsg] = await edit(data);
+    const [newData, resultMsg] = await editComic(data);
 
     if (newData !== undefined) {
       setComic(newData);

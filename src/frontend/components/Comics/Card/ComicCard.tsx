@@ -7,6 +7,7 @@ import CopyableSpan from './CopyableSpan';
 import { useComicActions } from '../../../hooks/useComicActions';
 import { ComicCardProvider } from './ComicCardContext';
 import { ComicCover } from './ComicCover';
+import { useAuth } from '../../../context/AuthContext';
 import { rateComic } from '../../../util/ServerHelpers';
 import type { Comic } from '../types';
 
@@ -50,12 +51,16 @@ const ComicCard = ({
   onCheckoutSuccess,
   onDeleteSuccess,
 }: ComicCardProps): JSX.Element | null => {
+  const { isAdmin } = useAuth();
   const [comic, setComic] = useState(initialComic);
   const { id, current_chap } = comic;
   const [viewedChap, setViewedChap] = useState<number>(comic.viewed_chap);
   const [check, setCheck] = useState(current_chap > viewedChap);
   const [del, setDel] = useState(false);
-  const showCheckout = useMemo(() => comic.track && check, [comic.track, check]);
+  const showCheckout = useMemo(
+    () => isAdmin && comic.track && check,
+    [comic.track, check, isAdmin],
+  );
   const title = comic.titles[0] ?? 'Unknown comic';
   const rating = Math.max(0, Math.min(5, Number(comic.rating ?? 0)));
 
@@ -103,20 +108,23 @@ const ComicCard = ({
         <div className={styles.cardRow}>
           <ComicCover
             comic={comic}
+            canReportFailure={isAdmin}
             onCoverVisibilityChange={(cover_visible) => {
               setComic((prev) => ({ ...prev, cover_visible }));
             }}
           >
-            <div className={styles.overlayActions}>
-              <button
-                className={`${styles.overlayButton} ${styles.overlayButtonDanger}`}
-                onClick={handleDelete}
-                aria-label={`Delete ${title}`}
-              >
-                Delete
-              </button>
-              <EditComic className={styles.overlayButton}>Edit</EditComic>
-            </div>
+            {isAdmin ? (
+              <div className={styles.overlayActions}>
+                <button
+                  className={`${styles.overlayButton} ${styles.overlayButtonDanger}`}
+                  onClick={handleDelete}
+                  aria-label={`Delete ${title}`}
+                >
+                  Delete
+                </button>
+                <EditComic className={styles.overlayButton}>Edit</EditComic>
+              </div>
+            ) : null}
 
             <CopyableSpan
               textToCopy={id}
@@ -132,14 +140,23 @@ const ComicCard = ({
                 <h3 className={styles.comicTitle}>{title}</h3>
                 <div
                   className={styles.ratingChip}
-                  role="group"
-                  aria-label={`Rating for ${title}`}
+                  role={isAdmin ? 'group' : 'img'}
+                  aria-label={
+                    isAdmin
+                      ? `Rating for ${title}`
+                      : `${title} rating: ${rating} of 5`
+                  }
                 >
                   <span className={styles.ratingDots}>
                     {Array.from({ length: 5 }, (_, index) => {
                       const value = index + 1;
                       const active = value <= rating;
-                      return (
+                      const dot = (
+                        <span
+                          className={`${styles.ratingDot}${active ? ` ${styles.ratingDotActive}` : ''}`}
+                        />
+                      );
+                      return isAdmin ? (
                         <button
                           key={value}
                           type="button"
@@ -149,10 +166,16 @@ const ComicCard = ({
                           aria-pressed={active}
                           title={`${value}/5`}
                         >
-                          <span
-                            className={`${styles.ratingDot}${active ? ` ${styles.ratingDotActive}` : ''}`}
-                          />
+                          {dot}
                         </button>
+                      ) : (
+                        <span
+                          key={value}
+                          className={styles.ratingPip}
+                          aria-hidden="true"
+                        >
+                          {dot}
+                        </span>
                       );
                     })}
                   </span>
@@ -193,24 +216,26 @@ const ComicCard = ({
                 <span className={styles.publisherLinks}>{publisherLinks}</span>
               </p>
 
-              <div className={styles.actionsColumn} data-testid="comic-footer-actions">
-                {showCheckout ? (
+              {isAdmin ? (
+                <div className={styles.actionsColumn} data-testid="comic-footer-actions">
+                  {showCheckout ? (
+                    <button
+                      className={`${styles.actionButton} ${styles.checkoutButton} basic-button`}
+                      onClick={handleCheckout}
+                    >
+                      Checkout
+                    </button>
+                  ) : (
+                    <span className={styles.actionButtonPlaceholder} aria-hidden="true" />
+                  )}
                   <button
-                    className={`${styles.actionButton} ${styles.checkoutButton} basic-button`}
-                    onClick={handleCheckout}
+                    className={`${styles.actionButton} basic-button${comic.track ? ' reverse-button' : ''}`}
+                    onClick={handleTrackToggle}
                   >
-                    Checkout
+                    {comic.track ? 'Untrack' : 'Track'}
                   </button>
-                ) : (
-                  <span className={styles.actionButtonPlaceholder} aria-hidden="true" />
-                )}
-                <button
-                  className={`${styles.actionButton} basic-button${comic.track ? ' reverse-button' : ''}`}
-                  onClick={handleTrackToggle}
-                >
-                  {comic.track ? 'Untrack' : 'Track'}
-                </button>
-              </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

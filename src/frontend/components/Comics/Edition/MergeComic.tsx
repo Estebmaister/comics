@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiErrorMessage, authorizedFetch } from '../../../api/client';
 import MergeComicModal from '../Modals/MergeModal';
 import config from '../../../util/Config';
 import { useToast } from '../../Toast/ToastProvider';
@@ -11,41 +12,28 @@ const emptyMergeComicFormState: MergeComicFormState = {
   mergingID: 0,
 };
 
-const mergeComic = async (
+export const mergeComic = async (
   baseID: number,
   mergingID: number,
-  server = SERVER
+  server = SERVER,
 ): Promise<string> => {
   try {
-    const response = await fetch(`${server}/comics/${baseID}/${mergingID}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await authorizedFetch(
+      `/comics/${baseID}/${mergingID}`,
+      { method: 'PATCH' },
+      server,
+    );
     const contentType = response.headers.get('content-type') ?? '';
     const payload = contentType.includes('application/json')
       ? await response.json()
       : await response.text();
 
-    console.debug(payload);
-
     if (!response.ok) {
-      if (payload && typeof payload === 'object' && 'message' in payload) {
-        return String(payload.message);
-      }
-      if (typeof payload === 'string' && payload.trim() !== '') {
-        return payload;
-      }
-      return `Merge request failed (${response.status})`;
-    }
-
-    if (payload && typeof payload === 'object' && 'message' in payload) {
-      return String(payload.message);
+      return apiErrorMessage(payload, `Merge request failed (${response.status})`);
     }
     return '';
-  } catch (err) {
-    console.debug(err);
-    if (err instanceof Error) return err.message;
-    return 'Unexpected network error';
+  } catch (error) {
+    return error instanceof Error ? error.message : 'Unexpected network error';
   }
 };
 

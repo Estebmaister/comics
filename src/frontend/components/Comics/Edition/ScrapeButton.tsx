@@ -1,4 +1,5 @@
 import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { authorizedFetch } from '../../../api/client';
 import config from '../../../util/Config';
 import { useToast } from '../../Toast/ToastProvider';
 import { RailActionButton } from '../Actions/FloatingActionRail';
@@ -12,12 +13,15 @@ export type ScrapeStatusResponse = {
   last_completed_source?: string;
 };
 
-export const fetchScrapeStatus = async (server = SERVER): Promise<ScrapeStatusResponse | null> => {
+export const fetchScrapeStatus = async (
+  server = SERVER,
+): Promise<ScrapeStatusResponse | null> => {
   try {
-    const response = await fetch(`${server}/scrape/status`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await authorizedFetch(
+      '/scrape/status',
+      { method: 'GET' },
+      server,
+    );
     if (!response.ok) {
       return null;
     }
@@ -28,23 +32,26 @@ export const fetchScrapeStatus = async (server = SERVER): Promise<ScrapeStatusRe
 };
 
 export const scrape = async (
-  setShowLoader: { (value: SetStateAction<boolean>): void; },
-  server = SERVER
+  setShowLoader: (value: SetStateAction<boolean>) => void,
+  server = SERVER,
 ) => {
   setShowLoader(true);
   try {
-    const response = await fetch(`${server}/scrape`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-
+    const response = await authorizedFetch(
+      '/scrape',
+      { method: 'GET' },
+      server,
+    );
     const data = await response.json().catch(() => null);
     if (response.status === 409) {
-      return { ok: false as const, busy: true, source: data?.source as string | undefined };
+      return {
+        ok: false as const,
+        busy: true,
+        source: data?.source as string | undefined,
+      };
     }
-    const ok = response.ok && data?.message !== 'Internal Server Error';
-    return { ok, busy: false as const };
-  } catch (err) {
+    return { ok: response.ok, busy: false as const };
+  } catch {
     return { ok: false, busy: false as const };
   } finally {
     setShowLoader(false);

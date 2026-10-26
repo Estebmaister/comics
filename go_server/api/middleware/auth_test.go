@@ -72,7 +72,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	}, {
 		name: "No header",
 		args: args{secretKey: secretKey, token: "", noContentType: true},
-		want: want{code: http.StatusFound, msg: accessGranted},
+		want: want{code: http.StatusFound, msg: "/login"},
 	}, {
 		name: "Cookie token",
 		args: args{secretKey: secretKey, cookieToken: validUserToken, noContentType: true},
@@ -80,13 +80,15 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			router := gin.Default()
+			handlerCalled := false
+			router := gin.New()
 			router.Use(AuthenticationMiddleware(tt.args.secretKey))
 			router.GET("/protected", func(c *gin.Context) {
+				handlerCalled = true
 				c.JSON(http.StatusOK, accessGrantedMsg)
 			})
 
-			req, _ := http.NewRequest("GET", "/protected", nil)
+			req, _ := http.NewRequest(http.MethodGet, "/protected", nil)
 			if !tt.args.noContentType {
 				req.Header.Set(KeyAccept, ContentTypeJSON)
 			}
@@ -103,6 +105,69 @@ func TestAuthenticationMiddleware(t *testing.T) {
 
 			assert.Equal(t, tt.want.code, w.Code)
 			assert.Contains(t, w.Body.String(), tt.want.msg)
+			assert.Equal(t, tt.want.code == http.StatusOK, handlerCalled)
+		})
+	}
+}
+
+func TestBearerAuthenticationMiddleware(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name        string
+		headerToken string
+		cookieToken string
+		wantCode    int
+	}{
+		{
+			name:        "accepts bearer header",
+			headerToken: bearer + validAdminToken,
+			wantCode:    http.StatusOK,
+		},
+		{
+			name:        "rejects cookie without bearer header",
+			cookieToken: validAdminToken,
+			wantCode:    http.StatusUnauthorized,
+		},
+		{
+			name:     "rejects missing bearer without redirect",
+			wantCode: http.StatusUnauthorized,
+		},
+		{
+			name:        "rejects malformed bearer",
+			headerToken: validAdminToken,
+			wantCode:    http.StatusUnauthorized,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			handlerCalled := false
+			router := gin.New()
+			router.Use(BearerAuthenticationMiddleware(secretKey))
+			router.GET("/admin-api", func(c *gin.Context) {
+				handlerCalled = true
+				c.JSON(http.StatusOK, accessGrantedMsg)
+			})
+
+			req := httptest.NewRequest(http.MethodGet, "/admin-api", nil)
+			req.Header.Set(KeyAuthorization, tt.headerToken)
+			if tt.cookieToken != "" {
+				req.AddCookie(&http.Cookie{
+					Name:  KeyAccessToken,
+					Value: tt.cookieToken,
+				})
+			}
+
+			res := httptest.NewRecorder()
+			router.ServeHTTP(res, req)
+
+			assert.Equal(t, tt.wantCode, res.Code)
+			assert.Equal(t, tt.wantCode == http.StatusOK, handlerCalled)
+			if tt.wantCode != http.StatusOK {
+				assert.NotContains(t, res.Body.String(), accessGranted)
+				assert.Empty(t, res.Header().Get("Location"))
+			}
 		})
 	}
 }

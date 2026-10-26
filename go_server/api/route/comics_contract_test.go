@@ -9,15 +9,12 @@ import (
 	"testing"
 
 	"comics/domain"
-
-	"github.com/gin-gonic/gin"
+	"comics/internal/tokenutil"
 )
 
 func TestComicsContractListSearchAndDuplicate(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
 	comics := newTestComicService(t)
-	comicsRouter(comics, router.Group("/"))
+	router := newComicTestRouter(comics)
 
 	ctx := context.Background()
 	if _, err := comics.Create(ctx, domain.Comic{
@@ -49,6 +46,7 @@ func TestComicsContractListSearchAndDuplicate(t *testing.T) {
 
 	dupReq := httptest.NewRequest(http.MethodPost, "/comics", bytes.NewBufferString(`{"titles":["Contract hero"],"com_type":3}`))
 	dupReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, dupReq, tokenutil.RoleAdmin)
 	dupRes := httptest.NewRecorder()
 	router.ServeHTTP(dupRes, dupReq)
 	if dupRes.Code != http.StatusBadRequest {
@@ -57,13 +55,12 @@ func TestComicsContractListSearchAndDuplicate(t *testing.T) {
 }
 
 func TestComicsContractUpdateMergeDelete(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
 	comics := newTestComicService(t)
-	comicsRouter(comics, router.Group("/"))
+	router := newComicTestRouter(comics)
 
 	create := httptest.NewRequest(http.MethodPost, "/comics", bytes.NewBufferString(`{"titles":["Base hero"],"com_type":3}`))
 	create.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, create, tokenutil.RoleAdmin)
 	createRes := httptest.NewRecorder()
 	router.ServeHTTP(createRes, create)
 	if createRes.Code != http.StatusCreated {
@@ -72,6 +69,7 @@ func TestComicsContractUpdateMergeDelete(t *testing.T) {
 
 	dupCreate := httptest.NewRequest(http.MethodPost, "/comics", bytes.NewBufferString(`{"titles":["Merge target"],"com_type":3,"current_chap":20,"cover":"cover.webp"}`))
 	dupCreate.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, dupCreate, tokenutil.RoleAdmin)
 	dupCreateRes := httptest.NewRecorder()
 	router.ServeHTTP(dupCreateRes, dupCreate)
 	if dupCreateRes.Code != http.StatusCreated {
@@ -80,6 +78,7 @@ func TestComicsContractUpdateMergeDelete(t *testing.T) {
 
 	patchReq := httptest.NewRequest(http.MethodPut, "/comics/1", bytes.NewBufferString(`{"track":false,"rating":2,"viewed_chap":10}`))
 	patchReq.Header.Set("Content-Type", "application/json")
+	authorizeCatalogRequest(t, patchReq, tokenutil.RoleAdmin)
 	patchRes := httptest.NewRecorder()
 	router.ServeHTTP(patchRes, patchReq)
 	if patchRes.Code != http.StatusOK {
@@ -87,6 +86,7 @@ func TestComicsContractUpdateMergeDelete(t *testing.T) {
 	}
 
 	mergeReq := httptest.NewRequest(http.MethodPatch, "/comics/1/2", nil)
+	authorizeCatalogRequest(t, mergeReq, tokenutil.RoleAdmin)
 	mergeRes := httptest.NewRecorder()
 	router.ServeHTTP(mergeRes, mergeReq)
 	if mergeRes.Code != http.StatusOK {
@@ -94,6 +94,7 @@ func TestComicsContractUpdateMergeDelete(t *testing.T) {
 	}
 
 	deleteReq := httptest.NewRequest(http.MethodDelete, "/comics/1", nil)
+	authorizeCatalogRequest(t, deleteReq, tokenutil.RoleAdmin)
 	deleteRes := httptest.NewRecorder()
 	router.ServeHTTP(deleteRes, deleteReq)
 	if deleteRes.Code != http.StatusAccepted && deleteRes.Code != http.StatusOK {

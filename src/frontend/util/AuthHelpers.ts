@@ -18,6 +18,7 @@ export type AuthUser = {
   id?: string;
   username?: string;
   email?: string;
+  role?: string;
 };
 
 const authFetch = async (path: string, init: RequestInit = {}): Promise<Response> => {

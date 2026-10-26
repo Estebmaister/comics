@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
+import { apiErrorMessage, authorizedFetch } from '../../../api/client';
 import config from '../../../util/Config';
 import Loaders from '../../Loaders';
 import { useToast } from '../../Toast/ToastProvider';
@@ -7,30 +8,34 @@ import type { CreateComicFormState } from '../types';
 
 const SERVER = config.SERVER;
 const CreateComicModal = lazy(() => import('../Modals/CreateModal'));
-const create = async (
+
+export const createComic = async (
   comic: CreateComicFormState,
-  server = SERVER
+  server = SERVER,
 ): Promise<string> => {
-  let msg = '';
-  const last_update = { last_update: new Date().getTime() };
-  const titles = { titles: [comic.title] };
-  const data = { ...comic, ...last_update, ...titles };
-  console.debug(JSON.stringify(data));
-  await fetch(`${server}/comics`, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.debug(data);
-      if (data?.message) msg = data.message;
-    })
-    .catch((err) => {
-      console.debug(err.message);
-      msg = err.message;
-    });
-  return msg;
+  const payload = {
+    ...comic,
+    last_update: new Date().getTime(),
+    titles: [comic.title],
+  };
+
+  try {
+    const response = await authorizedFetch(
+      '/comics',
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      },
+      server,
+    );
+    const data = await response.json().catch(() => null);
+    if (!response.ok) {
+      return apiErrorMessage(data, `Create request failed (${response.status})`);
+    }
+    return '';
+  } catch (error) {
+    return error instanceof Error ? error.message : 'Unexpected network error';
+  }
 };
 
 interface CreateComicProps {
@@ -52,7 +57,7 @@ const CreateComic = ({ onSuccess }: CreateComicProps) => {
 
   const handleFormSubmit = async (data: CreateComicFormState) => {
     setComicFormData(data);
-    const resultMsg = await create(data);
+    const resultMsg = await createComic(data);
 
     if (resultMsg === '') {
       handleCloseCreateComicModal();

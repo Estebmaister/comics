@@ -31,15 +31,15 @@ export const useComicActions = ({
   }, [setComic]);
 
   const handleCheckout = useCallback(() => {
-    checkoutComic(currentChap, comicId, setCheck, setViewedChap, onCheckoutSuccess);
+    void checkoutComic(currentChap, comicId, setCheck, setViewedChap, onCheckoutSuccess);
   }, [comicId, currentChap, onCheckoutSuccess, setCheck, setViewedChap]);
 
   const handleTrackToggle = useCallback(() => {
-    trackComic(isTracked, comicId, setTrackComic);
+    void trackComic(isTracked, comicId, setTrackComic);
   }, [comicId, isTracked, setTrackComic]);
 
   const handleDelete = useCallback(() => {
-    delComic(comicId, setDel, onDeleteSuccess);
+    void delComic(comicId, setDel, onDeleteSuccess);
   }, [comicId, onDeleteSuccess, setDel]);
 
   return {

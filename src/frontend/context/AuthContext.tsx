@@ -2,10 +2,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react';
+import { AUTH_SESSION_EXPIRED_EVENT } from '../api/client';
 import {
   clearAuthStorage,
   fetchProfile,
@@ -20,6 +22,7 @@ type AuthContextValue = {
   user: AuthUser | null;
   accessToken?: string;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<string | null>;
   signup: (email: string, username: string, password: string) => Promise<string | null>;
   logout: () => void;
@@ -36,6 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const token = readAccessToken();
     if (!token) {
       setUser(null);
+      setAccessToken(undefined);
       return;
     }
     try {
@@ -74,11 +78,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAccessToken(undefined);
   }, []);
 
+  useEffect(() => {
+    void refreshProfile();
+  }, [refreshProfile]);
+
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      setUser(null);
+      setAccessToken(undefined);
+    };
+    window.addEventListener(AUTH_SESSION_EXPIRED_EVENT, handleSessionExpired);
+    return () => {
+      window.removeEventListener(AUTH_SESSION_EXPIRED_EVENT, handleSessionExpired);
+    };
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
       accessToken,
       isAuthenticated: Boolean(accessToken),
+      isAdmin: user?.role === 'admin',
       login,
       signup,
       logout,
