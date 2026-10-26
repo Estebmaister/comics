@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"comics/domain"
+	"comics/internal/identity"
 
 	_ "github.com/jackc/pgx/v5/stdlib" // register pgx driver for postgres DSNs
 	_ "modernc.org/sqlite"
@@ -238,7 +239,45 @@ func (r *SQLComicRepository) Get(ctx context.Context, id int) (domain.Comic, err
 	return comic, err
 }
 
+func normalizeComicForWrite(comic domain.Comic) (domain.Comic, error) {
+	comic.Titles = identity.NormalizeTitleVariants(comic.Titles, comic.ComType)
+	if !comic.Deleted && len(identity.DiscoveryTitleKeyPairsForTitles(comic.Titles, comic.ComType)) == 0 {
+		return domain.Comic{}, fmt.Errorf(
+			"%w: active comic requires a title with a discovery key",
+			domain.ErrInvalidComicPayload,
+		)
+	}
+	return comic, nil
+}
+
+func (r *SQLComicRepository) syncDiscoveryKeysAfterWrite(
+	ctx context.Context,
+	comic domain.Comic,
+) error {
+	if comic.Deleted {
+		return r.DeleteDiscoveryKeysForComic(ctx, comic.ID)
+	}
+	return r.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, comic.Titles)
+}
+
 func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
+	if r.tx != nil {
+		return r.create(ctx, comic)
+	}
+	var created domain.Comic
+	err := r.WithTx(ctx, func(txRepo domain.ComicRepository) error {
+		var err error
+		created, err = txRepo.Create(ctx, comic)
+		return err
+	})
+	return created, err
+}
+
+func (r *SQLComicRepository) create(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
+	comic, err := normalizeComicForWrite(comic)
+	if err != nil {
+		return domain.Comic{}, err
+	}
 	now := time.Now().Unix()
 	if r.dialect == dialectPostgres {
 		var id int
@@ -269,7 +308,8 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 		if err != nil {
 			return domain.Comic{}, err
 		}
-		if err := r.SyncDiscoveryKeys(ctx, id, comic.ComType, comic.Titles); err != nil {
+		comic.ID = id
+		if err := r.syncDiscoveryKeysAfterWrite(ctx, comic); err != nil {
 			return domain.Comic{}, err
 		}
 		return r.Get(ctx, id)
@@ -305,13 +345,31 @@ func (r *SQLComicRepository) Create(ctx context.Context, comic domain.Comic) (do
 	if err != nil {
 		return domain.Comic{}, err
 	}
-	if err := r.SyncDiscoveryKeys(ctx, int(id), comic.ComType, comic.Titles); err != nil {
+	comic.ID = int(id)
+	if err := r.syncDiscoveryKeysAfterWrite(ctx, comic); err != nil {
 		return domain.Comic{}, err
 	}
-	return r.Get(ctx, int(id))
+	return r.Get(ctx, comic.ID)
 }
 
 func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
+	if r.tx != nil {
+		return r.update(ctx, comic)
+	}
+	var updated domain.Comic
+	err := r.WithTx(ctx, func(txRepo domain.ComicRepository) error {
+		var err error
+		updated, err = txRepo.Update(ctx, comic)
+		return err
+	})
+	return updated, err
+}
+
+func (r *SQLComicRepository) update(ctx context.Context, comic domain.Comic) (domain.Comic, error) {
+	comic, err := normalizeComicForWrite(comic)
+	if err != nil {
+		return domain.Comic{}, err
+	}
 	lastUpdate := comicLastUpdateUnix(comic)
 	if r.dialect == dialectPostgres {
 		result, err := r.exec(
@@ -344,7 +402,7 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 		if err := ensureRowsAffected(result); err != nil {
 			return domain.Comic{}, err
 		}
-		if err := r.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, comic.Titles); err != nil {
+		if err := r.syncDiscoveryKeysAfterWrite(ctx, comic); err != nil {
 			return domain.Comic{}, err
 		}
 		return r.Get(ctx, comic.ID)
@@ -380,13 +438,22 @@ func (r *SQLComicRepository) Update(ctx context.Context, comic domain.Comic) (do
 	if err := ensureRowsAffected(result); err != nil {
 		return domain.Comic{}, err
 	}
-	if err := r.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, comic.Titles); err != nil {
+	if err := r.syncDiscoveryKeysAfterWrite(ctx, comic); err != nil {
 		return domain.Comic{}, err
 	}
 	return r.Get(ctx, comic.ID)
 }
 
 func (r *SQLComicRepository) Delete(ctx context.Context, id int) error {
+	if r.tx != nil {
+		return r.delete(ctx, id)
+	}
+	return r.WithTx(ctx, func(txRepo domain.ComicRepository) error {
+		return txRepo.Delete(ctx, id)
+	})
+}
+
+func (r *SQLComicRepository) delete(ctx context.Context, id int) error {
 	if err := r.DeleteDiscoveryKeysForComic(ctx, id); err != nil {
 		return err
 	}

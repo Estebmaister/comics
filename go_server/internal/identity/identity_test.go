@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"comics/internal/identity"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestNovelAndSeriesIdentityKeysDiffer(t *testing.T) {
@@ -69,5 +71,33 @@ func TestBuildIdentityKeyFromTitles(t *testing.T) {
 func TestDiscoveryKeyUnifiesLeadingArticle(t *testing.T) {
 	if identity.DiscoveryKey("The executioner", 3) != identity.DiscoveryKey("Executioner", 3) {
 		t.Fatal("expected article-insensitive discovery keys")
+	}
+}
+
+func TestTitleMatchKeyUsesUnicodeOnlyWhenASCIIKeyIsEmpty(t *testing.T) {
+	tests := map[string]string{
+		"The executioner": "executioner",
+		"Café terrace":    "cafterrace",
+		"菜鳥白魔法師塞西爾本非我愛": "菜鳥白魔法師塞西爾本非我愛",
+		"イジめてごっこ。":       "イジめてごっこ",
+	}
+	for title, want := range tests {
+		if got := identity.TitleMatchKey(title); got != want {
+			t.Fatalf("TitleMatchKey(%q) = %q, want %q", title, got, want)
+		}
+	}
+}
+
+func TestDiscoveryTitleKeyPairsForTitlesPreservesScope(t *testing.T) {
+	got := identity.DiscoveryTitleKeyPairsForTitles(
+		[]string{"The executioner", "Executioner", "菜鳥白魔法師"},
+		3,
+	)
+	want := []identity.ScopedTitleKey{
+		{Scope: "series", TitleKey: "executioner"},
+		{Scope: "series", TitleKey: "菜鳥白魔法師"},
+	}
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("scoped keys mismatch (-want +got):\n%s", diff)
 	}
 }

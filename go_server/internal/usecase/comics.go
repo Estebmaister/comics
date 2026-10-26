@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -80,7 +81,15 @@ func (s *ComicService) Create(ctx context.Context, comic domain.Comic) (domain.C
 	if comic.Cover == "" {
 		comic.CoverVisible = true
 	}
-	return s.repo.Create(ctx, comic)
+	created, err := s.repo.Create(ctx, comic)
+	if err != nil {
+		var conflict *domain.DiscoveryKeyConflictError
+		if errors.As(err, &conflict) {
+			return domain.Comic{}, domain.ErrDuplicateComic
+		}
+		return domain.Comic{}, err
+	}
+	return created, nil
 }
 
 func (s *ComicService) Update(ctx context.Context, id int, patch domain.ComicPatch) (domain.Comic, error) {
@@ -168,6 +177,9 @@ func (s *ComicService) Merge(ctx context.Context, baseID int, mergingID int) (do
 			merged.LastUpdate = time.Now().UTC()
 		} else {
 			merged.LastUpdate = previousLastUpdate
+		}
+		if err := repo.DeleteDiscoveryKeysForComic(ctx, mergingID); err != nil {
+			return err
 		}
 		if _, err = repo.Update(ctx, merged); err != nil {
 			return err

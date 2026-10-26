@@ -15,10 +15,17 @@ const (
 )
 
 var (
-	novelMarkerRe    = regexp.MustCompile(`(?i)\(\s*novel\s*\)|-\s*novel\s*$`)
-	leadingArticleRe = regexp.MustCompile(`(?i)^(the|a|an)\s+`)
-	nonMatchCharRe   = regexp.MustCompile(`[^a-z0-9]+`)
+	novelMarkerRe          = regexp.MustCompile(`(?i)\(\s*novel\s*\)|-\s*novel\s*$`)
+	leadingArticleRe       = regexp.MustCompile(`(?i)^(the|a|an)\s+`)
+	nonMatchCharRe         = regexp.MustCompile(`[^a-z0-9]+`)
+	nonUnicodeMatchCharRe  = regexp.MustCompile(`[^\p{L}\p{N}]+`)
 )
+
+// ScopedTitleKey is one discovery index row (scope + normalized title_key).
+type ScopedTitleKey struct {
+	Scope    string `json:"scope"`
+	TitleKey string `json:"title_key"`
+}
 
 // significantTokenStopWords filters tokens that are too common to distinguish series.
 var significantTokenStopWords = map[string]struct{}{
@@ -117,7 +124,11 @@ func NormalizePrimaryTitle(title string) string {
 func TitleMatchKey(title string) string {
 	normalized := NormalizePrimaryTitle(title)
 	normalized = leadingArticleRe.ReplaceAllString(normalized, "")
-	return nonMatchCharRe.ReplaceAllString(normalized, "")
+	asciiKey := nonMatchCharRe.ReplaceAllString(normalized, "")
+	if asciiKey != "" {
+		return asciiKey
+	}
+	return nonUnicodeMatchCharRe.ReplaceAllString(normalized, "")
 }
 
 // TitlesArePrefixMatch reports whether one normalized title key is a prefix of the
@@ -218,15 +229,33 @@ func DiscoveryKey(title string, comType int) string {
 	return DiscoveryScope(title, comType) + ":" + titleKey
 }
 
-// DiscoveryKeysForTitles returns unique discovery keys for all title variants.
-func DiscoveryKeysForTitles(titles []string, comType int) []string {
-	seen := map[string]struct{}{}
-	out := make([]string, 0, len(titles))
+// DiscoveryTitleKeyPairsForTitles returns unique scoped title_key pairs for all variants.
+func DiscoveryTitleKeyPairsForTitles(titles []string, comType int) []ScopedTitleKey {
+	seen := map[ScopedTitleKey]struct{}{}
+	out := make([]ScopedTitleKey, 0, len(titles))
 	for _, title := range titles {
-		key := DiscoveryKey(title, comType)
-		if key == "" {
+		item := ScopedTitleKey{
+			Scope:    DiscoveryScope(title, comType),
+			TitleKey: DiscoveryTitleKey(title),
+		}
+		if item.TitleKey == "" {
 			continue
 		}
+		if _, exists := seen[item]; exists {
+			continue
+		}
+		seen[item] = struct{}{}
+		out = append(out, item)
+	}
+	return out
+}
+
+// DiscoveryKeysForTitles returns unique discovery keys for all title variants.
+func DiscoveryKeysForTitles(titles []string, comType int) []string {
+	out := make([]string, 0, len(titles))
+	seen := map[string]struct{}{}
+	for _, pair := range DiscoveryTitleKeyPairsForTitles(titles, comType) {
+		key := pair.Scope + ":" + pair.TitleKey
 		if _, ok := seen[key]; ok {
 			continue
 		}
@@ -238,20 +267,15 @@ func DiscoveryKeysForTitles(titles []string, comType int) []string {
 
 // DiscoveryTitleKeysForTitles returns unique title_key values for all variants in a scope.
 func DiscoveryTitleKeysForTitles(titles []string, comType int) []string {
-	seen := map[string]struct{}{}
 	out := make([]string, 0, len(titles))
-	for _, title := range titles {
-		scope := DiscoveryScope(title, comType)
-		titleKey := DiscoveryTitleKey(title)
-		if titleKey == "" {
-			continue
-		}
-		scoped := scope + ":" + titleKey
+	seen := map[string]struct{}{}
+	for _, pair := range DiscoveryTitleKeyPairsForTitles(titles, comType) {
+		scoped := pair.Scope + ":" + pair.TitleKey
 		if _, ok := seen[scoped]; ok {
 			continue
 		}
 		seen[scoped] = struct{}{}
-		out = append(out, titleKey)
+		out = append(out, pair.TitleKey)
 	}
 	return out
 }

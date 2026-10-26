@@ -3,10 +3,9 @@ package comics
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
-	"log/slog"
 	"strings"
-	"time"
 
 	"comics/domain"
 	"comics/internal/identity"
@@ -23,17 +22,20 @@ CREATE INDEX IF NOT EXISTS idx_comic_title_keys_comic_id ON comic_title_keys(com
 `
 
 const (
-	sqlUpsertComicTitleKeySQLite           = `INSERT OR IGNORE INTO comic_title_keys (comic_id, scope, title_key) VALUES (?, ?, ?)`
-	sqlUpsertComicTitleKeyPostgres         = `INSERT INTO comic_title_keys (comic_id, scope, title_key) VALUES ($1, $2, $3) ON CONFLICT (scope, title_key) DO NOTHING`
+	sqlInsertComicTitleKeySQLite = `INSERT OR IGNORE INTO comic_title_keys
+		(comic_id, scope, title_key) VALUES (?, ?, ?)`
+	sqlInsertComicTitleKeyPostgres = `INSERT INTO comic_title_keys
+		(comic_id, scope, title_key) VALUES ($1, $2, $3)
+		ON CONFLICT (scope, title_key) DO NOTHING`
 	sqlDeleteComicTitleKeysByComicSQLite   = `DELETE FROM comic_title_keys WHERE comic_id = ?`
 	sqlDeleteComicTitleKeysByComicPostgres = `DELETE FROM comic_title_keys WHERE comic_id = $1`
 )
 
-func upsertComicTitleKeySQL(dialect string) string {
+func insertComicTitleKeySQL(dialect string) string {
 	if dialect == dialectSQLite {
-		return sqlUpsertComicTitleKeySQLite
+		return sqlInsertComicTitleKeySQLite
 	}
-	return sqlUpsertComicTitleKeyPostgres
+	return sqlInsertComicTitleKeyPostgres
 }
 
 func deleteComicTitleKeysByComicSQL(dialect string) string {
@@ -44,107 +46,8 @@ func deleteComicTitleKeysByComicSQL(dialect string) string {
 }
 
 func ensureComicTitleKeysSchema(db *sql.DB) error {
-	if _, err := db.Exec(comicTitleKeysDDL); err != nil {
-		return err
-	}
-	dialect := dialectSQLite
-	if isPostgresDB(db) {
-		dialect = dialectPostgres
-	}
-	return backfillComicTitleKeysIfEmpty(db, dialect)
-}
-
-func isPostgresDB(db *sql.DB) bool {
-	var version string
-	if err := db.QueryRow(`SELECT version()`).Scan(&version); err != nil {
-		return false
-	}
-	return strings.Contains(strings.ToLower(version), "postgresql")
-}
-
-func backfillComicTitleKeysIfEmpty(db *sql.DB, dialect string) error {
-	var count int
-	if err := db.QueryRow(`SELECT COUNT(*) FROM comic_title_keys`).Scan(&count); err != nil {
-		return err
-	}
-	if count > 0 {
-		return nil
-	}
-	start := time.Now()
-	inserted, err := fastBackfillComicTitleKeys(db, dialect)
-	if err != nil {
-		return err
-	}
-	slog.Info("discovery keys backfill complete",
-		"rows", inserted,
-		"elapsed", time.Since(start).Round(time.Millisecond),
-	)
-	return nil
-}
-
-func fastBackfillComicTitleKeys(db *sql.DB, dialect string) (int, error) {
-	ctx := context.Background()
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return 0, err
-	}
-	stmt, err := tx.PrepareContext(ctx, upsertComicTitleKeySQL(dialect))
-	if err != nil {
-		_ = tx.Rollback()
-		return 0, err
-	}
-	defer stmt.Close()
-
-	rows, err := tx.QueryContext(ctx, `SELECT id, titles, com_type, deleted FROM comics`)
-	if err != nil {
-		_ = tx.Rollback()
-		return 0, err
-	}
-	defer rows.Close()
-
-	inserted := 0
-	seen := map[string]struct{}{}
-	for rows.Next() {
-		var id int
-		var titles string
-		var comType int
-		var deleted bool
-		if err := rows.Scan(&id, &titles, &comType, &deleted); err != nil {
-			_ = tx.Rollback()
-			return 0, err
-		}
-		if deleted {
-			continue
-		}
-		for _, title := range splitTitles(titles) {
-			scope := discoveryScopeForTitle(title, comType)
-			titleKey := discoveryTitleKey(title)
-			if titleKey == "" {
-				continue
-			}
-			scoped := scope + "\x00" + titleKey
-			if _, ok := seen[scoped]; ok {
-				continue
-			}
-			seen[scoped] = struct{}{}
-			result, err := stmt.ExecContext(ctx, id, scope, titleKey)
-			if err != nil {
-				_ = tx.Rollback()
-				return 0, fmt.Errorf("backfill comic %d: %w", id, err)
-			}
-			if affected, _ := result.RowsAffected(); affected > 0 {
-				inserted++
-			}
-		}
-	}
-	if err := rows.Err(); err != nil {
-		_ = tx.Rollback()
-		return 0, err
-	}
-	if err := tx.Commit(); err != nil {
-		return 0, err
-	}
-	return inserted, nil
+	_, err := db.Exec(comicTitleKeysDDL)
+	return err
 }
 
 // DropLegacyIdentityKeyColumn removes the deprecated comics.identity_key column (SQLite 3.35+).
@@ -186,41 +89,136 @@ func sqliteTableHasColumn(db *sql.DB, table string, column string) bool {
 	return false
 }
 
-func discoveryScopeForTitle(title string, comType int) string {
-	return identity.DiscoveryScope(title, comType)
+type discoveryKeyOwner struct {
+	ComicID int
+	Deleted bool
 }
 
-func discoveryTitleKey(title string) string {
-	return identity.DiscoveryTitleKey(title)
+func (r *SQLComicRepository) discoveryKeyOwner(
+	ctx context.Context,
+	scope string,
+	titleKey string,
+) (discoveryKeyOwner, bool, error) {
+	deletedExpr := "c.deleted"
+	query := `SELECT k.comic_id, ` + deletedExpr + `
+		FROM comic_title_keys k
+		INNER JOIN comics c ON c.id = k.comic_id
+		WHERE k.scope = ` + r.placeholder(1) + `
+		  AND k.title_key = ` + r.placeholder(2)
+	var owner discoveryKeyOwner
+	err := r.queryRow(ctx, query, scope, titleKey).Scan(&owner.ComicID, &owner.Deleted)
+	if errors.Is(err, sql.ErrNoRows) {
+		return discoveryKeyOwner{}, false, nil
+	}
+	if err != nil {
+		return discoveryKeyOwner{}, false, err
+	}
+	return owner, true, nil
+}
+
+func (r *SQLComicRepository) deleteDiscoveryKeyForComic(
+	ctx context.Context,
+	comicID int,
+	scope string,
+	titleKey string,
+) error {
+	_, err := r.exec(
+		ctx,
+		`DELETE FROM comic_title_keys WHERE scope = `+r.placeholder(1)+
+			` AND title_key = `+r.placeholder(2)+
+			` AND comic_id = `+r.placeholder(3),
+		scope,
+		titleKey,
+		comicID,
+	)
+	return err
+}
+
+func (r *SQLComicRepository) insertDiscoveryKey(
+	ctx context.Context,
+	comicID int,
+	scope string,
+	titleKey string,
+) error {
+	result, err := r.exec(ctx, insertComicTitleKeySQL(r.dialect), comicID, scope, titleKey)
+	if err != nil {
+		return err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affected == 1 {
+		return nil
+	}
+	owner, found, err := r.discoveryKeyOwner(ctx, scope, titleKey)
+	if err != nil {
+		return err
+	}
+	if found && owner.ComicID == comicID {
+		return nil
+	}
+	if found && owner.Deleted {
+		if err := r.deleteDiscoveryKeyForComic(ctx, owner.ComicID, scope, titleKey); err != nil {
+			return err
+		}
+		return r.insertDiscoveryKey(ctx, comicID, scope, titleKey)
+	}
+	if found {
+		return &domain.DiscoveryKeyConflictError{
+			ComicID:      comicID,
+			OwnerComicID: owner.ComicID,
+			Scope:        scope,
+			TitleKey:     titleKey,
+		}
+	}
+	return fmt.Errorf("discovery key insert affected no rows for %s:%s", scope, titleKey)
 }
 
 // SyncDiscoveryKeys replaces discovery keys for a comic from its title variants.
 func (r *SQLComicRepository) SyncDiscoveryKeys(ctx context.Context, comicID int, comType int, titles []string) error {
+	if r.tx == nil {
+		return r.WithTx(ctx, func(txRepo domain.ComicRepository) error {
+			sqlRepo, ok := txRepo.(*SQLComicRepository)
+			if !ok {
+				return fmt.Errorf("unexpected comic repository in transaction")
+			}
+			return sqlRepo.SyncDiscoveryKeys(ctx, comicID, comType, titles)
+		})
+	}
+
+	pairs := identity.DiscoveryTitleKeyPairsForTitles(titles, comType)
+	for _, pair := range pairs {
+		owner, found, err := r.discoveryKeyOwner(ctx, pair.Scope, pair.TitleKey)
+		if err != nil {
+			return err
+		}
+		if !found || owner.ComicID == comicID {
+			continue
+		}
+		if owner.Deleted {
+			if err := r.deleteDiscoveryKeyForComic(ctx, owner.ComicID, pair.Scope, pair.TitleKey); err != nil {
+				return err
+			}
+			continue
+		}
+		return &domain.DiscoveryKeyConflictError{
+			ComicID:      comicID,
+			OwnerComicID: owner.ComicID,
+			Scope:        pair.Scope,
+			TitleKey:     pair.TitleKey,
+		}
+	}
+
 	if err := r.DeleteDiscoveryKeysForComic(ctx, comicID); err != nil {
 		return err
 	}
-	seen := map[string]struct{}{}
-	for _, title := range titles {
-		scope := discoveryScopeForTitle(title, comType)
-		titleKey := discoveryTitleKey(title)
-		if titleKey == "" {
-			continue
-		}
-		scoped := scope + "\x00" + titleKey
-		if _, ok := seen[scoped]; ok {
-			continue
-		}
-		seen[scoped] = struct{}{}
-		if err := r.insertDiscoveryKey(ctx, comicID, scope, titleKey); err != nil {
+	for _, pair := range pairs {
+		if err := r.insertDiscoveryKey(ctx, comicID, pair.Scope, pair.TitleKey); err != nil {
 			return err
 		}
 	}
 	return nil
-}
-
-func (r *SQLComicRepository) insertDiscoveryKey(ctx context.Context, comicID int, scope string, titleKey string) error {
-	_, err := r.exec(ctx, upsertComicTitleKeySQL(r.dialect), comicID, scope, titleKey)
-	return err
 }
 
 func (r *SQLComicRepository) DeleteDiscoveryKeysForComic(ctx context.Context, comicID int) error {

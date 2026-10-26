@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -12,11 +13,34 @@ const (
 )
 
 var (
-	ErrComicNotFound       = errors.New("comic not found")
-	ErrDuplicateComic      = errors.New("comic is already in the database")
-	ErrInvalidComicPayload = errors.New("invalid comic payload")
-	ErrInvalidComicMerge   = errors.New("invalid comic merge")
+	ErrComicNotFound         = errors.New("comic not found")
+	ErrDuplicateComic        = errors.New("comic is already in the database")
+	ErrInvalidComicPayload   = errors.New("invalid comic payload")
+	ErrInvalidComicMerge     = errors.New("invalid comic merge")
+	ErrDiscoveryKeyConflict  = errors.New("discovery key conflict")
 )
+
+type DiscoveryKeyConflictError struct {
+	ComicID      int
+	OwnerComicID int
+	Scope        string
+	TitleKey     string
+}
+
+func (e *DiscoveryKeyConflictError) Error() string {
+	return fmt.Sprintf(
+		"%s: %s:%s belongs to comic %d, cannot assign to comic %d",
+		ErrDiscoveryKeyConflict,
+		e.Scope,
+		e.TitleKey,
+		e.OwnerComicID,
+		e.ComicID,
+	)
+}
+
+func (e *DiscoveryKeyConflictError) Is(target error) bool {
+	return target == ErrDiscoveryKeyConflict || target == ErrDuplicateComic
+}
 
 // Comic model
 type Comic struct {

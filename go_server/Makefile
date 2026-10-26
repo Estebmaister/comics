@@ -163,6 +163,11 @@ go-test-integration:
 contract-test:
 	go test ./api/route/... -run Contract -count=1
 
+## @quality:go-test-postgres-discovery Run discovery contract against COMICS_POSTGRES_URL
+go-test-postgres-discovery:
+	@test -n "$${COMICS_POSTGRES_URL}" || (echo "COMICS_POSTGRES_URL is required"; exit 2)
+	go test ./internal/repo/comics -run TestPostgresDiscoveryContract -count=1 -v
+
 ## @quality:go-vet            Run go vet static analysis
 go-vet:
 	go vet ./...
