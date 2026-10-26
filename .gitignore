@@ -193,6 +193,10 @@ yarn-error.log*
 
 # generated DB recovery snapshots
 src/db/recovery/
+/db/backups/*.db
+
+# generated architecture analysis
+/graphify-out/
 
 # local browser verification screenshots
 .local-screenshots/
