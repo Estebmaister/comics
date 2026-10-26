@@ -151,6 +151,37 @@ func TestParseFlameCoverURL(t *testing.T) {
 	}
 }
 
+func TestRegisterUpdateStoresSentenceCaseTitles(t *testing.T) {
+	ctx := context.Background()
+	repo := newTestScrapeRepo(t)
+	created, err := repo.Create(ctx, domain.Comic{
+		Titles:      []string{"Existing hero"},
+		ComType:     ComTypeManhwa,
+		CurrentChap: 1,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	registrar := NewRegistrar(repo, NewRunState())
+	if err := registrar.Register(ctx, ScrapedComic{
+		Title:   "EXISTING HERO",
+		Chapter: "5",
+		ComType: "manhwa",
+	}, PublisherAsura); err != nil {
+		t.Fatal(err)
+	}
+	updated, err := repo.Get(ctx, created.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(updated.Titles) != 1 || updated.Titles[0] != "Existing hero" {
+		t.Fatalf("expected sentence-case title, got %#v", updated.Titles)
+	}
+	if updated.CurrentChap != 5 {
+		t.Fatalf("expected chapter 5, got %d", updated.CurrentChap)
+	}
+}
+
 func TestScrapeFlameFromFixture(t *testing.T) {
 	ctx := context.Background()
 	repo := newTestScrapeRepo(t)

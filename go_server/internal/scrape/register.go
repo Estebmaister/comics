@@ -2,6 +2,7 @@ package scrape
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -21,15 +22,23 @@ func NewRunState() *RunState {
 }
 
 type Registrar struct {
-	repo domain.ComicRepository
-	run  *RunState
+	repo     domain.ComicRepository
+	run      *RunState
+	resolver *discovery.Resolver
+	observer discovery.Observer
 }
 
 func NewRegistrar(repo domain.ComicRepository, run *RunState) *Registrar {
 	if run == nil {
 		run = NewRunState()
 	}
-	return &Registrar{repo: repo, run: run}
+	observer := discovery.DefaultObserver()
+	return &Registrar{
+		repo:     repo,
+		run:      run,
+		resolver: discovery.NewResolver(observer),
+		observer: observer,
+	}
 }
 
 func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID int) error {
@@ -48,14 +57,20 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 	r.run.mu.Unlock()
 
 	return r.repo.WithTx(ctx, func(txRepo domain.ComicRepository) error {
-		existing, _, found, err := discovery.ResolveComic(ctx, txRepo, normalized.Titles[0], normalized.ComType)
+		existing, _, found, err := r.resolver.Resolve(
+			ctx,
+			txRepo,
+			normalized.Titles[0],
+			normalized.ComType,
+			discovery.ResolveOptions{},
+		)
 		if err != nil {
 			return err
 		}
 		if found {
-			return updateExistingComic(ctx, txRepo, existing, normalized, publisherID)
+			return r.updateExistingComic(ctx, txRepo, existing, normalized, publisherID)
 		}
-		_, err = txRepo.Create(ctx, domain.Comic{
+		_, createErr := txRepo.Create(ctx, domain.Comic{
 			Titles:       normalized.Titles,
 			CurrentChap:  normalized.CurrentChap,
 			Cover:        normalized.Cover,
@@ -65,8 +80,25 @@ func (r *Registrar) Register(ctx context.Context, raw ScrapedComic, publisherID 
 			Author:       normalized.Author,
 			PublishedIn:  []int{publisherID},
 		})
-		return err
+		if errors.Is(createErr, domain.ErrDiscoveryKeyConflict) {
+			r.observer.ObserveConflict("scrape")
+		}
+		return createErr
 	})
+}
+
+func (r *Registrar) updateExistingComic(
+	ctx context.Context,
+	repo domain.ComicRepository,
+	existing domain.Comic,
+	normalized normalizedComic,
+	publisherID int,
+) error {
+	err := updateExistingComic(ctx, repo, existing, normalized, publisherID)
+	if errors.Is(err, domain.ErrDiscoveryKeyConflict) {
+		r.observer.ObserveConflict("scrape")
+	}
+	return err
 }
 
 func updateExistingComic(

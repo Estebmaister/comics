@@ -3,8 +3,11 @@ package main
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"path/filepath"
 	"testing"
+
+	"comics/domain"
 
 	_ "modernc.org/sqlite"
 )
@@ -58,6 +61,33 @@ func TestReadSourceComicsCountsSQLiteTruth(t *testing.T) {
 	}
 	if comics[0].ID != 10 || comics[1].ID != 11 {
 		t.Fatalf("expected source IDs to be preserved, got %#v", comics)
+	}
+}
+
+func TestPrepareImportComicsNormalizesAndSkipsDeletedKeys(t *testing.T) {
+	prepared, err := prepareImportComics([]sourceComic{
+		{ID: 1, Titles: "THE HERO|The hero alias", ComType: 3},
+		{ID: 2, Titles: "", ComType: 3, Deleted: true},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if prepared[0].Titles != "The hero|The hero alias" || len(prepared[0].Keys) != 2 {
+		t.Fatalf("unexpected active import: %#v", prepared[0])
+	}
+	if len(prepared[1].Keys) != 0 {
+		t.Fatalf("deleted comic received keys: %#v", prepared[1].Keys)
+	}
+}
+
+func TestPrepareImportComicsRejectsSourceKeyConflict(t *testing.T) {
+	_, err := prepareImportComics([]sourceComic{
+		{ID: 10, Titles: "The owner", ComType: 3},
+		{ID: 11, Titles: "Owner", ComType: 3},
+	})
+	var conflict *domain.DiscoveryKeyConflictError
+	if !errors.As(err, &conflict) || conflict.OwnerComicID != 10 || conflict.ComicID != 11 {
+		t.Fatalf("expected 10 -> 11 conflict, got %#v / %v", conflict, err)
 	}
 }
 

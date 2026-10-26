@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"comics/domain"
+	"comics/internal/identity"
 	comicrepo "comics/internal/repo/comics"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -35,11 +37,20 @@ type sourceComic struct {
 	CoverVisible bool
 }
 
+type preparedComic struct {
+	sourceComic
+	Titles string
+	Keys   []identity.ScopedTitleKey
+}
+
 type verifyCounts struct {
-	Total          int
-	Active         int
-	Tracked        int
-	CoverInvisible int
+	Total           int
+	Active          int
+	Tracked         int
+	CoverInvisible  int
+	DiscoveryOwners int
+	KeylessActive   int
+	DeletedKeyRows  int
 }
 
 func main() {
@@ -92,22 +103,31 @@ func importComics(ctx context.Context, sqlitePath string, postgresURL string) er
 	if err != nil {
 		return err
 	}
-	if err := replaceTargetComics(ctx, target, postgresURL, comics); err != nil {
+	if err := replaceTargetComics(ctx, target, comics); err != nil {
 		return err
 	}
 	targetCounts, err := countTargetComics(ctx, target)
 	if err != nil {
 		return err
 	}
-	if sourceCounts != targetCounts {
+	if sourceCounts.Total != targetCounts.Total ||
+		sourceCounts.Active != targetCounts.Active ||
+		sourceCounts.Tracked != targetCounts.Tracked ||
+		sourceCounts.CoverInvisible != targetCounts.CoverInvisible {
 		return fmt.Errorf("verification mismatch: source=%+v target=%+v", sourceCounts, targetCounts)
+	}
+	if targetCounts.KeylessActive != 0 ||
+		targetCounts.DeletedKeyRows != 0 ||
+		targetCounts.DiscoveryOwners != targetCounts.Active {
+		return fmt.Errorf("discovery verification failed: %+v", targetCounts)
 	}
 
 	fmt.Printf("Imported %d comics into Postgres\n", targetCounts.Total)
-	fmt.Printf("Verified active=%d tracked=%d cover_invisible=%d\n",
+	fmt.Printf("Verified active=%d tracked=%d cover_invisible=%d discovery_owners=%d\n",
 		targetCounts.Active,
 		targetCounts.Tracked,
 		targetCounts.CoverInvisible,
+		targetCounts.DiscoveryOwners,
 	)
 	return nil
 }
@@ -163,7 +183,48 @@ func readSourceComics(ctx context.Context, db *sql.DB) ([]sourceComic, verifyCou
 	return comics, counts, rows.Err()
 }
 
-func replaceTargetComics(ctx context.Context, db *sql.DB, postgresURL string, comics []sourceComic) error {
+func prepareImportComics(source []sourceComic) ([]preparedComic, error) {
+	owners := map[identity.ScopedTitleKey]int{}
+	prepared := make([]preparedComic, 0, len(source))
+	for _, comic := range source {
+		titles := identity.NormalizeTitleVariants(splitImportTitles(comic.Titles), comic.ComType)
+		keys := identity.DiscoveryTitleKeyPairsForTitles(titles, comic.ComType)
+		if !comic.Deleted && len(keys) == 0 {
+			return nil, fmt.Errorf(
+				"%w: active source comic %d has no discovery key",
+				domain.ErrInvalidComicPayload,
+				comic.ID,
+			)
+		}
+		if comic.Deleted {
+			keys = nil
+		}
+		for _, key := range keys {
+			if ownerID, exists := owners[key]; exists && ownerID != comic.ID {
+				return nil, &domain.DiscoveryKeyConflictError{
+					ComicID:      comic.ID,
+					OwnerComicID: ownerID,
+					Scope:        key.Scope,
+					TitleKey:     key.TitleKey,
+				}
+			}
+			owners[key] = comic.ID
+		}
+		prepared = append(prepared, preparedComic{
+			sourceComic: comic,
+			Titles:      strings.Join(titles, "|"),
+			Keys:        keys,
+		})
+	}
+	return prepared, nil
+}
+
+func replaceTargetComics(ctx context.Context, db *sql.DB, comics []sourceComic) error {
+	prepared, err := prepareImportComics(comics)
+	if err != nil {
+		return err
+	}
+
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -175,16 +236,18 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, postgresURL string, co
 		return err
 	}
 	if existing > 0 {
-		backupName := "comics_backup_" + time.Now().UTC().Format("20060102_150405")
-		if _, err := tx.ExecContext(ctx, fmt.Sprintf("CREATE TABLE %s AS TABLE comics", backupName)); err != nil {
-			return fmt.Errorf("creating backup table: %w", err)
+		stamp := time.Now().UTC().Format("20060102_150405")
+		comicsBackup := "comics_backup_" + stamp
+		keysBackup := "comic_title_keys_backup_" + stamp
+		if _, err := tx.ExecContext(ctx, fmt.Sprintf("CREATE TABLE %s AS TABLE comics", comicsBackup)); err != nil {
+			return fmt.Errorf("creating comics backup table: %w", err)
 		}
-		fmt.Printf("Backed up %d existing Postgres rows to %s\n", existing, backupName)
+		if _, err := tx.ExecContext(ctx, fmt.Sprintf("CREATE TABLE %s AS TABLE comic_title_keys", keysBackup)); err != nil {
+			return fmt.Errorf("creating keys backup table: %w", err)
+		}
+		fmt.Printf("Backed up %d existing Postgres rows to %s and %s\n", existing, comicsBackup, keysBackup)
 	}
-	if _, err := tx.ExecContext(ctx, "TRUNCATE TABLE comics RESTART IDENTITY"); err != nil {
-		return err
-	}
-	if _, err := tx.ExecContext(ctx, "TRUNCATE TABLE comic_title_keys"); err != nil {
+	if _, err := tx.ExecContext(ctx, "TRUNCATE TABLE comic_title_keys, comics RESTART IDENTITY"); err != nil {
 		return err
 	}
 
@@ -199,7 +262,7 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, postgresURL string, co
 	}
 	defer stmt.Close()
 
-	for _, comic := range comics {
+	for _, comic := range prepared {
 		if _, err := stmt.ExecContext(
 			ctx,
 			comic.ID,
@@ -222,28 +285,38 @@ func replaceTargetComics(ctx context.Context, db *sql.DB, postgresURL string, co
 			return fmt.Errorf("importing comic %d: %w", comic.ID, err)
 		}
 	}
+
+	keyStmt, err := tx.PrepareContext(ctx, `
+		INSERT INTO comic_title_keys (comic_id, scope, title_key)
+		VALUES ($1, $2, $3)`)
+	if err != nil {
+		return err
+	}
+	defer keyStmt.Close()
+
+	for _, comic := range prepared {
+		for _, key := range comic.Keys {
+			if _, err := keyStmt.ExecContext(ctx, comic.ID, key.Scope, key.TitleKey); err != nil {
+				return fmt.Errorf("importing key for comic %d: %w", comic.ID, err)
+			}
+		}
+	}
+
 	if _, err := tx.ExecContext(ctx, "SELECT setval('comic_id_seq', COALESCE((SELECT MAX(id) FROM comics), 1), true)"); err != nil {
 		return err
 	}
-	if err := tx.Commit(); err != nil {
+
+	counts, err := countTargetComicsTx(ctx, tx)
+	if err != nil {
 		return err
 	}
+	if counts.KeylessActive != 0 ||
+		counts.DeletedKeyRows != 0 ||
+		counts.DiscoveryOwners != counts.Active {
+		return fmt.Errorf("pre-commit discovery verification failed: %+v", counts)
+	}
 
-	repo, err := comicrepo.NewPostgresComicRepository(postgresURL)
-	if err != nil {
-		return fmt.Errorf("reopen repo for discovery keys: %w", err)
-	}
-	defer repo.Close()
-	for _, comic := range comics {
-		if comic.Deleted {
-			continue
-		}
-		titles := splitImportTitles(comic.Titles)
-		if err := repo.SyncDiscoveryKeys(ctx, comic.ID, comic.ComType, titles); err != nil {
-			return fmt.Errorf("sync discovery keys for %d: %w", comic.ID, err)
-		}
-	}
-	return nil
+	return tx.Commit()
 }
 
 func splitImportTitles(value string) []string {
@@ -254,17 +327,38 @@ func splitImportTitles(value string) []string {
 }
 
 func countTargetComics(ctx context.Context, db *sql.DB) (verifyCounts, error) {
+	return countTargetComicsTx(ctx, db)
+}
+
+func countTargetComicsTx(ctx context.Context, querier interface {
+	QueryRowContext(context.Context, string, ...any) *sql.Row
+}) (verifyCounts, error) {
 	var counts verifyCounts
-	err := db.QueryRowContext(ctx, `
+	err := querier.QueryRowContext(ctx, `
 		SELECT COUNT(*),
 			COUNT(*) FILTER (WHERE deleted = false),
 			COUNT(*) FILTER (WHERE track = true),
-			COUNT(*) FILTER (WHERE cover_visible = false)
+			COUNT(*) FILTER (WHERE cover_visible = false),
+			(SELECT COUNT(DISTINCT k.comic_id)
+			 FROM comic_title_keys k
+			 INNER JOIN comics c ON c.id = k.comic_id
+			 WHERE c.deleted = false),
+			(SELECT COUNT(*)
+			 FROM comics c
+			 WHERE c.deleted = false
+			   AND NOT EXISTS (SELECT 1 FROM comic_title_keys k WHERE k.comic_id = c.id)),
+			(SELECT COUNT(*)
+			 FROM comic_title_keys k
+			 INNER JOIN comics c ON c.id = k.comic_id
+			 WHERE c.deleted = true)
 		FROM comics`).Scan(
 		&counts.Total,
 		&counts.Active,
 		&counts.Tracked,
 		&counts.CoverInvisible,
+		&counts.DiscoveryOwners,
+		&counts.KeylessActive,
+		&counts.DeletedKeyRows,
 	)
 	return counts, err
 }
