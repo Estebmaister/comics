@@ -49,8 +49,15 @@ func TestComicsContractListSearchAndDuplicate(t *testing.T) {
 	authorizeCatalogRequest(t, dupReq, tokenutil.RoleAdmin)
 	dupRes := httptest.NewRecorder()
 	router.ServeHTTP(dupRes, dupReq)
-	if dupRes.Code != http.StatusBadRequest {
-		t.Fatalf("duplicate expected 400, got %d: %s", dupRes.Code, dupRes.Body.String())
+	if dupRes.Code != http.StatusConflict {
+		t.Fatalf("duplicate expected 409, got %d: %s", dupRes.Code, dupRes.Body.String())
+	}
+	var dupPayload map[string]any
+	if err := json.Unmarshal(dupRes.Body.Bytes(), &dupPayload); err != nil {
+		t.Fatal(err)
+	}
+	if dupPayload["code"] != "discovery_key_conflict" {
+		t.Fatalf("expected discovery_key_conflict code, got %#v", dupPayload)
 	}
 }
 

@@ -329,6 +329,27 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	var conflict *domain.DiscoveryKeyConflictError
+	if errors.As(err, &conflict) {
+		c.JSON(http.StatusConflict, gin.H{
+			"code":           "discovery_key_conflict",
+			"message":        "Discovery key is owned by another comic",
+			"owner_comic_id": conflict.OwnerComicID,
+			"scope":          conflict.Scope,
+			"title_key":      conflict.TitleKey,
+		})
+		return
+	}
+	var ambiguous *domain.AmbiguousComicMatchError
+	if errors.As(err, &ambiguous) {
+		c.JSON(http.StatusConflict, gin.H{
+			"code":          "ambiguous_comic_match",
+			"message":       "Title matches multiple comics",
+			"candidate_ids": ambiguous.CandidateIDs,
+			"match_kind":    ambiguous.MatchKind,
+		})
+		return
+	}
 	if errors.Is(err, domain.ErrDuplicateComic) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Comic is already in the database"})
 		return

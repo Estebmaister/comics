@@ -345,8 +345,8 @@ func TestComicServiceCreateRejectsDuplicate(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, err := svc.Create(ctx, domain.Comic{Titles: []string{"Solo Leveling"}, ComType: 3})
-	if !errors.Is(err, domain.ErrDuplicateComic) {
-		t.Fatalf("expected duplicate error, got %v", err)
+	if !errors.Is(err, domain.ErrDiscoveryKeyConflict) {
+		t.Fatalf("expected discovery key conflict, got %v", err)
 	}
 }
 

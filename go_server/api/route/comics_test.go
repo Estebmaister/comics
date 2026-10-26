@@ -193,8 +193,8 @@ func TestComicsRouterRejectsDuplicateCreate(t *testing.T) {
 	authorizeCatalogRequest(t, dupReq, tokenutil.RoleAdmin)
 	dupRes := httptest.NewRecorder()
 	router.ServeHTTP(dupRes, dupReq)
-	if dupRes.Code != http.StatusBadRequest {
-		t.Fatalf("expected duplicate 400, got %d: %s", dupRes.Code, dupRes.Body.String())
+	if dupRes.Code != http.StatusConflict {
+		t.Fatalf("expected duplicate 409, got %d: %s", dupRes.Code, dupRes.Body.String())
 	}
 }
 

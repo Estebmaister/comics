@@ -18,6 +18,7 @@ var (
 	ErrInvalidComicPayload   = errors.New("invalid comic payload")
 	ErrInvalidComicMerge     = errors.New("invalid comic merge")
 	ErrDiscoveryKeyConflict  = errors.New("discovery key conflict")
+	ErrAmbiguousComicMatch   = errors.New("ambiguous comic match")
 )
 
 type DiscoveryKeyConflictError struct {
@@ -40,6 +41,31 @@ func (e *DiscoveryKeyConflictError) Error() string {
 
 func (e *DiscoveryKeyConflictError) Is(target error) bool {
 	return target == ErrDiscoveryKeyConflict || target == ErrDuplicateComic
+}
+
+type AmbiguousComicMatchError struct {
+	IncomingTitle string
+	Scope         string
+	MatchKind     string
+	CandidateIDs  []int
+	BestScore     int
+	RunnerUpScore int
+}
+
+func (e *AmbiguousComicMatchError) Error() string {
+	return fmt.Sprintf(
+		"%s: %q in %s scope matched comics %v with scores %d and %d",
+		ErrAmbiguousComicMatch,
+		e.IncomingTitle,
+		e.Scope,
+		e.CandidateIDs,
+		e.BestScore,
+		e.RunnerUpScore,
+	)
+}
+
+func (e *AmbiguousComicMatchError) Is(target error) bool {
+	return target == ErrAmbiguousComicMatch
 }
 
 // Comic model

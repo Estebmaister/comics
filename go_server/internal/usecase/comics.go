@@ -21,13 +21,31 @@ const (
 type ComicService struct {
 	repo        domain.ComicRepository
 	scrapeCoord *scrape.Coordinator
+	resolver    *discovery.Resolver
+	observer    discovery.Observer
 }
 
 func NewComicService(repo domain.ComicRepository, scrapeCoord *scrape.Coordinator) *ComicService {
+	return NewComicServiceWithObserver(repo, scrapeCoord, discovery.DefaultObserver())
+}
+
+func NewComicServiceWithObserver(
+	repo domain.ComicRepository,
+	scrapeCoord *scrape.Coordinator,
+	observer discovery.Observer,
+) *ComicService {
 	if scrapeCoord == nil {
 		scrapeCoord = scrape.NewCoordinator(repo)
 	}
-	return &ComicService{repo: repo, scrapeCoord: scrapeCoord}
+	if observer == nil {
+		observer = discovery.NoopObserver{}
+	}
+	return &ComicService{
+		repo:        repo,
+		scrapeCoord: scrapeCoord,
+		resolver:    discovery.NewResolver(observer),
+		observer:    observer,
+	}
 }
 
 func (s *ComicService) ScrapeCoordinator() *scrape.Coordinator {
@@ -65,28 +83,32 @@ func (s *ComicService) Create(ctx context.Context, comic domain.Comic) (domain.C
 	if !hasNonEmptyTitle(comic.Titles) {
 		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
 	}
-	comic.Titles = identity.NormalizeTitleVariants(comic.Titles, comic.ComType)
-	if !hasNonEmptyTitle(comic.Titles) {
-		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
-	}
-	for _, title := range comic.Titles {
-		existing, _, found, err := discovery.ResolveComic(ctx, s.repo, title, comic.ComType)
-		if err != nil {
-			return domain.Comic{}, err
-		}
-		if found && existing.ID != 0 {
-			return domain.Comic{}, domain.ErrDuplicateComic
-		}
-	}
 	if comic.Cover == "" {
 		comic.CoverVisible = true
 	}
-	created, err := s.repo.Create(ctx, comic)
-	if err != nil {
-		var conflict *domain.DiscoveryKeyConflictError
-		if errors.As(err, &conflict) {
-			return domain.Comic{}, domain.ErrDuplicateComic
+	var created domain.Comic
+	err := s.repo.WithTx(ctx, func(repo domain.ComicRepository) error {
+		comic.Titles = identity.NormalizeTitleVariants(comic.Titles, comic.ComType)
+		if !hasNonEmptyTitle(comic.Titles) {
+			return fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
 		}
+		if dupErr := s.rejectDuplicate(ctx, repo, comic, 0); dupErr != nil {
+			if errors.Is(dupErr, domain.ErrDiscoveryKeyConflict) {
+				s.observer.ObserveConflict("create")
+			}
+			return dupErr
+		}
+		var createErr error
+		created, createErr = repo.Create(ctx, comic)
+		if createErr != nil {
+			if errors.Is(createErr, domain.ErrDiscoveryKeyConflict) {
+				s.observer.ObserveConflict("create")
+			}
+			return createErr
+		}
+		return nil
+	})
+	if err != nil {
 		return domain.Comic{}, err
 	}
 	return created, nil
@@ -96,19 +118,79 @@ func (s *ComicService) Update(ctx context.Context, id int, patch domain.ComicPat
 	if patch.Titles != nil && !hasNonEmptyTitle(*patch.Titles) {
 		return domain.Comic{}, fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
 	}
-	current, err := s.repo.Get(ctx, id)
+	var updated domain.Comic
+	err := s.repo.WithTx(ctx, func(repo domain.ComicRepository) error {
+		current, err := repo.Get(ctx, id)
+		if err != nil {
+			return err
+		}
+		previousChap := current.CurrentChap
+		previousLastUpdate := current.LastUpdate
+		applyComicPatch(&current, patch)
+		current.Titles = identity.NormalizeTitleVariants(current.Titles, current.ComType)
+		if patch.Titles != nil && !hasNonEmptyTitle(current.Titles) {
+			return fmt.Errorf("%w: titles should be a non-empty list of strings", domain.ErrInvalidComicPayload)
+		}
+		if current.CurrentChap != previousChap {
+			current.LastUpdate = time.Now().UTC()
+		} else {
+			current.LastUpdate = previousLastUpdate
+		}
+		if !current.Deleted {
+			if dupErr := s.rejectDuplicate(ctx, repo, current, id); dupErr != nil {
+				if errors.Is(dupErr, domain.ErrDiscoveryKeyConflict) {
+					s.observer.ObserveConflict("update")
+				}
+				return dupErr
+			}
+		}
+		var updateErr error
+		updated, updateErr = repo.Update(ctx, current)
+		if updateErr != nil {
+			if errors.Is(updateErr, domain.ErrDiscoveryKeyConflict) {
+				s.observer.ObserveConflict("update")
+			}
+			return updateErr
+		}
+		return nil
+	})
 	if err != nil {
 		return domain.Comic{}, err
 	}
-	previousChap := current.CurrentChap
-	previousLastUpdate := current.LastUpdate
-	applyComicPatch(&current, patch)
-	if current.CurrentChap != previousChap {
-		current.LastUpdate = time.Now().UTC()
-	} else {
-		current.LastUpdate = previousLastUpdate
+	return updated, nil
+}
+
+func (s *ComicService) rejectDuplicate(
+	ctx context.Context,
+	repo domain.ComicRepository,
+	comic domain.Comic,
+	excludeID int,
+) error {
+	for _, title := range comic.Titles {
+		existing, kind, found, err := s.resolver.Resolve(
+			ctx,
+			repo,
+			title,
+			comic.ComType,
+			discovery.ResolveOptions{ExcludeComicID: excludeID},
+		)
+		if err != nil {
+			return err
+		}
+		if !found {
+			continue
+		}
+		if kind == discovery.MatchDiscoveryKey {
+			return &domain.DiscoveryKeyConflictError{
+				ComicID:      excludeID,
+				OwnerComicID: existing.ID,
+				Scope:        identity.DiscoveryScope(title, comic.ComType),
+				TitleKey:     identity.DiscoveryTitleKey(title),
+			}
+		}
+		return domain.ErrDuplicateComic
 	}
-	return s.repo.Update(ctx, current)
+	return nil
 }
 
 func (s *ComicService) Delete(ctx context.Context, id int) error {
@@ -173,6 +255,10 @@ func (s *ComicService) Merge(ctx context.Context, baseID int, mergingID int) (do
 		previousChap := base.CurrentChap
 		previousLastUpdate := base.LastUpdate
 		merged = mergeComicValues(base, duplicate)
+		merged.Titles = identity.NormalizeTitleVariants(merged.Titles, merged.ComType)
+		if len(merged.Titles) == 0 {
+			return fmt.Errorf("%w: merged comic has no valid title", domain.ErrInvalidComicPayload)
+		}
 		if merged.CurrentChap != previousChap {
 			merged.LastUpdate = time.Now().UTC()
 		} else {
@@ -187,6 +273,9 @@ func (s *ComicService) Merge(ctx context.Context, baseID int, mergingID int) (do
 		return repo.Delete(ctx, mergingID)
 	})
 	if err != nil {
+		if errors.Is(err, domain.ErrDiscoveryKeyConflict) {
+			s.observer.ObserveConflict("merge")
+		}
 		return domain.Comic{}, err
 	}
 	return s.repo.Get(ctx, merged.ID)
