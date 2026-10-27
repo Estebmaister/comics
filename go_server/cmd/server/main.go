@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"comics/api/route"
 	"comics/bootstrap"
@@ -50,26 +52,39 @@ func main() {
 	}
 	g := gin.New()
 	g.Use(gin.Recovery())
-	// Route binding
-	route.Setup(app.Env, app.UserRepo, app.ComicService, g)
+	healthy := route.Setup(app.Env, app.UserRepo, app.ComicService, g)
 
 	if app.Env.ScrapeInterval > 0 {
 		scheduler := scrape.NewPeriodicScheduler(
-			scrape.PeriodicConfig{Interval: app.Env.ScrapeInterval},
+			scrape.PeriodicConfig{
+				Interval:     app.Env.ScrapeInterval,
+				StartupGrace: app.Env.ScrapeStartupGrace,
+			},
 			app.ScrapeCoord,
 		)
 		scheduler.Start(ctx)
-		log.Info().Dur("interval", app.Env.ScrapeInterval).Msg("Background scrape scheduler enabled")
+		log.Info().
+			Dur("interval", app.Env.ScrapeInterval).
+			Dur("startup_grace", app.Env.ScrapeStartupGrace).
+			Msg("Background scrape scheduler enabled")
 	}
 
-	// Running the server
+	addr := app.Env.AddressHTTP + ":" + app.Env.PortHTTP
+	srv := &http.Server{
+		Addr:              addr,
+		Handler:           g,
+		ReadHeaderTimeout: 10 * time.Second,
+		ReadTimeout:       30 * time.Second,
+		WriteTimeout:      2 * time.Minute,
+		IdleTimeout:       60 * time.Second,
+	}
+
 	srvErr := make(chan error, 1)
 	go func() {
 		certFile, keyFile := app.Env.HTTPTLSCertFile, app.Env.HTTPTLSKeyFile
-		addr := app.Env.AddressHTTP + ":" + app.Env.PortHTTP
 		if app.Env.HasHTTPSTLSFiles() {
 			log.Info().Str("url", "https://"+addr).Msg("Serving HTTPS")
-			srvErr <- g.RunTLS(addr, certFile, keyFile)
+			srvErr <- srv.ListenAndServeTLS(certFile, keyFile)
 			return
 		}
 		if certFile != "" || keyFile != "" {
@@ -79,7 +94,7 @@ func main() {
 				Msg("TLS certificate or key unavailable, serving HTTP instead")
 		}
 		log.Info().Str("url", "http://"+addr).Msg("Serving HTTP")
-		srvErr <- g.Run(addr)
+		srvErr <- srv.ListenAndServe()
 	}()
 
 	// Wait for interruption
@@ -87,14 +102,18 @@ func main() {
 	case err := <-srvErr:
 		log.Error().Err(err).Msg("Error when starting HTTP server")
 	case <-ctx.Done():
-		// Stop receiving signal notifications as soon as possible.
 		stop()
 	}
 
-	// Create a new context for shutdown operations
 	shutdownCtx, cancel := context.WithTimeout(
 		context.Background(), app.Env.InitCtxTimeout)
 	defer cancel()
 	log.Info().Msg("Shutting down application...")
+	if healthy != nil {
+		healthy.Stop()
+	}
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		log.Error().Err(err).Msg("HTTP server shutdown error")
+	}
 	app.Close(shutdownCtx)
 }

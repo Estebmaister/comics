@@ -18,11 +18,17 @@ const cleanURL = (value?: string) => {
 export const resolveServerURL = ({
   hostname = window.location.hostname,
   env = import.meta.env,
-}: ResolveServerArgs = {}) => (
-  cleanURL(env.VITE_API_SERVER)
-  ?? cleanURL(env.VITE_PY_SERVER)
-  ?? (localHosts.has(hostname) ? 'https://localhost:8081' : `https://${hostname}:5001`)
-);
+}: ResolveServerArgs = {}) => {
+  const explicit = cleanURL(env.VITE_API_SERVER) ?? cleanURL(env.VITE_PY_SERVER);
+  if (explicit) {
+    return explicit;
+  }
+  // Vite dev: same-origin /api proxy (see dev/proxy/viteProxy.ts) avoids http→https:8081 hangs.
+  if (import.meta.env.DEV && localHosts.has(hostname) && typeof window !== 'undefined') {
+    return `${window.location.origin}/api`;
+  }
+  return localHosts.has(hostname) ? 'https://localhost:8081' : `https://${hostname}:5001`;
+};
 
 const config = {
   SHOW_MESSAGE_TIMEOUT: 2000, // Time in ms to show message

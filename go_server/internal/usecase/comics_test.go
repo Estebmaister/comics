@@ -337,6 +337,36 @@ func TestComicServiceMergeRules(t *testing.T) {
 	}
 }
 
+func TestComicServiceUpdateRatingSkipsDiscoveryCheckForOverlappingTitles(t *testing.T) {
+	ctx := context.Background()
+	repo := newMemoryComicRepo()
+	longTitle := "I may be a beginner, but i'm actually a level 99 overpowered player"
+	shortTitle := "I may be a beginner, but i'm actually"
+	repo.comics[1] = domain.Comic{
+		ID:       1,
+		Titles:   []string{shortTitle, longTitle},
+		ComType:  3,
+		Track:    true,
+	}
+	repo.comics[2] = domain.Comic{
+		ID:      2,
+		Titles:  []string{longTitle},
+		ComType: 3,
+		Track:   true,
+	}
+	repo.nextID = 3
+
+	svc := NewComicService(repo, nil)
+	rating := 4
+	updated, err := svc.Update(ctx, 1, domain.ComicPatch{Rating: &rating})
+	if err != nil {
+		t.Fatalf("expected rating-only update to succeed, got %v", err)
+	}
+	if updated.Rating != 4 {
+		t.Fatalf("expected rating 4, got %d", updated.Rating)
+	}
+}
+
 func TestComicServiceCreateRejectsDuplicate(t *testing.T) {
 	ctx := context.Background()
 	repo := newMemoryComicRepo()

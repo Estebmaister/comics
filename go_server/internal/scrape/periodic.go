@@ -5,11 +5,14 @@ import (
 	"errors"
 	"log/slog"
 	"time"
+
+	"comics/internal/metrics"
 )
 
 // PeriodicConfig controls the background scrape loop.
 type PeriodicConfig struct {
-	Interval time.Duration
+	Interval     time.Duration
+	StartupGrace time.Duration
 }
 
 // PeriodicScheduler runs automatic scrapes on a cooldown-aware schedule.
@@ -33,6 +36,19 @@ func (s *PeriodicScheduler) Start(ctx context.Context) {
 func (s *PeriodicScheduler) loop(ctx context.Context) {
 	slog.Info("scrape periodic scheduler started", "interval", s.cfg.Interval.String())
 	runIndex := 1
+	if s.cfg.StartupGrace > 0 {
+		slog.Info("scrape periodic startup grace", "delay", s.cfg.StartupGrace.String())
+		start := time.Now()
+		timer := time.NewTimer(s.cfg.StartupGrace)
+		select {
+		case <-ctx.Done():
+			timer.Stop()
+			slog.Info("scrape periodic scheduler stopped")
+			return
+		case <-timer.C:
+			metrics.ObserveSchedulerStartupDelay(time.Since(start))
+		}
+	}
 	for {
 		if ctx.Err() != nil {
 			return

@@ -244,18 +244,26 @@ func NewSQLiteComicRepositoryReadOnly(path string) (*SQLComicRepository, error) 
 	if path == "" {
 		return nil, fmt.Errorf("comic sqlite database not found")
 	}
-	dsn := "file:" + filepath.ToSlash(path) + "?mode=ro&_pragma=query_only%3d1"
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return nil, err
+	}
+	dsn := "file:" + filepath.ToSlash(absPath) + "?mode=ro&_pragma=query_only%3d1"
 	db, err := sql.Open("sqlite", dsn)
 	if err != nil {
 		return nil, err
 	}
-	db.SetMaxOpenConns(1)
+	if err := configureSQLiteReader(db); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
 	if err := db.Ping(); err != nil {
 		_ = db.Close()
 		return nil, err
 	}
 	return &SQLComicRepository{
 		db:      db,
+		readDB:  db,
 		dialect: dialectSQLite,
 		ownsDB:  true,
 	}, nil

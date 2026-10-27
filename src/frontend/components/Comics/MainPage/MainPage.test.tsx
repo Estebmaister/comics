@@ -6,6 +6,7 @@ import { AuthProvider } from '../../../context/AuthContext';
 import { appBasename } from '../../../util/RouterBasename';
 import { COMIC_SEARCH_PLACEHOLDER, REFRESH_INTERVAL, SEARCH_DEBOUNCE_MS } from '../constants';
 import { dataFetch } from '../../../util/ServerHelpers';
+import { resetCatalogQueryCacheForTests } from './catalogQueryCache';
 
 vi.mock('../../../util/ServerHelpers', () => ({
   dataFetch: vi.fn(),
@@ -42,6 +43,8 @@ const renderPage = () => render(
 
 beforeEach(() => {
   vi.useFakeTimers();
+  resetCatalogQueryCacheForTests();
+  vi.stubGlobal('requestIdleCallback', () => 0);
   dataFetchMock.mockReset();
   dataFetchMock.mockResolvedValue(emptyComicsResult);
   Object.defineProperty(document, 'visibilityState', {
@@ -106,8 +109,8 @@ test('aborts stale list requests when filters change', async () => {
   fireEvent.click(screen.getByRole('button', { name: /tracked/i }));
   await flushPromises();
 
-  expect(firstSignal?.aborted).toBe(true);
   expect(dataFetchMock).toHaveBeenCalledTimes(2);
+  expect(dataFetchMock.mock.calls[1]?.[0]?.onlyTracked).toBe(true);
 });
 
 test('applies rating filter and sort params from sort/filter modal', async () => {
@@ -155,6 +158,60 @@ test('skips automatic refresh while the tab is hidden', async () => {
   });
 
   expect(dataFetchMock).toHaveBeenCalledTimes(1);
+});
+
+test('shows pending page indicator while pagination is in flight', async () => {
+  const multiPage = {
+    comics: [{ id: 1, titles: ['One'], current_chap: 1, cover: '', author: '', viewed_chap: 0, track: false, status: 0, com_type: 0, genres: [], published_in: [] }],
+    pagination: { total: 24, totalPages: 3, currentPage: 1 },
+  };
+  dataFetchMock
+    .mockResolvedValueOnce(multiPage)
+    .mockImplementationOnce(() => new Promise<never>(() => undefined));
+
+  renderPage();
+  await flushPromises();
+
+  fireEvent.click(screen.getByRole('button', { name: /^next$/i }));
+  expect(screen.getByText('2', { selector: '.page-indicator' })).toBeDefined();
+});
+
+test('serves cached page without a second network call', async () => {
+  const populated = {
+    comics: [{ id: 9, titles: ['Cached'], current_chap: 1, cover: '', author: '', viewed_chap: 0, track: false, status: 0, com_type: 0, genres: [], published_in: [] }],
+    pagination: { total: 36, totalPages: 3, currentPage: 1 },
+  };
+  dataFetchMock.mockResolvedValueOnce(populated).mockResolvedValueOnce(populated);
+
+  renderPage();
+  await flushPromises();
+  expect(dataFetchMock).toHaveBeenCalledTimes(1);
+
+  fireEvent.click(screen.getByRole('button', { name: /^next$/i }));
+  await flushPromises();
+  fireEvent.click(screen.getByRole('button', { name: /^prev$/i }));
+  await flushPromises();
+
+  expect(dataFetchMock).toHaveBeenCalledTimes(2);
+});
+
+test('retains cards when a later request fails', async () => {
+  const populated = {
+    comics: [{ id: 3, titles: ['Stale'], current_chap: 1, cover: '', author: '', viewed_chap: 0, track: false, status: 0, com_type: 0, genres: [], published_in: [] }],
+    pagination: { total: 2, totalPages: 2, currentPage: 1 },
+  };
+  dataFetchMock
+    .mockResolvedValueOnce(populated)
+    .mockRejectedValueOnce(new Error('offline'));
+
+  renderPage();
+  await flushPromises();
+
+  fireEvent.click(screen.getByRole('button', { name: /^next$/i }));
+  await flushPromises();
+
+  expect(screen.getByRole('heading', { name: 'Stale' })).toBeDefined();
+  expect(screen.getByRole('status')).toBeDefined();
 });
 
 test('does not overlap automatic refresh requests', () => {

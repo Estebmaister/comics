@@ -56,6 +56,7 @@ export interface PaginationData {
   onLastPage: boolean;
   currentPage: number;
   totalPages: number;
+  isPending?: boolean;
 }
 
 export interface ConditionalButtonProps {

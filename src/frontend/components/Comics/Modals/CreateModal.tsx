@@ -12,14 +12,27 @@ const createComicEmpty: CreateComicFormState = {
   current_chap: 0,
   viewed_chap: 0,
   cover: 'https://',
+  status: 2,
   description: '',
   author: '',
-
   com_type: 3,
-  status: 2,
   published_in: [0],
   genres: [0],
 };
+
+const createComicFieldOrder: (keyof CreateComicFormState)[] = [
+  'title',
+  'track',
+  'current_chap',
+  'viewed_chap',
+  'cover',
+  'status',
+  'description',
+  'author',
+  'com_type',
+  'published_in',
+  'genres',
+];
 
 const formType = (field: string) => {
   switch (field) {
@@ -62,14 +75,14 @@ const CreateComicModal: React.FC<ComicModalProps<CreateComicFormState>> = ({ onS
       <form className='comic-modal-form' onSubmit={handleSubmit}>
         <header className='modal-form-header'>
           <h2>Create Comic</h2>
-          <p>Use pipe `|` only when entering multiple alternate titles manually. The footer stays pinned so the primary action never disappears.</p>
+          <p>Use pipe `|` only when entering multiple alternate titles manually.</p>
         </header>
 
         <div className='form-grid'>
-          {Object.entries(formState).map(([kField, value], _i) =>
+          {createComicFieldOrder.map((kField) =>
             <InputDiv
               key={kField}
-              value={value}
+              value={formState[kField]}
               field={kField}
               focusInputRef={focusInputRef}
               selectOptDict={db_classes}

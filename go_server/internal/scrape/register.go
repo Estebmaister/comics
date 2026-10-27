@@ -10,6 +10,7 @@ import (
 	"comics/domain"
 	"comics/internal/discovery"
 	"comics/internal/identity"
+	"comics/internal/metrics"
 )
 
 type RunState struct {
@@ -133,8 +134,47 @@ func updateExistingComic(
 		updated.Cover = normalized.Cover
 		updated.CoverVisible = true
 	}
+	if scrapeExistingUnchanged(existing, updated) {
+		metrics.IncScrapeNoopSkipped()
+		return nil
+	}
 	_, err := repo.Update(ctx, updated)
 	return err
+}
+
+func scrapeExistingUnchanged(before, after domain.Comic) bool {
+	return before.CurrentChap == after.CurrentChap &&
+		before.ComType == after.ComType &&
+		before.Status == after.Status &&
+		before.Author == after.Author &&
+		before.Cover == after.Cover &&
+		before.CoverVisible == after.CoverVisible &&
+		intSlicesEqual(before.PublishedIn, after.PublishedIn) &&
+		stringSlicesEqual(before.Titles, after.Titles)
+}
+
+func intSlicesEqual(a, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func stringSlicesEqual(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func mergeUniqueInts(base []int, extra []int) []int {

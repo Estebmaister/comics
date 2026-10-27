@@ -40,22 +40,22 @@ func applyDiscoveryRepair(ctx context.Context, opts discoveryApplyOptions) (repa
 
 	currentRead, err := comics.NewSQLiteComicRepositoryReadOnly(opts.DBPath)
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("open current db: %w", err)
 	}
 	currentAudit, err := currentRead.AuditDiscoveryIntegrity(ctx)
 	_ = currentRead.Close()
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("audit current db: %w", err)
 	}
 
 	backupRead, err := comics.NewSQLiteComicRepositoryReadOnly(opts.BackupPath)
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("open backup db: %w", err)
 	}
 	backupAudit, err := backupRead.AuditDiscoveryIntegrity(ctx)
 	_ = backupRead.Close()
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("audit backup db: %w", err)
 	}
 
 	if plan.DatabaseFingerprint != currentAudit.DatabaseFingerprint ||
@@ -69,7 +69,7 @@ func applyDiscoveryRepair(ctx context.Context, opts discoveryApplyOptions) (repa
 	before := currentAudit.Summary
 	repo, err := comics.NewSQLiteComicRepository(opts.DBPath)
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("open writable db: %w", err)
 	}
 	defer repo.Close()
 
@@ -82,17 +82,12 @@ func applyDiscoveryRepair(ctx context.Context, opts discoveryApplyOptions) (repa
 		return nil
 	})
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("apply repair tx: %w", err)
 	}
 
-	afterRead, err := comics.NewSQLiteComicRepositoryReadOnly(opts.DBPath)
+	afterAudit, err := repo.AuditDiscoveryIntegrity(ctx)
 	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
-	}
-	afterAudit, err := afterRead.AuditDiscoveryIntegrity(ctx)
-	_ = afterRead.Close()
-	if err != nil {
-		return repair.AuditSummary{}, repair.AuditSummary{}, err
+		return repair.AuditSummary{}, repair.AuditSummary{}, fmt.Errorf("audit after apply: %w", err)
 	}
 	return before, afterAudit.Summary, nil
 }

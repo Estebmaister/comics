@@ -11,12 +11,21 @@ import ScrapeButton from '../Edition/ScrapeButton';
 import { ComicListFetchError, dataFetch, isAbortError } from '../../../util/ServerHelpers';
 import { Comic, PaginationState } from '../types';
 import { NAV_HEIGHT_UPDATED_EVENT } from '../../../hooks/useMeasuredNavHeight';
-import { calculatePageLimit, handleSearchInput } from '../utils';
+import { calculatePageLimit, handleSearchInput, readNavHeightPx } from '../utils';
 import { REFRESH_INTERVAL, SEARCH_DEBOUNCE_MS } from '../constants';
 import { FloatingActionRail } from '../Actions/FloatingActionRail';
 import { ToastProvider } from '../../Toast/ToastProvider';
+import { DiscoveryConflictProvider } from '../Discovery/DiscoveryConflictContext';
+import CatalogDuplicateWatcher from '../Discovery/CatalogDuplicateWatcher';
 import LoadMsgs from '../../Loaders/LoadMsgs';
 import { useAuth } from '../../../context/AuthContext';
+import {
+  buildCatalogQueryKey,
+  fetchCatalogQuery,
+  invalidateCatalogQueryCache,
+  peekCatalogQueryCache,
+  scheduleAdjacentCatalogPrefetch,
+} from './catalogQueryCache';
 
 export function ComicsMainPage() {
   const { isAdmin } = useAuth();
@@ -25,12 +34,20 @@ export function ComicsMainPage() {
   const [paginationDict, setPaginationDict] = useState<PaginationState>({});
   const [loadMsg, setLoadMsg] = useState<string | JSX.Element>('');
   const [refreshTick, setRefreshTick] = useState(0);
-  const [limit, setLimit] = useState(() => calculatePageLimit(window.innerWidth, window.innerHeight));
+  const [limit, setLimit] = useState(() => calculatePageLimit(
+    window.innerWidth,
+    window.innerHeight,
+    { navHeightPx: readNavHeightPx() },
+  ));
   const [isDocumentVisible, setIsDocumentVisible] = useState(() => document.visibilityState !== 'hidden');
   const [isOnline, setIsOnline] = useState(() => navigator.onLine);
+  const [isFetching, setIsFetching] = useState(false);
+  const [displayedQueryKey, setDisplayedQueryKey] = useState('');
+  const [fetchError, setFetchError] = useState<'network' | 'server' | null>(null);
   const requestIdRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
   const inFlightRef = useRef(false);
+  const hasDisplayedComicsRef = useRef(false);
 
   const onlyUnchecked = searchParams.get('onlyUnchecked') === 'true';
   const onlyTracked = searchParams.get('onlyTracked') === 'true';
@@ -58,25 +75,62 @@ export function ComicsMainPage() {
   const sortBy = searchParams.get('sortBy') || undefined;
   const sortDir = searchParams.get('sortDir') || undefined;
 
+  const queryKeyParts = useMemo(() => ({
+    from,
+    limit,
+    queryFilter,
+    onlyTracked,
+    onlyUnchecked,
+    ratingMin,
+    ratingMax,
+    sortBy,
+    sortDir,
+  }), [from, limit, queryFilter, onlyTracked, onlyUnchecked, ratingMax, ratingMin, sortBy, sortDir]);
+
+  const requestedQueryKey = useMemo(
+    () => buildCatalogQueryKey(queryKeyParts),
+    [queryKeyParts],
+  );
+
+  const targetPage = limit > 0 ? Math.floor(from / limit) + 1 : 1;
   const total = paginationDict.total || 1;
   const totalPages = paginationDict.totalPages || 1;
-  const currentPage = paginationDict.currentPage || 1;
+  const settledCurrentPage = paginationDict.currentPage || targetPage;
+  const currentPage = displayedQueryKey !== requestedQueryKey || isFetching
+    ? targetPage
+    : settledCurrentPage;
   const onFirstPage = from <= 0;
   const onLastPage = from >= limit * (totalPages - 1);
+  const isShowingStaleResults = webComics.length > 0 && displayedQueryKey !== requestedQueryKey;
+  const isCatalogPending = isFetching || isSearchActive || isShowingStaleResults;
 
   const paginationData = useMemo(() => ({
     from, limit, setSearchParams,
-    onFirstPage, onLastPage, currentPage, totalPages
-  }), [from, limit, setSearchParams, onFirstPage, onLastPage, currentPage, totalPages]);
+    onFirstPage, onLastPage, currentPage, totalPages,
+    isPending: isCatalogPending,
+  }), [from, limit, setSearchParams, onFirstPage, onLastPage, currentPage, totalPages, isCatalogPending]);
 
-  const requestRefresh = useCallback(() => {
+  const requestRefresh = useCallback((removedComicIds: number[] = []) => {
+    invalidateCatalogQueryCache();
+    if (removedComicIds.length > 0) {
+      const removed = new Set(removedComicIds);
+      startTransition(() => {
+        setWebComics((prev) => prev.filter((comic) => !removed.has(comic.id)));
+        setPaginationDict((prev) => ({
+          ...prev,
+          total: Math.max(0, (prev.total ?? 0) - removed.size),
+        }));
+      });
+    }
     startTransition(() => {
       setRefreshTick((value) => value + 1);
+    });
+    queueMicrotask(() => {
+      void runFetchRef.current();
     });
   }, []);
 
   const handleFilteredMutationSuccess = useCallback(() => {
-    // Only refill the page when both filters are active.
     if (!(onlyTracked && onlyUnchecked)) return;
     requestRefresh();
   }, [onlyTracked, onlyUnchecked, requestRefresh]);
@@ -85,59 +139,75 @@ export function ComicsMainPage() {
     setSearchInput(value);
   }, []);
 
+  const applyListResult = useCallback((result: { comics: Comic[]; pagination: PaginationState }, key: string) => {
+    hasDisplayedComicsRef.current = result.comics.length > 0;
+    startTransition(() => {
+      setWebComics(result.comics);
+      setPaginationDict(result.pagination);
+      setDisplayedQueryKey(key);
+      setFetchError(null);
+      setLoadMsg('');
+    });
+  }, []);
+
   const runFetch = useCallback(async ({
     silent = false,
     skipIfBusy = false,
   }: { silent?: boolean; skipIfBusy?: boolean } = {}) => {
     if (skipIfBusy && inFlightRef.current) return;
 
+    const key = requestedQueryKey;
+    const cached = peekCatalogQueryCache(key);
+    if (cached) {
+      applyListResult(cached, key);
+      scheduleAdjacentCatalogPrefetch(queryKeyParts, dataFetch);
+      return;
+    }
+
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;
-    abortControllerRef.current?.abort();
 
     const controller = new AbortController();
     abortControllerRef.current = controller;
     inFlightRef.current = true;
-    if (!silent) setLoadMsg(LoadMsgs.wait);
+    setIsFetching(true);
+    if (!silent && !hasDisplayedComicsRef.current && !peekCatalogQueryCache(key)) {
+      setLoadMsg(LoadMsgs.wait);
+    }
 
     try {
-      const result = await dataFetch({
-        from,
-        limit,
-        queryFilter,
-        onlyTracked,
-        onlyUnchecked,
-        ratingMin,
-        ratingMax,
-        sortBy,
-        sortDir,
+      const result = await fetchCatalogQuery(key, {
+        ...queryKeyParts,
         signal: controller.signal,
-      });
+      }, dataFetch);
       if (controller.signal.aborted || requestId !== requestIdRef.current) return;
 
-      startTransition(() => {
-        setWebComics(result.comics);
-        setPaginationDict(result.pagination);
-        setLoadMsg('');
-      });
+      applyListResult(result, key);
+      scheduleAdjacentCatalogPrefetch(queryKeyParts, dataFetch);
     } catch (error) {
       if (isAbortError(error) || requestId !== requestIdRef.current) return;
       if (silent) return;
 
-      setWebComics([]);
-      setLoadMsg(
-        error instanceof ComicListFetchError && error.kind === 'server'
-          ? LoadMsgs.server
-          : LoadMsgs.network
-      );
+      const kind = error instanceof ComicListFetchError && error.kind === 'server' ? 'server' : 'network';
+      setFetchError(kind);
+      if (!hasDisplayedComicsRef.current) {
+        setWebComics([]);
+        setLoadMsg(kind === 'server' ? LoadMsgs.server : LoadMsgs.network);
+      } else {
+        setLoadMsg('');
+      }
       console.debug((error as Error)?.message ?? error);
     } finally {
+      inFlightRef.current = false;
       if (requestId === requestIdRef.current) {
         abortControllerRef.current = null;
-        inFlightRef.current = false;
+        setIsFetching(false);
       }
     }
-  }, [from, limit, queryFilter, onlyTracked, onlyUnchecked, ratingMax, ratingMin, sortBy, sortDir]);
+  }, [applyListResult, queryKeyParts, requestedQueryKey]);
+
+  const runFetchRef = useRef(runFetch);
+  runFetchRef.current = runFetch;
 
   useEffect(() => {
     if (queryFilter === lastQueryFilterRef.current) return;
@@ -192,12 +262,8 @@ export function ComicsMainPage() {
   }, []);
 
   useEffect(() => {
-    void runFetch();
-
-    return () => {
-      abortControllerRef.current?.abort();
-    };
-  }, [runFetch, refreshTick]);
+    void runFetchRef.current();
+  }, [requestedQueryKey, refreshTick]);
 
   useEffect(() => {
     if (!isDocumentVisible || !isOnline || isSearchActive) return undefined;
@@ -210,8 +276,6 @@ export function ComicsMainPage() {
   }, [isDocumentVisible, isOnline, isSearchActive, runFetch]);
 
   useEffect(() => {
-    // Edge case: after checkout on the last page (tracked + unchecked),
-    // page can become empty. Jump to the last valid page offset.
     if (!(onlyTracked && onlyUnchecked)) return;
     if (paginationDict.totalPages === undefined) return;
     if (from <= 0 || webComics.length > 0) return;
@@ -235,6 +299,9 @@ export function ComicsMainPage() {
 
   return (
     <ToastProvider>
+      <DiscoveryConflictProvider
+        onCatalogRefresh={(removedIds) => requestRefresh(removedIds)}
+      >
       <main className="app-shell">
         <NavBar
           onlyTracked={onlyTracked}
@@ -248,24 +315,39 @@ export function ComicsMainPage() {
           ratingMax={ratingMax}
           sortBy={sortBy}
           sortDir={sortDir}
+          isCatalogPending={isCatalogPending}
         />
 
         <ComicsList
           comics={webComics}
           loadMsg={loadMsg}
           queryFilter={queryFilter}
+          isFetching={isCatalogPending}
+          isShowingStaleResults={isShowingStaleResults}
+          fetchError={fetchError}
           onCheckoutSuccess={handleFilteredMutationSuccess}
           onDeleteSuccess={handleFilteredMutationSuccess}
         />
 
         {isAdmin ? (
+          <CatalogDuplicateWatcher
+            comics={webComics}
+            enabled={!isCatalogPending && displayedQueryKey === requestedQueryKey}
+            viewKey={displayedQueryKey}
+          />
+        ) : null}
+
+        {isAdmin ? (
           <FloatingActionRail>
             <ScrapeButton onSuccess={requestRefresh} />
-            <MergeComic onSuccess={requestRefresh} />
+            <MergeComic
+              onSuccess={({ mergingID }) => requestRefresh([mergingID])}
+            />
             <CreateComic onSuccess={requestRefresh} />
           </FloatingActionRail>
         ) : null}
       </main>
+      </DiscoveryConflictProvider>
     </ToastProvider>
   );
 }

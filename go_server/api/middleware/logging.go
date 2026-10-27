@@ -19,7 +19,8 @@ import (
 )
 
 const (
-	msg = "HTTP request"
+	msg              = "HTTP request"
+	maxLoggedBodyLen = 64 * 1024
 )
 
 var (
@@ -40,8 +41,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 		// Capture the request body
 		var bodyBytes []byte
 		if c.Request.Body != nil {
-			bodyBytes, _ = io.ReadAll(c.Request.Body) // Read body
-			// Reset body for downstream handlers
+			bodyBytes, _ = io.ReadAll(c.Request.Body)
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 		}
 
@@ -81,7 +81,11 @@ func LoggerMiddleware() gin.HandlerFunc {
 			}
 
 			// Build request log struct
-			logger = sensitiveDataFilterToLog(bodyBytes, logger)
+			logBody := bodyBytes
+			if len(logBody) > maxLoggedBodyLen {
+				logBody = logBody[:maxLoggedBodyLen]
+			}
+			logger = sensitiveDataFilterToLog(logBody, logger)
 			logger = logger.With().Err(c.Errors.Last()).
 				Str("client_ip", c.ClientIP()).
 				Str("method", c.Request.Method).

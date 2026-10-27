@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import {
   checkoutComic,
+  dataFetch,
   delComic,
+  isAbortError,
   rateComic,
   reportCoverVisibility,
   trackComic,
@@ -21,6 +23,28 @@ beforeEach(() => {
 afterEach(() => {
   sessionStorage.clear();
   vi.unstubAllGlobals();
+});
+
+test('dataFetch propagates abort signal to fetch', async () => {
+  const abort = new AbortController();
+  abort.abort();
+  const fetchMock = vi.fn().mockRejectedValue(new DOMException('Aborted', 'AbortError'));
+  vi.stubGlobal('fetch', fetchMock);
+
+  await expect(dataFetch({
+    from: 0,
+    limit: 12,
+    queryFilter: '',
+    onlyTracked: false,
+    onlyUnchecked: false,
+    signal: abort.signal,
+    server: 'https://api.example.test',
+  })).rejects.toSatisfy((error: unknown) => isAbortError(error));
+
+  expect(fetchMock).toHaveBeenCalledWith(
+    expect.stringContaining('/comics?'),
+    expect.objectContaining({ signal: abort.signal }),
+  );
 });
 
 test('denied card mutations neither report success nor change local state', async () => {

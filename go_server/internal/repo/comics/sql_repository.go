@@ -11,8 +11,11 @@ import (
 	"strings"
 	"time"
 
+	"sync"
+
 	"comics/domain"
 	"comics/internal/identity"
+	"comics/internal/metrics"
 
 	_ "github.com/jackc/pgx/v5/stdlib" // register pgx driver for postgres DSNs
 	_ "modernc.org/sqlite"
@@ -61,9 +64,13 @@ var sqlitePerformanceIndexes = []string{
 
 type SQLComicRepository struct {
 	db      *sql.DB
+	readDB  *sql.DB
 	tx      *sql.Tx
 	dialect string
 	ownsDB  bool
+
+	trigramHealthOnce sync.Once
+	trigramHealthOK   bool
 }
 
 func NewSQLiteComicRepository(path string) (*SQLComicRepository, error) {
@@ -73,27 +80,67 @@ func NewSQLiteComicRepository(path string) (*SQLComicRepository, error) {
 	if path == "" {
 		return nil, fmt.Errorf("comic sqlite database not found")
 	}
-	db, err := sql.Open("sqlite", sqliteDSN(path))
+	writer, reader, err := openSQLitePools(path)
 	if err != nil {
 		return nil, err
 	}
-	if err := db.Ping(); err != nil {
-		db.Close()
+	if err := ensureSQLitePerformanceIndexes(writer); err != nil {
+		_ = writer.Close()
+		_ = reader.Close()
 		return nil, err
 	}
-	if err := configureSQLiteDB(db); err != nil {
-		db.Close()
+	if err := ensureComicTitleKeysSchema(writer); err != nil {
+		_ = writer.Close()
+		_ = reader.Close()
 		return nil, err
 	}
-	if err := ensureSQLitePerformanceIndexes(db); err != nil {
-		db.Close()
-		return nil, err
+	if SearchModeFromEnv() != searchModeScan {
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		if err := ensureCatalogSearchSchema(ctx, writer); err != nil {
+			_ = writer.Close()
+			_ = reader.Close()
+			return nil, err
+		}
 	}
-	if err := ensureComicTitleKeysSchema(db); err != nil {
-		db.Close()
-		return nil, err
+	return &SQLComicRepository{
+		db:      writer,
+		readDB:  reader,
+		dialect: dialectSQLite,
+		ownsDB:  true,
+	}, nil
+}
+
+func openSQLitePools(path string) (*sql.DB, *sql.DB, error) {
+	writer, err := sql.Open("sqlite", sqliteDSN(path))
+	if err != nil {
+		return nil, nil, err
 	}
-	return &SQLComicRepository{db: db, dialect: dialectSQLite, ownsDB: true}, nil
+	if err := writer.Ping(); err != nil {
+		_ = writer.Close()
+		return nil, nil, err
+	}
+	if err := configureSQLiteWriter(writer); err != nil {
+		_ = writer.Close()
+		return nil, nil, err
+	}
+
+	reader, err := sql.Open("sqlite", sqliteDSN(path))
+	if err != nil {
+		_ = writer.Close()
+		return nil, nil, err
+	}
+	if err := reader.Ping(); err != nil {
+		_ = writer.Close()
+		_ = reader.Close()
+		return nil, nil, err
+	}
+	if err := configureSQLiteReader(reader); err != nil {
+		_ = writer.Close()
+		_ = reader.Close()
+		return nil, nil, err
+	}
+	return writer, reader, nil
 }
 
 func NewPostgresComicRepository(url string) (*SQLComicRepository, error) {
@@ -165,14 +212,31 @@ func findSQLiteComicDB() string {
 }
 
 func (r *SQLComicRepository) Close() error {
-	if !r.ownsDB || r.db == nil {
+	if !r.ownsDB {
 		return nil
 	}
-	return r.db.Close()
+	var firstErr error
+	if r.readDB != nil && r.readDB != r.db {
+		if err := r.readDB.Close(); err != nil && firstErr == nil {
+			firstErr = err
+		}
+	}
+	if r.db != nil {
+		if err := r.db.Close(); err != nil && firstErr == nil {
+			firstErr = err
+		}
+	}
+	return firstErr
 }
 
 func (r *SQLComicRepository) Ping(ctx context.Context) error {
-	return r.db.PingContext(ctx)
+	if err := r.db.PingContext(ctx); err != nil {
+		return err
+	}
+	if r.dialect == dialectSQLite && SearchModeFromEnv() == searchModeTrigram {
+		return CheckCatalogSearchIndex(ctx, r.db)
+	}
+	return nil
 }
 
 func (r *SQLComicRepository) WithTx(ctx context.Context, fn func(domain.ComicRepository) error) error {
@@ -183,7 +247,7 @@ func (r *SQLComicRepository) WithTx(ctx context.Context, fn func(domain.ComicRep
 	if err != nil {
 		return err
 	}
-	txRepo := &SQLComicRepository{db: r.db, tx: tx, dialect: r.dialect}
+	txRepo := &SQLComicRepository{db: r.db, readDB: r.readDB, tx: tx, dialect: r.dialect}
 	if err := fn(txRepo); err != nil {
 		_ = tx.Rollback()
 		return err
@@ -192,19 +256,27 @@ func (r *SQLComicRepository) WithTx(ctx context.Context, fn func(domain.ComicRep
 }
 
 func (r *SQLComicRepository) List(ctx context.Context, query domain.ComicListQuery) (domain.ComicListResult, error) {
-	where, args := r.comicFilters(query)
+	search := r.buildTitleSearchFilter(ctx, query)
+	if query.SearchTitle != "" {
+		metrics.IncCatalogSearchPath(search.path)
+	}
+	fromClause := "comics" + search.joinSQL
+	where, args := search.where, search.args
 	var total int
-	if err := r.queryRow(ctx, "SELECT COUNT(*) FROM comics "+where, args...).Scan(&total); err != nil {
+	countStart := time.Now()
+	if err := r.queryRow(ctx, "SELECT COUNT(*) FROM "+fromClause+" "+where, args...).Scan(&total); err != nil {
 		return domain.ComicListResult{}, err
 	}
+	metrics.ObserveCatalogRepo("count", search.path, time.Since(countStart))
 
-	sqlQuery := baseComicSelect() + " " + where + " " + r.orderByClause(query)
+	sqlQuery := baseComicSelectFrom(fromClause) + " " + where + " " + r.orderByClause(query)
 	queryArgs := append([]any{}, args...)
 	if query.Limit > 0 {
 		sqlQuery += r.limitOffsetClause(len(queryArgs) + 1)
 		queryArgs = append(queryArgs, query.Limit, query.Offset)
 	}
 
+	pageStart := time.Now()
 	rows, err := r.query(ctx, sqlQuery, queryArgs...)
 	if err != nil {
 		return domain.ComicListResult{}, err
@@ -212,6 +284,7 @@ func (r *SQLComicRepository) List(ctx context.Context, query domain.ComicListQue
 	defer rows.Close()
 
 	comics, err := scanComics(rows)
+	metrics.ObserveCatalogRepo("page", search.path, time.Since(pageStart))
 	if err != nil {
 		return domain.ComicListResult{}, err
 	}
@@ -500,10 +573,6 @@ func (r *SQLComicRepository) comicFilters(query domain.ComicListQuery) (string, 
 	filters := []string{}
 	if r.dialect == dialectPostgres {
 		filters = append(filters, "deleted = false")
-		if query.SearchTitle != "" {
-			args = append(args, "%"+query.SearchTitle+"%")
-			filters = append(filters, fmt.Sprintf("titles ILIKE $%d", len(args)))
-		}
 		if query.OnlyTracked {
 			filters = append(filters, "track = true")
 		}
@@ -522,10 +591,6 @@ func (r *SQLComicRepository) comicFilters(query domain.ComicListQuery) (string, 
 	}
 
 	filters = append(filters, "deleted = 0")
-	if query.SearchTitle != "" {
-		filters = append(filters, "titles LIKE ? COLLATE NOCASE")
-		args = append(args, "%"+query.SearchTitle+"%")
-	}
 	if query.OnlyTracked {
 		filters = append(filters, "track = 1")
 	}
@@ -583,18 +648,25 @@ func (r *SQLComicRepository) placeholder(index int) string {
 	return "?"
 }
 
+func (r *SQLComicRepository) readConn() *sql.DB {
+	if r.readDB != nil {
+		return r.readDB
+	}
+	return r.db
+}
+
 func (r *SQLComicRepository) query(ctx context.Context, query string, args ...any) (*sql.Rows, error) {
 	if r.tx != nil {
 		return r.tx.QueryContext(ctx, query, args...)
 	}
-	return r.db.QueryContext(ctx, query, args...)
+	return r.readConn().QueryContext(ctx, query, args...)
 }
 
 func (r *SQLComicRepository) queryRow(ctx context.Context, query string, args ...any) *sql.Row {
 	if r.tx != nil {
 		return r.tx.QueryRowContext(ctx, query, args...)
 	}
-	return r.db.QueryRowContext(ctx, query, args...)
+	return r.readConn().QueryRowContext(ctx, query, args...)
 }
 
 func (r *SQLComicRepository) exec(ctx context.Context, query string, args ...any) (sql.Result, error) {
@@ -605,9 +677,13 @@ func (r *SQLComicRepository) exec(ctx context.Context, query string, args ...any
 }
 
 func baseComicSelect() string {
-	return `SELECT id, titles, current_chap, cover, CAST(last_update AS TEXT),
-		com_type, status, published_in, genres, description, author, track,
-		viewed_chap, rating, deleted, cover_visible FROM comics`
+	return baseComicSelectFrom("comics")
+}
+
+func baseComicSelectFrom(fromClause string) string {
+	return `SELECT comics.id, comics.titles, comics.current_chap, comics.cover, CAST(comics.last_update AS TEXT),
+		comics.com_type, comics.status, comics.published_in, comics.genres, comics.description, comics.author, comics.track,
+		comics.viewed_chap, comics.rating, comics.deleted, comics.cover_visible FROM ` + fromClause
 }
 
 type comicScanner interface {

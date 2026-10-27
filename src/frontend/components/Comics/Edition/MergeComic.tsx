@@ -37,8 +37,13 @@ export const mergeComic = async (
   }
 };
 
+export type MergeComicSuccessDetail = {
+  baseID: number;
+  mergingID: number;
+};
+
 interface MergeComicProps {
-  onSuccess?: () => void;
+  onSuccess?: (detail: MergeComicSuccessDetail) => void;
 }
 
 const MergeComic = ({ onSuccess }: MergeComicProps) => {
@@ -70,7 +75,7 @@ const MergeComic = ({ onSuccess }: MergeComicProps) => {
         title: 'Comics merged',
         description: `Merged comic ${data.mergingID} into ${data.baseID}.`,
       });
-      onSuccess?.();
+      onSuccess?.({ baseID: data.baseID, mergingID: data.mergingID });
       return true;
     }
 

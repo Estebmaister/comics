@@ -52,11 +52,14 @@ const MergeComicModal: React.FC<MergeComicModalProps> = ({
   };
 
   return (
-    <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose} size="compact">
-      <form className='comic-modal-form compact-form' onSubmit={handleSubmit}>
+    <Modal hasCloseBtn={true} isOpen={isOpen} onClose={onClose} size="default">
+      <form className="comic-modal-form compact-form merge-modal-form" onSubmit={handleSubmit}>
         <header className='modal-form-header'>
           <h2>Merge Comics</h2>
-          <p>Keep the base record on the left and move the duplicate into it. This dialog stays compact because the task should be fast and deliberate.</p>
+          <p>
+            Enter the record to keep (base ID) and the duplicate to fold in. Use Swap IDs
+            if you want the higher-ID row to survive.
+          </p>
         </header>
 
         {submissionError ? (
@@ -78,8 +81,19 @@ const MergeComicModal: React.FC<MergeComicModalProps> = ({
             handleInputChange={handleInputChange} />
         )}
 
-        <div className='form-actions'>
-          <button className='basic-button' type='submit'>MERGE</button>
+        <div className="merge-modal-footer form-actions">
+          <button
+            type="button"
+            className="basic-button reverse-button"
+            onClick={() => onFormStateChange((prev) => ({
+              baseID: prev.mergingID,
+              mergingID: prev.baseID,
+            }))}
+            disabled={!formState.baseID || !formState.mergingID}
+          >
+            Swap IDs
+          </button>
+          <button className="basic-button" type="submit">MERGE</button>
         </div>
       </form>
     </Modal>

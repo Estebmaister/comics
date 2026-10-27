@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { checkoutComic, delComic, trackComic } from '../util/ServerHelpers';
+import { checkoutComic, delComic, trackComic, type CatalogMutationOptions } from '../util/ServerHelpers';
 import type { Comic } from '../components/Comics/types';
 
 type UseComicActionsArgs = {
@@ -13,6 +13,7 @@ type UseComicActionsArgs = {
   setDel: Dispatch<SetStateAction<boolean>>;
   onCheckoutSuccess?: () => void;
   onDeleteSuccess?: () => void;
+  catalogMutationOptions?: CatalogMutationOptions;
 };
 
 export const useComicActions = ({
@@ -25,18 +26,26 @@ export const useComicActions = ({
   setDel,
   onCheckoutSuccess,
   onDeleteSuccess,
+  catalogMutationOptions,
 }: UseComicActionsArgs) => {
   const setTrackComic = useCallback((track: boolean) => {
     setComic((prev) => ({ ...prev, track }));
   }, [setComic]);
 
   const handleCheckout = useCallback(() => {
-    void checkoutComic(currentChap, comicId, setCheck, setViewedChap, onCheckoutSuccess);
-  }, [comicId, currentChap, onCheckoutSuccess, setCheck, setViewedChap]);
+    void checkoutComic(
+      currentChap,
+      comicId,
+      setCheck,
+      setViewedChap,
+      onCheckoutSuccess,
+      catalogMutationOptions,
+    );
+  }, [catalogMutationOptions, comicId, currentChap, onCheckoutSuccess, setCheck, setViewedChap]);
 
   const handleTrackToggle = useCallback(() => {
-    void trackComic(isTracked, comicId, setTrackComic);
-  }, [comicId, isTracked, setTrackComic]);
+    void trackComic(isTracked, comicId, setTrackComic, catalogMutationOptions);
+  }, [catalogMutationOptions, comicId, isTracked, setTrackComic]);
 
   const handleDelete = useCallback(() => {
     void delComic(comicId, setDel, onDeleteSuccess);

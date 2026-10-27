@@ -43,6 +43,27 @@ func (e *DiscoveryKeyConflictError) Is(target error) bool {
 	return target == ErrDiscoveryKeyConflict || target == ErrDuplicateComic
 }
 
+// DuplicateComicMatchError is returned when a fuzzy discovery match finds another comic.
+type DuplicateComicMatchError struct {
+	ComicID      int
+	OwnerComicID int
+	MatchKind    string
+}
+
+func (e *DuplicateComicMatchError) Error() string {
+	return fmt.Sprintf(
+		"%s: comic %d matches existing comic %d (%s)",
+		ErrDuplicateComic,
+		e.ComicID,
+		e.OwnerComicID,
+		e.MatchKind,
+	)
+}
+
+func (e *DuplicateComicMatchError) Is(target error) bool {
+	return target == ErrDuplicateComic
+}
+
 type AmbiguousComicMatchError struct {
 	IncomingTitle string
 	Scope         string
@@ -154,6 +175,7 @@ type ComicUseCase interface {
 	UpdateCoverVisibility(ctx context.Context, id int, cover string, visible bool) (Comic, error)
 	Merge(ctx context.Context, baseID int, mergingID int) (Comic, error)
 	Scrape(ctx context.Context) error
+	ScrapeStart(ctx context.Context) error
 	ScrapeStatus(ctx context.Context) (ScrapeStatus, error)
 }
 

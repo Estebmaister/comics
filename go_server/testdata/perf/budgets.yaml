@@ -1,0 +1,13 @@
+# Catalog performance budgets (local dev, verified snapshot).
+# Absolute timing checks are opt-in via `make perf-backend` with COMICS_PERF_STRICT=1.
+feedback_ms: 50
+cached_page_paint_ms: 100
+list_http_p95_ms: 100
+search_http_p95_ms: 150
+search_http_p99_ms: 200
+search_trigram_p95_ms: 10
+search_trigram_p99_ms: 25
+search_short_p95_ms: 50
+search_under_scrape_p95_ms: 25
+search_under_scrape_p99_ms: 75
+read_during_write_p95_ms: 150

@@ -20,6 +20,7 @@ interface NavBarProps {
   ratingMax?: number;
   sortBy?: string;
   sortDir?: string;
+  isCatalogPending?: boolean;
 }
 
 interface ConditionalButtonProps {
@@ -68,6 +69,7 @@ const NavBarComponent: React.FC<NavBarProps> = ({
   ratingMax,
   sortBy,
   sortDir,
+  isCatalogPending = false,
 }) => {
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onQueryFilterChange(e?.target?.value ?? '');
@@ -124,6 +126,7 @@ const NavBarComponent: React.FC<NavBarProps> = ({
               type="text"
               value={queryFilter}
               onChange={handleInputChange}
+              aria-busy={isCatalogPending}
             />
 
             <div className="flex w-full flex-col gap-1 sm:ml-auto sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-1.5">

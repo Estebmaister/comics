@@ -8,11 +8,24 @@ import (
 	"time"
 )
 
-func configureSQLiteDB(db *sql.DB) error {
+const sqliteReadPoolSize = 4
+
+func configureSQLiteWriter(db *sql.DB) error {
 	// SQLite allows one writer; a single connection avoids "database is locked" under scrape + API load.
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
 	return ensureSQLiteHealthy(db)
+}
+
+func configureSQLiteReader(db *sql.DB) error {
+	db.SetMaxOpenConns(sqliteReadPoolSize)
+	db.SetMaxIdleConns(sqliteReadPoolSize)
+	db.SetConnMaxLifetime(0)
+	return nil
+}
+
+func configureSQLiteDB(db *sql.DB) error {
+	return configureSQLiteWriter(db)
 }
 
 func ensureSQLiteHealthy(db *sql.DB) error {

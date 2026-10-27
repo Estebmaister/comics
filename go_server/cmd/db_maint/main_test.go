@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -176,6 +177,7 @@ func TestApplyDiscoveryRepairRequiresConfirm(t *testing.T) {
 
 func seedRepairDB(t *testing.T) (string, string) {
 	t.Helper()
+	t.Setenv("COMICS_SEARCH_MODE", "scan")
 	dir := t.TempDir()
 	dbPath := filepath.Join(dir, "comics.db")
 	db, err := sql.Open("sqlite", dbPath)
@@ -192,9 +194,12 @@ func seedRepairDB(t *testing.T) (string, string) {
 		t.Fatal(err)
 	}
 	_ = repo.Close()
+	if err := checkpointSQLite(dbPath); err != nil {
+		t.Fatal(err)
+	}
 
 	backupPath := filepath.Join(dir, "backup.db")
-	if err := copyFile(dbPath, backupPath); err != nil {
+	if err := vacuumInto(dbPath, backupPath); err != nil {
 		t.Fatal(err)
 	}
 	return dbPath, backupPath
@@ -253,6 +258,30 @@ func filterGroup(groups []repair.Group, id string) []repair.Group {
 		}
 	}
 	return out
+}
+
+func vacuumInto(srcPath, dstPath string) error {
+	db, err := sql.Open("sqlite", srcPath)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(`VACUUM INTO '` + strings.ReplaceAll(dstPath, "'", "''") + `'`)
+	if closeErr := db.Close(); err == nil {
+		err = closeErr
+	}
+	return err
+}
+
+func checkpointSQLite(path string) error {
+	db, err := sql.Open("sqlite", path)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("PRAGMA wal_checkpoint(TRUNCATE)")
+	if closeErr := db.Close(); err == nil {
+		err = closeErr
+	}
+	return err
 }
 
 func copyFile(src, dst string) error {

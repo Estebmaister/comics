@@ -136,7 +136,7 @@ func (s *ComicService) Update(ctx context.Context, id int, patch domain.ComicPat
 		} else {
 			current.LastUpdate = previousLastUpdate
 		}
-		if !current.Deleted {
+		if !current.Deleted && patchAffectsDiscoveryIdentity(patch) {
 			if dupErr := s.rejectDuplicate(ctx, repo, current, id); dupErr != nil {
 				if errors.Is(dupErr, domain.ErrDiscoveryKeyConflict) {
 					s.observer.ObserveConflict("update")
@@ -188,7 +188,11 @@ func (s *ComicService) rejectDuplicate(
 				TitleKey:     identity.DiscoveryTitleKey(title),
 			}
 		}
-		return domain.ErrDuplicateComic
+		return &domain.DuplicateComicMatchError{
+			ComicID:      excludeID,
+			OwnerComicID: existing.ID,
+			MatchKind:    string(kind),
+		}
 	}
 	return nil
 }
@@ -199,6 +203,10 @@ func (s *ComicService) Delete(ctx context.Context, id int) error {
 
 func (s *ComicService) Scrape(ctx context.Context) error {
 	return s.scrapeCoord.Run(ctx, scrape.SourceManual)
+}
+
+func (s *ComicService) ScrapeStart(ctx context.Context) error {
+	return s.scrapeCoord.StartAsync(ctx, scrape.SourceManual)
 }
 
 func (s *ComicService) ScrapeStatus(_ context.Context) (domain.ScrapeStatus, error) {
@@ -256,6 +264,17 @@ func (s *ComicService) Merge(ctx context.Context, baseID int, mergingID int) (do
 		previousLastUpdate := base.LastUpdate
 		merged = mergeComicValues(base, duplicate)
 		merged.Titles = identity.NormalizeTitleVariants(merged.Titles, merged.ComType)
+		merged.Titles, err = discovery.FilterTitlesForMerge(
+			ctx,
+			repo,
+			baseID,
+			mergingID,
+			merged.ComType,
+			merged.Titles,
+		)
+		if err != nil {
+			return err
+		}
 		if len(merged.Titles) == 0 {
 			return fmt.Errorf("%w: merged comic has no valid title", domain.ErrInvalidComicPayload)
 		}
@@ -393,6 +412,16 @@ func hasNonEmptyTitle(titles []string) bool {
 		if strings.TrimSpace(title) != "" {
 			return true
 		}
+	}
+	return false
+}
+
+func patchAffectsDiscoveryIdentity(patch domain.ComicPatch) bool {
+	if patch.Titles != nil || patch.ComType != nil {
+		return true
+	}
+	if patch.Deleted != nil && *patch.Deleted {
+		return true
 	}
 	return false
 }

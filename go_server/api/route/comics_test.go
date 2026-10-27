@@ -220,6 +220,10 @@ func (s *scrapeStubComicService) Scrape(context.Context) error {
 	return nil
 }
 
+func (s *scrapeStubComicService) ScrapeStart(context.Context) error {
+	return nil
+}
+
 func (s *scrapeStubComicService) ScrapeStatus(context.Context) (domain.ScrapeStatus, error) {
 	return domain.ScrapeStatus{}, nil
 }

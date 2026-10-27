@@ -49,6 +49,7 @@ func catalogReadRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 
 func catalogAdminRouter(comics domain.ComicUseCase, group *gin.RouterGroup) {
 	group.GET("/scrape/status", scrapeStatus(comics))
+	group.POST("/scrape", startScrape(comics))
 	group.GET("/scrape", runScrape(comics))
 
 	group.POST("/comics", createComic(comics))
@@ -334,9 +335,21 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 		c.JSON(http.StatusConflict, gin.H{
 			"code":           "discovery_key_conflict",
 			"message":        "Discovery key is owned by another comic",
+			"comic_id":       conflict.ComicID,
 			"owner_comic_id": conflict.OwnerComicID,
 			"scope":          conflict.Scope,
 			"title_key":      conflict.TitleKey,
+		})
+		return
+	}
+	var dupMatch *domain.DuplicateComicMatchError
+	if errors.As(err, &dupMatch) {
+		c.JSON(http.StatusConflict, gin.H{
+			"code":           "duplicate_comic_match",
+			"message":        "Another catalog entry matches this comic's titles",
+			"comic_id":       dupMatch.ComicID,
+			"owner_comic_id": dupMatch.OwnerComicID,
+			"match_kind":     dupMatch.MatchKind,
 		})
 		return
 	}
@@ -351,7 +364,10 @@ func writeComicWithStatus(c *gin.Context, comic domain.Comic, err error, status 
 		return
 	}
 	if errors.Is(err, domain.ErrDuplicateComic) {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Comic is already in the database"})
+		c.JSON(http.StatusConflict, gin.H{
+			"code":    "duplicate_comic_match",
+			"message": "Comic is already in the database",
+		})
 		return
 	}
 	if err != nil {
@@ -377,6 +393,26 @@ func scrapeStatus(comics domain.ComicUseCase) gin.HandlerFunc {
 			body["last_completed_at"] = status.LastCompletedAt.UTC().Format(time.RFC3339)
 		}
 		c.JSON(http.StatusOK, body)
+	}
+}
+
+func startScrape(comics domain.ComicUseCase) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if err := comics.ScrapeStart(c.Request.Context()); err != nil {
+			if scrape.IsScrapeInProgress(err) {
+				var busy *scrape.ErrScrapeInProgress
+				if errors.As(err, &busy) {
+					c.JSON(http.StatusConflict, gin.H{
+						"message": "scrape already in progress",
+						"source":  busy.Running,
+					})
+					return
+				}
+			}
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+		c.JSON(http.StatusAccepted, gin.H{"message": "scrape started"})
 	}
 }
 

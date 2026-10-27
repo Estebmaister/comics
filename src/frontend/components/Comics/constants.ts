@@ -25,7 +25,7 @@ export const MOBILE_VIEWPORT_RESERVED_HEIGHT = MOBILE_NAV_HEIGHT_FALLBACK_PX
 
 // Time Constants (in milliseconds)
 export const REFRESH_INTERVAL = 3 * 60 * 1000; // 3 minutes
-export const SEARCH_DEBOUNCE_MS = 300;
+export const SEARCH_DEBOUNCE_MS = 200;
 
 // Button Text
 export const BUTTON_TEXT = {

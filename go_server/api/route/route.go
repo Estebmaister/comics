@@ -11,6 +11,7 @@ import (
 	"comics/docs"
 	"comics/domain"
 	"comics/internal/health"
+	"comics/internal/metrics"
 	"comics/internal/tokenutil"
 	"comics/internal/usecase"
 
@@ -40,8 +41,18 @@ const (
 	cookieRefreshToken = middleware.KeyRefreshToken
 )
 
-// Setup configures the gin routes of the server
-func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUseCase, g *gin.Engine) {
+// Setup configures the gin routes of the server and returns the readiness checker for shutdown.
+func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUseCase, g *gin.Engine) *health.Checker {
+	appMetrics, err := metrics.NewApplication(prometheus.DefaultRegisterer)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to register application metrics")
+	}
+	catalogMetrics, err := metrics.NewCatalog(prometheus.DefaultRegisterer)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to register catalog metrics")
+	}
+	metrics.SetCatalog(catalogMetrics)
+	_ = appMetrics
 
 	// Starting user service and inject it into auth controller
 	userService := usecase.NewUserService(userRepo)
@@ -59,6 +70,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUse
 	g.Use(   // adds HTTP tracer instrumentation and request logging for the whole router
 		otelgin.Middleware(tracingServiceName),
 		middleware.LoggerMiddleware(),
+		middleware.CatalogMetricsMiddleware(),
 		corsMiddleware(env.CORSAllowedOrigins),
 	)
 
@@ -73,9 +85,10 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUse
 	basePath := "/"
 	publicRouter := g.Group(basePath)
 	setOAuth2(env, authController, publicRouter)
+	var healthy *health.Checker
 	{ // All Public APIs
 		swaggerRouter(env, basePath, publicRouter)
-		metricsRouter(compositePinger{userRepo, comics}, publicRouter)
+		healthy = metricsRouterHealthChecker(compositePinger{userRepo, comics}, publicRouter)
 		catalogReadRouter(comics, publicRouter)
 		signUpRouter(authController, publicRouter)
 		loginRouter(authController, publicRouter)
@@ -107,6 +120,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUse
 	{ // All admin APIs
 		dashboardRouter(userRepo, admin)
 	}
+	return healthy
 }
 
 // metricsRouter manages the Prometheus metrics
@@ -120,7 +134,7 @@ func Setup(env *bootstrap.Env, userRepo domain.UserStore, comics domain.ComicUse
 //	@Success		200	string	string	"Metrics: \#TYPE & \#HELP"
 //	@Failure		503	string	string	"Service unavailable"
 //	@Router			/metrics [get]
-func metricsRouter(readyPinger health.Pinger, group *gin.RouterGroup) {
+func metricsRouterHealthChecker(readyPinger health.Pinger, group *gin.RouterGroup) *health.Checker {
 	prometheus.MustRegister(collectors.NewBuildInfoCollector())
 	// prometheus.MustRegister(collectors.NewGoCollector())
 	group.GET("/metrics", gin.WrapH(promhttp.Handler()))
@@ -132,6 +146,7 @@ func metricsRouter(readyPinger health.Pinger, group *gin.RouterGroup) {
 
 	// Start health checker
 	healthy.Start()
+	return healthy
 }
 
 type compositePinger []health.Pinger

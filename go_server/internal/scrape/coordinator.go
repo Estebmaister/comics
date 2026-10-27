@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"comics/domain"
+	"comics/internal/metrics"
 )
 
 // Source identifies who started a scrape run.
@@ -54,9 +55,30 @@ func (c *Coordinator) Run(ctx context.Context, source Source) error {
 	if err := c.begin(source); err != nil {
 		return err
 	}
+	metrics.SetScrapeRunningMetric(true)
+	start := time.Now()
 	err := c.run(ctx)
+	metrics.ObserveScrapePhaseMetric("run", time.Since(start), err)
+	metrics.SetScrapeRunningMetric(false)
 	c.end(source)
 	return err
+}
+
+// StartAsync begins a scrape in the background (for HTTP POST /scrape).
+func (c *Coordinator) StartAsync(ctx context.Context, source Source) error {
+	if err := c.begin(source); err != nil {
+		return err
+	}
+	metrics.SetScrapeRunningMetric(true)
+	go func() {
+		start := time.Now()
+		runCtx := context.WithoutCancel(ctx)
+		err := c.run(runCtx)
+		metrics.ObserveScrapePhaseMetric("run", time.Since(start), err)
+		metrics.SetScrapeRunningMetric(false)
+		c.end(source)
+	}()
+	return nil
 }
 
 func (c *Coordinator) begin(source Source) error {

@@ -11,6 +11,7 @@ import (
 
 const (
 	requestTimeout         = 10 * time.Second
+	maxScrapeResponseBytes = 8 << 20
 	defaultChromeUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
 
@@ -59,7 +60,7 @@ func (f *HTTPFetcher) FetchHTML(ctx context.Context, url string) (string, error)
 		slog.Warn("scrape fetch non-200", "url", url, "status", resp.StatusCode)
 		return "", nil
 	}
-	body, err := io.ReadAll(resp.Body)
+	body, err := io.ReadAll(io.LimitReader(resp.Body, maxScrapeResponseBytes))
 	if err != nil {
 		if ctx.Err() != nil {
 			return "", err

@@ -19,11 +19,11 @@ describe('resolveServerURL', () => {
     })).toBe('http://localhost:5001');
   });
 
-  test('uses local Go server by default on localhost', () => {
+  test('uses Vite /api proxy on localhost during dev', () => {
     expect(resolveServerURL({
       hostname: 'localhost',
       env: {},
-    })).toBe('https://localhost:8081');
+    })).toBe(`${window.location.origin}/api`);
   });
 
   test('keeps remote Python fallback for hosted frontend', () => {

@@ -2,8 +2,17 @@ import type { SetStateAction } from "react";
 import { apiErrorMessage, authorizedFetch } from "../api/client";
 import config from "./Config";
 import type { Comic, PaginationState } from "../components/Comics/types";
+import type { CatalogConflictPayload } from "./catalogConflict";
+import { patchComic } from "./comicUpdate";
 
 const SERVER = config.SERVER;
+
+export type CatalogMutationOptions = {
+  onConflict?: (
+    conflict: CatalogConflictPayload,
+    retry: () => Promise<boolean>,
+  ) => void;
+};
 
 export type ComicListFetchArgs = {
   from: number;
@@ -69,20 +78,23 @@ const dataFetch = async ({
   if (sortBy) params.set('sort_by', sortBy);
   if (sortDir) params.set('sort_dir', sortDir);
   const url = `${baseURL}?${params.toString()}`;
-  console.debug(url);
 
   let response: Response;
   try {
     response = await fetch(url, {
       method: "GET",
       headers: { accept: "application/json" },
+      signal,
     });
   } catch (error) {
     if (isAbortError(error)) throw error;
     throw new ComicListFetchError((error as Error)?.message ?? 'Network request failed');
   }
 
-  console.debug(response);
+  if (signal?.aborted) {
+    throw new DOMException('The operation was aborted', 'AbortError');
+  }
+
   const data = await response.json();
   if (!response.ok || data?.message !== undefined) {
     throw new ComicListFetchError(
@@ -94,7 +106,6 @@ const dataFetch = async ({
     throw new ComicListFetchError('Server returned an unexpected comics payload', 'server');
   }
 
-  console.debug("Response succeed", data);
   return {
     comics: data,
     pagination: {
@@ -105,55 +116,57 @@ const dataFetch = async ({
   };
 };
 
+const applyComicPatchWithConflict = async (
+  comicId: number,
+  body: Record<string, unknown>,
+  options?: CatalogMutationOptions,
+  server = SERVER,
+): Promise<boolean> => {
+  const attempt = async (): Promise<boolean> => {
+    const result = await patchComic(comicId, body, server);
+    if (result.ok) return true;
+    if (result.kind === 'conflict' && options?.onConflict) {
+      options.onConflict(result.conflict, attempt);
+      return false;
+    }
+    if (result.kind === 'server' || result.kind === 'network') {
+      console.debug(result.kind === 'server' ? result.message : 'network error');
+    }
+    return false;
+  };
+  return attempt();
+};
+
 const trackComic = async (
   tracked: boolean,
   id: number,
   setTrack: (value: boolean) => void,
+  options?: CatalogMutationOptions,
   server = SERVER,
 ): Promise<boolean> => {
-  try {
-    const response = await authorizedFetch(
-      `/comics/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ track: !tracked }),
-      },
-      server,
-    );
-    await response.json().catch(() => null);
-    if (!response.ok) return false;
-    setTrack(!tracked);
-    return true;
-  } catch (error) {
-    console.debug((error as Error)?.message ?? error);
-    return false;
-  }
+  const ok = await applyComicPatchWithConflict(
+    id,
+    { track: !tracked },
+    options,
+    server,
+  );
+  if (!ok) return false;
+  setTrack(!tracked);
+  return true;
 };
 
 const rateComic = async (
   rating: number,
   id: number,
   setComic: (value: SetStateAction<Comic>) => void,
+  options?: CatalogMutationOptions,
   server = SERVER,
 ): Promise<boolean> => {
   const next = Math.max(0, Math.min(5, Number.isFinite(rating) ? rating : 0));
-  try {
-    const response = await authorizedFetch(
-      `/comics/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ rating: next }),
-      },
-      server,
-    );
-    await response.json().catch(() => null);
-    if (!response.ok) return false;
-    setComic((prev) => ({ ...prev, rating: next }));
-    return true;
-  } catch (err) {
-    console.debug((err as Error)?.message ?? err);
-    return false;
-  }
+  const ok = await applyComicPatchWithConflict(id, { rating: next }, options, server);
+  if (!ok) return false;
+  setComic((prev) => ({ ...prev, rating: next }));
+  return true;
 };
 
 const checkoutComic = async (
@@ -162,27 +175,20 @@ const checkoutComic = async (
   setCheck: (value: SetStateAction<boolean>) => void,
   setViewedChap: (value: SetStateAction<number>) => void,
   onSuccess?: () => void,
+  options?: CatalogMutationOptions,
   server = SERVER,
 ): Promise<boolean> => {
-  try {
-    const response = await authorizedFetch(
-      `/comics/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ viewed_chap: currChap }),
-      },
-      server,
-    );
-    await response.json().catch(() => null);
-    if (!response.ok) return false;
-    setCheck(false);
-    setViewedChap(currChap);
-    onSuccess?.();
-    return true;
-  } catch (error) {
-    console.debug((error as Error)?.message ?? error);
-    return false;
-  }
+  const ok = await applyComicPatchWithConflict(
+    id,
+    { viewed_chap: currChap },
+    options,
+    server,
+  );
+  if (!ok) return false;
+  setCheck(false);
+  setViewedChap(currChap);
+  onSuccess?.();
+  return true;
 };
 
 const delComic = async (

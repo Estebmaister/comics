@@ -1,4 +1,4 @@
-import { JSX, memo, useEffect, useMemo, useState } from 'react';
+import { JSX, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './ComicCard.module.css';
 import { Types, Statuses } from '../../../util/ComicClasses';
 import { genresHandler, publishersHandler } from './ComicFormatters';
@@ -8,7 +8,8 @@ import { useComicActions } from '../../../hooks/useComicActions';
 import { ComicCardProvider } from './ComicCardContext';
 import { ComicCover } from './ComicCover';
 import { useAuth } from '../../../context/AuthContext';
-import { rateComic } from '../../../util/ServerHelpers';
+import { rateComic, type CatalogMutationOptions } from '../../../util/ServerHelpers';
+import { useDiscoveryConflict } from '../Discovery/DiscoveryConflictContext';
 import type { Comic } from '../types';
 
 interface ComicCardProps {
@@ -52,6 +53,15 @@ const ComicCard = ({
   onDeleteSuccess,
 }: ComicCardProps): JSX.Element | null => {
   const { isAdmin } = useAuth();
+  const discoveryConflict = useDiscoveryConflict();
+  const catalogMutationOptions = useMemo<CatalogMutationOptions | undefined>(() => {
+    if (!discoveryConflict) return undefined;
+    return {
+      onConflict: (conflict, retry) => {
+        discoveryConflict.openCatalogConflict({ conflict, retry });
+      },
+    };
+  }, [discoveryConflict]);
   const [comic, setComic] = useState(initialComic);
   const { id, current_chap } = comic;
   const [viewedChap, setViewedChap] = useState<number>(comic.viewed_chap);
@@ -64,10 +74,10 @@ const ComicCard = ({
   const title = comic.titles[0] ?? 'Unknown comic';
   const rating = Math.max(0, Math.min(5, Number(comic.rating ?? 0)));
 
-  const handleRate = (next: number) => {
+  const handleRate = useCallback((next: number) => {
     if (Number(comic.rating ?? 0) === next) return;
-    void rateComic(next, id, setComic);
-  };
+    void rateComic(next, id, setComic, catalogMutationOptions);
+  }, [catalogMutationOptions, comic.rating, id]);
 
   useEffect(() => {
     setComic(initialComic);
@@ -90,6 +100,7 @@ const ComicCard = ({
     setDel,
     onCheckoutSuccess,
     onDeleteSuccess,
+    catalogMutationOptions,
   });
 
   const genreText = useMemo(() => genresHandler(comic.genres), [comic.genres]);

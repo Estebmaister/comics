@@ -42,7 +42,9 @@ func RunAll(ctx context.Context, repo domain.ComicRepository, fetcher PageFetche
 		return err
 	}
 	registrar := NewRegistrar(repo, NewRunState())
-	var registerMu sync.Mutex
+	queue := newRegisterQueue(defaultRegisterQueueDepth)
+	defer queue.closeAndWait()
+	fetchSlots := make(chan struct{}, fetchConcurrencyLimit())
 
 	byPublisher := map[string][]string{}
 	for _, pair := range pairs {
@@ -60,7 +62,7 @@ func RunAll(ctx context.Context, repo domain.ComicRepository, fetcher PageFetche
 			wg.Add(1)
 			go func(publisherName string, urls []string, scraper PublisherScraper, publisherID int) {
 				defer wg.Done()
-				registerFn := makeRegisterFn(ctx, publisherName, registrar, &registerMu)
+				registerFn := makeQueuedRegisterFn(ctx, publisherName, registrar, queue)
 				for _, url := range urls {
 					if err := scraper(ctx, url, publisherID, fetcher, registerFn); err != nil {
 						if ctx.Err() != nil {
@@ -76,11 +78,13 @@ func RunAll(ctx context.Context, repo domain.ComicRepository, fetcher PageFetche
 			}(publisherName, urls, scraper, publisherID)
 			continue
 		}
+		registerFn := makeQueuedRegisterFn(ctx, publisherName, registrar, queue)
 		for _, url := range urls {
 			wg.Add(1)
 			go func(publisherName, url string, scraper PublisherScraper, publisherID int) {
 				defer wg.Done()
-				registerFn := makeRegisterFn(ctx, publisherName, registrar, &registerMu)
+				fetchSlots <- struct{}{}
+				defer func() { <-fetchSlots }()
 				if err := scraper(ctx, url, publisherID, fetcher, registerFn); err != nil {
 					if ctx.Err() != nil {
 						return
@@ -98,16 +102,19 @@ func RunAll(ctx context.Context, repo domain.ComicRepository, fetcher PageFetche
 	return nil
 }
 
-func makeRegisterFn(
+func makeQueuedRegisterFn(
 	ctx context.Context,
 	publisherName string,
 	registrar *Registrar,
-	registerMu *sync.Mutex,
+	queue *registerQueue,
 ) func(ScrapedComic, int) error {
 	register := registerWithLogging(ctx, publisherName, registrar)
 	return func(raw ScrapedComic, pubID int) error {
-		registerMu.Lock()
-		defer registerMu.Unlock()
-		return register(raw, pubID)
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+		return queue.submit(func() error {
+			return register(raw, pubID)
+		})
 	}
 }

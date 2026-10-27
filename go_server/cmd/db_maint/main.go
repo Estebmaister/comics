@@ -14,6 +14,8 @@ import (
 )
 
 func main() {
+	rebuildSearch := flag.Bool("rebuild-catalog-search", false, "rebuild comics_titles_fts from comics (offline)")
+	checkSearch := flag.Bool("check-catalog-search", false, "verify comics_titles_fts is populated")
 	dropIdentity := flag.Bool("drop-legacy-identity-key", false, "drop comics.identity_key after comic_title_keys is populated")
 	applyPlan := flag.String("apply-discovery-plan", "", "apply a reviewed discovery repair plan")
 	backupPath := flag.String("backup", "", "verified pre-repair SQLite backup")
@@ -21,6 +23,33 @@ func main() {
 	allApproved := flag.Bool("all-approved", false, "apply every explicitly approved group")
 	confirmReviewed := flag.Bool("confirm-reviewed", false, "confirm the plan received human review")
 	flag.Parse()
+
+	path := firstNonEmpty(os.Getenv("COMICS_SQLITE_PATH"), "../db/comics.db")
+	if *rebuildSearch {
+		db, err := sql.Open("sqlite", path)
+		if err != nil {
+			fatal(err)
+		}
+		defer db.Close()
+		start := time.Now()
+		if err := comicrepo.RebuildCatalogSearchIndex(context.Background(), db); err != nil {
+			fatal(err)
+		}
+		fmt.Printf("rebuilt catalog search index on %s (%s)\n", path, time.Since(start).Round(time.Millisecond))
+		return
+	}
+	if *checkSearch {
+		db, err := sql.Open("sqlite", path)
+		if err != nil {
+			fatal(err)
+		}
+		defer db.Close()
+		if err := comicrepo.CheckCatalogSearchIndex(context.Background(), db); err != nil {
+			fatal(err)
+		}
+		fmt.Printf("catalog search index healthy on %s\n", path)
+		return
+	}
 
 	if *applyPlan != "" {
 		before, after, err := applyDiscoveryRepair(context.Background(), discoveryApplyOptions{
@@ -47,11 +76,9 @@ func main() {
 	}
 
 	if !*dropIdentity {
-		fmt.Fprintln(os.Stderr, "usage: db_maint --drop-legacy-identity-key | discovery repair flags")
+		fmt.Fprintln(os.Stderr, "usage: db_maint --rebuild-catalog-search | --check-catalog-search | --drop-legacy-identity-key | discovery repair flags")
 		os.Exit(2)
 	}
-
-	path := firstNonEmpty(os.Getenv("COMICS_SQLITE_PATH"), "../db/comics.db")
 	db, err := sql.Open("sqlite", path)
 	if err != nil {
 		fatal(err)

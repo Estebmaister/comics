@@ -54,7 +54,10 @@ function PagButtons({ pagD }: { pagD: PaginationData }) {
       >
         Prev
       </button>
-      <span className="page-indicator min-w-[2.1rem] px-1.5 py-1 text-[0.8rem] font-semibold sm:min-w-[2.4rem] sm:text-sm">
+      <span
+        className={`page-indicator min-w-[2.1rem] px-1.5 py-1 text-[0.8rem] font-semibold sm:min-w-[2.4rem] sm:text-sm${pagD.isPending ? ' page-indicator--pending' : ''}`}
+        aria-busy={pagD.isPending === true}
+      >
         {pagD.currentPage}
       </span>
       <button

@@ -7,6 +7,9 @@ interface ComicsListProps {
   comics: Comic[];
   loadMsg: string | JSX.Element;
   queryFilter: string;
+  isFetching?: boolean;
+  isShowingStaleResults?: boolean;
+  fetchError?: 'network' | 'server' | null;
   onCheckoutSuccess?: () => void;
   onDeleteSuccess?: () => void;
 }
@@ -15,12 +18,19 @@ const ComicsList: React.FC<ComicsListProps> = ({
   comics,
   loadMsg,
   queryFilter,
+  isFetching = false,
+  isShowingStaleResults = false,
+  fetchError = null,
   onCheckoutSuccess,
   onDeleteSuccess,
 }) => {
   if (comics.length === 0) {
     return (
-      <section className="comics-empty-state" aria-live="polite">
+      <section
+        className={`comics-empty-state${isFetching ? ' comics-empty-state--busy' : ''}`}
+        aria-live="polite"
+        aria-busy={isFetching}
+      >
         <h1 className="server">
           {loadMsg || LoadMsgs.empty(queryFilter)}
         </h1>
@@ -29,7 +39,21 @@ const ComicsList: React.FC<ComicsListProps> = ({
   }
 
   return (
-    <section className="comics-list-shell px-2.5 pt-[calc(var(--nav-height)+0.6rem)] sm:px-4 sm:pt-[calc(var(--nav-height)+0.85rem)] lg:px-6 xl:px-8">
+    <section
+      className={`comics-list-shell px-2.5 pt-[calc(var(--nav-height)+0.6rem)] sm:px-4 sm:pt-[calc(var(--nav-height)+0.85rem)] lg:px-6 xl:px-8${isFetching ? ' comics-list-shell--busy' : ''}`}
+      aria-busy={isFetching}
+      aria-live="polite"
+    >
+      {isShowingStaleResults || fetchError ? (
+        <p className="catalog-stale-banner" role="status">
+          {fetchError
+            ? 'Showing previous results while the latest request failed.'
+            : 'Showing previous results while the catalog updates.'}
+        </p>
+      ) : null}
+      <div className="catalog-progress-track" aria-hidden={!isFetching}>
+        <div className={`catalog-progress-bar${isFetching ? ' catalog-progress-bar--active' : ''}`} />
+      </div>
       <ul className="mx-auto grid w-full max-w-[1640px] grid-cols-1 gap-2.5 sm:gap-4 md:gap-5 min-[900px]:grid-cols-2 min-[1600px]:grid-cols-3">
         {comics.map((comic) => (
           <ComicCard

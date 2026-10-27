@@ -6,7 +6,7 @@
 				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
 				db-backup db-restore db-check db-reindex \
 				db-audit-discovery db-export-discovery-plan db-validate-discovery-plan db-apply-discovery-plan db-audit-discovery-live \
-				check check-go check-front \
+				check check-go check-front perf-catalog perf-backend \
 				proto-go proto-js \
 				dev-up dev-down dev-status dev-logs dev-restart \
 				docker-build docker-run docker-dev docker-down clean doctor status
@@ -22,6 +22,7 @@ DISCOVERY_GROUP ?=
 DISCOVERY_ALL_APPROVED ?= 0
 CONFIRM ?=
 BACKUP_FILE ?=
+PERF_SNAPSHOT ?= db/backups/catalog-perf-snapshot.db
 
 # Colors for help text
 CYAN := \033[36m
@@ -165,6 +166,36 @@ go-scrape:
 ## @go:go-test                 Run all Go tests
 go-test:
 	$(MAKE) -C go_server go-test
+
+## @go:perf-catalog            Opt-in catalog benchmarks against verified DB snapshot
+##? perf-catalog  Uses PERF_SNAPSHOT (default db/backups/catalog-perf-snapshot.db), never the live writer without copy
+perf-catalog:
+	@set -euo pipefail; \
+	snapshot="$(PERF_SNAPSHOT)"; \
+	if [ ! -f "$$snapshot" ]; then \
+		mkdir -p db/backups; \
+		cp "$(DB_FILE)" "$$snapshot"; \
+	fi; \
+	result=$$(sqlite3 "$$snapshot" "PRAGMA integrity_check;"); \
+	test "$$result" = "ok" || (echo "perf snapshot integrity failed: $$result" && exit 1); \
+	snapshot_abs=$$(cd "$$(dirname "$$snapshot")" && pwd)/$$(basename "$$snapshot"); \
+	echo "Using perf snapshot $$snapshot_abs"; \
+	$(MAKE) -C go_server perf-catalog COMICS_PERF_DB="$$snapshot_abs"
+
+## @go:perf-backend            Opt-in backend perf (rebuild FTS + strict budgets when COMICS_PERF_STRICT=1)
+perf-backend:
+	@set -euo pipefail; \
+	snapshot="$(PERF_SNAPSHOT)"; \
+	if [ ! -f "$$snapshot" ]; then \
+		mkdir -p db/backups; \
+		cp "$(DB_FILE)" "$$snapshot"; \
+	fi; \
+	result=$$(sqlite3 "$$snapshot" "PRAGMA integrity_check;"); \
+	test "$$result" = "ok" || (echo "perf snapshot integrity failed: $$result" && exit 1); \
+	snapshot_abs=$$(cd "$$(dirname "$$snapshot")" && pwd)/$$(basename "$$snapshot"); \
+	echo "Using perf snapshot $$snapshot_abs"; \
+	COMICS_SQLITE_PATH="$$snapshot_abs" $(MAKE) -C go_server db-rebuild-catalog-search; \
+	$(MAKE) -C go_server perf-backend COMICS_PERF_DB="$$snapshot_abs"
 
 ## @go:contract-test           Run HTTP contract tests for comics REST parity
 contract-test:

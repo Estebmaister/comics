@@ -1,11 +1,13 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { apiErrorMessage, authorizedFetch } from '../../../api/client';
 import config from '../../../util/Config';
+import { patchComic } from '../../../util/comicUpdate';
+import type { CatalogMutationOptions } from '../../../util/ServerHelpers';
 import db_classes from '../../../../../db/db_classes.json';
 import { useComicCard } from '../Card/ComicCardContext';
 import Loaders from '../../Loaders';
 import { useToast } from '../../Toast/ToastProvider';
+import { useDiscoveryConflict } from '../Discovery/DiscoveryConflictContext';
 import type { Comic } from '../types';
 
 const SERVER = config.SERVER;
@@ -13,36 +15,33 @@ const EditComicModal = lazy(() => import('../Modals/EditModal'));
 
 export const editComic = async (
   comic: Comic,
+  options?: CatalogMutationOptions,
   server = SERVER,
 ): Promise<[Comic | undefined, string]> => {
   const { deleted, track, ...payload } = comic;
 
-  try {
-    const response = await authorizedFetch(
-      `/comics/${comic.id}`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(payload),
-      },
-      server,
-    );
-    const data = await response.json().catch(() => null);
-    if (!response.ok) {
-      return [
-        undefined,
-        apiErrorMessage(data, `Update request failed (${response.status})`),
-      ];
+  const attempt = async (): Promise<[Comic | undefined, string]> => {
+    const result = await patchComic(comic.id, payload as Record<string, unknown>, server);
+    if (result.ok) {
+      if (!result.comic) {
+        return [undefined, 'Update returned an invalid comic payload'];
+      }
+      return [result.comic, ''];
     }
-    if (data === null || typeof data !== 'object') {
-      return [undefined, 'Update returned an invalid comic payload'];
+    if (result.kind === 'conflict' && options?.onConflict) {
+      options.onConflict(result.conflict, async () => {
+        const [updated] = await attempt();
+        return updated !== undefined;
+      });
+      return [undefined, ''];
     }
-    return [data as Comic, ''];
-  } catch (error) {
-    return [
-      undefined,
-      error instanceof Error ? error.message : 'Unexpected network error',
-    ];
-  }
+    if (result.kind === 'server') {
+      return [undefined, result.message];
+    }
+    return [undefined, 'Unexpected network error'];
+  };
+
+  return attempt();
 };
 
 interface EditComicProps {
@@ -52,6 +51,15 @@ interface EditComicProps {
 
 const EditComic = ({ className, children }: EditComicProps) => {
   const { comic, setComic, setViewedChap } = useComicCard();
+  const discoveryConflict = useDiscoveryConflict();
+  const catalogMutationOptions = useMemo<CatalogMutationOptions | undefined>(() => {
+    if (!discoveryConflict) return undefined;
+    return {
+      onConflict: (conflict, retry) => {
+        discoveryConflict.openCatalogConflict({ conflict, retry });
+      },
+    };
+  }, [discoveryConflict]);
   const [isEditComicModalOpen, setIsEditComicModalOpen] = useState(false);
   const toast = useToast();
 
@@ -64,7 +72,7 @@ const EditComic = ({ className, children }: EditComicProps) => {
   };
 
   const handleFormSubmit = async (data: Comic) => {
-    const [newData, resultMsg] = await editComic(data);
+    const [newData, resultMsg] = await editComic(data, catalogMutationOptions);
 
     if (newData !== undefined) {
       setComic(newData);
@@ -77,10 +85,12 @@ const EditComic = ({ className, children }: EditComicProps) => {
       return true;
     }
 
-    toast.error({
-      title: 'Update failed',
-      description: resultMsg || `Unable to update ${comic?.titles?.[0] ?? 'comic'}.`,
-    });
+    if (resultMsg !== '') {
+      toast.error({
+        title: 'Update failed',
+        description: resultMsg || `Unable to update ${comic?.titles?.[0] ?? 'comic'}.`,
+      });
+    }
     return false;
   };
 

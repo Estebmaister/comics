@@ -1,7 +1,8 @@
 .DEFAULT_GOAL := help
 
 .PHONY: help setup-go setup-tools go-run go-run-plain go-scrape go-test go-vet go-build \
-				go-migrate-up go-migrate-down go-import-postgres contract-test check-go \
+				go-migrate-up go-migrate-down go-import-postgres contract-test check-go perf-catalog perf-backend \
+				db-rebuild-catalog-search db-check-catalog-search \
 				mongo-up mongo-down mongo-init sqlc swag lint vuln doctor status clean
 
 .ONESHELL:
@@ -154,6 +155,29 @@ swag:
 ## @quality:go-test           Run all Go tests (unit; mongo uses -tags=integration)
 go-test:
 	go test ./...
+
+## @quality:perf-catalog       Opt-in catalog list/search benchmarks (COMICS_PERF_DB required)
+perf-catalog:
+	@test -n "$(COMICS_PERF_DB)" || (echo "COMICS_PERF_DB is required (use repo make perf-catalog)"; exit 2)
+	go test ./internal/repo/comics -run '^$$' -bench 'BenchmarkCatalog' -benchmem -count=3
+	go test ./internal/repo/comics -run 'TestDefaultPaginationUsesActiveUpdateIndex|TestTrackedPaginationUsesTrackIndex|TestTrigramEligibleTitleSearchUsesFTS|TestSubstringTitleSearchPlanDocumentsScan|TestSQLiteListCompletesDuringHeldWriteTransaction|TestTrigramSearchMatchesLegacyScan' -count=1
+	COMICS_PERF=1 COMICS_PERF_DB="$(COMICS_PERF_DB)" go test ./api/route -run TestCatalogHTTPLatencyReport -count=1 -v
+
+## @quality:perf-backend       Rebuild FTS + repo/API perf gates (COMICS_PERF_STRICT=1 for hard budgets)
+perf-backend:
+	@test -n "$(COMICS_PERF_DB)" || (echo "COMICS_PERF_DB is required (use repo make perf-backend)"; exit 2)
+	$(MAKE) perf-catalog COMICS_PERF_DB="$(COMICS_PERF_DB)"
+	COMICS_PERF=1 COMICS_PERF_DB="$(COMICS_PERF_DB)" go test ./api/route -run TestCatalogSearchUnderScrapeLikeWrites -count=1 -v
+	COMICS_PERF_STRICT="$(COMICS_PERF_STRICT)" COMICS_PERF=1 COMICS_PERF_DB="$(COMICS_PERF_DB)" go test ./internal/repo/comics -run TestStrictCatalogSearchBudget -count=1 -v
+	COMICS_PERF_STRICT="$(COMICS_PERF_STRICT)" COMICS_PERF=1 COMICS_PERF_DB="$(COMICS_PERF_DB)" go test ./api/route -run 'TestCatalogHTTPLatencyReport|TestCatalogSearchUnderScrapeLikeWrites' -count=1 -v
+
+## @db:db-rebuild-catalog-search  Offline FTS rebuild (COMICS_SQLITE_PATH or ../db/comics.db)
+db-rebuild-catalog-search:
+	go run ./cmd/db_maint --rebuild-catalog-search
+
+## @db:db-check-catalog-search    Verify FTS index is populated
+db-check-catalog-search:
+	go run ./cmd/db_maint --check-catalog-search
 
 ## @quality:go-test-integration  Run Mongo testcontainers tests (requires Docker)
 go-test-integration:
