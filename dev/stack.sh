@@ -10,6 +10,11 @@ GO_PID="$PID_DIR/go.pid"
 FRONT_PID="$PID_DIR/front.pid"
 MONGO_FLAG="$PID_DIR/mongo.started"
 
+# Max seconds to wait for API exit (override for slow WAL shutdown on large DBs).
+DEV_SHUTDOWN_SEC="${DEV_SHUTDOWN_SEC:-90}"
+# Max seconds for offline PRAGMA wal_checkpoint (0 = skip).
+DEV_CHECKPOINT_SEC="${DEV_CHECKPOINT_SEC:-180}"
+
 mkdir -p "$PID_DIR" "$LOG_DIR"
 
 is_running() {
@@ -18,7 +23,7 @@ is_running() {
 }
 
 sqlite_path() {
-	local path="../db/comics.db"
+	local path="$ROOT/db/comics.db"
 	if [[ -f "$ROOT/go_server/.env" ]]; then
 		local from_env
 		from_env="$(grep -E '^COMICS_SQLITE_PATH=' "$ROOT/go_server/.env" | head -1 | cut -d= -f2- || true)"
@@ -26,84 +31,109 @@ sqlite_path() {
 			if [[ "$from_env" = /* ]]; then
 				path="$from_env"
 			else
-				path="$ROOT/go_server/$from_env"
+				path="$(cd "$ROOT/go_server" && cd "$(dirname "$from_env")" && pwd)/$(basename "$from_env")"
 			fi
 		fi
 	fi
 	echo "$path"
 }
 
+go_api_pattern() {
+	echo "$ROOT/go_server/tmp/main server"
+}
+
+go_api_running() {
+	pgrep -f "$(go_api_pattern)" >/dev/null 2>&1
+}
+
+echo_progress() {
+	local msg="$1"
+	printf '%s\n' "$msg" >&2
+}
+
+wait_until() {
+	local desc="$1"
+	local max_sec="$2"
+	local check_fn="$3"
+	local elapsed=0
+	while "$check_fn"; do
+		if [[ $elapsed -ge $max_sec ]]; then
+			echo_progress "$desc: timed out after ${max_sec}s"
+			return 1
+		fi
+		if (( elapsed > 0 && elapsed % 10 == 0 )); then
+			echo_progress "$desc... ${elapsed}s"
+		fi
+		sleep 1
+		elapsed=$((elapsed + 1))
+	done
+	return 0
+}
+
+still_running_go_api() {
+	go_api_running
+}
+
+run_sqlite_checkpoint() {
+	local db_path="$1"
+	local max_sec="$2"
+	if [[ ! -f "$db_path" ]] || [[ "$max_sec" -le 0 ]]; then
+		return 0
+	fi
+	if go_api_running; then
+		echo_progress "Skipping WAL checkpoint: Go API still running."
+		return 1
+	fi
+	echo_progress "Checkpointing SQLite WAL (TRUNCATE, max ${max_sec}s): $db_path"
+	(
+		sqlite3 "$db_path" "PRAGMA wal_checkpoint(TRUNCATE);"
+	) &
+	local cp_pid=$!
+	local elapsed=0
+	while kill -0 "$cp_pid" 2>/dev/null; do
+		if [[ $elapsed -ge $max_sec ]]; then
+			kill -TERM "$cp_pid" 2>/dev/null || true
+			wait "$cp_pid" 2>/dev/null || true
+			echo_progress "WAL checkpoint timed out after ${max_sec}s (run: make db-checkpoint-wal)"
+			return 1
+		fi
+		if (( elapsed > 0 && elapsed % 15 == 0 )); then
+			echo_progress "WAL checkpoint still running... ${elapsed}s"
+		fi
+		sleep 1
+		elapsed=$((elapsed + 1))
+	done
+	wait "$cp_pid"
+	local result
+	result="$(sqlite3 "$db_path" "PRAGMA wal_checkpoint(PASSIVE);" 2>/dev/null || echo "?|?|?")"
+	echo_progress "PRAGMA wal_checkpoint (passive): $result"
+	ls -lh "$db_path" "${db_path}-wal" 2>/dev/null || ls -lh "$db_path"
+}
+
 checkpoint_sqlite_wal() {
 	local db_path
 	db_path="$(sqlite_path)"
-	if [[ ! -f "$db_path" ]]; then
-		return 0
-	fi
-	local attempt=0
-	local max=30
-	while [[ $attempt -lt $max ]]; do
-		attempt=$((attempt + 1))
-		if pgrep -f "$ROOT/go_server/tmp/main server" >/dev/null 2>&1; then
-			echo "Waiting for Go API to exit (attempt $attempt/$max)..."
-			sleep 2
-			continue
-		fi
-		if lsof "$db_path" >/dev/null 2>&1; then
-			echo "Waiting for release of $db_path (attempt $attempt/$max)..."
-			sleep 2
-			continue
-		fi
-		echo "Checkpointing SQLite WAL (TRUNCATE): $db_path"
-		local result
-		result="$(sqlite3 "$db_path" "PRAGMA wal_checkpoint(TRUNCATE);")"
-		echo "PRAGMA wal_checkpoint: $result"
-		local busy="${result%%|*}"
-		if [[ "$busy" == "0" ]]; then
-			ls -lh "$db_path" "${db_path}-wal" 2>/dev/null || ls -lh "$db_path"
-			if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-				head_bytes="$(git -C "$ROOT" show "HEAD:${db_path#$ROOT/}" 2>/dev/null | wc -c | tr -d ' ')"
-				work_bytes="$(wc -c < "$db_path" | tr -d ' ')"
-				echo "comics.db vs git HEAD: $head_bytes -> $work_bytes bytes"
-				git -C "$ROOT" status --short "${db_path#$ROOT/}" || true
-			fi
-			return 0
-		fi
-		sleep 2
-	done
-	echo "WAL checkpoint did not complete (database busy)."
-	return 1
+	run_sqlite_checkpoint "$db_path" "$DEV_CHECKPOINT_SEC"
 }
 
 stop_go_api() {
-	local pattern="$ROOT/go_server/tmp/main server"
-	local db_path
-	db_path="$(sqlite_path)"
-
-	if pgrep -f "$pattern" >/dev/null 2>&1; then
-		echo "Stopping Go API process (SIGTERM, allows WAL checkpoint on exit)..."
+	local pattern
+	pattern="$(go_api_pattern)"
+	if go_api_running; then
+		echo_progress "Stopping Go API (SIGTERM)..."
 		pkill -TERM -f "$pattern" 2>/dev/null || true
 	fi
-
-	if [[ -f "$db_path" ]]; then
-		local pids=""
-		pids="$(lsof -t "$db_path" 2>/dev/null || true)"
-		if [[ -n "$pids" ]]; then
-			echo "Sending SIGTERM to processes holding $(basename "$db_path")..."
-			# shellcheck disable=SC2086
-			kill -TERM $pids 2>/dev/null || true
-		fi
+	if ! wait_until "Waiting for Go API to exit" "$DEV_SHUTDOWN_SEC" still_running_go_api; then
+		echo_progress "Force-stopping Go API (SIGKILL)..."
+		pkill -9 -f "$pattern" 2>/dev/null || true
+		sleep 1
 	fi
-
-	local i=0
-	while { pgrep -f "$pattern" >/dev/null 2>&1 || { [[ -f "$db_path" ]] && lsof -t "$db_path" >/dev/null 2>&1; }; } && [[ $i -lt 3000 ]]; do
-		sleep 0.2
-		i=$((i + 1))
-	done
 }
 
 stop_pidfile() {
 	local pidfile="$1"
 	local label="$2"
+	local max_sec="${3:-30}"
 	if ! [[ -f "$pidfile" ]]; then
 		return 0
 	fi
@@ -111,10 +141,10 @@ stop_pidfile() {
 	pid="$(cat "$pidfile")"
 	if kill -0 "$pid" 2>/dev/null; then
 		kill -TERM "$pid" 2>/dev/null || true
-		local i=0
-		while kill -0 "$pid" 2>/dev/null && [[ $i -lt 150 ]]; do
-			sleep 0.2
-			i=$((i + 1))
+		local elapsed=0
+		while kill -0 "$pid" 2>/dev/null && [[ $elapsed -lt $max_sec ]]; do
+			sleep 1
+			elapsed=$((elapsed + 1))
 		done
 		if kill -0 "$pid" 2>/dev/null; then
 			kill -9 "$pid" 2>/dev/null || true
@@ -122,7 +152,7 @@ stop_pidfile() {
 		fi
 	fi
 	rm -f "$pidfile"
-	echo "Stopped $label (pid $pid)"
+	echo_progress "Stopped $label (pid $pid)"
 }
 
 ensure_go_env() {
@@ -155,9 +185,10 @@ maybe_start_mongo() {
 
 maybe_stop_mongo() {
 	if [[ -f "$MONGO_FLAG" ]]; then
+		echo_progress "Stopping local MongoDB container..."
 		make -C "$ROOT/go_server" mongo-down 2>/dev/null || true
 		rm -f "$MONGO_FLAG"
-		echo "Stopped local MongoDB container."
+		echo_progress "Stopped local MongoDB container."
 	fi
 }
 
@@ -193,12 +224,10 @@ cmd_up() {
 }
 
 cmd_down() {
-	stop_pidfile "$FRONT_PID" "frontend"
+	echo_progress "Shutting down dev stack (shutdown ${DEV_SHUTDOWN_SEC}s, checkpoint ${DEV_CHECKPOINT_SEC}s)..."
+	stop_pidfile "$FRONT_PID" "frontend" 20
+	stop_pidfile "$GO_PID" "Go API (air)" 15
 	stop_go_api
-	stop_pidfile "$GO_PID" "Go API (air)"
-	pkill -TERM -f "$ROOT/go_server/tmp/main server" 2>/dev/null || true
-	sleep 1
-	pkill -9 -f "$ROOT/go_server/tmp/main server" 2>/dev/null || true
 	checkpoint_sqlite_wal || true
 	maybe_stop_mongo
 	echo "Dev stack stopped."
@@ -230,9 +259,9 @@ cmd_status() {
 	echo ""
 	echo "  App        http://localhost:3000/comics/"
 	echo "  API        https://localhost:8081 (or http if no TLS certs)"
-	if curl -sk -o /dev/null -w "" https://localhost:8081/health 2>/dev/null; then
+	if curl -sk -o /dev/null -w "" --max-time 3 https://localhost:8081/health 2>/dev/null; then
 		echo "  Health     https://localhost:8081/health OK"
-	elif curl -s -o /dev/null -w "" http://localhost:8081/health 2>/dev/null; then
+	elif curl -s -o /dev/null -w "" --max-time 3 http://localhost:8081/health 2>/dev/null; then
 		echo "  Health     http://localhost:8081/health OK"
 	fi
 }

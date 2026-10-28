@@ -110,7 +110,8 @@ setup-front:
 dev-up:
 	@./dev/stack.sh up
 
-## @util:dev-down               Stop dev-up stack; graceful API stop + SQLite WAL checkpoint
+## @util:dev-down               Stop dev-up stack; bounded graceful stop + WAL checkpoint
+##? dev-down  Env: DEV_SHUTDOWN_SEC (default 90), DEV_CHECKPOINT_SEC (default 180, 0=skip)
 dev-down:
 	@./dev/stack.sh down
 

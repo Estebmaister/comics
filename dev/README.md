@@ -20,8 +20,14 @@ To skip the proxy: trust `tls/comics.crt`, unset `VITE_API_SERVER`, and rely on
 make dev-up       # Go API (air) + Vite in background → .dev/logs/
 make dev-status   # PIDs and /health check
 make dev-logs     # tail -f API + frontend logs
-make dev-down     # stop API, frontend, and local Mongo if dev-up started it
+make dev-down     # stop API, frontend, optional Mongo; WAL checkpoint (bounded)
 make dev-restart  # down then up
 ```
+
+Env (optional):
+
+- `DEV_SHUTDOWN_SEC=90` — max wait for Go API exit (increase if WAL shutdown is slow).
+- `DEV_CHECKPOINT_SEC=180` — max wait for `PRAGMA wal_checkpoint`; set `0` to skip on `dev-down`.
+- `DEV_CHECKPOINT_SEC=600` — use on large WAL files; run `make db-checkpoint-wal` later if it times out.
 
 Foreground alternative: `make go-run` + `make front-dev` in two terminals.

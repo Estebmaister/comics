@@ -23,6 +23,15 @@ describe('resolveServerURL', () => {
     expect(resolveServerURL({
       hostname: 'localhost',
       env: {},
+      dev: true,
+    })).toBe(`${window.location.origin}/api`);
+  });
+
+  test('uses Vite /api proxy for Tailscale hostname during dev', () => {
+    expect(resolveServerURL({
+      hostname: 'realme.persian-nominal.ts.net',
+      env: {},
+      dev: true,
     })).toBe(`${window.location.origin}/api`);
   });
 
@@ -30,6 +39,7 @@ describe('resolveServerURL', () => {
     expect(resolveServerURL({
       hostname: 'comics.example.com',
       env: {},
+      dev: false,
     })).toBe('https://comics.example.com:5001');
   });
 });
