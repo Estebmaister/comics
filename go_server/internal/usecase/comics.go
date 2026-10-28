@@ -60,6 +60,16 @@ func (s *ComicService) Close() error {
 	return s.repo.Close()
 }
 
+func (s *ComicService) CheckpointWAL(ctx context.Context) error {
+	type walCheckpoint interface {
+		CheckpointWAL(context.Context) error
+	}
+	if checkpoint, ok := s.repo.(walCheckpoint); ok {
+		return checkpoint.CheckpointWAL(ctx)
+	}
+	return nil
+}
+
 func (s *ComicService) List(ctx context.Context, query domain.ComicListQuery) (domain.ComicListResult, error) {
 	query.SearchTitle = ""
 	query = normalizeComicListQuery(query)

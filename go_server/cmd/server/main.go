@@ -54,6 +54,30 @@ func main() {
 	g.Use(gin.Recovery())
 	healthy := route.Setup(app.Env, app.UserRepo, app.ComicService, g)
 
+	if app.Env.SQLiteWALCheckpointInterval > 0 {
+		interval := app.Env.SQLiteWALCheckpointInterval
+		go func() {
+			ticker := time.NewTicker(interval)
+			defer ticker.Stop()
+			for {
+				select {
+				case <-ctx.Done():
+					return
+				case <-ticker.C:
+					checkCtx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+					err := app.ComicService.CheckpointWAL(checkCtx)
+					cancel()
+					if err != nil {
+						log.Warn().Err(err).Dur("interval", interval).Msg("Periodic SQLite WAL checkpoint failed")
+					} else {
+						log.Debug().Dur("interval", interval).Msg("Periodic SQLite WAL checkpoint completed")
+					}
+				}
+			}
+		}()
+		log.Info().Dur("interval", interval).Msg("SQLite WAL checkpoint scheduler enabled")
+	}
+
 	if app.Env.ScrapeInterval > 0 {
 		scheduler := scrape.NewPeriodicScheduler(
 			scrape.PeriodicConfig{

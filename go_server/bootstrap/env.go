@@ -61,6 +61,9 @@ type Env struct {
 	ScrapeInterval time.Duration `mapstructure:"SCRAPE_INTERVAL"`
 	// SCRAPE_STARTUP_GRACE delays the first automatic scrape after server start.
 	ScrapeStartupGrace time.Duration `mapstructure:"SCRAPE_STARTUP_GRACE"`
+	// SQLITE_WAL_CHECKPOINT_INTERVAL runs PRAGMA wal_checkpoint(TRUNCATE) on a timer (0 = off).
+	// Shutdown always checkpoints once via ComicService.Close.
+	SQLiteWALCheckpointInterval time.Duration `mapstructure:"SQLITE_WAL_CHECKPOINT_INTERVAL"`
 }
 
 // JWTConfig holds the configuration for the JW Token
@@ -139,6 +142,7 @@ func setDefaults() {
 	viper.SetDefault("INIT_TIMEOUT", defaultCtxTimeout)
 	viper.SetDefault("SCRAPE_INTERVAL", 10*time.Minute)
 	viper.SetDefault("SCRAPE_STARTUP_GRACE", 3*time.Minute)
+	viper.SetDefault("SQLITE_WAL_CHECKPOINT_INTERVAL", time.Duration(0))
 	viper.SetDefault("COMICS_DB_DRIVER", "sqlite")
 	viper.SetDefault("COMICS_SQLITE_PATH", filepath.Join("..", "db", "comics.db"))
 	viper.SetDefault("CORS_ALLOWED_ORIGINS",
@@ -214,6 +218,7 @@ func bindEnvKeys() {
 		"INIT_TIMEOUT",
 		"SCRAPE_INTERVAL",
 		"SCRAPE_STARTUP_GRACE",
+		"SQLITE_WAL_CHECKPOINT_INTERVAL",
 		"GOOGLE_CLIENT_ID",
 		"GOOGLE_CLIENT_SECRET",
 		"COMICS_DB_DRIVER",

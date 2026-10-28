@@ -221,6 +221,13 @@ func (r *SQLComicRepository) Close() error {
 			firstErr = err
 		}
 	}
+	if r.dialect == dialectSQLite && r.db != nil {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+		defer cancel()
+		if err := r.CheckpointWAL(ctx); err != nil && firstErr == nil {
+			firstErr = err
+		}
+	}
 	if r.db != nil {
 		if err := r.db.Close(); err != nil && firstErr == nil {
 			firstErr = err

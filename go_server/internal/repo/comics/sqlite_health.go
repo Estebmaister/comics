@@ -37,8 +37,14 @@ func ensureSQLiteHealthy(db *sql.DB) error {
 		return nil
 	}
 
+	if err := CheckpointSQLiteWAL(ctx, db); err != nil {
+		return fmt.Errorf(
+			"sqlite integrity check failed (%s); wal checkpoint failed: %w (try: make db-restore)",
+			detail,
+			err,
+		)
+	}
 	for _, statement := range []string{
-		"PRAGMA wal_checkpoint(TRUNCATE)",
 		"REINDEX",
 		"VACUUM",
 	} {

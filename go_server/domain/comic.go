@@ -166,6 +166,8 @@ type ComicRepository interface {
 type ComicUseCase interface {
 	Ping(ctx context.Context) error
 	Close() error
+	// CheckpointWAL persists SQLite WAL pages into the main DB file (no-op on Postgres).
+	CheckpointWAL(ctx context.Context) error
 	List(ctx context.Context, query ComicListQuery) (ComicListResult, error)
 	Search(ctx context.Context, query ComicListQuery) (ComicListResult, error)
 	Get(ctx context.Context, id int) (Comic, error)
