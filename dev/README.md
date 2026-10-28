@@ -26,9 +26,17 @@ make dev-restart  # down then up
 
 ### Termux / Android
 
-Go **1.27.3** cannot be downloaded on Termux (`toolchain not available`). Use one of:
+The Go module targets **Go 1.24.2** (Termux `pkg install golang`). From the repo:
 
-**A — UI on phone, API on Mac/PC (Tailscale):**
+```bash
+cd ~/storage/dev/comics   # or your clone
+export GOTOOLCHAIN=local
+make dev-up               # native `go build` + Vite
+```
+
+Set `DB_PASS` in `go_server/.env` for MongoDB Atlas.
+
+**Optional — UI on phone, API on Mac/PC (Tailscale):**
 
 ```bash
 export DEV_FRONTEND_ONLY=1
@@ -36,7 +44,7 @@ export VITE_GO_API_TARGET=https://<mac-tailscale-host>:8081
 make dev-up
 ```
 
-**B — full stack on Termux:** on a Mac/PC run `make go-build-linux-arm64`, copy `go_server/tmp/main` to the phone, `chmod +x`, set `DB_PASS` in `go_server/.env`, then `make dev-up`.
+Cross-compiled `linux/arm64` binaries from macOS often fail on Termux (TLS segment alignment); prefer native build.
 
 Env (optional):
 

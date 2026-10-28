@@ -110,17 +110,15 @@ is_termux() {
 }
 
 termux_go_help() {
-	echo_progress "Go 1.27.3 is not available on Termux/Android (toolchain download fails)."
+	echo_progress "Termux ships Go 1.24.x — this repo matches that toolchain (GOTOOLCHAIN=local)."
 	echo_progress ""
-	echo_progress "Option A — API on Mac/PC, UI on Termux (recommended):"
+	echo_progress "Full stack on device: from repo root run make dev-up (builds go_server/tmp/main if needed)."
+	echo_progress "Set DB_PASS in go_server/.env for MongoDB Atlas."
+	echo_progress ""
+	echo_progress "Optional — UI on phone, API elsewhere (Tailscale):"
 	echo_progress "  export DEV_FRONTEND_ONLY=1"
-	echo_progress "  export VITE_GO_API_TARGET=https://<your-mac-tailscale-host>:8081"
+	echo_progress "  export VITE_GO_API_TARGET=https://<host>:8081"
 	echo_progress "  make dev-up"
-	echo_progress ""
-	echo_progress "Option B — run API on Termux with a cross-compiled binary:"
-	echo_progress "  On Mac/PC: make go-build-linux-arm64"
-	echo_progress "  Copy go_server/tmp/main to this device, chmod +x, then make dev-up"
-	echo_progress "  Also set DB_PASS in go_server/.env for MongoDB Atlas."
 }
 
 go_server_bin() {
@@ -141,17 +139,23 @@ start_go_api() {
 	fi
 
 	if is_termux; then
-		if [[ -x "$bin" ]]; then
-			echo "Starting Go API (prebuilt binary)..."
-			(
+		if [[ ! -x "$bin" ]]; then
+			echo_progress "Building Go API for Termux (native go build)..."
+			if ! (
 				cd "$ROOT/go_server"
-				exec ./tmp/main server
-			) >"$LOG_DIR/go.log" 2>&1 &
-			echo $! >"$GO_PID"
-			return 0
+				GOTOOLCHAIN=local go build -o tmp/main ./cmd/server
+			); then
+				termux_go_help
+				return 1
+			fi
 		fi
-		termux_go_help
-		return 1
+		echo "Starting Go API (Termux binary)..."
+		(
+			cd "$ROOT/go_server"
+			exec ./tmp/main server
+		) >"$LOG_DIR/go.log" 2>&1 &
+		echo $! >"$GO_PID"
+		return 0
 	fi
 
 	echo "Starting Go API (air)..."

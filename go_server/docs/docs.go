@@ -495,8 +495,6 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "Server documentation to query comics from the DB.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
 }
 
 func init() {

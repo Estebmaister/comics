@@ -1,7 +1,7 @@
 # Production image: Go comics API (replaces legacy Python Flask on :5001).
 # Build context: repository root (see docker-compose.yaml).
 
-FROM golang:1.27-alpine AS builder
+FROM golang:1.24.2-alpine AS builder
 
 RUN apk add --no-cache git ca-certificates tzdata
 

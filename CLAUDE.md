@@ -173,7 +173,7 @@ make docker-down            # Stop compose stack
 
 - Python 3.8+ with virtual environment support
 - Node.js 16+ and npm
-- Go 1.27.3+ (for Go backend; `GOTOOLCHAIN=auto` if local Go is older)
+- Go 1.24.2+ (for Go backend; Mac dev tools use `go_server/tool.go.mod` with `go tool -modfile=tool.go.mod`; on Termux set `GOTOOLCHAIN=local`)
 - Protocol Buffers compiler (`protoc`)
 - Local AI service (localhost:11434) for pre-commit hooks
 

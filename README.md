@@ -18,7 +18,7 @@ scraping.
 
 ## Quick Start
 
-Prerequisites: Go 1.27.3+, Node.js 22+, npm, SQLite CLI, Docker for local MongoDB,
+Prerequisites: Go 1.24.2+, Node.js 22+, npm, SQLite CLI, Docker for local MongoDB,
 and `protoc` when regenerating protocol bindings.
 
 ```sh
