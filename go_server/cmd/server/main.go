@@ -130,7 +130,7 @@ func main() {
 	}
 
 	shutdownCtx, cancel := context.WithTimeout(
-		context.Background(), app.Env.InitCtxTimeout)
+		context.Background(), 10*time.Minute)
 	defer cancel()
 	log.Info().Msg("Shutting down application...")
 	if healthy != nil {

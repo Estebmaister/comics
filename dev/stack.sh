@@ -17,6 +17,90 @@ is_running() {
 	[[ -f "$pidfile" ]] && kill -0 "$(cat "$pidfile")" 2>/dev/null
 }
 
+sqlite_path() {
+	local path="../db/comics.db"
+	if [[ -f "$ROOT/go_server/.env" ]]; then
+		local from_env
+		from_env="$(grep -E '^COMICS_SQLITE_PATH=' "$ROOT/go_server/.env" | head -1 | cut -d= -f2- || true)"
+		if [[ -n "$from_env" ]]; then
+			if [[ "$from_env" = /* ]]; then
+				path="$from_env"
+			else
+				path="$ROOT/go_server/$from_env"
+			fi
+		fi
+	fi
+	echo "$path"
+}
+
+checkpoint_sqlite_wal() {
+	local db_path
+	db_path="$(sqlite_path)"
+	if [[ ! -f "$db_path" ]]; then
+		return 0
+	fi
+	local attempt=0
+	local max=30
+	while [[ $attempt -lt $max ]]; do
+		attempt=$((attempt + 1))
+		if pgrep -f "$ROOT/go_server/tmp/main server" >/dev/null 2>&1; then
+			echo "Waiting for Go API to exit (attempt $attempt/$max)..."
+			sleep 2
+			continue
+		fi
+		if lsof "$db_path" >/dev/null 2>&1; then
+			echo "Waiting for release of $db_path (attempt $attempt/$max)..."
+			sleep 2
+			continue
+		fi
+		echo "Checkpointing SQLite WAL (TRUNCATE): $db_path"
+		local result
+		result="$(sqlite3 "$db_path" "PRAGMA wal_checkpoint(TRUNCATE);")"
+		echo "PRAGMA wal_checkpoint: $result"
+		local busy="${result%%|*}"
+		if [[ "$busy" == "0" ]]; then
+			ls -lh "$db_path" "${db_path}-wal" 2>/dev/null || ls -lh "$db_path"
+			if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+				head_bytes="$(git -C "$ROOT" show "HEAD:${db_path#$ROOT/}" 2>/dev/null | wc -c | tr -d ' ')"
+				work_bytes="$(wc -c < "$db_path" | tr -d ' ')"
+				echo "comics.db vs git HEAD: $head_bytes -> $work_bytes bytes"
+				git -C "$ROOT" status --short "${db_path#$ROOT/}" || true
+			fi
+			return 0
+		fi
+		sleep 2
+	done
+	echo "WAL checkpoint did not complete (database busy)."
+	return 1
+}
+
+stop_go_api() {
+	local pattern="$ROOT/go_server/tmp/main server"
+	local db_path
+	db_path="$(sqlite_path)"
+
+	if pgrep -f "$pattern" >/dev/null 2>&1; then
+		echo "Stopping Go API process (SIGTERM, allows WAL checkpoint on exit)..."
+		pkill -TERM -f "$pattern" 2>/dev/null || true
+	fi
+
+	if [[ -f "$db_path" ]]; then
+		local pids=""
+		pids="$(lsof -t "$db_path" 2>/dev/null || true)"
+		if [[ -n "$pids" ]]; then
+			echo "Sending SIGTERM to processes holding $(basename "$db_path")..."
+			# shellcheck disable=SC2086
+			kill -TERM $pids 2>/dev/null || true
+		fi
+	fi
+
+	local i=0
+	while { pgrep -f "$pattern" >/dev/null 2>&1 || { [[ -f "$db_path" ]] && lsof -t "$db_path" >/dev/null 2>&1; }; } && [[ $i -lt 3000 ]]; do
+		sleep 0.2
+		i=$((i + 1))
+	done
+}
+
 stop_pidfile() {
 	local pidfile="$1"
 	local label="$2"
@@ -26,14 +110,16 @@ stop_pidfile() {
 	local pid
 	pid="$(cat "$pidfile")"
 	if kill -0 "$pid" 2>/dev/null; then
-		kill "$pid" 2>/dev/null || true
+		kill -TERM "$pid" 2>/dev/null || true
 		local i=0
-		while kill -0 "$pid" 2>/dev/null && [[ $i -lt 30 ]]; do
+		while kill -0 "$pid" 2>/dev/null && [[ $i -lt 150 ]]; do
 			sleep 0.2
 			i=$((i + 1))
 		done
-		kill -9 "$pid" 2>/dev/null || true
-		pkill -P "$pid" 2>/dev/null || true
+		if kill -0 "$pid" 2>/dev/null; then
+			kill -9 "$pid" 2>/dev/null || true
+			pkill -P "$pid" 2>/dev/null || true
+		fi
 	fi
 	rm -f "$pidfile"
 	echo "Stopped $label (pid $pid)"
@@ -108,8 +194,12 @@ cmd_up() {
 
 cmd_down() {
 	stop_pidfile "$FRONT_PID" "frontend"
-	stop_pidfile "$GO_PID" "Go API"
-	pkill -f "$ROOT/go_server/tmp/main server" 2>/dev/null || true
+	stop_go_api
+	stop_pidfile "$GO_PID" "Go API (air)"
+	pkill -TERM -f "$ROOT/go_server/tmp/main server" 2>/dev/null || true
+	sleep 1
+	pkill -9 -f "$ROOT/go_server/tmp/main server" 2>/dev/null || true
+	checkpoint_sqlite_wal || true
 	maybe_stop_mongo
 	echo "Dev stack stopped."
 }

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help setup-go setup-tools go-run go-run-plain go-scrape go-test go-vet go-build \
+.PHONY: help setup-go setup-tools go-run go-run-debug go-run-plain go-scrape go-test go-vet go-build \
 				go-migrate-up go-migrate-down go-import-postgres contract-test check-go perf-catalog perf-backend \
 				db-rebuild-catalog-search db-check-catalog-search \
 				mongo-up mongo-down mongo-init sqlc swag lint vuln doctor status clean
@@ -67,27 +67,30 @@ setup-go:
 	go mod tidy
 
 ## @setup:setup-tools         Install and verify dev tools from tool.go.mod
-##? setup-tools  Installs air, delve, sqlc, swag, linters, and scanners into module cache.
+##? setup-tools  Installs air, delve (tool.go.mod), sqlc, swag, linters, and scanners.
 setup-tools:
-	go get -u ./...
 	go mod tidy
+	go mod tidy -modfile=$(TOOL_MOD)
 	go mod verify -modfile=$(TOOL_MOD)
 	$(TOOL_GO) dlv version
-	@echo "Dev tools ready. Run 'make go-run' for hot reload + debugger."
+	@echo "Dev tools ready. Run 'make go-run' (plain) or 'make go-run-debug' (Delve on :2345)."
 
 # ---------------------------------------------------------------------------
 # Server
 # ---------------------------------------------------------------------------
 
-## @server:go-run             Start API with air hot reload and Delve debugger
+## @server:go-run             Start API with air hot reload (graceful stop + WAL checkpoint)
 ##? go-run  Port: 8081 (HTTPS when ../tls/comics.crt exists)
-##? go-run  Debugger: 127.0.0.1:2345 (attach from IDE)
-##? go-run  Env: .env from local.env
+##? go-run  Env: .env from local.env — Ctrl+C runs graceful shutdown (WAL checkpoint)
 ##? go-run  Example: cp local.env .env && make go-run
 go-run:
+	$(TOOL_GO) air -c .air.plain.toml server
+
+## @server:go-run-debug        Start API with air + Delve (127.0.0.1:2345; use db-checkpoint-wal after stop)
+go-run-debug:
 	$(TOOL_GO) air server
 
-## @server:go-run-plain        Start API with air hot reload (no debugger)
+## @server:go-run-plain        Alias for go-run (no debugger)
 go-run-plain:
 	$(TOOL_GO) air -c .air.plain.toml server
 
@@ -251,7 +254,7 @@ status:
 	echo "  API        https://localhost:8081"; \
 	echo "  Swagger    https://localhost:8081/swagger/index.html"; \
 	echo "  Health     https://localhost:8081/health"; \
-	echo "  Debugger   127.0.0.1:2345 (when using make go-run)"; \
+	echo "  Debugger   127.0.0.1:2345 (make go-run-debug)"; \
 	echo ""; \
 	if [ -f .env ]; then echo "Env: .env"; elif [ -f local.env ]; then echo "Env: local.env (copy to .env for runs)"; else echo "Env: none"; fi
 

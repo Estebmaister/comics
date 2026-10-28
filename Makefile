@@ -4,7 +4,7 @@
 .PHONY: help setup setup-go setup-front \
 				front-dev front-dev-https front-build front-test front-deploy \
 				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
-				db-backup db-restore db-check db-reindex \
+				db-backup db-restore db-check db-checkpoint-wal db-freeze db-reindex \
 				db-audit-discovery db-export-discovery-plan db-validate-discovery-plan db-apply-discovery-plan db-audit-discovery-live \
 				check check-go check-front perf-catalog perf-backend \
 				proto-go proto-js \
@@ -110,7 +110,7 @@ setup-front:
 dev-up:
 	@./dev/stack.sh up
 
-## @util:dev-down               Stop processes started by dev-up
+## @util:dev-down               Stop dev-up stack; graceful API stop + SQLite WAL checkpoint
 dev-down:
 	@./dev/stack.sh down
 
@@ -306,6 +306,51 @@ db-check:
 	@result=$$(sqlite3 "$(DB_FILE)" "PRAGMA integrity_check;"); \
 	echo "$(DB_FILE): $$result"; \
 	test "$$result" = "ok"
+
+## @database:db-checkpoint-wal  Flush WAL into comics.db (stop API first; large WAL may take minutes)
+##? db-checkpoint-wal  Env: DB_FILE (default db/comics.db). Same as graceful shutdown checkpoint.
+db-checkpoint-wal:
+	@if [ ! -f "$(DB_FILE)" ]; then \
+		echo "Database not found: $(DB_FILE)"; \
+		exit 1; \
+	fi
+	@set -euo pipefail; \
+	attempt=0; \
+	max=30; \
+	while [ $$attempt -lt $$max ]; do \
+		attempt=$$((attempt + 1)); \
+		if lsof "$(DB_FILE)" >/dev/null 2>&1; then \
+			echo "Waiting for processes to release $(DB_FILE) (attempt $$attempt/$$max)..."; \
+			sleep 2; \
+			continue; \
+		fi; \
+		echo "Checkpointing WAL for $(DB_FILE) (TRUNCATE, attempt $$attempt)..."; \
+		result=$$(sqlite3 "$(DB_FILE)" "PRAGMA wal_checkpoint(TRUNCATE);"); \
+		echo "PRAGMA wal_checkpoint: $$result"; \
+		busy=$${result%%|*}; \
+		if [ "$$busy" = "0" ]; then \
+			ls -lh "$(DB_FILE)" "$(DB_FILE)-wal" 2>/dev/null || ls -lh "$(DB_FILE)"; \
+			exit 0; \
+		fi; \
+		sleep 2; \
+	done; \
+	echo "WAL checkpoint did not complete (database busy). Stop the Go API and retry."; \
+	exit 1
+
+## @database:db-freeze           Stop API holders, checkpoint WAL, verify vs last git commit
+##? db-freeze  Runs db-checkpoint-wal then prints comics.db size vs HEAD (git add db/comics.db to record)
+db-freeze:
+	@$(MAKE) db-checkpoint-wal
+	@set -euo pipefail; \
+	head_bytes=$$(git show HEAD:"$(DB_FILE)" 2>/dev/null | wc -c | tr -d ' '); \
+	work_bytes=$$(wc -c < "$(DB_FILE)" | tr -d ' '); \
+	echo "comics.db: HEAD=$${head_bytes} bytes, working tree=$${work_bytes} bytes"; \
+	if [ "$$head_bytes" = "$$work_bytes" ]; then \
+		echo "No size change vs last commit (WAL may already be merged)."; \
+	else \
+		echo "Database changed — commit with: git add $(DB_FILE) && git commit -m '...'"; \
+	fi; \
+	git status --short "$(DB_FILE)"
 
 ## @database:db-reindex          Repair SQLite index corruption (checkpoint + REINDEX + VACUUM)
 ##? db-reindex  Env: DB_FILE (default db/comics.db)
