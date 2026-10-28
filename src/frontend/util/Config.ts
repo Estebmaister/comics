@@ -24,6 +24,13 @@ export const resolveServerURL = ({
 }: ResolveServerArgs = {}) => {
   const explicit = cleanURL(env.VITE_API_SERVER) ?? cleanURL(env.VITE_PY_SERVER);
   if (explicit) {
+    if (
+      dev
+      && typeof window !== 'undefined'
+      && (explicit === '/api' || explicit.endsWith('/api'))
+    ) {
+      return `${window.location.origin}/api`;
+    }
     return explicit;
   }
   // Vite dev: same-origin /api proxy (see dev/proxy/viteProxy.ts) for localhost and Tailscale hosts.

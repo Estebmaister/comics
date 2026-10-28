@@ -46,6 +46,14 @@ go_api_running() {
 	pgrep -f "$(go_api_pattern)" >/dev/null 2>&1
 }
 
+go_api_proxy_target() {
+	if [[ -f "$ROOT/tls/comics.crt" && -f "$ROOT/tls/comics.key" ]]; then
+		echo "https://127.0.0.1:8081"
+	else
+		echo "http://127.0.0.1:8081"
+	fi
+}
+
 echo_progress() {
 	local msg="$1"
 	printf '%s\n' "$msg" >&2
@@ -210,6 +218,7 @@ cmd_up() {
 	echo $! >"$GO_PID"
 
 	echo "Starting Vite frontend..."
+	export VITE_GO_API_TARGET="${VITE_GO_API_TARGET:-$(go_api_proxy_target)}"
 	(
 		cd "$ROOT"
 		exec npm run start
@@ -261,8 +270,11 @@ cmd_status() {
 	echo "  API        https://localhost:8081 (or http if no TLS certs)"
 	if curl -sk -o /dev/null -w "" --max-time 3 https://localhost:8081/health 2>/dev/null; then
 		echo "  Health     https://localhost:8081/health OK"
-	elif curl -s -o /dev/null -w "" --max-time 3 http://localhost:8081/health 2>/dev/null; then
-		echo "  Health     http://localhost:8081/health OK"
+	elif curl -s -o /dev/null -w "" --max-time 3 http://127.0.0.1:8081/health 2>/dev/null; then
+		echo "  Health     http://127.0.0.1:8081/health OK"
+	fi
+	if curl -s -o /dev/null -w "" --max-time 3 "http://127.0.0.1:3000/api/health" 2>/dev/null; then
+		echo "  Vite /api  http://127.0.0.1:3000/api/health OK (target: $(go_api_proxy_target))"
 	fi
 }
 

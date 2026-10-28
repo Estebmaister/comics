@@ -35,6 +35,14 @@ describe('resolveServerURL', () => {
     })).toBe(`${window.location.origin}/api`);
   });
 
+  test('normalizes VITE_API_SERVER=/api to same-origin during dev', () => {
+    expect(resolveServerURL({
+      hostname: 'realme.persian-nominal.ts.net',
+      env: { VITE_API_SERVER: '/api' },
+      dev: true,
+    })).toBe(`${window.location.origin}/api`);
+  });
+
   test('keeps remote Python fallback for hosted frontend', () => {
     expect(resolveServerURL({
       hostname: 'comics.example.com',

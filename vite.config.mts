@@ -51,11 +51,11 @@ export default defineConfig({
   },
   server: {
     https: getHttpsConfig(),
-    proxy: goApiDevProxy(),
+    proxy: goApiDevProxy(rootDir),
     allowedHosts: devAllowedHosts,
   },
   preview: {
-    proxy: goApiDevProxy(),
+    proxy: goApiDevProxy(rootDir),
     allowedHosts: devAllowedHosts,
   },
   test: {
