@@ -10,6 +10,17 @@ import { goApiDevProxy } from './dev/proxy/viteProxy';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
+/** Comma-separated extra hostnames (VITE_ALLOWED_HOSTS=foo.bar.ts.net) */
+function extraAllowedHosts(): string[] {
+  return (process.env.VITE_ALLOWED_HOSTS ?? '')
+    .split(',')
+    .map((h) => h.trim())
+    .filter(Boolean);
+}
+
+/** Tailscale MagicDNS and local dev hostnames allowed by Vite's host check. */
+const devAllowedHosts = ['.ts.net', '.localhost', ...extraAllowedHosts()];
+
 function getHttpsConfig() {
   if (process.env.HTTPS !== 'true') return undefined;
 
@@ -41,9 +52,11 @@ export default defineConfig({
   server: {
     https: getHttpsConfig(),
     proxy: goApiDevProxy(),
+    allowedHosts: devAllowedHosts,
   },
   preview: {
     proxy: goApiDevProxy(),
+    allowedHosts: devAllowedHosts,
   },
   test: {
     environment: 'jsdom',
