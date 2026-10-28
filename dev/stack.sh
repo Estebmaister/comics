@@ -77,9 +77,13 @@ wait_go_api_ready() {
 			return 0
 		fi
 		if ! is_running "$GO_PID"; then
-			echo_progress "Go API (air) exited before listening on 8081."
+			echo_progress "Go API exited before listening on 8081."
 			tail_go_log 40
-			echo_progress "Fix go_server/.env (especially DB_PASS for Mongo) and retry: make dev-up"
+			if grep -q 'toolchain not available' "$LOG_DIR/go.log" 2>/dev/null; then
+				termux_go_help
+			else
+				echo_progress "Fix go_server/.env (especially DB_PASS for Mongo) and retry: make dev-up"
+			fi
 			return 1
 		fi
 		if (( elapsed > 0 && elapsed % 10 == 0 )); then
@@ -99,6 +103,63 @@ tail_go_log() {
 		echo_progress "--- tail $LOG_DIR/go.log ---"
 		tail -n "$lines" "$LOG_DIR/go.log" >&2 || true
 	fi
+}
+
+is_termux() {
+	[[ -n "${TERMUX_VERSION:-}" ]] || [[ "$(uname -o 2>/dev/null)" == "Android" ]]
+}
+
+termux_go_help() {
+	echo_progress "Go 1.27.3 is not available on Termux/Android (toolchain download fails)."
+	echo_progress ""
+	echo_progress "Option A — API on Mac/PC, UI on Termux (recommended):"
+	echo_progress "  export DEV_FRONTEND_ONLY=1"
+	echo_progress "  export VITE_GO_API_TARGET=https://<your-mac-tailscale-host>:8081"
+	echo_progress "  make dev-up"
+	echo_progress ""
+	echo_progress "Option B — run API on Termux with a cross-compiled binary:"
+	echo_progress "  On Mac/PC: make go-build-linux-arm64"
+	echo_progress "  Copy go_server/tmp/main to this device, chmod +x, then make dev-up"
+	echo_progress "  Also set DB_PASS in go_server/.env for MongoDB Atlas."
+}
+
+go_server_bin() {
+	echo "$ROOT/go_server/tmp/main"
+}
+
+start_go_api() {
+	local bin
+	bin="$(go_server_bin)"
+
+	if [[ "${DEV_FRONTEND_ONLY:-}" == "1" ]]; then
+		echo_progress "DEV_FRONTEND_ONLY=1 — skipping local Go API."
+		if [[ -z "${VITE_GO_API_TARGET:-}" ]]; then
+			echo_progress "Set VITE_GO_API_TARGET to your remote Go API (e.g. https://<host>:8081)."
+			return 1
+		fi
+		return 0
+	fi
+
+	if is_termux; then
+		if [[ -x "$bin" ]]; then
+			echo "Starting Go API (prebuilt binary)..."
+			(
+				cd "$ROOT/go_server"
+				exec ./tmp/main server
+			) >"$LOG_DIR/go.log" 2>&1 &
+			echo $! >"$GO_PID"
+			return 0
+		fi
+		termux_go_help
+		return 1
+	fi
+
+	echo "Starting Go API (air)..."
+	(
+		cd "$ROOT/go_server"
+		exec go tool -modfile=tool.go.mod air -c .air.plain.toml server
+	) >"$LOG_DIR/go.log" 2>&1 &
+	echo $! >"$GO_PID"
 }
 
 echo_progress() {
@@ -261,20 +322,23 @@ cmd_up() {
 	ensure_go_env
 	maybe_start_mongo
 
-	echo "Starting Go API (air)..."
-	(
-		cd "$ROOT/go_server"
-		exec go tool -modfile=tool.go.mod air -c .air.plain.toml server
-	) >"$LOG_DIR/go.log" 2>&1 &
-	echo $! >"$GO_PID"
-
-	if ! wait_go_api_ready; then
-		stop_pidfile "$GO_PID" "Go API (air)" 15
+	if ! start_go_api; then
 		exit 1
 	fi
 
+	if [[ "${DEV_FRONTEND_ONLY:-}" != "1" ]]; then
+		if ! wait_go_api_ready; then
+			stop_pidfile "$GO_PID" "Go API" 15
+			exit 1
+		fi
+	fi
+
 	echo "Starting Vite frontend..."
-	export VITE_GO_API_TARGET="$(detect_go_api_target)"
+	if [[ "${DEV_FRONTEND_ONLY:-}" == "1" ]]; then
+		export VITE_GO_API_TARGET="${VITE_GO_API_TARGET:?Set VITE_GO_API_TARGET for DEV_FRONTEND_ONLY}"
+	else
+		export VITE_GO_API_TARGET="$(detect_go_api_target)"
+	fi
 	(
 		cd "$ROOT"
 		exec npm run start

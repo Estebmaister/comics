@@ -3,7 +3,7 @@
 # Define phony targets (targets that don't represent actual files)
 .PHONY: help setup setup-go setup-front \
 				front-dev front-dev-https front-build front-test front-deploy \
-				go-run go-scrape go-test go-vet go-build go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
+				go-run go-scrape go-test go-vet go-build go-build-linux-arm64 go-migrate-up go-migrate-down go-import-postgres go-dedupe mongo-up mongo-init \
 				db-backup db-restore db-check db-checkpoint-wal db-freeze db-reindex \
 				db-audit-discovery db-export-discovery-plan db-validate-discovery-plan db-apply-discovery-plan db-audit-discovery-live \
 				check check-go check-front perf-catalog perf-backend \
@@ -155,6 +155,10 @@ front-deploy:
 # ---------------------------------------------------------------------------
 # Go backend
 # ---------------------------------------------------------------------------
+
+## @go:go-build-linux-arm64   Cross-compile Go API for Termux/Android (linux/arm64)
+go-build-linux-arm64:
+	$(MAKE) -C go_server go-build-linux-arm64
 
 ## @go:go-run                  Start Go REST server with air hot reload (port 8081)
 go-run:

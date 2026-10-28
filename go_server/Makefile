@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help setup-go setup-tools go-run go-run-debug go-run-plain go-scrape go-test go-vet go-build \
+.PHONY: help setup-go setup-tools go-run go-run-debug go-run-plain go-scrape go-test go-vet go-build go-build-linux-arm64 \
 				go-migrate-up go-migrate-down go-import-postgres contract-test check-go perf-catalog perf-backend \
 				db-rebuild-catalog-search db-check-catalog-search \
 				mongo-up mongo-down mongo-init sqlc swag lint vuln doctor status clean
@@ -204,6 +204,12 @@ go-build:
 	mkdir -p $(TMP_DIR)
 	go build -o $(SERVER_BIN) ./cmd/server
 	go build -o $(IMPORT_BIN) ./cmd/import_comics_postgres
+
+## @quality:go-build-linux-arm64  Cross-compile API for Termux (linux/arm64) → tmp/main
+go-build-linux-arm64:
+	mkdir -p $(TMP_DIR)
+	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o $(TMP_DIR)/main ./cmd/server
+	@echo "Built $(TMP_DIR)/main — copy to Termux go_server/tmp/main and chmod +x"
 
 ## @quality:check-go          Run go-test, contract-test, go-vet, go-build, and lint
 check-go: go-test contract-test go-vet go-build lint

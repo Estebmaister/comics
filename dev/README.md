@@ -24,6 +24,20 @@ make dev-down     # stop API, frontend, optional Mongo; WAL checkpoint (bounded)
 make dev-restart  # down then up
 ```
 
+### Termux / Android
+
+Go **1.27.3** cannot be downloaded on Termux (`toolchain not available`). Use one of:
+
+**A — UI on phone, API on Mac/PC (Tailscale):**
+
+```bash
+export DEV_FRONTEND_ONLY=1
+export VITE_GO_API_TARGET=https://<mac-tailscale-host>:8081
+make dev-up
+```
+
+**B — full stack on Termux:** on a Mac/PC run `make go-build-linux-arm64`, copy `go_server/tmp/main` to the phone, `chmod +x`, set `DB_PASS` in `go_server/.env`, then `make dev-up`.
+
 Env (optional):
 
 - `DEV_SHUTDOWN_SEC=90` — max wait for Go API exit (increase if WAL shutdown is slow).
