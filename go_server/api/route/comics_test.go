@@ -312,6 +312,27 @@ func TestCORSMiddlewareAllowsConfiguredOrigin(t *testing.T) {
 	}
 }
 
+func TestCORSMiddlewareAllowsTailscaleDevOrigin(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+	router.Use(corsMiddleware("http://*.ts.net:3000"))
+	router.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "UP"})
+	})
+
+	req := httptest.NewRequest(http.MethodOptions, "/health", nil)
+	req.Header.Set("Origin", "http://realme.persian-nominal.ts.net:3000")
+	res := httptest.NewRecorder()
+	router.ServeHTTP(res, req)
+
+	if res.Code != http.StatusNoContent {
+		t.Fatalf("expected 204, got %d: %s", res.Code, res.Body.String())
+	}
+	if got := res.Header().Get("Access-Control-Allow-Origin"); got != "http://realme.persian-nominal.ts.net:3000" {
+		t.Fatalf("expected CORS origin header, got %q", got)
+	}
+}
+
 func TestUpdateCoverVisibilityAcceptsAdminBearer(t *testing.T) {
 	service := newTestComicService(t)
 	router := newComicTestRouter(service)

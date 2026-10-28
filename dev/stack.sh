@@ -46,11 +46,58 @@ go_api_running() {
 	pgrep -f "$(go_api_pattern)" >/dev/null 2>&1
 }
 
-go_api_proxy_target() {
-	if [[ -f "$ROOT/tls/comics.crt" && -f "$ROOT/tls/comics.key" ]]; then
+go_api_health_ok() {
+	local url="$1"
+	curl -sk --max-time 3 "$url" 2>/dev/null | grep -q '"UP"'
+}
+
+detect_go_api_target() {
+	if [[ -n "${VITE_GO_API_TARGET:-}" ]]; then
+		echo "$VITE_GO_API_TARGET"
+		return
+	fi
+	if go_api_health_ok "https://127.0.0.1:8081/health"; then
+		echo "https://127.0.0.1:8081"
+	elif go_api_health_ok "http://127.0.0.1:8081/health"; then
+		echo "http://127.0.0.1:8081"
+	elif [[ -f "$ROOT/tls/comics.crt" && -f "$ROOT/tls/comics.key" ]]; then
 		echo "https://127.0.0.1:8081"
 	else
 		echo "http://127.0.0.1:8081"
+	fi
+}
+
+wait_go_api_ready() {
+	local max="${DEV_GO_READY_SEC:-90}"
+	local elapsed=0
+	echo_progress "Waiting for Go API on 127.0.0.1:8081 (up to ${max}s)..."
+	while [[ $elapsed -lt $max ]]; do
+		if go_api_health_ok "https://127.0.0.1:8081/health" || go_api_health_ok "http://127.0.0.1:8081/health"; then
+			echo_progress "Go API ready ($(detect_go_api_target))."
+			return 0
+		fi
+		if ! is_running "$GO_PID"; then
+			echo_progress "Go API (air) exited before listening on 8081."
+			tail_go_log 40
+			echo_progress "Fix go_server/.env (especially DB_PASS for Mongo) and retry: make dev-up"
+			return 1
+		fi
+		if (( elapsed > 0 && elapsed % 10 == 0 )); then
+			echo_progress "Still waiting for Go API... ${elapsed}s"
+		fi
+		sleep 2
+		elapsed=$((elapsed + 2))
+	done
+	echo_progress "Timed out waiting for Go API on port 8081."
+	tail_go_log 40
+	return 1
+}
+
+tail_go_log() {
+	local lines="${1:-30}"
+	if [[ -f "$LOG_DIR/go.log" ]]; then
+		echo_progress "--- tail $LOG_DIR/go.log ---"
+		tail -n "$lines" "$LOG_DIR/go.log" >&2 || true
 	fi
 }
 
@@ -168,6 +215,10 @@ ensure_go_env() {
 		cp "$ROOT/go_server/local.env" "$ROOT/go_server/.env"
 		echo "Created go_server/.env from local.env (set DB_PASS for Atlas if needed)."
 	fi
+	if grep -qE '^DB_PASS=(your_mongodb_password|)$' "$ROOT/go_server/.env" 2>/dev/null \
+		|| grep -qE '^DB_PASS=$' "$ROOT/go_server/.env" 2>/dev/null; then
+		echo "Warning: set DB_PASS in go_server/.env — Go API will not start until MongoDB auth succeeds."
+	fi
 }
 
 maybe_start_mongo() {
@@ -217,16 +268,21 @@ cmd_up() {
 	) >"$LOG_DIR/go.log" 2>&1 &
 	echo $! >"$GO_PID"
 
+	if ! wait_go_api_ready; then
+		stop_pidfile "$GO_PID" "Go API (air)" 15
+		exit 1
+	fi
+
 	echo "Starting Vite frontend..."
-	export VITE_GO_API_TARGET="${VITE_GO_API_TARGET:-$(go_api_proxy_target)}"
+	export VITE_GO_API_TARGET="$(detect_go_api_target)"
 	(
 		cd "$ROOT"
 		exec npm run start
 	) >"$LOG_DIR/front.log" 2>&1 &
 	echo $! >"$FRONT_PID"
 
-	echo "Waiting for listeners..."
-	sleep 4
+	echo "Waiting for Vite..."
+	sleep 3
 	cmd_status
 	echo ""
 	echo "Logs: make dev-logs   Stop: make dev-down"
@@ -268,13 +324,15 @@ cmd_status() {
 	echo ""
 	echo "  App        http://localhost:3000/comics/"
 	echo "  API        https://localhost:8081 (or http if no TLS certs)"
-	if curl -sk -o /dev/null -w "" --max-time 3 https://localhost:8081/health 2>/dev/null; then
-		echo "  Health     https://localhost:8081/health OK"
-	elif curl -s -o /dev/null -w "" --max-time 3 http://127.0.0.1:8081/health 2>/dev/null; then
+	if go_api_health_ok "https://127.0.0.1:8081/health"; then
+		echo "  Health     https://127.0.0.1:8081/health OK"
+	elif go_api_health_ok "http://127.0.0.1:8081/health"; then
 		echo "  Health     http://127.0.0.1:8081/health OK"
+	else
+		echo "  Health     port 8081 not responding (see $LOG_DIR/go.log)"
 	fi
 	if curl -s -o /dev/null -w "" --max-time 3 "http://127.0.0.1:3000/api/health" 2>/dev/null; then
-		echo "  Vite /api  http://127.0.0.1:3000/api/health OK (target: $(go_api_proxy_target))"
+		echo "  Vite /api  http://127.0.0.1:3000/api/health OK (target: $(detect_go_api_target))"
 	fi
 }
 

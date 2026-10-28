@@ -162,16 +162,40 @@ func (p compositePinger) Ping(ctx context.Context) error {
 
 func corsMiddleware(allowedOrigins string) gin.HandlerFunc {
 	origins := map[string]struct{}{}
+	var suffixes []string
 	for _, value := range strings.Split(allowedOrigins, ",") {
 		origin := strings.TrimSpace(value)
-		if origin != "" {
-			origins[origin] = struct{}{}
+		if origin == "" {
+			continue
 		}
+		if strings.Contains(origin, "*") {
+			_, suffix, ok := strings.Cut(origin, "*")
+			if ok && suffix != "" {
+				suffixes = append(suffixes, suffix)
+			}
+			continue
+		}
+		origins[origin] = struct{}{}
+	}
+
+	originAllowed := func(origin string) bool {
+		if origin == "" {
+			return false
+		}
+		if _, ok := origins[origin]; ok {
+			return true
+		}
+		for _, suffix := range suffixes {
+			if suffix != "" && strings.HasSuffix(origin, suffix) {
+				return true
+			}
+		}
+		return false
 	}
 
 	return func(c *gin.Context) {
 		origin := c.GetHeader("Origin")
-		if _, ok := origins[origin]; ok {
+		if originAllowed(origin) {
 			c.Header("Access-Control-Allow-Origin", origin)
 			c.Header("Access-Control-Allow-Credentials", "true")
 			c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept")

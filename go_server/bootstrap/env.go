@@ -146,7 +146,7 @@ func setDefaults() {
 	viper.SetDefault("COMICS_DB_DRIVER", "sqlite")
 	viper.SetDefault("COMICS_SQLITE_PATH", filepath.Join("..", "db", "comics.db"))
 	viper.SetDefault("CORS_ALLOWED_ORIGINS",
-		"http://localhost:3000,https://localhost:3000,http://127.0.0.1:3000,https://127.0.0.1:3000,https://estebmaister.github.io")
+		"http://localhost:3000,https://localhost:3000,http://127.0.0.1:3000,https://127.0.0.1:3000,https://estebmaister.github.io,http://*.ts.net:3000,https://*.ts.net:3000")
 	viper.SetDefault("DB_ADDR", "localhost:27017")
 	viper.SetDefault("DB_NAME", "comics")
 	viper.SetDefault("DB_TABLE_USERS", "users")
